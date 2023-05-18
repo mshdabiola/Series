@@ -70,7 +70,7 @@ private val DarkColors = darkColorScheme(
 )
 
 @Composable
-fun SkeletonAppTheme(
+fun SeriesAppTheme(
     useDarkTheme: Boolean = false, // isSystemInDarkTheme(),
     dynamicColor: Boolean = false,
     content: @Composable () -> Unit,

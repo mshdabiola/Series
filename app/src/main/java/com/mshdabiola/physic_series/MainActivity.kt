@@ -1,4 +1,4 @@
-package com.mshdabiola.skeletonapp
+package com.mshdabiola.physic_series
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -9,7 +9,7 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
 import com.arkivanov.decompose.defaultComponentContext
 import com.mshdabiola.navigation.RootComponent
-import com.mshdabiola.skeletonapp.ui.SkeletonApp2
+import com.mshdabiola.physic_series.ui.PhysicsApp
 
 class MainActivity : ComponentActivity() {
     @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3WindowSizeClassApi::class)
@@ -27,7 +27,7 @@ class MainActivity : ComponentActivity() {
 
             // A surface container using the 'background' color from the theme
            // SkeletonApp(windowSizeClass = calculateWindowSizeClass(activity = this))
-            SkeletonApp2(IRootComponent = root)
+            PhysicsApp(iRootComponent = root)
         }
     }
 }

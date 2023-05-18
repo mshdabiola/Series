@@ -1,7 +1,7 @@
-package com.mshdabiola.skeletonapp
+package com.mshdabiola.physic_series
 
 import android.app.Application
-import com.mshdabiola.skeletonapp.di.appModule
+import com.mshdabiola.physic_series.di.appModule
 import com.mshdabiola.worker.Saver
 import com.mshdabiola.worker.di.workModule
 import org.koin.android.ext.koin.androidContext
@@ -9,12 +9,12 @@ import org.koin.core.context.startKoin
 import timber.log.Timber
 
 
-class SkeletonApplication : Application() {
+class PhysicSeriesApplication : Application() {
     override fun onCreate() {
         super.onCreate()
 
         startKoin {
-            androidContext(this@SkeletonApplication)
+            androidContext(this@PhysicSeriesApplication)
             modules(appModule, workModule)
         }
 

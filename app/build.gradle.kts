@@ -11,10 +11,10 @@ plugins {
 }
 
 android {
-    namespace = "com.mshdabiola.skeletonapp"
+    namespace = "com.mshdabiola.physic_series"
 
     defaultConfig {
-        applicationId = "com.mshdabiola.skeletonapp"
+        applicationId = "com.mshdabiola.physic_series"
         testInstrumentationRunner = "com.mshdabiola.testing.InstrumentationTestRunner"
     }
 

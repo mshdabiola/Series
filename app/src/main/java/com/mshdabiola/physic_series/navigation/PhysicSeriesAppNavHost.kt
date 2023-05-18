@@ -1,4 +1,4 @@
-package com.mshdabiola.skeletonapp.navigation
+package com.mshdabiola.physic_series.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -13,7 +13,7 @@ import com.mshdabiola.navigation.IRootComponent
 
 
 @Composable
-fun SkeletonAppNavHost(IRootComponent: IRootComponent, modifier: Modifier) {
+fun PhysicSeriesAppNavHost(IRootComponent: IRootComponent, modifier: Modifier) {
 
     Children(
         stack = IRootComponent.stack,

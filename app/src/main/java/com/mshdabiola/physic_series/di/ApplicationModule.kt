@@ -1,4 +1,4 @@
-package com.mshdabiola.skeletonapp.di
+package com.mshdabiola.physic_series.di
 
 import com.mshdabiola.detail.di.detailModule
 import com.mshdabiola.mainscreen.di.mainModule
