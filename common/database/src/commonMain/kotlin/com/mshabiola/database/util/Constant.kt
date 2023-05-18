@@ -1,5 +1,5 @@
 package com.mshabiola.database.util
 
 object Constant {
-    const val databaseName="temp_databas.db"
+    val databaseName = "waec_series_database.db"
 }

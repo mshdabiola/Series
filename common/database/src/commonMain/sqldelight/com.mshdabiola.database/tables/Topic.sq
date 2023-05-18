@@ -1,0 +1,26 @@
+CREATE TABLE IF NOT EXISTS topicEntity(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL
+);
+
+getById:
+SELECT *
+FROM topicEntity
+WHERE id = ?;
+
+getAll:
+SELECT *
+FROM  topicEntity;
+
+insert:
+INSERT INTO topicEntity(name)
+VALUES ?;
+
+deleteByID:
+DELETE FROM topicEntity
+WHERE id = ?;
+
+update:
+UPDATE topicEntity
+SET name = ?
+WHERE id = ?;

@@ -1,0 +1,31 @@
+CREATE TABLE IF NOT EXISTS optionEntity (
+   id INTEGER PRIMARY KEY AUTOINCREMENT ,
+   questionId INTEGER NOT NULL ,
+   drawingId INTEGER,
+   content TEXT NOT NULL,
+   isAnswer INTEGER DEFAULT 0,
+   FOREIGN KEY (questionId) REFERENCES questionEntity(id)
+      ON DELETE CASCADE
+);
+
+getById:
+SELECT *
+FROM optionEntity
+WHERE id = ?;
+
+getAll:
+SELECT *
+FROM  optionEntity;
+
+insert:
+INSERT INTO optionEntity(questionId,drawingId,content,isAnswer)
+VALUES ?;
+
+deleteByID:
+DELETE FROM optionEntity
+WHERE id = ?;
+
+update:
+UPDATE optionEntity
+SET questionId = ?, drawingId=?,content=?,isAnswer=?
+WHERE id = ?;

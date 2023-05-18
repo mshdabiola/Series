@@ -1,0 +1,28 @@
+CREATE TABLE IF NOT EXISTS instructionEntity (
+   id INTEGER PRIMARY KEY AUTOINCREMENT,
+   title TEXT,
+   content TEXT NOT NULL
+);
+
+getById:
+SELECT *
+FROM instructionEntity
+WHERE id = ?;
+
+getAll:
+SELECT *
+FROM  instructionEntity;
+
+insert:
+INSERT INTO instructionEntity(title,content)
+VALUES ?;
+
+deleteByID:
+DELETE FROM instructionEntity
+WHERE id = ?;
+
+update:
+UPDATE instructionEntity
+SET title = ?, content=?
+WHERE id = ?;
+

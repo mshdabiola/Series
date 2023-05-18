@@ -32,9 +32,9 @@ internal class NetworkDataSource constructor(
         TODO()
     }
 
-    override suspend fun goToGoogle() :String{
+    override suspend fun goToGoogle(): String {
         val response = httpClient.get("http://www.google.com")
-        val string:String = if (response.status == HttpStatusCode.OK) {
+        val string: String = if (response.status == HttpStatusCode.OK) {
             response.body()
         } else {
 

@@ -8,10 +8,10 @@ interface IModelRepository {
 
     suspend fun insert(model: Model)
 
-    fun getAllModel():Flow<List<Model>>
+    fun getAllModel(): Flow<List<Model>>
 
     suspend fun updateModel(name: String, id: Long)
-    fun getOneModel(id: Long):Flow<Model>
+    fun getOneModel(id: Long): Flow<Model>
     suspend fun delete(id: Long)
 
 }

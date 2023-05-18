@@ -1,30 +1,31 @@
 package com.mshdabiola.data.repository
 
-import com.mshabiola.database.dao.modeldao.IModelDao
+
 import com.mshdabiola.model.Model
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 
 internal class RealModelRepository constructor(
-    private val modelDao: IModelDao,
+
 ) : IModelRepository {
     override suspend fun insert(model: Model) {
-        modelDao.insert(model)
+
     }
 
     override fun getAllModel(): Flow<List<Model>> {
-        return modelDao.getAllModel()
+        return flow { listOf(Model(id = 4787L, name = "Raychel")) }
     }
 
     override suspend fun updateModel(name: String, id: Long) {
-        modelDao.updateModel(name, id)
+
     }
 
     override fun getOneModel(id: Long): Flow<Model> {
-       return modelDao.getOneModel(id)
+        return flow { Model(id = 4787L, name = "Raychel") }
     }
 
     override suspend fun delete(id: Long) {
-        modelDao.delete(id)
+
     }
 
 }

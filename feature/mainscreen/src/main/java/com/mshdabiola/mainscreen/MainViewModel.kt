@@ -26,10 +26,12 @@ class MainViewModel constructor(
     val modelState = modelRepository
         .getAllModel()
         .map { it.map { it.asModelUiState() }.toImmutableList() }
-      //  .cachedIn(viewModelScope)
-      //  .asResult()
-        .stateIn(scope = viewModelScope,
-            started = SharingStarted.WhileSubscribed(3000), initialValue = emptyList<ModelUiState>().toImmutableList()
+        //  .cachedIn(viewModelScope)
+        //  .asResult()
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(3000),
+            initialValue = emptyList<ModelUiState>().toImmutableList()
         )
 
 
@@ -51,7 +53,7 @@ class MainViewModel constructor(
 
     fun insert(model: Model) {
         viewModelScope.launch(Dispatchers.IO) {
-           modelRepository.insert(model)
+            modelRepository.insert(model)
         }
     }
 
@@ -62,7 +64,7 @@ class MainViewModel constructor(
 //        notifies.add(Notify(message = text, callback = ::onNotifyDelive))
 //        _mainState.update {
 //            it.copy(messages = notifies.toImmutableList())
-       // }
+        // }
     }
 
     private fun onNotifyDelive() {

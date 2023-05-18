@@ -17,9 +17,9 @@ import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 import java.io.File
 
-expect val  httpClient: HttpClient
+expect val httpClient: HttpClient
 
-fun <T : HttpClientEngineConfig> HttpClientConfig<T>.init(){
+fun <T : HttpClientEngineConfig> HttpClientConfig<T>.init() {
     install(Resources)
     install(Logging) {
         logger = Logger.SIMPLE

@@ -6,11 +6,11 @@ internal class RealINetworkRepository constructor(
     private val INetworkDataSource: INetworkDataSource
 ) : INetworkRepository {
     override suspend fun get() {
-      //  networkSource.get()
+        //  networkSource.get()
     }
 
     override suspend fun gotoGoogle(): String {
-      return  INetworkDataSource.goToGoogle()
+        return INetworkDataSource.goToGoogle()
     }
 
 

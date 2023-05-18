@@ -25,7 +25,6 @@ import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.getByType
 import org.gradle.process.CommandLineArgumentProvider
-import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import java.io.File
 
 class AndroidRoomConventionPlugin : Plugin<Project> {

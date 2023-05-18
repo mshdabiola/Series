@@ -7,7 +7,7 @@ android {
     namespace = "com.mshdabiola.data"
 }
 
-kotlin{
+kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
@@ -34,7 +34,6 @@ kotlin{
 
             }
         }
-
 
 
         val desktopMain by getting {

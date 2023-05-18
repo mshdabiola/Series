@@ -16,7 +16,7 @@ class Navigation2Test : KoinTest {
     @Test
     fun buttonClick() {
         val context by inject<Context>()
-        assertEquals("",context.packageName)
+        assertEquals("", context.packageName)
     }
 
 }

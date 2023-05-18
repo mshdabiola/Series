@@ -16,11 +16,11 @@ android {
     }
 }
 
-kotlin{
+kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-               // implementation("ch.qos.logback:logback-classic:1.4.7")
+                // implementation("ch.qos.logback:logback-classic:1.4.7")
 
                 implementation(libs.ktor.client.logging)
                 implementation(libs.ktor.client.content.negotiation)
@@ -32,7 +32,7 @@ kotlin{
 
         val commonTest by getting {
             dependencies {
-            implementation(libs.ktor.client.mock)
+                implementation(libs.ktor.client.mock)
             }
         }
 
@@ -41,7 +41,6 @@ kotlin{
                 implementation(libs.ktor.client.android)
             }
         }
-
 
 
         val desktopMain by getting {

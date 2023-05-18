@@ -1,5 +1,5 @@
-import org.jetbrains.compose.desktop.application.dsl.MacOSSigningSettings
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
+
 plugins {
     kotlin("jvm")
 //    kotlin("kapt")
@@ -44,36 +44,9 @@ dependencies {
 
 }
 
-//compose.desktop {
-//    application {
-//        mainClass = "com.mshdabiola.desktop.MainAppKt"
-//    }
-//}
-//compose.desktop {
-//    application {
-//        mainClass = "com.mshdabiola.desktop.MainAppKt"
-//        version = "1.0.0"
-//
-//        nativeDistributions {
-//            targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
-//            packageName = "com-mshdabiola-desktop"
-//            packageVersion = "1.0.0"
-//
-//            windows {
-//                menuGroup = "Compose Examples"
-//                // see https://wixtoolset.org/documentation/manual/v3/howtos/general/generate_guids.html
-//                upgradeUuid = "BF9CDA6A-1391-46D5-9ED5-383D6E68CCEB"
-//            }
-//
-//            nativeDistributions {
-//                targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
-//            }
-//        }
-//    }
-//}
 compose.desktop {
     application {
-        mainClass = "com.mshdabiola.desktop.MainAppKt"
+        mainClass = "com.mshdabiola.series.MainAppKt"
         /*
         * Its unreliable. Don't run release tasks for now.
         * Wait until fixed: https://github.com/JetBrains/compose-jb/issues/2393
@@ -88,12 +61,12 @@ compose.desktop {
         val iconsRoot = project.file("src/main/resources/drawables/launcher")
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
-            packageVersion = "1.0.1"
-            packageName = "Skeleton App"
-            description = "Template"
+            packageVersion = "1.0.0"
+            packageName = "Series"
+            description = "For setting question"
             copyright = "© 2022 Mshdabiola. All rights reserved."
             vendor = "Mshdabiola App"
-            version = "1.0.1"
+            version = "1.0.0"
             licenseFile.set(rootProject.file("LICENSE"))
 
             modules("java.net.http", "java.sql")
@@ -102,7 +75,7 @@ compose.desktop {
                 iconFile.set(iconsRoot.resolve("linux.png"))
                 debMaintainer = "mshdabiola@gmail.com"
                 menuGroup = packageName
-                appCategory = "Productivity"
+                appCategory = "Education"
             }
 
             windows {
@@ -110,14 +83,14 @@ compose.desktop {
                 shortcut = true
                 menuGroup = packageName
                 //https://wixtoolset.org/documentation/manual/v3/howtos/general/generate_guids.html
-                upgradeUuid = "791AC64E-C9A7-4CBF-A1C4-AFE5CFFDDDFA"
+                upgradeUuid = "791AC64E-Y9A7-4CBF-A1C4-AFE5CFFDDDFT"
             }
 
             macOS {
                 iconFile.set(iconsRoot.resolve("macos.icns"))
-                bundleID = "com.mshdabiola.skeleton"
+                bundleID = "com.mshdabiola.series"
                 appCategory = "public.app-category.productivity"
-                signing{
+                signing {
                     sign.set(false)
                 }
             }

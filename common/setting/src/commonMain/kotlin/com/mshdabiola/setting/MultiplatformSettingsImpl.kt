@@ -10,10 +10,10 @@ import com.russhwolf.settings.coroutines.toBlockingSettings
 import com.russhwolf.settings.serialization.decodeValue
 import com.russhwolf.settings.serialization.encodeValue
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.serialization.ExperimentalSerializationApi
 
 @OptIn(ExperimentalSettingsApi::class)
@@ -23,30 +23,40 @@ internal class MultiplatformSettingsImpl(
 ) : MultiplatformSettings {
 
 
-    override val name =settings.getStringFlow("NAME","Jamiu")
-    override val dummy: Flow<DummySetting>
-        get() = MutableStateFlow(Keys.Defaults.defaultDummy.toDummySetting())
+    override val name = settings.getStringFlow("NAME", "Jamiu")
 
-    override suspend fun setName(name:String){
-        settings.putString("NAME",name)
-    }
+    private val _dummy = MutableStateFlow(
+        settings.toBlockingSettings().decodeValue(
+            Dummy.serializer(), key = Keys.setting, defaultValue = Dummy(
+                name = "Serena",
+                sex = "Lyle"
+            )
+        ).toDummySetting()
+    )
+
     @OptIn(ExperimentalSerializationApi::class)
-    suspend fun init(){
-        withContext(coroutineDispatcher){
-          val dummy=  settings.toBlockingSettings().encodeValue(Dummy.serializer(),Keys.setting, value = Keys.Defaults.defaultDummy)
+    override val dummy: StateFlow<DummySetting>
+        get() = _dummy.asStateFlow()
 
-        }
+    override suspend fun setName(name: String) {
+        settings.putString("NAME", name)
     }
+
 
     @OptIn(ExperimentalSerializationApi::class)
     override suspend fun setDummy(dummy: DummySetting) {
+        _dummy.update {
+            dummy
+        }
 // Store values for the properties of someClass in settings
-        settings.toBlockingSettings().encodeValue(Dummy.serializer(),Keys.setting,dummy.toDummy())
+        settings.toBlockingSettings().encodeValue(Dummy.serializer(), Keys.setting, dummy.toDummy())
 
-       val dummy2= settings.toBlockingSettings().decodeValue(Dummy.serializer(),key=Keys.setting, defaultValue = Dummy(
-            name = "Serena",
-            sex = "Lyle"
-        ))
+        val dummy2 = settings.toBlockingSettings().decodeValue(
+            Dummy.serializer(), key = Keys.setting, defaultValue = Dummy(
+                name = "Serena",
+                sex = "Lyle"
+            )
+        )
 
         println("dummy $dummy")
         println("dummy2 $dummy2")

@@ -69,10 +69,10 @@ pagingCompose = "1.0.0-alpha18"
 firebaseCrashlyticsPlugin = "2.9.5"
 firebasePerfPlugin = "1.4.2"
 gmsPlugin = "4.3.14"
-composePlugin="1.4.0"
+composePlugin = "1.4.0"
 
 koin = "3.4.0"
-moko="0.22.0"
+moko = "0.22.0"
 
 multiplatform_settings = "1.0.0"
 

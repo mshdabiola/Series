@@ -1,4 +1,3 @@
-
 plugins {
     id("mshdabiola.mpp.library")
     id("app.cash.sqldelight") version "2.0.0-alpha05"
@@ -6,11 +5,11 @@ plugins {
 
 sqldelight {
 
-    databases{
+    databases {
 
-        create("TempDatabase"){
+        create("SeriesDatabase") {
             packageName.set("com.mshdabiola.database")
-           schemaOutputDirectory.set(file("src/commonMain/sqldelight/com.mshdabiola.database/files"))
+            schemaOutputDirectory.set(file("src/commonMain/sqldelight/com.mshdabiola.database/files"))
             //dialect("sqlite:3.38")
         }
     }
@@ -20,14 +19,14 @@ sqldelight {
 android {
     namespace = "com.mshdabiola.database"
 }
-kotlin{
+kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
                 implementation(project(":common:model"))
 
-               // implementation(libs.koin.core)
-             //   implementation(libs.kermit.log)
+                // implementation(libs.koin.core)
+                //   implementation(libs.kermit.log)
                 implementation(libs.sqldelight.runtime)
                 implementation(libs.sqldelight.coroutines)
             }
@@ -35,7 +34,7 @@ kotlin{
 
         val commonTest by getting {
             dependencies {
-              implementation(libs.sqldelight.sqlite.driver)
+                implementation(libs.sqldelight.sqlite.driver)
             }
         }
 
@@ -46,7 +45,6 @@ kotlin{
                 implementation(libs.sqldelight.android.driver)
             }
         }
-
 
 
         val desktopMain by getting {

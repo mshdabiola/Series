@@ -1,8 +1,7 @@
 package com.mshabiola.database.di
 
-import app.cash.sqldelight.driver.jdbc.sqlite.JdbcSqliteDriver
 import com.mshabiola.database.util.Constant
-import com.mshdabiola.database.TempDatabase
+import com.mshdabiola.database.SeriesDatabase
 import org.koin.core.module.Module
 import org.koin.dsl.module
 import java.io.File
@@ -12,7 +11,7 @@ actual val databaseModule: Module
         single {
             val dbPath = File(System.getProperty("java.io.tmpdir"), Constant.databaseName)
 
-          val driver=  withDatabase(dbPath.path)
+            val driver = withDatabase(dbPath.path)
 //
 //            val driver = JdbcSqliteDriver(url = "jdbc:sqlite:${dbPath.absolutePath}")
 //                .also {
@@ -21,7 +20,7 @@ actual val databaseModule: Module
 //                }
 //            println("version ${TempDatabase.Schema.version}")
 
-            TempDatabase(driver)
+            SeriesDatabase(driver)
         }
 
         includes(daoModules)

@@ -1,0 +1,35 @@
+CREATE TABLE IF NOT EXISTS drawingEntity (
+   id INTEGER PRIMARY KEY AUTOINCREMENT,
+   path TEXT NOT NULL
+);
+
+
+getById:
+SELECT *
+FROM drawingEntity
+WHERE id = ?;
+
+getAll:
+SELECT *
+FROM  drawingEntity;
+
+insert:
+INSERT INTO drawingEntity(path)
+VALUES ?;
+
+deleteByID:
+DELETE FROM drawingEntity
+WHERE id = ?;
+
+update:
+UPDATE drawingEntity
+SET path = ?
+WHERE id = ?;
+
+-- lastId:
+-- SELECT max(id)
+-- FROM drawingEntity;
+--
+-- insertOrReplace:
+-- INSERT OR REPLACE INTO drawingEntity(id,path)
+-- VALUES ?;

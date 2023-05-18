@@ -34,7 +34,7 @@ import kotlinx.collections.immutable.toImmutableList
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
-internal fun MainScreen( onBack: () -> Unit) {
+internal fun MainScreen(onBack: () -> Unit) {
     val viewModel: MainViewModel = koinViewModel()
     val mainState = viewModel.mainState.collectAsStateWithLifecycle()
     val modelst = viewModel.modelState.collectAsStateWithLifecycle()
@@ -101,7 +101,7 @@ internal fun MainScreen(
                     .fillMaxWidth()
                     .weight(1f)
             ) {
-               items(items){
+                items(items) {
                     Text(text = it.name)
                 }
             }
@@ -114,6 +114,6 @@ internal fun MainScreen(
 fun MainScreenPreview() {
     MainScreen(
         mainState = MainState(),
-       items =listOf(ModelUiState(2, "")).toImmutableList()
+        items = listOf(ModelUiState(2, "")).toImmutableList()
     )
 }

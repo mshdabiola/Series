@@ -4,8 +4,8 @@ import com.mshdabiola.model.DummySetting
 import kotlinx.serialization.Serializable
 
 @Serializable
- data class Dummy(val name:String,val sex:String)
+data class Dummy(val name: String, val sex: String)
 
 
-fun Dummy.toDummySetting()=DummySetting(name, sex)
-fun DummySetting.toDummy()=Dummy(name, sex)
+fun Dummy.toDummySetting() = DummySetting(name, sex)
+fun DummySetting.toDummy() = Dummy(name, sex)

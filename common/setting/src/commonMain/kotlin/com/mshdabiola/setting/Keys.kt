@@ -7,6 +7,6 @@ object Keys {
 
 
     object Defaults {
-        val defaultDummy=Dummy("abiola","male")
+        val defaultDummy = Dummy("abiola", "male")
     }
 }

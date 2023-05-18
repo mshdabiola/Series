@@ -11,7 +11,7 @@ import com.mshdabiola.model.Model
 //}
 
 data class MainState(
-    val name: String="abiola"
+    val name: String = "abiola"
 //    val messages: ImmutableList<Notify> = emptyList<Notify>().toImmutableList()
 )
 

@@ -17,15 +17,16 @@ fun PhysicSeriesAppNavHost(IRootComponent: IRootComponent, modifier: Modifier) {
 
     Children(
         stack = IRootComponent.stack,
-        modifier=modifier,
-        animation = stackAnimation(fade()+ slide())
-        ){
+        modifier = modifier,
+        animation = stackAnimation(fade() + slide())
+    ) {
 
-        when(it.instance){
-            is IRootComponent.RootScreen.MainRootScreen->{
+        when (it.instance) {
+            is IRootComponent.RootScreen.MainRootScreen -> {
                 MainScreenNav { IRootComponent.navigateToDetail() }
             }
-            is IRootComponent.RootScreen.DetailRootScreen->{
+
+            is IRootComponent.RootScreen.DetailRootScreen -> {
                 DetailScreenn {
 
                 }

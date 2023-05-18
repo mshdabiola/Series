@@ -1,7 +1,6 @@
 package com.mshdabiola.detail
 
 
-
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -20,15 +19,15 @@ import org.koin.androidx.compose.koinViewModel
 
 
 @Composable
- fun DetailScreenn(onBack : ()->Unit) {
+fun DetailScreenn(onBack: () -> Unit) {
     val viewModel: DetailViewModel = koinViewModel()
-    DetailScreen(back=onBack)
+    DetailScreen(back = onBack)
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun DetailScreen(
-back : ()->Unit={}
+    back: () -> Unit = {}
 ) {
     Scaffold(
         topBar = {

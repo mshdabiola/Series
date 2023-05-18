@@ -15,7 +15,7 @@ import org.junit.Test
 import org.koin.test.KoinTest
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class KtorNetworkTest :KoinTest{
+class KtorNetworkTest : KoinTest {
 
     private lateinit var ktorNetwork: INetworkDataSource
 

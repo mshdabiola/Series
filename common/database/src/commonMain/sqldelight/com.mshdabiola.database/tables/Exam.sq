@@ -1,0 +1,43 @@
+CREATE TABLE IF NOT EXISTS examEntity(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    subjectId INTEGER NOT NULL,
+    year INTEGER NOT NULL,
+   FOREIGN KEY (subjectId) REFERENCES subjectEntity(id)
+   ON DELETE CASCADE
+);
+
+getById:
+SELECT *
+FROM examEntity
+WHERE id = ?;
+
+getBySubject:
+SELECT *
+FROM examEntity
+WHERE subjectId = ?;
+
+
+getAll:
+SELECT *
+FROM  examEntity;
+
+insert:
+INSERT INTO examEntity(subjectId,year)
+VALUES ?;
+
+deleteByID:
+DELETE FROM examEntity
+WHERE id = ?;
+
+update:
+UPDATE examEntity
+SET subjectId = ?, year=?
+WHERE id = ?;
+
+getAllWithExam:
+SELECT *
+FROM examEntity AS exam
+JOIN subjectEntity AS sub
+ON exam.subjectId = sub.id;
+
+

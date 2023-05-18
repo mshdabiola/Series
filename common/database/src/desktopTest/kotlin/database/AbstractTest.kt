@@ -2,7 +2,7 @@ package database
 
 import app.cash.sqldelight.driver.jdbc.sqlite.JdbcSqliteDriver
 import com.mshabiola.database.di.daoModules
-import com.mshdabiola.database.TempDatabase
+import com.mshdabiola.database.SeriesDatabase
 import org.junit.Rule
 import org.junit.Test
 import org.koin.dsl.module
@@ -16,9 +16,9 @@ abstract class AbstractTest : KoinTest {
         val module = module {
             single {
                 val driver = JdbcSqliteDriver(JdbcSqliteDriver.IN_MEMORY)
-                    .also { TempDatabase.Schema.create(it) }
+                    .also { SeriesDatabase.Schema.create(it) }
 
-                TempDatabase(driver)
+                SeriesDatabase(driver)
             }
 
         }
@@ -30,14 +30,14 @@ abstract class AbstractTest : KoinTest {
     @Test
     abstract fun insert()
 
-     @Test
-     abstract fun delete()
+    @Test
+    abstract fun delete()
 
-     @Test
-     abstract fun getOne()
+    @Test
+    abstract fun getOne()
 
-     @Test
-     abstract fun getAll()
+    @Test
+    abstract fun getAll()
 
 
- }
+}

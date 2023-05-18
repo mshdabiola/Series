@@ -18,7 +18,8 @@ class ConnectivityManagerNetworkMonitor constructor(
     private val context: Context,
 ) : NetworkMonitor {
     override val isOnline: Flow<Boolean> = callbackFlow {
-        val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as? ConnectivityManager
+        val connectivityManager =
+            context.getSystemService(Context.CONNECTIVITY_SERVICE) as? ConnectivityManager
 
         val callback = object : NetworkCallback() {
             override fun onAvailable(network: Network) {
