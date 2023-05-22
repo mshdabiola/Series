@@ -1,4 +1,4 @@
-package com.mshdabiola.series.ui.feature.splash
+package com.mshdabiola.series.feature.splash
 
 import com.mshdabiola.series.ViewModel
 import kotlinx.coroutines.delay

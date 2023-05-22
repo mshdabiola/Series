@@ -1,4 +1,4 @@
-package com.mshdabiola.series.ui.feature.splash
+package com.mshdabiola.series.feature.splash
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState

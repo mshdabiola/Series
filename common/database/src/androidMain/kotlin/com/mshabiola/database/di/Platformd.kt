@@ -2,8 +2,10 @@ package com.mshabiola.database.di
 
 import android.util.Log
 import app.cash.sqldelight.driver.android.AndroidSqliteDriver
+import com.mshabiola.database.model.listOfValueAdapter
 import com.mshabiola.database.util.Constant
 import com.mshdabiola.database.SeriesDatabase
+import commshdabioladatabase.tables.QuestionEntity
 import org.koin.core.module.Module
 import org.koin.dsl.module
 
@@ -19,7 +21,10 @@ actual val databaseModule: Module
 
             Log.e("version", "version ${SeriesDatabase.Schema.version}")
 
-            SeriesDatabase(driver)
+            SeriesDatabase(
+                driver,
+                QuestionEntity.Adapter(listOfValueAdapter)
+            )
         }
         includes(daoModules)
     }

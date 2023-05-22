@@ -1,7 +1,9 @@
 package com.mshabiola.database.di
 
+import com.mshabiola.database.model.listOfValueAdapter
 import com.mshabiola.database.util.Constant
 import com.mshdabiola.database.SeriesDatabase
+import commshdabioladatabase.tables.QuestionEntity
 import org.koin.core.module.Module
 import org.koin.dsl.module
 import java.io.File
@@ -20,7 +22,7 @@ actual val databaseModule: Module
 //                }
 //            println("version ${TempDatabase.Schema.version}")
 
-            SeriesDatabase(driver)
+            SeriesDatabase(driver, QuestionEntity.Adapter(listOfValueAdapter))
         }
 
         includes(daoModules)

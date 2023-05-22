@@ -1,4 +1,4 @@
-package com.mshdabiola.series.ui.feature.exam
+package com.mshdabiola.series.feature.exam
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope

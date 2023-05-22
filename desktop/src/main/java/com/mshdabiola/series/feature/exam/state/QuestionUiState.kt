@@ -1,13 +1,16 @@
-package com.mshdabiola.series.ui.feature.exam.state
+package com.mshdabiola.series.feature.exam.state
+
+import kotlinx.collections.immutable.ImmutableList
 
 data class QuestionUiState(
     val id: Long?,
-    val content: String,
-    val options: List<OptionsUiState>
+    val content: ImmutableList<ItemUi>,
+    val options: ImmutableList<OptionsUiState>,
+    val editMode : Boolean=false
 )
 
 data class OptionsUiState(
     val id: Long,
-    val content: String,
+    val content: ImmutableList<ItemUi>,
     val isAnswer: Boolean
 )

@@ -2,8 +2,8 @@ package com.mshdabiola.series.di
 
 import com.mshdabiola.data.di.dataModule
 import com.mshdabiola.series.feature.main.MainViewModel
-import com.mshdabiola.series.ui.feature.exam.ExamViewModel
-import com.mshdabiola.series.ui.feature.splash.SplashViewModel
+import com.mshdabiola.series.feature.exam.ExamViewModel
+import com.mshdabiola.series.feature.splash.SplashViewModel
 import org.koin.core.module.dsl.factoryOf
 import org.koin.dsl.module
 
