@@ -7,9 +7,10 @@ import com.mshdabiola.series.feature.exam.state.ItemUi
 import com.mshdabiola.series.feature.exam.state.OptionsUiState
 import com.mshdabiola.series.feature.exam.state.QuestionUiState
 import kotlinx.collections.immutable.toImmutableList
-import java.awt.event.ItemEvent
+import java.awt.Desktop.getDesktop
 
 class ExamViewModel(private val id: Long) : ViewModel() {
+
 
 
     var question =
@@ -300,6 +301,7 @@ class ExamViewModel(private val id: Long) : ViewModel() {
 
         }
         question.value=quest
+
     }
 
 }

@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -47,6 +48,7 @@ import com.mshdabiola.model.data.Exam
 import com.mshdabiola.model.data.ExamWithSub
 import com.mshdabiola.model.data.Subject
 import com.mshdabiola.series.feature.main.MainViewModel
+import com.mshdabiola.ui.draganddrop.MyDrag
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.splitpane.ExperimentalSplitPaneApi
@@ -237,6 +239,9 @@ fun MainContent(
                         }) {
                             Text("Add Subject")
                         }
+
+                        MyDrag(modifier=Modifier.size(200.dp).background(Color.Black))
+
 
 
                     }
