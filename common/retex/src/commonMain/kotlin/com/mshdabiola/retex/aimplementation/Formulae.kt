@@ -25,6 +25,17 @@ class Formulae(val dpi: Double = 1.0) {
             .build()
             .getShapes()
     }
+    companion object{
+        private var formulae:Formulae?=null
+
+        fun getShapes(dpi: Double,equationStr: String):List<ShapeUi>{
+           if (formulae==null){
+               formulae=Formulae(dpi)
+           }
+            return formulae!!.getShapes(equationStr)
+        }
+
+    }
 
 }
 

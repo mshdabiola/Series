@@ -50,6 +50,7 @@ import com.mshdabiola.model.data.ExamWithSub
 import com.mshdabiola.model.data.Subject
 import com.mshdabiola.retex.aimplementation.Formulae
 import com.mshdabiola.retex.aimplementation.Latex
+import com.mshdabiola.retex.aimplementation.Latex2
 import kotlinx.collections.immutable.toImmutableList
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
@@ -153,10 +154,11 @@ fun MainContent(
                     latex += "\\end{array}"
 
                     val latex2="\\sqrt[\\frac{4}{3}]{\\frac{168}{6}+78\\frac{1}{2}}"
-                    val basic = remember { Formulae() }
-                    val equations = basic.getShapes(latex2)
-                        .toImmutableList()
-                    Latex(modifier = Modifier.size(100.dp).background(Color.Red), equations = equations) { Font(it) }
+                    Column {
+                        Latex2(modifier = Modifier.size(100.dp).background(Color.Red), latex2) { Font(it) }
+
+                        Latex2(modifier = Modifier.size(500.dp).background(Color.Blue), latex) { Font(it) }
+                    }
 
 
                 }

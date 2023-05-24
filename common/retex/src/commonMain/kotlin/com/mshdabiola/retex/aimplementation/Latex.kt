@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
@@ -102,14 +103,77 @@ fun Latex(
     }
 }
 
-//
-//@Preview
-//@Composable
-//fun LatexPreview() {
-//
-//
-//    val basic = remember { Formulae() }
-//    val equations = basic.getShapes("\\sqrt[\\frac{4}{3}]{\\frac{16}{6}+78\\frac{1}{2}}")
-//        .toImmutableList()
-//    Latex(modifier = Modifier.size(400.dp), equations = equations) { Font(it) }
-//}
+@OptIn(ExperimentalTextApi::class)
+@Composable
+fun Latex2(
+    modifier: Modifier = Modifier,
+    equationsStr: String,
+    scale: Float = 2f,
+    getFont: (String) -> Font,
+) {
+
+
+    val textMeasurer = rememberTextMeasurer()
+    val scrollState= rememberScrollState()
+    val scrollState1= rememberScrollState()
+    val density= LocalDensity.current.density
+
+    val equations by remember(equationsStr) {
+        mutableStateOf(Formulae.getShapes(density.toDouble(),equationsStr))
+    }
+    val height by remember {
+        derivedStateOf {
+            val h=  equations.maxOf {
+                it.topLeft.y
+            }.plus(10)
+            ( (h*scale /density)).toInt().dp
+        }
+    }
+    val width by remember {
+        derivedStateOf {
+            val w=  equations.maxOf {
+                it.topLeft.x
+            }.plus(10)
+            ( (w*scale /density)).toInt().dp
+        }
+    }
+
+    Box(modifier=modifier.horizontalScroll(scrollState).verticalScroll(scrollState1)) {
+        Canvas(Modifier.size(width, height)) {
+            scale(scale, pivot = Offset.Zero) {
+                equations.forEach {
+                    if (it is ShapeUi.Text) {
+
+
+                        scale(it.scale, pivot = it.topLeft) {
+                            drawText(
+                                //size= it.size,
+                                textMeasurer = textMeasurer,
+                                text = it.text,
+                                topLeft = it.topLeft,
+                                style = TextStyle.Default.copy(
+                                    fontSize = TextStyle.Default.fontSize,
+                                    fontFamily = FontFamily(getFont(it.fontPath))
+                                )
+                            )
+                        }
+                    }
+                    if (it is ShapeUi.Line) {
+                        drawLine(color = Color.Black, start = Offset.Zero, end = Offset(200f, 200f))
+                    }
+                    if (it is ShapeUi.Rectangle) {
+
+                        drawRect(
+                            Color.Black,
+                            topLeft = it.topLeft,
+                            size = it.size,
+                            style = if (it.isFill) Fill else Stroke(0.4f)
+                        )
+                        //drawLine(color = Color.Black, start = Offset.Zero, end = Offset(200f,200f))
+                    }
+                }
+            }
+
+        }
+    }
+}
