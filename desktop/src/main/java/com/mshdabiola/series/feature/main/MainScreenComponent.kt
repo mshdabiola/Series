@@ -5,7 +5,6 @@ import androidx.compose.runtime.rememberCoroutineScope
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.essenty.lifecycle.doOnDestroy
 import com.mshdabiola.series.nav.MainComp
-import com.mshdabiola.series.ui.feature.main.MainScreen
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 

@@ -3,7 +3,9 @@ package com.mshdabiola.series.feature.exam.component
 import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ChangeCircle
@@ -26,8 +28,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import com.mshdabiola.series.feature.exam.state.ItemUi
+import com.mshdabiola.ui.draganddrop.DragAndDropImage
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 
@@ -200,10 +205,14 @@ fun ImageContent(
     image: ItemUi.Image,
     onTextChange: (String) -> Unit = {}
 ) {
-    if (image.isEditMode)
-        TextField(modifier = modifier, value = image.imageName, onValueChange = onTextChange)
-    else
-        Text(modifier = modifier, text = image.imageName)
+    Box(modifier, contentAlignment = Alignment.Center) {
+
+        DragAndDropImage(
+            modifier = Modifier.size(100.dp),
+            path = image.imageName,
+            onPathChange = onTextChange
+        )
+    }
 
 }
 

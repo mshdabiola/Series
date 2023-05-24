@@ -86,87 +86,12 @@ fun ExamContent(
     onTextChange: (Int, Int, String) -> Unit = { _, _, _ -> }
 ) {
     val state = rememberSplitPaneState(initialPositionPercentage = 0.5f)
-    val density= LocalDensity.current
     HorizontalSplitPane(
         modifier = modifier,
         splitPaneState = state
     ) {
         first {
 
-            LazyColumn {
-                item {
-
-                    AsyncImage(
-                        load = {
-                            loadImageBitmap(
-                                File("/Users/user/AndroidStudioProjects/Series/compose-logo.png")
-                            )
-                        },
-                        painterFor = { remember { BitmapPainter(it) } },
-                        contentDescription = "Idea logo",
-                        contentScale = ContentScale.FillWidth,
-                        modifier = Modifier.width(200.dp)
-                    )
-                }
-                item {
-
-                    AsyncImage(
-                        load = {
-                            loadXmlImageVector(
-                                File("/Users/user/AndroidStudioProjects/Series/compose-logo.xml"),
-                                density
-                            )
-                        },
-                        painterFor = {  rememberVectorPainter(it)  },
-                        contentDescription = "Idea logo",
-                        contentScale = ContentScale.FillWidth,
-                        modifier = Modifier.width(200.dp)
-                    )
-                }
-                item {
-                    AsyncImage(
-                        load = { loadSvgPainter("https://github.com/JetBrains/compose-multiplatform/raw/master/artwork/idea-logo.svg", density) },
-                        painterFor = { it },
-                        contentDescription = "Idea logo",
-                        contentScale = ContentScale.FillWidth,
-                        modifier = Modifier.width(200.dp)
-                    )
-//
-                }
-                item {
-                    AsyncImage(
-                        load = {
-                            loadSvgPainter(
-                                File("/Users/user/AndroidStudioProjects/Series/yyy.svg"),
-                                density
-                            )
-                        },
-                        painterFor = { it },
-                        contentDescription = "Idea logo",
-                        contentScale = ContentScale.FillWidth,
-                        modifier = Modifier.width(200.dp)
-                    )
-                }
-
-                item {
-                    AsyncImage(
-                        load = {
-
-                            loadSvgPainter(
-                                File("/Users/user/AndroidStudioProjects/Series/yy.svg"),
-                                density
-                            )
-                        },
-                        painterFor = { it },
-                        contentDescription = "Idea logo",
-                        contentScale = ContentScale.FillWidth,
-                        modifier = Modifier.width(200.dp)
-                    )
-                }
-                items(questions) {
-                    QuestionWholeUi(questionUiState = it)
-                }
-            }
         }
         second {
 
