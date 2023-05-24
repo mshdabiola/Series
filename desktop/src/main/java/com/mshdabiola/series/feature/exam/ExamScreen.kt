@@ -1,13 +1,20 @@
 package com.mshdabiola.series.feature.exam
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -15,25 +22,16 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.painter.BitmapPainter
-import androidx.compose.ui.graphics.vector.rememberVectorPainter
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import com.mshdabiola.series.feature.exam.component.QuestionWholeUi
 import com.mshdabiola.series.feature.exam.state.QuestionUiState
-import com.mshdabiola.ui.image.AsyncImage
-import com.mshdabiola.ui.image.loadImageBitmap
-import com.mshdabiola.ui.image.loadSvgPainter
-import com.mshdabiola.ui.image.loadXmlImageVector
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.splitpane.ExperimentalSplitPaneApi
 import org.jetbrains.compose.splitpane.HorizontalSplitPane
 import org.jetbrains.compose.splitpane.rememberSplitPaneState
-import java.awt.Desktop
-import java.io.File
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -53,10 +51,12 @@ fun ExamScreen(
                 title = { Text("Exam Screen") })
         }
     ) {
+
+        val questions=viewModel.questions.collectAsState()
         ExamContent(
-            modifier = Modifier.padding(it),
+            modifier = Modifier.padding(it).padding(horizontal = 16.dp),
             questionUiState = viewModel.question.value,
-            questions = viewModel.questions,
+            questions = questions.value,
             addUp = viewModel::addUP,
             addBottom = viewModel::addDown,
             moveUp = viewModel::moveUP,
@@ -64,7 +64,8 @@ fun ExamScreen(
             edit = viewModel::edit,
             delete = viewModel::delete,
             changeType = viewModel::changeType,
-            onTextChange = viewModel::onTextChange
+            onTextChange = viewModel::onTextChange,
+            onAddQuestion = viewModel::onAddQuestion
         )
     }
 
@@ -83,7 +84,8 @@ fun ExamContent(
     moveDown: (Int, Int) -> Unit = { _, _ -> },
     edit: (Int, Int) -> Unit = { _, _ -> },
     changeType: (Int, Int, Int) -> Unit = { _, _, _ -> },
-    onTextChange: (Int, Int, String) -> Unit = { _, _, _ -> }
+    onTextChange: (Int, Int, String) -> Unit = { _, _, _ -> },
+    onAddQuestion : ()->Unit={}
 ) {
     val state = rememberSplitPaneState(initialPositionPercentage = 0.5f)
     HorizontalSplitPane(
@@ -91,22 +93,35 @@ fun ExamContent(
         splitPaneState = state
     ) {
         first {
+            LazyColumn(Modifier.fillMaxSize()) {
+                items(questions){
+                    QuestionWholeUi(questionUiState = it)
+                }
+            }
 
         }
         second {
+            Column(modifier = Modifier.fillMaxWidth().verticalScroll(rememberScrollState())) {
+                QuestionWholeUi(
+                    questionUiState = questionUiState,
+                    addUp = addUp,
+                    addBottom = addBottom,
+                    moveDown = moveDown,
+                    moveUp = moveUp,
+                    delete = delete,
+                    edit = edit,
+                    changeType = changeType,
+                    onTextChange = onTextChange
+                )
 
-            QuestionWholeUi(
-                questionUiState = questionUiState,
-                addUp = addUp,
-                addBottom = addBottom,
-                moveDown = moveDown,
-                moveUp = moveUp,
-                delete = delete,
-                edit = edit,
-                changeType = changeType,
-                onTextChange = onTextChange
+                Button(modifier=Modifier.align(Alignment.End),onClick = onAddQuestion) {
+                    Icon(Icons.Default.Add, "add")
+                    Spacer(Modifier.width(ButtonDefaults.IconSpacing))
+                    Text("Add Question")
+                }
+            }
 
-            )
+
         }
     }
 

@@ -6,4 +6,5 @@ sealed interface ItemUi{
 
     data class Equation(val tex: String, override val isEditMode: Boolean=false):ItemUi
 
+
 }

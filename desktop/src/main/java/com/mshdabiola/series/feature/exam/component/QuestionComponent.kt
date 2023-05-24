@@ -3,11 +3,7 @@ package com.mshdabiola.series.feature.exam.component
 import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.mshdabiola.series.feature.exam.state.ItemUi
 import com.mshdabiola.series.feature.exam.state.OptionsUiState
@@ -93,33 +89,5 @@ fun QuestionWholeUiPreview() {
         ).toImmutableList()
     )
     QuestionWholeUi(questionUiState = questionUiState)
-
-}
-
-@Composable
-fun QuestionUi(
-    modifier: Modifier,
-    questionUiState: QuestionUiState
-) {
-
-}
-
-@Preview
-@Composable
-fun QuestionUiPreview() {
-
-}
-
-@Composable
-fun OptionUi(
-    modifier: Modifier,
-    optionsUiState: OptionsUiState
-) {
-
-}
-
-@Preview
-@Composable
-fun OptionUiPreview() {
 
 }

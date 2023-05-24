@@ -1,6 +1,7 @@
 package com.mshdabiola.series.feature.exam.component
 
 import androidx.compose.desktop.ui.tooling.preview.Preview
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -30,7 +31,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.platform.Font
 import androidx.compose.ui.unit.dp
+import com.mshdabiola.retex.aimplementation.Latex2
 import com.mshdabiola.series.feature.exam.state.ItemUi
 import com.mshdabiola.ui.draganddrop.DragAndDropImage
 import kotlinx.collections.immutable.ImmutableList
@@ -185,6 +189,7 @@ fun Content(
 
 }
 
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun EquationContent(
@@ -192,13 +197,21 @@ fun EquationContent(
     equation: ItemUi.Equation,
     onTextChange: (String) -> Unit = {}
 ) {
-    if (equation.isEditMode)
-        TextField(modifier = modifier, value = equation.tex, onValueChange = onTextChange)
-    else
-        Text(modifier = modifier, text = equation.tex)
+
+    Box(modifier, contentAlignment = Alignment.Center) {
+
+        if (equation.isEditMode)
+            TextField(
+                modifier = Modifier.fillMaxWidth(),
+                label = { Text("Equation") },
+                maxLines = 1,
+                value = equation.tex,
+                onValueChange = onTextChange)
+        else
+            Latex2(modifier = Modifier, equation.tex) { Font(it) }
+    }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ImageContent(
     modifier: Modifier = Modifier,
@@ -224,7 +237,11 @@ fun TextContent(
     onTextChange: (String) -> Unit = {}
 ) {
     if (text.isEditMode)
-        TextField(modifier = modifier, value = text.tex, onValueChange = onTextChange)
+        TextField(modifier = modifier,
+            value = text.tex,
+            label = { Text("Content") },
+            maxLines = 1,
+            onValueChange = onTextChange)
     else
         Text(modifier = modifier, text = text.tex)
 

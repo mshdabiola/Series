@@ -108,7 +108,7 @@ fun Latex(
 fun Latex2(
     modifier: Modifier = Modifier,
     equationsStr: String,
-    scale: Float = 2f,
+    scale: Float = 1.5f,
     getFont: (String) -> Font,
 ) {
 
@@ -125,7 +125,7 @@ fun Latex2(
         derivedStateOf {
             val h=  equations.maxOf {
                 it.topLeft.y
-            }.plus(10)
+            }.plus(20)
             ( (h*scale /density)).toInt().dp
         }
     }
@@ -133,12 +133,12 @@ fun Latex2(
         derivedStateOf {
             val w=  equations.maxOf {
                 it.topLeft.x
-            }.plus(10)
+            }.plus(20)
             ( (w*scale /density)).toInt().dp
         }
     }
 
-    Box(modifier=modifier.horizontalScroll(scrollState).verticalScroll(scrollState1)) {
+    Box(modifier=modifier) {
         Canvas(Modifier.size(width, height)) {
             scale(scale, pivot = Offset.Zero) {
                 equations.forEach {
