@@ -25,7 +25,6 @@ fun MyCard() {
         Column(Modifier.fillMaxSize().padding(16.dp)) {
             Text("Card", style = MaterialTheme.typography.headlineMedium)
             Icon(Icons.Default.Android, "")
-            MR
         }
 
     }

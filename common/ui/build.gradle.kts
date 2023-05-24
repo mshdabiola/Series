@@ -19,6 +19,8 @@ kotlin {
                 implementation(compose.materialIconsExtended)
                 implementation(compose.material3)
                 implementation(libs.kotlinx.collection.immutable)
+                implementation(project(":common:retex"))
+
                 implementation("dev.icerock.moko:resources:0.22.0")
             }
         }

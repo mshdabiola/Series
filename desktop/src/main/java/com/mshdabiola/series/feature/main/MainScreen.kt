@@ -43,11 +43,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.platform.Font
 import androidx.compose.ui.unit.dp
 import com.mshdabiola.model.data.Exam
 import com.mshdabiola.model.data.ExamWithSub
 import com.mshdabiola.model.data.Subject
-import com.mshdabiola.ui.draganddrop.MyDrag
+import com.mshdabiola.retex.aimplementation.Formulae
+import com.mshdabiola.retex.aimplementation.Latex
+import kotlinx.collections.immutable.toImmutableList
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.splitpane.ExperimentalSplitPaneApi
@@ -77,40 +80,6 @@ fun MainScreen(
             onExamClick = onExamClick
         )
     }
-
-
-//    Box(
-//        modifier = Modifier.fillMaxSize(),
-//        contentAlignment = Alignment.Center
-//    ) {
-//        Column(
-//            horizontalAlignment = Alignment.CenterHorizontally
-//        ) {
-//            Text(
-//                text = welcomeText,
-//                style = MaterialTheme.typography.headlineMedium
-//            )
-//
-//            Spacer(
-//                modifier = Modifier.height(10.dp)
-//            )
-//
-//            Button(
-//                onClick = {
-//                    viewModel.onClickMeClicked()
-//                }
-//            ) {
-//                Text(text = "click me")
-//            }
-//            //Text("Test")
-//            val density = LocalDensity.current.density
-//            MyCard()
-//            val basic = remember { Formulae(density.toDouble()) }
-//            val equations = basic.getShapes("\\sqrt[\\frac{4}{3}]{\\frac{16}{6}+78\\frac{1}{2}}")
-//                .toImmutableList()
-//            Latex(modifier = Modifier.size(200.dp), equations = equations) { Font(it) }
-//        }
-//    }
 }
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalSplitPaneApi::class)
@@ -163,15 +132,32 @@ fun MainContent(
 
             HorizontalSplitPane(splitPaneState = state) {
                 first {
-                    LazyColumn(Modifier.fillMaxSize()) {
-                        items(exams, key = { it.id }) {
-                            ListItem(
-                                modifier = Modifier.clickable { onExamClick(it.id) },
-                                headlineText = { Text(it.subject) },
-                                supportingText = { Text(it.year.toString()) }
-                            )
-                        }
-                    }
+//                    LazyColumn(Modifier.fillMaxSize()) {
+//                        items(exams, key = { it.id }) {
+//                            ListItem(
+//                                modifier = Modifier.clickable { onExamClick(it.id) },
+//                                headlineText = { Text(it.subject) },
+//                                supportingText = { Text(it.year.toString()) }
+//                            )
+//                        }
+//                    }
+                    var latex = "\\begin{array}{l}"
+                    latex += "\\u000corall\\varepsilon\\in\\mathbb{R}_+^*\\ \\exists\\eta>0\\ |x-x_0|\\leq\\eta\\Longrightarrow|f(x)-f(x_0)|\\leq\\varepsilon\\\\"
+                    latex += "\\det\\begin{bmatrix}a_{11}&a_{12}&\\cdots&a_{1n}\\\\a_{21}&\\ddots&&\\vdots\\\\\\vdots&&\\ddots&\\vdots\\\\a_{n1}&\\cdots&\\cdots&a_{nn}\\end{bmatrix}\\overset{\\mathrm{def}}{=}\\sum_{\\sigma\\in\\mathfrak{S}_n}\\varepsilon(\\sigma)\\prod_{k=1}^n a_{k\\sigma(k)}\\\\"
+                    latex += "\\sideset{_\\alpha^\\beta}{_\\gamma^\\delta}{\\begin{pmatrix}a&b\\\\c&d\\end{pmatrix}}\\\\"
+                    latex += "\\int_0^\\infty{x^{2n} e^{-a x^2}\\,dx} = \\u000crac{2n-1}{2a} \\int_0^\\infty{x^{2(n-1)} e^{-a x^2}\\,dx} = \\u000crac{(2n-1)!!}{2^{n+1}} \\sqrt{\\u000crac{\\pi}{a^{2n+1}}}\\\\"
+                    latex += "\\int_a^b{f(x)\\,dx} = (b - a) \\sum\\limits_{n = 1}^\\infty  {\\sum\\limits_{m = 1}^{2^n  - 1} {\\left( { - 1} \\right)^{m + 1} } } 2^{ - n} f(a + m\\left( {b - a} \\right)2^{-n} )\\\\"
+                    latex += "\\int_{-\\pi}^{\\pi} \\sin(\\alpha x) \\sin^n(\\beta x) dx = \\textstyle{\\left \\{ \\begin{array}{cc} (-1)^{(n+1)/2} (-1)^m \\u000crac{2 \\pi}{2^n} \\binom{n}{m} & n \\mbox{ odd},\\ \\alpha = \\beta (2m-n) \\\\ 0 & \\mbox{otherwise} \\\\ \\end{array} \\right .}\\\\"
+                    latex += "L = \\int_a^b \\sqrt{ \\left|\\sum_{i,j=1}^ng_{ij}(\\gamma(t))\\left(\\u000crac{d}{dt}x^i\\circ\\gamma(t)\\right)\\left(\\u000crac{d}{dt}x^j\\circ\\gamma(t)\\right)\\right|}\\,dt\\\\"
+                    latex += "\\begin{array}{rl} s &= \\int_a^b\\left\\|\\u000crac{d}{dt}\\vec{r}\\,(u(t),v(t))\\right\\|\\,dt \\\\ &= \\int_a^b \\sqrt{u'(t)^2\\,\\vec{r}_u\\cdot\\vec{r}_u + 2u'(t)v'(t)\\, \\vec{r}_u\\cdot\\vec{r}_v+ v'(t)^2\\,\\vec{r}_v\\cdot\\vec{r}_v}\\,\\,\\, dt. \\end{array}\\\\"
+                    latex += "\\end{array}"
+
+                    val latex2="\\sqrt[\\frac{4}{3}]{\\frac{168}{6}+78\\frac{1}{2}}"
+                    val basic = remember { Formulae() }
+                    val equations = basic.getShapes(latex2)
+                        .toImmutableList()
+                    Latex(modifier = Modifier.size(100.dp).background(Color.Red), equations = equations) { Font(it) }
+
 
                 }
                 second {
@@ -238,10 +224,6 @@ fun MainContent(
                         }) {
                             Text("Add Subject")
                         }
-
-                        MyDrag(modifier=Modifier.size(200.dp).background(Color.Black))
-
-
 
                     }
 

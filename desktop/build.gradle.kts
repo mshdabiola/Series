@@ -26,6 +26,7 @@ dependencies {
     implementation(project(":common:designsystem"))
     implementation(project(":common:data"))
     implementation(project(":common:model"))
+    implementation(project(":common:retex"))
 
     implementation(project(":common:ui"))
     implementation(libs.kotlinx.coroutines.swing)

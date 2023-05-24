@@ -1,8 +1,10 @@
 import androidx.compose.desktop.ui.tooling.preview.Preview
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.platform.Font
 import androidx.compose.ui.unit.dp
 import com.mshdabiola.retex.aimplementation.Formulae
@@ -16,7 +18,7 @@ fun LatexPreview() {
 
 
     val basic = remember { Formulae() }
-    val equations = basic.getShapes("\\sqrt[\\frac{4}{3}]{\\frac{16}{6}+78\\frac{1}{2}}")
+    val equations = basic.getShapes("\\sqrt[\\frac{4}{3}]{\\frac{168}{6}+78\\frac{1}{2}}")
         .toImmutableList()
-    Latex(modifier = Modifier.size(400.dp), equations = equations) { Font(it) }
+    Latex(modifier = Modifier.size(10.dp).background(Color.Red), equations = equations) { Font(it) }
 }
