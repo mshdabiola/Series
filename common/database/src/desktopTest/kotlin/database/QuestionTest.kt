@@ -1,16 +1,17 @@
 package database
 
 import com.mshabiola.database.model.listOfValueAdapter
-import com.mshdabiola.model.ItemUi
+import com.mshdabiola.model.data.Item
 import org.junit.Test
 import kotlin.test.assertEquals
 
 class QuestionTest :AbstractTest() {
     @Test
     fun text(){
-        val qvalue= listOf(ItemUi.Text("abiola"),ItemUi.Equation("Moshood"))
+        val qvalue= listOf(Item("abiola"),Item("Moshood"))
         val str= listOfValueAdapter.encode(qvalue)
 
+        println(str)
         val qlist=listOfValueAdapter.decode(str)
         println(qlist)
 

@@ -1,4 +1,4 @@
-import com.mshdabiola.model.Item;
+import com.mshdabiola.model.data.Item;
 import kotlin.collections.List;
 
 CREATE TABLE IF NOT EXISTS questionEntity (

@@ -1,7 +1,5 @@
 package com.mshdabiola.model.data
 
-import com.mshdabiola.model.Item
-
 data class Question(
     val id: Long,
     val examId: Long,

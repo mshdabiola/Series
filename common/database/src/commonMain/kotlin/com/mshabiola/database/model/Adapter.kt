@@ -1,7 +1,8 @@
 package com.mshabiola.database.model
 
 import app.cash.sqldelight.ColumnAdapter
-import com.mshdabiola.model.Item
+import com.mshdabiola.model.data.Item
+import com.mshdabiola.model.data.Type
 
 val listOfStringAdapter = object : ColumnAdapter<List<String>, String> {
     override fun decode(databaseValue: String): List<String> {
@@ -28,12 +29,7 @@ val listOfValueAdapter = object : ColumnAdapter<List<Item>, String> {
 
         return list
                     .map {
-                        when (it.first) {
-                            "1" -> Item.Text(it.second)
-                            "2" -> Item.Equation(it.second)
-                            "3" -> Item.Image(it.second)
-                            else -> Item.Text(it.second)
-                        }
+                        Item(it.first, Type.valueOf(it.second))
                     }
 
 
@@ -43,11 +39,7 @@ val listOfValueAdapter = object : ColumnAdapter<List<Item>, String> {
     override fun encode(value: List<Item>): String {
         return value
                 .joinToString(separator = delimit) {
-                    when (it) {
-                        is Item.Text -> "1$delimit${it.tex}"
-                        is Item.Equation -> "2$delimit${it.tex}"
-                        is Item.Image -> "3$delimit${it.imageName}"
-                    }
+                   "${it.content}$delimit${it.type}"
 
                 }
 
