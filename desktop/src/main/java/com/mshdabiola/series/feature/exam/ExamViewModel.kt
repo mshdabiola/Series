@@ -1,5 +1,6 @@
 package com.mshdabiola.series.feature.exam
 
+import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import com.mshdabiola.model.data.Type
 import com.mshdabiola.series.ViewModel
@@ -14,7 +15,7 @@ import kotlinx.coroutines.flow.update
 class ExamViewModel(private val id: Long) : ViewModel() {
 
 
-    var question =
+    private var _question =
         mutableStateOf(
             QuestionUiState(
                 id = 1,
@@ -49,12 +50,13 @@ class ExamViewModel(private val id: Long) : ViewModel() {
                 editMode = true
             )
         )
+    val question: State<QuestionUiState> = _question
 
     private val _questions = MutableStateFlow(emptyList<QuestionUiState>().toImmutableList())
     val questions = _questions.asStateFlow()
 
     fun onAddQuestion() {
-        val question2 = question.value
+        val question2 = _question.value
 
         _questions.update { questionUiStates ->
             val list = questionUiStates.toMutableList()
@@ -72,7 +74,29 @@ class ExamViewModel(private val id: Long) : ViewModel() {
             )
             list.toImmutableList()
         }
-        question.value = getEmptyQuestion()
+        _question.value = getEmptyQuestion()
+    }
+
+    fun addOption() {
+        var question = _question.value
+        question = question.copy(
+            options = question.options
+                .toMutableList()
+                .apply {
+                    add(
+                        OptionsUiState(
+                            id = (question.options.size+1).toLong(),
+                            content = listOf(
+                                ItemUi(isEditMode = true)
+                            ).toImmutableList(),
+                            isAnswer = false
+                        )
+                    )
+                }
+                .toImmutableList()
+
+        )
+        _question.value=question
     }
 
     private fun getEmptyQuestion(): QuestionUiState {
@@ -169,6 +193,21 @@ class ExamViewModel(private val id: Long) : ViewModel() {
         editContent(questionIndex, index) {
             it.removeAt(index)
         }
+        removeEmptyOptions()
+
+    }
+
+    private fun removeEmptyOptions(){
+        val question=question.value
+        if (question.options.any { it.content.isEmpty() }){
+            val index=question.options.indexOfFirst { it.content.isEmpty() }
+            var options=question.options.toMutableList()
+            options.removeAt(index)
+            options=options.mapIndexed { index2, optionsUiState ->
+                optionsUiState.copy(id = index2.toLong())
+            }.toMutableList()
+            _question.value=question.copy(options=options.toImmutableList())
+        }
     }
 
     fun changeType(questionIndex: Int, index: Int, type: Type) {
@@ -181,7 +220,7 @@ class ExamViewModel(private val id: Long) : ViewModel() {
 
     fun onTextChange(questionIndex: Int, index: Int, text: String) {
         editContent(questionIndex, index) {
-            var item = it[index]
+            val item = it[index]
 
             it[index] = item.copy(content = text)
         }
@@ -191,7 +230,7 @@ class ExamViewModel(private val id: Long) : ViewModel() {
         questionIndex: Int, index: Int,
         items: (MutableList<ItemUi>) -> Unit
     ) {
-        var quest = question.value
+        var quest = _question.value
 
         if (questionIndex == -1) {
             val qItem = quest.content.toMutableList()
@@ -210,7 +249,7 @@ class ExamViewModel(private val id: Long) : ViewModel() {
 
 
         }
-        question.value = quest
+        _question.value = quest
 
     }
 

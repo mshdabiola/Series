@@ -1,6 +1,7 @@
 package com.mshdabiola.series.feature.exam
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -66,7 +67,8 @@ fun ExamScreen(
             delete = viewModel::delete,
             changeType = viewModel::changeType,
             onTextChange = viewModel::onTextChange,
-            onAddQuestion = viewModel::onAddQuestion
+            onAddQuestion = viewModel::onAddQuestion,
+            onAddOption = viewModel::addOption
         )
     }
 
@@ -86,7 +88,8 @@ fun ExamContent(
     edit: (Int, Int) -> Unit = { _, _ -> },
     changeType: (Int, Int, Type) -> Unit = { _, _, _ -> },
     onTextChange: (Int, Int, String) -> Unit = { _, _, _ -> },
-    onAddQuestion : ()->Unit={}
+    onAddQuestion : ()->Unit={},
+    onAddOption : ()->Unit={}
 ) {
     val state = rememberSplitPaneState(initialPositionPercentage = 0.5f)
     HorizontalSplitPane(
@@ -114,12 +117,19 @@ fun ExamContent(
                     changeType = changeType,
                     onTextChange = onTextChange
                 )
-
-                Button(modifier=Modifier.align(Alignment.End),onClick = onAddQuestion) {
-                    Icon(Icons.Default.Add, "add")
-                    Spacer(Modifier.width(ButtonDefaults.IconSpacing))
-                    Text("Add Question")
+                Row (Modifier.fillMaxSize()){
+                    IconButton(onClick = onAddOption){
+                       Icon(Icons.Default.Add,"")
+                    }
+                    Spacer(Modifier.weight(1f))
+                    Button(modifier=Modifier,onClick = onAddQuestion) {
+                        Icon(Icons.Default.Add, "add")
+                        Spacer(Modifier.width(ButtonDefaults.IconSpacing))
+                        Text("Add Question")
+                    }
                 }
+
+
             }
 
 
