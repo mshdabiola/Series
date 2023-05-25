@@ -9,6 +9,7 @@ import commshdabioladatabase.tables.OptionEntity
 import commshdabioladatabase.tables.QuestionEntity
 import org.junit.Rule
 import org.junit.Test
+import org.koin.core.qualifier.qualifier
 import org.koin.dsl.module
 import org.koin.test.KoinTest
 import org.koin.test.KoinTestRule
@@ -18,7 +19,7 @@ abstract class AbstractTest : KoinTest {
     @get:Rule
     val koinTestRule = KoinTestRule.create {
         val module = module {
-            single {
+            single(qualifier = qualifier("temp")) {
                 val driver = JdbcSqliteDriver(JdbcSqliteDriver.IN_MEMORY)
                     .also { SeriesDatabase.Schema.create(it) }
 

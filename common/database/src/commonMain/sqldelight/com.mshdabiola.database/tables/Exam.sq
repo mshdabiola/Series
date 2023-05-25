@@ -25,6 +25,10 @@ insert:
 INSERT INTO examEntity(subjectId,year)
 VALUES ?;
 
+insertOrReplace:
+INSERT OR REPLACE INTO examEntity(id,subjectId,year)
+VALUES ?;
+
 deleteByID:
 DELETE FROM examEntity
 WHERE id = ?;

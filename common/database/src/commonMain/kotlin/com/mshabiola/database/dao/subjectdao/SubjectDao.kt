@@ -18,7 +18,10 @@ internal class SubjectDao(
 ) : ISubjectDao {
     override suspend fun insert(subject: Subject) {
         withContext(coroutineDispatcher) {
-            subjectQueries.insert(subject.toEntity())
+            if (subject.id == -1L)
+                subjectQueries.insert(subject.toEntity())
+            else
+                subjectQueries.insertOrReplace(subject.toEntity())
         }
     }
 

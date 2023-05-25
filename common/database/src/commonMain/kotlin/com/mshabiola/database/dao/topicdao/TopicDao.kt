@@ -18,7 +18,10 @@ internal class TopicDao(
 ) : ITopicDao {
     override suspend fun insert(topic: Topic) {
         withContext(coroutineDispatcher) {
-            topicQueries.insert(topic.toEntity())
+            if (topic.id == -1L)
+                topicQueries.insert(topic.toEntity())
+            else
+                topicQueries.insertOrReplace(topic.toEntity())
         }
     }
 
@@ -34,8 +37,10 @@ internal class TopicDao(
         withContext(coroutineDispatcher) {
             topicQueries.update(
                 topic.name,
-                topic.id
-            )
+                topic.subjectId,
+                topic.id,
+
+                )
         }
     }
 

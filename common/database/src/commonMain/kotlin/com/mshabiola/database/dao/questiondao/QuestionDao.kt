@@ -23,16 +23,13 @@ internal class QuestionDao(
 ) : IQuestionDao {
     override suspend fun insert(question: Question) {
         withContext(coroutineDispatcher) {
-            println("insert $question")
-            questionQueries.insert(question.toEntity())
+            if (question.id == -1L)
+                questionQueries.insert(question.toEntity())
+            else
+                questionQueries.insertReplace(question.toEntity())
         }
     }
 
-    override suspend fun insertOrReplace(question: Question) {
-        withContext(coroutineDispatcher) {
-            questionQueries.insertReplace(question.toEntity())
-        }
-    }
 
     override fun getAll(): Flow<List<Question>> {
         return questionQueries

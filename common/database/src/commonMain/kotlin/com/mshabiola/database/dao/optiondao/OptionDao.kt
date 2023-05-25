@@ -18,13 +18,16 @@ internal class OptionDao(
 ) : IOptionDao {
     override suspend fun insert(option: Option) {
         withContext(coroutineDispatcher) {
-            optionQueries.insert(option.toEntity())
+            if (option.id == -1L)
+                optionQueries.insert(option.toEntity())
+            else
+                optionQueries.insertOrReplace(option.toEntity())
         }
     }
 
-    override suspend fun insertOrReplace(option: Option) {
-        withContext(coroutineDispatcher) {
-            optionQueries.insertOrReplace(option.toEntity())
+    override suspend fun insertMany(options: List<Option>) {
+        options.forEach {
+            insert(it)
         }
     }
 
@@ -36,15 +39,15 @@ internal class OptionDao(
             .map { it.map { it.toModel() } }
     }
 
-    override suspend fun update(optione: Option) {
+    override suspend fun update(option: Option) {
         withContext(coroutineDispatcher) {
-            val option = optione.toEntity()
+            val optionEntity = option.toEntity()
             optionQueries.update(
-                questionNos = option.questionNos,
-                content = option.content,
-                isAnswer = option.isAnswer,
-                id = option.id,
-                nos = option.nos
+                questionNos = optionEntity.questionNos,
+                content = optionEntity.content,
+                isAnswer = optionEntity.isAnswer,
+                id = optionEntity.id,
+                nos = optionEntity.nos
             )
         }
     }
@@ -60,6 +63,12 @@ internal class OptionDao(
     override suspend fun delete(id: Long) {
         withContext(coroutineDispatcher) {
             optionQueries.deleteByID(id)
+        }
+    }
+
+    override suspend fun deleteQuestionNos(questionNos: Long) {
+        withContext(coroutineDispatcher) {
+            optionQueries.deleteByQuestionNos(questionNos)
         }
     }
 

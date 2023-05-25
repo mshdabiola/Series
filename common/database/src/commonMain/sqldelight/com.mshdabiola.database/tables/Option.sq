@@ -36,6 +36,10 @@ deleteByID:
 DELETE FROM optionEntity
 WHERE id = ?;
 
+deleteByQuestionNos:
+DELETE FROM optionEntity
+WHERE questionNos = ?;
+
 update:
 UPDATE optionEntity
 SET nos=?,questionNos = ?,content=?,isAnswer=?

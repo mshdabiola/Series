@@ -6,12 +6,11 @@ import kotlinx.coroutines.flow.Flow
 interface IOptionDao {
 
     suspend fun insert(option: Option)
-    suspend fun insertOrReplace(option: Option)
-
-
+    suspend fun insertMany(options: List<Option>)
     fun getAll(): Flow<List<Option>>
 
     suspend fun update(option: Option)
     fun getOne(id: Long): Flow<Option>
     suspend fun delete(id: Long)
+    suspend fun deleteQuestionNos(questionNos: Long)
 }

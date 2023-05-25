@@ -4,12 +4,14 @@ import com.mshabiola.database.dao.questiondao.QuestionDao
 import com.mshabiola.database.model.listOfValueAdapter
 import com.mshdabiola.model.data.Item
 import com.mshdabiola.model.data.Question
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
 import org.koin.test.inject
 import kotlin.test.assertEquals
 
+@OptIn(ExperimentalCoroutinesApi::class)
 class QuestionTest : AbstractTest() {
     @Test
     fun text() {
@@ -17,17 +19,16 @@ class QuestionTest : AbstractTest() {
         val str = listOfValueAdapter.encode(qvalue)
 
         println(str)
-        val qlist = listOfValueAdapter.decode(str)
-        println(qlist)
+        val list = listOfValueAdapter.decode(str)
+        println(list)
 
-        assertEquals(qvalue, qlist)
+        assertEquals(qvalue, list)
     }
 
     override fun insert() = runTest {
         val questionDao by inject<QuestionDao>()
         questionDao.insert(
             Question(
-                id = null,
                 nos = 4290L,
                 examId = 5013L,
                 content = listOf(Item("abioa")),
@@ -41,15 +42,15 @@ class QuestionTest : AbstractTest() {
         assertEquals(1, questionDao.getAll().first().size)
     }
 
-    override fun delete() {
+    override fun delete() = runTest {
         TODO("Not yet implemented")
     }
 
-    override fun getOne() {
+    override fun getOne() = runTest {
         TODO("Not yet implemented")
     }
 
-    override fun getAll() {
+    override fun getAll() = runTest {
         TODO("Not yet implemented")
     }
 

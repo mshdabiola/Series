@@ -3,6 +3,7 @@ import kotlin.collections.List;
 
 CREATE TABLE IF NOT EXISTS instructionEntity (
    id INTEGER PRIMARY KEY AUTOINCREMENT,
+   examId INTEGER NOT NULL,
    title TEXT,
    content TEXT AS List<Item> NOT NULL
 );
@@ -17,7 +18,11 @@ SELECT *
 FROM  instructionEntity;
 
 insert:
-INSERT INTO instructionEntity(title,content)
+INSERT INTO instructionEntity(examId,title,content)
+VALUES ?;
+
+insertOrReplace:
+INSERT OR REPLACE INTO instructionEntity(id,examId,title,content)
 VALUES ?;
 
 deleteByID:
@@ -26,6 +31,6 @@ WHERE id = ?;
 
 update:
 UPDATE instructionEntity
-SET title = ?, content=?
+SET title = ?, content=?,examId=?
 WHERE id = ?;
 

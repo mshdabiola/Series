@@ -14,13 +14,15 @@ import commshdabioladatabase.tables.SubjectEntity
 import commshdabioladatabase.tables.TopicEntity
 
 
-fun Instruction.toEntity() = InstructionEntity(id = id, title = title, content = content)
+fun Instruction.toEntity() =
+    InstructionEntity(id = id, examId = examId, title = title, content = content)
 
-fun InstructionEntity.toModel() = Instruction(id = id, title = title, content = content)
+fun InstructionEntity.toModel() =
+    Instruction(id = id, examId = examId, title = title, content = content)
 
 
 fun Option.toEntity() = OptionEntity(
-    id = id ?: 0,
+    id = id,
     nos = nos,
     questionNos = questionNos,
     content = content,
@@ -36,7 +38,7 @@ fun OptionEntity.toModel() = Option(
 )
 
 fun Question.toEntity() = QuestionEntity(
-    id = id ?: 0,
+    id = id,
     nos = nos,
     examId = examId,
     content = content,
@@ -61,9 +63,9 @@ fun Subject.toEntity() = SubjectEntity(id, name)
 
 fun SubjectEntity.toModel() = Subject(id, name)
 
-fun Topic.toEntity() = TopicEntity(id, name)
+fun Topic.toEntity() = TopicEntity(id, subjectId, name)
 
-fun TopicEntity.toModel() = Topic(id, name)
+fun TopicEntity.toModel() = Topic(id, subjectId, name)
 
 fun Exam.toEntity() = ExamEntity(id, subjectID, year)
 

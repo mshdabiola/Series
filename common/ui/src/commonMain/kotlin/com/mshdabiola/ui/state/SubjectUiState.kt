@@ -1,6 +1,6 @@
 package com.mshdabiola.ui.state
 
 data class SubjectUiState(
-    val id: Long,
+    val id: Long=-1,
     val name: String
 )

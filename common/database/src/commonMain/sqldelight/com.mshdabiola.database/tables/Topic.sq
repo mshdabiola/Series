@@ -1,5 +1,6 @@
 CREATE TABLE IF NOT EXISTS topicEntity(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
+    subjectId INTEGER NOT NULL,
     name TEXT NOT NULL
 );
 
@@ -13,7 +14,11 @@ SELECT *
 FROM  topicEntity;
 
 insert:
-INSERT INTO topicEntity(name)
+INSERT INTO topicEntity(subjectId,name)
+VALUES ?;
+
+insertOrReplace:
+INSERT OR REPLACE INTO topicEntity(subjectId,name)
 VALUES ?;
 
 deleteByID:
@@ -22,5 +27,5 @@ WHERE id = ?;
 
 update:
 UPDATE topicEntity
-SET name = ?
+SET name = ?,subjectId=?
 WHERE id = ?;

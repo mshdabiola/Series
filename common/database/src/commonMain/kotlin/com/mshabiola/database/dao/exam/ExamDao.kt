@@ -19,7 +19,11 @@ internal class ExamDao(
 ) : IExamDao {
     override suspend fun insert(exam: Exam) {
         withContext(coroutineDispatcher) {
-            examQueries.insert(exam.toEntity())
+            if (exam.id == -1L)
+                examQueries.insert(exam.toEntity())
+            else
+                examQueries.insertOrReplace(exam.toEntity())
+
         }
     }
 
