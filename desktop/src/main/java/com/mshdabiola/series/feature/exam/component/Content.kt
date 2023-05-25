@@ -34,6 +34,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.platform.Font
 import androidx.compose.ui.unit.dp
+import com.mshdabiola.model.data.Type
 import com.mshdabiola.retex.aimplementation.Latex2
 import com.mshdabiola.series.feature.exam.state.ItemUi
 import com.mshdabiola.ui.draganddrop.DragAndDropImage
@@ -52,7 +53,7 @@ fun Content(
     moveUp: (Int) -> Unit = {},
     moveDown: (Int) -> Unit = {},
     edit: (Int) -> Unit = {},
-    changeType: (Int,Int) -> Unit = {_,_->},
+    changeType: (Int,Type) -> Unit = {_,_->},
     onTextChange: (Int, String) -> Unit = { _, _ -> },
 
 ) {
@@ -68,16 +69,16 @@ fun Content(
                 headlineText = {
                     val childModifier = Modifier.fillMaxWidth()
 
-                    when (item) {
-                        is ItemUi.Equation -> EquationContent(childModifier, item, onTextChange = {
+                    when (item.type) {
+                        Type.EQUATION -> EquationContent(childModifier, item, onTextChange = {
                             onTextChange(index, it)
                         })
 
-                        is ItemUi.Text -> TextContent(childModifier, item, onTextChange = {
+                        Type.TEXT-> TextContent(childModifier, item, onTextChange = {
                             onTextChange(index, it)
                         })
 
-                        is ItemUi.Image -> ImageContent(childModifier, item, onTextChange = {
+                        Type.IMAGE -> ImageContent(childModifier, item, onTextChange = {
                             onTextChange(index, it)
                         })
                     }
@@ -151,26 +152,26 @@ fun Content(
                                     DropdownMenu(
                                         expanded = showChange,
                                         onDismissRequest = { showChange = false }) {
-                                        if (item !is ItemUi.Image) {
+                                        if (item.type != Type.IMAGE) {
                                             DropdownMenuItem(text = { Text("Image") }, onClick = {
-                                                changeType(index,2)
+                                                changeType(index,Type.IMAGE)
                                                 showChange = false
                                                 showContext = false
                                             })
                                         }
 
-                                        if (item !is ItemUi.Equation) {
+                                        if (item.type != Type.EQUATION) {
                                             DropdownMenuItem(text = { Text("Equation") }, onClick = {
-                                                changeType(index,1)
+                                                changeType(index,Type.EQUATION)
                                                 showChange = false
                                                 showContext = false
                                             })
                                         }
 
-                                        if (item !is ItemUi.Text) {
+                                        if (item.type != Type.TEXT) {
                                             DropdownMenuItem(text = { Text("Text") }, onClick = {
 
-                                               changeType(index,0)
+                                               changeType(index,Type.TEXT)
                                                 showChange = false
                                                 showContext = false
                                             })
@@ -194,7 +195,7 @@ fun Content(
 @Composable
 fun EquationContent(
     modifier: Modifier = Modifier,
-    equation: ItemUi.Equation,
+    equation: ItemUi,
     onTextChange: (String) -> Unit = {}
 ) {
 
@@ -205,24 +206,24 @@ fun EquationContent(
                 modifier = Modifier.fillMaxWidth(),
                 label = { Text("Equation") },
                 maxLines = 1,
-                value = equation.tex,
+                value = equation.content,
                 onValueChange = onTextChange)
         else
-            Latex2(modifier = Modifier, equation.tex) { Font(it) }
+            Latex2(modifier = Modifier, equation.content) { Font(it) }
     }
 }
 
 @Composable
 fun ImageContent(
     modifier: Modifier = Modifier,
-    image: ItemUi.Image,
+    image: ItemUi,
     onTextChange: (String) -> Unit = {}
 ) {
     Box(modifier, contentAlignment = Alignment.Center) {
 
         DragAndDropImage(
             modifier = Modifier.size(100.dp),
-            path = image.imageName,
+            path = image.content,
             onPathChange = onTextChange
         )
     }
@@ -233,24 +234,24 @@ fun ImageContent(
 @Composable
 fun TextContent(
     modifier: Modifier = Modifier,
-    text: ItemUi.Text,
+    text: ItemUi,
     onTextChange: (String) -> Unit = {}
 ) {
     if (text.isEditMode)
         TextField(modifier = modifier,
-            value = text.tex,
+            value = text.content,
             label = { Text("Content") },
             maxLines = 1,
             onValueChange = onTextChange)
     else
-        Text(modifier = modifier, text = text.tex)
+        Text(modifier = modifier, text = text.content)
 
 }
 
 @Preview
 @Composable
 fun ContentPreview() {
-    Content(items = listOf(ItemUi.Image("3ablate", true), ItemUi.Text("moshood")).toImmutableList())
+   // Content(items = listOf(ItemU("3ablate", true), ItemUi.Text("moshood")).toImmutableList())
 }
 
 

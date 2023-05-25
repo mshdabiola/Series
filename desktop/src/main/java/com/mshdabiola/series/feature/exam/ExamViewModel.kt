@@ -1,7 +1,7 @@
 package com.mshdabiola.series.feature.exam
 
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
+import com.mshdabiola.model.data.Type
 import com.mshdabiola.series.ViewModel
 import com.mshdabiola.series.feature.exam.state.ItemUi
 import com.mshdabiola.series.feature.exam.state.OptionsUiState
@@ -19,29 +19,29 @@ class ExamViewModel(private val id: Long) : ViewModel() {
             QuestionUiState(
                 id = 1,
                 content = listOf(
-                    ItemUi.Text("", true),
+                    ItemUi(isEditMode = true),
                 ).toImmutableList(),
                 options = listOf(
                     OptionsUiState(
                         id = 1,
-                        content = listOf(ItemUi.Text("", true)).toImmutableList(),
+                        content = listOf(ItemUi(isEditMode = true)).toImmutableList(),
                         isAnswer = false
                     ),
                     OptionsUiState(
                         id = 2,
                         content = listOf(
-                            ItemUi.Text("", true)
+                            ItemUi(isEditMode = true)
                         ).toImmutableList(),
                         isAnswer = false
                     ),
                     OptionsUiState(
-                        id = 3, content = listOf(ItemUi.Text("", true)).toImmutableList(),
+                        id = 3, content = listOf(ItemUi(isEditMode = true)).toImmutableList(),
                         isAnswer = false
                     ),
                     OptionsUiState(
                         id = 4,
                         content = listOf(
-                            ItemUi.Text("", true)
+                            ItemUi(isEditMode = true)
                         ).toImmutableList(),
                         isAnswer = false
                     )
@@ -54,43 +54,58 @@ class ExamViewModel(private val id: Long) : ViewModel() {
     val questions = _questions.asStateFlow()
 
     fun onAddQuestion() {
-        val question2=question.value
+        val question2 = question.value
 
-        _questions.update {
-           val list= it.toMutableList()
-            list.add(question2)
+        _questions.update { questionUiStates ->
+            val list = questionUiStates.toMutableList()
+            list.add(
+                question2.copy(
+                    content = question2.content.map { it.copy(isEditMode = false) }
+                        .toImmutableList(),
+                    options = question2.options.map { optionsUiState ->
+                        optionsUiState.copy(content = optionsUiState.content.map {
+                            it.copy(isEditMode = false)
+                        }.toImmutableList())
+                    }.toImmutableList(),
+                    editMode = false
+                )
+            )
             list.toImmutableList()
         }
-        question.value=getEmptyQuestion()
+        question.value = getEmptyQuestion()
     }
 
-    private fun getEmptyQuestion():QuestionUiState{
-      return  QuestionUiState(
+    private fun getEmptyQuestion(): QuestionUiState {
+        return QuestionUiState(
             id = 1,
             content = listOf(
-                ItemUi.Text("", true),
+                ItemUi(isEditMode = true)
             ).toImmutableList(),
             options = listOf(
                 OptionsUiState(
                     id = 1,
-                    content = listOf(ItemUi.Text("", true)).toImmutableList(),
+                    content = listOf(
+                        ItemUi(isEditMode = true)
+                    ).toImmutableList(),
                     isAnswer = false
                 ),
                 OptionsUiState(
                     id = 2,
                     content = listOf(
-                        ItemUi.Text("", true)
+                        ItemUi(isEditMode = true)
                     ).toImmutableList(),
                     isAnswer = false
                 ),
                 OptionsUiState(
-                    id = 3, content = listOf(ItemUi.Text("", true)).toImmutableList(),
+                    id = 3, content = listOf(
+                        ItemUi(isEditMode = true)
+                    ).toImmutableList(),
                     isAnswer = false
                 ),
                 OptionsUiState(
                     id = 4,
                     content = listOf(
-                        ItemUi.Text("", true)
+                        ItemUi(isEditMode = true)
                     ).toImmutableList(),
                     isAnswer = false
                 )
@@ -103,14 +118,14 @@ class ExamViewModel(private val id: Long) : ViewModel() {
     fun addUP(questionIndex: Int, index: Int) {
         editContent(questionIndex, index) {
             val i = if (index == 0) 0 else index - 1
-            it.add(i, ItemUi.Equation("top $i"))
+            it.add(i, ItemUi(isEditMode = true))
         }
     }
 
     fun addDown(questionIndex: Int, index: Int) {
         editContent(questionIndex, index) {
 
-            it.add(index + 1, ItemUi.Equation("bottom ${index + 1}"))
+            it.add(index + 1, ItemUi(isEditMode = true))
         }
     }
 
@@ -143,14 +158,9 @@ class ExamViewModel(private val id: Long) : ViewModel() {
     fun edit(questionIndex: Int, index: Int) {
 
         editContent(questionIndex, index) {
-            var item = it[index]
+            val item = it[index]
 
-            item = when (item) {
-                is ItemUi.Text -> item.copy(isEditMode = !item.isEditMode)
-                is ItemUi.Equation -> item.copy(isEditMode = !item.isEditMode)
-                is ItemUi.Image -> item.copy(isEditMode = !item.isEditMode)
-            }
-            it[index] = item
+            it[index] = item.copy(isEditMode = !item.isEditMode)
         }
     }
 
@@ -161,28 +171,19 @@ class ExamViewModel(private val id: Long) : ViewModel() {
         }
     }
 
-    fun changeType(questionIndex: Int, index: Int, type: Int) {
+    fun changeType(questionIndex: Int, index: Int, type: Type) {
         editContent(questionIndex, index) {
             var item = it[index]
-            item = when (type) {
-                0 -> ItemUi.Text("text", true)
 
-                1 -> ItemUi.Equation("equation", true)
-                else -> ItemUi.Image("image", true)
-            }
-            it[index] = item
+            it[index] = ItemUi(isEditMode = true, type = type)
         }
     }
 
     fun onTextChange(questionIndex: Int, index: Int, text: String) {
         editContent(questionIndex, index) {
             var item = it[index]
-            item = when (item) {
-                is ItemUi.Text -> item.copy(tex = text)
-                is ItemUi.Equation -> item.copy(tex = text)
-                is ItemUi.Image -> item.copy(imageName = text)
-            }
-            it[index] = item
+
+            it[index] = item.copy(content = text)
         }
     }
 
@@ -190,7 +191,6 @@ class ExamViewModel(private val id: Long) : ViewModel() {
         questionIndex: Int, index: Int,
         items: (MutableList<ItemUi>) -> Unit
     ) {
-        println("question $questionIndex index $index")
         var quest = question.value
 
         if (questionIndex == -1) {

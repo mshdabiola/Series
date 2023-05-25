@@ -26,6 +26,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.mshdabiola.model.data.Type
 import com.mshdabiola.series.feature.exam.component.QuestionWholeUi
 import com.mshdabiola.series.feature.exam.state.QuestionUiState
 import org.jetbrains.compose.resources.ExperimentalResourceApi
@@ -83,7 +84,7 @@ fun ExamContent(
     moveUp: (Int, Int) -> Unit = { _, _ -> },
     moveDown: (Int, Int) -> Unit = { _, _ -> },
     edit: (Int, Int) -> Unit = { _, _ -> },
-    changeType: (Int, Int, Int) -> Unit = { _, _, _ -> },
+    changeType: (Int, Int, Type) -> Unit = { _, _, _ -> },
     onTextChange: (Int, Int, String) -> Unit = { _, _, _ -> },
     onAddQuestion : ()->Unit={}
 ) {

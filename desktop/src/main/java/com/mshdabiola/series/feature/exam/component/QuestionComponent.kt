@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import com.mshdabiola.model.data.Type
 import com.mshdabiola.series.feature.exam.state.ItemUi
 import com.mshdabiola.series.feature.exam.state.OptionsUiState
 import com.mshdabiola.series.feature.exam.state.QuestionUiState
@@ -21,7 +22,7 @@ fun QuestionWholeUi(
     moveUp: (Int,Int) -> Unit = {_,_->},
     moveDown: (Int,Int) -> Unit = {_,_->},
     edit: (Int,Int) -> Unit = {_,_->},
-    changeType: (Int,Int,Int) -> Unit = {_,_,_->},
+    changeType: (Int,Int,Type) -> Unit = {_,_,_->},
     onTextChange: (Int, Int,String) -> Unit = { _, _,_ -> }
 ) {
 
@@ -71,19 +72,19 @@ fun QuestionWholeUiPreview() {
 
     val questionUiState = QuestionUiState(
         id = 1,
-        content = listOf(ItemUi.Text("abiola")).toImmutableList(),
+        content = listOf(ItemUi("abiola")).toImmutableList(),
         options = listOf(
             OptionsUiState(
                 id = 1,
-                content = listOf(ItemUi.Text("option1")).toImmutableList(),
+                content = listOf(ItemUi("option1")).toImmutableList(),
                 isAnswer = false
             ),
             OptionsUiState(
-                id = 2, content = listOf(ItemUi.Text("option2")).toImmutableList(),
+                id = 2, content = listOf(ItemUi("option2")).toImmutableList(),
                 isAnswer = false
             ),
             OptionsUiState(
-                id = 3, content = listOf(ItemUi.Text("option3")).toImmutableList(),
+                id = 3, content = listOf(ItemUi("option3")).toImmutableList(),
                 isAnswer = false
             )
         ).toImmutableList()
