@@ -69,7 +69,8 @@ class ExamViewModel(
         var question2 = _question.value
 
 
-        question2 = question2.copy(nos = questions.value.size.toLong() + 1)
+        val number=if (question2.nos==-1L)questions.value.size.toLong() + 1 else question2.nos
+        question2 = question2.copy(nos = number)
 
         viewModelScope.launch {
             println("insert")
@@ -103,7 +104,7 @@ class ExamViewModel(
 
     private fun getEmptyQuestion(): QuestionUiState {
         return QuestionUiState(
-            nos = 1,
+            nos = -1,
             content = listOf(
                 ItemUi(isEditMode = true)
             ).toImmutableList(),
