@@ -96,49 +96,7 @@ fun <T> AsyncImage(
     }
 }
 
-@Composable
-fun DesktopImage(
-    modifier: Modifier = Modifier,
-    path: String,
-    contentDescription: String,
-    contentScale: ContentScale = ContentScale.Fit
-) {
-    val density = LocalDensity.current
-    val filePath = File(path)
-    when (filePath.extension) {
-        "svg" -> {
-            AsyncImage(
-                modifier = modifier,
-                load = { loadSvgPainter(File(path), density) },
-                painterFor = { it },
-                contentDescription = contentDescription,
-                contentScale = contentScale
-            )
-        }
 
-        "xml" -> {
-            AsyncImage(
-                modifier = modifier,
-                load = { loadXmlImageVector(File(path), density) },
-                painterFor = { rememberVectorPainter(it) },
-                contentDescription = contentDescription,
-                contentScale = contentScale
-            )
-        }
-
-        else -> {
-            AsyncImage(
-                modifier = modifier,
-                load = { loadImageBitmap(File(path)) },
-                painterFor = { BitmapPainter(it) },
-                contentDescription = contentDescription,
-                contentScale = contentScale
-            )
-        }
-
-    }
-
-}
 /* Loading from file with java.io API */
 
 fun loadImageBitmap(file: File): ImageBitmap =
@@ -180,15 +138,3 @@ private suspend fun urlStream(url: String) = HttpClient(CIO).use {
 }
 
  */
-
-@Composable
-fun <T> produceState(
-    initialValue: T,
-    path: String
-): State<T> {
-    val result = remember { mutableStateOf(initialValue) }
-    LaunchedEffect(path) {
-
-    }
-    return result
-}

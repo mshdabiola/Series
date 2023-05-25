@@ -3,6 +3,8 @@ CREATE TABLE IF NOT EXISTS subjectEntity(
     name TEXT NOT NULL
 );
 
+INSERT INTO subjectEntity
+VALUES (1,"English");
 
 getById:
 SELECT *

@@ -1,5 +1,6 @@
 package com.mshdabiola.series.feature.exam
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -27,7 +28,8 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.mshdabiola.model.data.Type
-import com.mshdabiola.ui.questionui.QuestionWholeUi
+import com.mshdabiola.ui.questionui.QuestionEditUi
+import com.mshdabiola.ui.questionui.QuestionUi
 import com.mshdabiola.ui.state.QuestionUiState
 import kotlinx.collections.immutable.ImmutableList
 import org.jetbrains.compose.resources.ExperimentalResourceApi
@@ -68,7 +70,9 @@ fun ExamScreen(
             changeType = viewModel::changeType,
             onTextChange = viewModel::onTextChange,
             onAddQuestion = viewModel::onAddQuestion,
-            onAddOption = viewModel::addOption
+            onAddOption = viewModel::addOption,
+            onDeleteQuestion = viewModel::onDeleteQuestion,
+            onUpdateQuestion = viewModel::onUpdateQuestion
         )
     }
 
@@ -89,7 +93,9 @@ fun ExamContent(
     changeType: (Int, Int, Type) -> Unit = { _, _, _ -> },
     onTextChange: (Int, Int, String) -> Unit = { _, _, _ -> },
     onAddQuestion: () -> Unit = {},
-    onAddOption: () -> Unit = {}
+    onAddOption: () -> Unit = {},
+    onUpdateQuestion: (Long) -> Unit = {},
+    onDeleteQuestion: (Long) -> Unit = {}
 ) {
     val state = rememberSplitPaneState(initialPositionPercentage = 0.5f)
     HorizontalSplitPane(
@@ -97,16 +103,20 @@ fun ExamContent(
         splitPaneState = state
     ) {
         first {
-            LazyColumn(Modifier.fillMaxSize()) {
+            LazyColumn(Modifier.fillMaxSize(), verticalArrangement = Arrangement.spacedBy(8.dp)) {
                 items(questions) {
-                    QuestionWholeUi(questionUiState = it)
+                    QuestionUi(
+                        questionUiState = it,
+                        onDelete = onDeleteQuestion,
+                        onUpdate = onUpdateQuestion
+                    )
                 }
             }
 
         }
         second {
             Column(modifier = Modifier.fillMaxWidth().verticalScroll(rememberScrollState())) {
-                QuestionWholeUi(
+                QuestionEditUi(
                     questionUiState = questionUiState,
                     addUp = addUp,
                     addBottom = addBottom,

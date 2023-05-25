@@ -121,17 +121,17 @@ fun Latex2(
     }
     val height by remember {
         derivedStateOf {
-            val h = equations.maxOf {
+            val h = equations.maxOfOrNull {
                 it.topLeft.y
-            }.plus(20)
+            }?.plus(20) ?: 10f
             ((h * scale / density)).toInt().dp
         }
     }
     val width by remember {
         derivedStateOf {
-            val w = equations.maxOf {
+            val w = equations.maxOfOrNull {
                 it.topLeft.x
-            }.plus(20)
+            }?.plus(20) ?: 10f
             ((w * scale / density)).toInt().dp
         }
     }

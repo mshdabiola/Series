@@ -2,6 +2,7 @@ package com.mshdabiola.ui.questionui
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
@@ -28,6 +29,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.platform.Font
 import androidx.compose.ui.unit.dp
 import com.mshdabiola.model.data.Type
@@ -35,12 +37,54 @@ import com.mshdabiola.retex.aimplementation.Latex2
 import com.mshdabiola.ui.state.ItemUi
 import kotlinx.collections.immutable.ImmutableList
 
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun ContentView(
+    modifier: Modifier = Modifier,
+    items: ImmutableList<ItemUi>,
+
+    ) {
+
+
+    Column(modifier) {
+        items.forEachIndexed { index, item ->
+
+            ListItem(
+                modifier = Modifier.fillMaxWidth(),
+                headlineText = {
+                    val childModifier = Modifier.fillMaxWidth()
+
+                    when (item.type) {
+                        Type.EQUATION ->Box(childModifier, contentAlignment = Alignment.Center) {
+                                Latex2(modifier = Modifier, item.content) { Font(it) }
+                        }
+
+                        Type.TEXT ->  Text(modifier=childModifier, text = item.content)
+
+                        Type.IMAGE ->
+                            Box(childModifier, contentAlignment = Alignment.Center) {
+                            DesktopImage(
+                                modifier.size(100.dp),
+                                path = item.content,
+                                contentDescription = ""
+                            )
+                            }
+                        }
+                }
+
+            )
+        }
+
+    }
+
+}
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Content(
     modifier: Modifier = Modifier,
     items: ImmutableList<ItemUi>,
-    editMode: Boolean = false,
     addUp: (Int) -> Unit = {},
     addBottom: (Int) -> Unit = {},
     delete: (Int) -> Unit = {},
@@ -78,7 +122,7 @@ fun Content(
                     }
                 },
                 trailingContent = {
-                    if (editMode) {
+
                         Box {
                             IconButton(onClick = { showContext = true }) {
                                 Icon(Icons.Default.MoreVert, "")
@@ -177,7 +221,7 @@ fun Content(
                                 }
                             }
                         }
-                    }
+
                 }
             )
         }
@@ -256,4 +300,11 @@ expect fun DragAndDropImage(
     onPathChange: (String) -> Unit = {}
 )
 
+@Composable
+expect fun DesktopImage(
+    modifier: Modifier = Modifier,
+    path: String,
+    contentDescription: String,
+    contentScale: ContentScale = ContentScale.Fit
+)
 

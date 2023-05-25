@@ -50,6 +50,21 @@ class ExamViewModel(
             emptyList<QuestionUiState>().toImmutableList()
         )
 
+    fun onDeleteQuestion(id:Long){
+
+    }
+
+    fun onUpdateQuestion(id: Long){
+        val question=questions
+            .value
+            .find { it.id==id }
+
+        question?.let {
+            _question.value=it
+        }
+    }
+
+
     fun onAddQuestion() {
         var question2 = _question.value
 
@@ -121,7 +136,6 @@ class ExamViewModel(
                     isAnswer = false
                 )
             ).toImmutableList(),
-            editMode = true
         )
     }
 
