@@ -6,6 +6,7 @@ import kotlinx.coroutines.flow.Flow
 interface IQuestionDao {
 
     suspend fun insert(question: Question)
+    suspend fun insertOrReplace(question: Question)
 
     fun getAll(): Flow<List<Question>>
 

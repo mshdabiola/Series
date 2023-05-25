@@ -1,8 +1,7 @@
 package com.mshabiola.database.di
 
 
-import com.mshabiola.database.dao.drawingdao.DrawingDao
-import com.mshabiola.database.dao.drawingdao.IDrawingDao
+
 import com.mshabiola.database.dao.exam.ExamDao
 import com.mshabiola.database.dao.exam.IExamDao
 import com.mshabiola.database.dao.instructiondao.IInstructionDao
@@ -28,9 +27,7 @@ expect val databaseModule: Module
 
 internal val daoModules = module {
 
-    single {
-        get<SeriesDatabase>().drawingQueries
-    }
+
     single {
         get<SeriesDatabase>().instructionQueries
     }
@@ -50,7 +47,6 @@ internal val daoModules = module {
         get<SeriesDatabase>().examQueries
     }
     single { Dispatchers.IO } bind CoroutineDispatcher::class
-    singleOf(::DrawingDao) bind IDrawingDao::class
     singleOf(::InstructionDao) bind IInstructionDao::class
     singleOf(::OptionDao) bind IOptionDao::class
     singleOf(::QuestionDao) bind IQuestionDao::class

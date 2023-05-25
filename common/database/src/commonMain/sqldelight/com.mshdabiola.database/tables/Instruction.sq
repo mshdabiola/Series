@@ -1,7 +1,10 @@
+import com.mshdabiola.model.data.Item;
+import kotlin.collections.List;
+
 CREATE TABLE IF NOT EXISTS instructionEntity (
    id INTEGER PRIMARY KEY AUTOINCREMENT,
    title TEXT,
-   content TEXT NOT NULL
+   content TEXT AS List<Item> NOT NULL
 );
 
 getById:

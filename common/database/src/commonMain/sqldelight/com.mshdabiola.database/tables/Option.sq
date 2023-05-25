@@ -1,11 +1,12 @@
+import com.mshdabiola.model.data.Item;
+import kotlin.collections.List;
+
 CREATE TABLE IF NOT EXISTS optionEntity (
    id INTEGER PRIMARY KEY AUTOINCREMENT ,
+   nos INTEGER NOT NULL ,
    questionId INTEGER NOT NULL ,
-   drawingId INTEGER,
-   content TEXT NOT NULL,
-   isAnswer INTEGER DEFAULT 0,
-   FOREIGN KEY (questionId) REFERENCES questionEntity(id)
-      ON DELETE CASCADE
+   content TEXT AS List<Item> NOT NULL,
+   isAnswer INTEGER DEFAULT 0
 );
 
 getById:
@@ -18,7 +19,11 @@ SELECT *
 FROM  optionEntity;
 
 insert:
-INSERT INTO optionEntity(questionId,drawingId,content,isAnswer)
+INSERT INTO optionEntity(nos,questionId,content,isAnswer)
+VALUES ?;
+
+insertOrReplace:
+INSERT OR REPLACE INTO optionEntity(id,nos,questionId,content,isAnswer)
 VALUES ?;
 
 deleteByID:
@@ -27,5 +32,5 @@ WHERE id = ?;
 
 update:
 UPDATE optionEntity
-SET questionId = ?, drawingId=?,content=?,isAnswer=?
+SET nos=?,questionId = ?,content=?,isAnswer=?
 WHERE id = ?;

@@ -3,6 +3,8 @@ package com.mshabiola.database.di
 import com.mshabiola.database.model.listOfValueAdapter
 import com.mshabiola.database.util.Constant
 import com.mshdabiola.database.SeriesDatabase
+import commshdabioladatabase.tables.InstructionEntity
+import commshdabioladatabase.tables.OptionEntity
 import commshdabioladatabase.tables.QuestionEntity
 import org.koin.core.module.Module
 import org.koin.dsl.module
@@ -22,7 +24,12 @@ actual val databaseModule: Module
 //                }
 //            println("version ${TempDatabase.Schema.version}")
 
-            SeriesDatabase(driver, QuestionEntity.Adapter(listOfValueAdapter))
+            SeriesDatabase(
+                driver = driver,
+               questionEntityAdapter = QuestionEntity.Adapter(listOfValueAdapter),
+                instructionEntityAdapter = InstructionEntity.Adapter(listOfValueAdapter),
+                optionEntityAdapter = OptionEntity.Adapter(listOfValueAdapter)
+            )
         }
 
         includes(daoModules)

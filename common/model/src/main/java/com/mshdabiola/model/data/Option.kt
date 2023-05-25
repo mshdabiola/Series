@@ -2,8 +2,8 @@ package com.mshdabiola.model.data
 
 data class Option(
     val id: Long,
+    val nos:Long,
     val questionId: Long,
-    val drawingId: Long?,
-    val content: String,
+    val content: List<Item>,
     val isAnswer: Boolean
 )

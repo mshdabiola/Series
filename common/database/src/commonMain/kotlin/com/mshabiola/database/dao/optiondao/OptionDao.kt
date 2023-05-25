@@ -22,6 +22,11 @@ internal class OptionDao(
         }
     }
 
+    override suspend fun insertOrReplace(option: Option) {
+        withContext(coroutineDispatcher) {
+            optionQueries.insertOrReplace(option.toEntity())
+        }    }
+
     override fun getAll(): Flow<List<Option>> {
         return optionQueries
             .getAll()
@@ -35,10 +40,10 @@ internal class OptionDao(
             val option = optione.toEntity()
             optionQueries.update(
                 questionId = option.questionId,
-                drawingId = option.drawingId,
                 content = option.content,
                 isAnswer = option.isAnswer,
-                id = option.id
+                id = option.id,
+                nos = option.nos
             )
         }
     }

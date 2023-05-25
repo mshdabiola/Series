@@ -3,12 +3,12 @@ import kotlin.collections.List;
 
 CREATE TABLE IF NOT EXISTS questionEntity (
    id INTEGER PRIMARY KEY AUTOINCREMENT,
+   nos INTEGER NOT NULL ,
    examId INTEGER NOT NULL ,
    content TEXT AS List<Item> NOT NULL,
    isTheory INTEGER DEFAULT 0,
    answer TEXT,
    instructionId INTEGER,
-   drawingId INTEGER,
    topicId INTEGER,
    FOREIGN KEY (examId) REFERENCES examEntity(id)
       ON DELETE CASCADE
@@ -25,7 +25,11 @@ SELECT *
 FROM  questionEntity;
 
 insert:
-INSERT INTO questionEntity(examId,content,isTheory,answer,instructionId,drawingId,topicId)
+INSERT INTO questionEntity(nos,examId,content,isTheory,answer,instructionId,topicId)
+VALUES ?;
+
+insertReplace:
+INSERT OR REPLACE INTO questionEntity(id,nos,examId,content,isTheory,answer,instructionId,topicId)
 VALUES ?;
 
 deleteByID:
@@ -34,5 +38,5 @@ WHERE id = ?;
 
 update:
 UPDATE questionEntity
-SET examId=?,content=?,isTheory=?,answer=?,instructionId=?,drawingId=?,topicId=?
+SET examId=?,content=?,isTheory=?,answer=?,instructionId=?,topicId=?
 WHERE id = ?;

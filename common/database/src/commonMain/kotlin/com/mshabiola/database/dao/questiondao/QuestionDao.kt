@@ -22,6 +22,11 @@ internal class QuestionDao(
         }
     }
 
+    override suspend fun insertOrReplace(question: Question) {
+        withContext(coroutineDispatcher) {
+            questionQueries.insertReplace(question.toEntity())
+        }    }
+
     override fun getAll(): Flow<List<Question>> {
         return questionQueries
             .getAll()
@@ -39,7 +44,6 @@ internal class QuestionDao(
                 questione.isTheory,
                 questione.answer,
                 questione.instructionId,
-                questione.drawingId,
                 questione.topicId,
                 questione.id
             )

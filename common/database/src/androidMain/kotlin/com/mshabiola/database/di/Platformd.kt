@@ -5,6 +5,8 @@ import app.cash.sqldelight.driver.android.AndroidSqliteDriver
 import com.mshabiola.database.model.listOfValueAdapter
 import com.mshabiola.database.util.Constant
 import com.mshdabiola.database.SeriesDatabase
+import commshdabioladatabase.tables.InstructionEntity
+import commshdabioladatabase.tables.OptionEntity
 import commshdabioladatabase.tables.QuestionEntity
 import org.koin.core.module.Module
 import org.koin.dsl.module
@@ -22,8 +24,10 @@ actual val databaseModule: Module
             Log.e("version", "version ${SeriesDatabase.Schema.version}")
 
             SeriesDatabase(
-                driver,
-                QuestionEntity.Adapter(listOfValueAdapter)
+                driver = driver,
+                questionEntityAdapter = QuestionEntity.Adapter(listOfValueAdapter),
+                instructionEntityAdapter = InstructionEntity.Adapter(listOfValueAdapter),
+                optionEntityAdapter = OptionEntity.Adapter(listOfValueAdapter)
             )
         }
         includes(daoModules)
