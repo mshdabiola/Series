@@ -15,15 +15,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.awt.ComposePanel
 import androidx.compose.ui.awt.SwingPanel
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.painter.BitmapPainter
-import androidx.compose.ui.graphics.vector.rememberVectorPainter
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
-import com.mshdabiola.ui.image.AsyncImage
 import com.mshdabiola.ui.image.DesktopImage
-import com.mshdabiola.ui.image.loadImageBitmap
-import com.mshdabiola.ui.image.loadSvgPainter
-import com.mshdabiola.ui.image.loadXmlImageVector
 import java.awt.dnd.DnDConstants
 import java.awt.dnd.DropTarget
 import java.awt.dnd.DropTargetDragEvent
@@ -31,8 +24,6 @@ import java.awt.dnd.DropTargetDropEvent
 import java.awt.dnd.DropTargetEvent
 import java.awt.dnd.DropTargetListener
 import java.io.File
-import javax.swing.JLabel
-
 
 
 @Composable
@@ -86,7 +77,7 @@ fun MyDrag(modifier: Modifier) {
                 }
                 .forEach {
 
-                    path=it.path
+                    path = it.path
 
                     println(it.path)
                 }
@@ -112,13 +103,13 @@ fun MyDrag(modifier: Modifier) {
                             color = Color.Blue
                         ) else BorderStroke(width = 2.dp, color = Color.Black)
                     ) {
-                        if (path!=null){
-                          DesktopImage(
-                              modifier.fillMaxSize(),
-                              path = path!!,
-                              contentDescription = ""
-                          )
-                        }else{
+                        if (path != null) {
+                            DesktopImage(
+                                modifier.fillMaxSize(),
+                                path = path!!,
+                                contentDescription = ""
+                            )
+                        } else {
                             Text(text = text)
                         }
 
@@ -136,8 +127,8 @@ fun MyDrag(modifier: Modifier) {
 @Composable
 fun DragAndDropImage(
     modifier: Modifier,
-     path : String,
-    onPathChange:(String)->Unit={}
+    path: String,
+    onPathChange: (String) -> Unit = {}
 ) {
 
 
@@ -167,7 +158,7 @@ fun DragAndDropImage(
             val transferable = event.transferable
 
 
-           val file= transferable.transferDataFlavors
+            val file = transferable.transferDataFlavors
                 .filter {
 
                     it.isFlavorJavaFileListType
@@ -181,7 +172,7 @@ fun DragAndDropImage(
                 .firstNotNullOf {
                     it as? File
                 }
-           onPathChange(file.path)
+            onPathChange(file.path)
             isover = false
             event.dropComplete(true)
         }
@@ -203,14 +194,14 @@ fun DragAndDropImage(
                             color = Color.Blue
                         ) else BorderStroke(width = 2.dp, color = Color.Black)
                     ) {
-                        Box (Modifier.fillMaxSize(), contentAlignment = Alignment.Center){
-                            if (File(path).exists()){
+                        Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                            if (File(path).exists()) {
                                 DesktopImage(
                                     modifier.fillMaxSize(),
                                     path = path,
                                     contentDescription = ""
                                 )
-                            }else{
+                            } else {
                                 Text(text = "drag image here")
                             }
                         }

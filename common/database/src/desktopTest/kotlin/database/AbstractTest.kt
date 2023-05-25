@@ -4,6 +4,8 @@ import app.cash.sqldelight.driver.jdbc.sqlite.JdbcSqliteDriver
 import com.mshabiola.database.di.daoModules
 import com.mshabiola.database.model.listOfValueAdapter
 import com.mshdabiola.database.SeriesDatabase
+import commshdabioladatabase.tables.InstructionEntity
+import commshdabioladatabase.tables.OptionEntity
 import commshdabioladatabase.tables.QuestionEntity
 import org.junit.Rule
 import org.junit.Test
@@ -20,7 +22,12 @@ abstract class AbstractTest : KoinTest {
                 val driver = JdbcSqliteDriver(JdbcSqliteDriver.IN_MEMORY)
                     .also { SeriesDatabase.Schema.create(it) }
 
-                SeriesDatabase(driver,QuestionEntity.Adapter(listOfValueAdapter))
+                SeriesDatabase(
+                    driver = driver,
+                    questionEntityAdapter = QuestionEntity.Adapter(listOfValueAdapter),
+                    instructionEntityAdapter = InstructionEntity.Adapter(listOfValueAdapter),
+                    optionEntityAdapter = OptionEntity.Adapter(listOfValueAdapter)
+                )
             }
 
         }

@@ -28,20 +28,19 @@ val listOfValueAdapter = object : ColumnAdapter<List<Item>, String> {
             }
 
         return list
-                    .map {
-                        Item(it.first, Type.valueOf(it.second))
-                    }
-
+            .map {
+                Item(it.first, Type.valueOf(it.second))
+            }
 
 
     }
 
     override fun encode(value: List<Item>): String {
         return value
-                .joinToString(separator = delimit) {
-                   "${it.content}$delimit${it.type}"
+            .joinToString(separator = delimit) {
+                "${it.content}$delimit${it.type}"
 
-                }
+            }
 
     }
 

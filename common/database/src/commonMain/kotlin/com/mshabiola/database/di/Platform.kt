@@ -1,7 +1,6 @@
 package com.mshabiola.database.di
 
 
-
 import com.mshabiola.database.dao.exam.ExamDao
 import com.mshabiola.database.dao.exam.IExamDao
 import com.mshabiola.database.dao.instructiondao.IInstructionDao
@@ -19,32 +18,34 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import org.koin.core.module.Module
 import org.koin.core.module.dsl.singleOf
+import org.koin.core.qualifier.qualifier
 import org.koin.dsl.bind
 import org.koin.dsl.module
 
 expect val databaseModule: Module
 
+const val name = "temp"
 
 internal val daoModules = module {
 
 
     single {
-        get<SeriesDatabase>().instructionQueries
+        get<SeriesDatabase>(qualifier = qualifier(name)).instructionQueries
     }
     single {
-        get<SeriesDatabase>().optionQueries
+        get<SeriesDatabase>(qualifier = qualifier(name)).optionQueries
     }
     single {
-        get<SeriesDatabase>().questionQueries
+        get<SeriesDatabase>(qualifier = qualifier(name)).questionQueries
     }
     single {
-        get<SeriesDatabase>().subjectQueries
+        get<SeriesDatabase>(qualifier = qualifier(name)).subjectQueries
     }
     single {
-        get<SeriesDatabase>().topicQueries
+        get<SeriesDatabase>(qualifier = qualifier(name)).topicQueries
     }
     single {
-        get<SeriesDatabase>().examQueries
+        get<SeriesDatabase>(qualifier = qualifier(name)).examQueries
     }
     single { Dispatchers.IO } bind CoroutineDispatcher::class
     singleOf(::InstructionDao) bind IInstructionDao::class

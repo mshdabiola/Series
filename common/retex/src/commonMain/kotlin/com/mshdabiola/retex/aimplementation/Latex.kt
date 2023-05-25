@@ -8,14 +8,12 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.Fill
 import androidx.compose.ui.graphics.drawscope.Stroke
@@ -42,28 +40,28 @@ fun Latex(
 
 
     val textMeasurer = rememberTextMeasurer()
-    val scrollState= rememberScrollState()
-    val scrollState1= rememberScrollState()
-    val density= LocalDensity.current.density
+    val scrollState = rememberScrollState()
+    val scrollState1 = rememberScrollState()
+    val density = LocalDensity.current.density
 
     val height by remember {
         derivedStateOf {
-            val h=  equations.maxOf {
+            val h = equations.maxOf {
                 it.topLeft.y
             }.plus(10)
-            ( (h*scale /density)).toInt().dp
+            ((h * scale / density)).toInt().dp
         }
     }
     val width by remember {
         derivedStateOf {
-          val w=  equations.maxOf {
+            val w = equations.maxOf {
                 it.topLeft.x
             }.plus(10)
-           ( (w*scale /density)).toInt().dp
+            ((w * scale / density)).toInt().dp
         }
     }
 
-    Box(modifier=modifier.horizontalScroll(scrollState).verticalScroll(scrollState1)) {
+    Box(modifier = modifier.horizontalScroll(scrollState).verticalScroll(scrollState1)) {
         Canvas(Modifier.size(width, height)) {
             scale(scale, pivot = Offset.Zero) {
                 equations.forEach {
@@ -114,31 +112,31 @@ fun Latex2(
 
 
     val textMeasurer = rememberTextMeasurer()
-    val scrollState= rememberScrollState()
-    val scrollState1= rememberScrollState()
-    val density= LocalDensity.current.density
+    val scrollState = rememberScrollState()
+    val scrollState1 = rememberScrollState()
+    val density = LocalDensity.current.density
 
     val equations by remember(equationsStr) {
-        mutableStateOf(Formulae.getShapes(density.toDouble(),equationsStr))
+        mutableStateOf(Formulae.getShapes(density.toDouble(), equationsStr))
     }
     val height by remember {
         derivedStateOf {
-            val h=  equations.maxOf {
+            val h = equations.maxOf {
                 it.topLeft.y
             }.plus(20)
-            ( (h*scale /density)).toInt().dp
+            ((h * scale / density)).toInt().dp
         }
     }
     val width by remember {
         derivedStateOf {
-            val w=  equations.maxOf {
+            val w = equations.maxOf {
                 it.topLeft.x
             }.plus(20)
-            ( (w*scale /density)).toInt().dp
+            ((w * scale / density)).toInt().dp
         }
     }
 
-    Box(modifier=modifier) {
+    Box(modifier = modifier) {
         Canvas(Modifier.size(width, height)) {
             scale(scale, pivot = Offset.Zero) {
                 equations.forEach {

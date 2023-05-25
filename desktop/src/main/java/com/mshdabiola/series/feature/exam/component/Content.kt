@@ -1,10 +1,8 @@
 package com.mshdabiola.series.feature.exam.component
 
 import androidx.compose.desktop.ui.tooling.preview.Preview
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
@@ -31,15 +29,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.platform.Font
 import androidx.compose.ui.unit.dp
 import com.mshdabiola.model.data.Type
 import com.mshdabiola.retex.aimplementation.Latex2
-import com.mshdabiola.series.feature.exam.state.ItemUi
 import com.mshdabiola.ui.draganddrop.DragAndDropImage
+import com.mshdabiola.ui.state.ItemUi
 import kotlinx.collections.immutable.ImmutableList
-import kotlinx.collections.immutable.toImmutableList
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -53,10 +49,10 @@ fun Content(
     moveUp: (Int) -> Unit = {},
     moveDown: (Int) -> Unit = {},
     edit: (Int) -> Unit = {},
-    changeType: (Int,Type) -> Unit = {_,_->},
+    changeType: (Int, Type) -> Unit = { _, _ -> },
     onTextChange: (Int, String) -> Unit = { _, _ -> },
 
-) {
+    ) {
 
 
     Column(modifier) {
@@ -74,7 +70,7 @@ fun Content(
                             onTextChange(index, it)
                         })
 
-                        Type.TEXT-> TextContent(childModifier, item, onTextChange = {
+                        Type.TEXT -> TextContent(childModifier, item, onTextChange = {
                             onTextChange(index, it)
                         })
 
@@ -154,24 +150,26 @@ fun Content(
                                         onDismissRequest = { showChange = false }) {
                                         if (item.type != Type.IMAGE) {
                                             DropdownMenuItem(text = { Text("Image") }, onClick = {
-                                                changeType(index,Type.IMAGE)
+                                                changeType(index, Type.IMAGE)
                                                 showChange = false
                                                 showContext = false
                                             })
                                         }
 
                                         if (item.type != Type.EQUATION) {
-                                            DropdownMenuItem(text = { Text("Equation") }, onClick = {
-                                                changeType(index,Type.EQUATION)
-                                                showChange = false
-                                                showContext = false
-                                            })
+                                            DropdownMenuItem(
+                                                text = { Text("Equation") },
+                                                onClick = {
+                                                    changeType(index, Type.EQUATION)
+                                                    showChange = false
+                                                    showContext = false
+                                                })
                                         }
 
                                         if (item.type != Type.TEXT) {
                                             DropdownMenuItem(text = { Text("Text") }, onClick = {
 
-                                               changeType(index,Type.TEXT)
+                                                changeType(index, Type.TEXT)
                                                 showChange = false
                                                 showContext = false
                                             })
@@ -207,7 +205,8 @@ fun EquationContent(
                 label = { Text("Equation") },
                 maxLines = 1,
                 value = equation.content,
-                onValueChange = onTextChange)
+                onValueChange = onTextChange
+            )
         else
             Latex2(modifier = Modifier, equation.content) { Font(it) }
     }
@@ -238,11 +237,13 @@ fun TextContent(
     onTextChange: (String) -> Unit = {}
 ) {
     if (text.isEditMode)
-        TextField(modifier = modifier,
+        TextField(
+            modifier = modifier,
             value = text.content,
             label = { Text("Content") },
             maxLines = 1,
-            onValueChange = onTextChange)
+            onValueChange = onTextChange
+        )
     else
         Text(modifier = modifier, text = text.content)
 
@@ -251,7 +252,7 @@ fun TextContent(
 @Preview
 @Composable
 fun ContentPreview() {
-   // Content(items = listOf(ItemU("3ablate", true), ItemUi.Text("moshood")).toImmutableList())
+    // Content(items = listOf(ItemU("3ablate", true), ItemUi.Text("moshood")).toImmutableList())
 }
 
 

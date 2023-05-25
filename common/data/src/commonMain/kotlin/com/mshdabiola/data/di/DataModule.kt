@@ -3,8 +3,10 @@ package com.mshdabiola.data.di
 import com.mshabiola.database.di.databaseModule
 import com.mshdabiola.data.repository.IModelRepository
 import com.mshdabiola.data.repository.INetworkRepository
+import com.mshdabiola.data.repository.IQuestionRepository
 import com.mshdabiola.data.repository.ISettingRepository
 import com.mshdabiola.data.repository.ISubjectRepository
+import com.mshdabiola.data.repository.QuestionRepository
 import com.mshdabiola.data.repository.RealINetworkRepository
 import com.mshdabiola.data.repository.RealModelRepository
 import com.mshdabiola.data.repository.SettingRepository
@@ -22,4 +24,5 @@ val dataModule = module {
     singleOf(::RealINetworkRepository) bind INetworkRepository::class
     singleOf(::RealModelRepository) bind IModelRepository::class
     singleOf(::SubjectRepository) bind ISubjectRepository::class
+    singleOf(::QuestionRepository) bind IQuestionRepository::class
 }

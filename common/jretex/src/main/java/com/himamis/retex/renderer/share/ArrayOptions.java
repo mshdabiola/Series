@@ -52,6 +52,7 @@ public final class ArrayOptions {
 
     private final static ArrayOptions empty = new ArrayOptions(0);
     private final List<Option> options;
+
     public ArrayOptions() {
         options = new ArrayList<Option>();
     }

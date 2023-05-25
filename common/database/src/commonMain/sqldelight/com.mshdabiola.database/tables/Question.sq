@@ -24,6 +24,11 @@ getAll:
 SELECT *
 FROM  questionEntity;
 
+getAllWithExamId:
+SELECT *
+FROM  questionEntity
+WHERE examId=?;
+
 insert:
 INSERT INTO questionEntity(nos,examId,content,isTheory,answer,instructionId,topicId)
 VALUES ?;

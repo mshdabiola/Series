@@ -14,35 +14,47 @@ import commshdabioladatabase.tables.SubjectEntity
 import commshdabioladatabase.tables.TopicEntity
 
 
-fun Instruction.toEntity() = InstructionEntity(id, title, content)
+fun Instruction.toEntity() = InstructionEntity(id = id, title = title, content = content)
 
-fun InstructionEntity.toModel() = Instruction(id, title, content)
+fun InstructionEntity.toModel() = Instruction(id = id, title = title, content = content)
 
 
-fun Option.toEntity() = OptionEntity(id, nos,questionId,content, if (isAnswer) 1 else 0)
+fun Option.toEntity() = OptionEntity(
+    id = id ?: 0,
+    nos = nos,
+    questionNos = questionNos,
+    content = content,
+    isAnswer = if (isAnswer) 1 else 0
+)
 
-fun OptionEntity.toModel() = Option(id, nos,questionId, content, isAnswer == 1L)
+fun OptionEntity.toModel() = Option(
+    id = id,
+    nos = nos,
+    questionNos = questionNos,
+    content = content,
+    isAnswer = isAnswer == 1L
+)
 
 fun Question.toEntity() = QuestionEntity(
-    id,
-    nos,
-    examId,
-    content,
+    id = id ?: 0,
+    nos = nos,
+    examId = examId,
+    content = content,
     isTheory = if (isTheory) 1 else 0,
-    answer,
-    instructionId,
-    topicId
+    answer = answer,
+    instructionId = instructionId,
+    topicId = topicId
 )
 
 fun QuestionEntity.toModel() = Question(
-    id,
-    nos,
-    examId,
-    content,
+    id = id,
+    nos = nos,
+    examId = examId,
+    content = content,
     isTheory = isTheory == 1L,
-    answer,
-    instructionId,
-    topicId
+    answer = answer,
+    instructionId = instructionId,
+    topicId = topicId
 )
 
 fun Subject.toEntity() = SubjectEntity(id, name)

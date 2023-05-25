@@ -24,12 +24,12 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.mshdabiola.model.data.Type
 import com.mshdabiola.series.feature.exam.component.QuestionWholeUi
-import com.mshdabiola.series.feature.exam.state.QuestionUiState
+import com.mshdabiola.ui.state.QuestionUiState
+import kotlinx.collections.immutable.ImmutableList
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.splitpane.ExperimentalSplitPaneApi
 import org.jetbrains.compose.splitpane.HorizontalSplitPane
@@ -54,7 +54,7 @@ fun ExamScreen(
         }
     ) {
 
-        val questions=viewModel.questions.collectAsState()
+        val questions = viewModel.questions.collectAsState()
         ExamContent(
             modifier = Modifier.padding(it).padding(horizontal = 16.dp),
             questionUiState = viewModel.question.value,
@@ -79,7 +79,7 @@ fun ExamScreen(
 fun ExamContent(
     modifier: Modifier = Modifier,
     questionUiState: QuestionUiState,
-    questions: List<QuestionUiState>,
+    questions: ImmutableList<QuestionUiState>,
     addUp: (Int, Int) -> Unit = { _, _ -> },
     addBottom: (Int, Int) -> Unit = { _, _ -> },
     delete: (Int, Int) -> Unit = { _, _ -> },
@@ -88,8 +88,8 @@ fun ExamContent(
     edit: (Int, Int) -> Unit = { _, _ -> },
     changeType: (Int, Int, Type) -> Unit = { _, _, _ -> },
     onTextChange: (Int, Int, String) -> Unit = { _, _, _ -> },
-    onAddQuestion : ()->Unit={},
-    onAddOption : ()->Unit={}
+    onAddQuestion: () -> Unit = {},
+    onAddOption: () -> Unit = {}
 ) {
     val state = rememberSplitPaneState(initialPositionPercentage = 0.5f)
     HorizontalSplitPane(
@@ -98,7 +98,7 @@ fun ExamContent(
     ) {
         first {
             LazyColumn(Modifier.fillMaxSize()) {
-                items(questions){
+                items(questions) {
                     QuestionWholeUi(questionUiState = it)
                 }
             }
@@ -117,12 +117,12 @@ fun ExamContent(
                     changeType = changeType,
                     onTextChange = onTextChange
                 )
-                Row (Modifier.fillMaxSize()){
-                    IconButton(onClick = onAddOption){
-                       Icon(Icons.Default.Add,"")
+                Row(Modifier.fillMaxSize()) {
+                    IconButton(onClick = onAddOption) {
+                        Icon(Icons.Default.Add, "")
                     }
                     Spacer(Modifier.weight(1f))
-                    Button(modifier=Modifier,onClick = onAddQuestion) {
+                    Button(modifier = Modifier, onClick = onAddQuestion) {
                         Icon(Icons.Default.Add, "add")
                         Spacer(Modifier.width(ButtonDefaults.IconSpacing))
                         Text("Add Question")

@@ -8,9 +8,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.produceState
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ImageBitmap
@@ -76,7 +74,7 @@ fun <T> AsyncImage(
     var image by remember { mutableStateOf<T?>(null) }
 
     LaunchedEffect(load) {
-        image= withContext(Dispatchers.IO) {
+        image = withContext(Dispatchers.IO) {
             try {
                 load()
             } catch (e: IOException) {
@@ -101,36 +99,38 @@ fun <T> AsyncImage(
 @Composable
 fun DesktopImage(
     modifier: Modifier = Modifier,
-    path:String,
+    path: String,
     contentDescription: String,
     contentScale: ContentScale = ContentScale.Fit
 ) {
-    val density= LocalDensity.current
-    val filePath=File(path)
-    when(filePath.extension){
-        "svg"->{
+    val density = LocalDensity.current
+    val filePath = File(path)
+    when (filePath.extension) {
+        "svg" -> {
             AsyncImage(
-                modifier=modifier,
-                load = { loadSvgPainter(File(path),density) },
-                painterFor = {it},
+                modifier = modifier,
+                load = { loadSvgPainter(File(path), density) },
+                painterFor = { it },
                 contentDescription = contentDescription,
                 contentScale = contentScale
             )
         }
-        "xml"->{
+
+        "xml" -> {
             AsyncImage(
-                modifier=modifier,
-                load = { loadXmlImageVector(File(path),density) },
-                painterFor = { rememberVectorPainter( it)},
+                modifier = modifier,
+                load = { loadXmlImageVector(File(path), density) },
+                painterFor = { rememberVectorPainter(it) },
                 contentDescription = contentDescription,
                 contentScale = contentScale
             )
         }
-        else->{
+
+        else -> {
             AsyncImage(
-                modifier=modifier,
+                modifier = modifier,
                 load = { loadImageBitmap(File(path)) },
-                painterFor = { BitmapPainter( it) },
+                painterFor = { BitmapPainter(it) },
                 contentDescription = contentDescription,
                 contentScale = contentScale
             )
@@ -184,7 +184,7 @@ private suspend fun urlStream(url: String) = HttpClient(CIO).use {
 @Composable
 fun <T> produceState(
     initialValue: T,
-     path: String
+    path: String
 ): State<T> {
     val result = remember { mutableStateOf(initialValue) }
     LaunchedEffect(path) {

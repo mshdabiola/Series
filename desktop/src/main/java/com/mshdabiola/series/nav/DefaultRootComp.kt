@@ -14,8 +14,8 @@ import com.arkivanov.decompose.router.stack.push
 import com.arkivanov.decompose.router.stack.replaceCurrent
 import com.arkivanov.decompose.value.Value
 import com.arkivanov.essenty.parcelable.Parcelable
-import com.mshdabiola.series.feature.main.MainScreenComponent
 import com.mshdabiola.series.feature.exam.ExamScreenComponent
+import com.mshdabiola.series.feature.main.MainScreenComponent
 import com.mshdabiola.series.feature.splash.SplashScreenComponent
 
 class DefaultRootComp(

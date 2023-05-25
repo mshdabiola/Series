@@ -4,7 +4,7 @@ import kotlin.collections.List;
 CREATE TABLE IF NOT EXISTS optionEntity (
    id INTEGER PRIMARY KEY AUTOINCREMENT ,
    nos INTEGER NOT NULL ,
-   questionId INTEGER NOT NULL ,
+   questionNos INTEGER NOT NULL ,
    content TEXT AS List<Item> NOT NULL,
    isAnswer INTEGER DEFAULT 0
 );
@@ -18,12 +18,18 @@ getAll:
 SELECT *
 FROM  optionEntity;
 
+getAllWithQuestionNo:
+
+SELECT *
+FROM  optionEntity
+WHERE questionNos = ?;
+
 insert:
-INSERT INTO optionEntity(nos,questionId,content,isAnswer)
+INSERT INTO optionEntity(nos,questionNos,content,isAnswer)
 VALUES ?;
 
 insertOrReplace:
-INSERT OR REPLACE INTO optionEntity(id,nos,questionId,content,isAnswer)
+INSERT OR REPLACE INTO optionEntity(id,nos,questionNos,content,isAnswer)
 VALUES ?;
 
 deleteByID:
@@ -32,5 +38,5 @@ WHERE id = ?;
 
 update:
 UPDATE optionEntity
-SET nos=?,questionId = ?,content=?,isAnswer=?
+SET nos=?,questionNos = ?,content=?,isAnswer=?
 WHERE id = ?;
