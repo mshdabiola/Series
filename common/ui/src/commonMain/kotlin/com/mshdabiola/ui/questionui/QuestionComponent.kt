@@ -1,4 +1,4 @@
-package com.mshdabiola.series.feature.exam.component
+package com.mshdabiola.ui.questionui
 
 import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.layout.Column

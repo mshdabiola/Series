@@ -1,6 +1,5 @@
-package com.mshdabiola.series.feature.exam.component
+package com.mshdabiola.ui.questionui
 
-import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -33,7 +32,6 @@ import androidx.compose.ui.text.platform.Font
 import androidx.compose.ui.unit.dp
 import com.mshdabiola.model.data.Type
 import com.mshdabiola.retex.aimplementation.Latex2
-import com.mshdabiola.ui.draganddrop.DragAndDropImage
 import com.mshdabiola.ui.state.ItemUi
 import kotlinx.collections.immutable.ImmutableList
 
@@ -249,10 +247,13 @@ fun TextContent(
 
 }
 
-@Preview
+
+
 @Composable
-fun ContentPreview() {
-    // Content(items = listOf(ItemU("3ablate", true), ItemUi.Text("moshood")).toImmutableList())
-}
+expect fun DragAndDropImage(
+    modifier: Modifier,
+    path: String,
+    onPathChange: (String) -> Unit = {}
+)
 
 
