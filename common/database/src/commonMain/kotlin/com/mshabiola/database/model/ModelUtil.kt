@@ -25,6 +25,7 @@ fun Option.toEntity() = OptionEntity(
     id = id,
     nos = nos,
     questionNos = questionNos,
+    examId=examId,
     content = content,
     isAnswer = if (isAnswer) 1 else 0
 )
@@ -33,6 +34,7 @@ fun OptionEntity.toModel() = Option(
     id = id,
     nos = nos,
     questionNos = questionNos,
+    examId=examId,
     content = content,
     isAnswer = isAnswer == 1L
 )

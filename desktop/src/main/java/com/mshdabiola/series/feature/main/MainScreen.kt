@@ -180,7 +180,7 @@ fun MainContent(
                             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
                         )
                         Button(modifier = Modifier.align(Alignment.End), onClick = {
-                            addExam(Exam(1, subjects[currentIndex].id, year.toLong()))
+                            addExam(Exam(subjectID = subjects[currentIndex].id,year= year.toLong()))
                             year = ""
                         }) {
                             Text("Add Exam")
@@ -198,7 +198,7 @@ fun MainContent(
                             maxLines = 1,
                         )
                         Button(modifier = Modifier.align(Alignment.End), onClick = {
-                            addSubject(Subject(1, subject))
+                            addSubject(Subject(name =  subject))
                             subject = ""
                         }) {
                             Text("Add Subject")

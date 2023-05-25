@@ -37,7 +37,7 @@ fun QuestionUiState.toQuestionWithOptions(examId: Long) = QuestionWithOptions(
     examId = examId,
     content = content.map { it.toItem() },
     options = options.map {
-        it.toOption(questionNos = nos)
+        it.toOption(questionNos = nos,examId)
     },
 
     isTheory = isTheory, answer = answer, instructionId = instructionId, topicId = topicId
@@ -51,11 +51,12 @@ fun Option.toOptionUi() =
         isAnswer = isAnswer
     )
 
-fun OptionUiState.toOption(questionNos: Long) =
+fun OptionUiState.toOption(questionNos: Long,examId: Long) =
     Option(
         id = id,
         nos = nos,
         questionNos = questionNos,
+        examId=examId,
         content = content.map { it.toItem() },
         isAnswer = isAnswer
     )

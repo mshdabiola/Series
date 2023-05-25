@@ -5,6 +5,7 @@ CREATE TABLE IF NOT EXISTS optionEntity (
    id INTEGER PRIMARY KEY AUTOINCREMENT ,
    nos INTEGER NOT NULL ,
    questionNos INTEGER NOT NULL ,
+   examId INTEGER NOT NULL ,
    content TEXT AS List<Item> NOT NULL,
    isAnswer INTEGER DEFAULT 0
 );
@@ -22,14 +23,14 @@ getAllWithQuestionNo:
 
 SELECT *
 FROM  optionEntity
-WHERE questionNos = ?;
+WHERE questionNos = ? AND examId = ?;
 
 insert:
-INSERT INTO optionEntity(nos,questionNos,content,isAnswer)
+INSERT INTO optionEntity(nos,questionNos,examId,content,isAnswer)
 VALUES ?;
 
 insertOrReplace:
-INSERT OR REPLACE INTO optionEntity(id,nos,questionNos,content,isAnswer)
+INSERT OR REPLACE INTO optionEntity(id,nos,questionNos,examId,content,isAnswer)
 VALUES ?;
 
 deleteByID:
