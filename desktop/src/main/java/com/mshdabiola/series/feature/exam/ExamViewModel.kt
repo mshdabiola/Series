@@ -2,25 +2,30 @@ package com.mshdabiola.series.feature.exam
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
-import com.mshdabiola.data.repository.IQuestionRepository
+import com.mshdabiola.data.repository.inter.IInstructionRepository
+import com.mshdabiola.data.repository.inter.IQuestionRepository
+import com.mshdabiola.model.data.Instruction
 import com.mshdabiola.model.data.Type
 import com.mshdabiola.series.ViewModel
 import com.mshdabiola.ui.state.ItemUi
 import com.mshdabiola.ui.state.OptionUiState
 import com.mshdabiola.ui.state.QuestionUiState
+import com.mshdabiola.ui.toInstructionUiState
+import com.mshdabiola.ui.toItem
 import com.mshdabiola.ui.toQuestionUiState
 import com.mshdabiola.ui.toQuestionWithOptions
+import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 class ExamViewModel(
     private val examId: Long,
-    private val subjectId:Long,
-    private val questionRepository: IQuestionRepository
+    private val subjectId: Long,
+    private val questionRepository: IQuestionRepository,
+    private val instructionRepository: IInstructionRepository
 ) : ViewModel() {
 
 
@@ -29,15 +34,6 @@ class ExamViewModel(
             getEmptyQuestion()
         )
     val question: State<QuestionUiState> = _question
-
-    init {
-        viewModelScope.launch {
-            questionRepository.getAll()
-                .collectLatest {
-                    println(it.joinToString())
-                }
-        }
-    }
 
     val questions = questionRepository.getAllWithExamId(examId)
         .map {
@@ -50,6 +46,27 @@ class ExamViewModel(
             SharingStarted.WhileSubscribed(5000),
             emptyList<QuestionUiState>().toImmutableList()
         )
+
+    //instruction
+    val instructions = instructionRepository
+        .getAll(examId)
+        .map { instructionList ->
+            instructionList.map {
+                it.toInstructionUiState()
+            }.toImmutableList()
+        }
+        .stateIn(
+            viewModelScope,
+            SharingStarted.WhileSubscribed(5000),
+            emptyList<Instruction>().toImmutableList()
+        )
+
+    private val _instructTitle = mutableStateOf("")
+    val instructTitle: State<String> = _instructTitle
+
+    private val _instructContent = mutableStateOf(listOf(ItemUi(isEditMode = true)).toImmutableList())
+    val instructContent: State<ImmutableList<ItemUi>> = _instructContent
+
 
     //question logic
     fun onDeleteQuestion(id: Long) {
@@ -267,18 +284,6 @@ class ExamViewModel(
 
     }
 
-    private fun removeEmptyOptions() {
-        val question = question.value
-        if (question.options.any { it.content.isEmpty() }) {
-            val index = question.options.indexOfFirst { it.content.isEmpty() }
-            var options = question.options.toMutableList()
-            options.removeAt(index)
-            options = options.mapIndexed { index2, optionsUiState ->
-                optionsUiState.copy(id = index2.toLong())
-            }.toMutableList()
-            _question.value = question.copy(options = options.toImmutableList())
-        }
-    }
 
     fun changeType(questionIndex: Int, index: Int, type: Type) {
         editContent(questionIndex, index) {
@@ -321,6 +326,128 @@ class ExamViewModel(
         }
         _question.value = quest
 
+    }
+
+    //remove option when its items is empty
+    private fun removeEmptyOptions() {
+        val question = question.value
+        if (question.options.any { it.content.isEmpty() }) {
+            val index = question.options.indexOfFirst { it.content.isEmpty() }
+            var options = question.options.toMutableList()
+            options.removeAt(index)
+            options = options.mapIndexed { index2, optionsUiState ->
+                optionsUiState.copy(id = index2.toLong())
+            }.toMutableList()
+            _question.value = question.copy(options = options.toImmutableList())
+        }
+    }
+
+
+    //instruction logic
+
+    fun instructionTitleChange(text: String) {
+        _instructTitle.value = text
+    }
+
+
+    fun onAddInstruction() {
+        viewModelScope.launch {
+            instructionRepository.insert(
+                Instruction(
+                    examId = examId,
+                    title = instructTitle.value.ifBlank { null },
+                    content = instructContent.value.map { it.toItem() }
+                )
+            )
+
+            _instructContent.value = emptyList<ItemUi>().toImmutableList()
+            _instructTitle.value = ""
+        }
+    }
+
+    fun addUpInstruction(index: Int) {
+        editContentInstruction() {
+            val i = if (index == 0) 0 else index - 1
+            it.add(i, ItemUi(isEditMode = true))
+        }
+    }
+
+    fun addDownInstruction(index: Int) {
+        editContentInstruction() {
+
+            it.add(index + 1, ItemUi(isEditMode = true))
+        }
+    }
+
+    fun moveUpInstruction(index: Int) {
+        if (index == 0)
+            return
+        editContentInstruction() {
+
+            val upIndex = index - 1
+            val up = it[upIndex]
+            it[upIndex] = it[index]
+            it[index] = up
+
+        }
+    }
+
+    fun moveDownInstruction(index: Int) {
+
+        if (index == instructContent.value.lastIndex)
+            return
+        editContentInstruction() {
+            if (index != it.lastIndex) {
+                val upIndex = index + 1
+                val up = it[upIndex]
+                it[upIndex] = it[index]
+                it[index] = up
+            }
+
+        }
+    }
+
+    fun editInstruction(index: Int) {
+
+        editContentInstruction() {
+            val item = it[index]
+
+            it[index] = item.copy(isEditMode = !item.isEditMode)
+        }
+    }
+
+    fun deleteInstruction(index: Int) {
+
+        if (instructContent.value.size==1)
+            return
+        editContentInstruction() {
+            it.removeAt(index)
+        }
+
+    }
+
+
+    fun changeTypeInstruction(index: Int, type: Type) {
+        editContentInstruction() {
+
+            it[index] = ItemUi(isEditMode = true, type = type)
+        }
+    }
+
+    fun onTextChangeInstruction(index: Int, text: String) {
+        editContentInstruction() {
+            val item = it[index]
+
+            it[index] = item.copy(content = text)
+        }
+    }
+
+    private fun editContentInstruction(
+        onItems: (MutableList<ItemUi>) -> Unit
+    ) {
+        val items = instructContent.value.toMutableList()
+        onItems(items)
+        _instructContent.value = items.toImmutableList()
     }
 
 

@@ -2,9 +2,9 @@ package com.mshdabiola.series.feature.main
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
-import com.mshdabiola.data.repository.INetworkRepository
-import com.mshdabiola.data.repository.ISettingRepository
-import com.mshdabiola.data.repository.ISubjectRepository
+import com.mshdabiola.data.repository.inter.INetworkRepository
+import com.mshdabiola.data.repository.inter.ISettingRepository
+import com.mshdabiola.data.repository.inter.ISubjectRepository
 import com.mshdabiola.model.data.Exam
 import com.mshdabiola.model.data.Subject
 import com.mshdabiola.series.ViewModel

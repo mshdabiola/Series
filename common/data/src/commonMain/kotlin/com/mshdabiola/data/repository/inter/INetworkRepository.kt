@@ -1,4 +1,4 @@
-package com.mshdabiola.data.repository
+package com.mshdabiola.data.repository.inter
 
 interface INetworkRepository {
     suspend fun get()

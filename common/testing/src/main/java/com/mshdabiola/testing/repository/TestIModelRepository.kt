@@ -16,7 +16,7 @@
 
 package com.mshdabiola.testing.repository
 
-import com.mshdabiola.data.repository.IModelRepository
+import com.mshdabiola.data.repository.inter.IModelRepository
 import com.mshdabiola.model.Model
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.Flow

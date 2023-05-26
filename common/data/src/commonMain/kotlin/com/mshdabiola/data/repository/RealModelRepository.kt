@@ -1,6 +1,7 @@
 package com.mshdabiola.data.repository
 
 
+import com.mshdabiola.data.repository.inter.IModelRepository
 import com.mshdabiola.model.Model
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow

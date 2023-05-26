@@ -3,7 +3,7 @@ package com.mshdabiola.mainscreen
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.mshdabiola.data.repository.IModelRepository
+import com.mshdabiola.data.repository.inter.IModelRepository
 import com.mshdabiola.model.Model
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.Dispatchers

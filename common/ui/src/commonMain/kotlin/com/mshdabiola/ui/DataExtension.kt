@@ -1,9 +1,11 @@
 package com.mshdabiola.ui
 
+import com.mshdabiola.model.data.Instruction
 import com.mshdabiola.model.data.Item
 import com.mshdabiola.model.data.Option
 import com.mshdabiola.model.data.Question
 import com.mshdabiola.model.data.QuestionWithOptions
+import com.mshdabiola.ui.state.InstructionUiState
 import com.mshdabiola.ui.state.ItemUi
 import com.mshdabiola.ui.state.OptionUiState
 import com.mshdabiola.ui.state.QuestionUiState
@@ -64,3 +66,6 @@ fun OptionUiState.toOption(questionNos: Long,examId: Long) =
 
 fun ItemUi.toItem() = Item(content = content, type = type)
 fun Item.toItemUi() = ItemUi(content = content, type = type)
+
+fun InstructionUiState.toInstruction()=InstructionUiState(id, examId, title, content)
+fun Instruction.toInstructionUiState()=Instruction(id, examId, title, content)

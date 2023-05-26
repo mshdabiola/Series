@@ -1,5 +1,6 @@
 package com.mshdabiola.data.repository
 
+import com.mshdabiola.data.repository.inter.ISettingRepository
 import com.mshdabiola.model.DummySetting
 import com.mshdabiola.setting.MultiplatformSettings
 import kotlinx.coroutines.flow.StateFlow

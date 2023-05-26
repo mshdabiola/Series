@@ -14,7 +14,7 @@ import androidx.work.OneTimeWorkRequest
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.OutOfQuotaPolicy
 import androidx.work.WorkerParameters
-import com.mshdabiola.data.repository.IModelRepository
+import com.mshdabiola.data.repository.inter.IModelRepository
 import com.mshdabiola.model.Model
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext

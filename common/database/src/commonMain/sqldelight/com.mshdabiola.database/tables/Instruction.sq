@@ -15,7 +15,8 @@ WHERE id = ?;
 
 getAll:
 SELECT *
-FROM  instructionEntity;
+FROM  instructionEntity
+WHERE examId = ?;
 
 insert:
 INSERT INTO instructionEntity(examId,title,content)

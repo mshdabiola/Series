@@ -1,5 +1,6 @@
 package com.mshdabiola.data.repository
 
+import com.mshdabiola.data.repository.inter.INetworkRepository
 import com.mshdabiola.network.INetworkDataSource
 
 internal class RealINetworkRepository constructor(

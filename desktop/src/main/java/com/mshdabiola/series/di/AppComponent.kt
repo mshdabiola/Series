@@ -17,7 +17,13 @@ val desktopModule = module {
     factoryOf(::SplashViewModel);
     factoryOf(::MainViewModel)
     factory {
-        ExamViewModel(examId = it[0], subjectId = it[1], questionRepository = get())
+        ExamViewModel(
+            examId = it[0],
+            subjectId = it[1],
+            questionRepository = get(),
+            instructionRepository = get()
+
+        )
     }
 
     includes(dataModule)

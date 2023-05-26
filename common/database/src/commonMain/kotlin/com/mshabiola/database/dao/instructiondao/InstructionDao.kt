@@ -25,9 +25,9 @@ internal class InstructionDao(
         }
     }
 
-    override fun getAll(): Flow<List<Instruction>> {
+    override fun getAll(examId:Long): Flow<List<Instruction>> {
         return instructionQueries
-            .getAll()
+            .getAll(examId)
             .asFlow()
             .mapToList(coroutineDispatcher)
             .map { it.map { it.toModel() } }

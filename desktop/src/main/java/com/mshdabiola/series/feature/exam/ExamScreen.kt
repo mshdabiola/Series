@@ -34,10 +34,13 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.mshdabiola.model.data.Type
+import com.mshdabiola.ui.instructionui.InstructionEditUi
 import com.mshdabiola.ui.questionui.QuestionEditUi
 import com.mshdabiola.ui.questionui.QuestionUi
+import com.mshdabiola.ui.state.ItemUi
 import com.mshdabiola.ui.state.QuestionUiState
 import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.splitpane.ExperimentalSplitPaneApi
@@ -64,74 +67,90 @@ fun ExamScreen(
     ) { paddingValues ->
 
         val questions = viewModel.questions.collectAsState()
-        val pagerState= rememberPagerState()
-        val coroutineScope= rememberCoroutineScope()
+        val pagerState = rememberPagerState()
+        val coroutineScope = rememberCoroutineScope()
         Column(Modifier.fillMaxSize().padding(paddingValues).padding(horizontal = 16.dp)) {
-           TabRow(
-               selectedTabIndex = pagerState.currentPage,
-           ){
-               Tab(
-                   selected = pagerState.currentPage==0,
-                   onClick = {
+            TabRow(
+                selectedTabIndex = pagerState.currentPage,
+            ) {
+                Tab(
+                    selected = pagerState.currentPage == 0,
+                    onClick = {
                         coroutineScope.launch {
                             pagerState.animateScrollToPage(0)
                         }
-                   },
-                   text = { Text("Question") }
-               )
-               Tab(
-                   selected = pagerState.currentPage==1,
-                   onClick = {
-                       coroutineScope.launch {
-                           pagerState.animateScrollToPage(1)
-                       }
-                   },
-                   text = { Text("Instruction") }
-               )
-               Tab(
-                   selected = pagerState.currentPage==2,
-                   onClick = {
-                       coroutineScope.launch {
-                           pagerState.animateScrollToPage(2)
-                       }
-                   },
-                   text = { Text("Topic") }
-               )
+                    },
+                    text = { Text("Question") }
+                )
+                Tab(
+                    selected = pagerState.currentPage == 1,
+                    onClick = {
+                        coroutineScope.launch {
+                            pagerState.animateScrollToPage(1)
+                        }
+                    },
+                    text = { Text("Instruction") }
+                )
+                Tab(
+                    selected = pagerState.currentPage == 2,
+                    onClick = {
+                        coroutineScope.launch {
+                            pagerState.animateScrollToPage(2)
+                        }
+                    },
+                    text = { Text("Topic") }
+                )
 
-           }
-            HorizontalPager(modifier = Modifier.padding(top=8.dp).weight(1f),pageCount = 3, state = pagerState){
-               when(it){
-                   0->
-                       ExamContent(
-                           modifier = Modifier,
-                           questionUiState = viewModel.question.value,
-                           questions = questions.value,
-                           addUp = viewModel::addUP,
-                           addBottom = viewModel::addDown,
-                           moveUp = viewModel::moveUP,
-                           moveDown = viewModel::moveDown,
-                           edit = viewModel::edit,
-                           delete = viewModel::delete,
-                           changeType = viewModel::changeType,
-                           onTextChange = viewModel::onTextChange,
-                           onAddQuestion = viewModel::onAddQuestion,
-                           onAddOption = viewModel::addOption,
-                           onDeleteQuestion = viewModel::onDeleteQuestion,
-                           onUpdateQuestion = viewModel::onUpdateQuestion,
-                           onMoveDownQuestion = viewModel::onMoveDownQuestion,
-                           onMoveUpQuestion = viewModel::onMoveUpQuestion,
-                           onAnswer = viewModel::onAnswerClick
-                       )
+            }
+            HorizontalPager(
+                modifier = Modifier.padding(top = 8.dp).weight(1f),
+                pageCount = 3,
+                state = pagerState
+            ) {
+                when (it) {
+                    0 ->
+                        ExamContent(
+                            modifier = Modifier,
+                            questionUiState = viewModel.question.value,
+                            questions = questions.value,
+                            addUp = viewModel::addUP,
+                            addBottom = viewModel::addDown,
+                            moveUp = viewModel::moveUP,
+                            moveDown = viewModel::moveDown,
+                            edit = viewModel::edit,
+                            delete = viewModel::delete,
+                            changeType = viewModel::changeType,
+                            onTextChange = viewModel::onTextChange,
+                            onAddQuestion = viewModel::onAddQuestion,
+                            onAddOption = viewModel::addOption,
+                            onDeleteQuestion = viewModel::onDeleteQuestion,
+                            onUpdateQuestion = viewModel::onUpdateQuestion,
+                            onMoveDownQuestion = viewModel::onMoveDownQuestion,
+                            onMoveUpQuestion = viewModel::onMoveUpQuestion,
+                            onAnswer = viewModel::onAnswerClick
+                        )
 
-                   1->
-                       InstructionContent()
-                   else->
-                       TopicContent()
-               }
+                    1 ->
+                        InstructionContent(
+                            title = viewModel.instructTitle.value,
+                            onTitleChange = viewModel::instructionTitleChange,
+                            content = viewModel.instructContent.value,
+                            addUp = viewModel::addUpInstruction,
+                            addBottom = viewModel::addDownInstruction,
+                            delete = viewModel::deleteInstruction,
+                            moveUp = viewModel::moveUpInstruction,
+                            moveDown = viewModel::moveDownInstruction,
+                            edit = viewModel::editInstruction,
+                            changeType = viewModel::changeTypeInstruction,
+                            onTextChange = viewModel::onTextChangeInstruction
+                        )
 
-           }
+                    else ->
+                        TopicContent()
+                }
+
+            }
         }
-
 
 
     }
@@ -241,7 +260,18 @@ fun TopicContent(
 @OptIn(ExperimentalSplitPaneApi::class, ExperimentalResourceApi::class)
 @Composable
 fun InstructionContent(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    title: String = "",
+    content: ImmutableList<ItemUi> = emptyList<ItemUi>().toImmutableList(),
+    onTitleChange: (String) -> Unit = {},
+    addUp: (Int) -> Unit = { _ -> },
+    addBottom: (Int) -> Unit = { _ -> },
+    delete: (Int) -> Unit = { _ -> },
+    moveUp: (Int) -> Unit = { _ -> },
+    moveDown: (Int) -> Unit = { _ -> },
+    edit: (Int) -> Unit = { _ -> },
+    changeType: (Int, Type) -> Unit = { _, _ -> },
+    onTextChange: (Int, String) -> Unit = { _, _ -> }
 ) {
     val state = rememberSplitPaneState(initialPositionPercentage = 0.5f)
     HorizontalSplitPane(
@@ -255,6 +285,20 @@ fun InstructionContent(
         second {
             Column(modifier = Modifier.fillMaxWidth().verticalScroll(rememberScrollState())) {
 
+                InstructionEditUi(
+                    modifier = Modifier.fillMaxWidth(),
+                    title = title,
+                    onTitleChange = onTitleChange,
+                    content = content,
+                    addUp = addUp,
+                    addBottom = addBottom,
+                    delete = delete,
+                    moveUp = moveUp,
+                    moveDown = moveDown,
+                    edit = edit,
+                    changeType = changeType,
+                    onTextChange = onTextChange
+                )
 
             }
         }

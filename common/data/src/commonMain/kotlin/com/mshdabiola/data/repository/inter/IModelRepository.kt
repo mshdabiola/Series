@@ -1,4 +1,4 @@
-package com.mshdabiola.data.repository
+package com.mshdabiola.data.repository.inter
 
 
 import com.mshdabiola.model.Model

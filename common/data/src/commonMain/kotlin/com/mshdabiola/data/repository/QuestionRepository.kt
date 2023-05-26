@@ -2,6 +2,7 @@ package com.mshdabiola.data.repository
 
 import com.mshabiola.database.dao.optiondao.IOptionDao
 import com.mshabiola.database.dao.questiondao.IQuestionDao
+import com.mshdabiola.data.repository.inter.IQuestionRepository
 import com.mshdabiola.model.data.Question
 import com.mshdabiola.model.data.QuestionWithOptions
 import com.mshdabiola.model.data.toQuestion

@@ -1,4 +1,4 @@
-package com.mshdabiola.data.repository
+package com.mshdabiola.data.repository.inter
 
 import com.mshdabiola.model.data.Exam
 import com.mshdabiola.model.data.ExamWithSub
