@@ -18,7 +18,7 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 class ExamViewModel(
-    private val id: Long,
+    private val examId: Long,
     private val questionRepository: IQuestionRepository
 ) : ViewModel() {
 
@@ -38,7 +38,7 @@ class ExamViewModel(
         }
     }
 
-    val questions = questionRepository.getAllWithExamId(id)
+    val questions = questionRepository.getAllWithExamId(examId)
         .map {
             it
                 .map { it.toQuestionUiState() }
@@ -50,17 +50,18 @@ class ExamViewModel(
             emptyList<QuestionUiState>().toImmutableList()
         )
 
-    fun onDeleteQuestion(id:Long){
+    //question logic
+    fun onDeleteQuestion(id: Long) {
         rearrangeAndSave { questionUiStates ->
-           val index= questionUiStates.indexOfFirst { it.id==id }
+            val index = questionUiStates.indexOfFirst { it.id == id }
             questionUiStates.removeAt(index)
             questionRepository.delete(id)
         }
     }
 
-    fun onMoveUpQuestion(id:Long){
-        val index=questions.value.indexOfFirst { it.id==id }
-        if (index==0)
+    fun onMoveUpQuestion(id: Long) {
+        val index = questions.value.indexOfFirst { it.id == id }
+        if (index == 0)
             return
 
         rearrangeAndSave {
@@ -71,10 +72,10 @@ class ExamViewModel(
         }
     }
 
-    fun onMoveDownQuestion(id:Long){
-        val q=questions.value
-        val index=q.indexOfFirst { it.id==id }
-        if (index==q.lastIndex)
+    fun onMoveDownQuestion(id: Long) {
+        val q = questions.value
+        val index = q.indexOfFirst { it.id == id }
+        if (index == q.lastIndex)
             return
 
         rearrangeAndSave {
@@ -84,31 +85,52 @@ class ExamViewModel(
             it[index] = down
         }
     }
-    fun onUpdateQuestion(id: Long){
-        val question=questions
+
+    fun onUpdateQuestion(id: Long) {
+        val question = questions
             .value
-            .find { it.id==id }
+            .find { it.id == id }
 
         question?.let {
-            _question.value=it
+            _question.value = it
         }
     }
-
 
     fun onAddQuestion() {
         var question2 = _question.value
 
 
-        val number=if (question2.nos==-1L)questions.value.size.toLong() + 1 else question2.nos
+        val number = if (question2.nos == -1L) questions.value.size.toLong() + 1 else question2.nos
         question2 = question2.copy(nos = number)
 
         viewModelScope.launch {
             println("insert")
-            questionRepository.insert(question2.toQuestionWithOptions(examId = id))
+            questionRepository.insert(question2.toQuestionWithOptions(examId = examId))
         }
         _question.value = getEmptyQuestion()
     }
 
+    fun onAnswerClick(questionId: Long, optionId: Long) {
+
+        rearrangeAndSave { questionUiStates ->
+            val questionIndex = questionUiStates.indexOfFirst { it.id == questionId }
+            var question = questionUiStates[questionIndex]
+            var options = question
+                .options
+                .map {
+                    it.copy(isAnswer = it.id == optionId)
+                }
+
+            question = question.copy(
+                options = options.toImmutableList()
+            )
+            questionUiStates[questionIndex] = question
+        }
+
+    }
+
+
+    //question edit logic
     fun addOption() {
         var question = _question.value
         question = question.copy(
@@ -170,17 +192,17 @@ class ExamViewModel(
         )
     }
 
-    private fun rearrangeAndSave(onEdit:suspend (MutableList<QuestionUiState>)->Unit){
+    private fun rearrangeAndSave(onEdit: suspend (MutableList<QuestionUiState>) -> Unit) {
         viewModelScope.launch {
-            var list=questions.value.toMutableList()
+            var list = questions.value.toMutableList()
             onEdit(list)
-            var num=0
-            list=list.mapIndexed { index, questionUiState ->
-                questionUiState.copy(nos = index+1L)
-                }.toMutableList()
+            var num = 0
+            list = list.mapIndexed { index, questionUiState ->
+                questionUiState.copy(nos = index + 1L)
+            }.toMutableList()
 
             //save
-            questionRepository.insertMany(list.map { it.toQuestionWithOptions(id) })
+            questionRepository.insertMany(list.map { it.toQuestionWithOptions(examId) })
         }
 
     }

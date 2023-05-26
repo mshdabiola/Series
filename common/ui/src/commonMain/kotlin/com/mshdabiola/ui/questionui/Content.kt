@@ -20,6 +20,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.ListItem
+import androidx.compose.material3.ListItemDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -29,6 +30,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.platform.Font
 import androidx.compose.ui.unit.dp
@@ -42,16 +44,17 @@ import kotlinx.collections.immutable.ImmutableList
 @Composable
 fun ContentView(
     modifier: Modifier = Modifier,
-    items: ImmutableList<ItemUi>,
-
+    color : Color=ListItemDefaults.containerColor,
+    items: ImmutableList<ItemUi>
     ) {
 
 
     Column(modifier) {
-        items.forEachIndexed { index, item ->
+        items.forEachIndexed { _, item ->
 
             ListItem(
                 modifier = Modifier.fillMaxWidth(),
+                colors = ListItemDefaults.colors(containerColor = color),
                 headlineText = {
                     val childModifier = Modifier.fillMaxWidth()
 
@@ -65,7 +68,7 @@ fun ContentView(
                         Type.IMAGE ->
                             Box(childModifier, contentAlignment = Alignment.Center) {
                             DesktopImage(
-                                modifier.size(100.dp),
+                                Modifier.size(100.dp),
                                 path = item.content,
                                 contentDescription = ""
                             )
