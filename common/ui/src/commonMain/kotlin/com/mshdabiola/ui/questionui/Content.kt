@@ -2,7 +2,6 @@ package com.mshdabiola.ui.questionui
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
@@ -24,12 +23,15 @@ import androidx.compose.material3.ListItemDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.platform.Font
@@ -44,9 +46,9 @@ import kotlinx.collections.immutable.ImmutableList
 @Composable
 fun ContentView(
     modifier: Modifier = Modifier,
-    color : Color=ListItemDefaults.containerColor,
+    color: Color = ListItemDefaults.containerColor,
     items: ImmutableList<ItemUi>
-    ) {
+) {
 
 
     Column(modifier) {
@@ -59,21 +61,21 @@ fun ContentView(
                     val childModifier = Modifier.fillMaxWidth()
 
                     when (item.type) {
-                        Type.EQUATION ->Box(childModifier, contentAlignment = Alignment.Center) {
-                                Latex2(modifier = Modifier, item.content) { Font(it) }
+                        Type.EQUATION -> Box(childModifier, contentAlignment = Alignment.Center) {
+                            Latex2(modifier = Modifier, item.content) { Font(it) }
                         }
 
-                        Type.TEXT ->  Text(modifier=childModifier, text = item.content)
+                        Type.TEXT -> Text(modifier = childModifier, text = item.content)
 
                         Type.IMAGE ->
                             Box(childModifier, contentAlignment = Alignment.Center) {
-                            DesktopImage(
-                                Modifier.size(100.dp),
-                                path = item.content,
-                                contentDescription = ""
-                            )
+                                DesktopImage(
+                                    Modifier.size(100.dp),
+                                    path = item.content,
+                                    contentDescription = ""
+                                )
                             }
-                        }
+                    }
                 }
 
             )
@@ -126,104 +128,104 @@ fun Content(
                 },
                 trailingContent = {
 
-                        Box {
-                            IconButton(onClick = { showContext = true }) {
-                                Icon(Icons.Default.MoreVert, "")
-                            }
+                    Box {
+                        IconButton(onClick = { showContext = true }) {
+                            Icon(Icons.Default.MoreVert, "")
+                        }
 
-                            DropdownMenu(
-                                expanded = showContext,
-                                onDismissRequest = { showContext = false }) {
-                                DropdownMenuItem(
-                                    leadingIcon = { Icon(Icons.Default.Add, "delete") },
-                                    text = { Text("Add Top") },
-                                    onClick = {
-                                        addUp(index)
-                                        showContext = false
-                                    })
-                                DropdownMenuItem(
-                                    leadingIcon = { Icon(Icons.Default.Add, "delete") },
-                                    text = { Text("Add Down") },
-                                    onClick = {
-                                        addBottom(index)
-                                        showContext = false
-                                    })
-                                DropdownMenuItem(
-                                    leadingIcon = { Icon(Icons.Default.Delete, "delete") },
-                                    text = { Text("Delete") },
-                                    onClick = {
-                                        delete(index)
-                                        showContext = false
-                                    })
-                                DropdownMenuItem(
-                                    leadingIcon = { Icon(Icons.Default.MoveUp, "delete") },
-                                    text = { Text("Move up") },
-                                    onClick = {
-                                        moveUp(index)
-                                        showContext = false
-                                    })
-                                DropdownMenuItem(
-                                    leadingIcon = { Icon(Icons.Default.MoveDown, "delete") },
-                                    text = { Text("Move down") },
-                                    onClick = {
-                                        moveDown(index)
-                                        showContext = false
-                                    })
+                        DropdownMenu(
+                            expanded = showContext,
+                            onDismissRequest = { showContext = false }) {
+                            DropdownMenuItem(
+                                leadingIcon = { Icon(Icons.Default.Add, "delete") },
+                                text = { Text("Add Top") },
+                                onClick = {
+                                    addUp(index)
+                                    showContext = false
+                                })
+                            DropdownMenuItem(
+                                leadingIcon = { Icon(Icons.Default.Add, "delete") },
+                                text = { Text("Add Down") },
+                                onClick = {
+                                    addBottom(index)
+                                    showContext = false
+                                })
+                            DropdownMenuItem(
+                                leadingIcon = { Icon(Icons.Default.Delete, "delete") },
+                                text = { Text("Delete") },
+                                onClick = {
+                                    delete(index)
+                                    showContext = false
+                                })
+                            DropdownMenuItem(
+                                leadingIcon = { Icon(Icons.Default.MoveUp, "delete") },
+                                text = { Text("Move up") },
+                                onClick = {
+                                    moveUp(index)
+                                    showContext = false
+                                })
+                            DropdownMenuItem(
+                                leadingIcon = { Icon(Icons.Default.MoveDown, "delete") },
+                                text = { Text("Move down") },
+                                onClick = {
+                                    moveDown(index)
+                                    showContext = false
+                                })
+                            DropdownMenuItem(
+                                leadingIcon = {
+                                    if (!item.isEditMode) Icon(
+                                        Icons.Default.Edit,
+                                        "edit"
+                                    ) else Icon(Icons.Default.ViewAgenda, "view")
+                                },
+                                text = { Text(if (!item.isEditMode) "Edit" else "View") },
+                                onClick = {
+                                    edit(index)
+                                    showContext = false
+                                })
+                            Box {
                                 DropdownMenuItem(
                                     leadingIcon = {
-                                        if (!item.isEditMode) Icon(
-                                            Icons.Default.Edit,
-                                            "edit"
-                                        ) else Icon(Icons.Default.ViewAgenda, "view")
+                                        Icon(Icons.Default.ChangeCircle, "change")
                                     },
-                                    text = { Text(if (!item.isEditMode) "Edit" else "View") },
+                                    text = { Text("Change Type") },
                                     onClick = {
-                                        edit(index)
-                                        showContext = false
+                                        showChange = true
                                     })
-                                Box {
-                                    DropdownMenuItem(
-                                        leadingIcon = {
-                                            Icon(Icons.Default.ChangeCircle, "change")
-                                        },
-                                        text = { Text("Change Type") },
-                                        onClick = {
-                                            showChange = true
+                                DropdownMenu(
+                                    expanded = showChange,
+                                    onDismissRequest = { showChange = false }) {
+                                    if (item.type != Type.IMAGE) {
+                                        DropdownMenuItem(text = { Text("Image") }, onClick = {
+                                            changeType(index, Type.IMAGE)
+                                            showChange = false
+                                            showContext = false
                                         })
-                                    DropdownMenu(
-                                        expanded = showChange,
-                                        onDismissRequest = { showChange = false }) {
-                                        if (item.type != Type.IMAGE) {
-                                            DropdownMenuItem(text = { Text("Image") }, onClick = {
-                                                changeType(index, Type.IMAGE)
-                                                showChange = false
-                                                showContext = false
-                                            })
-                                        }
-
-                                        if (item.type != Type.EQUATION) {
-                                            DropdownMenuItem(
-                                                text = { Text("Equation") },
-                                                onClick = {
-                                                    changeType(index, Type.EQUATION)
-                                                    showChange = false
-                                                    showContext = false
-                                                })
-                                        }
-
-                                        if (item.type != Type.TEXT) {
-                                            DropdownMenuItem(text = { Text("Text") }, onClick = {
-
-                                                changeType(index, Type.TEXT)
-                                                showChange = false
-                                                showContext = false
-                                            })
-                                        }
-
                                     }
+
+                                    if (item.type != Type.EQUATION) {
+                                        DropdownMenuItem(
+                                            text = { Text("Equation") },
+                                            onClick = {
+                                                changeType(index, Type.EQUATION)
+                                                showChange = false
+                                                showContext = false
+                                            })
+                                    }
+
+                                    if (item.type != Type.TEXT) {
+                                        DropdownMenuItem(text = { Text("Text") }, onClick = {
+
+                                            changeType(index, Type.TEXT)
+                                            showChange = false
+                                            showContext = false
+                                        })
+                                    }
+
                                 }
                             }
                         }
+                    }
 
                 }
             )
@@ -241,12 +243,20 @@ fun EquationContent(
     equation: ItemUi,
     onTextChange: (String) -> Unit = {}
 ) {
+    val focusRequester = remember {
+        FocusRequester()
+    }
+    LaunchedEffect(equation.focus) {
+        if (equation.focus) {
+            focusRequester.requestFocus()
+        }
+    }
 
     Box(modifier, contentAlignment = Alignment.Center) {
 
         if (equation.isEditMode)
             TextField(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier.focusRequester(focusRequester).fillMaxWidth(),
                 label = { Text("Equation") },
                 maxLines = 1,
                 value = equation.content,
@@ -281,9 +291,17 @@ fun TextContent(
     text: ItemUi,
     onTextChange: (String) -> Unit = {}
 ) {
+    val focusRequester = remember {
+        FocusRequester()
+    }
+    LaunchedEffect(text.focus) {
+        if (text.focus) {
+            focusRequester.requestFocus()
+        }
+    }
     if (text.isEditMode)
         TextField(
-            modifier = modifier,
+            modifier = modifier.focusRequester(focusRequester).fillMaxWidth(),
             value = text.content,
             label = { Text("Content") },
             maxLines = 1,
@@ -293,7 +311,6 @@ fun TextContent(
         Text(modifier = modifier, text = text.content)
 
 }
-
 
 
 @Composable

@@ -178,7 +178,7 @@ class ExamViewModel(
         return QuestionUiState(
             nos = -1,
             content = listOf(
-                ItemUi(isEditMode = true)
+                ItemUi(isEditMode = true, focus = true)
             ).toImmutableList(),
             options = listOf(
                 OptionUiState(
@@ -229,58 +229,65 @@ class ExamViewModel(
 
 
     fun addUP(questionIndex: Int, index: Int) {
-        editContent(questionIndex, index) {
+        editContent(questionIndex) {
             val i = if (index == 0) 0 else index - 1
             it.add(i, ItemUi(isEditMode = true))
+            i
         }
     }
 
     fun addDown(questionIndex: Int, index: Int) {
-        editContent(questionIndex, index) {
+        editContent(questionIndex) {
 
             it.add(index + 1, ItemUi(isEditMode = true))
+            index + 1
         }
     }
 
     fun moveUP(questionIndex: Int, index: Int) {
         if (index == 0)
             return
-        editContent(questionIndex, index) {
+        editContent(questionIndex) {
 
             val upIndex = index - 1
             val up = it[upIndex]
             it[upIndex] = it[index]
             it[index] = up
 
+            null
         }
     }
 
     fun moveDown(questionIndex: Int, index: Int) {
 
-        editContent(questionIndex, index) {
+        editContent(questionIndex) {
             if (index != it.lastIndex) {
                 val upIndex = index + 1
                 val up = it[upIndex]
                 it[upIndex] = it[index]
                 it[index] = up
             }
+            null
 
         }
     }
 
     fun edit(questionIndex: Int, index: Int) {
 
-        editContent(questionIndex, index) {
+        editContent(questionIndex) {
             val item = it[index]
 
             it[index] = item.copy(isEditMode = !item.isEditMode)
+
+            if (it[index].isEditMode) index else null
         }
     }
 
     fun delete(questionIndex: Int, index: Int) {
 
-        editContent(questionIndex, index) {
+        editContent(questionIndex) {
             it.removeAt(index)
+            null
         }
         removeEmptyOptions()
 
@@ -288,37 +295,50 @@ class ExamViewModel(
 
 
     fun changeType(questionIndex: Int, index: Int, type: Type) {
-        editContent(questionIndex, index) {
+        editContent(questionIndex) {
             var item = it[index]
 
             it[index] = ItemUi(isEditMode = true, type = type)
+            index
         }
     }
 
     fun onTextChange(questionIndex: Int, index: Int, text: String) {
-        editContent(questionIndex, index) {
+        editContent(questionIndex) {
             val item = it[index]
 
             it[index] = item.copy(content = text)
+            null
         }
     }
 
     private fun editContent(
-        questionIndex: Int, index: Int,
-        items: (MutableList<ItemUi>) -> Unit
+        questionIndex: Int, items: (MutableList<ItemUi>) -> Int?
     ) {
         var quest = _question.value
 
         if (questionIndex == -1) {
-            val qItem = quest.content.toMutableList()
-            items(qItem)
+            var qItem = quest.content.toMutableList()
+            val i = items(qItem)
+            if (i != null) {
+                qItem = qItem.mapIndexed { index, itemUi ->
+                    itemUi.copy(focus = index == i)
+                }.toMutableList()
+            }
+
             quest = quest.copy(content = qItem.toImmutableList())
 
         } else {
             val options = quest.options.toMutableList()
             var option = options[questionIndex]
-            val qItem = option.content.toMutableList()
-            items(qItem)
+            var qItem = option.content.toMutableList()
+            val i = items(qItem)
+            if (i != null) {
+                qItem = qItem.mapIndexed { index, itemUi ->
+                    itemUi.copy(focus = index == i)
+                }.toMutableList()
+            }
+
             option = option.copy(content = qItem.toImmutableList())
             options[questionIndex] = option
 
@@ -371,6 +391,7 @@ class ExamViewModel(
         editContentInstruction() {
             val i = if (index == 0) 0 else index - 1
             it.add(i, ItemUi(isEditMode = true))
+            i
         }
     }
 
@@ -378,6 +399,8 @@ class ExamViewModel(
         editContentInstruction() {
 
             it.add(index + 1, ItemUi(isEditMode = true))
+
+            index+1
         }
     }
 
@@ -390,6 +413,8 @@ class ExamViewModel(
             val up = it[upIndex]
             it[upIndex] = it[index]
             it[index] = up
+
+            null
 
         }
     }
@@ -406,6 +431,8 @@ class ExamViewModel(
                 it[index] = up
             }
 
+            null
+
         }
     }
 
@@ -415,6 +442,7 @@ class ExamViewModel(
             val item = it[index]
 
             it[index] = item.copy(isEditMode = !item.isEditMode)
+            if (!item.isEditMode) index else null
         }
     }
 
@@ -424,6 +452,7 @@ class ExamViewModel(
             return
         editContentInstruction() {
             it.removeAt(index)
+            null
         }
 
     }
@@ -433,6 +462,7 @@ class ExamViewModel(
         editContentInstruction() {
 
             it[index] = ItemUi(isEditMode = true, type = type)
+            index
         }
     }
 
@@ -441,15 +471,20 @@ class ExamViewModel(
             val item = it[index]
 
             it[index] = item.copy(content = text)
+            null
         }
     }
 
     private fun editContentInstruction(
-        onItems: (MutableList<ItemUi>) -> Unit
+        onItems: (MutableList<ItemUi>) -> Int?
     ) {
-        val items = instructionUiState.value.content.toMutableList()
-        onItems(items)
-
+        var items = instructionUiState.value.content.toMutableList()
+        val i = onItems(items)
+        if (i != null) {
+            items = items.mapIndexed { index, itemUi ->
+                itemUi.copy(focus = index == i)
+            }.toMutableList()
+        }
         _instructionUiState.value = instructionUiState
             .value
             .copy(
