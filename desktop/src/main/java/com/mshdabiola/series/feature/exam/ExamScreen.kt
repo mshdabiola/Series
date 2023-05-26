@@ -72,7 +72,9 @@ fun ExamScreen(
             onAddQuestion = viewModel::onAddQuestion,
             onAddOption = viewModel::addOption,
             onDeleteQuestion = viewModel::onDeleteQuestion,
-            onUpdateQuestion = viewModel::onUpdateQuestion
+            onUpdateQuestion = viewModel::onUpdateQuestion,
+            onMoveDownQuestion = viewModel::onMoveDownQuestion,
+            onMoveUpQuestion = viewModel::onMoveUpQuestion
         )
     }
 
@@ -95,7 +97,9 @@ fun ExamContent(
     onAddQuestion: () -> Unit = {},
     onAddOption: () -> Unit = {},
     onUpdateQuestion: (Long) -> Unit = {},
-    onDeleteQuestion: (Long) -> Unit = {}
+    onDeleteQuestion: (Long) -> Unit = {},
+    onMoveUpQuestion: (Long) -> Unit = {},
+    onMoveDownQuestion: (Long) -> Unit = {}
 ) {
     val state = rememberSplitPaneState(initialPositionPercentage = 0.5f)
     HorizontalSplitPane(
@@ -104,11 +108,13 @@ fun ExamContent(
     ) {
         first {
             LazyColumn(Modifier.fillMaxSize(), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                items(questions) {
+                items(questions,key = {it.id}) {
                     QuestionUi(
                         questionUiState = it,
                         onDelete = onDeleteQuestion,
-                        onUpdate = onUpdateQuestion
+                        onUpdate = onUpdateQuestion,
+                        onMoveDown = onMoveDownQuestion,
+                        onMoveUp = onMoveUpQuestion
                     )
                 }
             }

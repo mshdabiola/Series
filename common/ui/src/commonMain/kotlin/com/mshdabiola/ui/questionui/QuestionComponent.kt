@@ -5,6 +5,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.material.Icon
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowDownward
+import androidx.compose.material.icons.filled.ArrowUpward
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Update
@@ -83,6 +85,8 @@ fun QuestionUi(
     modifier: Modifier = Modifier,
     questionUiState: QuestionUiState,
     onUpdate: (Long) -> Unit = {},
+    onMoveUp: (Long) -> Unit = {},
+    onMoveDown: (Long) -> Unit = {},
     onDelete: (Long) -> Unit = {}
 ) {
     var showDrop by remember {
@@ -102,13 +106,7 @@ fun QuestionUi(
                             Icon(Icons.Default.MoreVert, "more")
                         }
                         DropdownMenu(expanded = showDrop, onDismissRequest = { showDrop = false }) {
-                            DropdownMenuItem(
-                                leadingIcon = { Icon(Icons.Default.Delete, "Delete") },
-                                text = { Text("Delete") },
-                                onClick = {
-                                    onDelete(questionUiState.id)
-                                    showDrop = false
-                                })
+
 
 
                             DropdownMenuItem(
@@ -118,6 +116,31 @@ fun QuestionUi(
                                     onUpdate(questionUiState.id)
                                     showDrop = false
                                 })
+
+                            DropdownMenuItem(
+                                leadingIcon = { Icon(Icons.Default.ArrowUpward, "up") },
+                                text = { Text("Move Up") },
+                                onClick = {
+                                    onMoveUp(questionUiState.id)
+                                    showDrop = false
+                                })
+                            DropdownMenuItem(
+                                leadingIcon = { Icon(Icons.Default.ArrowDownward, "down") },
+                                text = { Text("Move Down") },
+                                onClick = {
+                                    onMoveDown(questionUiState.id)
+                                    showDrop = false
+                                })
+
+                            DropdownMenuItem(
+                                leadingIcon = { Icon(Icons.Default.Delete, "Delete") },
+                                text = { Text("Delete") },
+                                onClick = {
+                                    onDelete(questionUiState.id)
+                                    showDrop = false
+                                })
+
+
 
 
                         }

@@ -34,7 +34,7 @@ internal class QuestionRepository(
     override suspend fun delete(id: Long) {
         val question=iQuestionDao.getOne(id).firstOrNull()
         question?.let {
-            iOptionDao.deleteQuestionNos(it.nos)
+            iOptionDao.deleteQuestionNos(it.nos,it.examId)
             iQuestionDao.delete(id)
         }
 

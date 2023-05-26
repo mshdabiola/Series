@@ -66,9 +66,9 @@ internal class OptionDao(
         }
     }
 
-    override suspend fun deleteQuestionNos(questionNos: Long) {
+    override suspend fun deleteQuestionNos(questionNos: Long,examId:Long) {
         withContext(coroutineDispatcher) {
-            optionQueries.deleteByQuestionNos(questionNos)
+            optionQueries.deleteByQuestionNos(questionNos,examId)
         }
     }
 

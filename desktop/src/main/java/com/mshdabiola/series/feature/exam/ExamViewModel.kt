@@ -58,6 +58,32 @@ class ExamViewModel(
         }
     }
 
+    fun onMoveUpQuestion(id:Long){
+        val index=questions.value.indexOfFirst { it.id==id }
+        if (index==0)
+            return
+
+        rearrangeAndSave {
+            val upIndex = index - 1
+            val up = it[upIndex]
+            it[upIndex] = it[index]
+            it[index] = up
+        }
+    }
+
+    fun onMoveDownQuestion(id:Long){
+        val q=questions.value
+        val index=q.indexOfFirst { it.id==id }
+        if (index==q.lastIndex)
+            return
+
+        rearrangeAndSave {
+            val downIndex = index + 1
+            val down = it[downIndex]
+            it[downIndex] = it[index]
+            it[index] = down
+        }
+    }
     fun onUpdateQuestion(id: Long){
         val question=questions
             .value

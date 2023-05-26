@@ -27,7 +27,8 @@ FROM  questionEntity;
 getAllWithExamId:
 SELECT *
 FROM  questionEntity
-WHERE examId=?;
+WHERE examId=?
+ORDER BY nos ASC ;
 
 insert:
 INSERT INTO questionEntity(nos,examId,content,isTheory,answer,instructionId,topicId)

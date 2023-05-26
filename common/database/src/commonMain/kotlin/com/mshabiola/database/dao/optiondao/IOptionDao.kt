@@ -12,5 +12,5 @@ interface IOptionDao {
     suspend fun update(option: Option)
     fun getOne(id: Long): Flow<Option>
     suspend fun delete(id: Long)
-    suspend fun deleteQuestionNos(questionNos: Long)
+    suspend fun deleteQuestionNos(questionNos: Long,examId:Long)
 }

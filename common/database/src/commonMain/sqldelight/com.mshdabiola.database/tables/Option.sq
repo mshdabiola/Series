@@ -39,7 +39,7 @@ WHERE id = ?;
 
 deleteByQuestionNos:
 DELETE FROM optionEntity
-WHERE questionNos = ?;
+WHERE questionNos = ? AND examId = ?;
 
 update:
 UPDATE optionEntity
