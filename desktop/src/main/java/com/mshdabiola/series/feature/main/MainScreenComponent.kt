@@ -10,7 +10,7 @@ import org.koin.core.component.inject
 
 class MainScreenComponent(
     private val componentContext: ComponentContext,
-    private val onExamClick: (Long) -> Unit = {}
+    private val onExamClick: (Long,Long) -> Unit = {_,_->}
 ) : MainComp, ComponentContext by componentContext, KoinComponent {
 
     private val viewModel by inject<MainViewModel>()

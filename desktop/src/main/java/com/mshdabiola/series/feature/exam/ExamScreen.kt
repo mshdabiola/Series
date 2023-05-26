@@ -1,5 +1,6 @@
 package com.mshdabiola.series.feature.exam
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -10,6 +11,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -21,10 +24,13 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Tab
+import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.mshdabiola.model.data.Type
@@ -32,12 +38,13 @@ import com.mshdabiola.ui.questionui.QuestionEditUi
 import com.mshdabiola.ui.questionui.QuestionUi
 import com.mshdabiola.ui.state.QuestionUiState
 import kotlinx.collections.immutable.ImmutableList
+import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.splitpane.ExperimentalSplitPaneApi
 import org.jetbrains.compose.splitpane.HorizontalSplitPane
 import org.jetbrains.compose.splitpane.rememberSplitPaneState
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
 fun ExamScreen(
     viewModel: ExamViewModel,
@@ -54,29 +61,79 @@ fun ExamScreen(
 
                 title = { Text("Exam Screen") })
         }
-    ) {
+    ) { paddingValues ->
 
         val questions = viewModel.questions.collectAsState()
-        ExamContent(
-            modifier = Modifier.padding(it).padding(horizontal = 16.dp),
-            questionUiState = viewModel.question.value,
-            questions = questions.value,
-            addUp = viewModel::addUP,
-            addBottom = viewModel::addDown,
-            moveUp = viewModel::moveUP,
-            moveDown = viewModel::moveDown,
-            edit = viewModel::edit,
-            delete = viewModel::delete,
-            changeType = viewModel::changeType,
-            onTextChange = viewModel::onTextChange,
-            onAddQuestion = viewModel::onAddQuestion,
-            onAddOption = viewModel::addOption,
-            onDeleteQuestion = viewModel::onDeleteQuestion,
-            onUpdateQuestion = viewModel::onUpdateQuestion,
-            onMoveDownQuestion = viewModel::onMoveDownQuestion,
-            onMoveUpQuestion = viewModel::onMoveUpQuestion,
-            onAnswer = viewModel::onAnswerClick
-        )
+        val pagerState= rememberPagerState()
+        val coroutineScope= rememberCoroutineScope()
+        Column(Modifier.fillMaxSize().padding(paddingValues).padding(horizontal = 16.dp)) {
+           TabRow(
+               selectedTabIndex = pagerState.currentPage,
+           ){
+               Tab(
+                   selected = pagerState.currentPage==0,
+                   onClick = {
+                        coroutineScope.launch {
+                            pagerState.animateScrollToPage(0)
+                        }
+                   },
+                   text = { Text("Question") }
+               )
+               Tab(
+                   selected = pagerState.currentPage==1,
+                   onClick = {
+                       coroutineScope.launch {
+                           pagerState.animateScrollToPage(1)
+                       }
+                   },
+                   text = { Text("Instruction") }
+               )
+               Tab(
+                   selected = pagerState.currentPage==2,
+                   onClick = {
+                       coroutineScope.launch {
+                           pagerState.animateScrollToPage(2)
+                       }
+                   },
+                   text = { Text("Topic") }
+               )
+
+           }
+            HorizontalPager(modifier = Modifier.padding(top=8.dp).weight(1f),pageCount = 3, state = pagerState){
+               when(it){
+                   0->
+                       ExamContent(
+                           modifier = Modifier,
+                           questionUiState = viewModel.question.value,
+                           questions = questions.value,
+                           addUp = viewModel::addUP,
+                           addBottom = viewModel::addDown,
+                           moveUp = viewModel::moveUP,
+                           moveDown = viewModel::moveDown,
+                           edit = viewModel::edit,
+                           delete = viewModel::delete,
+                           changeType = viewModel::changeType,
+                           onTextChange = viewModel::onTextChange,
+                           onAddQuestion = viewModel::onAddQuestion,
+                           onAddOption = viewModel::addOption,
+                           onDeleteQuestion = viewModel::onDeleteQuestion,
+                           onUpdateQuestion = viewModel::onUpdateQuestion,
+                           onMoveDownQuestion = viewModel::onMoveDownQuestion,
+                           onMoveUpQuestion = viewModel::onMoveUpQuestion,
+                           onAnswer = viewModel::onAnswerClick
+                       )
+
+                   1->
+                       InstructionContent()
+                   else->
+                       TopicContent()
+               }
+
+           }
+        }
+
+
+
     }
 
 }
@@ -152,6 +209,54 @@ fun ExamContent(
             }
 
 
+        }
+    }
+
+}
+
+@OptIn(ExperimentalSplitPaneApi::class, ExperimentalResourceApi::class)
+@Composable
+fun TopicContent(
+    modifier: Modifier = Modifier
+) {
+    val state = rememberSplitPaneState(initialPositionPercentage = 0.5f)
+    HorizontalSplitPane(
+        modifier = modifier,
+        splitPaneState = state
+    ) {
+        first {
+            Text("Topic")
+
+        }
+        second {
+            Column(modifier = Modifier.fillMaxWidth().verticalScroll(rememberScrollState())) {
+
+
+            }
+        }
+    }
+
+}
+
+@OptIn(ExperimentalSplitPaneApi::class, ExperimentalResourceApi::class)
+@Composable
+fun InstructionContent(
+    modifier: Modifier = Modifier
+) {
+    val state = rememberSplitPaneState(initialPositionPercentage = 0.5f)
+    HorizontalSplitPane(
+        modifier = modifier,
+        splitPaneState = state
+    ) {
+        first {
+            Text("Instruction")
+
+        }
+        second {
+            Column(modifier = Modifier.fillMaxWidth().verticalScroll(rememberScrollState())) {
+
+
+            }
         }
     }
 

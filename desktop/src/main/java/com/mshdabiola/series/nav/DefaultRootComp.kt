@@ -39,7 +39,7 @@ class DefaultRootComp(
         object Main : Config
         object Splash : Config
 
-        data class ExamArg(val id: Long) : Config
+        data class ExamArg(val examId: Long,val subjectId:Long) : Config
     }
 
     private fun factory(config: Config, componentContext: ComponentContext): RootComp.Child {
@@ -50,23 +50,24 @@ class DefaultRootComp(
         }
     }
 
-    fun navigateToMain(componentContext: ComponentContext): MainComp {
+    private fun navigateToMain(componentContext: ComponentContext): MainComp {
         return MainScreenComponent(
             componentContext,
-            onExamClick = { navigation.push(Config.ExamArg(it)) }
+            onExamClick = {examId,subId-> navigation.push(Config.ExamArg(examId,subId)) }
 
         )
     }
 
-    fun navigateToSplash(componentContext: ComponentContext): SplashComp {
+    private fun navigateToSplash(componentContext: ComponentContext): SplashComp {
         return SplashScreenComponent(
             componentContext,
             onSplashFinished = { navigation.replaceCurrent(Config.Main) })
     }
 
-    fun navigateToExam(arg: Config.ExamArg, componentContext: ComponentContext): ExamComp {
+    private fun navigateToExam(arg: Config.ExamArg, componentContext: ComponentContext): ExamComp {
         return ExamScreenComponent(
-            arg.id,
+            arg.examId,
+            arg.subjectId,
             componentContext,
             onBack = { navigation.pop() }
         )

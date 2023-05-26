@@ -10,12 +10,13 @@ import org.koin.core.component.inject
 import org.koin.core.parameter.parametersOf
 
 class ExamScreenComponent(
-    private val id: Long,
+    private val examId: Long,
+    private val subjectID:Long,
     private val componentContext: ComponentContext,
     private val onBack: () -> Unit = {}
 ) : ExamComp, ComponentContext by componentContext, KoinComponent {
 
-    private val viewModel by inject<ExamViewModel>(parameters = { parametersOf(id) })
+    private val viewModel by inject<ExamViewModel>(parameters = { parametersOf(examId,subjectID) })
 
     init {
 

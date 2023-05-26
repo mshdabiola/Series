@@ -43,7 +43,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import com.mshdabiola.model.data.Exam
 import com.mshdabiola.model.data.ExamWithSub
 import com.mshdabiola.model.data.Subject
 import org.jetbrains.compose.resources.ExperimentalResourceApi
@@ -57,7 +56,7 @@ import org.jetbrains.compose.splitpane.rememberSplitPaneState
 @Composable
 fun MainScreen(
     viewModel: MainViewModel,
-    onExamClick: (Long) -> Unit = {}
+    onExamClick: (Long, Long) -> Unit = { _, _ -> }
 ) {
     Scaffold(
         topBar = {
@@ -69,10 +68,17 @@ fun MainScreen(
                 .padding(it)
                 .padding(horizontal = 16.dp),
             exams = viewModel.subAndExams.collectAsState().value,
-            subjects = viewModel.subjcts.collectAsState().value,
+            examIndex = viewModel.examIndex.value,
+            examYear = viewModel.examYear.value,
+            examYearError = viewModel.dateError.value,
+            subjectName = viewModel.subject.value,
+            subjects = viewModel.subjects.collectAsState().value,
             addExam = viewModel::addExam,
             addSubject = viewModel::addSubject,
-            onExamClick = onExamClick
+            onExamClick = onExamClick,
+            onExamIndexChange = viewModel::onExamIndexContentChange,
+            onExamNameChange = viewModel::onExamYearContentChange,
+            onSubjectNameChange = viewModel::onSubjectContentChange
         )
     }
 }
@@ -83,23 +89,22 @@ fun MainContent(
     modifier: Modifier = Modifier,
     subjects: List<Subject> = emptyList(),
     exams: List<ExamWithSub> = emptyList(),
-    addSubject: (Subject) -> Unit = {},
-    addExam: (Exam) -> Unit = {},
-    onExamClick: (Long) -> Unit = {}
+    examIndex: Int = 0,
+    examYear: String = "",
+    examYearError: Boolean = false,
+    subjectName: String = "",
+    addSubject: () -> Unit = {},
+    addExam: () -> Unit = {},
+    onExamClick: (Long, Long) -> Unit = { _, _ -> },
+    onExamNameChange: (String) -> Unit = {},
+    onExamIndexChange: (Int) -> Unit = {},
+    onSubjectNameChange: (String) -> Unit = {}
 ) {
     val state = rememberSplitPaneState(0.7f, true)
     var showmenu by remember {
         mutableStateOf(false)
     }
-    var currentIndex by remember {
-        mutableStateOf(0)
-    }
-    var year by remember {
-        mutableStateOf("")
-    }
-    var subject by remember {
-        mutableStateOf("")
-    }
+
 
     PermanentNavigationDrawer(
         modifier = modifier
@@ -130,7 +135,9 @@ fun MainContent(
                     LazyColumn(Modifier.fillMaxSize()) {
                         items(exams, key = { it.id }) {
                             ListItem(
-                                modifier = Modifier.clickable { onExamClick(it.id) },
+                                modifier = Modifier.clickable {
+                                    onExamClick(it.id, it.subjectID)
+                                },
                                 headlineText = { Text(it.subject) },
                                 supportingText = { Text(it.year.toString()) }
                             )
@@ -149,7 +156,7 @@ fun MainContent(
                         Box {
                             TextField(
                                 label = { Text("Subject") },
-                                value = subjects.getOrNull(currentIndex)?.name ?: "",
+                                value = subjects.getOrNull(examIndex)?.name ?: "",
                                 onValueChange = {},
                                 trailingIcon = {
                                     IconButton(onClick = {
@@ -165,7 +172,7 @@ fun MainContent(
                                 subjects.forEachIndexed { index, subj ->
                                     DropdownMenuItem(text = { Text(subj.name) },
                                         onClick = {
-                                            currentIndex = index
+                                            onExamIndexChange(index)
                                             showmenu = false
                                         })
                                 }
@@ -173,16 +180,19 @@ fun MainContent(
                         }
                         TextField(
                             label = { Text("Year") },
-                            value = year,
+                            value = examYear,
                             placeholder = { Text("2012") },
-                            onValueChange = { year = it },
+                            isError = examYearError,
+                            onValueChange = { onExamNameChange(it) },
                             maxLines = 1,
                             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
                         )
-                        Button(modifier = Modifier.align(Alignment.End), onClick = {
-                            addExam(Exam(subjectID = subjects[currentIndex].id,year= year.toLong()))
-                            year = ""
-                        }) {
+                        Button(
+                            modifier = Modifier.align(Alignment.End),
+                            enabled = subjects.getOrNull(examIndex) != null && !examYearError && examYear.isNotBlank(),
+                            onClick = {
+                                addExam()
+                            }) {
                             Text("Add Exam")
                         }
                         Spacer(Modifier.width(16.dp))
@@ -191,16 +201,18 @@ fun MainContent(
                         TextField(
                             label = { Text("Subject") },
                             placeholder = { Text("Mathematics") },
-                            value = subject,
+                            value = subjectName,
                             onValueChange = {
-                                subject = it
+                                onSubjectNameChange(it)
                             },
                             maxLines = 1,
                         )
-                        Button(modifier = Modifier.align(Alignment.End), onClick = {
-                            addSubject(Subject(name =  subject))
-                            subject = ""
-                        }) {
+                        Button(
+                            modifier = Modifier.align(Alignment.End),
+                            enabled = subjectName.isNotBlank(),
+                            onClick = {
+                                addSubject()
+                            }) {
                             Text("Add Subject")
                         }
 

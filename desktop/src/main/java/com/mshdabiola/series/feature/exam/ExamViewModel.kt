@@ -19,6 +19,7 @@ import kotlinx.coroutines.launch
 
 class ExamViewModel(
     private val examId: Long,
+    private val subjectId:Long,
     private val questionRepository: IQuestionRepository
 ) : ViewModel() {
 
