@@ -51,7 +51,11 @@ class ExamViewModel(
         )
 
     fun onDeleteQuestion(id:Long){
-
+        rearrangeAndSave { questionUiStates ->
+           val index= questionUiStates.indexOfFirst { it.id==id }
+            questionUiStates.removeAt(index)
+            questionRepository.delete(id)
+        }
     }
 
     fun onUpdateQuestion(id: Long){
@@ -138,6 +142,21 @@ class ExamViewModel(
                 )
             ).toImmutableList(),
         )
+    }
+
+    private fun rearrangeAndSave(onEdit:suspend (MutableList<QuestionUiState>)->Unit){
+        viewModelScope.launch {
+            var list=questions.value.toMutableList()
+            onEdit(list)
+            var num=0
+            list=list.mapIndexed { index, questionUiState ->
+                questionUiState.copy(nos = index+1L)
+                }.toMutableList()
+
+            //save
+            questionRepository.insertMany(list.map { it.toQuestionWithOptions(id) })
+        }
+
     }
 
 
