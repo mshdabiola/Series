@@ -4,17 +4,16 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import com.mshdabiola.data.repository.inter.IInstructionRepository
 import com.mshdabiola.data.repository.inter.IQuestionRepository
-import com.mshdabiola.model.data.Instruction
 import com.mshdabiola.model.data.Type
 import com.mshdabiola.series.ViewModel
+import com.mshdabiola.ui.state.InstructionUiState
 import com.mshdabiola.ui.state.ItemUi
 import com.mshdabiola.ui.state.OptionUiState
 import com.mshdabiola.ui.state.QuestionUiState
+import com.mshdabiola.ui.toInstruction
 import com.mshdabiola.ui.toInstructionUiState
-import com.mshdabiola.ui.toItem
 import com.mshdabiola.ui.toQuestionUiState
 import com.mshdabiola.ui.toQuestionWithOptions
-import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.map
@@ -58,14 +57,17 @@ class ExamViewModel(
         .stateIn(
             viewModelScope,
             SharingStarted.WhileSubscribed(5000),
-            emptyList<Instruction>().toImmutableList()
+            emptyList<InstructionUiState>().toImmutableList()
         )
 
-    private val _instructTitle = mutableStateOf("")
-    val instructTitle: State<String> = _instructTitle
-
-    private val _instructContent = mutableStateOf(listOf(ItemUi(isEditMode = true)).toImmutableList())
-    val instructContent: State<ImmutableList<ItemUi>> = _instructContent
+    private val _instructionUiState = mutableStateOf(
+        InstructionUiState(
+            examId = examId,
+            title = null,
+            content = listOf(ItemUi(isEditMode = true)).toImmutableList()
+        )
+    )
+    val instructionUiState: State<InstructionUiState> = _instructionUiState
 
 
     //question logic
@@ -346,22 +348,22 @@ class ExamViewModel(
     //instruction logic
 
     fun instructionTitleChange(text: String) {
-        _instructTitle.value = text
+        _instructionUiState.value =
+            instructionUiState.value.copy(title = text.ifBlank { null })
     }
 
 
     fun onAddInstruction() {
         viewModelScope.launch {
             instructionRepository.insert(
-                Instruction(
-                    examId = examId,
-                    title = instructTitle.value.ifBlank { null },
-                    content = instructContent.value.map { it.toItem() }
-                )
+                instructionUiState.value.toInstruction()
             )
 
-            _instructContent.value = emptyList<ItemUi>().toImmutableList()
-            _instructTitle.value = ""
+            _instructionUiState.value = InstructionUiState(
+                examId = examId,
+                title = null,
+                content = listOf(ItemUi(isEditMode = true)).toImmutableList()
+            )
         }
     }
 
@@ -394,7 +396,7 @@ class ExamViewModel(
 
     fun moveDownInstruction(index: Int) {
 
-        if (index == instructContent.value.lastIndex)
+        if (index == instructionUiState.value.content.lastIndex)
             return
         editContentInstruction() {
             if (index != it.lastIndex) {
@@ -418,7 +420,7 @@ class ExamViewModel(
 
     fun deleteInstruction(index: Int) {
 
-        if (instructContent.value.size==1)
+        if (instructionUiState.value.content.size == 1)
             return
         editContentInstruction() {
             it.removeAt(index)
@@ -445,9 +447,33 @@ class ExamViewModel(
     private fun editContentInstruction(
         onItems: (MutableList<ItemUi>) -> Unit
     ) {
-        val items = instructContent.value.toMutableList()
+        val items = instructionUiState.value.content.toMutableList()
         onItems(items)
-        _instructContent.value = items.toImmutableList()
+
+        _instructionUiState.value = instructionUiState
+            .value
+            .copy(
+                content = items.toImmutableList()
+            )
+    }
+
+    fun onDeleteInstruction(id: Long) {
+        viewModelScope.launch {
+            instructionRepository.delete(id)
+        }
+
+    }
+
+    fun onUpdateInstruction(id: Long) {
+        instructions.value.find { it.id == id }?.let { uiState ->
+            _instructionUiState.value = uiState.copy(
+                content = uiState.content
+                    .map {
+                        it.copy(isEditMode = true)
+                    }
+                    .toImmutableList())
+        }
+
     }
 
 

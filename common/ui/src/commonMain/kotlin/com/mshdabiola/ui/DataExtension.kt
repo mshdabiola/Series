@@ -39,7 +39,7 @@ fun QuestionUiState.toQuestionWithOptions(examId: Long) = QuestionWithOptions(
     examId = examId,
     content = content.map { it.toItem() },
     options = options.map {
-        it.toOption(questionNos = nos,examId)
+        it.toOption(questionNos = nos, examId)
     },
 
     isTheory = isTheory, answer = answer, instructionId = instructionId, topicId = topicId
@@ -53,12 +53,12 @@ fun Option.toOptionUi() =
         isAnswer = isAnswer
     )
 
-fun OptionUiState.toOption(questionNos: Long,examId: Long) =
+fun OptionUiState.toOption(questionNos: Long, examId: Long) =
     Option(
         id = id,
         nos = nos,
         questionNos = questionNos,
-        examId=examId,
+        examId = examId,
         content = content.map { it.toItem() },
         isAnswer = isAnswer
     )
@@ -67,5 +67,15 @@ fun OptionUiState.toOption(questionNos: Long,examId: Long) =
 fun ItemUi.toItem() = Item(content = content, type = type)
 fun Item.toItemUi() = ItemUi(content = content, type = type)
 
-fun InstructionUiState.toInstruction()=InstructionUiState(id, examId, title, content)
-fun Instruction.toInstructionUiState()=Instruction(id, examId, title, content)
+fun InstructionUiState.toInstruction() = Instruction(
+    id = id,
+    examId = examId,
+    title = title,
+    content = content.map { it.toItem() })
+fun Instruction.toInstructionUiState() =
+    InstructionUiState(
+        id = id,
+        examId = examId,
+        title = title,
+        content = content.map { it.toItemUi() }.toImmutableList()
+    )

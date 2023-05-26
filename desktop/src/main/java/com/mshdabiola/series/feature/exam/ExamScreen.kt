@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
@@ -35,12 +36,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.mshdabiola.model.data.Type
 import com.mshdabiola.ui.instructionui.InstructionEditUi
+import com.mshdabiola.ui.instructionui.InstructionUi
 import com.mshdabiola.ui.questionui.QuestionEditUi
 import com.mshdabiola.ui.questionui.QuestionUi
-import com.mshdabiola.ui.state.ItemUi
+import com.mshdabiola.ui.state.InstructionUiState
 import com.mshdabiola.ui.state.QuestionUiState
 import kotlinx.collections.immutable.ImmutableList
-import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.splitpane.ExperimentalSplitPaneApi
@@ -67,6 +68,7 @@ fun ExamScreen(
     ) { paddingValues ->
 
         val questions = viewModel.questions.collectAsState()
+        val instructionUiStates = viewModel.instructions.collectAsState()
         val pagerState = rememberPagerState()
         val coroutineScope = rememberCoroutineScope()
         Column(Modifier.fillMaxSize().padding(paddingValues).padding(horizontal = 16.dp)) {
@@ -132,9 +134,9 @@ fun ExamScreen(
 
                     1 ->
                         InstructionContent(
-                            title = viewModel.instructTitle.value,
+                            instructionUiState = viewModel.instructionUiState.value,
+                            instructionUiStates = instructionUiStates.value,
                             onTitleChange = viewModel::instructionTitleChange,
-                            content = viewModel.instructContent.value,
                             addUp = viewModel::addUpInstruction,
                             addBottom = viewModel::addDownInstruction,
                             delete = viewModel::deleteInstruction,
@@ -142,7 +144,10 @@ fun ExamScreen(
                             moveDown = viewModel::moveDownInstruction,
                             edit = viewModel::editInstruction,
                             changeType = viewModel::changeTypeInstruction,
-                            onTextChange = viewModel::onTextChangeInstruction
+                            onTextChange = viewModel::onTextChangeInstruction,
+                            onAddInstruction = viewModel::onAddInstruction,
+                            onDeleteInstruction = viewModel::onDeleteInstruction,
+                            onUpdateInstruction = viewModel::onUpdateInstruction
                         )
 
                     else ->
@@ -261,8 +266,8 @@ fun TopicContent(
 @Composable
 fun InstructionContent(
     modifier: Modifier = Modifier,
-    title: String = "",
-    content: ImmutableList<ItemUi> = emptyList<ItemUi>().toImmutableList(),
+    instructionUiState: InstructionUiState,
+    instructionUiStates: ImmutableList<InstructionUiState>,
     onTitleChange: (String) -> Unit = {},
     addUp: (Int) -> Unit = { _ -> },
     addBottom: (Int) -> Unit = { _ -> },
@@ -271,7 +276,10 @@ fun InstructionContent(
     moveDown: (Int) -> Unit = { _ -> },
     edit: (Int) -> Unit = { _ -> },
     changeType: (Int, Type) -> Unit = { _, _ -> },
-    onTextChange: (Int, String) -> Unit = { _, _ -> }
+    onTextChange: (Int, String) -> Unit = { _, _ -> },
+    onAddInstruction: () -> Unit = {},
+    onDeleteInstruction: (Long) -> Unit = {},
+    onUpdateInstruction: (Long) -> Unit = {}
 ) {
     val state = rememberSplitPaneState(initialPositionPercentage = 0.5f)
     HorizontalSplitPane(
@@ -279,7 +287,19 @@ fun InstructionContent(
         splitPaneState = state
     ) {
         first {
-            Text("Instruction")
+            LazyColumn(Modifier.fillMaxSize()) {
+                items(
+                    items = instructionUiStates,
+                    key = { it.id }
+                ) {
+                    InstructionUi(
+                        instructionUiState = it,
+                        onUpdate = onUpdateInstruction,
+                        onDelete = onDeleteInstruction
+                    )
+
+                }
+            }
 
         }
         second {
@@ -287,9 +307,8 @@ fun InstructionContent(
 
                 InstructionEditUi(
                     modifier = Modifier.fillMaxWidth(),
-                    title = title,
+                    instructionUiState = instructionUiState,
                     onTitleChange = onTitleChange,
-                    content = content,
                     addUp = addUp,
                     addBottom = addBottom,
                     delete = delete,
@@ -299,6 +318,15 @@ fun InstructionContent(
                     changeType = changeType,
                     onTextChange = onTextChange
                 )
+                Spacer(Modifier.height(4.dp))
+                Row(Modifier.fillMaxWidth()) {
+                    Button(
+                        onClick = onAddInstruction,
+                        enabled = instructionUiState.content.first().content.isNotBlank()
+                    ) {
+                        Text("Add Instruction")
+                    }
+                }
 
             }
         }
