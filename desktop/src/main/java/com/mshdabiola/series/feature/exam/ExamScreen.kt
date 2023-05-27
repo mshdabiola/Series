@@ -24,6 +24,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
@@ -32,6 +33,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.mshdabiola.model.data.Type
@@ -115,6 +117,7 @@ fun ExamScreen(
                             modifier = Modifier,
                             questionUiState = viewModel.question.value,
                             questions = questions.value,
+                            instructIdError = viewModel.instructIdError.value,
                             addUp = viewModel::addUP,
                             addBottom = viewModel::addDown,
                             moveUp = viewModel::moveUP,
@@ -129,7 +132,8 @@ fun ExamScreen(
                             onUpdateQuestion = viewModel::onUpdateQuestion,
                             onMoveDownQuestion = viewModel::onMoveDownQuestion,
                             onMoveUpQuestion = viewModel::onMoveUpQuestion,
-                            onAnswer = viewModel::onAnswerClick
+                            onAnswer = viewModel::onAnswerClick,
+                            instructionIdChange = viewModel::onInstructionIdChange
                         )
 
                     1 ->
@@ -162,11 +166,14 @@ fun ExamScreen(
 
 }
 
-@OptIn(ExperimentalSplitPaneApi::class, ExperimentalResourceApi::class)
+@OptIn(ExperimentalSplitPaneApi::class, ExperimentalResourceApi::class,
+    ExperimentalMaterial3Api::class
+)
 @Composable
 fun ExamContent(
     modifier: Modifier = Modifier,
     questionUiState: QuestionUiState,
+    instructIdError:Boolean,
     questions: ImmutableList<QuestionUiState>,
     addUp: (Int, Int) -> Unit = { _, _ -> },
     addBottom: (Int, Int) -> Unit = { _, _ -> },
@@ -182,7 +189,8 @@ fun ExamContent(
     onDeleteQuestion: (Long) -> Unit = {},
     onMoveUpQuestion: (Long) -> Unit = {},
     onMoveDownQuestion: (Long) -> Unit = {},
-    onAnswer: (Long, Long) -> Unit = { _, _ -> }
+    onAnswer: (Long, Long) -> Unit = { _, _ -> },
+    instructionIdChange:(String)->Unit={}
 ) {
     val state = rememberSplitPaneState(initialPositionPercentage = 0.5f)
     HorizontalSplitPane(
@@ -206,6 +214,27 @@ fun ExamContent(
         }
         second {
             Column(modifier = Modifier.fillMaxWidth().verticalScroll(rememberScrollState())) {
+
+                Row(Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+
+                    OutlinedTextField(
+                        modifier=Modifier.weight(0.5f),
+                        value = questionUiState.instructionId?.toString() ?:"",
+                        onValueChange = instructionIdChange,
+                        isError = instructIdError,
+                        label = {Text("Instruction id")}
+                    )
+
+                    OutlinedTextField(
+                        modifier=Modifier.weight(0.5f),
+                        value = questionUiState.topicId?.toString() ?: "",
+                        onValueChange = {},
+                        label = { Text("Topic")}
+                    )
+                }
                 QuestionEditUi(
                     questionUiState = questionUiState,
                     addUp = addUp,

@@ -33,6 +33,8 @@ class ExamViewModel(
             getEmptyQuestion()
         )
     val question: State<QuestionUiState> = _question
+    private val _instructIdError = mutableStateOf(false)
+    val instructIdError: State<Boolean> = _instructIdError
 
     val questions = questionRepository.getAllWithExamId(examId)
         .map {
@@ -364,6 +366,27 @@ class ExamViewModel(
         }
     }
 
+    fun onInstructionIdChange(text: String) {
+        try {
+
+            if (text.isBlank()) {
+                _instructIdError.value=false
+                _question.value = question.value.copy(instructionId = null)
+
+            } else {
+                _instructIdError.value =
+                    instructions.value.indexOfFirst { it.id == text.toLong() } < 0
+                _question.value = question.value.copy(instructionId = text.toLong())
+            }
+
+            println()
+
+        } catch (e: Exception) {
+            _instructIdError.value = true
+
+        }
+    }
+
 
     //instruction logic
 
@@ -400,7 +423,7 @@ class ExamViewModel(
 
             it.add(index + 1, ItemUi(isEditMode = true))
 
-            index+1
+            index + 1
         }
     }
 
