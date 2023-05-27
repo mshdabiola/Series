@@ -57,7 +57,6 @@ public class CancelAtom extends Atom implements HasTrueBase {
     private final Atom base;
     private final Type ctype;
     private final Color color;
-
     public CancelAtom(final Atom base, final Type ctype, final Color color) {
         this.base = base;
         this.ctype = ctype;

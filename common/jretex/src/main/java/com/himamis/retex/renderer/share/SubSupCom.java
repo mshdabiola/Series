@@ -53,7 +53,6 @@ public class SubSupCom implements AtomConsumer {
     private Atom sub;
     private Atom sup;
     private State state;
-
     public SubSupCom(final char c) {
         state = c == '^' ? State.SUP_WAIT : State.SUB_WAIT;
     }

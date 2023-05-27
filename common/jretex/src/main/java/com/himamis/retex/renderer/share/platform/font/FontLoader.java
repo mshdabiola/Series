@@ -46,7 +46,7 @@ import com.himamis.retex.renderer.share.exception.ResourceParseException;
 
 public interface FontLoader {
 
-    public static final double PIXELS_PER_POINT = 15;
+    public static final double PIXELS_PER_POINT = 1;
 
     // https://github.com/opencollab/jlatexmath/issues/32
     static final int FONT_SCALE_FACTOR = 100;
