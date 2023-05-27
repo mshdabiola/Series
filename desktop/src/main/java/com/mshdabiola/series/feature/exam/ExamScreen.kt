@@ -1,6 +1,7 @@
 package com.mshdabiola.series.feature.exam
 
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -20,13 +21,14 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.ListItem
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Tab
@@ -37,8 +39,11 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
@@ -129,6 +134,7 @@ fun ExamScreen(
                             questionUiState = viewModel.question.value,
                             questions = questions.value,
                             instructIdError = viewModel.instructIdError.value,
+                            topicUiStates = topicUiStates.value,
                             addUp = viewModel::addUP,
                             addBottom = viewModel::addDown,
                             moveUp = viewModel::moveUP,
@@ -144,7 +150,8 @@ fun ExamScreen(
                             onMoveDownQuestion = viewModel::onMoveDownQuestion,
                             onMoveUpQuestion = viewModel::onMoveUpQuestion,
                             onAnswer = viewModel::onAnswerClick,
-                            instructionIdChange = viewModel::onInstructionIdChange
+                            instructionIdChange = viewModel::onInstructionIdChange,
+                            onTopicSelect = viewModel::onTopicSelect
                         )
 
                     1 ->
@@ -186,7 +193,7 @@ fun ExamScreen(
 
 @OptIn(
     ExperimentalSplitPaneApi::class, ExperimentalResourceApi::class,
-    ExperimentalMaterial3Api::class
+    ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class
 )
 @Composable
 fun ExamContent(
@@ -194,6 +201,7 @@ fun ExamContent(
     questionUiState: QuestionUiState,
     instructIdError: Boolean,
     questions: ImmutableList<QuestionUiState>,
+    topicUiStates: ImmutableList<TopicUiState>,
     addUp: (Int, Int) -> Unit = { _, _ -> },
     addBottom: (Int, Int) -> Unit = { _, _ -> },
     delete: (Int, Int) -> Unit = { _, _ -> },
@@ -209,9 +217,17 @@ fun ExamContent(
     onMoveUpQuestion: (Long) -> Unit = {},
     onMoveDownQuestion: (Long) -> Unit = {},
     onAnswer: (Long, Long) -> Unit = { _, _ -> },
-    instructionIdChange: (String) -> Unit = {}
+    instructionIdChange: (String) -> Unit = {},
+    onTopicSelect: (Long) -> Unit = {}
 ) {
     val state = rememberSplitPaneState(initialPositionPercentage = 0.5f)
+    var showTopiDropdown by remember { mutableStateOf(false) }
+    val topic = remember(questionUiState.topicId) {
+        if (questionUiState.topicId == null)
+            ""
+        else
+            topicUiStates.first { it.id == questionUiState.topicId }.name
+    }
     HorizontalSplitPane(
         modifier = modifier,
         splitPaneState = state
@@ -248,12 +264,36 @@ fun ExamContent(
                         label = { Text("Instruction id") }
                     )
 
-                    OutlinedTextField(
-                        modifier = Modifier.weight(0.5f),
-                        value = questionUiState.topicId?.toString() ?: "",
-                        onValueChange = {},
-                        label = { Text("Topic") }
-                    )
+                    Box(modifier = Modifier.weight(0.5f)) {
+
+                        OutlinedTextField(
+                            readOnly = true,
+                            maxLines = 1,
+                            value = topic,
+                            onValueChange = {},
+                            label = { Text("Topic") },
+                            trailingIcon = {
+                                IconButton(onClick = { showTopiDropdown = true }) {
+                                    Icon(Icons.Default.ArrowDropDown, "drop")
+                                }
+                            }
+                        )
+                        DropdownMenu(
+                            expanded = showTopiDropdown,
+                            onDismissRequest = { showTopiDropdown = false }) {
+                            topicUiStates.forEach {
+                                DropdownMenuItem(onClick = {
+                                    onTopicSelect(it.id)
+                                    showTopiDropdown = false
+                                }, text = {
+                                    Text(
+                                        it.name, maxLines = 1, modifier = Modifier
+                                            .basicMarquee(iterations = 2)
+                                    )
+                                })
+                            }
+                        }
+                    }
                 }
                 QuestionEditUi(
                     questionUiState = questionUiState,
@@ -298,8 +338,8 @@ fun TopicContent(
     topicUiStates: ImmutableList<TopicUiState>,
     onTopicChange: (String) -> Unit = {},
     onAddTopic: () -> Unit = {},
-    onDelete:(Long)->Unit={},
-    onUpdate:(Long)->Unit={}
+    onDelete: (Long) -> Unit = {},
+    onUpdate: (Long) -> Unit = {}
 ) {
     val state = rememberSplitPaneState(initialPositionPercentage = 0.7f)
     HorizontalSplitPane(
@@ -309,10 +349,10 @@ fun TopicContent(
         first {
             LazyColumn(Modifier.fillMaxSize()) {
                 items(items = topicUiStates, key = { it.id }) {
-                   TopicUi(
-                       topicUiState = it,
-                       onDelete = onDelete, onUpdate = onUpdate
-                   )
+                    TopicUi(
+                        topicUiState = it,
+                        onDelete = onDelete, onUpdate = onUpdate
+                    )
 
                 }
             }
@@ -321,11 +361,11 @@ fun TopicContent(
         second {
             Column(modifier = Modifier.fillMaxWidth().verticalScroll(rememberScrollState())) {
 
-                val focusRequester= remember {
+                val focusRequester = remember {
                     FocusRequester()
                 }
-                LaunchedEffect(topicUiState.focus){
-                    if (topicUiState.focus){
+                LaunchedEffect(topicUiState.focus) {
+                    if (topicUiState.focus) {
                         focusRequester.requestFocus()
                     }
                 }

@@ -332,6 +332,9 @@ class ExamViewModel(
             null
         }
     }
+    fun onTopicSelect(id: Long) {
+       _question.value=question.value.copy(topicId = id)
+    }
 
     private fun editContent(
         questionIndex: Int, items: (MutableList<ItemUi>) -> Int?
