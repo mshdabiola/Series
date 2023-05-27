@@ -12,7 +12,9 @@ import com.mshdabiola.data.repository.RealINetworkRepository
 import com.mshdabiola.data.repository.RealModelRepository
 import com.mshdabiola.data.repository.SettingRepository
 import com.mshdabiola.data.repository.SubjectRepository
+import com.mshdabiola.data.repository.TopicRepository
 import com.mshdabiola.data.repository.inter.IInstructionRepository
+import com.mshdabiola.data.repository.inter.ITopicRepository
 import com.mshdabiola.network.di.networkModule
 import com.mshdabiola.setting.di.settingModule
 import org.koin.core.module.dsl.singleOf
@@ -28,4 +30,5 @@ val dataModule = module {
     singleOf(::SubjectRepository) bind ISubjectRepository::class
     singleOf(::QuestionRepository) bind IQuestionRepository::class
     singleOf(::InstructionRepository) bind IInstructionRepository::class
+    singleOf(::TopicRepository) bind ITopicRepository::class
 }

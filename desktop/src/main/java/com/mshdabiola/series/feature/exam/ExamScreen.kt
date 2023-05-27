@@ -2,6 +2,7 @@ package com.mshdabiola.series.feature.exam
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -19,22 +20,29 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.ListItem
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.unit.dp
 import com.mshdabiola.model.data.Type
 import com.mshdabiola.ui.instructionui.InstructionEditUi
@@ -43,6 +51,8 @@ import com.mshdabiola.ui.questionui.QuestionEditUi
 import com.mshdabiola.ui.questionui.QuestionUi
 import com.mshdabiola.ui.state.InstructionUiState
 import com.mshdabiola.ui.state.QuestionUiState
+import com.mshdabiola.ui.state.TopicUiState
+import com.mshdabiola.ui.topicui.TopicUi
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.ExperimentalResourceApi
@@ -71,6 +81,7 @@ fun ExamScreen(
 
         val questions = viewModel.questions.collectAsState()
         val instructionUiStates = viewModel.instructions.collectAsState()
+        val topicUiStates = viewModel.topicUiStates.collectAsState()
         val pagerState = rememberPagerState()
         val coroutineScope = rememberCoroutineScope()
         Column(Modifier.fillMaxSize().padding(paddingValues).padding(horizontal = 16.dp)) {
@@ -155,7 +166,14 @@ fun ExamScreen(
                         )
 
                     else ->
-                        TopicContent()
+                        TopicContent(
+                            topicUiState = viewModel.topicUiState.value,
+                            topicUiStates = topicUiStates.value,
+                            onAddTopic = viewModel::onAddTopic,
+                            onTopicChange = viewModel::onTopicChange,
+                            onDelete = viewModel::onDeleteTopic,
+                            onUpdate = viewModel::onUpdateTopic
+                        )
                 }
 
             }
@@ -166,14 +184,15 @@ fun ExamScreen(
 
 }
 
-@OptIn(ExperimentalSplitPaneApi::class, ExperimentalResourceApi::class,
+@OptIn(
+    ExperimentalSplitPaneApi::class, ExperimentalResourceApi::class,
     ExperimentalMaterial3Api::class
 )
 @Composable
 fun ExamContent(
     modifier: Modifier = Modifier,
     questionUiState: QuestionUiState,
-    instructIdError:Boolean,
+    instructIdError: Boolean,
     questions: ImmutableList<QuestionUiState>,
     addUp: (Int, Int) -> Unit = { _, _ -> },
     addBottom: (Int, Int) -> Unit = { _, _ -> },
@@ -190,7 +209,7 @@ fun ExamContent(
     onMoveUpQuestion: (Long) -> Unit = {},
     onMoveDownQuestion: (Long) -> Unit = {},
     onAnswer: (Long, Long) -> Unit = { _, _ -> },
-    instructionIdChange:(String)->Unit={}
+    instructionIdChange: (String) -> Unit = {}
 ) {
     val state = rememberSplitPaneState(initialPositionPercentage = 0.5f)
     HorizontalSplitPane(
@@ -215,24 +234,25 @@ fun ExamContent(
         second {
             Column(modifier = Modifier.fillMaxWidth().verticalScroll(rememberScrollState())) {
 
-                Row(Modifier.fillMaxWidth(),
+                Row(
+                    Modifier.fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
 
                     OutlinedTextField(
-                        modifier=Modifier.weight(0.5f),
-                        value = questionUiState.instructionId?.toString() ?:"",
+                        modifier = Modifier.weight(0.5f),
+                        value = questionUiState.instructionId?.toString() ?: "",
                         onValueChange = instructionIdChange,
                         isError = instructIdError,
-                        label = {Text("Instruction id")}
+                        label = { Text("Instruction id") }
                     )
 
                     OutlinedTextField(
-                        modifier=Modifier.weight(0.5f),
+                        modifier = Modifier.weight(0.5f),
                         value = questionUiState.topicId?.toString() ?: "",
                         onValueChange = {},
-                        label = { Text("Topic")}
+                        label = { Text("Topic") }
                     )
                 }
                 QuestionEditUi(
@@ -267,22 +287,61 @@ fun ExamContent(
 
 }
 
-@OptIn(ExperimentalSplitPaneApi::class, ExperimentalResourceApi::class)
+@OptIn(
+    ExperimentalSplitPaneApi::class, ExperimentalResourceApi::class,
+    ExperimentalMaterial3Api::class
+)
 @Composable
 fun TopicContent(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    topicUiState: TopicUiState,
+    topicUiStates: ImmutableList<TopicUiState>,
+    onTopicChange: (String) -> Unit = {},
+    onAddTopic: () -> Unit = {},
+    onDelete:(Long)->Unit={},
+    onUpdate:(Long)->Unit={}
 ) {
-    val state = rememberSplitPaneState(initialPositionPercentage = 0.5f)
+    val state = rememberSplitPaneState(initialPositionPercentage = 0.7f)
     HorizontalSplitPane(
         modifier = modifier,
         splitPaneState = state
     ) {
         first {
-            Text("Topic")
+            LazyColumn(Modifier.fillMaxSize()) {
+                items(items = topicUiStates, key = { it.id }) {
+                   TopicUi(
+                       topicUiState = it,
+                       onDelete = onDelete, onUpdate = onUpdate
+                   )
+
+                }
+            }
 
         }
         second {
             Column(modifier = Modifier.fillMaxWidth().verticalScroll(rememberScrollState())) {
+
+                val focusRequester= remember {
+                    FocusRequester()
+                }
+                LaunchedEffect(topicUiState.focus){
+                    if (topicUiState.focus){
+                        focusRequester.requestFocus()
+                    }
+                }
+                TextField(
+                    modifier = Modifier
+                        .focusRequester(focusRequester)
+                        .fillMaxWidth(),
+                    value = topicUiState.name,
+                    onValueChange = onTopicChange,
+                    label = { Text("Topic") },
+                    maxLines = 1
+                )
+                Spacer(Modifier.height(4.dp))
+                Button(onClick = onAddTopic) {
+                    Text(if (topicUiState.id < 0) "Add topic" else "Update topic")
+                }
 
 
             }

@@ -33,6 +33,14 @@ internal class TopicDao(
             .map { it.map { it.toModel() } }
     }
 
+    override fun getAllBySubject(subjectId: Long): Flow<List<Topic>> {
+        return topicQueries
+            .getAllBySubject(subjectId)
+            .asFlow()
+            .mapToList(coroutineDispatcher)
+            .map { it.map { it.toModel() } }
+    }
+
     override suspend fun update(topic: Topic) {
         withContext(coroutineDispatcher) {
             topicQueries.update(

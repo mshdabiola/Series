@@ -5,10 +5,12 @@ import com.mshdabiola.model.data.Item
 import com.mshdabiola.model.data.Option
 import com.mshdabiola.model.data.Question
 import com.mshdabiola.model.data.QuestionWithOptions
+import com.mshdabiola.model.data.Topic
 import com.mshdabiola.ui.state.InstructionUiState
 import com.mshdabiola.ui.state.ItemUi
 import com.mshdabiola.ui.state.OptionUiState
 import com.mshdabiola.ui.state.QuestionUiState
+import com.mshdabiola.ui.state.TopicUiState
 import kotlinx.collections.immutable.toImmutableList
 
 fun QuestionUiState.toQuestion(examId: Long) = Question(
@@ -79,3 +81,6 @@ fun Instruction.toInstructionUiState() =
         title = title,
         content = content.map { it.toItemUi() }.toImmutableList()
     )
+
+fun Topic.toUi()=TopicUiState(id = id, subjectId = subjectId, name = name)
+fun TopicUiState.toTopic()=Topic(id = id, subjectId = subjectId, name = name)

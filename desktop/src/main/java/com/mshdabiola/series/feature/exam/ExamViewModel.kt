@@ -4,18 +4,23 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import com.mshdabiola.data.repository.inter.IInstructionRepository
 import com.mshdabiola.data.repository.inter.IQuestionRepository
+import com.mshdabiola.data.repository.inter.ITopicRepository
 import com.mshdabiola.model.data.Type
 import com.mshdabiola.series.ViewModel
 import com.mshdabiola.ui.state.InstructionUiState
 import com.mshdabiola.ui.state.ItemUi
 import com.mshdabiola.ui.state.OptionUiState
 import com.mshdabiola.ui.state.QuestionUiState
+import com.mshdabiola.ui.state.TopicUiState
 import com.mshdabiola.ui.toInstruction
 import com.mshdabiola.ui.toInstructionUiState
 import com.mshdabiola.ui.toQuestionUiState
 import com.mshdabiola.ui.toQuestionWithOptions
+import com.mshdabiola.ui.toTopic
+import com.mshdabiola.ui.toUi
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
@@ -24,7 +29,8 @@ class ExamViewModel(
     private val examId: Long,
     private val subjectId: Long,
     private val questionRepository: IQuestionRepository,
-    private val instructionRepository: IInstructionRepository
+    private val instructionRepository: IInstructionRepository,
+    private val topicRepository: ITopicRepository
 ) : ViewModel() {
 
 
@@ -70,6 +76,19 @@ class ExamViewModel(
         )
     )
     val instructionUiState: State<InstructionUiState> = _instructionUiState
+
+    //topic
+
+    val topicUiStates = topicRepository
+        .getAllBySubject(subjectId)
+        .map { it.map { it.toUi() }.toImmutableList() }
+        .stateIn(
+            viewModelScope,
+            SharingStarted.WhileSubscribed(5000),
+            emptyList<TopicUiState>().toImmutableList()
+        )
+    private val _topicUiState = mutableStateOf(TopicUiState(subjectId = subjectId, name = ""))
+    val topicUiState: State<TopicUiState> = _topicUiState
 
 
     //question logic
@@ -370,7 +389,7 @@ class ExamViewModel(
         try {
 
             if (text.isBlank()) {
-                _instructIdError.value=false
+                _instructIdError.value = false
                 _question.value = question.value.copy(instructionId = null)
 
             } else {
@@ -532,6 +551,31 @@ class ExamViewModel(
                     .toImmutableList())
         }
 
+    }
+
+
+    //topic logic
+
+    fun onAddTopic() {
+        viewModelScope.launch {
+            topicRepository.insert(topicUiState.value.toTopic())
+            _topicUiState.value = TopicUiState(subjectId = subjectId, name = "")
+        }
+    }
+
+    fun onTopicChange(text: String) {
+        _topicUiState.value = topicUiState.value.copy(name = text)
+    }
+    fun onDeleteTopic(id: Long){
+        viewModelScope.launch {
+            topicRepository.delete(id)
+        }
+    }
+
+    fun onUpdateTopic(id: Long){
+        topicUiStates.value.find { it.id==id }?.let {
+            _topicUiState.value=it.copy(focus = true)
+        }
     }
 
 

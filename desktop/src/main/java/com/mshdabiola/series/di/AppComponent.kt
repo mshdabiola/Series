@@ -21,7 +21,8 @@ val desktopModule = module {
             examId = it[0],
             subjectId = it[1],
             questionRepository = get(),
-            instructionRepository = get()
+            instructionRepository = get(),
+            topicRepository = get()
 
         )
     }

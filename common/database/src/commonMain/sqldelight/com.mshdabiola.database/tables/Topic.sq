@@ -13,12 +13,17 @@ getAll:
 SELECT *
 FROM  topicEntity;
 
+getAllBySubject:
+SELECT *
+FROM  topicEntity
+WHERE subjectId = ?;
+
 insert:
 INSERT INTO topicEntity(subjectId,name)
 VALUES ?;
 
 insertOrReplace:
-INSERT OR REPLACE INTO topicEntity(subjectId,name)
+INSERT OR REPLACE INTO topicEntity(id,subjectId,name)
 VALUES ?;
 
 deleteByID:
