@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
@@ -26,7 +25,6 @@ import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationDrawerItem
 import androidx.compose.material3.PermanentNavigationDrawer
@@ -44,9 +42,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import com.mshdabiola.model.data.ExamWithSub
 import com.mshdabiola.model.data.Subject
-import com.mshdabiola.ui.MarkUpTutorialUi
 import com.mshdabiola.ui.examui.ExamUi
 import com.mshdabiola.ui.state.ExamUiState
 import com.mshdabiola.ui.state.SubjectUiState
@@ -65,33 +61,61 @@ fun MainScreen(
     viewModel: MainViewModel,
     onExamClick: (Long, Long) -> Unit = { _, _ -> }
 ) {
+    val subjects = viewModel.subjects.collectAsState()
+    val currentSubjectIndex = viewModel.currentSubjectId.collectAsState().value
     Scaffold(
         topBar = {
             TopAppBar(title = { Text("Main Screen") })
         }
-    ) {
-        MainContent(
-            modifier = Modifier
-                .padding(it)
-                .padding(horizontal = 16.dp),
-            exams = viewModel.subAndExams.collectAsState().value,
-            examYearError = viewModel.dateError.value,
-            examUiState = viewModel.examIndex.value,
-            subjectUiState = viewModel.subject.value,
-            subjects = viewModel.subjects.collectAsState().value,
-            addExam = viewModel::addExam,
-            addSubject = viewModel::addSubject,
-            onExamClick = onExamClick,
-            onSubjectIdChange = viewModel::onSubjectIdChange,
-            onExamNameChange = viewModel::onExamYearContentChange,
-            onSubjectNameChange = viewModel::onSubjectContentChange,
-            onDeleteSubject = viewModel::onDeleteExam,
-            onUpdateSubject = viewModel::onUpdateExam
-        )
+    ) { paddingValues ->
+
+        PermanentNavigationDrawer(
+            modifier = Modifier.padding(paddingValues),
+            drawerContent = {
+                LazyColumn(modifier = Modifier.width(200.dp)) {
+                    item {
+                        NavigationDrawerItem(
+                            label = { Text("All Examination") },
+                            onClick = { viewModel.onSubject(-1) },
+                            selected = currentSubjectIndex == -1L
+                        )
+                    }
+                    items(subjects.value, key = { it.id }) {
+                        NavigationDrawerItem(
+                            label = { Text(it.name) },
+                            onClick = { viewModel.onSubject(it.id) },
+                            selected = currentSubjectIndex == it.id
+                        )
+                    }
+
+                }
+            },
+            content = {
+
+                MainContent(
+                    modifier = Modifier
+
+                        .padding(horizontal = 16.dp),
+                    exams = viewModel.examUiStates.collectAsState().value,
+                    examYearError = viewModel.dateError.value,
+                    examUiState = viewModel.examIndex.value,
+                    subjectUiState = viewModel.subject.value,
+                    subjects = subjects.value,
+                    addExam = viewModel::addExam,
+                    addSubject = viewModel::addSubject,
+                    onExamClick = onExamClick,
+                    onSubjectIdChange = viewModel::onSubjectIdChange,
+                    onExamNameChange = viewModel::onExamYearContentChange,
+                    onSubjectNameChange = viewModel::onSubjectContentChange,
+                    onDeleteSubject = viewModel::onDeleteExam,
+                    onUpdateSubject = viewModel::onUpdateExam,
+                )
+            })
+
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalSplitPaneApi::class)
+@OptIn(ExperimentalSplitPaneApi::class)
 @Composable
 fun MainContent(
     modifier: Modifier = Modifier,
@@ -107,132 +131,112 @@ fun MainContent(
     onSubjectIdChange: (Long) -> Unit = {},
     onSubjectNameChange: (String) -> Unit = {},
     onUpdateSubject: (Long) -> Unit = {},
-    onDeleteSubject: (Long) -> Unit = {}
+    onDeleteSubject: (Long) -> Unit = {},
 ) {
     val state = rememberSplitPaneState(0.7f, true)
     var showmenu by remember {
         mutableStateOf(false)
     }
 
+    //Todo adjust home drawer
 
-    PermanentNavigationDrawer(
-        modifier = modifier
-            .fillMaxSize(),
-        drawerContent = {
-            LazyColumn(modifier = Modifier.width(200.dp)) {
-                item {
-                    NavigationDrawerItem(
-                        label = { Text("Navigation") },
-                        onClick = {},
-                        selected = true
+    HorizontalSplitPane(
+        modifier = modifier,
+        splitPaneState = state
+    ) {
+        first {
+            LazyColumn(Modifier.fillMaxSize()) {
+                items(exams, key = { it.id }) {
+                    ExamUi(
+                        modifier = Modifier.clickable {
+                            onExamClick(it.id, it.subjectID)
+                        },
+                        examUiState = it,
+                        onDelete = onDeleteSubject,
+                        onUpdate = onUpdateSubject
+
                     )
                 }
-                items(subjects, key = { it.id }) {
-                    NavigationDrawerItem(
-                        label = { Text(it.name) },
-                        onClick = {},
-                        selected = false
+            }
+
+
+        }
+        second {
+            Column(
+                Modifier
+                    .fillMaxSize(),
+                verticalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                Text("Add Examination")
+                Box {
+                    TextField(
+                        label = { Text("Subject") },
+                        value = examUiState.subject,
+                        onValueChange = {},
+                        trailingIcon = {
+                            IconButton(onClick = {
+                                showmenu = !showmenu
+                            }) { Icon(imageVector = Icons.Default.ArrowDropDown, "down") }
+                        },
+                        readOnly = true
+
                     )
-                }
-
-            }
-        },
-        content = {
-
-            HorizontalSplitPane(splitPaneState = state) {
-                first {
-                    LazyColumn(Modifier.fillMaxSize()) {
-                        items(exams, key = { it.id }) {
-                            ExamUi(
-                                modifier = Modifier.clickable {
-                                    onExamClick(it.id, it.subjectID)
-                                },
-                                examUiState = it,
-                                onDelete = onDeleteSubject,
-                                onUpdate = onUpdateSubject
-
-                            )
+                    DropdownMenu(
+                        expanded = showmenu,
+                        onDismissRequest = { showmenu = false }) {
+                        subjects.forEach { subj ->
+                            DropdownMenuItem(text = { Text(subj.name) },
+                                onClick = {
+                                    onSubjectIdChange(subj.id)
+                                    showmenu = false
+                                })
                         }
                     }
-
-
                 }
-                second {
-                    Column(
-                        Modifier
-                            .fillMaxSize(),
-                        verticalArrangement = Arrangement.spacedBy(8.dp)
-                    ) {
-                        Text("Add Examination")
-                        Box {
-                            TextField(
-                                label = { Text("Subject") },
-                                value = examUiState.subject,
-                                onValueChange = {},
-                                trailingIcon = {
-                                    IconButton(onClick = {
-                                        showmenu = !showmenu
-                                    }) { Icon(imageVector = Icons.Default.ArrowDropDown, "down") }
-                                },
-                                readOnly = true
-
-                            )
-                            DropdownMenu(
-                                expanded = showmenu,
-                                onDismissRequest = { showmenu = false }) {
-                                subjects.forEach { subj ->
-                                    DropdownMenuItem(text = { Text(subj.name) },
-                                        onClick = {
-                                            onSubjectIdChange(subj.id)
-                                            showmenu = false
-                                        })
-                                }
-                            }
-                        }
-                        TextField(
-                            label = { Text("Year") },
-                            value = if (examUiState.year != -1L) examUiState.year.toString() else "",
-                            placeholder = { Text("2012") },
-                            isError = examYearError,
-                            onValueChange = { onExamNameChange(it) },
-                            maxLines = 1,
-                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
-                        )
-                        Button(
-                            modifier = Modifier.align(Alignment.End),
-                            enabled = examUiState.subject.isNotBlank() && examUiState.year != -1L,
-                            onClick = {
-                                addExam()
-                            }) {
-                            Text("Add Exam")
-                        }
-                        Spacer(Modifier.width(16.dp))
-
-                        Text("Add Subject")
-                        TextField(
-                            label = { Text("Subject") },
-                            placeholder = { Text("Mathematics") },
-                            value = subjectUiState.name,
-                            onValueChange = {
-                                onSubjectNameChange(it)
-                            },
-                            maxLines = 1,
-                        )
-                        Button(
-                            modifier = Modifier.align(Alignment.End),
-                            enabled = subjectUiState.name.isNotBlank(),
-                            onClick = {
-                                addSubject()
-                            }) {
-                            Text("Add Subject")
-                        }
-
-
-                    }
-
+                TextField(
+                    label = { Text("Year") },
+                    value = if (examUiState.year != -1L) examUiState.year.toString() else "",
+                    placeholder = { Text("2012") },
+                    isError = examYearError,
+                    onValueChange = { onExamNameChange(it) },
+                    maxLines = 1,
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
+                )
+                Button(
+                    modifier = Modifier.align(Alignment.End),
+                    enabled = examUiState.subject.isNotBlank() && examUiState.year != -1L,
+                    onClick = {
+                        addExam()
+                    }) {
+                    Text("Add Exam")
                 }
+                Spacer(Modifier.width(16.dp))
+
+                Text("Add Subject")
+                TextField(
+                    label = { Text("Subject") },
+                    placeholder = { Text("Mathematics") },
+                    value = subjectUiState.name,
+                    onValueChange = {
+                        onSubjectNameChange(it)
+                    },
+                    maxLines = 1,
+                )
+                Button(
+                    modifier = Modifier.align(Alignment.End),
+                    enabled = subjectUiState.name.isNotBlank(),
+                    onClick = {
+                        addSubject()
+                    }) {
+                    Text("Add Subject")
+                }
+
+
             }
-        })
+
+        }
+    }
+
 }
 
 

@@ -43,7 +43,20 @@ internal class ExamDao(
 
     override fun getAllWithSub(): Flow<List<ExamWithSub>> {
         return examQueries
-            .getAllWithExam()
+            .getAllWithSubject()
+            .asFlow()
+            .mapToList(coroutineDispatcher)
+            .map {
+                it.map {
+                    ExamWithSub(it.id, it.subjectId, it.year, it.name)
+                }
+            }
+
+    }
+
+    override fun getAllBySubjectIdWithSub(subjectID: Long): Flow<List<ExamWithSub>> {
+        return examQueries
+            .getAllBySubjectIdWithSubject(subjectID)
             .asFlow()
             .mapToList(coroutineDispatcher)
             .map {

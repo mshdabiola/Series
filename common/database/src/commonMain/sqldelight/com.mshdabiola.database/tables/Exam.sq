@@ -40,10 +40,17 @@ UPDATE examEntity
 SET subjectId = ?, year=?
 WHERE id = ?;
 
-getAllWithExam:
+getAllWithSubject:
 SELECT *
 FROM examEntity AS exam
 JOIN subjectEntity AS sub
 ON exam.subjectId = sub.id;
+
+getAllBySubjectIdWithSubject:
+SELECT *
+FROM examEntity AS exam
+JOIN subjectEntity AS sub
+ON exam.subjectId = sub.id
+WHERE subjectId =?;
 
 
