@@ -261,7 +261,7 @@ public class TeXIcon implements Icon {
         g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
                 RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 
-        g2.scale(size, size); // the point size
+     //   g2.scale(size, size); // the point size
         if (fg != null) {
             g2.setColor(fg);
         } else if (c != null) {
