@@ -18,7 +18,7 @@ fun LatexPreview() {
 
 
     val basic = remember { Formulae() }
-    val equations = basic.getShapes("\\sqrt[\\frac{4}{3}]{\\frac{168}{6}+78\\frac{1}{2}}")
+    val equations = basic.getShapes("\\sqrt[\\frac{4}{38}]{\\frac{168}{6}+78\\frac{1}{2}}")
         .toImmutableList()
-    Latex(modifier = Modifier.size(10.dp).background(Color.Red), equations = equations) { Font(it) }
+    Latex(modifier = Modifier.size(500.dp).background(Color.Red), scale = 3f,equations = equations) { Font(it) }
 }

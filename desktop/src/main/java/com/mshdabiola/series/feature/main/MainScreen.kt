@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
@@ -45,6 +46,12 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.mshdabiola.model.data.ExamWithSub
 import com.mshdabiola.model.data.Subject
+import com.mshdabiola.ui.MarkUpTutorialUi
+import com.mshdabiola.ui.examui.ExamUi
+import com.mshdabiola.ui.state.ExamUiState
+import com.mshdabiola.ui.state.SubjectUiState
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.toImmutableList
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.splitpane.ExperimentalSplitPaneApi
@@ -68,17 +75,18 @@ fun MainScreen(
                 .padding(it)
                 .padding(horizontal = 16.dp),
             exams = viewModel.subAndExams.collectAsState().value,
-            examIndex = viewModel.examIndex.value,
-            examYear = viewModel.examYear.value,
             examYearError = viewModel.dateError.value,
-            subjectName = viewModel.subject.value,
+            examUiState = viewModel.examIndex.value,
+            subjectUiState = viewModel.subject.value,
             subjects = viewModel.subjects.collectAsState().value,
             addExam = viewModel::addExam,
             addSubject = viewModel::addSubject,
             onExamClick = onExamClick,
-            onExamIndexChange = viewModel::onExamIndexContentChange,
+            onSubjectIdChange = viewModel::onSubjectIdChange,
             onExamNameChange = viewModel::onExamYearContentChange,
-            onSubjectNameChange = viewModel::onSubjectContentChange
+            onSubjectNameChange = viewModel::onSubjectContentChange,
+            onDeleteSubject = viewModel::onDeleteExam,
+            onUpdateSubject = viewModel::onUpdateExam
         )
     }
 }
@@ -88,17 +96,18 @@ fun MainScreen(
 fun MainContent(
     modifier: Modifier = Modifier,
     subjects: List<Subject> = emptyList(),
-    exams: List<ExamWithSub> = emptyList(),
-    examIndex: Int = 0,
-    examYear: String = "",
+    exams: ImmutableList<ExamUiState> = emptyList<ExamUiState>().toImmutableList(),
+    examUiState: ExamUiState,
+    subjectUiState: SubjectUiState,
     examYearError: Boolean = false,
-    subjectName: String = "",
     addSubject: () -> Unit = {},
     addExam: () -> Unit = {},
     onExamClick: (Long, Long) -> Unit = { _, _ -> },
     onExamNameChange: (String) -> Unit = {},
-    onExamIndexChange: (Int) -> Unit = {},
-    onSubjectNameChange: (String) -> Unit = {}
+    onSubjectIdChange: (Long) -> Unit = {},
+    onSubjectNameChange: (String) -> Unit = {},
+    onUpdateSubject: (Long) -> Unit = {},
+    onDeleteSubject: (Long) -> Unit = {}
 ) {
     val state = rememberSplitPaneState(0.7f, true)
     var showmenu by remember {
@@ -134,12 +143,14 @@ fun MainContent(
                 first {
                     LazyColumn(Modifier.fillMaxSize()) {
                         items(exams, key = { it.id }) {
-                            ListItem(
+                            ExamUi(
                                 modifier = Modifier.clickable {
                                     onExamClick(it.id, it.subjectID)
                                 },
-                                headlineText = { Text(it.subject) },
-                                supportingText = { Text(it.year.toString()) }
+                                examUiState = it,
+                                onDelete = onDeleteSubject,
+                                onUpdate = onUpdateSubject
+
                             )
                         }
                     }
@@ -156,7 +167,7 @@ fun MainContent(
                         Box {
                             TextField(
                                 label = { Text("Subject") },
-                                value = subjects.getOrNull(examIndex)?.name ?: "",
+                                value = examUiState.subject,
                                 onValueChange = {},
                                 trailingIcon = {
                                     IconButton(onClick = {
@@ -169,10 +180,10 @@ fun MainContent(
                             DropdownMenu(
                                 expanded = showmenu,
                                 onDismissRequest = { showmenu = false }) {
-                                subjects.forEachIndexed { index, subj ->
+                                subjects.forEach { subj ->
                                     DropdownMenuItem(text = { Text(subj.name) },
                                         onClick = {
-                                            onExamIndexChange(index)
+                                            onSubjectIdChange(subj.id)
                                             showmenu = false
                                         })
                                 }
@@ -180,7 +191,7 @@ fun MainContent(
                         }
                         TextField(
                             label = { Text("Year") },
-                            value = examYear,
+                            value = if (examUiState.year != -1L) examUiState.year.toString() else "",
                             placeholder = { Text("2012") },
                             isError = examYearError,
                             onValueChange = { onExamNameChange(it) },
@@ -189,7 +200,7 @@ fun MainContent(
                         )
                         Button(
                             modifier = Modifier.align(Alignment.End),
-                            enabled = subjects.getOrNull(examIndex) != null && !examYearError && examYear.isNotBlank(),
+                            enabled = examUiState.subject.isNotBlank() && examUiState.year != -1L,
                             onClick = {
                                 addExam()
                             }) {
@@ -201,7 +212,7 @@ fun MainContent(
                         TextField(
                             label = { Text("Subject") },
                             placeholder = { Text("Mathematics") },
-                            value = subjectName,
+                            value = subjectUiState.name,
                             onValueChange = {
                                 onSubjectNameChange(it)
                             },
@@ -209,12 +220,13 @@ fun MainContent(
                         )
                         Button(
                             modifier = Modifier.align(Alignment.End),
-                            enabled = subjectName.isNotBlank(),
+                            enabled = subjectUiState.name.isNotBlank(),
                             onClick = {
                                 addSubject()
                             }) {
                             Text("Add Subject")
                         }
+
 
                     }
 
@@ -228,25 +240,7 @@ fun MainContent(
 @Composable
 fun ContentPreview() {
     MaterialTheme {
-        MainContent(
-            exams = listOf(
-                ExamWithSub(id = 1, subjectID = 1, year = 2019, subject = "Mathematics"),
-                ExamWithSub(id = 2, subjectID = 1, year = 2020, subject = "Physic"),
-                ExamWithSub(id = 3, subjectID = 1, year = 2021, subject = "Chemistry"),
-                ExamWithSub(id = 4, subjectID = 1, year = 2022, subject = "English"),
-                ExamWithSub(id = 5, subjectID = 1, year = 2024, subject = "Yoruba"),
-                ExamWithSub(id = 6, subjectID = 1, year = 2025, subject = "Economics")
-            ),
-            subjects = listOf(
-                Subject(id = 1, name = "Mathematics"),
-                Subject(id = 2, name = "Physic"),
-                Subject(id = 3, name = "Chemistry"),
-                Subject(id = 4, name = "English"),
-                Subject(id = 5, name = "Yoruba"),
-                Subject(id = 6, name = "Economics")
 
-            )
-        )
     }
 }
 

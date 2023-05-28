@@ -38,6 +38,7 @@ import androidx.compose.ui.text.platform.Font
 import androidx.compose.ui.unit.dp
 import com.mshdabiola.model.data.Type
 import com.mshdabiola.retex.aimplementation.Latex2
+import com.mshdabiola.ui.MarkUpText
 import com.mshdabiola.ui.state.ItemUi
 import kotlinx.collections.immutable.ImmutableList
 
@@ -65,7 +66,7 @@ fun ContentView(
                             Latex2(modifier = Modifier, item.content) { Font(it) }
                         }
 
-                        Type.TEXT -> Text(modifier = childModifier, text = item.content)
+                        Type.TEXT -> MarkUpText(modifier = childModifier, text = item.content)
 
                         Type.IMAGE ->
                             Box(childModifier, contentAlignment = Alignment.Center) {
@@ -308,7 +309,7 @@ fun TextContent(
             onValueChange = onTextChange
         )
     else
-        Text(modifier = modifier, text = text.content)
+        MarkUpText(modifier = modifier, text = text.content)
 
 }
 

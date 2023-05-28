@@ -5,12 +5,17 @@ import androidx.compose.runtime.mutableStateOf
 import com.mshdabiola.data.repository.inter.INetworkRepository
 import com.mshdabiola.data.repository.inter.ISettingRepository
 import com.mshdabiola.data.repository.inter.ISubjectRepository
-import com.mshdabiola.model.data.Exam
-import com.mshdabiola.model.data.Subject
 import com.mshdabiola.series.ViewModel
+import com.mshdabiola.ui.state.ExamUiState
+import com.mshdabiola.ui.state.SubjectUiState
+import com.mshdabiola.ui.toExam
+import com.mshdabiola.ui.toSubject
+import com.mshdabiola.ui.toUi
+import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
@@ -23,10 +28,11 @@ class MainViewModel(
 
     val subAndExams = iSubjectRepository
         .subjectAndExams
+        .map { it.map { it.toUi() }.toImmutableList() }
         .stateIn(
             viewModelScope,
             started = SharingStarted.WhileSubscribed(5000),
-            initialValue = emptyList()
+            initialValue = emptyList<ExamUiState>().toImmutableList()
         )
 
     val subjects = iSubjectRepository
@@ -37,14 +43,12 @@ class MainViewModel(
             initialValue = emptyList()
         )
 
-    private val _subject = mutableStateOf("")
-    val subject: State<String> = _subject
+    private val _subject = mutableStateOf(SubjectUiState(name=""))
+    val subject: State<SubjectUiState> = _subject
 
-    private val _examIndex = mutableStateOf(0)
-    val examIndex: State<Int> = _examIndex
+    private val _examIndex = mutableStateOf(ExamUiState(subjectID = -1L, year = -1L, subject = ""))
+    val examIndex: State<ExamUiState> = _examIndex
 
-    private val _examYear = mutableStateOf("")
-    val examYear: State<String> = _examYear
 
     private val _dateError = mutableStateOf(false)
     val dateError: State<Boolean> = _dateError
@@ -84,41 +88,48 @@ class MainViewModel(
     fun addExam() {
         viewModelScope.launch {
             iSubjectRepository.insertExam(
-                Exam(
-                    subjectID = subjects.value[examIndex.value].id,
-                    year = examYear.value.toLong()
-                )
-
+              examIndex.value.toExam()
             )
-            _examYear.value = ""
+           _examIndex.value= examIndex.value.copy(id=-1,year = -1)
         }
     }
 
     fun addSubject() {
         viewModelScope.launch {
-            iSubjectRepository.insertSubject(Subject(name = subject.value))
-            _subject.value = ""
+            iSubjectRepository.insertSubject(subject.value.toSubject())
+            _subject.value = SubjectUiState(name = "")
         }
     }
 
     fun onSubjectContentChange(text: String) {
-        _subject.value = text
+        _subject.value = subject.value.copy(name = text)
     }
 
     fun onExamYearContentChange(text: String) {
         try {
-            text.toLong()
-            _dateError.value = false
-            _examYear.value = text
-        } catch (e: Exception) {
 
-            _examYear.value = text
+            _dateError.value = false
+            _examIndex.value=examIndex.value.copy(year = text.toLong())
+        } catch (e: Exception) {
             _dateError.value = true
         }
 
     }
 
-    fun onExamIndexContentChange(index: Int) {
-        _examIndex.value = index
+    fun onSubjectIdChange(id: Long) {
+        subjects.value.find { it.id==id }?.let {
+            _examIndex.value=examIndex.value.copy(subjectID = it.id, subject = it.name)
+        }
+    }
+
+    fun onDeleteExam(id: Long){
+        viewModelScope.launch {
+
+        }
+    }
+    fun onUpdateExam(id: Long){
+        subAndExams.value.find { it.id==id }?.let {
+            _examIndex.value=it
+        }
     }
 }
