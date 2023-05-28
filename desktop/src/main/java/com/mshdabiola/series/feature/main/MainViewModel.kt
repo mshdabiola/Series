@@ -41,10 +41,14 @@ class MainViewModel(
 
     val subjects = iSubjectRepository
         .subjects
+        .map {
+            it.map { it.toUi() }
+                .toImmutableList()
+        }
         .stateIn(
             viewModelScope,
             started = SharingStarted.WhileSubscribed(5000),
-            initialValue = emptyList()
+            initialValue = emptyList<SubjectUiState>().toImmutableList()
         )
 
     private val _subject = mutableStateOf(SubjectUiState(name = ""))
@@ -157,7 +161,7 @@ class MainViewModel(
 
     fun onSubjectIdChange(id: Long) {
         subjects.value.find { it.id == id }?.let {
-            _examIndex.value = examIndex.value.copy(subjectID = it.id, subject = it.name)
+            _examIndex.value = ExamUiState(subjectID = -1L, year = -1L, subject = "")
         }
     }
 
@@ -170,6 +174,13 @@ class MainViewModel(
     fun onUpdateExam(id: Long) {
         examUiStates.value.find { it.id == id }?.let {
             _examIndex.value = it
+        }
+    }
+
+    fun updateSubject(id: Long) {
+
+        subjects.value.find { it.id == id }?.let {
+            _subject.value = it.copy(focus = true)
         }
     }
 }

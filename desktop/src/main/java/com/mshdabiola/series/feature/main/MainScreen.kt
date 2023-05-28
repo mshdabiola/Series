@@ -19,6 +19,9 @@ import androidx.compose.material.TextField
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Android
 import androidx.compose.material.icons.filled.ArrowDropDown
+import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material.icons.filled.Update
 import androidx.compose.material3.Button
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
@@ -32,6 +35,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -39,6 +43,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
@@ -61,11 +67,55 @@ fun MainScreen(
     viewModel: MainViewModel,
     onExamClick: (Long, Long) -> Unit = { _, _ -> }
 ) {
+    var showDrop by remember { mutableStateOf(false) }
     val subjects = viewModel.subjects.collectAsState()
     val currentSubjectIndex = viewModel.currentSubjectId.collectAsState().value
     Scaffold(
         topBar = {
-            TopAppBar(title = { Text("Main Screen") })
+            TopAppBar(
+                title = { Text("Main Screen") },
+                actions = {
+                    Box {
+                        IconButton(
+                            onClick = { showDrop = true },
+                            enabled = currentSubjectIndex>-1
+                        ) {
+                            androidx.compose.material.Icon(Icons.Default.MoreVert, "more")
+                        }
+                        DropdownMenu(expanded = showDrop, onDismissRequest = { showDrop = false }) {
+
+
+                            DropdownMenuItem(
+                                leadingIcon = {
+                                    androidx.compose.material.Icon(
+                                        Icons.Default.Update,
+                                        "update"
+                                    )
+                                },
+                                text = { Text("Update") },
+                                onClick = {
+                                    viewModel.updateSubject(currentSubjectIndex)
+                                    showDrop = false
+                                })
+
+                            DropdownMenuItem(
+                                leadingIcon = {
+                                    androidx.compose.material.Icon(
+                                        Icons.Default.Delete,
+                                        "Delete"
+                                    )
+                                },
+                                text = { Text("Delete") },
+                                onClick = {
+                                   // onDelete(examUiState.id)
+                                    showDrop = false
+                                })
+
+
+                        }
+                    }
+                }
+            )
         }
     ) { paddingValues ->
 
@@ -119,7 +169,7 @@ fun MainScreen(
 @Composable
 fun MainContent(
     modifier: Modifier = Modifier,
-    subjects: List<Subject> = emptyList(),
+    subjects: ImmutableList<SubjectUiState> = emptyList<SubjectUiState>().toImmutableList(),
     exams: ImmutableList<ExamUiState> = emptyList<ExamUiState>().toImmutableList(),
     examUiState: ExamUiState,
     subjectUiState: SubjectUiState,
@@ -136,6 +186,14 @@ fun MainContent(
     val state = rememberSplitPaneState(0.7f, true)
     var showmenu by remember {
         mutableStateOf(false)
+    }
+
+    val subjectFocus= remember { FocusRequester() }
+
+    LaunchedEffect(subjectUiState.focus){
+        if (subjectUiState.focus){
+            subjectFocus.requestFocus()
+        }
     }
 
     //Todo adjust home drawer
@@ -214,6 +272,7 @@ fun MainContent(
 
                 Text("Add Subject")
                 TextField(
+                    modifier=Modifier.focusRequester(subjectFocus),
                     label = { Text("Subject") },
                     placeholder = { Text("Mathematics") },
                     value = subjectUiState.name,
