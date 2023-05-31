@@ -11,6 +11,7 @@ import com.mshdabiola.model.data.toQuestionWithOptions
 import commshdabioladatabase.tables.InstructionQueries
 import commshdabioladatabase.tables.OptionQueries
 import commshdabioladatabase.tables.QuestionQueries
+import commshdabioladatabase.tables.TopicQueries
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
@@ -21,6 +22,7 @@ internal class QuestionDao(
     private val questionQueries: QuestionQueries,
     private val optionQueries: OptionQueries,
     private val instructionQueries: InstructionQueries,
+    private val topicQueries: TopicQueries,
     private val coroutineDispatcher: CoroutineDispatcher
 ) : IQuestionDao {
     override suspend fun insert(question: Question) {
@@ -48,19 +50,25 @@ internal class QuestionDao(
             .mapToList(coroutineDispatcher)
             .map { it.map { it.toModel() } }
             .map { questionList ->
-                questionList.map {
+                questionList.map { question ->
+
                     val list = optionQueries
-                        .getAllWithQuestionNo(it.nos,examId)
+                        .getAllWithQuestionNo(question.nos, examId)
                         .executeAsList()
                         .map { it.toModel() }
-                    val inst= it.instructionId?.let { it1 ->
+                    val inst = question.instructionId?.let { it1 ->
                         instructionQueries
                             .getById(it1)
                             .executeAsOne()
                             .toModel()
-
                     }
-                    it.toQuestionWithOptions(list,inst)
+                    val topic = question.topicId?.let {
+                        topicQueries
+                            .getById(it)
+                            .executeAsOne()
+                            .toModel()
+                    }
+                    question.toQuestionWithOptions(list, inst, topic)
                 }
             }
             .flowOn(coroutineDispatcher)

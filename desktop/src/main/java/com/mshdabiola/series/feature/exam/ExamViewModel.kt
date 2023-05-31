@@ -333,7 +333,8 @@ class ExamViewModel(
     }
 
     fun onTopicSelect(id: Long) {
-        _question.value = question.value.copy(topicId = id)
+        val topic=topicUiStates.value.find { it.id==id }
+        _question.value = question.value.copy(topicUiState = topic)
     }
 
     private fun editContent(

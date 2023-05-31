@@ -29,7 +29,7 @@ fun QuestionFull.toQuestionUiState() = QuestionUiState(
     isTheory = isTheory,
     answer = answer,
     instructionUiState = instruction?.toInstructionUiState(),
-    topicId = topicId
+    topicUiState = topic?.toUi()
 )
 
 fun QuestionUiState.toQuestionWithOptions(examId: Long) = QuestionFull(
@@ -43,7 +43,7 @@ fun QuestionUiState.toQuestionWithOptions(examId: Long) = QuestionFull(
     isTheory = isTheory,
     answer = answer,
     instruction = instructionUiState?.toInstruction(),
-    topicId = topicId
+    topic = topicUiState?.toTopic()
 )
 
 fun Option.toOptionUi() =

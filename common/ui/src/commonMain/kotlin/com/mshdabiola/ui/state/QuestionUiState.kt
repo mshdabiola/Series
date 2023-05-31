@@ -10,6 +10,6 @@ data class QuestionUiState(
     val isTheory: Boolean = false,
     val answer: String? = null,
     val instructionUiState: InstructionUiState? = null,
-    val topicId: Long? = null
+    val topicUiState: TopicUiState? = null
 
 )

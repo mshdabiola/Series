@@ -223,12 +223,7 @@ fun ExamContent(
 ) {
     val state = rememberSplitPaneState(initialPositionPercentage = 0.5f)
     var showTopiDropdown by remember { mutableStateOf(false) }
-    val topic = remember(questionUiState.topicId) {
-        if (questionUiState.topicId == null)
-            ""
-        else
-            topicUiStates.first { it.id == questionUiState.topicId }.name
-    }
+
     HorizontalSplitPane(
         modifier = modifier,
         splitPaneState = state
@@ -259,7 +254,7 @@ fun ExamContent(
 
                     OutlinedTextField(
                         modifier = Modifier.weight(0.5f),
-                        value = questionUiState.instructionUiState?.toString() ?: "",
+                        value = questionUiState.instructionUiState?.id?.toString() ?: "",
                         onValueChange = instructionIdChange,
                         isError = instructIdError,
                         label = { Text("Instruction id") }
@@ -270,7 +265,7 @@ fun ExamContent(
                         OutlinedTextField(
                             readOnly = true,
                             maxLines = 1,
-                            value = topic,
+                            value = questionUiState.topicUiState?.name?:"",
                             onValueChange = {},
                             label = { Text("Topic") },
                             trailingIcon = {
