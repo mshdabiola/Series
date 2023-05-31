@@ -20,7 +20,6 @@ import com.mshdabiola.ui.toTopic
 import com.mshdabiola.ui.toUi
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
@@ -332,8 +331,9 @@ class ExamViewModel(
             null
         }
     }
+
     fun onTopicSelect(id: Long) {
-       _question.value=question.value.copy(topicId = id)
+        _question.value = question.value.copy(topicId = id)
     }
 
     private fun editContent(
@@ -393,12 +393,13 @@ class ExamViewModel(
 
             if (text.isBlank()) {
                 _instructIdError.value = false
-                _question.value = question.value.copy(instructionId = null)
+                _question.value = question.value.copy(instructionUiState = null)
 
             } else {
-                _instructIdError.value =
-                    instructions.value.indexOfFirst { it.id == text.toLong() } < 0
-                _question.value = question.value.copy(instructionId = text.toLong())
+                val instr = instructions.value.find { it.id == text.toLong() }
+                _instructIdError.value = instr == null
+
+                _question.value = question.value.copy(instructionUiState = instr)
             }
 
             println()
@@ -569,15 +570,16 @@ class ExamViewModel(
     fun onTopicChange(text: String) {
         _topicUiState.value = topicUiState.value.copy(name = text)
     }
-    fun onDeleteTopic(id: Long){
+
+    fun onDeleteTopic(id: Long) {
         viewModelScope.launch {
             topicRepository.delete(id)
         }
     }
 
-    fun onUpdateTopic(id: Long){
-        topicUiStates.value.find { it.id==id }?.let {
-            _topicUiState.value=it.copy(focus = true)
+    fun onUpdateTopic(id: Long) {
+        topicUiStates.value.find { it.id == id }?.let {
+            _topicUiState.value = it.copy(focus = true)
         }
     }
 

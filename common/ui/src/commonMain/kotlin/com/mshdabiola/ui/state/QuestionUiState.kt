@@ -9,7 +9,7 @@ data class QuestionUiState(
     val options: ImmutableList<OptionUiState>,
     val isTheory: Boolean = false,
     val answer: String? = null,
-    val instructionId: Long? = null,
+    val instructionUiState: InstructionUiState? = null,
     val topicId: Long? = null
 
 )

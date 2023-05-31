@@ -4,7 +4,7 @@ import com.mshabiola.database.dao.optiondao.IOptionDao
 import com.mshabiola.database.dao.questiondao.IQuestionDao
 import com.mshdabiola.data.repository.inter.IQuestionRepository
 import com.mshdabiola.model.data.Question
-import com.mshdabiola.model.data.QuestionWithOptions
+import com.mshdabiola.model.data.QuestionFull
 import com.mshdabiola.model.data.toQuestion
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.firstOrNull
@@ -14,17 +14,17 @@ internal class QuestionRepository(
     private val iOptionDao: IOptionDao
 ) : IQuestionRepository {
 
-    override suspend fun insert(questionWithOptions: QuestionWithOptions) {
+    override suspend fun insert(questionFull: QuestionFull) {
         println("reposi insert")
 
-        questionWithOptions.options.forEach {
+        questionFull.options.forEach {
             iOptionDao.insert(it)
         }
 
-        iQuestionDao.insert(questionWithOptions.toQuestion())
+        iQuestionDao.insert(questionFull.toQuestion())
     }
 
-    override fun getAllWithExamId(examId: Long): Flow<List<QuestionWithOptions>> {
+    override fun getAllWithExamId(examId: Long): Flow<List<QuestionFull>> {
         return iQuestionDao.getAllWithOptions(examId)
     }
 
@@ -41,7 +41,7 @@ internal class QuestionRepository(
 
     }
 
-    override suspend fun insertMany(questionWithOptions: List<QuestionWithOptions>) {
+    override suspend fun insertMany(questionWithOptions: List<QuestionFull>) {
        questionWithOptions.forEach {
            insert(it)
        }

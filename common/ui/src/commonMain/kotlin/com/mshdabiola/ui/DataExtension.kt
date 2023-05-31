@@ -5,8 +5,7 @@ import com.mshdabiola.model.data.ExamWithSub
 import com.mshdabiola.model.data.Instruction
 import com.mshdabiola.model.data.Item
 import com.mshdabiola.model.data.Option
-import com.mshdabiola.model.data.Question
-import com.mshdabiola.model.data.QuestionWithOptions
+import com.mshdabiola.model.data.QuestionFull
 import com.mshdabiola.model.data.Subject
 import com.mshdabiola.model.data.Topic
 import com.mshdabiola.ui.state.ExamUiState
@@ -18,17 +17,7 @@ import com.mshdabiola.ui.state.SubjectUiState
 import com.mshdabiola.ui.state.TopicUiState
 import kotlinx.collections.immutable.toImmutableList
 
-fun QuestionUiState.toQuestion(examId: Long) = Question(
-    id = id,
-    nos = nos,
-    examId = examId,
-    content = content.map {
-        it.toItem()
-    },
-    isTheory = isTheory, answer = answer, instructionId = instructionId, topicId = topicId
-)
-
-fun QuestionWithOptions.toQuestionUiState() = QuestionUiState(
+fun QuestionFull.toQuestionUiState() = QuestionUiState(
     id = id,
     nos = nos,
     content = content.map {
@@ -37,10 +26,13 @@ fun QuestionWithOptions.toQuestionUiState() = QuestionUiState(
     options = options.map {
         it.toOptionUi()
     }.toImmutableList(),
-    isTheory = isTheory, answer = answer, instructionId = instructionId, topicId = topicId
+    isTheory = isTheory,
+    answer = answer,
+    instructionUiState = instruction?.toInstructionUiState(),
+    topicId = topicId
 )
 
-fun QuestionUiState.toQuestionWithOptions(examId: Long) = QuestionWithOptions(
+fun QuestionUiState.toQuestionWithOptions(examId: Long) = QuestionFull(
     id = id,
     nos = nos,
     examId = examId,
@@ -48,8 +40,10 @@ fun QuestionUiState.toQuestionWithOptions(examId: Long) = QuestionWithOptions(
     options = options.map {
         it.toOption(questionNos = nos, examId)
     },
-
-    isTheory = isTheory, answer = answer, instructionId = instructionId, topicId = topicId
+    isTheory = isTheory,
+    answer = answer,
+    instruction = instructionUiState?.toInstruction(),
+    topicId = topicId
 )
 
 fun Option.toOptionUi() =

@@ -1,19 +1,19 @@
 package com.mshdabiola.data.repository.inter
 
 import com.mshdabiola.model.data.Question
-import com.mshdabiola.model.data.QuestionWithOptions
+import com.mshdabiola.model.data.QuestionFull
 import kotlinx.coroutines.flow.Flow
 
 interface IQuestionRepository {
 
 
-    suspend fun insert(questionWithOptions: QuestionWithOptions)
+    suspend fun insert(questionFull: QuestionFull)
 
-    fun getAllWithExamId(examId: Long): Flow<List<QuestionWithOptions>>
+    fun getAllWithExamId(examId: Long): Flow<List<QuestionFull>>
 
     fun getAll(): Flow<List<Question>>
 
     suspend fun delete(id:Long)
 
-    suspend fun insertMany(questionWithOptions: List<QuestionWithOptions>)
+    suspend fun insertMany(questionWithOptions: List<QuestionFull>)
 }

@@ -259,7 +259,7 @@ fun ExamContent(
 
                     OutlinedTextField(
                         modifier = Modifier.weight(0.5f),
-                        value = questionUiState.instructionId?.toString() ?: "",
+                        value = questionUiState.instructionUiState?.toString() ?: "",
                         onValueChange = instructionIdChange,
                         isError = instructIdError,
                         label = { Text("Instruction id") }

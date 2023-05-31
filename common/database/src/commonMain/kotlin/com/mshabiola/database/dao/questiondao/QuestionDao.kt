@@ -6,8 +6,9 @@ import app.cash.sqldelight.coroutines.mapToOne
 import com.mshabiola.database.model.toEntity
 import com.mshabiola.database.model.toModel
 import com.mshdabiola.model.data.Question
-import com.mshdabiola.model.data.QuestionWithOptions
+import com.mshdabiola.model.data.QuestionFull
 import com.mshdabiola.model.data.toQuestionWithOptions
+import commshdabioladatabase.tables.InstructionQueries
 import commshdabioladatabase.tables.OptionQueries
 import commshdabioladatabase.tables.QuestionQueries
 import kotlinx.coroutines.CoroutineDispatcher
@@ -19,6 +20,7 @@ import kotlinx.coroutines.withContext
 internal class QuestionDao(
     private val questionQueries: QuestionQueries,
     private val optionQueries: OptionQueries,
+    private val instructionQueries: InstructionQueries,
     private val coroutineDispatcher: CoroutineDispatcher
 ) : IQuestionDao {
     override suspend fun insert(question: Question) {
@@ -39,7 +41,7 @@ internal class QuestionDao(
             .map { it.map { it.toModel() } }
     }
 
-    override fun getAllWithOptions(examId: Long): Flow<List<QuestionWithOptions>> {
+    override fun getAllWithOptions(examId: Long): Flow<List<QuestionFull>> {
         return questionQueries
             .getAllWithExamId(examId)
             .asFlow()
@@ -51,7 +53,14 @@ internal class QuestionDao(
                         .getAllWithQuestionNo(it.nos,examId)
                         .executeAsList()
                         .map { it.toModel() }
-                    it.toQuestionWithOptions(list)
+                    val inst= it.instructionId?.let { it1 ->
+                        instructionQueries
+                            .getById(it1)
+                            .executeAsOne()
+                            .toModel()
+
+                    }
+                    it.toQuestionWithOptions(list,inst)
                 }
             }
             .flowOn(coroutineDispatcher)
