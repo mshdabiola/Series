@@ -37,7 +37,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.platform.Font
 import androidx.compose.ui.unit.dp
 import com.mshdabiola.model.data.Type
-import com.mshdabiola.retex.aimplementation.Latex2
+import com.mshdabiola.retex.aimplementation.LatexText
 import com.mshdabiola.ui.MarkUpText
 import com.mshdabiola.ui.state.ItemUi
 import kotlinx.collections.immutable.ImmutableList
@@ -63,7 +63,7 @@ fun ContentView(
 
                     when (item.type) {
                         Type.EQUATION -> Box(childModifier, contentAlignment = Alignment.Center) {
-                            Latex2(modifier = Modifier, item.content) { Font(it) }
+                            LatexText(modifier = Modifier, item.content) { Font(it) }
                         }
 
                         Type.TEXT -> MarkUpText(modifier = childModifier, text = item.content)
@@ -264,7 +264,7 @@ fun EquationContent(
                 onValueChange = onTextChange
             )
         else
-            Latex2(modifier = Modifier, equation.content) { Font(it) }
+            LatexText(modifier = Modifier, equation.content) { Font(it) }
     }
 }
 

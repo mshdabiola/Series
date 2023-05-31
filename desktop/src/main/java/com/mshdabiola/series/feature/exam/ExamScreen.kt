@@ -50,7 +50,7 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.unit.dp
 import com.mshdabiola.model.data.Type
-import com.mshdabiola.ui.MarkUpTutorialUi
+import com.mshdabiola.ui.TemplateUi
 import com.mshdabiola.ui.instructionui.InstructionEditUi
 import com.mshdabiola.ui.instructionui.InstructionUi
 import com.mshdabiola.ui.questionui.QuestionEditUi
@@ -320,7 +320,7 @@ fun ExamContent(
                 }
 
                 Spacer(Modifier.height(16.dp))
-                MarkUpTutorialUi()
+                TemplateUi()
 
 
             }

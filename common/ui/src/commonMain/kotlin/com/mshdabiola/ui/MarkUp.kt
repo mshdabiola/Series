@@ -32,40 +32,6 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 
-@OptIn(ExperimentalLayoutApi::class)
-@Composable
-fun MarkUpTutorialUi() {
-
-    Column (
-
-    ) {
-
-            Text(
-                text = "*keys*conntent*e*",
-                textAlign = TextAlign.Center,
-                style = MaterialTheme.typography.titleSmall,
-                modifier = Modifier.fillMaxWidth()
-            )
-        FlowRow (horizontalArrangement = Arrangement.spacedBy(16.dp)){
-            MarkUpEngine.list.keys.toList().forEach{
-
-                MarkUpText("*$it*key-$it*e*")
-            }
-        }
-
-
-
-    }
-
-}
-//
-//@Preview
-//@Composable
-//fun MarkUpUiPreview() {
-//    val text = "*cb, i ,w2,u*                .*e*"
-//    MarkUpText(text)
-//    //MarkUpTutorialUi()
-//}
 
 @Composable
 fun MarkUpText(
