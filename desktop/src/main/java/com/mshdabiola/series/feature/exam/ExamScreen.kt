@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.onClick
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
@@ -22,6 +23,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowDropDown
+import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.DropdownMenu
@@ -55,6 +58,7 @@ import com.mshdabiola.ui.instructionui.InstructionEditUi
 import com.mshdabiola.ui.instructionui.InstructionUi
 import com.mshdabiola.ui.questionui.QuestionEditUi
 import com.mshdabiola.ui.questionui.QuestionUi
+import com.mshdabiola.ui.state.ExamInUiState
 import com.mshdabiola.ui.state.InstructionUiState
 import com.mshdabiola.ui.state.QuestionUiState
 import com.mshdabiola.ui.state.TopicUiState
@@ -136,6 +140,7 @@ fun ExamScreen(
                             questions = questions.value,
                             instructIdError = viewModel.instructIdError.value,
                             topicUiStates = topicUiStates.value,
+                            examInUiState = viewModel.examInUiState.value,
                             addUp = viewModel::addUP,
                             addBottom = viewModel::addDown,
                             moveUp = viewModel::moveUP,
@@ -152,7 +157,9 @@ fun ExamScreen(
                             onMoveUpQuestion = viewModel::onMoveUpQuestion,
                             onAnswer = viewModel::onAnswerClick,
                             instructionIdChange = viewModel::onInstructionIdChange,
-                            onTopicSelect = viewModel::onTopicSelect
+                            onTopicSelect = viewModel::onTopicSelect,
+                            onAddExamInUiState = viewModel::onAddExamFromInput,
+                            onExamInputChange = viewModel::onExamInputChanged
                         )
 
                     1 ->
@@ -203,6 +210,7 @@ fun ExamContent(
     instructIdError: Boolean,
     questions: ImmutableList<QuestionUiState>,
     topicUiStates: ImmutableList<TopicUiState>,
+    examInUiState: ExamInUiState,
     addUp: (Int, Int) -> Unit = { _, _ -> },
     addBottom: (Int, Int) -> Unit = { _, _ -> },
     delete: (Int, Int) -> Unit = { _, _ -> },
@@ -219,17 +227,20 @@ fun ExamContent(
     onMoveDownQuestion: (Long) -> Unit = {},
     onAnswer: (Long, Long) -> Unit = { _, _ -> },
     instructionIdChange: (String) -> Unit = {},
-    onTopicSelect: (Long) -> Unit = {}
+    onTopicSelect: (Long) -> Unit = {},
+    onAddExamInUiState: () -> Unit = {},
+    onExamInputChange: (String) -> Unit = {}
 ) {
     val state = rememberSplitPaneState(initialPositionPercentage = 0.5f)
     var showTopiDropdown by remember { mutableStateOf(false) }
+    var showConvert by remember { mutableStateOf(false) }
 
     HorizontalSplitPane(
         modifier = modifier,
         splitPaneState = state
     ) {
         first {
-            LazyColumn(Modifier.fillMaxSize(), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+            LazyColumn(Modifier.padding(8.dp).fillMaxSize(), verticalArrangement = Arrangement.spacedBy(8.dp)) {
                 items(questions, key = { it.id }) {
                     QuestionUi(
                         questionUiState = it,
@@ -244,7 +255,7 @@ fun ExamContent(
 
         }
         second {
-            Column(modifier = Modifier.fillMaxWidth().verticalScroll(rememberScrollState())) {
+            Column(modifier = Modifier.padding(8.dp).fillMaxWidth().verticalScroll(rememberScrollState())) {
 
                 Row(
                     Modifier.fillMaxWidth(),
@@ -265,7 +276,7 @@ fun ExamContent(
                         OutlinedTextField(
                             readOnly = true,
                             maxLines = 1,
-                            value = questionUiState.topicUiState?.name?:"",
+                            value = questionUiState.topicUiState?.name ?: "",
                             onValueChange = {},
                             label = { Text("Topic") },
                             trailingIcon = {
@@ -313,7 +324,39 @@ fun ExamContent(
                         Text("Add Question")
                     }
                 }
+                Spacer(Modifier.height(16.dp))
+                Row(
+                    Modifier
+                        .onClick { showConvert = !showConvert }
+                        .fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text("Convert text to exams")
+                    IconButton(modifier = Modifier, onClick = { showConvert = !showConvert }) {
+                        androidx.compose.material.Icon(
+                            if (!showConvert) Icons.Default.KeyboardArrowDown else Icons.Default.KeyboardArrowUp,
+                            "down"
+                        )
+                    }
+                }
 
+                if (showConvert){
+                    Column {
+                        OutlinedTextField(
+                            value = examInUiState.content,
+                            onValueChange = onExamInputChange,
+                            isError = examInUiState.isError,
+                            modifier=Modifier.fillMaxWidth().height(300.dp)
+                        )
+                        Spacer(Modifier.height(4.dp))
+                        Button(
+                            modifier=Modifier.align(Alignment.End),
+                            onClick = onAddExamInUiState){
+                            Text("Convert to Exam")
+                        }
+                    }
+                }
                 Spacer(Modifier.height(16.dp))
                 TemplateUi()
 

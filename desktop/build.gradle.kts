@@ -30,6 +30,8 @@ dependencies {
 
     implementation(project(":common:ui"))
     implementation(libs.kotlinx.coroutines.swing)
+    testImplementation(kotlin("test"))
+    testImplementation(project(":common:testing"))
 
     // Dagger : A fast dependency injector for Android and Java.
 //    kapt("com.google.dagger:dagger-compiler:2.44.2")

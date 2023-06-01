@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.onClick
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material.Icon
@@ -582,7 +583,10 @@ fun TemptRow(
 }
 
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
+@OptIn(
+    ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class,
+    ExperimentalFoundationApi::class
+)
 @Composable
 internal fun TemplateContent(name: String, list: List<String>) {
     val clipboard = LocalClipboardManager.current
@@ -596,7 +600,9 @@ internal fun TemplateContent(name: String, list: List<String>) {
             .animateContentSize { _, _ -> }
     ) {
         Row(
-            Modifier.fillMaxWidth(),
+            Modifier
+                .onClick { showAll = !showAll }
+                .fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {

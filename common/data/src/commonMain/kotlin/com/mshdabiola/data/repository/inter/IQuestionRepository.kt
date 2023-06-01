@@ -9,6 +9,8 @@ interface IQuestionRepository {
 
     suspend fun insert(questionFull: QuestionFull)
 
+    suspend fun insertAll(questionFull: List<QuestionFull>)
+
     fun getAllWithExamId(examId: Long): Flow<List<QuestionFull>>
 
     fun getAll(): Flow<List<Question>>

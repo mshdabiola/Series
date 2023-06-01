@@ -6,7 +6,9 @@ import com.mshdabiola.data.repository.inter.IInstructionRepository
 import com.mshdabiola.data.repository.inter.IQuestionRepository
 import com.mshdabiola.data.repository.inter.ITopicRepository
 import com.mshdabiola.model.data.Type
+import com.mshdabiola.series.Factory
 import com.mshdabiola.series.ViewModel
+import com.mshdabiola.ui.state.ExamInUiState
 import com.mshdabiola.ui.state.InstructionUiState
 import com.mshdabiola.ui.state.ItemUi
 import com.mshdabiola.ui.state.OptionUiState
@@ -333,7 +335,7 @@ class ExamViewModel(
     }
 
     fun onTopicSelect(id: Long) {
-        val topic=topicUiStates.value.find { it.id==id }
+        val topic = topicUiStates.value.find { it.id == id }
         _question.value = question.value.copy(topicUiState = topic)
     }
 
@@ -388,6 +390,39 @@ class ExamViewModel(
             _question.value = question.copy(options = options.toImmutableList())
         }
     }
+
+    private val _examInputUiState = mutableStateOf(ExamInUiState("", false))
+    val examInUiState: State<ExamInUiState> = _examInputUiState
+
+    fun onExamInputChanged(text: String) {
+        _examInputUiState.value = examInUiState.value.copy(content = text)
+    }
+
+    fun onAddExamFromInput() {
+        val factory = Factory()
+
+        viewModelScope.launch {
+            try {
+                val list =
+                    factory.fileP(
+                        path = examInUiState.value.content,
+                        examId = examId,
+                        nextQuestionNos = questions.value.size + 1L
+                    )
+
+                println(list.joinToString())
+                launch { questionRepository.insertAll(list) }
+                _examInputUiState.value = examInUiState.value.copy(content = "", isError = false)
+
+            } catch (e: Exception) {
+                e.printStackTrace()
+                _examInputUiState.value = examInUiState.value.copy(isError = true)
+            }
+
+        }
+
+    }
+
 
     fun onInstructionIdChange(text: String) {
         try {

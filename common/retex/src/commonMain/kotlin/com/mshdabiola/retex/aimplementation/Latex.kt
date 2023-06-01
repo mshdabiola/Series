@@ -81,7 +81,7 @@ fun LatexText(
         }
     }
 
-    Box(modifier = modifier.fillMaxWidth()) {
+    Box(modifier = modifier) {
         if (errorMessage == null) {
             Canvas(Modifier.size(width, height).align(Alignment.Center)) {
                 scale(scale, pivot = Offset.Zero) {
@@ -124,7 +124,7 @@ fun LatexText(
 
             }
         } else {
-            Text("Error: $errorMessage",modifier=Modifier.fillMaxWidth())
+            Text("Error: $errorMessage",modifier=Modifier)
         }
 
     }

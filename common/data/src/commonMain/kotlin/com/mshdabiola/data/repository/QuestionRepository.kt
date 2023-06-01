@@ -24,6 +24,12 @@ internal class QuestionRepository(
         iQuestionDao.insert(questionFull.toQuestion())
     }
 
+    override suspend fun insertAll(questionFull: List<QuestionFull>) {
+        questionFull.forEach {
+            insert(it)
+        }
+    }
+
     override fun getAllWithExamId(examId: Long): Flow<List<QuestionFull>> {
         return iQuestionDao.getAllWithOptions(examId)
     }
