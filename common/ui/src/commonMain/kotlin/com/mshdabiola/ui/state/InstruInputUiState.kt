@@ -1,6 +1,6 @@
 package com.mshdabiola.ui.state
 
-data class ExamInUiState(
+data class InstruInputUiState(
     val content:String,
     val isError:Boolean
 )

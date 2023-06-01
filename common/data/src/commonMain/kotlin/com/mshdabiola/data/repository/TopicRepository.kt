@@ -26,6 +26,12 @@ internal class TopicRepository(
         iTopicDao.update(topic)
     }
 
+    override suspend fun insertAll(topics: List<Topic>) {
+        topics.forEach {
+            insert(it)
+        }
+    }
+
     override fun getOne(id: Long): Flow<Topic> {
         return iTopicDao.getOne(id)
     }

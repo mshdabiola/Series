@@ -25,4 +25,10 @@ internal class InstructionRepository(
     override suspend fun delete(id: Long) {
         instructionDao.delete(id)
     }
+
+    override suspend fun insertAll(instructionList: List<Instruction>) {
+        instructionList.forEach {
+            insert(it)
+        }
+    }
 }

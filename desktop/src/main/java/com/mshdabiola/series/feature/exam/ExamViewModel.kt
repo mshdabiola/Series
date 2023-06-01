@@ -8,11 +8,13 @@ import com.mshdabiola.data.repository.inter.ITopicRepository
 import com.mshdabiola.model.data.Type
 import com.mshdabiola.series.Factory
 import com.mshdabiola.series.ViewModel
-import com.mshdabiola.ui.state.ExamInUiState
+import com.mshdabiola.ui.state.ExamInputUiState
+import com.mshdabiola.ui.state.InstruInputUiState
 import com.mshdabiola.ui.state.InstructionUiState
 import com.mshdabiola.ui.state.ItemUi
 import com.mshdabiola.ui.state.OptionUiState
 import com.mshdabiola.ui.state.QuestionUiState
+import com.mshdabiola.ui.state.TopicInputUiState
 import com.mshdabiola.ui.state.TopicUiState
 import com.mshdabiola.ui.toInstruction
 import com.mshdabiola.ui.toInstructionUiState
@@ -391,11 +393,11 @@ class ExamViewModel(
         }
     }
 
-    private val _examInputUiState = mutableStateOf(ExamInUiState("", false))
-    val examInUiState: State<ExamInUiState> = _examInputUiState
+    private val _examInputUiState = mutableStateOf(ExamInputUiState("", false))
+    val examInputUiState: State<ExamInputUiState> = _examInputUiState
 
     fun onExamInputChanged(text: String) {
-        _examInputUiState.value = examInUiState.value.copy(content = text)
+        _examInputUiState.value = examInputUiState.value.copy(content = text)
     }
 
     fun onAddExamFromInput() {
@@ -404,19 +406,83 @@ class ExamViewModel(
         viewModelScope.launch {
             try {
                 val list =
-                    factory.fileP(
-                        path = examInUiState.value.content,
+                    factory.textToQuestion(
+                        path = examInputUiState.value.content,
                         examId = examId,
                         nextQuestionNos = questions.value.size + 1L
                     )
 
                 println(list.joinToString())
                 launch { questionRepository.insertAll(list) }
-                _examInputUiState.value = examInUiState.value.copy(content = "", isError = false)
+                _examInputUiState.value = examInputUiState.value.copy(content = "", isError = false)
 
             } catch (e: Exception) {
                 e.printStackTrace()
-                _examInputUiState.value = examInUiState.value.copy(isError = true)
+                _examInputUiState.value = examInputUiState.value.copy(isError = true)
+            }
+
+        }
+
+    }
+
+    private val _topicInputUiState = mutableStateOf(TopicInputUiState("", false))
+    val topicInputUiState: State<TopicInputUiState> = _topicInputUiState
+
+    fun onTopicInputChanged(text: String) {
+        _topicInputUiState.value = topicInputUiState.value.copy(content = text)
+    }
+
+    fun onAddTopicFromInput() {
+        val factory = Factory()
+
+        viewModelScope.launch {
+            try {
+                val list =
+                    factory.textToTopic(
+                        path = topicInputUiState.value.content,
+                        subjectId = subjectId
+                    )
+
+                println(list.joinToString())
+                launch { topicRepository.insertAll(list) }
+                _topicInputUiState.value =
+                    topicInputUiState.value.copy(content = "", isError = false)
+
+            } catch (e: Exception) {
+                e.printStackTrace()
+                _topicInputUiState.value = topicInputUiState.value.copy(isError = true)
+            }
+
+        }
+
+    }
+
+    private val _instruInputUiState = mutableStateOf(InstruInputUiState("", false))
+    val instruInputUiState: State<InstruInputUiState> = _instruInputUiState
+
+    fun onInstuInputChanged(text: String) {
+        _instruInputUiState.value = instruInputUiState.value.copy(content = text)
+    }
+
+    fun onAddInstruTopicFromInput() {
+        val factory = Factory()
+
+        viewModelScope.launch {
+            try {
+                val list =
+                    factory.textToInstruction(
+                        path = instruInputUiState.value.content,
+                        examId = examId
+                    )
+
+                println(list.joinToString())
+                launch { instructionRepository.insertAll(list) }
+                _instruInputUiState.value =
+                    instruInputUiState.value.copy(content = "", isError = false)
+
+            } catch (e: Exception) {
+                e.printStackTrace()
+                _instruInputUiState.value = instruInputUiState.value.copy(isError = true)
             }
 
         }

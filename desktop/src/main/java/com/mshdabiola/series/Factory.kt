@@ -1,14 +1,55 @@
 package com.mshdabiola.series
 
+import com.mshdabiola.model.data.Instruction
 import com.mshdabiola.model.data.Item
 import com.mshdabiola.model.data.Option
 import com.mshdabiola.model.data.QuestionFull
+import com.mshdabiola.model.data.Topic
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 class Factory() {
 
-    suspend fun fileP(
+
+    suspend fun textToTopic(
+        path: String,
+        subjectId: Long
+    ): List<Topic> {
+        return withContext(Dispatchers.IO) {
+            path
+                .split(Regex("\\s*\\*\\s*"))
+                .filter { it.isNotBlank() }
+                .map {
+                    Topic(
+                        subjectId=subjectId,
+                        name = it
+                    )
+                }
+
+        }
+    }
+
+
+    suspend fun textToInstruction(
+        path: String,
+        examId: Long,
+    ): List<Instruction> {
+        return withContext(Dispatchers.IO) {
+            path
+                .split(Regex("\\s*\\*\\s*"))
+
+                .filter { it.isNotBlank() }
+                .map {
+                    Instruction(
+                        examId=examId,
+                        title = null,
+                        content = listOf(itemise(it))
+                    )
+                }
+        }
+    }
+
+    suspend fun textToQuestion(
         path: String,
         examId: Long,
         nextQuestionNos: Long

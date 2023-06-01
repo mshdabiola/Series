@@ -1,13 +1,7 @@
 package com.mshdabiola.series
 
-import kotlinx.coroutines.DelicateCoroutinesApi
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.runTest
-import kotlinx.coroutines.withContext
 import org.junit.Test
 
 
@@ -19,7 +13,7 @@ class FactoryTest {
         val factory=Factory()
 
        val qu= factory
-            .fileP("""
+            .textToQuestion("""
                 q*sss
                 *o*sss
                 *o*sfs
@@ -29,6 +23,22 @@ class FactoryTest {
                 *o*moshood
                 *o*lawal
             """.trimIndent(),67,78)
+        println(qu)
+
+    }
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    @Test
+    fun text2() = runTest {
+
+        val factory=Factory()
+
+        val qu= factory
+            .textToInstruction("""
+                *aksks
+                *sjsj
+                *sjsj
+            """.trimIndent(),44)
         println(qu)
 
     }

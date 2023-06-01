@@ -12,4 +12,5 @@ interface IInstructionRepository {
 
     fun getOne(id: Long): Flow<Instruction>
     suspend fun delete(id: Long)
+    suspend fun insertAll(instructionList: List<Instruction>)
 }

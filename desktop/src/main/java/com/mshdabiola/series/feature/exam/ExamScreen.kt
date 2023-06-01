@@ -58,9 +58,11 @@ import com.mshdabiola.ui.instructionui.InstructionEditUi
 import com.mshdabiola.ui.instructionui.InstructionUi
 import com.mshdabiola.ui.questionui.QuestionEditUi
 import com.mshdabiola.ui.questionui.QuestionUi
-import com.mshdabiola.ui.state.ExamInUiState
+import com.mshdabiola.ui.state.ExamInputUiState
+import com.mshdabiola.ui.state.InstruInputUiState
 import com.mshdabiola.ui.state.InstructionUiState
 import com.mshdabiola.ui.state.QuestionUiState
+import com.mshdabiola.ui.state.TopicInputUiState
 import com.mshdabiola.ui.state.TopicUiState
 import com.mshdabiola.ui.topicui.TopicUi
 import kotlinx.collections.immutable.ImmutableList
@@ -140,7 +142,7 @@ fun ExamScreen(
                             questions = questions.value,
                             instructIdError = viewModel.instructIdError.value,
                             topicUiStates = topicUiStates.value,
-                            examInUiState = viewModel.examInUiState.value,
+                            examInputUiState = viewModel.examInputUiState.value,
                             addUp = viewModel::addUP,
                             addBottom = viewModel::addDown,
                             moveUp = viewModel::moveUP,
@@ -166,6 +168,7 @@ fun ExamScreen(
                         InstructionContent(
                             instructionUiState = viewModel.instructionUiState.value,
                             instructionUiStates = instructionUiStates.value,
+                            instruInputUiState = viewModel.instruInputUiState.value,
                             onTitleChange = viewModel::instructionTitleChange,
                             addUp = viewModel::addUpInstruction,
                             addBottom = viewModel::addDownInstruction,
@@ -177,17 +180,22 @@ fun ExamScreen(
                             onTextChange = viewModel::onTextChangeInstruction,
                             onAddInstruction = viewModel::onAddInstruction,
                             onDeleteInstruction = viewModel::onDeleteInstruction,
-                            onUpdateInstruction = viewModel::onUpdateInstruction
+                            onUpdateInstruction = viewModel::onUpdateInstruction,
+                            onAddInstruInputUiState = viewModel::onAddInstruTopicFromInput,
+                            onInstruInputChange = viewModel::onInstuInputChanged
                         )
 
                     else ->
                         TopicContent(
                             topicUiState = viewModel.topicUiState.value,
                             topicUiStates = topicUiStates.value,
+                            topicInputUiState = viewModel.topicInputUiState.value,
                             onAddTopic = viewModel::onAddTopic,
                             onTopicChange = viewModel::onTopicChange,
                             onDelete = viewModel::onDeleteTopic,
-                            onUpdate = viewModel::onUpdateTopic
+                            onUpdate = viewModel::onUpdateTopic,
+                            onAddTopicInputUiState = viewModel::onAddTopicFromInput,
+                            onTopicInputChange = viewModel::onTopicInputChanged
                         )
                 }
 
@@ -210,7 +218,7 @@ fun ExamContent(
     instructIdError: Boolean,
     questions: ImmutableList<QuestionUiState>,
     topicUiStates: ImmutableList<TopicUiState>,
-    examInUiState: ExamInUiState,
+    examInputUiState: ExamInputUiState,
     addUp: (Int, Int) -> Unit = { _, _ -> },
     addBottom: (Int, Int) -> Unit = { _, _ -> },
     delete: (Int, Int) -> Unit = { _, _ -> },
@@ -240,7 +248,10 @@ fun ExamContent(
         splitPaneState = state
     ) {
         first {
-            LazyColumn(Modifier.padding(8.dp).fillMaxSize(), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+            LazyColumn(
+                Modifier.padding(8.dp).fillMaxSize(),
+                verticalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
                 items(questions, key = { it.id }) {
                     QuestionUi(
                         questionUiState = it,
@@ -255,7 +266,10 @@ fun ExamContent(
 
         }
         second {
-            Column(modifier = Modifier.padding(8.dp).fillMaxWidth().verticalScroll(rememberScrollState())) {
+            Column(
+                modifier = Modifier.padding(8.dp).fillMaxWidth()
+                    .verticalScroll(rememberScrollState())
+            ) {
 
                 Row(
                     Modifier.fillMaxWidth(),
@@ -341,18 +355,19 @@ fun ExamContent(
                     }
                 }
 
-                if (showConvert){
+                if (showConvert) {
                     Column {
                         OutlinedTextField(
-                            value = examInUiState.content,
+                            value = examInputUiState.content,
                             onValueChange = onExamInputChange,
-                            isError = examInUiState.isError,
-                            modifier=Modifier.fillMaxWidth().height(300.dp)
+                            isError = examInputUiState.isError,
+                            modifier = Modifier.fillMaxWidth().height(300.dp)
                         )
                         Spacer(Modifier.height(4.dp))
                         Button(
-                            modifier=Modifier.align(Alignment.End),
-                            onClick = onAddExamInUiState){
+                            modifier = Modifier.align(Alignment.End),
+                            onClick = onAddExamInUiState
+                        ) {
                             Text("Convert to Exam")
                         }
                     }
@@ -371,19 +386,23 @@ fun ExamContent(
 
 @OptIn(
     ExperimentalSplitPaneApi::class, ExperimentalResourceApi::class,
-    ExperimentalMaterial3Api::class
+    ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class
 )
 @Composable
 fun TopicContent(
     modifier: Modifier = Modifier,
     topicUiState: TopicUiState,
+    topicInputUiState: TopicInputUiState,
     topicUiStates: ImmutableList<TopicUiState>,
     onTopicChange: (String) -> Unit = {},
     onAddTopic: () -> Unit = {},
     onDelete: (Long) -> Unit = {},
-    onUpdate: (Long) -> Unit = {}
+    onUpdate: (Long) -> Unit = {},
+    onAddTopicInputUiState: () -> Unit = {},
+    onTopicInputChange: (String) -> Unit = {}
 ) {
     val state = rememberSplitPaneState(initialPositionPercentage = 0.7f)
+    var showConvert by remember { mutableStateOf(false) }
     HorizontalSplitPane(
         modifier = modifier,
         splitPaneState = state
@@ -424,6 +443,40 @@ fun TopicContent(
                 Button(onClick = onAddTopic) {
                     Text(if (topicUiState.id < 0) "Add topic" else "Update topic")
                 }
+                Spacer(Modifier.height(16.dp))
+                Row(
+                    Modifier
+                        .onClick { showConvert = !showConvert }
+                        .fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text("Convert text to exams")
+                    IconButton(modifier = Modifier, onClick = { showConvert = !showConvert }) {
+                        androidx.compose.material.Icon(
+                            if (!showConvert) Icons.Default.KeyboardArrowDown else Icons.Default.KeyboardArrowUp,
+                            "down"
+                        )
+                    }
+                }
+
+                if (showConvert) {
+                    Column {
+                        OutlinedTextField(
+                            value = topicInputUiState.content,
+                            onValueChange = onTopicInputChange,
+                            isError = topicInputUiState.isError,
+                            modifier = Modifier.fillMaxWidth().height(300.dp)
+                        )
+                        Spacer(Modifier.height(4.dp))
+                        Button(
+                            modifier = Modifier.align(Alignment.End),
+                            onClick = onAddTopicInputUiState
+                        ) {
+                            Text("Convert to topic")
+                        }
+                    }
+                }
 
 
             }
@@ -432,12 +485,16 @@ fun TopicContent(
 
 }
 
-@OptIn(ExperimentalSplitPaneApi::class, ExperimentalResourceApi::class)
+@OptIn(
+    ExperimentalSplitPaneApi::class, ExperimentalResourceApi::class,
+    ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class
+)
 @Composable
 fun InstructionContent(
     modifier: Modifier = Modifier,
     instructionUiState: InstructionUiState,
     instructionUiStates: ImmutableList<InstructionUiState>,
+    instruInputUiState: InstruInputUiState,
     onTitleChange: (String) -> Unit = {},
     addUp: (Int) -> Unit = { _ -> },
     addBottom: (Int) -> Unit = { _ -> },
@@ -449,9 +506,12 @@ fun InstructionContent(
     onTextChange: (Int, String) -> Unit = { _, _ -> },
     onAddInstruction: () -> Unit = {},
     onDeleteInstruction: (Long) -> Unit = {},
-    onUpdateInstruction: (Long) -> Unit = {}
+    onUpdateInstruction: (Long) -> Unit = {},
+    onAddInstruInputUiState: () -> Unit = {},
+    onInstruInputChange: (String) -> Unit = {}
 ) {
     val state = rememberSplitPaneState(initialPositionPercentage = 0.5f)
+    var showConvert by remember { mutableStateOf(false) }
     HorizontalSplitPane(
         modifier = modifier,
         splitPaneState = state
@@ -495,6 +555,40 @@ fun InstructionContent(
                         enabled = instructionUiState.content.first().content.isNotBlank()
                     ) {
                         Text("Add Instruction")
+                    }
+                }
+                Spacer(Modifier.height(16.dp))
+                Row(
+                    Modifier
+                        .onClick { showConvert = !showConvert }
+                        .fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text("Convert text to exams")
+                    IconButton(modifier = Modifier, onClick = { showConvert = !showConvert }) {
+                        androidx.compose.material.Icon(
+                            if (!showConvert) Icons.Default.KeyboardArrowDown else Icons.Default.KeyboardArrowUp,
+                            "down"
+                        )
+                    }
+                }
+
+                if (showConvert) {
+                    Column {
+                        OutlinedTextField(
+                            value = instruInputUiState.content,
+                            onValueChange = onInstruInputChange,
+                            isError = instruInputUiState.isError,
+                            modifier = Modifier.fillMaxWidth().height(300.dp)
+                        )
+                        Spacer(Modifier.height(4.dp))
+                        Button(
+                            modifier = Modifier.align(Alignment.End),
+                            onClick = onAddInstruInputUiState
+                        ) {
+                            Text("Convert to Instruction")
+                        }
                     }
                 }
 
