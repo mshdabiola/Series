@@ -7,8 +7,8 @@ android {
     namespace = "com.mshdabiola.worker"
 }
 dependencies {
-    implementation(project(":common:model"))
-    implementation(project(":common:data"))
+    implementation(project(":modules:model"))
+    implementation(project(":modules:data"))
 
     implementation(libs.androidx.lifecycle.livedata.ktx)
     implementation(libs.androidx.startup)
@@ -22,8 +22,8 @@ dependencies {
         exclude(group = "androidx.lifecycle")
     }
 
-    testImplementation(project(":common:testing"))
-    androidTestImplementation(project(":common:testing"))
+    testImplementation(project(":modules:testing"))
+    androidTestImplementation(project(":modules:testing"))
 
     // kapt(libs.hilt.ext.compiler)
     implementation(libs.kotlinx.serialization.json)
