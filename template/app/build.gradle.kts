@@ -65,16 +65,10 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.activity.compose)
     implementation(project(":modules:designsystem"))
-
+    implementation(project(":android:app"))
     implementation(project(":modules:navigation"))
-    implementation(project(":feature:mainscreen"))
-
-    implementation(project(":feature:detail"))
-    implementation(project(":android:worker"))
-    val decomposeVersion = "2.0.0-alpha-02"
     implementation(libs.decompose.core)
-    //implementation(libs.decompose.android)
-    implementation(libs.decompose.compose.jetbrains)
+    implementation(project(":android:worker"))
     implementation(libs.androidx.profileinstaller)
     implementation(libs.androidx.core.splashscreen)
     implementation(libs.timber)

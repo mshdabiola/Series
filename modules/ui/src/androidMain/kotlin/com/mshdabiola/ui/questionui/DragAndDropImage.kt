@@ -5,7 +5,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 
 @Composable
-actual fun DragAndDropImage(
+ fun DragAndDropImage(
     modifier: Modifier,
     path: String,
     onPathChange: (String) -> Unit
@@ -13,7 +13,7 @@ actual fun DragAndDropImage(
 }
 
 @Composable
-actual fun DesktopImage(
+ fun DesktopImage(
     modifier: Modifier,
     path: String,
     contentDescription: String,
