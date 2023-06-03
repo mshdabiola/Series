@@ -48,6 +48,7 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import com.mshdabiola.ui.DirtoryUi
 import com.mshdabiola.ui.examui.ExamUi
 import com.mshdabiola.ui.state.ExamUiState
 import com.mshdabiola.ui.state.SubjectUiState
@@ -66,9 +67,17 @@ fun MainScreen(
     viewModel: MainViewModel,
     onExamClick: (Long, Long) -> Unit = { _, _ -> }
 ) {
+    var show by remember { mutableStateOf(false) }
+
     var showDrop by remember { mutableStateOf(false) }
     val subjects = viewModel.subjects.collectAsState()
     val currentSubjectIndex = viewModel.currentSubjectId.collectAsState().value
+    DirtoryUi(show, onDismiss = {show=false},{
+       it?.let {
+           viewModel.onExport(it.path)
+       }
+    }
+    )
     Scaffold(
         topBar = {
             TopAppBar(
@@ -107,6 +116,7 @@ fun MainScreen(
                                 text = { Text("Delete") },
                                 onClick = {
                                     // onDelete(examUiState.id)
+                                    show=true
                                     showDrop = false
                                 })
 

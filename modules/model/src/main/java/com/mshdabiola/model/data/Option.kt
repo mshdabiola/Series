@@ -1,5 +1,8 @@
 package com.mshdabiola.model.data
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class Option(
     val id: Long = -1,
     val nos: Long,

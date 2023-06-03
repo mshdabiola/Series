@@ -43,6 +43,14 @@ internal class QuestionDao(
             .map { it.map { it.toModel() } }
     }
 
+    override fun getWithExamId(examId: Long): Flow<List<Question>> {
+        return questionQueries
+            .getAllWithExamId(examId)
+            .asFlow()
+            .mapToList(coroutineDispatcher)
+            .map { it.map { it.toModel() } }
+    }
+
     override fun getAllWithOptions(examId: Long): Flow<List<QuestionFull>> {
         return questionQueries
             .getAllWithExamId(examId)

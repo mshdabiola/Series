@@ -9,6 +9,8 @@ interface IOptionDao {
     suspend fun insertMany(options: List<Option>)
     fun getAll(): Flow<List<Option>>
 
+    fun getAllByExamId(examId: Long): Flow<List<Option>>
+
     suspend fun update(option: Option)
     fun getOne(id: Long): Flow<Option>
     suspend fun delete(id: Long)

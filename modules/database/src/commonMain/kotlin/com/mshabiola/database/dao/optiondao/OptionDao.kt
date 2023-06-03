@@ -39,6 +39,14 @@ internal class OptionDao(
             .map { it.map { it.toModel() } }
     }
 
+    override fun getAllByExamId(examId: Long): Flow<List<Option>> {
+        return optionQueries
+            .getAllByExamId(examId)
+            .asFlow()
+            .mapToList(coroutineDispatcher)
+            .map { it.map { it.toModel() } }
+    }
+
     override suspend fun update(option: Option) {
         withContext(coroutineDispatcher) {
             val optionEntity = option.toEntity()

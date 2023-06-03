@@ -1,5 +1,7 @@
+@Suppress("DSL_SCOPE_VIOLATION")
 plugins {
     id("mshdabiola.mpp.library")
+    alias(libs.plugins.kotlin.serialization)
 }
 
 android {
@@ -11,6 +13,7 @@ kotlin {
             dependencies {
                 implementation(project(":modules:model"))
                 implementation(libs.kotlinx.coroutines.core)
+                implementation(libs.kotlinx.serialization.json)
             }
         }
 

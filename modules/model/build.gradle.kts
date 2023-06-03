@@ -1,6 +1,8 @@
+@Suppress("DSL_SCOPE_VIOLATION")
 plugins {
     id("java-library")
     id("org.jetbrains.kotlin.jvm")
+    alias(libs.plugins.kotlin.serialization)
 }
 
 java {
@@ -13,6 +15,7 @@ tasks.test {
 dependencies {
     // Other dependencies.
     testImplementation(kotlin("test"))
+    implementation(libs.kotlinx.serialization.json)
 }
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
     kotlinOptions {

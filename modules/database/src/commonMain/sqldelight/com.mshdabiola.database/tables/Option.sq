@@ -20,10 +20,14 @@ SELECT *
 FROM  optionEntity;
 
 getAllWithQuestionNo:
-
 SELECT *
 FROM  optionEntity
 WHERE questionNos = ? AND examId = ?;
+
+getAllByExamId:
+SELECT *
+FROM  optionEntity
+WHERE examId = ?;
 
 insert:
 INSERT INTO optionEntity(nos,questionNos,examId,content,isAnswer)
