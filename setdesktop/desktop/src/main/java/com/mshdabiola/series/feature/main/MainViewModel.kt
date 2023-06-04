@@ -171,7 +171,7 @@ class MainViewModel(
 
     fun onSubjectIdChange(id: Long) {
         subjects.value.find { it.id == id }?.let {
-            _examIndex.value = ExamUiState(subjectID = -1L, year = -1L, subject = "")
+            _examIndex.value = ExamUiState(subjectID = it.id, year = -1L, subject = it.name)
         }
     }
 
