@@ -157,7 +157,7 @@ fun MainScreen(
                         .padding(horizontal = 16.dp),
                     exams = viewModel.examUiStates.collectAsState().value,
                     examYearError = viewModel.dateError.value,
-                    examUiState = viewModel.examIndex.value,
+                    examUiState = viewModel.exam.value,
                     subjectUiState = viewModel.subject.value,
                     subjects = subjects.value,
                     addExam = viewModel::addExam,

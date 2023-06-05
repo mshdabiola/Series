@@ -64,8 +64,8 @@ class MainViewModel(
     private val _subject = mutableStateOf(SubjectUiState(name = ""))
     val subject: State<SubjectUiState> = _subject
 
-    private val _examIndex = mutableStateOf(ExamUiState(subjectID = -1L, year = -1L, subject = ""))
-    val examIndex: State<ExamUiState> = _examIndex
+    private val _exam = mutableStateOf(ExamUiState(subjectID = -1L, year = -1L, subject = ""))
+    val exam: State<ExamUiState> = _exam
 
 
     private val _dateError = mutableStateOf(false)
@@ -141,9 +141,9 @@ class MainViewModel(
     fun addExam() {
         viewModelScope.launch {
             iExamRepository.insertExam(
-                examIndex.value.toExam()
+                exam.value.toExam()
             )
-            _examIndex.value = examIndex.value.copy(id = -1, year = -1)
+            _exam.value = exam.value.copy(id = -1, year = -1)
         }
     }
 
@@ -162,7 +162,7 @@ class MainViewModel(
         try {
 
             _dateError.value = false
-            _examIndex.value = examIndex.value.copy(year = text.toLong())
+            _exam.value = exam.value.copy(year = text.toLong())
         } catch (e: Exception) {
             _dateError.value = true
         }
@@ -171,7 +171,7 @@ class MainViewModel(
 
     fun onSubjectIdChange(id: Long) {
         subjects.value.find { it.id == id }?.let {
-            _examIndex.value = ExamUiState(subjectID = it.id, year = -1L, subject = it.name)
+            _exam.value = exam.value.copy(subjectID = it.id,subject = it.name)
         }
     }
 
@@ -183,7 +183,7 @@ class MainViewModel(
 
     fun onUpdateExam(id: Long) {
         examUiStates.value.find { it.id == id }?.let {
-            _examIndex.value = it
+            _exam.value = it
         }
     }
 
