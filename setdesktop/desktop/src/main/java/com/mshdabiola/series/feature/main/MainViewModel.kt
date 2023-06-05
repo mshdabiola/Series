@@ -171,7 +171,7 @@ class MainViewModel(
 
     fun onSubjectIdChange(id: Long) {
         subjects.value.find { it.id == id }?.let {
-            _exam.value = exam.value.copy(subjectID = it.id,subject = it.name)
+            _exam.value = exam.value.copy(subjectID = it.id, subject = it.name)
         }
     }
 
@@ -202,11 +202,15 @@ class MainViewModel(
             ) { subjects: List<Subject>, exams: List<Exam>, questions: List<Question>, options: List<Option>, instructions: List<Instruction>, topics: List<Topic> ->
 
                 viewModelScope.launch {
-                    exInPort.export(
-                        subjects,
-                        path,
-                        ExInPort.subject
-                    )
+                    launch { exInPort.copyImage(path, subjects) }
+                    launch {
+                        exInPort.export(
+                            subjects,
+                            path,
+                            ExInPort.subject
+                        )
+                    }
+
                 }
                 viewModelScope.launch {
                     exInPort.export(

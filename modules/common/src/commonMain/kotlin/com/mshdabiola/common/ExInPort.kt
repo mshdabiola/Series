@@ -1,6 +1,7 @@
 package com.mshdabiola.common
 
 import app.cash.sqldelight.db.use
+import com.mshdabiola.model.data.Subject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.ExperimentalSerializationApi
@@ -23,7 +24,9 @@ import javax.crypto.spec.SecretKeySpec
 
 
 @OptIn(ExperimentalSerializationApi::class)
-class ExInPort {
+class ExInPort(
+    private val fileManager: FileManager
+) {
     private val passwordString = "Swordfish"
 
     suspend inline fun <reified T> export(
@@ -51,10 +54,25 @@ class ExInPort {
         }
     }
 
+    suspend fun copyImage(dir: String, subject: List<Subject>) {
+        withContext(Dispatchers.IO) {
+            subject.forEach {
+                val from = File(fileManager.getSubjectPath(it.id))
+                val to = File(dir, it.name)
+                if (to.exists().not()) {
+                    to.mkdirs()
+                }
+
+                from.copyRecursively(to, true)
+            }
+
+        }
+    }
+
 
     fun writeIt(byteArray: ByteArray, file: File) {
         if (file.exists().not()) {
-            if (file.parentFile.exists().not()){
+            if (file.parentFile.exists().not()) {
                 file.parentFile.mkdirs()
             }
 

@@ -4,7 +4,7 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.snapshotFlow
 import com.mshdabiola.common.Converter
-import com.mshdabiola.data.repository.FileManager
+import com.mshdabiola.common.FileManager
 import com.mshdabiola.data.repository.inter.IInstructionRepository
 import com.mshdabiola.data.repository.inter.IQuestionRepository
 import com.mshdabiola.data.repository.inter.ISettingRepository
@@ -40,7 +40,8 @@ class ExamViewModel(
     private val instructionRepository: IInstructionRepository,
     private val topicRepository: ITopicRepository,
     private val converter: Converter,
-    private val settingRepository: ISettingRepository
+    private val settingRepository: ISettingRepository,
+    private val fileManager: FileManager
 ) : ViewModel() {
 
 
@@ -365,7 +366,7 @@ class ExamViewModel(
         editContent(questionIndex) {
             val oldItem = it[index]
             if (oldItem.type == Type.IMAGE) {
-                FileManager.delete(
+                fileManager.delete(
                     oldItem.content,
                     subjectId,
                     examId,
@@ -384,7 +385,7 @@ class ExamViewModel(
         editContent(questionIndex) {
             val oldItem = it[index]
             if (oldItem.type == Type.IMAGE) {
-                FileManager.delete(
+                fileManager.delete(
                     oldItem.content,
                     subjectId,
                     examId,
@@ -402,7 +403,7 @@ class ExamViewModel(
             val item = it[index]
             if (item.type == Type.IMAGE) {
 
-                val name = FileManager
+                val name = fileManager
                     .saveImage(
                         item.content,
                         text,
@@ -682,7 +683,7 @@ class ExamViewModel(
         editContentInstruction() {
             val oldItem = it[index]
             if (oldItem.type == Type.IMAGE) {
-                FileManager.delete(
+                fileManager.delete(
                     oldItem.content,
                     subjectId,
                     examId,
@@ -700,7 +701,7 @@ class ExamViewModel(
         editContentInstruction() {
             val oldItem = it[index]
             if (oldItem.type == Type.IMAGE) {
-                FileManager.delete(
+                fileManager.delete(
                     oldItem.content,
                     subjectId,
                     examId,
@@ -716,7 +717,7 @@ class ExamViewModel(
         editContentInstruction {
             val item = it[index]
             if (item.type == Type.IMAGE) {
-                val name = FileManager
+                val name = fileManager
                     .saveImage(
                         item.content,
                         text,
@@ -801,7 +802,7 @@ class ExamViewModel(
     }
 
     fun getGeneraPath(imageType: FileManager.ImageType): String {
-        return FileManager.getGeneraPath(subjectId, examId, imageType)
+        return fileManager.getGeneraPath(subjectId, examId, imageType)
     }
 
 

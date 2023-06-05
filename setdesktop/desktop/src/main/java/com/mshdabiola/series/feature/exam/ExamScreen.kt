@@ -52,7 +52,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.unit.dp
-import com.mshdabiola.data.repository.FileManager
+import com.mshdabiola.common.FileManager
 import com.mshdabiola.model.data.Type
 import com.mshdabiola.ui.TemplateUi
 import com.mshdabiola.ui.instructionui.InstructionEditUi

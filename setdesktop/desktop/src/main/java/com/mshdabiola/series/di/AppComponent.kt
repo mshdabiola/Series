@@ -25,7 +25,8 @@ val desktopModule = module {
             instructionRepository = get(),
             topicRepository = get(),
             converter = get(),
-            settingRepository = get()
+            settingRepository = get(),
+            fileManager = get ()
 
         )
     }

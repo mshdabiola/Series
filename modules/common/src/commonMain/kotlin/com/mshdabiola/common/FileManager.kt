@@ -1,12 +1,11 @@
-package com.mshdabiola.data.repository
+package com.mshdabiola.common
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.File
 
-object FileManager {
-    const val generalPath = "/Users/user/AndroidStudioProjects/Series"
-
+expect  val generalPath :String
+class FileManager {
 
     suspend fun saveImage(
         oldName: String,
@@ -45,6 +44,10 @@ object FileManager {
 
     fun getGeneraPath(subjectId: Long, examId: Long, imageType: ImageType): String {
         return "$generalPath/subject/$subjectId/${imageType.name.lowercase()}/$examId"
+    }
+
+    fun getSubjectPath(subjectId: Long):String{
+        return "$generalPath/subject/$subjectId"
     }
 
     fun delete(name: String, subjectId: Long, examId: Long, imageType: ImageType) {

@@ -6,4 +6,5 @@ import org.koin.dsl.module
 val commonModule = module {
     singleOf(::Converter)
     singleOf(::ExInPort)
+    singleOf(::FileManager)
 }
