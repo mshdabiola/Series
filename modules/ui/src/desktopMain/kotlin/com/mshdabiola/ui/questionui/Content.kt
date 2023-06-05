@@ -48,7 +48,8 @@ import kotlinx.collections.immutable.ImmutableList
 fun ContentView(
     modifier: Modifier = Modifier,
     color: Color = ListItemDefaults.containerColor,
-    items: ImmutableList<ItemUi>
+    items: ImmutableList<ItemUi>,
+    generalPath:String,
 ) {
 
 
@@ -72,7 +73,7 @@ fun ContentView(
                             Box(childModifier, contentAlignment = Alignment.Center) {
                                 DesktopImage(
                                     Modifier.size(100.dp),
-                                    path = item.content,
+                                    path = "$generalPath/${item.content}",
                                     contentDescription = ""
                                 )
                             }
@@ -91,6 +92,7 @@ fun ContentView(
 fun Content(
     modifier: Modifier = Modifier,
     items: ImmutableList<ItemUi>,
+    generalPath:String,
     addUp: (Int) -> Unit = {},
     addBottom: (Int) -> Unit = {},
     delete: (Int) -> Unit = {},
@@ -122,7 +124,7 @@ fun Content(
                             onTextChange(index, it)
                         })
 
-                        Type.IMAGE -> ImageContent(childModifier, item, onTextChange = {
+                        Type.IMAGE -> ImageContent(childModifier, item, generalPath = generalPath,onTextChange = {
                             onTextChange(index, it)
                         })
                     }
@@ -272,13 +274,14 @@ fun EquationContent(
 fun ImageContent(
     modifier: Modifier = Modifier,
     image: ItemUi,
+    generalPath:String,
     onTextChange: (String) -> Unit = {}
 ) {
     Box(modifier, contentAlignment = Alignment.Center) {
 
         DragAndDropImage(
             modifier = Modifier.size(100.dp),
-            path = image.content,
+            path = "$generalPath/${image.content}",
             onPathChange = onTextChange
         )
     }

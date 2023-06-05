@@ -34,6 +34,7 @@ import com.mshdabiola.ui.state.InstructionUiState
 fun InstructionEditUi(
     modifier: Modifier = Modifier,
     instructionUiState: InstructionUiState,
+    generalPath:String,
     onTitleChange: (String) -> Unit = {},
     addUp: (Int) -> Unit = { _ -> },
     addBottom: (Int) -> Unit = { _ -> },
@@ -62,7 +63,8 @@ fun InstructionEditUi(
             moveDown = moveDown,
             edit = edit,
             changeType = changeType,
-            onTextChange = onTextChange
+            onTextChange = onTextChange,
+            generalPath = generalPath
         )
 
     }
@@ -75,7 +77,8 @@ fun InstructionUi(
     modifier: Modifier = Modifier,
     instructionUiState: InstructionUiState,
     onUpdate: (Long) -> Unit = {},
-    onDelete: (Long) -> Unit = {}
+    onDelete: (Long) -> Unit = {},
+    generalPath: String
 
 ) {
     var showDrop by remember { mutableStateOf(false) }
@@ -88,7 +91,7 @@ fun InstructionUi(
                 Text(instructionUiState.title)
         },
         supportingText = {
-            ContentView(items = instructionUiState.content)
+            ContentView(items = instructionUiState.content, generalPath = generalPath)
         },
         trailingContent = {
             Box {

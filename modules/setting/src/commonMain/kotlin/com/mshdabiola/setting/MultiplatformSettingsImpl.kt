@@ -1,6 +1,7 @@
 package com.mshdabiola.setting
 
 import com.mshdabiola.model.DummySetting
+import com.mshdabiola.model.data.Instruction
 import com.mshdabiola.setting.model.Dummy
 import com.mshdabiola.setting.model.toDummy
 import com.mshdabiola.setting.model.toDummySetting
@@ -10,11 +11,14 @@ import com.russhwolf.settings.coroutines.toBlockingSettings
 import com.russhwolf.settings.serialization.decodeValue
 import com.russhwolf.settings.serialization.encodeValue
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.withContext
 import kotlinx.serialization.ExperimentalSerializationApi
+import kotlinx.serialization.builtins.ListSerializer
 
 @OptIn(ExperimentalSettingsApi::class)
 internal class MultiplatformSettingsImpl(
@@ -60,6 +64,61 @@ internal class MultiplatformSettingsImpl(
 
         println("dummy $dummy")
         println("dummy2 $dummy2")
+    }
+
+    @OptIn(ExperimentalSerializationApi::class)
+    override suspend fun setCurrentInstruction(instruction: Instruction) {
+        withContext(Dispatchers.IO) {
+
+            val list=getInstructionList().toMutableList()
+            val index=list.indexOfFirst { it.examId==instruction.examId }
+            if (index==-1){
+                list.add(instruction)
+            }
+            else{
+                list[index]=instruction
+            }
+            settings
+                .toBlockingSettings()
+                .encodeValue(ListSerializer( Instruction.serializer()), Keys.instructionKey, list)
+
+        }
+    }
+
+    @OptIn(ExperimentalSerializationApi::class)
+    override fun getCurrentInstruction(examId: Long): Instruction? {
+        return getInstructionList()
+            .find { it.examId == examId }
+
+    }
+
+    @OptIn(ExperimentalSerializationApi::class)
+    override suspend fun removeInstruction(examId: Long) {
+        withContext(Dispatchers.IO) {
+
+            val list=getInstructionList().toMutableList()
+            val index=list.indexOfFirst { it.examId==examId }
+            if (index==-1){
+                return@withContext
+            }
+            else{
+                list.removeAt(index)
+                println("remove")
+            }
+            settings
+                .toBlockingSettings()
+                .encodeValue(ListSerializer( Instruction.serializer()), Keys.instructionKey, list)
+
+        }
+    }
+
+    @OptIn(ExperimentalSerializationApi::class)
+    private fun getInstructionList():List<Instruction>{
+        return settings.toBlockingSettings().decodeValue(
+            ListSerializer(Instruction.serializer()),
+            key = Keys.instructionKey,
+            emptyList()
+        )
     }
 
 }

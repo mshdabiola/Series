@@ -35,6 +35,7 @@ import com.mshdabiola.ui.state.QuestionUiState
 fun QuestionEditUi(
     modifier: Modifier = Modifier,
     questionUiState: QuestionUiState,
+    generalPath:String,
     addUp: (Int, Int) -> Unit = { _, _ -> },
     addBottom: (Int, Int) -> Unit = { _, _ -> },
     delete: (Int, Int) -> Unit = { _, _ -> },
@@ -48,6 +49,7 @@ fun QuestionEditUi(
     Column(modifier) {
         Content(
             items = questionUiState.content,
+            generalPath=generalPath,
             addUp = { addUp(-1, it) },
             addBottom = { addBottom(-1, it) },
             delete = { delete(-1, it) },
@@ -66,6 +68,7 @@ fun QuestionEditUi(
                     Content(
                         modifier = Modifier.weight(0.5f),
                         items = optionsUiState.content,
+                        generalPath = generalPath,
                         addUp = { addUp(i, it) },
                         addBottom = { addBottom(i, it) },
                         delete = { delete(i, it) },
@@ -88,6 +91,7 @@ fun QuestionEditUi(
 fun QuestionUi(
     modifier: Modifier = Modifier,
     questionUiState: QuestionUiState,
+    generalPath:String,
     onUpdate: (Long) -> Unit = {},
     onMoveUp: (Long) -> Unit = {},
     onMoveDown: (Long) -> Unit = {},
@@ -103,6 +107,7 @@ fun QuestionUi(
                 headlineText = {
                     ContentView(
                         items = questionUiState.content,
+                        generalPath = generalPath
                     )
                 },
                 trailingContent = {
@@ -167,6 +172,7 @@ fun QuestionUi(
                             else ListItemDefaults.containerColor,
 
                             items = optionsUiState.content,
+                            generalPath = generalPath
                         )
 
                     }

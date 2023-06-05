@@ -2,9 +2,12 @@ package com.mshdabiola.series.feature.exam
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.snapshotFlow
 import com.mshdabiola.common.Converter
+import com.mshdabiola.data.repository.FileManager
 import com.mshdabiola.data.repository.inter.IInstructionRepository
 import com.mshdabiola.data.repository.inter.IQuestionRepository
+import com.mshdabiola.data.repository.inter.ISettingRepository
 import com.mshdabiola.data.repository.inter.ITopicRepository
 import com.mshdabiola.model.data.Type
 import com.mshdabiola.series.ViewModel
@@ -24,6 +27,8 @@ import com.mshdabiola.ui.toTopic
 import com.mshdabiola.ui.toUi
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
@@ -34,10 +39,12 @@ class ExamViewModel(
     private val questionRepository: IQuestionRepository,
     private val instructionRepository: IInstructionRepository,
     private val topicRepository: ITopicRepository,
-    private val converter: Converter
+    private val converter: Converter,
+    private val settingRepository: ISettingRepository
 ) : ViewModel() {
 
 
+    val generalPath = FileManager.getGeneraPath(subjectId, examId)
     private var _question =
         mutableStateOf(
             getEmptyQuestion()
@@ -72,14 +79,40 @@ class ExamViewModel(
             emptyList<InstructionUiState>().toImmutableList()
         )
 
+    private val defaultInstruction = InstructionUiState(
+        examId = examId,
+        title = null,
+        content = listOf(ItemUi(isEditMode = true)).toImmutableList()
+    )
     private val _instructionUiState = mutableStateOf(
-        InstructionUiState(
-            examId = examId,
-            title = null,
-            content = listOf(ItemUi(isEditMode = true)).toImmutableList()
-        )
+        defaultInstruction
     )
     val instructionUiState: State<InstructionUiState> = _instructionUiState
+
+    init {
+
+        viewModelScope.launch {
+            settingRepository.getCurrentInstruction(examId)?.let {
+                println(it)
+                val uiState = it.toInstructionUiState()
+                _instructionUiState.value =
+                    uiState.copy(content = uiState.content.map { it.copy(isEditMode = true) }
+                        .toImmutableList())
+            }
+            snapshotFlow { instructionUiState.value }
+                .distinctUntilChanged()
+                .collectLatest {
+                    if (it == defaultInstruction) {
+                        println("remove")
+                        settingRepository.removeInstruction(examId)
+                    } else {
+                        println("save $it")
+                        settingRepository.setCurrentInstruction(it.toInstruction())
+                    }
+
+                }
+        }
+    }
 
     //topic
 
@@ -525,11 +558,7 @@ class ExamViewModel(
                 instructionUiState.value.toInstruction()
             )
 
-            _instructionUiState.value = InstructionUiState(
-                examId = examId,
-                title = null,
-                content = listOf(ItemUi(isEditMode = true)).toImmutableList()
-            )
+            _instructionUiState.value = defaultInstruction
         }
     }
 
@@ -597,6 +626,10 @@ class ExamViewModel(
         if (instructionUiState.value.content.size == 1)
             return
         editContentInstruction() {
+            val oldItem = it[index]
+            if (oldItem.type == Type.IMAGE) {
+                FileManager.delete(oldItem.content, subjectId, examId)
+            }
             it.removeAt(index)
             null
         }
@@ -606,36 +639,49 @@ class ExamViewModel(
 
     fun changeTypeInstruction(index: Int, type: Type) {
         editContentInstruction() {
-
+            val oldItem = it[index]
+            if (oldItem.type == Type.IMAGE) {
+                FileManager.delete(oldItem.content, subjectId, examId)
+            }
             it[index] = ItemUi(isEditMode = true, type = type)
             index
         }
     }
 
     fun onTextChangeInstruction(index: Int, text: String) {
-        editContentInstruction() {
+        editContentInstruction {
             val item = it[index]
+            if (item.type == Type.IMAGE) {
+                val name = FileManager.saveImage2(item.content, text, examId, subjectId)
+                println("name $name")
+                it[index] = item.copy(content = name)
 
-            it[index] = item.copy(content = text)
+            } else {
+                it[index] = item.copy(content = text)
+            }
+
             null
         }
     }
 
     private fun editContentInstruction(
-        onItems: (MutableList<ItemUi>) -> Int?
+        onItems: suspend (MutableList<ItemUi>) -> Int?
     ) {
-        var items = instructionUiState.value.content.toMutableList()
-        val i = onItems(items)
-        if (i != null) {
-            items = items.mapIndexed { index, itemUi ->
-                itemUi.copy(focus = index == i)
-            }.toMutableList()
+        viewModelScope.launch {
+            var items = instructionUiState.value.content.toMutableList()
+            val i = onItems(items)
+            if (i != null) {
+                items = items.mapIndexed { index, itemUi ->
+                    itemUi.copy(focus = index == i)
+                }.toMutableList()
+            }
+            _instructionUiState.value = instructionUiState
+                .value
+                .copy(
+                    content = items.toImmutableList()
+                )
         }
-        _instructionUiState.value = instructionUiState
-            .value
-            .copy(
-                content = items.toImmutableList()
-            )
+
     }
 
     fun onDeleteInstruction(id: Long) {

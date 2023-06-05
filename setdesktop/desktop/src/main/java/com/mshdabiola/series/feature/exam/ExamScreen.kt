@@ -143,6 +143,7 @@ fun ExamScreen(
                             instructIdError = viewModel.instructIdError.value,
                             topicUiStates = topicUiStates.value,
                             examInputUiState = viewModel.examInputUiState.value,
+                            generalPath = viewModel.generalPath,
                             addUp = viewModel::addUP,
                             addBottom = viewModel::addDown,
                             moveUp = viewModel::moveUP,
@@ -170,6 +171,7 @@ fun ExamScreen(
                             instructionUiStates = instructionUiStates.value,
                             instruInputUiState = viewModel.instruInputUiState.value,
                             onTitleChange = viewModel::instructionTitleChange,
+                            generalPath = viewModel.generalPath,
                             addUp = viewModel::addUpInstruction,
                             addBottom = viewModel::addDownInstruction,
                             delete = viewModel::deleteInstruction,
@@ -216,6 +218,7 @@ fun ExamContent(
     modifier: Modifier = Modifier,
     questionUiState: QuestionUiState,
     instructIdError: Boolean,
+    generalPath:String,
     questions: ImmutableList<QuestionUiState>,
     topicUiStates: ImmutableList<TopicUiState>,
     examInputUiState: ExamInputUiState,
@@ -259,7 +262,8 @@ fun ExamContent(
                         onUpdate = onUpdateQuestion,
                         onMoveDown = onMoveDownQuestion,
                         onMoveUp = onMoveUpQuestion,
-                        onAnswer = onAnswer
+                        onAnswer = onAnswer,
+                        generalPath = generalPath
                     )
                 }
             }
@@ -325,7 +329,8 @@ fun ExamContent(
                     delete = delete,
                     edit = edit,
                     changeType = changeType,
-                    onTextChange = onTextChange
+                    onTextChange = onTextChange,
+                    generalPath = generalPath
                 )
                 Row(Modifier.fillMaxSize()) {
                     IconButton(onClick = onAddOption) {
@@ -495,6 +500,7 @@ fun InstructionContent(
     instructionUiState: InstructionUiState,
     instructionUiStates: ImmutableList<InstructionUiState>,
     instruInputUiState: InstruInputUiState,
+    generalPath:String,
     onTitleChange: (String) -> Unit = {},
     addUp: (Int) -> Unit = { _ -> },
     addBottom: (Int) -> Unit = { _ -> },
@@ -525,7 +531,8 @@ fun InstructionContent(
                     InstructionUi(
                         instructionUiState = it,
                         onUpdate = onUpdateInstruction,
-                        onDelete = onDeleteInstruction
+                        onDelete = onDeleteInstruction,
+                        generalPath = generalPath
                     )
 
                 }
@@ -546,7 +553,8 @@ fun InstructionContent(
                     moveDown = moveDown,
                     edit = edit,
                     changeType = changeType,
-                    onTextChange = onTextChange
+                    onTextChange = onTextChange,
+                    generalPath = generalPath
                 )
                 Spacer(Modifier.height(4.dp))
                 Row(Modifier.fillMaxWidth()) {
