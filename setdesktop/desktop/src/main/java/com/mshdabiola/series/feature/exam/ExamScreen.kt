@@ -52,6 +52,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.unit.dp
+import com.mshdabiola.data.repository.FileManager
 import com.mshdabiola.model.data.Type
 import com.mshdabiola.ui.TemplateUi
 import com.mshdabiola.ui.instructionui.InstructionEditUi
@@ -143,7 +144,7 @@ fun ExamScreen(
                             instructIdError = viewModel.instructIdError.value,
                             topicUiStates = topicUiStates.value,
                             examInputUiState = viewModel.examInputUiState.value,
-                            generalPath = viewModel.generalPath,
+                            generalPath = viewModel::getGeneraPath,
                             addUp = viewModel::addUP,
                             addBottom = viewModel::addDown,
                             moveUp = viewModel::moveUP,
@@ -171,7 +172,7 @@ fun ExamScreen(
                             instructionUiStates = instructionUiStates.value,
                             instruInputUiState = viewModel.instruInputUiState.value,
                             onTitleChange = viewModel::instructionTitleChange,
-                            generalPath = viewModel.generalPath,
+                            generalPath = viewModel::getGeneraPath,
                             addUp = viewModel::addUpInstruction,
                             addBottom = viewModel::addDownInstruction,
                             delete = viewModel::deleteInstruction,
@@ -218,10 +219,10 @@ fun ExamContent(
     modifier: Modifier = Modifier,
     questionUiState: QuestionUiState,
     instructIdError: Boolean,
-    generalPath:String,
     questions: ImmutableList<QuestionUiState>,
     topicUiStates: ImmutableList<TopicUiState>,
     examInputUiState: ExamInputUiState,
+    generalPath:(FileManager.ImageType)->String={""},
     addUp: (Int, Int) -> Unit = { _, _ -> },
     addBottom: (Int, Int) -> Unit = { _, _ -> },
     delete: (Int, Int) -> Unit = { _, _ -> },
@@ -263,7 +264,7 @@ fun ExamContent(
                         onMoveDown = onMoveDownQuestion,
                         onMoveUp = onMoveUpQuestion,
                         onAnswer = onAnswer,
-                        generalPath = generalPath
+                        generalPath = generalPath(FileManager.ImageType.QUESTION)
                     )
                 }
             }
@@ -330,7 +331,7 @@ fun ExamContent(
                     edit = edit,
                     changeType = changeType,
                     onTextChange = onTextChange,
-                    generalPath = generalPath
+                    generalPath = generalPath(FileManager.ImageType.QUESTION)
                 )
                 Row(Modifier.fillMaxSize()) {
                     IconButton(onClick = onAddOption) {
@@ -500,7 +501,7 @@ fun InstructionContent(
     instructionUiState: InstructionUiState,
     instructionUiStates: ImmutableList<InstructionUiState>,
     instruInputUiState: InstruInputUiState,
-    generalPath:String,
+    generalPath:(FileManager.ImageType)->String={""},
     onTitleChange: (String) -> Unit = {},
     addUp: (Int) -> Unit = { _ -> },
     addBottom: (Int) -> Unit = { _ -> },
@@ -532,7 +533,7 @@ fun InstructionContent(
                         instructionUiState = it,
                         onUpdate = onUpdateInstruction,
                         onDelete = onDeleteInstruction,
-                        generalPath = generalPath
+                        generalPath = generalPath(FileManager.ImageType.INSTRUCTION)
                     )
 
                 }
@@ -554,7 +555,7 @@ fun InstructionContent(
                     edit = edit,
                     changeType = changeType,
                     onTextChange = onTextChange,
-                    generalPath = generalPath
+                    generalPath = generalPath(FileManager.ImageType.INSTRUCTION)
                 )
                 Spacer(Modifier.height(4.dp))
                 Row(Modifier.fillMaxWidth()) {

@@ -44,7 +44,6 @@ class ExamViewModel(
 ) : ViewModel() {
 
 
-    val generalPath = FileManager.getGeneraPath(subjectId, examId)
     private var _question =
         mutableStateOf(
             getEmptyQuestion()
@@ -108,6 +107,26 @@ class ExamViewModel(
                     } else {
                         println("save $it")
                         settingRepository.setCurrentInstruction(it.toInstruction())
+                    }
+
+                }
+        }
+
+        viewModelScope.launch {
+            settingRepository.getCurrentQuestion(examId)?.let {
+                println(it)
+                val uiState = it.toQuestionUiState(isEdit = true)
+                _question.value =
+                    uiState
+            }
+            snapshotFlow { question.value }
+                .distinctUntilChanged()
+                .collectLatest {
+                    if (it == getEmptyQuestion()) {
+                        println("remove")
+                        settingRepository.removeQuestion(examId)
+                    } else {
+                        settingRepository.setCurrentQuestion(it.toQuestionWithOptions(examId))
                     }
 
                 }
@@ -344,6 +363,15 @@ class ExamViewModel(
     fun delete(questionIndex: Int, index: Int) {
 
         editContent(questionIndex) {
+            val oldItem = it[index]
+            if (oldItem.type == Type.IMAGE) {
+                FileManager.delete(
+                    oldItem.content,
+                    subjectId,
+                    examId,
+                    FileManager.ImageType.QUESTION
+                )
+            }
             it.removeAt(index)
             null
         }
@@ -354,18 +382,40 @@ class ExamViewModel(
 
     fun changeType(questionIndex: Int, index: Int, type: Type) {
         editContent(questionIndex) {
-            var item = it[index]
-
+            val oldItem = it[index]
+            if (oldItem.type == Type.IMAGE) {
+                FileManager.delete(
+                    oldItem.content,
+                    subjectId,
+                    examId,
+                    FileManager.ImageType.QUESTION
+                )
+            }
             it[index] = ItemUi(isEditMode = true, type = type)
             index
         }
     }
 
+    //focus returen value
     fun onTextChange(questionIndex: Int, index: Int, text: String) {
         editContent(questionIndex) {
             val item = it[index]
+            if (item.type == Type.IMAGE) {
 
-            it[index] = item.copy(content = text)
+                val name = FileManager
+                    .saveImage(
+                        item.content,
+                        text,
+                        examId,
+                        subjectId,
+                        FileManager.ImageType.QUESTION
+                    )
+                println("name $name")
+                it[index] = item.copy(content = name)
+
+            } else {
+                it[index] = item.copy(content = text)
+            }
             null
         }
     }
@@ -376,40 +426,44 @@ class ExamViewModel(
     }
 
     private fun editContent(
-        questionIndex: Int, items: (MutableList<ItemUi>) -> Int?
+        questionIndex: Int, items: suspend (MutableList<ItemUi>) -> Int?
     ) {
-        var quest = _question.value
+        viewModelScope.launch {
 
-        if (questionIndex == -1) {
-            var qItem = quest.content.toMutableList()
-            val i = items(qItem)
-            if (i != null) {
-                qItem = qItem.mapIndexed { index, itemUi ->
-                    itemUi.copy(focus = index == i)
-                }.toMutableList()
+
+            var quest = _question.value
+
+            if (questionIndex == -1) {
+                var qItem = quest.content.toMutableList()
+                val i = items(qItem)
+                if (i != null) {
+                    qItem = qItem.mapIndexed { index, itemUi ->
+                        itemUi.copy(focus = index == i)
+                    }.toMutableList()
+                }
+
+                quest = quest.copy(content = qItem.toImmutableList())
+
+            } else {
+                val options = quest.options.toMutableList()
+                var option = options[questionIndex]
+                var qItem = option.content.toMutableList()
+                val i = items(qItem)
+                if (i != null) {
+                    qItem = qItem.mapIndexed { index, itemUi ->
+                        itemUi.copy(focus = index == i)
+                    }.toMutableList()
+                }
+
+                option = option.copy(content = qItem.toImmutableList())
+                options[questionIndex] = option
+
+                quest = quest.copy(options = options.toImmutableList())
+
+
             }
-
-            quest = quest.copy(content = qItem.toImmutableList())
-
-        } else {
-            val options = quest.options.toMutableList()
-            var option = options[questionIndex]
-            var qItem = option.content.toMutableList()
-            val i = items(qItem)
-            if (i != null) {
-                qItem = qItem.mapIndexed { index, itemUi ->
-                    itemUi.copy(focus = index == i)
-                }.toMutableList()
-            }
-
-            option = option.copy(content = qItem.toImmutableList())
-            options[questionIndex] = option
-
-            quest = quest.copy(options = options.toImmutableList())
-
-
+            _question.value = quest
         }
-        _question.value = quest
 
     }
 
@@ -628,7 +682,12 @@ class ExamViewModel(
         editContentInstruction() {
             val oldItem = it[index]
             if (oldItem.type == Type.IMAGE) {
-                FileManager.delete(oldItem.content, subjectId, examId)
+                FileManager.delete(
+                    oldItem.content,
+                    subjectId,
+                    examId,
+                    FileManager.ImageType.INSTRUCTION
+                )
             }
             it.removeAt(index)
             null
@@ -641,7 +700,12 @@ class ExamViewModel(
         editContentInstruction() {
             val oldItem = it[index]
             if (oldItem.type == Type.IMAGE) {
-                FileManager.delete(oldItem.content, subjectId, examId)
+                FileManager.delete(
+                    oldItem.content,
+                    subjectId,
+                    examId,
+                    FileManager.ImageType.INSTRUCTION
+                )
             }
             it[index] = ItemUi(isEditMode = true, type = type)
             index
@@ -652,7 +716,14 @@ class ExamViewModel(
         editContentInstruction {
             val item = it[index]
             if (item.type == Type.IMAGE) {
-                val name = FileManager.saveImage2(item.content, text, examId, subjectId)
+                val name = FileManager
+                    .saveImage(
+                        item.content,
+                        text,
+                        examId,
+                        subjectId,
+                        FileManager.ImageType.INSTRUCTION
+                    )
                 println("name $name")
                 it[index] = item.copy(content = name)
 
@@ -727,6 +798,10 @@ class ExamViewModel(
         topicUiStates.value.find { it.id == id }?.let {
             _topicUiState.value = it.copy(focus = true)
         }
+    }
+
+    fun getGeneraPath(imageType: FileManager.ImageType): String {
+        return FileManager.getGeneraPath(subjectId, examId, imageType)
     }
 
 

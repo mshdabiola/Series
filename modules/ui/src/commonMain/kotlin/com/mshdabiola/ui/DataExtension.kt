@@ -17,14 +17,14 @@ import com.mshdabiola.ui.state.SubjectUiState
 import com.mshdabiola.ui.state.TopicUiState
 import kotlinx.collections.immutable.toImmutableList
 
-fun QuestionFull.toQuestionUiState() = QuestionUiState(
+fun QuestionFull.toQuestionUiState(isEdit:Boolean=false) = QuestionUiState(
     id = id,
     nos = nos,
     content = content.map {
-        it.toItemUi()
+        it.toItemUi(isEdit)
     }.toImmutableList(),
     options = options.map {
-        it.toOptionUi()
+        it.toOptionUi(isEdit)
     }.toImmutableList(),
     isTheory = isTheory,
     answer = answer,
@@ -46,11 +46,11 @@ fun QuestionUiState.toQuestionWithOptions(examId: Long) = QuestionFull(
     topic = topicUiState?.toTopic()
 )
 
-fun Option.toOptionUi() =
+fun Option.toOptionUi(isEdit:Boolean=false) =
     OptionUiState(
         id = id,
         nos = nos,
-        content = content.map { it.toItemUi() }.toImmutableList(),
+        content = content.map { it.toItemUi(isEdit) }.toImmutableList(),
         isAnswer = isAnswer
     )
 
@@ -66,7 +66,7 @@ fun OptionUiState.toOption(questionNos: Long, examId: Long) =
 
 
 fun ItemUi.toItem() = Item(content = content, type = type)
-fun Item.toItemUi() = ItemUi(content = content, type = type)
+fun Item.toItemUi(isEdit:Boolean=false) = ItemUi(content = content, type = type,isEditMode = isEdit)
 
 fun InstructionUiState.toInstruction() = Instruction(
     id = id,
@@ -74,12 +74,12 @@ fun InstructionUiState.toInstruction() = Instruction(
     title = title,
     content = content.map { it.toItem() })
 
-fun Instruction.toInstructionUiState() =
+fun Instruction.toInstructionUiState(isEdit:Boolean=false) =
     InstructionUiState(
         id = id,
         examId = examId,
         title = title,
-        content = content.map { it.toItemUi() }.toImmutableList()
+        content = content.map { it.toItemUi(isEdit = isEdit) }.toImmutableList()
     )
 
 fun Topic.toUi() = TopicUiState(id = id, subjectId = subjectId, name = name)
