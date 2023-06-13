@@ -13,6 +13,6 @@ fun PhysicsApp(
     iRootComponent: IRootComponent
 ) {
     SeriesAppTheme {
-        AppNavHost(IRootComponent = iRootComponent, modifier = Modifier.fillMaxSize())
+        AppNavHost(iRootComponent = iRootComponent, modifier = Modifier.fillMaxSize())
     }
 }

@@ -1,12 +1,14 @@
 package com.mshdabiola.navigation
 
-import android.annotation.SuppressLint
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.router.stack.StackNavigation
+import com.arkivanov.decompose.router.stack.bringToFront
 import com.arkivanov.decompose.router.stack.childStack
+import com.arkivanov.decompose.router.stack.pop
 import com.arkivanov.decompose.router.stack.push
 import com.arkivanov.decompose.value.Value
+import com.arkivanov.decompose.value.operator.map
 import com.arkivanov.essenty.parcelable.Parcelable
 import com.arkivanov.essenty.parcelable.Parcelize
 
@@ -19,25 +21,43 @@ class RootComponent(
     override val stack: Value<ChildStack<*, IRootComponent.RootScreen>>
         get() = _stack
 
-    override fun navigateToDetail() {
-        navigation.push(Config.Splash)
+
+    override fun navigateToPager() {
+        navigation.bringToFront(Config.Pager)
     }
+
+    override fun navigateToFinish() {
+        navigation.push(Config.Finish)
+    }
+
+    override fun navigateToQuestion() {
+        navigation.push(Config.Questions)
+    }
+
+    override fun pop() {
+        navigation.pop()
+    }
+
 
     private val _stack = childStack(
         source = navigation,
-        initialConfiguration = Config.Main,
+        initialConfiguration = Config.Pager,
         handleBackButton = true,
         childFactory = ::factory
     )
 
-    @Parcelize
+
     private sealed interface Config : Parcelable {
 
-        @SuppressLint("ParcelCreator")
-        object Main : Config
+        @Parcelize
+        object Pager : Config
 
-        @SuppressLint("ParcelCreator")
-        object Splash : Config
+
+        @Parcelize
+        object Questions : Config
+
+        @Parcelize
+        object Finish : Config
 
     }
 
@@ -46,28 +66,32 @@ class RootComponent(
         componentContext: ComponentContext
     ): IRootComponent.RootScreen {
         return when (config) {
-            is Config.Splash -> IRootComponent.RootScreen.DetailRootScreen(
-                navigateToSplash(
+            is Config.Pager -> IRootComponent.RootScreen.PagerScreen(PagerComponent(componentContext))
+
+            is Config.Finish -> IRootComponent.RootScreen.FinishRootScreen(
+                navigateToFinish(
                     componentContext
                 )
             )
 
-            is Config.Main -> IRootComponent.RootScreen.MainRootScreen(
-                navigateToMain(
+            is Config.Questions -> IRootComponent.RootScreen.QuestionRootScreen(
+                navigateToQuestion(
                     componentContext
                 )
             )
+
+
         }
     }
 
-    private fun navigateToMain(componentContext: ComponentContext): MainComponent {
-        return MainComponent(componentContext)
+
+    private fun navigateToQuestion(componentContext: ComponentContext): QuestionComponent {
+        return QuestionComponent(componentContext)
     }
 
-    private fun navigateToSplash(componentContext: ComponentContext): DetailComponent {
-        return DetailComponent(
-            componentContext,
-            //  onSplashFinished = {navigation.replaceCurrent(Config.Main)}
-        )
+    private fun navigateToFinish(componentContext: ComponentContext): FinishComponent {
+        return FinishComponent(componentContext)
     }
+
+
 }
