@@ -10,7 +10,7 @@ interface IQuestionDao {
 
     fun getAll(): Flow<List<Question>>
 
-    fun getWithExamId(examId: Long):Flow<List<Question>>
+    fun getWithExamId(examId: Long): Flow<List<Question>>
 
     fun getAllWithOptions(examId: Long): Flow<List<QuestionFull>>
 

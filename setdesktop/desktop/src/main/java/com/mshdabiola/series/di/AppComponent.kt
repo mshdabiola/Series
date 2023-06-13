@@ -26,7 +26,7 @@ val desktopModule = module {
             topicRepository = get(),
             converter = get(),
             settingRepository = get(),
-            fileManager = get ()
+            fileManager = get()
 
         )
     }

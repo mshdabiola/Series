@@ -17,7 +17,7 @@ import com.mshdabiola.ui.state.SubjectUiState
 import com.mshdabiola.ui.state.TopicUiState
 import kotlinx.collections.immutable.toImmutableList
 
-fun QuestionFull.toQuestionUiState(isEdit:Boolean=false) = QuestionUiState(
+fun QuestionFull.toQuestionUiState(isEdit: Boolean = false) = QuestionUiState(
     id = id,
     nos = nos,
     content = content.map {
@@ -46,7 +46,7 @@ fun QuestionUiState.toQuestionWithOptions(examId: Long) = QuestionFull(
     topic = topicUiState?.toTopic()
 )
 
-fun Option.toOptionUi(isEdit:Boolean=false) =
+fun Option.toOptionUi(isEdit: Boolean = false) =
     OptionUiState(
         id = id,
         nos = nos,
@@ -66,7 +66,8 @@ fun OptionUiState.toOption(questionNos: Long, examId: Long) =
 
 
 fun ItemUi.toItem() = Item(content = content, type = type)
-fun Item.toItemUi(isEdit:Boolean=false) = ItemUi(content = content, type = type,isEditMode = isEdit)
+fun Item.toItemUi(isEdit: Boolean = false) =
+    ItemUi(content = content, type = type, isEditMode = isEdit)
 
 fun InstructionUiState.toInstruction() = Instruction(
     id = id,
@@ -74,7 +75,7 @@ fun InstructionUiState.toInstruction() = Instruction(
     title = title,
     content = content.map { it.toItem() })
 
-fun Instruction.toInstructionUiState(isEdit:Boolean=false) =
+fun Instruction.toInstructionUiState(isEdit: Boolean = false) =
     InstructionUiState(
         id = id,
         examId = examId,

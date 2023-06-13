@@ -17,16 +17,17 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import com.arkivanov.decompose.ExperimentalDecomposeApi
 import com.arkivanov.decompose.extensions.compose.jetbrains.pages.Pages
+import com.arkivanov.decompose.extensions.compose.jetbrains.pages.PagesScrollAnimation
 import com.arkivanov.decompose.extensions.compose.jetbrains.stack.Children
 import com.arkivanov.decompose.extensions.compose.jetbrains.stack.animation.slide
 import com.arkivanov.decompose.extensions.compose.jetbrains.stack.animation.stackAnimation
-import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
-import com.mshdabiola.detail.DetailScreenn
+import com.mshdabiola.finishscreen.FinishScreenNav
 import com.mshdabiola.mainscreen.MainScreenNav
 import com.mshdabiola.navigation.IPagerComponent
 import com.mshdabiola.navigation.IRootComponent
-import com.mshdabiola.navigation.PagerComponent
-import com.mshdabiola.navigation.StatisticComponent
+import com.mshdabiola.profilescreen.ProfileScreenNav
+import com.mshdabiola.questionscreen.QuestionScreenNav
+import com.mshdabiola.statisticsscreen.StatScreenNav
 
 
 @Composable
@@ -36,24 +37,27 @@ fun AppNavHost(iRootComponent: IRootComponent, modifier: Modifier) {
         Children(
             stack = iRootComponent.stack,
             modifier = Modifier.fillMaxSize(),
-            animation = stackAnimation { child, otherChild, direction -> slide() }
+            animation = stackAnimation(slide())
         ) {
 
             when (it.instance) {
                 is IRootComponent.RootScreen.PagerScreen -> {
-                    PagerCom((it.instance as IRootComponent.RootScreen.PagerScreen).component)
+                    PagerCom(
+                        (it.instance as IRootComponent.RootScreen.PagerScreen).component,
+                        onQuestion = iRootComponent::navigateToQuestion
+
+                    )
                 }
 
                 is IRootComponent.RootScreen.QuestionRootScreen -> {
-                    DetailScreenn {
-
-                    }
+                    QuestionScreenNav(
+                        onBack = iRootComponent::pop,
+                        onFinish = iRootComponent::navigateToFinish
+                    )
                 }
 
                 is IRootComponent.RootScreen.FinishRootScreen -> {
-                    DetailScreenn {
-
-                    }
+                    FinishScreenNav(onBack = iRootComponent::pop)
                 }
 
             }
@@ -61,15 +65,16 @@ fun AppNavHost(iRootComponent: IRootComponent, modifier: Modifier) {
         }
 
 
-
-
-}
+    }
 }
 
 
 @OptIn(ExperimentalDecomposeApi::class, ExperimentalFoundationApi::class)
 @Composable
-fun PagerCom(iPagerComponent: IPagerComponent) {
+fun PagerCom(
+    iPagerComponent: IPagerComponent,
+    onQuestion: () -> Unit = {}
+) {
     var current by remember {
         mutableStateOf(0)
     }
@@ -77,23 +82,20 @@ fun PagerCom(iPagerComponent: IPagerComponent) {
         Pages(
             pages = iPagerComponent.stack,
             modifier = Modifier.weight(1f),
-            onPageSelected = {current=it}
+            onPageSelected = { current = it },
+            scrollAnimation = PagesScrollAnimation.Default
         ) { _, page ->
-            when(page){
+            when (page) {
                 is IPagerComponent.PScreen.MainRootScreen -> {
-                    MainScreenNav { //IRootComponent.navigateToDetail()
-                    }
+                    MainScreenNav(onQuestion = onQuestion)
                 }
 
                 is IPagerComponent.PScreen.ProfileRootScreen -> {
-                    MainScreenNav { //IRootComponent.navigateToDetail()
-                    }
+                    ProfileScreenNav()
                 }
 
-                is IPagerComponent.PScreen.StatisticsRootScreen-> {
-                    DetailScreenn {
-
-                    }
+                is IPagerComponent.PScreen.StatisticsRootScreen -> {
+                    StatScreenNav()
                 }
             }
 

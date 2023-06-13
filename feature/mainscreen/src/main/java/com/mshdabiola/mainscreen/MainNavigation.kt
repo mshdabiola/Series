@@ -3,9 +3,9 @@ package com.mshdabiola.mainscreen
 import androidx.compose.runtime.Composable
 
 @Composable
-fun MainScreenNav(onBack: () -> Unit) {
+fun MainScreenNav(onQuestion: () -> Unit) {
     MainScreen {
-        onBack()
+        onQuestion()
     }
 }
 

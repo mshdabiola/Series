@@ -4,7 +4,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.File
 
-expect  val generalPath :String
+expect val generalPath: String
+
 class FileManager {
 
     suspend fun saveImage(
@@ -46,7 +47,7 @@ class FileManager {
         return "$generalPath/subject/$subjectId/${imageType.name.lowercase()}/$examId"
     }
 
-    fun getSubjectPath(subjectId: Long):String{
+    fun getSubjectPath(subjectId: Long): String {
         return "$generalPath/subject/$subjectId"
     }
 

@@ -35,7 +35,7 @@ import com.mshdabiola.ui.state.QuestionUiState
 fun QuestionEditUi(
     modifier: Modifier = Modifier,
     questionUiState: QuestionUiState,
-    generalPath:String,
+    generalPath: String,
     addUp: (Int, Int) -> Unit = { _, _ -> },
     addBottom: (Int, Int) -> Unit = { _, _ -> },
     delete: (Int, Int) -> Unit = { _, _ -> },
@@ -49,7 +49,7 @@ fun QuestionEditUi(
     Column(modifier) {
         Content(
             items = questionUiState.content,
-            generalPath=generalPath,
+            generalPath = generalPath,
             addUp = { addUp(-1, it) },
             addBottom = { addBottom(-1, it) },
             delete = { delete(-1, it) },
@@ -91,7 +91,7 @@ fun QuestionEditUi(
 fun QuestionUi(
     modifier: Modifier = Modifier,
     questionUiState: QuestionUiState,
-    generalPath:String,
+    generalPath: String,
     onUpdate: (Long) -> Unit = {},
     onMoveUp: (Long) -> Unit = {},
     onMoveDown: (Long) -> Unit = {},

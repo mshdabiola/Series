@@ -12,8 +12,10 @@ dependencies {
 
     implementation(project(":modules:navigation"))
     implementation(project(":feature:mainscreen"))
-
-    implementation(project(":feature:detail"))
+    implementation(project(":feature:finishscreen"))
+    implementation(project(":feature:profilescreen"))
+    implementation(project(":feature:questionscreen"))
+    implementation(project(":feature:statisticsscreen"))
 
     implementation(libs.decompose.core)
 

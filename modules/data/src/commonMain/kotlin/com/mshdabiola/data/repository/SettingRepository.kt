@@ -3,7 +3,6 @@ package com.mshdabiola.data.repository
 import com.mshdabiola.data.repository.inter.ISettingRepository
 import com.mshdabiola.model.DummySetting
 import com.mshdabiola.model.data.Instruction
-import com.mshdabiola.model.data.Question
 import com.mshdabiola.model.data.QuestionFull
 import com.mshdabiola.setting.MultiplatformSettings
 import kotlinx.coroutines.flow.StateFlow
@@ -21,7 +20,7 @@ internal class SettingRepository(private val settings: MultiplatformSettings) : 
         settings.setCurrentInstruction(instruction)
     }
 
-    override fun getCurrentInstruction(examId:Long): Instruction? {
+    override fun getCurrentInstruction(examId: Long): Instruction? {
         return settings.getCurrentInstruction(examId)
     }
 
@@ -34,11 +33,11 @@ internal class SettingRepository(private val settings: MultiplatformSettings) : 
     }
 
     override fun getCurrentQuestion(examId: Long): QuestionFull? {
-       return settings.getCurrentQuestion(examId)
+        return settings.getCurrentQuestion(examId)
     }
 
     override suspend fun removeQuestion(examId: Long) {
-       settings.removeQuestion(examId)
+        settings.removeQuestion(examId)
     }
 
 }

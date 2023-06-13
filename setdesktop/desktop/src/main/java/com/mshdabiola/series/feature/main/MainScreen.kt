@@ -72,10 +72,10 @@ fun MainScreen(
     var showDrop by remember { mutableStateOf(false) }
     val subjects = viewModel.subjects.collectAsState()
     val currentSubjectIndex = viewModel.currentSubjectId.collectAsState().value
-    DirtoryUi(show, onDismiss = {show=false},{
-       it?.let {
-           viewModel.onExport(it.path)
-       }
+    DirtoryUi(show, onDismiss = { show = false }, {
+        it?.let {
+            viewModel.onExport(it.path)
+        }
     }
     )
     Scaffold(
@@ -116,7 +116,7 @@ fun MainScreen(
                                 text = { Text("Delete") },
                                 onClick = {
                                     // onDelete(examUiState.id)
-                                    show=true
+                                    show = true
                                     showDrop = false
                                 })
 

@@ -4,12 +4,9 @@ import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
-import android.net.Uri
 import android.os.Build
 import androidx.core.app.NotificationCompat
-import androidx.core.content.PackageManagerCompat
 import androidx.core.content.pm.PackageInfoCompat
-import androidx.core.net.toFile
 import androidx.work.Constraints
 import androidx.work.CoroutineWorker
 import androidx.work.Data
@@ -19,13 +16,11 @@ import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.OutOfQuotaPolicy
 import androidx.work.WorkerParameters
 import com.mshdabiola.data.repository.inter.IModelRepository
-import com.mshdabiola.model.Model
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import timber.log.Timber
-import java.io.File
 
 internal const val ID = "id"
 
@@ -43,15 +38,15 @@ class SaveWorker constructor(
 
         Timber.e("worker id" + workerParams.inputData.getLong(ID, -1L))
 
-        val info=appContext.packageManager.getPackageInfo(appContext.packageName,0)
-        val version=PackageInfoCompat.getLongVersionCode(info)
+        val info = appContext.packageManager.getPackageInfo(appContext.packageName, 0)
+        val version = PackageInfoCompat.getLongVersionCode(info)
         println("version $version")
-        appContext.getSharedPreferences("abiola",Context.MODE_PRIVATE)
+        appContext.getSharedPreferences("abiola", Context.MODE_PRIVATE)
             .edit()
-            .putInt("ls",4)
+            .putInt("ls", 4)
             .apply()
         appContext.assets.open("file").use {
-            val string= it.reader()
+            val string = it.reader()
                 .readText()
             println(string)
         }

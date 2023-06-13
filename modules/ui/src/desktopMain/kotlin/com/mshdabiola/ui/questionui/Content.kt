@@ -49,7 +49,7 @@ fun ContentView(
     modifier: Modifier = Modifier,
     color: Color = ListItemDefaults.containerColor,
     items: ImmutableList<ItemUi>,
-    generalPath:String,
+    generalPath: String,
 ) {
 
 
@@ -92,7 +92,7 @@ fun ContentView(
 fun Content(
     modifier: Modifier = Modifier,
     items: ImmutableList<ItemUi>,
-    generalPath:String,
+    generalPath: String,
     addUp: (Int) -> Unit = {},
     addBottom: (Int) -> Unit = {},
     delete: (Int) -> Unit = {},
@@ -124,9 +124,13 @@ fun Content(
                             onTextChange(index, it)
                         })
 
-                        Type.IMAGE -> ImageContent(childModifier, item, generalPath = generalPath,onTextChange = {
-                            onTextChange(index, it)
-                        })
+                        Type.IMAGE -> ImageContent(
+                            childModifier,
+                            item,
+                            generalPath = generalPath,
+                            onTextChange = {
+                                onTextChange(index, it)
+                            })
                     }
                 },
                 trailingContent = {
@@ -274,7 +278,7 @@ fun EquationContent(
 fun ImageContent(
     modifier: Modifier = Modifier,
     image: ItemUi,
-    generalPath:String,
+    generalPath: String,
     onTextChange: (String) -> Unit = {}
 ) {
     Box(modifier, contentAlignment = Alignment.Center) {

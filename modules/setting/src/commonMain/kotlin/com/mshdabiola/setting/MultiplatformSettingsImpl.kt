@@ -2,7 +2,6 @@ package com.mshdabiola.setting
 
 import com.mshdabiola.model.DummySetting
 import com.mshdabiola.model.data.Instruction
-import com.mshdabiola.model.data.Question
 import com.mshdabiola.model.data.QuestionFull
 import com.mshdabiola.setting.model.Dummy
 import com.mshdabiola.setting.model.toDummy
@@ -72,17 +71,16 @@ internal class MultiplatformSettingsImpl(
     override suspend fun setCurrentInstruction(instruction: Instruction) {
         withContext(Dispatchers.IO) {
 
-            val list=getInstructionList().toMutableList()
-            val index=list.indexOfFirst { it.examId==instruction.examId }
-            if (index==-1){
+            val list = getInstructionList().toMutableList()
+            val index = list.indexOfFirst { it.examId == instruction.examId }
+            if (index == -1) {
                 list.add(instruction)
-            }
-            else{
-                list[index]=instruction
+            } else {
+                list[index] = instruction
             }
             settings
                 .toBlockingSettings()
-                .encodeValue(ListSerializer( Instruction.serializer()), Keys.instructionKey, list)
+                .encodeValue(ListSerializer(Instruction.serializer()), Keys.instructionKey, list)
 
         }
     }
@@ -98,24 +96,23 @@ internal class MultiplatformSettingsImpl(
     override suspend fun removeInstruction(examId: Long) {
         withContext(Dispatchers.IO) {
 
-            val list=getInstructionList().toMutableList()
-            val index=list.indexOfFirst { it.examId==examId }
-            if (index==-1){
+            val list = getInstructionList().toMutableList()
+            val index = list.indexOfFirst { it.examId == examId }
+            if (index == -1) {
                 return@withContext
-            }
-            else{
+            } else {
                 list.removeAt(index)
                 println("remove")
             }
             settings
                 .toBlockingSettings()
-                .encodeValue(ListSerializer( Instruction.serializer()), Keys.instructionKey, list)
+                .encodeValue(ListSerializer(Instruction.serializer()), Keys.instructionKey, list)
 
         }
     }
 
     @OptIn(ExperimentalSerializationApi::class)
-    private fun getInstructionList():List<Instruction>{
+    private fun getInstructionList(): List<Instruction> {
         return settings.toBlockingSettings().decodeValue(
             ListSerializer(Instruction.serializer()),
             key = Keys.instructionKey,
@@ -124,22 +121,20 @@ internal class MultiplatformSettingsImpl(
     }
 
 
-
     @OptIn(ExperimentalSerializationApi::class)
     override suspend fun setCurrentQuestion(question: QuestionFull) {
         withContext(Dispatchers.IO) {
 
-            val list=getQuestionList().toMutableList()
-            val index=list.indexOfFirst { it.examId==question.examId }
-            if (index==-1){
+            val list = getQuestionList().toMutableList()
+            val index = list.indexOfFirst { it.examId == question.examId }
+            if (index == -1) {
                 list.add(question)
-            }
-            else{
-                list[index]=question
+            } else {
+                list[index] = question
             }
             settings
                 .toBlockingSettings()
-                .encodeValue(ListSerializer( QuestionFull.serializer()), Keys.questionKey, list)
+                .encodeValue(ListSerializer(QuestionFull.serializer()), Keys.questionKey, list)
 
         }
     }
@@ -155,24 +150,23 @@ internal class MultiplatformSettingsImpl(
     override suspend fun removeQuestion(examId: Long) {
         withContext(Dispatchers.IO) {
 
-            val list=getQuestionList().toMutableList()
-            val index=list.indexOfFirst { it.examId==examId }
-            if (index==-1){
+            val list = getQuestionList().toMutableList()
+            val index = list.indexOfFirst { it.examId == examId }
+            if (index == -1) {
                 return@withContext
-            }
-            else{
+            } else {
                 list.removeAt(index)
                 println("remove")
             }
             settings
                 .toBlockingSettings()
-                .encodeValue(ListSerializer( QuestionFull.serializer()), Keys.questionKey, list)
+                .encodeValue(ListSerializer(QuestionFull.serializer()), Keys.questionKey, list)
 
         }
     }
 
     @OptIn(ExperimentalSerializationApi::class)
-    private fun getQuestionList():List<QuestionFull>{
+    private fun getQuestionList(): List<QuestionFull> {
         return settings.toBlockingSettings().decodeValue(
             ListSerializer(QuestionFull.serializer()),
             key = Keys.questionKey,

@@ -34,7 +34,7 @@ import com.mshdabiola.ui.state.InstructionUiState
 fun InstructionEditUi(
     modifier: Modifier = Modifier,
     instructionUiState: InstructionUiState,
-    generalPath:String,
+    generalPath: String,
     onTitleChange: (String) -> Unit = {},
     addUp: (Int) -> Unit = { _ -> },
     addBottom: (Int) -> Unit = { _ -> },

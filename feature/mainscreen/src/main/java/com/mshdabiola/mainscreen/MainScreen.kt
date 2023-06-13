@@ -47,12 +47,12 @@ import kotlinx.collections.immutable.toImmutableList
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
-internal fun MainScreen(onBack: () -> Unit) {
+internal fun MainScreen(onQuestion: () -> Unit) {
     val viewModel: MainViewModel = koinViewModel()
     val mainState = viewModel.mainState.collectAsStateWithLifecycle()
     val modelst = viewModel.modelState.collectAsStateWithLifecycle()
     MainScreen(
-        back = onBack,
+        onQuestion = onQuestion,
         mainState = mainState.value,
         items = modelst.value,
         setName = viewModel::addName
@@ -63,7 +63,7 @@ internal fun MainScreen(onBack: () -> Unit) {
 @Composable
 internal fun MainScreen(
     mainState: MainState = MainState(),
-    back: () -> Unit = {},
+    onQuestion: () -> Unit = {},
     items: ImmutableList<ModelUiState>,
     setName: (String) -> Unit = {}
 ) {
@@ -126,7 +126,8 @@ internal fun MainScreen(
 
                     Button(
                         modifier = Modifier.align(Alignment.End),
-                        onClick = { /*TODO*/ }) {
+                        onClick = onQuestion
+                    ) {
                         Text(text = "Continue Exam")
                     }
 
@@ -148,13 +149,14 @@ internal fun MainScreen(
             }
             Spacer(modifier = Modifier.height(8.dp))
 
-            Row (Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly){
+            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
                 OutlinedCard {
-                    Column (Modifier.padding(16.dp),
+                    Column(
+                        Modifier.padding(16.dp),
                         verticalArrangement = Arrangement.spacedBy(8.dp),
                         horizontalAlignment = Alignment.CenterHorizontally
 
-                    ){
+                    ) {
                         Box(
                             modifier = Modifier
                                 .clip(CircleShape)
@@ -173,11 +175,12 @@ internal fun MainScreen(
                     }
                 }
                 OutlinedCard {
-                    Column (Modifier.padding(16.dp),
+                    Column(
+                        Modifier.padding(16.dp),
                         verticalArrangement = Arrangement.spacedBy(8.dp),
                         horizontalAlignment = Alignment.CenterHorizontally
 
-                    ){
+                    ) {
                         Box(
                             modifier = Modifier
                                 .clip(CircleShape)
