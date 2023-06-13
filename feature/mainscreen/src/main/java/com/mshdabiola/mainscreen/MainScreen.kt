@@ -11,7 +11,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -25,6 +27,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -35,6 +38,7 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.testTagsAsResourceId
@@ -76,9 +80,14 @@ internal fun MainScreen(
     var name by remember {
         mutableStateOf("")
     }
+    val state= rememberScrollState()
+    val  scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
 //    NotifySnacker(snackHostState = snackbarHostState, notifys = mainState.messages)
     Scaffold(
-        modifier = Modifier.semantics { this.testTagsAsResourceId = true },
+        modifier = Modifier
+            .nestedScroll(scrollBehavior.nestedScrollConnection)
+            .semantics { this.testTagsAsResourceId = true }
+        ,
         topBar = {
             CenterAlignedTopAppBar(
                 title = {
@@ -87,12 +96,16 @@ internal fun MainScreen(
                         Text(text = "Waec series", style = MaterialTheme.typography.labelMedium)
                     }
 
-                })
+                },
+                scrollBehavior=scrollBehavior
+
+            )
         },
         snackbarHost = { SnackbarHost(snackbarHostState) }
     ) { paddingValues ->
         Column(
             Modifier
+                .verticalScroll(state)
                 .padding(paddingValues)
                 .padding(horizontal = 8.dp)
         ) {

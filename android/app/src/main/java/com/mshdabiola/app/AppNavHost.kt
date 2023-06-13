@@ -33,10 +33,8 @@ import com.mshdabiola.statisticsscreen.StatScreenNav
 @Composable
 fun AppNavHost(iRootComponent: IRootComponent, modifier: Modifier) {
 
-    Column() {
         Children(
             stack = iRootComponent.stack,
-            modifier = Modifier.fillMaxSize(),
             animation = stackAnimation(slide())
         ) {
 
@@ -65,7 +63,7 @@ fun AppNavHost(iRootComponent: IRootComponent, modifier: Modifier) {
         }
 
 
-    }
+
 }
 
 
