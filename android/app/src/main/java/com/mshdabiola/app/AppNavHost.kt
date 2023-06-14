@@ -2,7 +2,6 @@ package com.mshdabiola.app
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Star
@@ -16,7 +15,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import com.arkivanov.decompose.ExperimentalDecomposeApi
-import com.arkivanov.decompose.extensions.compose.jetbrains.pages.Pages
 import com.arkivanov.decompose.extensions.compose.jetbrains.pages.PagesScrollAnimation
 import com.arkivanov.decompose.extensions.compose.jetbrains.stack.Children
 import com.arkivanov.decompose.extensions.compose.jetbrains.stack.animation.slide
@@ -33,35 +31,34 @@ import com.mshdabiola.statisticsscreen.StatScreenNav
 @Composable
 fun AppNavHost(iRootComponent: IRootComponent, modifier: Modifier) {
 
-        Children(
-            stack = iRootComponent.stack,
-            animation = stackAnimation(slide())
-        ) {
+    Children(
+        stack = iRootComponent.stack,
+        animation = stackAnimation(slide())
+    ) {
 
-            when (it.instance) {
-                is IRootComponent.RootScreen.PagerScreen -> {
-                    PagerCom(
-                        (it.instance as IRootComponent.RootScreen.PagerScreen).component,
-                        onQuestion = iRootComponent::navigateToQuestion
+        when (it.instance) {
+            is IRootComponent.RootScreen.PagerScreen -> {
+                PagerCom(
+                    (it.instance as IRootComponent.RootScreen.PagerScreen).component,
+                    onQuestion = iRootComponent::navigateToQuestion
 
-                    )
-                }
+                )
+            }
 
-                is IRootComponent.RootScreen.QuestionRootScreen -> {
-                    QuestionScreenNav(
-                        onBack = iRootComponent::pop,
-                        onFinish = iRootComponent::navigateToFinish
-                    )
-                }
+            is IRootComponent.RootScreen.QuestionRootScreen -> {
+                QuestionScreenNav(
+                    onBack = iRootComponent::pop,
+                    onFinish = iRootComponent::navigateToFinish
+                )
+            }
 
-                is IRootComponent.RootScreen.FinishRootScreen -> {
-                    FinishScreenNav(onBack = iRootComponent::pop)
-                }
-
+            is IRootComponent.RootScreen.FinishRootScreen -> {
+                FinishScreenNav(onBack = iRootComponent::pop)
             }
 
         }
 
+    }
 
 
 }
@@ -120,3 +117,4 @@ fun PagerCom(
     }
 
 }
+

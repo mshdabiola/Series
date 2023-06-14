@@ -34,7 +34,6 @@ internal fun ProfileScreen(
         topBar = {
             TopAppBar(
                 title = { Text(text = "Profile") },
-
                 )
         },
 
