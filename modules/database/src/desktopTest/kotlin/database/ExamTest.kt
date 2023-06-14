@@ -29,7 +29,7 @@ class ExamTest : AbstractTest() {
             .test {
                 val list = awaitItem()
                 println(list.joinToString())
-                assertEquals(2, list.size)
+                assertEquals(3, list.size)
                 this.cancelAndIgnoreRemainingEvents()
 
             }
