@@ -1,28 +1,18 @@
 package com.mshdabiola.mainscreen
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Button
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
@@ -36,8 +26,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.semantics.semantics
@@ -46,6 +34,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.mshdabiola.ui.ContinueCard
+import com.mshdabiola.ui.OtherCard
+import com.mshdabiola.ui.StartCard
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 import org.koin.androidx.compose.koinViewModel
@@ -80,14 +71,13 @@ internal fun MainScreen(
     var name by remember {
         mutableStateOf("")
     }
-    val state= rememberScrollState()
-    val  scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
+    val state = rememberScrollState()
+    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
 //    NotifySnacker(snackHostState = snackbarHostState, notifys = mainState.messages)
     Scaffold(
         modifier = Modifier
             .nestedScroll(scrollBehavior.nestedScrollConnection)
-            .semantics { this.testTagsAsResourceId = true }
-        ,
+            .semantics { this.testTagsAsResourceId = true },
         topBar = {
             CenterAlignedTopAppBar(
                 title = {
@@ -97,7 +87,7 @@ internal fun MainScreen(
                     }
 
                 },
-                scrollBehavior=scrollBehavior
+                scrollBehavior = scrollBehavior
 
             )
         },
@@ -107,7 +97,8 @@ internal fun MainScreen(
             Modifier
                 .verticalScroll(state)
                 .padding(paddingValues)
-                .padding(horizontal = 8.dp)
+                .padding(horizontal = 8.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
 
             Row(
@@ -129,88 +120,16 @@ internal fun MainScreen(
                 Image(painter = painterResource(id = R.drawable.layer_2), contentDescription = "")
 
             }
-            Spacer(modifier = Modifier.height(8.dp))
-            Card(colors = CardDefaults.cardColors(containerColor = Color.Yellow)) {
-                Column(Modifier.padding(8.dp)) {
-                    Text(text = "You are soon closed to end, finish your quiz and find out your scores")
-                    Text(text = "Year :  2011")
-                    Text(text = "Question progress : 50%")
-                    LinearProgressIndicator(modifier = Modifier.fillMaxWidth(), progress = 0.5f)
-
-                    Button(
-                        modifier = Modifier.align(Alignment.End),
-                        onClick = onQuestion
-                    ) {
-                        Text(text = "Continue Exam")
-                    }
-
-                }
-            }
-            Spacer(modifier = Modifier.height(8.dp))
-            Card(colors = CardDefaults.cardColors(containerColor = Color.Yellow)) {
-                Row(Modifier.padding(8.dp)) {
-
-                    Text(
-                        modifier = Modifier.weight(1f),
-                        text = "Ready to challenge yourself with new test? Let go!"
-                    )
-                    Button(onClick = { /*TODO*/ }) {
-                        Text(text = "Start exam")
-                    }
-
-                }
-            }
-            Spacer(modifier = Modifier.height(8.dp))
-
+            ContinueCard(onQuestion)
+            StartCard()
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
-                OutlinedCard {
-                    Column(
-                        Modifier.padding(16.dp),
-                        verticalArrangement = Arrangement.spacedBy(8.dp),
-                        horizontalAlignment = Alignment.CenterHorizontally
-
-                    ) {
-                        Box(
-                            modifier = Modifier
-                                .clip(CircleShape)
-                                .background(Color.Blue.copy(alpha = 0.4f))
-                                .padding(16.dp)
-                        ) {
-                            Icon(
-                                modifier = Modifier.size(64.dp),
-                                painter = painterResource(id = R.drawable.layer__1),
-                                contentDescription = "random test",
-                                tint = Color.Blue
-                            )
-                        }
-
-                        Text(text = "Random test")
-                    }
-                }
-                OutlinedCard {
-                    Column(
-                        Modifier.padding(16.dp),
-                        verticalArrangement = Arrangement.spacedBy(8.dp),
-                        horizontalAlignment = Alignment.CenterHorizontally
-
-                    ) {
-                        Box(
-                            modifier = Modifier
-                                .clip(CircleShape)
-                                .background(Color.Blue.copy(alpha = 0.4f))
-                                .padding(16.dp)
-                        ) {
-                            Icon(
-                                modifier = Modifier.size(64.dp),
-                                painter = painterResource(id = R.drawable.layer_1),
-                                contentDescription = "random test",
-                                tint = Color.Blue
-                            )
-                        }
-
-                        Text(text = "Fast finger")
-                    }
-                }
+                OtherCard(
+                    title = "Random test",
+                    painter = painterResource(id = R.drawable.layer__1)
+                )
+                OtherCard(
+                    title = "Fast finger",
+                    painter = painterResource(id = R.drawable.layer_1))
             }
 
 
