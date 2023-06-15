@@ -52,7 +52,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.unit.dp
-import com.mshdabiola.common.FileManager
 import com.mshdabiola.model.data.Type
 import com.mshdabiola.ui.TemplateUi
 import com.mshdabiola.ui.instructionui.InstructionEditUi
@@ -66,6 +65,7 @@ import com.mshdabiola.ui.state.QuestionUiState
 import com.mshdabiola.ui.state.TopicInputUiState
 import com.mshdabiola.ui.state.TopicUiState
 import com.mshdabiola.ui.topicui.TopicUi
+import com.mshdabiola.util.FileManager
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.ExperimentalResourceApi

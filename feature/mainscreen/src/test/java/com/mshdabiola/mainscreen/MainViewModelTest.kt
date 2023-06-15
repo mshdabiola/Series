@@ -2,7 +2,6 @@ package com.mshdabiola.mainscreen
 
 import androidx.lifecycle.SavedStateHandle
 import app.cash.turbine.test
-import com.mshdabiola.data.repository.ModelRepository
 import com.mshdabiola.model.Model
 import com.mshdabiola.testing.MainDispatcherRule
 import com.mshdabiola.testing.repository.TestIModelRepository
@@ -16,7 +15,7 @@ class MainViewModelTest {
     @get:Rule
     val mainDispatcherRule = MainDispatcherRule()
 
-    lateinit var modelRepository: ModelRepository
+
     lateinit var mainViewModel: MainViewModel
 
     @Before

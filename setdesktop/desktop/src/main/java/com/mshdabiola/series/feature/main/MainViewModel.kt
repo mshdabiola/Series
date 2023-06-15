@@ -2,7 +2,6 @@ package com.mshdabiola.series.feature.main
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
-import com.mshdabiola.common.ExInPort
 import com.mshdabiola.data.repository.inter.IExInPortRepository
 import com.mshdabiola.data.repository.inter.IExamRepository
 import com.mshdabiola.data.repository.inter.INetworkRepository
@@ -20,6 +19,7 @@ import com.mshdabiola.ui.state.SubjectUiState
 import com.mshdabiola.ui.toExam
 import com.mshdabiola.ui.toSubject
 import com.mshdabiola.ui.toUi
+import com.mshdabiola.util.ExInPort
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
