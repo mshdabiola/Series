@@ -1,4 +1,4 @@
-package com.mshdabiola.ui.questionui
+package com.mshdabiola.ui
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Box
@@ -31,7 +31,6 @@ import java.awt.dnd.DropTargetDropEvent
 import java.awt.dnd.DropTargetEvent
 import java.awt.dnd.DropTargetListener
 import java.io.File
-
 
 @Composable
 actual fun DragAndDropImage(
@@ -105,7 +104,7 @@ actual fun DragAndDropImage(
                     ) {
                         Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                             if (File(path).exists()) {
-                                DesktopImage(
+                                ImageUi(
                                     modifier.fillMaxSize(),
                                     path = path,
                                     contentDescription = ""
@@ -127,12 +126,12 @@ actual fun DragAndDropImage(
 }
 
 @Composable
-actual fun DesktopImage(
+actual fun ImageUi(
     modifier: Modifier,
     path: String,
     contentDescription: String,
     contentScale: ContentScale
-) {
+)  {
     val density = LocalDensity.current
     val filePath = File(path)
     when (filePath.extension) {

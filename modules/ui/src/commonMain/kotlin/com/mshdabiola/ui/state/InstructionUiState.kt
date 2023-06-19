@@ -6,5 +6,5 @@ data class InstructionUiState(
     val id: Long = -1,
     val examId: Long,
     val title: String?,
-    val content: ImmutableList<ItemUi>
+    val content: ImmutableList<ItemUiState>
 )

@@ -10,7 +10,7 @@ import com.mshdabiola.model.data.Subject
 import com.mshdabiola.model.data.Topic
 import com.mshdabiola.ui.state.ExamUiState
 import com.mshdabiola.ui.state.InstructionUiState
-import com.mshdabiola.ui.state.ItemUi
+import com.mshdabiola.ui.state.ItemUiState
 import com.mshdabiola.ui.state.OptionUiState
 import com.mshdabiola.ui.state.QuestionUiState
 import com.mshdabiola.ui.state.SubjectUiState
@@ -65,9 +65,9 @@ fun OptionUiState.toOption(questionNos: Long, examId: Long) =
     )
 
 
-fun ItemUi.toItem() = Item(content = content, type = type)
+fun ItemUiState.toItem() = Item(content = content, type = type)
 fun Item.toItemUi(isEdit: Boolean = false) =
-    ItemUi(content = content, type = type, isEditMode = isEdit)
+    ItemUiState(content = content, type = type, isEditMode = isEdit)
 
 fun InstructionUiState.toInstruction() = Instruction(
     id = id,

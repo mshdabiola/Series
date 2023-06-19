@@ -12,7 +12,7 @@ import com.mshdabiola.series.ViewModel
 import com.mshdabiola.ui.state.ExamInputUiState
 import com.mshdabiola.ui.state.InstruInputUiState
 import com.mshdabiola.ui.state.InstructionUiState
-import com.mshdabiola.ui.state.ItemUi
+import com.mshdabiola.ui.state.ItemUiState
 import com.mshdabiola.ui.state.OptionUiState
 import com.mshdabiola.ui.state.QuestionUiState
 import com.mshdabiola.ui.state.TopicInputUiState
@@ -82,7 +82,7 @@ class ExamViewModel(
     private val defaultInstruction = InstructionUiState(
         examId = examId,
         title = null,
-        content = listOf(ItemUi(isEditMode = true)).toImmutableList()
+        content = listOf(ItemUiState(isEditMode = true)).toImmutableList()
     )
     private val _instructionUiState = mutableStateOf(
         defaultInstruction
@@ -239,7 +239,7 @@ class ExamViewModel(
                         OptionUiState(
                             nos = (question.options.size + 1).toLong(),
                             content = listOf(
-                                ItemUi(isEditMode = true)
+                                ItemUiState(isEditMode = true)
                             ).toImmutableList(),
                             isAnswer = false
                         )
@@ -256,33 +256,33 @@ class ExamViewModel(
         return QuestionUiState(
             nos = -1,
             content = listOf(
-                ItemUi(isEditMode = true, focus = true)
+                ItemUiState(isEditMode = true, focus = true)
             ).toImmutableList(),
             options = listOf(
                 OptionUiState(
                     nos = 1,
                     content = listOf(
-                        ItemUi(isEditMode = true)
+                        ItemUiState(isEditMode = true)
                     ).toImmutableList(),
                     isAnswer = false
                 ),
                 OptionUiState(
                     nos = 2,
                     content = listOf(
-                        ItemUi(isEditMode = true)
+                        ItemUiState(isEditMode = true)
                     ).toImmutableList(),
                     isAnswer = false
                 ),
                 OptionUiState(
                     nos = 3, content = listOf(
-                        ItemUi(isEditMode = true)
+                        ItemUiState(isEditMode = true)
                     ).toImmutableList(),
                     isAnswer = false
                 ),
                 OptionUiState(
                     nos = 4,
                     content = listOf(
-                        ItemUi(isEditMode = true)
+                        ItemUiState(isEditMode = true)
                     ).toImmutableList(),
                     isAnswer = false
                 )
@@ -309,7 +309,7 @@ class ExamViewModel(
     fun addUP(questionIndex: Int, index: Int) {
         editContent(questionIndex) {
             val i = if (index == 0) 0 else index - 1
-            it.add(i, ItemUi(isEditMode = true))
+            it.add(i, ItemUiState(isEditMode = true))
             i
         }
     }
@@ -317,7 +317,7 @@ class ExamViewModel(
     fun addDown(questionIndex: Int, index: Int) {
         editContent(questionIndex) {
 
-            it.add(index + 1, ItemUi(isEditMode = true))
+            it.add(index + 1, ItemUiState(isEditMode = true))
             index + 1
         }
     }
@@ -392,7 +392,7 @@ class ExamViewModel(
                     FileManager.ImageType.QUESTION
                 )
             }
-            it[index] = ItemUi(isEditMode = true, type = type)
+            it[index] = ItemUiState(isEditMode = true, type = type)
             index
         }
     }
@@ -427,7 +427,7 @@ class ExamViewModel(
     }
 
     private fun editContent(
-        questionIndex: Int, items: suspend (MutableList<ItemUi>) -> Int?
+        questionIndex: Int, items: suspend (MutableList<ItemUiState>) -> Int?
     ) {
         viewModelScope.launch {
 
@@ -620,7 +620,7 @@ class ExamViewModel(
     fun addUpInstruction(index: Int) {
         editContentInstruction() {
             val i = if (index == 0) 0 else index - 1
-            it.add(i, ItemUi(isEditMode = true))
+            it.add(i, ItemUiState(isEditMode = true))
             i
         }
     }
@@ -628,7 +628,7 @@ class ExamViewModel(
     fun addDownInstruction(index: Int) {
         editContentInstruction() {
 
-            it.add(index + 1, ItemUi(isEditMode = true))
+            it.add(index + 1, ItemUiState(isEditMode = true))
 
             index + 1
         }
@@ -708,7 +708,7 @@ class ExamViewModel(
                     FileManager.ImageType.INSTRUCTION
                 )
             }
-            it[index] = ItemUi(isEditMode = true, type = type)
+            it[index] = ItemUiState(isEditMode = true, type = type)
             index
         }
     }
@@ -737,7 +737,7 @@ class ExamViewModel(
     }
 
     private fun editContentInstruction(
-        onItems: suspend (MutableList<ItemUi>) -> Int?
+        onItems: suspend (MutableList<ItemUiState>) -> Int?
     ) {
         viewModelScope.launch {
             var items = instructionUiState.value.content.toMutableList()

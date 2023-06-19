@@ -33,13 +33,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.platform.Font
 import androidx.compose.ui.unit.dp
 import com.mshdabiola.model.data.Type
 import com.mshdabiola.retex.aimplementation.LatexText
+import com.mshdabiola.ui.ImageUi
+import com.mshdabiola.ui.DragAndDropImage
 import com.mshdabiola.ui.MarkUpText
-import com.mshdabiola.ui.state.ItemUi
+import com.mshdabiola.ui.state.ItemUiState
 import kotlinx.collections.immutable.ImmutableList
 
 
@@ -48,7 +49,7 @@ import kotlinx.collections.immutable.ImmutableList
 fun ContentView(
     modifier: Modifier = Modifier,
     color: Color = ListItemDefaults.containerColor,
-    items: ImmutableList<ItemUi>,
+    items: ImmutableList<ItemUiState>,
     generalPath: String,
 ) {
 
@@ -71,7 +72,7 @@ fun ContentView(
 
                         Type.IMAGE ->
                             Box(childModifier, contentAlignment = Alignment.Center) {
-                                DesktopImage(
+                                ImageUi(
                                     Modifier.size(100.dp),
                                     path = "$generalPath/${item.content}",
                                     contentDescription = ""
@@ -91,7 +92,7 @@ fun ContentView(
 @Composable
 fun Content(
     modifier: Modifier = Modifier,
-    items: ImmutableList<ItemUi>,
+    items: ImmutableList<ItemUiState>,
     generalPath: String,
     addUp: (Int) -> Unit = {},
     addBottom: (Int) -> Unit = {},
@@ -247,7 +248,7 @@ fun Content(
 @Composable
 fun EquationContent(
     modifier: Modifier = Modifier,
-    equation: ItemUi,
+    equation: ItemUiState,
     onTextChange: (String) -> Unit = {}
 ) {
     val focusRequester = remember {
@@ -277,7 +278,7 @@ fun EquationContent(
 @Composable
 fun ImageContent(
     modifier: Modifier = Modifier,
-    image: ItemUi,
+    image: ItemUiState,
     generalPath: String,
     onTextChange: (String) -> Unit = {}
 ) {
@@ -296,7 +297,7 @@ fun ImageContent(
 @Composable
 fun TextContent(
     modifier: Modifier = Modifier,
-    text: ItemUi,
+    text: ItemUiState,
     onTextChange: (String) -> Unit = {}
 ) {
     val focusRequester = remember {
@@ -320,19 +321,4 @@ fun TextContent(
 
 }
 
-
-@Composable
-expect fun DragAndDropImage(
-    modifier: Modifier,
-    path: String,
-    onPathChange: (String) -> Unit = {}
-)
-
-@Composable
-expect fun DesktopImage(
-    modifier: Modifier = Modifier,
-    path: String,
-    contentDescription: String,
-    contentScale: ContentScale = ContentScale.Fit
-)
 

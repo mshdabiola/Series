@@ -13,6 +13,10 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.testTagsAsResourceId
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.mshdabiola.ui.OptionsUi
+import com.mshdabiola.ui.state.ItemUiState
+import com.mshdabiola.ui.state.OptionUiState
+import kotlinx.collections.immutable.toImmutableList
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -43,6 +47,43 @@ internal fun ProfileScreen(
                 .padding(paddingValues)
                 .padding(horizontal = 8.dp)
         ) {
+
+            OptionsUi(
+                optionUiStates = listOf(
+                    OptionUiState(
+                        id = 1, nos = 1, content = listOf(
+                            ItemUiState(
+                                content = "Isabelle"
+                            )
+                        ).toImmutableList(),
+                        isAnswer = false, choose = false
+                    ),
+                    OptionUiState(
+                        id = 2, nos = 2, content = listOf(
+                            ItemUiState(
+                                content = "Isabelle"
+                            )
+                        ).toImmutableList(),
+                        isAnswer = false, choose = false
+                    ),
+                    OptionUiState(
+                        id = 3, nos = 3, content = listOf(
+                            ItemUiState(
+                                content = "Isabelle"
+                            )
+                        ).toImmutableList(),
+                        isAnswer = false, choose = false
+                    ),
+                    OptionUiState(
+                        id = 4, nos = 4, content = listOf(
+                            ItemUiState(
+                                content = "Isabelle",
+                            )
+                        ).toImmutableList(),
+                        isAnswer = false, choose = false
+                    )
+                ).toImmutableList(), generalPath = ""
+            )
         }
     }
 

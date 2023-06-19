@@ -18,6 +18,7 @@ kotlin {
                 implementation(compose.materialIconsExtended)
                 implementation(compose.material3)
                 implementation(libs.kotlinx.collection.immutable)
+                implementation(libs.kotlinx.datetime)
                 implementation(project(":modules:retex"))
                 implementation(project(":modules:model"))
             }

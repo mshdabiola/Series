@@ -1,7 +1,7 @@
 package com.mshdabiola.ui
 
 import androidx.compose.desktop.ui.tooling.preview.Preview
-import androidx.compose.material.Icon
+import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.ExperimentalComposeUiApi

@@ -48,6 +48,9 @@ fun ContinueCard(
 }
 
 @Composable
+internal expect fun ContinueCardPreview()
+
+@Composable
 fun StartCard() {
     Card(colors = CardDefaults.cardColors(containerColor = Color.Yellow)) {
         Row(Modifier.padding(8.dp)) {
@@ -63,6 +66,8 @@ fun StartCard() {
         }
     }
 }
+@Composable
+internal expect fun StatCardPreview()
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -97,3 +102,6 @@ fun OtherCard(
         }
     }
 }
+
+@Composable
+internal expect fun OtherCardPreview()

@@ -6,9 +6,9 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Icon
-import androidx.compose.material.Text
-import androidx.compose.material.TextField
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.MoreVert
@@ -30,6 +30,7 @@ import com.mshdabiola.ui.questionui.Content
 import com.mshdabiola.ui.questionui.ContentView
 import com.mshdabiola.ui.state.InstructionUiState
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun InstructionEditUi(
     modifier: Modifier = Modifier,

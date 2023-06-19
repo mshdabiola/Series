@@ -1,7 +1,7 @@
 package com.mshdabiola.ui.topicui
 
 import androidx.compose.foundation.layout.Box
-import androidx.compose.material.Icon
+import androidx.compose.material3.Icon
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.MoreVert
