@@ -19,6 +19,7 @@ import com.arkivanov.decompose.extensions.compose.jetbrains.pages.PagesScrollAni
 import com.arkivanov.decompose.extensions.compose.jetbrains.stack.Children
 import com.arkivanov.decompose.extensions.compose.jetbrains.stack.animation.slide
 import com.arkivanov.decompose.extensions.compose.jetbrains.stack.animation.stackAnimation
+import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
 import com.mshdabiola.finishscreen.FinishScreenNav
 import com.mshdabiola.mainscreen.MainScreenNav
 import com.mshdabiola.navigation.IPagerComponent
@@ -70,14 +71,13 @@ fun PagerCom(
     iPagerComponent: IPagerComponent,
     onQuestion: () -> Unit = {}
 ) {
-    var current by remember {
-        mutableStateOf(0)
-    }
+    var current =iPagerComponent.current.subscribeAsState().value
+
     Column {
         Pages(
-            pages = iPagerComponent.stack,
+            pages = iPagerComponent.pages,
             modifier = Modifier.weight(1f),
-            onPageSelected = { current = it },
+            onPageSelected = {},
             scrollAnimation = PagesScrollAnimation.Default
         ) { _, page ->
             when (page) {

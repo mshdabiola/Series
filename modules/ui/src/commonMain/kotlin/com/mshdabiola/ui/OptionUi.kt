@@ -28,7 +28,7 @@ import kotlinx.collections.immutable.ImmutableList
 fun OptionsUi(
     optionUiStates: ImmutableList<OptionUiState>,
     generalPath: String,
-    onClick: (Long) -> Unit = {}
+    onClick: (Int) -> Unit = {}
 
 ) {
 
@@ -45,12 +45,12 @@ fun OptionsUi(
     FlowRow (
         maxItemsInEachRow = noRow
     ){
-        optionUiStates.forEach {
+        optionUiStates.forEachIndexed { index, optionUiState ->
             OptionUi(
                 modifier = Modifier.padding(2.dp).weight(1f),
-                optionUiState = it,
+                optionUiState = optionUiState,
                 generalPath = generalPath,
-                onClick = { onClick(it.id) })
+                onClick = { onClick(index) })
         }
     }
 

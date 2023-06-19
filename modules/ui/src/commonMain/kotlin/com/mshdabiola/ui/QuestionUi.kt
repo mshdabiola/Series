@@ -24,7 +24,7 @@ fun QuestionUi(
     title: String,
     generalPath: String,
     onInstruction: () -> Unit = {},
-    onOptionClick: (Long) -> Unit = {}
+    onOptionClick: (Int) -> Unit = {}
 ) {
     Column(
         modifier = modifier,

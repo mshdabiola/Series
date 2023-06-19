@@ -8,6 +8,7 @@ import com.arkivanov.decompose.router.pages.PagesNavigation
 import com.arkivanov.decompose.router.pages.childPages
 import com.arkivanov.decompose.router.pages.select
 import com.arkivanov.decompose.value.Value
+import com.arkivanov.decompose.value.operator.map
 import com.arkivanov.essenty.parcelable.Parcelable
 import kotlinx.parcelize.Parcelize
 
@@ -18,7 +19,7 @@ class PagerComponent(componentContext: ComponentContext) : IPagerComponent,
     private val navigation = PagesNavigation<Config2>()
 
     @OptIn(ExperimentalDecomposeApi::class)
-    override val stack: Value<ChildPages<*, IPagerComponent.PScreen>> = childPages(
+    override val pages: Value<ChildPages<*, IPagerComponent.PScreen>> = childPages(
         source = navigation,
         initialPages = {
             Pages(
@@ -43,6 +44,8 @@ class PagerComponent(componentContext: ComponentContext) : IPagerComponent,
         }
     }
 
+    @OptIn(ExperimentalDecomposeApi::class)
+    override val current=pages.map { it.selectedIndex }
 
     @OptIn(ExperimentalDecomposeApi::class)
     override fun selectedPage(int: Int) {

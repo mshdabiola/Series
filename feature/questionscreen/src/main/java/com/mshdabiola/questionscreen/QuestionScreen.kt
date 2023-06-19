@@ -20,6 +20,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -54,164 +55,19 @@ internal fun QuestionScreen(
     onFinish: () -> Unit
 ) {
     val viewModel: QuestionViewModel = koinViewModel()
-    val questions =
-        listOf(
-            QuestionUiState(
-                id = 1,
-                nos = 1,
-                content = listOf(
-                    ItemUiState(content = "What is your name")
-                )
-                    .toImmutableList(),
-                options = listOf(
-                    OptionUiState(
-                        id = 1, nos = 1, content = listOf(
-                            ItemUiState(
-                                content = "Isabelle"
-                            )
-                        ).toImmutableList(),
-                        isAnswer = false, choose = false
-                    ),
-                    OptionUiState(
-                        id = 2, nos = 2, content = listOf(
-                            ItemUiState(
-                                content = "Isabelle"
-                            )
-                        ).toImmutableList(),
-                        isAnswer = false, choose = false
-                    ),
-                    OptionUiState(
-                        id = 3, nos = 3, content = listOf(
-                            ItemUiState(
-                                content = "Isabelle"
-                            )
-                        ).toImmutableList(),
-                        isAnswer = false, choose = false
-                    ),
-                    OptionUiState(
-                        id = 4, nos = 4, content = listOf(
-                            ItemUiState(
-                                content = "Isabelle",
-                            )
-                        ).toImmutableList(),
-                        isAnswer = false, choose = false
-                    )
-                ).toImmutableList(),
-                instructionUiState = InstructionUiState(
-                    id = 1,
-                    examId = 3,
-                    title = "What",
-                    content = listOf(ItemUiState()).toImmutableList()
-                )
-            ),
-            QuestionUiState(
-                id = 1,
-                nos = 1,
-                content = listOf(
-                    ItemUiState(content = "What is your name")
-                )
-                    .toImmutableList(),
-                options = listOf(
-                    OptionUiState(
-                        id = 1, nos = 1, content = listOf(
-                            ItemUiState(
-                                content = "Isabelle"
-                            )
-                        ).toImmutableList(),
-                        isAnswer = false, choose = true
-                    ),
-                    OptionUiState(
-                        id = 2, nos = 2, content = listOf(
-                            ItemUiState(
-                                content = "Isabelle"
-                            )
-                        ).toImmutableList(),
-                        isAnswer = false, choose = false
-                    ),
-                    OptionUiState(
-                        id = 3, nos = 3, content = listOf(
-                            ItemUiState(
-                                content = "Isabelle"
-                            )
-                        ).toImmutableList(),
-                        isAnswer = false, choose = false
-                    ),
-                    OptionUiState(
-                        id = 4, nos = 4, content = listOf(
-                            ItemUiState(
-                                content = "Isabelle",
-                            )
-                        ).toImmutableList(),
-                        isAnswer = false, choose = false
-                    )
-                ).toImmutableList(),
-                instructionUiState = InstructionUiState(
-                    id = 1,
-                    examId = 3,
-                    title = "What",
-                    content = listOf(ItemUiState()).toImmutableList()
-                )
-            ),
-            QuestionUiState(
-                id = 1,
-                nos = 1,
-                content = listOf(
-                    ItemUiState(content = "What is your name")
-                )
-                    .toImmutableList(),
-                options = listOf(
-                    OptionUiState(
-                        id = 1, nos = 1, content = listOf(
-                            ItemUiState(
-                                content = "Isabelle"
-                            )
-                        ).toImmutableList(),
-                        isAnswer = false, choose = true
-                    ),
-                    OptionUiState(
-                        id = 2, nos = 2, content = listOf(
-                            ItemUiState(
-                                content = "Isabelle"
-                            )
-                        ).toImmutableList(),
-                        isAnswer = false, choose = false
-                    ),
-                    OptionUiState(
-                        id = 3, nos = 3, content = listOf(
-                            ItemUiState(
-                                content = "Isabelle"
-                            )
-                        ).toImmutableList(),
-                        isAnswer = false, choose = false
-                    ),
-                    OptionUiState(
-                        id = 4, nos = 4, content = listOf(
-                            ItemUiState(
-                                content = "Isabelle",
-                            )
-                        ).toImmutableList(),
-                        isAnswer = false, choose = false
-                    )
-                ).toImmutableList(),
-                instructionUiState = InstructionUiState(
-                    id = 1,
-                    examId = 3,
-                    title = "What",
-                    content = listOf(ItemUiState()).toImmutableList()
-                )
-            )
-        ).toImmutableList()
+    val questions =viewModel.questionsList.collectAsState()
 
     QuestionScreen(
-        questions = questions,
+        questions = questions.value,
         profileState = ProfileState(),
         back = onBack,
-        onFinish = onFinish
+        onFinish = onFinish,
+        onOption = viewModel::onOption
     )
 }
 
 @OptIn(
-    ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class,
+    ExperimentalComposeUiApi::class,
     ExperimentalFoundationApi::class
 )
 @Composable
@@ -219,7 +75,8 @@ internal fun QuestionScreen(
     questions: ImmutableList<QuestionUiState>,
     profileState: ProfileState,
     back: () -> Unit = {},
-    onFinish: () -> Unit = {}
+    onFinish: () -> Unit = {},
+    onOption : (Int,Int)->Unit={_,_->}
 ) {
 
     var show by remember {
@@ -258,16 +115,24 @@ internal fun QuestionScreen(
         ) {
             TimeCounter(currentTime = 400, total = 500)
 
-            HorizontalPager(state = state) {
+            HorizontalPager(state = state) {index->
                 QuestionUi(
-                    number = (it + 1L),
-                    questionUiState = questions[it],
+                    number = (index + 1L),
+                    questionUiState = questions[index],
                     generalPath = "",
                     title = "Waec 2015 Q4",
                     onInstruction = {
                         showInstruct=true
                     },
-                    onOptionClick = {}
+                    onOptionClick = {
+                        onOption(index,it)
+                        if (state.canScrollForward){
+                            coroutineScope
+                                .launch {
+                                    state.animateScrollToPage(index+1)
+                                }
+                        }
+                    }
                 )
             }
             QuestionScroll(
