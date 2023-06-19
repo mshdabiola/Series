@@ -33,6 +33,7 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.testTagsAsResourceId
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.mshdabiola.ui.ItemUi
 import com.mshdabiola.ui.QuestionNumberButton
 import com.mshdabiola.ui.QuestionScroll
 import com.mshdabiola.ui.QuestionUi
@@ -224,6 +225,9 @@ internal fun QuestionScreen(
     var show by remember {
         mutableStateOf(false)
     }
+    var showInstruct by remember {
+        mutableStateOf(false)
+    }
     val coroutineScope = rememberCoroutineScope()
     val state = rememberPagerState {
         questions.size
@@ -259,7 +263,11 @@ internal fun QuestionScreen(
                     number = (it + 1L),
                     questionUiState = questions[it],
                     generalPath = "",
-                    title = "Waec 2015 Q4"
+                    title = "Waec 2015 Q4",
+                    onInstruction = {
+                        showInstruct=true
+                    },
+                    onOptionClick = {}
                 )
             }
             QuestionScroll(
@@ -291,13 +299,13 @@ internal fun QuestionScreen(
             ) {
                 Text(text = "Completed $finishPercent%")
                 Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
-                    TextButton(onClick = { /*TODO*/ }) {
+                    TextButton(onClick = back) {
                         Text(text = "Home")
 
                     }
                     Button(
-                        onClick = { /*TODO*/ },
-                        colors = if (finishPercent==100)
+                        onClick = onFinish,
+                        colors = if (finishPercent == 100)
                             ButtonDefaults.buttonColors(containerColor = Color.Green)
                         else
                             ButtonDefaults.textButtonColors()
@@ -310,7 +318,13 @@ internal fun QuestionScreen(
         }
     }
 
-    AllQuestionButtons(
+    InstructionBottomSheet(
+        show = showInstruct,
+        instructionUiState = questions[state.currentPage].instructionUiState!!,
+        generalPath = "",
+        onDismissRequest = {showInstruct=false}
+    )
+    AllQuestionBottomSheet(
         show = show,
         chooses = chooses,
         onChooseClick = {
@@ -483,7 +497,7 @@ fun QuestionScreenPreview() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AllQuestionButtons(
+fun AllQuestionBottomSheet(
     show: Boolean,
     chooses: ImmutableList<Boolean>,
     onChooseClick: (Int) -> Unit = {},
@@ -521,6 +535,37 @@ fun AllQuestionButtons(
 
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun InstructionBottomSheet(
+    show: Boolean,
+    instructionUiState: InstructionUiState,
+    generalPath: String,
+    onDismissRequest: () -> Unit = {}
+) {
+    if (show) {
+        ModalBottomSheet(onDismissRequest = onDismissRequest) {
+            Column(
+                Modifier.padding(8.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                Text(text = "Instructions")
+
+                if (instructionUiState.title != null) {
+                    Text(text = instructionUiState.title!!)
+                }
+                ItemUi(items = instructionUiState.content, generalPath = generalPath)
+
+            }
+
+
+        }
+
+    }
+}
+
+
 @Preview
 @Composable
 fun AllQuestionButtonsPreview() {
@@ -528,5 +573,5 @@ fun AllQuestionButtonsPreview() {
         .map { Random(4).nextBoolean() }
 
 
-    AllQuestionButtons(show = true, chooses = choose.toImmutableList())
+    AllQuestionBottomSheet(show = true, chooses = choose.toImmutableList())
 }
