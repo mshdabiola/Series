@@ -87,3 +87,7 @@ fun Preview() {
         }
     }
 }
+
+@Composable
+internal actual fun QuestionHeadUiPreview() {
+}
