@@ -103,8 +103,10 @@ internal actual fun QuestionUiPreview() {
         )
     )
     QuestionUi(
+        number = 1,
       questionUiState = questionUiState,
-        generalPath = ""
+        generalPath = "",
+        title = "Waec"
     )
 }
 

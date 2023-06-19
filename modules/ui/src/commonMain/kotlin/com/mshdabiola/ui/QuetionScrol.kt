@@ -4,51 +4,88 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.Button
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.KeyboardArrowLeft
+import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.mshdabiola.ui.state.QuestionNumberUiState
-import com.mshdabiola.ui.state.QuestionUiState
 import kotlinx.collections.immutable.ImmutableList
 
 @Composable
 fun QuestionScroll(
-    quetions: ImmutableList<QuestionNumberUiState>
+    currentQuestion: Int,
+    showPrev: Boolean,
+    showNext: Boolean,
+    chooses: ImmutableList<Boolean>,
+    onChooseClick: (Int) -> Unit = {},
+    onShowAllClick: () -> Unit = {},
+    onNext: () -> Unit = {},
+    onPrev: () -> Unit = {}
 ) {
 
-    val number = remember { quetions.size }
+    val state = rememberLazyListState()
+
+    LaunchedEffect(currentQuestion) {
+        state.scrollToItem(currentQuestion)
+    }
+
+    val number = remember { chooses.size }
     val noAnswer = remember {
         derivedStateOf {
-            quetions.count { it.isChoose }
+            chooses.count { it }
         }
     }
-    Column (
-        verticalArrangement = Arrangement.spacedBy(4.dp,Alignment.CenterVertically),
+    Column(
+        verticalArrangement = Arrangement.spacedBy(4.dp, Alignment.CenterVertically),
         horizontalAlignment = Alignment.CenterHorizontally
-    ){
-        LazyRow(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
-            items(items = quetions, key = {it.number}){
-                QuestionNumberButton(it)
+    ) {
+
+
+        LazyRow(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(4.dp,Alignment.CenterHorizontally)
+        ) {
+            item {
+                if (showPrev) {
+                    IconButton(onClick = onPrev) {
+                        Icon(Icons.Default.KeyboardArrowLeft, "prev")
+                    }
+                }
             }
+            items(count = number, key = { it }) {
+                QuestionNumberButton(it, chooses[it]) { onChooseClick(it) }
+            }
+            item {
+                if (showNext) {
+                    IconButton(onClick = onNext) {
+                        Icon(Icons.Default.KeyboardArrowRight, "next")
+                    }
+                }
+            }
+
         }
 
         Text("${noAnswer.value} of $number")
 
-        TextButton(onClick = {}){
+        TextButton(onClick = onShowAllClick) {
             Text("Show all questions")
         }
     }
@@ -61,10 +98,11 @@ internal expect fun QuestionScrollPreview()
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun QuestionNumberButton(
-    questionNumberUiState: QuestionNumberUiState,
-    onClick : ()->Unit={}
+    number: Int,
+    isChoose: Boolean,
+    onClick: () -> Unit = {}
 ) {
-    val color = if (questionNumberUiState.isChoose)
+    val color = if (isChoose)
         MaterialTheme.colorScheme.primaryContainer
     else
         MaterialTheme.colorScheme.surface
@@ -75,7 +113,7 @@ fun QuestionNumberButton(
         onClick = onClick
     ) {
         Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-            Text("${questionNumberUiState.number}")
+            Text("${number + 1}")
         }
 
     }

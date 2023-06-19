@@ -18,6 +18,7 @@ import kotlinx.datetime.toLocalDateTime
 
 @Composable
 fun TimeCounter(
+    modifier: Modifier=Modifier,
     currentTime: Long,
     total: Long
 ) {
@@ -32,7 +33,7 @@ fun TimeCounter(
     }
     val color = MaterialTheme.colorScheme.primary
     Box(
-        modifier = Modifier
+        modifier = modifier
             .size(64.dp)
             .drawBehind {
                 drawArc(

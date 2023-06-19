@@ -7,7 +7,7 @@ import com.mshdabiola.ui.state.QuestionNumberUiState
 @Preview
 @Composable
 internal actual fun QuestionNumberButtonPreview() {
-    QuestionNumberButton(QuestionNumberUiState(4,false))
+    //QuestionNumberButton(QuestionNumberUiState(4,false))
 }
 
 @Composable

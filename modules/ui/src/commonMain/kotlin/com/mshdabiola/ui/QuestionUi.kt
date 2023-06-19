@@ -5,8 +5,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
 import androidx.compose.material3.Card
+import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -18,27 +18,29 @@ import kotlinx.collections.immutable.ImmutableList
 
 @Composable
 fun QuestionUi(
-    modifier: Modifier=Modifier,
-   questionUiState: QuestionUiState,
-   generalPath: String,
-   onInstruction: () -> Unit={},
-   onOptionClick : (Long)->Unit={}
+    modifier: Modifier = Modifier,
+    number: Long,
+    questionUiState: QuestionUiState,
+    title: String,
+    generalPath: String,
+    onInstruction: () -> Unit = {},
+    onOptionClick: (Long) -> Unit = {}
 ) {
     Column(
-        modifier=modifier,
+        modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         QuestionHeadUi(
-            number = questionUiState.nos,
+            number = number,
             content = questionUiState.content,
             generalPath = generalPath,
-            isInstruction = questionUiState.instructionUiState!=null,
-            title = "",
+            isInstruction = questionUiState.instructionUiState != null,
+            title = title,
             onInstruction = onInstruction
         )
         OptionsUi(
             optionUiStates = questionUiState.options,
-            generalPath=generalPath,
+            generalPath = generalPath,
             onClick = onOptionClick
         )
 
@@ -73,7 +75,7 @@ fun QuestionHeadUi(
             ItemUi(content, generalPath)
 
             if (isInstruction) {
-                Button(
+                ElevatedButton(
                     modifier = Modifier.align(Alignment.End),
                     onClick = onInstruction
                 ) {
