@@ -7,26 +7,33 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.KeyboardArrowLeft
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.testTagsAsResourceId
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.mshdabiola.ui.QuestionNumberButton
 import com.mshdabiola.ui.QuestionScroll
 import com.mshdabiola.ui.QuestionUi
 import com.mshdabiola.ui.TimeCounter
@@ -38,6 +45,7 @@ import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
+import kotlin.random.Random
 
 @Composable
 internal fun QuestionScreen(
@@ -213,6 +221,9 @@ internal fun QuestionScreen(
     onFinish: () -> Unit = {}
 ) {
 
+    var show by remember {
+        mutableStateOf(false)
+    }
     val coroutineScope = rememberCoroutineScope()
     val state = rememberPagerState {
         questions.size
@@ -222,10 +233,10 @@ internal fun QuestionScreen(
             questionUiState.options.any { it.choose }
         }.toImmutableList()
     }
-    val finishPercent= remember (chooses){
-          ( ( chooses.count{
-                it
-            }/chooses.size.toFloat())*100).toInt()
+    val finishPercent = remember(chooses) {
+        ((chooses.count {
+            it
+        } / chooses.size.toFloat()) * 100).toInt()
     }
 
 
@@ -245,7 +256,7 @@ internal fun QuestionScreen(
 
             HorizontalPager(state = state) {
                 QuestionUi(
-                    number = (it+1L),
+                    number = (it + 1L),
                     questionUiState = questions[it],
                     generalPath = "",
                     title = "Waec 2015 Q4"
@@ -261,15 +272,15 @@ internal fun QuestionScreen(
                         state.animateScrollToPage(it)
                     }
                 },
-                onShowAllClick = {},
+                onShowAllClick = { show = true },
                 onNext = {
                     coroutineScope.launch {
-                        state.animateScrollToPage(state.currentPage+1)
+                        state.animateScrollToPage(state.currentPage + 1)
                     }
                 },
                 onPrev = {
                     coroutineScope.launch {
-                        state.animateScrollToPage(state.currentPage-1)
+                        state.animateScrollToPage(state.currentPage - 1)
                     }
                 }
             )
@@ -284,7 +295,13 @@ internal fun QuestionScreen(
                         Text(text = "Home")
 
                     }
-                    TextButton(onClick = { /*TODO*/ }) {
+                    Button(
+                        onClick = { /*TODO*/ },
+                        colors = if (finishPercent==100)
+                            ButtonDefaults.buttonColors(containerColor = Color.Green)
+                        else
+                            ButtonDefaults.textButtonColors()
+                    ) {
                         Text(text = "Submit")
                     }
                 }
@@ -292,6 +309,18 @@ internal fun QuestionScreen(
 
         }
     }
+
+    AllQuestionButtons(
+        show = show,
+        chooses = chooses,
+        onChooseClick = {
+            show = false
+            coroutineScope
+                .launch {
+                    state.animateScrollToPage(it)
+                }
+        },
+        onDismissRequest = { show = false })
 
 }
 
@@ -449,4 +478,55 @@ fun QuestionScreenPreview() {
         questions = questions,
         profileState = ProfileState()
     )
+}
+
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun AllQuestionButtons(
+    show: Boolean,
+    chooses: ImmutableList<Boolean>,
+    onChooseClick: (Int) -> Unit = {},
+    onDismissRequest: () -> Unit = {}
+) {
+    if (show) {
+        ModalBottomSheet(onDismissRequest = onDismissRequest) {
+            Column(
+                Modifier.padding(8.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                Text(text = "All questions")
+
+                LazyVerticalGrid(
+                    modifier = Modifier.fillMaxWidth(),
+                    columns = GridCells.Adaptive(50.dp),
+                    horizontalArrangement = Arrangement.spacedBy(4.dp),
+                    verticalArrangement = Arrangement.spacedBy(4.dp),
+                    content = {
+                        itemsIndexed(items = chooses) { index, item ->
+                            QuestionNumberButton(
+                                number = index,
+                                isChoose = item,
+                                onClick = { onChooseClick(index) })
+                        }
+                    })
+            }
+
+
+        }
+
+
+    }
+
+}
+
+@Preview
+@Composable
+fun AllQuestionButtonsPreview() {
+    val choose = (1..50)
+        .map { Random(4).nextBoolean() }
+
+
+    AllQuestionButtons(show = true, chooses = choose.toImmutableList())
 }

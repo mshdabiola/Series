@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -92,6 +93,8 @@ fun QuestionScroll(
 
 }
 
+
+
 @Composable
 internal expect fun QuestionScrollPreview()
 
@@ -107,7 +110,7 @@ fun QuestionNumberButton(
     else
         MaterialTheme.colorScheme.surface
     OutlinedCard(
-        modifier = Modifier.size(48.dp),
+        modifier = Modifier.requiredSize(48.dp),
         shape = CircleShape,
         colors = CardDefaults.outlinedCardColors(containerColor = color),
         onClick = onClick
