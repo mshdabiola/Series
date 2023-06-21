@@ -71,7 +71,10 @@ firebasePerfPlugin = "1.4.2"
 gmsPlugin = "4.3.14"
 composePlugin = "1.4.0"
 
-koin = "3.4.0"
+koin = "3.4.2"
+koinTest = "3.4.1"
+koinCompose= "3.4.5"
+
 moko = "0.22.0"
 
 multiplatform_settings = "1.0.0"
@@ -181,10 +184,10 @@ timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
 
 koin_core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
 koin_android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
-koin_android_compose = { module = "io.insert-koin:koin-androidx-compose", version.ref = "koin" }
+koin_android_compose = { module = "io.insert-koin:koin-androidx-compose", version.ref = "koinCompose" }
 koin_android_workmanager = { module = "io.insert-koin:koin-androidx-workmanager", version.ref = "koin" }
-koin_test = { module = "io.insert-koin:koin-test", version.ref = "koin" }
-koin_test_junit = { module = "io.insert-koin:koin-test-junit4", version.ref = "koin" }
+koin_test = { module = "io.insert-koin:koin-test", version.ref = "koinTest" }
+koin_test_junit = { module = "io.insert-koin:koin-test-junit4", version.ref = "koinTest" }
 koin_test_junit5 = { module = "io.insert-koin:koin-test-junit5", version.ref = "koin" }
 koin_android_test = { module = "io.insert-koin:koin-android-test", version.ref = "koin" }
 

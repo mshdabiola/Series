@@ -46,14 +46,11 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
             dependencies {
                 add("implementation", project(":modules:model"))
                 add("implementation", project(":modules:ui"))
-//                add("implementation", project(":common:designsystem"))
+                add("implementation", project(":modules:util"))
                 add("implementation", project(":modules:data"))
-//                add("implementation", project(":core:common"))
-//                add("implementation", project(":common:domain"))
                 add("implementation", libs.findLibrary("koin.core").get())
                 add("implementation", libs.findLibrary("koin.android").get())
                 add("implementation", libs.findLibrary("koin.android.compose").get())
-                // add("implementation", libs.findLibrary("androidx.constraintlayout").get())
                 add("implementation", libs.findLibrary("kotlinx-collection-immutable").get())
 
                 add("testImplementation", kotlin("test"))

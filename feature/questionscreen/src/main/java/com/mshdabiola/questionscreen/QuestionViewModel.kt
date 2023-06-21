@@ -11,6 +11,7 @@ import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import timber.log.Timber
 
 
 class QuestionViewModel(
@@ -168,6 +169,9 @@ class QuestionViewModel(
     private val _questionsList = MutableStateFlow(questions)
     val questionsList = _questionsList.asStateFlow()
 
+    init {
+        Timber.e("init question first ")
+    }
 
     fun onOption(index: Int, optionIndex: Int) {
         val question = questionsList.value.toMutableList()

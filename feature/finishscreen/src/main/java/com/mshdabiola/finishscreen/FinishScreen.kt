@@ -20,8 +20,7 @@ import androidx.compose.ui.unit.dp
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
-internal fun FinishScreen(onBack: () -> Unit) {
-    val viewModel: FinishViewModel = koinViewModel()
+internal fun FinishScreen(onBack: () -> Unit,viewModel: FinishViewModel) {
 
     FinishScreen(
         finishState = FinishState(),
