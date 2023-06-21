@@ -1,0 +1,98 @@
+package com.mshdabiola.ui
+
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Text
+import androidx.compose.material3.Card
+import androidx.compose.material3.Icon
+import androidx.compose.material3.ListItem
+import androidx.compose.material3.LocalTextStyle
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.unit.dp
+
+@Composable
+fun FinishCard(
+    modifier: Modifier = Modifier,
+    imageVector: ImageVector,
+    percent: Int,
+    isHide:Boolean=true,
+    onShowAnswers: () -> Unit = {}
+) {
+    Card(modifier = modifier) {
+        Column(
+            modifier = Modifier.padding(8.dp),
+            verticalArrangement = Arrangement.spacedBy(4.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Icon(
+                modifier = Modifier.size(200.dp),
+                imageVector = imageVector,
+                contentDescription = "cup",
+                tint = MaterialTheme.colorScheme.primary
+            )
+            Text(
+                "Your Grade is A",
+                style = MaterialTheme.typography.titleMedium,
+                color = MaterialTheme.colorScheme.primary
+            )
+            OutlinedButton(
+                onClick = onShowAnswers
+            ){
+                Text("${if (isHide) "Show" else "Hide"} correct answer")
+            }
+        }
+    }
+
+}
+
+@Composable
+internal expect fun FinishCardPreview()
+
+
+@OptIn(ExperimentalLayoutApi::class)
+@Composable
+fun ScoreCard() {
+   Row(
+       modifier = Modifier.fillMaxWidth(),
+       horizontalArrangement = Arrangement.SpaceEvenly) {
+       Column {
+           ScoreItem(heading = "Correct answers", content = "59 Questions")
+           ScoreItem(heading = "Incorrect answers", content = "3 Questions")
+       }
+       Column {
+           ScoreItem(heading = "Completion", content = "60%")
+           ScoreItem(heading = "skipped", content = "4 Questions")
+       }
+
+   }
+}
+
+
+@Composable
+internal expect fun ScoreCardPreview()
+
+
+@Composable
+fun ScoreItem(
+    heading:String,
+    content:String
+) {
+    val headingColor= LocalTextStyle.current.color.copy(alpha = 0.7f)
+    Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
+        Text(heading, style = MaterialTheme.typography.bodyMedium, color = headingColor)
+        Text(content, style = MaterialTheme.typography.bodyLarge)
+    }
+}

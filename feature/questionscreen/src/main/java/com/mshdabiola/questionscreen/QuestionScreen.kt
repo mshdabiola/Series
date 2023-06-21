@@ -4,30 +4,40 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBackIosNew
+import androidx.compose.material.icons.filled.Kitesurfing
+import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExtendedFloatingActionButton
+import androidx.compose.material3.FloatingActionButtonDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.currentCompositeKeyHash
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -42,6 +52,8 @@ import com.mshdabiola.ui.QuestionNumberButton
 import com.mshdabiola.ui.QuestionScroll
 import com.mshdabiola.ui.QuestionUi
 import com.mshdabiola.ui.TimeCounter
+import com.mshdabiola.ui.com.mshdabiola.ui.AllQuestionBottomSheet
+import com.mshdabiola.ui.com.mshdabiola.ui.InstructionBottomSheet
 import com.mshdabiola.ui.state.InstructionUiState
 import com.mshdabiola.ui.state.ItemUiState
 import com.mshdabiola.ui.state.OptionUiState
@@ -49,8 +61,6 @@ import com.mshdabiola.ui.state.QuestionUiState
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.launch
-import org.koin.androidx.compose.koinViewModel
-import timber.log.Timber
 import kotlin.random.Random
 
 @Composable
@@ -61,7 +71,7 @@ internal fun QuestionScreen(
 ) {
 
 
-    val questions =viewModel.questionsList.collectAsState()
+    val questions = viewModel.questionsList.collectAsState()
 
     QuestionScreen(
         questions = questions.value,
@@ -82,14 +92,14 @@ internal fun QuestionScreen(
     profileState: ProfileState,
     back: () -> Unit = {},
     onFinish: () -> Unit = {},
-    onOption : (Int,Int)->Unit={_,_->}
+    onOption: (Int, Int) -> Unit = { _, _ -> }
 ) {
 
     var show by remember {
         mutableStateOf(false)
     }
-    var showInstruct by remember {
-        mutableStateOf(false)
+    var instructionUiState by remember {
+        mutableStateOf<InstructionUiState?>(null)
     }
     val coroutineScope = rememberCoroutineScope()
     val state = rememberPagerState {
@@ -105,42 +115,76 @@ internal fun QuestionScreen(
             it
         } / chooses.size.toFloat()) * 100).toInt()
     }
+    val scrollState= rememberScrollState()
 
 
     Scaffold(
-        modifier = Modifier.semantics { this.testTagsAsResourceId = true }
+        modifier = Modifier.semantics { this.testTagsAsResourceId = true },
+        bottomBar = {
+            BottomAppBar(
+                actions = {
+                    IconButton(onClick = back) {
+                        Icon(imageVector = Icons.Default.ArrowBackIosNew, contentDescription = "back")
+                    }
+
+                },
+                floatingActionButton = {
+                    ExtendedFloatingActionButton(
+                        onClick = onFinish,
+                        containerColor = if (finishPercent == 100)
+                           Color.Green
+                        else
+                            FloatingActionButtonDefaults.containerColor
+                    ) {
+                        Icon(imageVector = Icons.Default.Kitesurfing, contentDescription ="submit")
+                        Spacer(modifier = Modifier.width(ButtonDefaults.IconSpacing))
+                        Text(text = "Submit: $finishPercent%")
+                    }
+                }
+            )
+        }
 
     ) { paddingValues ->
         Column(
             Modifier
                 .padding(paddingValues)
                 .padding(8.dp)
-                .fillMaxSize(),
+                .fillMaxSize()
+                .verticalScroll(state = scrollState)
+            ,
             verticalArrangement = Arrangement.spacedBy(8.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            TimeCounter(currentTime = 400, total = 500)
 
-            HorizontalPager(state = state) {index->
+            TimeCounter(
+                modifier = Modifier.padding(top = 4.dp),
+                currentTime = 400, total = 500)
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            HorizontalPager(state = state) { index ->
                 QuestionUi(
                     number = (index + 1L),
                     questionUiState = questions[index],
                     generalPath = "",
                     title = "Waec 2015 Q4",
                     onInstruction = {
-                        showInstruct=true
+                        instructionUiState=questions[index].instructionUiState!!
                     },
                     onOptionClick = {
-                        onOption(index,it)
-                        if (state.canScrollForward){
+                        onOption(index, it)
+                        if (state.canScrollForward) {
                             coroutineScope
                                 .launch {
-                                    state.animateScrollToPage(index+1)
+                                    state.animateScrollToPage(index + 1)
                                 }
                         }
                     }
                 )
             }
+
+            Spacer(modifier = Modifier.height(8.dp))
+
             QuestionScroll(
                 currentQuestion = state.currentPage,
                 showPrev = state.canScrollBackward,
@@ -163,37 +207,15 @@ internal fun QuestionScreen(
                     }
                 }
             )
-            Row(
-                Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(text = "Completed $finishPercent%")
-                Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
-                    TextButton(onClick = back) {
-                        Text(text = "Home")
 
-                    }
-                    Button(
-                        onClick = onFinish,
-                        colors = if (finishPercent == 100)
-                            ButtonDefaults.buttonColors(containerColor = Color.Green)
-                        else
-                            ButtonDefaults.textButtonColors()
-                    ) {
-                        Text(text = "Submit")
-                    }
-                }
-            }
 
         }
     }
 
     InstructionBottomSheet(
-        show = showInstruct,
-        instructionUiState = questions[state.currentPage].instructionUiState!!,
+        instructionUiState = instructionUiState,
         generalPath = "",
-        onDismissRequest = {showInstruct=false}
+        onDismissRequest = { instructionUiState=null }
     )
     AllQuestionBottomSheet(
         show = show,
@@ -363,86 +385,4 @@ fun QuestionScreenPreview() {
         questions = questions,
         profileState = ProfileState()
     )
-}
-
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun AllQuestionBottomSheet(
-    show: Boolean,
-    chooses: ImmutableList<Boolean>,
-    onChooseClick: (Int) -> Unit = {},
-    onDismissRequest: () -> Unit = {}
-) {
-    if (show) {
-        ModalBottomSheet(onDismissRequest = onDismissRequest) {
-            Column(
-                Modifier.padding(8.dp),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
-                Text(text = "All questions")
-
-                LazyVerticalGrid(
-                    modifier = Modifier.fillMaxWidth(),
-                    columns = GridCells.Adaptive(50.dp),
-                    horizontalArrangement = Arrangement.spacedBy(4.dp),
-                    verticalArrangement = Arrangement.spacedBy(4.dp),
-                    content = {
-                        itemsIndexed(items = chooses) { index, item ->
-                            QuestionNumberButton(
-                                number = index,
-                                isChoose = item,
-                                onClick = { onChooseClick(index) })
-                        }
-                    })
-            }
-
-
-        }
-
-
-    }
-
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun InstructionBottomSheet(
-    show: Boolean,
-    instructionUiState: InstructionUiState,
-    generalPath: String,
-    onDismissRequest: () -> Unit = {}
-) {
-    if (show) {
-        ModalBottomSheet(onDismissRequest = onDismissRequest) {
-            Column(
-                Modifier.padding(8.dp),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
-                Text(text = "Instructions")
-
-                if (instructionUiState.title != null) {
-                    Text(text = instructionUiState.title!!)
-                }
-                ItemUi(items = instructionUiState.content, generalPath = generalPath)
-
-            }
-
-
-        }
-
-    }
-}
-
-
-@Preview
-@Composable
-fun AllQuestionButtonsPreview() {
-    val choose = (1..50)
-        .map { Random(4).nextBoolean() }
-
-
-    AllQuestionBottomSheet(show = true, chooses = choose.toImmutableList())
 }

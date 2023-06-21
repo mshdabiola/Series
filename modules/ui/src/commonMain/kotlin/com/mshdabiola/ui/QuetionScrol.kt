@@ -3,6 +3,7 @@ package com.mshdabiola.ui
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.requiredSize
@@ -49,7 +50,7 @@ fun QuestionScroll(
     }
 
     val number = remember { chooses.size }
-    val noAnswer = remember {
+    val noAnswer = remember(chooses) {
         derivedStateOf {
             chooses.count { it }
         }
@@ -59,30 +60,34 @@ fun QuestionScroll(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
-
-        LazyRow(
+        Row(
             modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(4.dp,Alignment.CenterHorizontally)
         ) {
-            item {
-                if (showPrev) {
-                    IconButton(onClick = onPrev) {
-                        Icon(Icons.Default.KeyboardArrowLeft, "prev")
-                    }
+            if (showPrev) {
+                IconButton(onClick = onPrev) {
+                    Icon(Icons.Default.KeyboardArrowLeft, "prev")
                 }
             }
-            items(count = number, key = { it }) {
-                QuestionNumberButton(it, chooses[it]) { onChooseClick(it) }
-            }
-            item {
-                if (showNext) {
-                    IconButton(onClick = onNext) {
-                        Icon(Icons.Default.KeyboardArrowRight, "next")
-                    }
-                }
-            }
+            LazyRow(
+                state=state,
+                modifier = Modifier.weight(1f),
+                horizontalArrangement = Arrangement.spacedBy(4.dp,Alignment.CenterHorizontally)
+            ) {
 
+                items(count = number, key = { it }) {
+                    QuestionNumberButton(it, chooses[it]) { onChooseClick(it) }
+                }
+            }
+            if (showNext) {
+                IconButton(onClick = onNext) {
+                    Icon(Icons.Default.KeyboardArrowRight, "next")
+                }
+            }
         }
+
+
 
         Text("${noAnswer.value} of $number")
 

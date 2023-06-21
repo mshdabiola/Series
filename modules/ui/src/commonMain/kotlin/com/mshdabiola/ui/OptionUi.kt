@@ -28,6 +28,7 @@ import kotlinx.collections.immutable.ImmutableList
 fun OptionsUi(
     optionUiStates: ImmutableList<OptionUiState>,
     generalPath: String,
+    showAnswer:Boolean=false,
     onClick: (Int) -> Unit = {}
 
 ) {
@@ -50,6 +51,7 @@ fun OptionsUi(
                 modifier = Modifier.padding(2.dp).weight(1f),
                 optionUiState = optionUiState,
                 generalPath = generalPath,
+                showAnswer=showAnswer,
                 onClick = { onClick(index) })
         }
     }
@@ -67,11 +69,12 @@ fun OptionUi(
     modifier: Modifier = Modifier,
     optionUiState: OptionUiState,
     generalPath: String,
+    showAnswer:Boolean=false,
     onClick: () -> Unit = {}
 
 ) {
     val color = when {
-        optionUiState.isAnswer -> Color.Green
+        optionUiState.isAnswer&&showAnswer -> Color.Green
         optionUiState.choose -> MaterialTheme.colorScheme.primary
         else -> MaterialTheme.colorScheme.primaryContainer
     }

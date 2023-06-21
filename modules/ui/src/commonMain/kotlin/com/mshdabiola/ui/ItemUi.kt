@@ -1,5 +1,6 @@
 package com.mshdabiola.ui
 
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -19,7 +20,7 @@ fun ItemUi(items: ImmutableList<ItemUiState>, generalPath: String) {
             }
 
             Type.TEXT -> {
-                Text(item.content)
+                Text(item.content, style = MaterialTheme.typography.bodyLarge)
             }
 
             Type.IMAGE -> {
