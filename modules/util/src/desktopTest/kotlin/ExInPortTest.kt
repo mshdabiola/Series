@@ -1,4 +1,3 @@
-
 import com.mshdabiola.model.data.Item
 import com.mshdabiola.model.data.Option
 import com.mshdabiola.model.data.Question
@@ -7,7 +6,6 @@ import com.mshdabiola.util.ExInPort
 import com.mshdabiola.util.FileManager
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
-import org.junit.Assert.*
 import org.junit.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)

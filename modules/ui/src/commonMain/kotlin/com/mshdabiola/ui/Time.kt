@@ -18,7 +18,7 @@ import kotlinx.datetime.toLocalDateTime
 
 @Composable
 fun TimeCounter(
-    modifier: Modifier=Modifier,
+    modifier: Modifier = Modifier,
     currentTime: Long,
     total: Long
 ) {
@@ -26,7 +26,7 @@ fun TimeCounter(
     val time = remember {
         val instant = Instant.fromEpochSeconds(currentTime)
         val time = instant.toLocalDateTime(TimeZone.UTC).time
-        String.format("%02d : %02d",time.minute,time.second)
+        String.format("%02d : %02d", time.minute, time.second)
     }
     val fraction = remember {
         (currentTime.toFloat() / total) * 360f

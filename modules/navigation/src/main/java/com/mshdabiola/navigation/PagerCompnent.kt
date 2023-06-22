@@ -45,7 +45,7 @@ class PagerComponent(componentContext: ComponentContext) : IPagerComponent,
     }
 
     @OptIn(ExperimentalDecomposeApi::class)
-    override val current=pages.map { it.selectedIndex }
+    override val current = pages.map { it.selectedIndex }
 
     @OptIn(ExperimentalDecomposeApi::class)
     override fun selectedPage(int: Int) {

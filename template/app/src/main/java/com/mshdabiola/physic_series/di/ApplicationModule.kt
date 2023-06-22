@@ -1,8 +1,9 @@
 package com.mshdabiola.physic_series.di
 
-import com.mshdabiola.app.app1Module
+
+import com.mshdabiola.screen.di.screenModule
 import org.koin.dsl.module
 
 val appModule = module {
-    includes(app1Module)
+    includes(screenModule)
 }

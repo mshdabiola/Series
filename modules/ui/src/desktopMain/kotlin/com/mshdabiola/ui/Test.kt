@@ -24,7 +24,7 @@ import java.io.InputStream
 fun Test(
 ) {
 
-    Icon(painterResource("aaa.xml") ,"", tint = Color.Blue)
+    Icon(painterResource("aaa.xml"), "", tint = Color.Blue)
 }
 
 @OptIn(ExperimentalComposeUiApi::class)
@@ -45,32 +45,34 @@ internal fun openResource(
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun loadXml(path:String):ImageVector{
-    val density= LocalDensity.current
+fun loadXml(path: String): ImageVector {
+    val density = LocalDensity.current
     return remember(path, density) {
-        useResource(path,  ResourceLoader.Default) {
+        useResource(path, ResourceLoader.Default) {
             loadXmlImageVector(InputSource(it), density)
 
         }
     }
 }
+
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun loadImage(path:String):ImageBitmap{
+fun loadImage(path: String): ImageBitmap {
     return remember(path) {
-        useResource(path,  ResourceLoader.Default) {
+        useResource(path, ResourceLoader.Default) {
             loadImageBitmap(it)
         }
 
     }
 }
+
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun loadSvg(path:String): Painter {
-    val density= LocalDensity.current
+fun loadSvg(path: String): Painter {
+    val density = LocalDensity.current
     return remember(path, density) {
-        useResource(path,  ResourceLoader.Default) {
-           loadSvgPainter(it, density)
+        useResource(path, ResourceLoader.Default) {
+            loadSvgPainter(it, density)
 
         }
     }

@@ -70,7 +70,7 @@ fun InstructionBottomSheet(
     generalPath: String,
     onDismissRequest: () -> Unit = {}
 ) {
-    if (instructionUiState!=null) {
+    if (instructionUiState != null) {
         ModalBottomSheet(onDismissRequest = onDismissRequest) {
             Column(
                 Modifier.padding(8.dp),

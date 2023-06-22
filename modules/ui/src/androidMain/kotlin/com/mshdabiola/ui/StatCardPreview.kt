@@ -9,6 +9,7 @@ import androidx.compose.ui.tooling.preview.Preview
 internal actual fun StatCardPreview() {
     StartCard()
 }
+
 @Preview
 @Composable
 internal actual fun ContinueCardPreview() {

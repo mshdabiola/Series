@@ -1,30 +1,23 @@
 package com.mshdabiola.ui
 
 import androidx.compose.desktop.ui.tooling.preview.Preview
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
-import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.RowScope
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Card
-import androidx.compose.material3.Text
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.platform.Font
-import androidx.compose.ui.unit.Dp
 import com.mshdabiola.retex.aimplementation.LatexText
 import com.mshdabiola.ui.state.ItemUiState
 import com.mshdabiola.ui.state.OptionUiState
-import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 
 @Composable
 internal actual fun EquationUi(
-    modifier: Modifier ,
+    modifier: Modifier,
     equation: ItemUiState
 ) {
     LatexText(modifier = Modifier, equation.content) { Font(it) }
@@ -34,6 +27,7 @@ internal actual fun EquationUi(
 @Composable
 internal actual fun QuestionUiPreview() {
 }
+
 @Preview
 @Composable
 internal actual fun OptionsUiPreview() {
@@ -78,11 +72,11 @@ internal actual fun OptionsUiPreview() {
 @Preview
 @Composable
 fun Preview() {
-    Card (
+    Card(
         colors = CardDefaults.cardColors(contentColor = Color.Red)
-    ){
+    ) {
         Column {
-            Row {Text("Aviola")  }
+            Row { Text("Aviola") }
 
         }
     }

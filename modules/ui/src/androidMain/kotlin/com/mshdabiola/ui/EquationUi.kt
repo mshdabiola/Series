@@ -1,28 +1,16 @@
 package com.mshdabiola.ui
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
-import androidx.compose.foundation.layout.FlowRow
-import androidx.compose.foundation.layout.RowScope
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.AssistChip
-import androidx.compose.material3.SuggestionChip
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.dp
 import com.mshdabiola.retex.aimplementation.LatexText
 import com.mshdabiola.ui.state.InstructionUiState
 import com.mshdabiola.ui.state.ItemUiState
 import com.mshdabiola.ui.state.OptionUiState
 import com.mshdabiola.ui.state.QuestionUiState
-import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 
 @Composable
@@ -54,14 +42,14 @@ actual fun DragAndDropImage(
 @Preview
 @Composable
 internal actual fun QuestionUiPreview() {
-    val questionUiState=QuestionUiState(
-        id=1,
+    val questionUiState = QuestionUiState(
+        id = 1,
         nos = 1,
         content = listOf(
             ItemUiState(content = "What is your name")
         )
             .toImmutableList(),
-        options =  listOf(
+        options = listOf(
             OptionUiState(
                 id = 1, nos = 1, content = listOf(
                     ItemUiState(
@@ -104,7 +92,7 @@ internal actual fun QuestionUiPreview() {
     )
     QuestionUi(
         number = 1,
-      questionUiState = questionUiState,
+        questionUiState = questionUiState,
         generalPath = "",
         title = "Waec"
     )
@@ -151,6 +139,7 @@ internal actual fun OptionsUiPreview() {
         ).toImmutableList(), generalPath = ""
     )
 }
+
 @Preview
 @Composable
 internal actual fun QuestionHeadUiPreview() {

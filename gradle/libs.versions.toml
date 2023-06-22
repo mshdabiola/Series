@@ -73,7 +73,7 @@ composePlugin = "1.4.0"
 
 koin = "3.4.2"
 koinTest = "3.4.1"
-koinCompose= "3.4.5"
+koinCompose = "3.4.5"
 
 moko = "0.22.0"
 

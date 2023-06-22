@@ -37,8 +37,8 @@ import androidx.compose.ui.text.platform.Font
 import androidx.compose.ui.unit.dp
 import com.mshdabiola.model.data.Type
 import com.mshdabiola.retex.aimplementation.LatexText
-import com.mshdabiola.ui.ImageUi
 import com.mshdabiola.ui.DragAndDropImage
+import com.mshdabiola.ui.ImageUi
 import com.mshdabiola.ui.MarkUpText
 import com.mshdabiola.ui.state.ItemUiState
 import kotlinx.collections.immutable.ImmutableList

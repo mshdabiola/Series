@@ -5,10 +5,10 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.Card
 import androidx.compose.material3.ElevatedButton
+import androidx.compose.material3.LocalTextStyle
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -25,7 +25,7 @@ fun QuestionUi(
     questionUiState: QuestionUiState,
     title: String,
     generalPath: String,
-    showAnswer:Boolean=false,
+    showAnswer: Boolean = false,
     onInstruction: () -> Unit = {},
     onOptionClick: (Int) -> Unit = {}
 ) {
@@ -44,7 +44,7 @@ fun QuestionUi(
         OptionsUi(
             optionUiStates = questionUiState.options,
             generalPath = generalPath,
-            showAnswer=showAnswer,
+            showAnswer = showAnswer,
             onClick = onOptionClick
         )
 
@@ -63,7 +63,7 @@ fun QuestionHeadUi(
     onInstruction: () -> Unit = {}
 ) {
 
-    val textColor= LocalTextStyle.current.color.copy(alpha = 0.5f)
+    val textColor = LocalTextStyle.current.color.copy(alpha = 0.5f)
     Card {
 
         Column(
@@ -74,7 +74,11 @@ fun QuestionHeadUi(
                 Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Text("Question $number", color = textColor, style = MaterialTheme.typography.bodySmall)
+                Text(
+                    "Question $number",
+                    color = textColor,
+                    style = MaterialTheme.typography.bodySmall
+                )
                 Text(title, color = textColor, style = MaterialTheme.typography.bodySmall)
             }
 

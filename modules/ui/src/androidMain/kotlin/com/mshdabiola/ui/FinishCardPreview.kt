@@ -10,6 +10,7 @@ import androidx.compose.ui.tooling.preview.Preview
 internal actual fun FinishCardPreview() {
     FinishCard(imageVector = Icons.Default.WineBar, percent = 74)
 }
+
 @Preview
 @Composable
 internal actual fun ScoreCardPreview() {

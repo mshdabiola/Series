@@ -2,13 +2,11 @@ package com.mshdabiola.ui
 
 import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.runtime.Composable
-import com.mshdabiola.ui.state.QuestionNumberUiState
-import kotlinx.collections.immutable.toImmutableList
 
 @Preview
 @Composable
 internal actual fun QuestionNumberButtonPreview() {
-   // QuestionNumberButton(QuestionNumberUiState(4, true))
+    // QuestionNumberButton(QuestionNumberUiState(4, true))
 }
 
 @Preview

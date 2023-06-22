@@ -131,7 +131,7 @@ actual fun ImageUi(
     path: String,
     contentDescription: String,
     contentScale: ContentScale
-)  {
+) {
     val density = LocalDensity.current
     val filePath = File(path)
     when (filePath.extension) {

@@ -10,13 +10,13 @@ import org.koin.core.module.dsl.factoryOf
 import org.koin.dsl.module
 
 
-
 val desktopModule = module {
 
     factoryOf(::SplashViewModel)
     factoryOf(::MainViewModel)
     factory {
-        ExamViewModel(examId = it[0],
+        ExamViewModel(
+            examId = it[0],
             subjectId = it[1],
             questionRepository = get(),
             instructionRepository = get(),

@@ -28,7 +28,7 @@ import kotlinx.collections.immutable.ImmutableList
 fun OptionsUi(
     optionUiStates: ImmutableList<OptionUiState>,
     generalPath: String,
-    showAnswer:Boolean=false,
+    showAnswer: Boolean = false,
     onClick: (Int) -> Unit = {}
 
 ) {
@@ -43,15 +43,15 @@ fun OptionsUi(
         if (isLong) 1 else 2
 
     }
-    FlowRow (
+    FlowRow(
         maxItemsInEachRow = noRow
-    ){
+    ) {
         optionUiStates.forEachIndexed { index, optionUiState ->
             OptionUi(
                 modifier = Modifier.padding(2.dp).weight(1f),
                 optionUiState = optionUiState,
                 generalPath = generalPath,
-                showAnswer=showAnswer,
+                showAnswer = showAnswer,
                 onClick = { onClick(index) })
         }
     }
@@ -69,12 +69,12 @@ fun OptionUi(
     modifier: Modifier = Modifier,
     optionUiState: OptionUiState,
     generalPath: String,
-    showAnswer:Boolean=false,
+    showAnswer: Boolean = false,
     onClick: () -> Unit = {}
 
 ) {
     val color = when {
-        optionUiState.isAnswer&&showAnswer -> Color.Green
+        optionUiState.isAnswer && showAnswer -> Color.Green
         optionUiState.choose -> MaterialTheme.colorScheme.primary
         else -> MaterialTheme.colorScheme.primaryContainer
     }
@@ -85,7 +85,8 @@ fun OptionUi(
         onClick = onClick
     )
     {
-        Column(Modifier.heightIn(min=48.dp).fillMaxWidth().padding(4.dp),
+        Column(
+            Modifier.heightIn(min = 48.dp).fillMaxWidth().padding(4.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {

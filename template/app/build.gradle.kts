@@ -65,7 +65,7 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.activity.compose)
     implementation(project(":modules:designsystem"))
-    implementation(project(":android:app"))
+    implementation(project(":android:screen"))
     implementation(project(":modules:navigation"))
     implementation(libs.decompose.core)
     implementation(project(":android:worker"))
