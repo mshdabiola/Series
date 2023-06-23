@@ -1,10 +1,13 @@
 package com.mshdabiola.ui
 
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.unit.dp
 import com.mshdabiola.model.data.Type
 import com.mshdabiola.ui.state.ItemUiState
 import kotlinx.collections.immutable.ImmutableList
@@ -16,11 +19,11 @@ fun ItemUi(items: ImmutableList<ItemUiState>, generalPath: String) {
     items.forEach { item ->
         when (item.type) {
             Type.EQUATION -> {
-                EquationUi(equation = item)
+                EquationUi(Modifier.fillMaxWidth(),equation = item)
             }
 
             Type.TEXT -> {
-                Text(item.content, style = MaterialTheme.typography.bodyLarge)
+                MarkUpText(item.content, style = MaterialTheme.typography.bodyLarge)
             }
 
             Type.IMAGE -> {

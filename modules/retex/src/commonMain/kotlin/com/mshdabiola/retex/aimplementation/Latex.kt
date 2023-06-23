@@ -2,12 +2,15 @@ package com.mshdabiola.retex.aimplementation
 
 
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -15,6 +18,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.Fill
 import androidx.compose.ui.graphics.drawscope.Stroke
@@ -42,7 +46,7 @@ fun LatexText(
 
 
     val textMeasurer = rememberTextMeasurer()
-    val density = LocalDensity.current.density
+    val density = LocalDensity.current
 
     var equations by remember(equationsStr) {
         mutableStateOf(emptyList<ShapeUi>())
@@ -51,36 +55,50 @@ fun LatexText(
         mutableStateOf<String?>(null)
     }
 
-    val height by remember {
-        derivedStateOf {
-            val h = equations.maxOfOrNull {
-                it.topLeft.y
-            }?.plus(20) ?: 10f
-            ((h * scale / density)).toInt().dp
-        }
+    var height by remember {
+        mutableStateOf(1000.dp)
     }
-    val width by remember {
-        derivedStateOf {
-            val w = equations.maxOfOrNull {
-                it.topLeft.x
-            }?.plus(20) ?: 10f
-            ((w * scale / density)).toInt().dp
-        }
+    var width by remember {
+        mutableStateOf(1000.dp)
     }
 
     LaunchedEffect(equations) {
         withContext(Dispatchers.Default) {
             try {
                 errorMessage = null
-                equations = Formulae.getShapes(density.toDouble(), equationsStr)
+                val equations1 = Formulae.getShapes(density.density.toDouble(), equationsStr)
+
+                val h = equations1.maxOfOrNull {
+                    it.topLeft.y
+                }?.plus(20) ?: 10f
+                height = with(density) {
+                    (h * scale).toDp()
+                }
+
+                val w = equations1.maxOfOrNull {
+                    it.topLeft.x
+                }?.plus(20) ?: 10f
+                width = with(density) {
+                    (w * scale).toDp()
+                }
+                equations = equations1
+
             } catch (e: Exception) {
                 errorMessage = e.message
             }
 
         }
     }
+    LaunchedEffect(height, width) {
+        println("h $height w $width")
+    }
 
-    Box(modifier = modifier) {
+    Box(modifier = modifier
+        .heightIn(min=10.dp,max=300.dp)
+        .verticalScroll(rememberScrollState())
+        .horizontalScroll(rememberScrollState())
+    ) {
+
         if (errorMessage == null) {
             Canvas(Modifier.size(width, height).align(Alignment.Center)) {
                 scale(scale, pivot = Offset.Zero) {

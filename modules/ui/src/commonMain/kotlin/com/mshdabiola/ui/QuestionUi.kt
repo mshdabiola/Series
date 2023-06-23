@@ -67,7 +67,7 @@ fun QuestionHeadUi(
     Card {
 
         Column(
-            modifier = Modifier.padding(4.dp),
+            modifier = Modifier.padding(8.dp),
             verticalArrangement = Arrangement.spacedBy(4.dp)
         ) {
             Row(

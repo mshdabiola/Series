@@ -46,7 +46,7 @@ class MainViewModel(
                         .toImmutableList()
                 }
                 .collectLatest { questionUiStates ->
-                    Timber.e("new ${questionUiStates.joinToString ()}")
+
                     _questionsList.update {
                         questionUiStates
                     }

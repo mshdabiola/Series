@@ -1,11 +1,13 @@
 package com.mshdabiola.ui
 
+import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextLayoutResult
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
@@ -32,6 +34,7 @@ fun MarkUpText(
     overflow: TextOverflow = TextOverflow.Clip,
     softWrap: Boolean = true,
     maxLines: Int = Int.MAX_VALUE,
+    style: TextStyle = LocalTextStyle.current,
     onTextLayout: (TextLayoutResult) -> Unit = {}
 ) {
     Text(
@@ -70,7 +73,8 @@ fun MarkUpText(
         overflow = overflow,
         softWrap = softWrap,
         maxLines = maxLines,
-        onTextLayout = onTextLayout
+        onTextLayout = onTextLayout,
+        style = style
     )
 }
 

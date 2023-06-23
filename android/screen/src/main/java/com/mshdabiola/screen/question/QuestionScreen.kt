@@ -142,7 +142,7 @@ internal fun QuestionScreen(
                 .padding(paddingValues)
                 .padding(8.dp)
                 .fillMaxSize()
-                .verticalScroll(state = scrollState),
+                ,
             verticalArrangement = Arrangement.spacedBy(8.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -154,7 +154,14 @@ internal fun QuestionScreen(
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            HorizontalPager(state = state) { index ->
+            HorizontalPager(
+                modifier = Modifier
+                    .weight(1f)
+                    .verticalScroll(state = scrollState)
+                ,
+                state = state,
+                verticalAlignment = Alignment.Top
+            ) { index ->
                 QuestionUi(
                     number = (index + 1L),
                     questionUiState = questions[index],

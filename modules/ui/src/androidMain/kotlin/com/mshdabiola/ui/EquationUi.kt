@@ -1,11 +1,13 @@
 package com.mshdabiola.ui
 
+import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.mshdabiola.retex.aimplementation.LatexText
 import com.mshdabiola.ui.state.InstructionUiState
 import com.mshdabiola.ui.state.ItemUiState
@@ -14,12 +16,12 @@ import com.mshdabiola.ui.state.QuestionUiState
 import kotlinx.collections.immutable.toImmutableList
 
 @Composable
-internal actual fun EquationUi(
+ actual fun EquationUi(
     modifier: Modifier,
     equation: ItemUiState
 ) {
     val context = LocalContext.current
-    LatexText(modifier = Modifier, equation.content) { Font(it, assetManager = context.assets) }
+    LatexText(modifier = modifier, equation.content) { Font(it, assetManager = context.assets) }
 }
 
 @Composable
