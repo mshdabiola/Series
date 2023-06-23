@@ -1,5 +1,4 @@
 package com.mshdabiola.worker.util
 
-object Converter {
-
-}
+const val versionKey="versionKey"
+const val prefsName="version"

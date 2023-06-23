@@ -2,12 +2,14 @@ package com.mshdabiola.data.repository.inter
 
 import com.mshdabiola.model.data.Exam
 import com.mshdabiola.model.data.ExamWithSub
+import com.mshdabiola.model.data.Question
+import com.mshdabiola.model.data.QuestionFull
 import kotlinx.coroutines.flow.Flow
 
 interface IExamRepository {
 
+    suspend fun insertAll(exams: List<Exam>)
 
-    val allExams: Flow<List<ExamWithSub>>
 
     suspend fun insertExam(exam: Exam)
 
@@ -16,4 +18,5 @@ interface IExamRepository {
     suspend fun updateExam(exam: Exam)
 
     fun getExamBySubjectId(subId: Long): Flow<List<ExamWithSub>>
+    fun getAllWithSub(): Flow<List<ExamWithSub>>
 }

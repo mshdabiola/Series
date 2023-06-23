@@ -9,9 +9,15 @@ internal class SubjectRepository(
     private val iSubjectDao: ISubjectDao
 ) : ISubjectRepository {
 
-    override val subjects: Flow<List<Subject>>
-        get() = iSubjectDao
-            .getAll()
+
+    override fun getAll(): Flow<List<Subject>> {
+       return  iSubjectDao
+           .getAll()
+    }
+
+    override suspend fun insertAll(subjects: List<Subject>) {
+       subjects.forEach {  insertSubject(it) }
+    }
 
     override suspend fun insertSubject(subject: Subject) {
         iSubjectDao.insert(subject)

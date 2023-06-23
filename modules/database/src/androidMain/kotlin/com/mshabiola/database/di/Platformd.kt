@@ -2,6 +2,7 @@ package com.mshabiola.database.di
 
 import android.util.Log
 import app.cash.sqldelight.driver.android.AndroidSqliteDriver
+import app.cash.sqldelight.driver.jdbc.sqlite.JdbcSqliteDriver
 import com.mshabiola.database.model.listOfValueAdapter
 import com.mshabiola.database.util.Constant
 import com.mshdabiola.database.SeriesDatabase
@@ -9,11 +10,12 @@ import commshdabioladatabase.tables.InstructionEntity
 import commshdabioladatabase.tables.OptionEntity
 import commshdabioladatabase.tables.QuestionEntity
 import org.koin.core.module.Module
+import org.koin.core.qualifier.qualifier
 import org.koin.dsl.module
 
 actual val databaseModule: Module
     get() = module {
-        single {
+        single (qualifier = qualifier("real")){
             val driver = AndroidSqliteDriver(
                 schema = SeriesDatabase.Schema,
                 context = get(),
@@ -21,7 +23,6 @@ actual val databaseModule: Module
             )
 
 
-            Log.e("version", "version ${SeriesDatabase.Schema.version}")
 
             SeriesDatabase(
                 driver = driver,
@@ -30,5 +31,20 @@ actual val databaseModule: Module
                 optionEntityAdapter = OptionEntity.Adapter(listOfValueAdapter)
             )
         }
+        single (qualifier = qualifier("temp")){
+            val driver = AndroidSqliteDriver(
+                schema = SeriesDatabase.Schema,
+                context = get(),
+                name = null
+            )
+
+            SeriesDatabase(
+                driver = driver,
+                questionEntityAdapter = QuestionEntity.Adapter(listOfValueAdapter),
+                instructionEntityAdapter = InstructionEntity.Adapter(listOfValueAdapter),
+                optionEntityAdapter = OptionEntity.Adapter(listOfValueAdapter)
+            )
+        }
+
         includes(daoModules)
     }

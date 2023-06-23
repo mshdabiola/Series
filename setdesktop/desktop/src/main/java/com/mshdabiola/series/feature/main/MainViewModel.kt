@@ -50,7 +50,7 @@ class MainViewModel(
 
 
     val subjects = iSubjectRepository
-        .subjects
+        .getAll()
         .map {
             it.map { it.toUi() }
                 .toImmutableList()
@@ -78,7 +78,7 @@ class MainViewModel(
             currentSubjectId.collectLatest { id ->
                 if (id == -1L) {
                     iExamRepository
-                        .allExams
+                        .getAllWithSub()
                         .collectLatest { list ->
                             _examUiStates.update {
                                 list

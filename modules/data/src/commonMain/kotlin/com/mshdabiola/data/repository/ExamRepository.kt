@@ -11,9 +11,18 @@ internal class ExamRepository(
     private val iExamDao: IExamDao,
     private val iSubjectDao: ISubjectDao
 ) : IExamRepository {
-    override val allExams: Flow<List<ExamWithSub>>
-        get() = iExamDao
+
+
+    override fun getAllWithSub(): Flow<List<ExamWithSub>> {
+        return iExamDao
             .getAllWithSub()
+    }
+
+    override suspend fun insertAll(exams: List<Exam>) {
+        exams.forEach {
+            insertExam(it)
+        }
+    }
 
 
     override suspend fun insertExam(exam: Exam) {

@@ -1,13 +1,16 @@
 package com.mshdabiola.data.repository.inter
 
+import com.mshdabiola.model.data.Question
+import com.mshdabiola.model.data.QuestionFull
 import com.mshdabiola.model.data.Subject
 import kotlinx.coroutines.flow.Flow
 
 interface ISubjectRepository {
 
 
-    val subjects: Flow<List<Subject>>
+    fun getAll(): Flow<List<Subject>>
 
+    suspend fun insertAll(subjects: List<Subject>)
     suspend fun insertSubject(subject: Subject)
 
     suspend fun deleteSubject(subjectId: Long)
