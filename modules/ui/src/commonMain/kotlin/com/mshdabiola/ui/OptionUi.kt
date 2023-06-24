@@ -76,6 +76,7 @@ fun OptionUi(
     val color = when {
         optionUiState.isAnswer && showAnswer -> Color.Green
         optionUiState.choose -> MaterialTheme.colorScheme.primary
+        showAnswer -> MaterialTheme.colorScheme.background
         else -> MaterialTheme.colorScheme.primaryContainer
     }
     Card(

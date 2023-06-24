@@ -5,18 +5,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mshdabiola.data.repository.inter.IModelRepository
 import com.mshdabiola.data.repository.inter.IQuestionRepository
-import com.mshdabiola.ui.state.InstructionUiState
-import com.mshdabiola.ui.state.ItemUiState
-import com.mshdabiola.ui.state.OptionUiState
 import com.mshdabiola.ui.state.QuestionUiState
 import com.mshdabiola.ui.toQuestionUiState
+import com.mshdabiola.util.FileManager
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -28,9 +24,8 @@ class MainViewModel(
 ) : ViewModel() {
 
 
-
-    private val id =1L
-
+    val genera = "image"
+    private val id = 1L
 
 
     private val _questionsList = MutableStateFlow(emptyList<QuestionUiState>().toImmutableList())
@@ -71,5 +66,9 @@ class MainViewModel(
             question.toImmutableList()
         }
 
+    }
+
+    fun getGeneraPath(imageType: FileManager.ImageType): String {
+        return "image"//fileManager.getGeneraPath(subjectId, examId, imageType)
     }
 }

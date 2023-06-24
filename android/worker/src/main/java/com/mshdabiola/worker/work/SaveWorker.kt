@@ -91,18 +91,32 @@ class SaveWorker(
                 examId = 1,
                 content = listOf(
                     Item("What is your name"),
-                    Item(latex,Type.EQUATION)
+                    Item(latex, Type.EQUATION),
+                    Item("play.png", Type.IMAGE),
+                    Item("yyy.svg", Type.IMAGE)
                 ),
                 isTheory = false,
                 answer = "",
                 options = options,
-                instruction =if(Random.nextBoolean())Instruction(91, 1, "Title", listOf(Item("Content"))) else null,
+                instruction = if (Random.nextBoolean()) Instruction(
+                    91,
+                    1,
+                    "Title",
+                    listOf(Item("Content"))
+                ) else null,
                 topic = null
             )
         }
 
         val instructions: List<Instruction> = listOf(
-            Instruction(91, 1, "Title", listOf(Item("Content")))
+            Instruction(
+                91, 1, "Title", listOf(
+                    Item("What is your name"),
+                    Item(latex, Type.EQUATION),
+                    Item("play.png", Type.IMAGE),
+                    Item("yyy.svg", Type.IMAGE)
+                )
+            )
         )
         val topics: List<Topic> = listOf()
 

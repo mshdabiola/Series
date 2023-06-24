@@ -20,7 +20,6 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
@@ -37,7 +36,6 @@ fun QuestionScroll(
     showNext: Boolean,
     chooses: ImmutableList<Boolean>,
     onChooseClick: (Int) -> Unit = {},
-    onShowAllClick: () -> Unit = {},
     onNext: () -> Unit = {},
     onPrev: () -> Unit = {}
 ) {
@@ -45,10 +43,12 @@ fun QuestionScroll(
     val state = rememberLazyListState()
 
     LaunchedEffect(currentQuestion) {
-        state.scrollToItem(currentQuestion)
+        println("current index $currentQuestion")
+        val value = if (currentQuestion == 0) currentQuestion else currentQuestion - 1
+        state.scrollToItem(value)
     }
 
-    val number = remember { chooses.size }
+    val number = remember (chooses){ chooses.size }
     val noAnswer = remember(chooses) {
         derivedStateOf {
             chooses.count { it }
@@ -76,7 +76,11 @@ fun QuestionScroll(
             ) {
 
                 items(count = number, key = { it }) {
-                    QuestionNumberButton(it, chooses[it]) { onChooseClick(it) }
+                    QuestionNumberButton(
+                        number = it,
+                        isChoose = chooses[it],
+                        isCurrent = it == currentQuestion
+                    ) { onChooseClick(it) }
                 }
             }
             if (showNext) {
@@ -90,9 +94,7 @@ fun QuestionScroll(
 
         Text("${noAnswer.value} of $number")
 
-        TextButton(onClick = onShowAllClick) {
-            Text("Show all questions")
-        }
+
     }
 
 }
@@ -106,16 +108,20 @@ internal expect fun QuestionScrollPreview()
 fun QuestionNumberButton(
     number: Int,
     isChoose: Boolean,
+    isCurrent: Boolean = false,
     onClick: () -> Unit = {}
 ) {
     val color = if (isChoose)
         MaterialTheme.colorScheme.primaryContainer
     else
         MaterialTheme.colorScheme.surface
+
+
     OutlinedCard(
         modifier = Modifier.requiredSize(48.dp),
         shape = CircleShape,
         colors = CardDefaults.outlinedCardColors(containerColor = color),
+        border = CardDefaults.outlinedCardBorder(isCurrent.not()),
         onClick = onClick
     ) {
         Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {

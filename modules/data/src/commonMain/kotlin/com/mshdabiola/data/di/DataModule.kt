@@ -21,7 +21,6 @@ import com.mshdabiola.data.repository.inter.ISubjectRepository
 import com.mshdabiola.data.repository.inter.ITopicRepository
 import com.mshdabiola.network.di.networkModule
 import com.mshdabiola.setting.di.settingModule
-import org.koin.core.module.dsl.factoryOf
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.bind
 import org.koin.dsl.module

@@ -39,7 +39,7 @@ kotlin {
 //                implementation(libs.androidx.compose.material3)
 //
 //
-                implementation("dev.icerock.moko:resources-compose:0.22.0")
+                implementation("com.caverock:androidsvg-aar:1.4")
 //                add("implementation", libs.findLibrary("androidx.compose.material3").get())
 //                add(
 //                    "implementation",

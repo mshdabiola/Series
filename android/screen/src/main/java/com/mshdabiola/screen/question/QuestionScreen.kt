@@ -23,6 +23,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -48,6 +49,7 @@ import com.mshdabiola.ui.state.InstructionUiState
 import com.mshdabiola.ui.state.ItemUiState
 import com.mshdabiola.ui.state.OptionUiState
 import com.mshdabiola.ui.state.QuestionUiState
+import com.mshdabiola.util.FileManager
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.launch
@@ -67,7 +69,8 @@ internal fun QuestionScreen(
         profileState = ProfileState(),
         back = onBack,
         onFinish = onFinish,
-        onOption = viewModel::onOption
+        onOption = viewModel::onOption,
+        getGeneralPath = viewModel::getGeneraPath
     )
 }
 
@@ -81,7 +84,8 @@ internal fun QuestionScreen(
     profileState: ProfileState,
     back: () -> Unit = {},
     onFinish: () -> Unit = {},
-    onOption: (Int, Int) -> Unit = { _, _ -> }
+    onOption: (Int, Int) -> Unit = { _, _ -> },
+    getGeneralPath: (FileManager.ImageType) -> String = { "" }
 ) {
 
     var show by remember {
@@ -141,8 +145,7 @@ internal fun QuestionScreen(
             Modifier
                 .padding(paddingValues)
                 .padding(8.dp)
-                .fillMaxSize()
-                ,
+                .fillMaxSize(),
             verticalArrangement = Arrangement.spacedBy(8.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -157,16 +160,17 @@ internal fun QuestionScreen(
             HorizontalPager(
                 modifier = Modifier
                     .weight(1f)
-                    .verticalScroll(state = scrollState)
-                ,
+                    .verticalScroll(state = scrollState),
                 state = state,
-                verticalAlignment = Alignment.Top
+                verticalAlignment = Alignment.Top,
+                userScrollEnabled = false
             ) { index ->
                 QuestionUi(
                     number = (index + 1L),
                     questionUiState = questions[index],
-                    generalPath = "",
+                    generalPath = getGeneralPath(FileManager.ImageType.QUESTION),
                     title = "Waec 2015 Q4",
+
                     onInstruction = {
                         instructionUiState = questions[index].instructionUiState!!
                     },
@@ -176,6 +180,7 @@ internal fun QuestionScreen(
                             coroutineScope
                                 .launch {
                                     state.animateScrollToPage(index + 1)
+                                    scrollState.scrollTo(0)
                                 }
                         }
                     }
@@ -192,20 +197,26 @@ internal fun QuestionScreen(
                 onChooseClick = {
                     coroutineScope.launch {
                         state.animateScrollToPage(it)
+                        scrollState.scrollTo(0)
                     }
                 },
-                onShowAllClick = { show = true },
+
                 onNext = {
                     coroutineScope.launch {
                         state.animateScrollToPage(state.currentPage + 1)
+                        scrollState.scrollTo(0)
                     }
                 },
                 onPrev = {
                     coroutineScope.launch {
                         state.animateScrollToPage(state.currentPage - 1)
+                        scrollState.scrollTo(0)
                     }
                 }
             )
+            TextButton(onClick = { show = true }) {
+                Text("Show all questions")
+            }
 
 
         }
@@ -213,7 +224,7 @@ internal fun QuestionScreen(
 
     InstructionBottomSheet(
         instructionUiState = instructionUiState,
-        generalPath = "",
+        generalPath = getGeneralPath(FileManager.ImageType.INSTRUCTION),
         onDismissRequest = { instructionUiState = null }
     )
     AllQuestionBottomSheet(
@@ -226,6 +237,7 @@ internal fun QuestionScreen(
                     state.animateScrollToPage(it)
                 }
         },
+        currentNumber = state.currentPage,
         onDismissRequest = { show = false })
 
 }

@@ -3,7 +3,6 @@ package com.mshdabiola.ui
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -19,7 +18,7 @@ fun ItemUi(items: ImmutableList<ItemUiState>, generalPath: String) {
     items.forEach { item ->
         when (item.type) {
             Type.EQUATION -> {
-                EquationUi(Modifier.fillMaxWidth(),equation = item)
+                EquationUi(Modifier.fillMaxWidth(), equation = item)
             }
 
             Type.TEXT -> {
@@ -28,6 +27,7 @@ fun ItemUi(items: ImmutableList<ItemUiState>, generalPath: String) {
 
             Type.IMAGE -> {
                 ImageUi(
+                    Modifier.fillMaxWidth().heightIn(60.dp, 200.dp),
                     path = "$generalPath/${item.content}",
                     contentDescription = item.content
                 )

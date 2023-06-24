@@ -18,7 +18,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.Fill
 import androidx.compose.ui.graphics.drawscope.Stroke
@@ -93,10 +92,11 @@ fun LatexText(
         println("h $height w $width")
     }
 
-    Box(modifier = modifier
-        .heightIn(min=10.dp,max=300.dp)
-        .verticalScroll(rememberScrollState())
-        .horizontalScroll(rememberScrollState())
+    Box(
+        modifier = modifier
+            .heightIn(min = 10.dp, max = 300.dp)
+            .verticalScroll(rememberScrollState())
+            .horizontalScroll(rememberScrollState())
     ) {
 
         if (errorMessage == null) {

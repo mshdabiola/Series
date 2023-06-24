@@ -1,22 +1,35 @@
 package com.mshdabiola.ui
 
-import androidx.compose.foundation.layout.height
+import android.graphics.BitmapFactory
+import androidx.compose.foundation.Image
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Canvas
+import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
+import androidx.core.graphics.toRect
+import com.caverock.androidsvg.SVG
 import com.mshdabiola.retex.aimplementation.LatexText
 import com.mshdabiola.ui.state.InstructionUiState
 import com.mshdabiola.ui.state.ItemUiState
 import com.mshdabiola.ui.state.OptionUiState
 import com.mshdabiola.ui.state.QuestionUiState
 import kotlinx.collections.immutable.toImmutableList
+import timber.log.Timber
+import java.io.File
 
 @Composable
- actual fun EquationUi(
+actual fun EquationUi(
     modifier: Modifier,
     equation: ItemUiState
 ) {
@@ -31,7 +44,52 @@ actual fun ImageUi(
     contentDescription: String,
     contentScale: ContentScale
 ) {
+    val context = LocalContext.current
+    var image by remember {
+        mutableStateOf<ImageBitmap?>(null)
+    }
+
+    LaunchedEffect(key1 = path, block = {
+        try {
+            val file = File(path)
+            Timber.e("extention ${file.extension}")
+            image = when (file.extension) {
+                "svg" -> {
+                    val svg = SVG.getFromAsset(context.assets, path)
+
+                    val rect = svg.documentViewBox.toRect()
+
+                    val imageBitmap = ImageBitmap(rect.width(), rect.height())
+                    val canvas = Canvas(imageBitmap)
+                    svg.renderToCanvas(canvas.nativeCanvas)
+                    canvas.save()
+                    imageBitmap
+                }
+
+                else -> {
+                    BitmapFactory
+                        .decodeStream(context.assets.open(path))
+                        .asImageBitmap()
+                }
+            }
+        } catch (e: Exception) {
+            Timber.e(e)
+        }
+    })
+
+
+    if (image != null) {
+        Image(
+            modifier = modifier,
+            bitmap = image!!,
+            contentDescription = contentDescription,
+            contentScale = contentScale
+        )
+    }
+
+
 }
+
 
 @Composable
 actual fun DragAndDropImage(

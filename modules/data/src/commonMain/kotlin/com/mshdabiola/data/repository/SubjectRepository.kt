@@ -11,12 +11,12 @@ internal class SubjectRepository(
 
 
     override fun getAll(): Flow<List<Subject>> {
-       return  iSubjectDao
-           .getAll()
+        return iSubjectDao
+            .getAll()
     }
 
     override suspend fun insertAll(subjects: List<Subject>) {
-       subjects.forEach {  insertSubject(it) }
+        subjects.forEach { insertSubject(it) }
     }
 
     override suspend fun insertSubject(subject: Subject) {

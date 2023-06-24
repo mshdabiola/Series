@@ -2,8 +2,6 @@ package com.mshdabiola.data.repository.inter
 
 import com.mshdabiola.model.data.Exam
 import com.mshdabiola.model.data.ExamWithSub
-import com.mshdabiola.model.data.Question
-import com.mshdabiola.model.data.QuestionFull
 import kotlinx.coroutines.flow.Flow
 
 interface IExamRepository {

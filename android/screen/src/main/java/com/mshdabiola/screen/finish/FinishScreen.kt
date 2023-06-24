@@ -45,6 +45,7 @@ import com.mshdabiola.ui.state.InstructionUiState
 import com.mshdabiola.ui.state.ItemUiState
 import com.mshdabiola.ui.state.OptionUiState
 import com.mshdabiola.ui.state.QuestionUiState
+import com.mshdabiola.util.FileManager
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.launch
@@ -56,7 +57,8 @@ internal fun FinishScreen(onBack: () -> Unit, toQuestion: () -> Unit, viewModel:
     FinishScreen(
         questions = questions.value,
         back = onBack,
-        toQuestion = toQuestion
+        toQuestion = toQuestion,
+        getGeneralPath = viewModel::getGeneraPath
     )
 }
 
@@ -65,7 +67,8 @@ internal fun FinishScreen(onBack: () -> Unit, toQuestion: () -> Unit, viewModel:
 internal fun FinishScreen(
     questions: ImmutableList<QuestionUiState>,
     back: () -> Unit = {},
-    toQuestion: () -> Unit = {}
+    toQuestion: () -> Unit = {},
+    getGeneralPath: (FileManager.ImageType) -> String = { "" }
 ) {
     val lazyState = rememberLazyListState()
     val coroutineScope = rememberCoroutineScope()
@@ -141,7 +144,7 @@ internal fun FinishScreen(
                     QuestionUi(
                         number = (index + 1L),
                         questionUiState = item,
-                        generalPath = "",
+                        generalPath = getGeneralPath(FileManager.ImageType.QUESTION),
                         title = "Waec 2015 Q4",
                         onInstruction = {
                             instructionUiState = item.instructionUiState
@@ -159,7 +162,7 @@ internal fun FinishScreen(
     }
     InstructionBottomSheet(
         instructionUiState = instructionUiState,
-        generalPath = "",
+        generalPath = getGeneralPath(FileManager.ImageType.INSTRUCTION),
         onDismissRequest = { instructionUiState = null }
     )
 

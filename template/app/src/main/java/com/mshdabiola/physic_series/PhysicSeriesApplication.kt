@@ -29,10 +29,10 @@ class PhysicSeriesApplication : Application() {
             applicationContext.packageManager.getPackageInfo(applicationContext.packageName, 0)
         val version = PackageInfoCompat.getLongVersionCode(info)
 
-       // if (version > oldV) {
-            Saver.initialize(applicationContext)
-            Saver.saveGame(89L)
-      //  }
+        // if (version > oldV) {
+        Saver.initialize(applicationContext)
+        Saver.saveGame(89L)
+        //  }
         if (packageName.contains("debug")) {
             Timber.plant(Timber.DebugTree())
             Timber.e("log on app create")
