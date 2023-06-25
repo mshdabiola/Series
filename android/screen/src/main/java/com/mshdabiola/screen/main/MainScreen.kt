@@ -50,7 +50,8 @@ internal fun MainScreen(onQuestion: () -> Unit) {
     MainScreen(
         mainState = mainState.value,
         onQuestion = onQuestion,
-        onStartExam = viewModel::startExam
+        onStartExam = viewModel::startExam,
+        onContinueExam = viewModel::onContinueExam
     )
 }
 
@@ -59,7 +60,8 @@ internal fun MainScreen(onQuestion: () -> Unit) {
 internal fun MainScreen(
     mainState: MainState,
     onQuestion: () -> Unit = {},
-    onStartExam: (Int) -> Unit = {}
+    onStartExam: (Int) -> Unit = {},
+    onContinueExam: () -> Unit = {}
 ) {
     val snackbarHostState = remember {
         SnackbarHostState()
@@ -124,7 +126,10 @@ internal fun MainScreen(
                 ContinueCard(
                     year = it.year,
                     progress = mainState.progress,
-                    onClick = onQuestion
+                    onClick = {
+                        onQuestion()
+                        onContinueExam()
+                    }
                 )
 
             }

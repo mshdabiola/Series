@@ -23,9 +23,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -58,7 +57,7 @@ class MainViewModel(
             SharingStarted.WhileSubscribed(5000),
             emptyList<ExamUiState>().toImmutableList()
         )
-    private val chooseList = HashMap<Int, Int>()
+    private var chooseList : MutableMap<Int,Int> = HashMap<Int, Int>()
 
 
     private val _currentExam =
@@ -79,28 +78,28 @@ class MainViewModel(
                     }
                 }
         }
-        viewModelScope.launch(Dispatchers.IO) {
-            currentExam
-                .mapNotNull { it.currentExam?.id }
-                .distinctUntilChanged()
-                .collectLatest {
-                    questionRepository
-                        .getAllWithExamId(it)
-                        .map { questionFulls ->
-                            questionFulls.map {
-                                it
-                                    .toQuestionUiState()
-
-                            }.toImmutableList()
-                        }
-                        .collectLatest { question ->
-
-                            _questionsList.update {
-                                question
-                            }
-                        }
-                }
-        }
+//        viewModelScope.launch(Dispatchers.IO) {
+//            currentExam
+//                .mapNotNull { it.currentExam?.id }
+//                .distinctUntilChanged()
+//                .collectLatest {
+//                    questionRepository
+//                        .getAllWithExamId(it)
+//                        .map { questionFulls ->
+//                            questionFulls.map {
+//                                it
+//                                    .toQuestionUiState()
+//
+//                            }.toImmutableList()
+//                        }
+//                        .collectLatest { question ->
+//
+//                            _questionsList.update {
+//                                question
+//                            }
+//                        }
+//                }
+//        }
 
         viewModelScope.launch(Dispatchers.IO) {
             delay(2000)
@@ -115,6 +114,9 @@ class MainViewModel(
                     _currentExam.update {
                         it.copy(currentExam = exam)
                     }
+                    chooseList= currentExam1.choose.associate{
+                        it
+                    }.toMutableMap()
                 }
 
 
@@ -131,11 +133,38 @@ class MainViewModel(
             _currentExam.update {
                 it.copy(currentExam = exam.copy(id = 1))
             }
+           addQuestions(1)
         }
     }
 
     fun onContinueExam() {
-        addChoose()
+        viewModelScope.launch(Dispatchers.IO) {
+            addQuestions(1)
+            addChoose()
+        }
+
+    }
+
+    private suspend fun addQuestions(examId: Long) {
+        val que = questionRepository
+            .getAllWithExamId(1)
+            .map { questionFulls ->
+                questionFulls.map {
+                    it
+                        .toQuestionUiState()
+
+                }.toImmutableList()
+            }
+            .firstOrNull()
+
+
+        if (que != null) {
+            _questionsList.update {
+                que
+            }
+        }
+
+
     }
 
     private var chooseJob: Job? = null
