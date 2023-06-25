@@ -1,6 +1,7 @@
 package com.mshdabiola.data.repository
 
 import com.mshdabiola.data.repository.inter.ISettingRepository
+import com.mshdabiola.model.CurrentExam
 import com.mshdabiola.model.DummySetting
 import com.mshdabiola.model.data.Instruction
 import com.mshdabiola.model.data.QuestionFull
@@ -38,6 +39,14 @@ internal class SettingRepository(private val settings: MultiplatformSettings) : 
 
     override suspend fun removeQuestion(examId: Long) {
         settings.removeQuestion(examId)
+    }
+
+    override suspend fun setCurrentExam(currentExam: CurrentExam) {
+        settings.setCurrentExam(currentExam)
+    }
+
+    override suspend fun getCurrentExam(): CurrentExam? {
+        return settings.getCurrentExam()
     }
 
 }

@@ -87,159 +87,167 @@ internal fun QuestionScreen(
     onOption: (Int, Int) -> Unit = { _, _ -> },
     getGeneralPath: (FileManager.ImageType) -> String = { "" }
 ) {
+    if (questions.isEmpty()) {
+        Text(text = "empty")
+    } else {
 
-    var show by remember {
-        mutableStateOf(false)
-    }
-    var instructionUiState by remember {
-        mutableStateOf<InstructionUiState?>(null)
-    }
-    val coroutineScope = rememberCoroutineScope()
-    val state = rememberPagerState {
-        questions.size
-    }
-    val chooses = remember(questions) {
-        questions.map { questionUiState ->
-            questionUiState.options.any { it.choose }
-        }.toImmutableList()
-    }
-    val finishPercent = remember(chooses) {
-        ((chooses.count {
-            it
-        } / chooses.size.toFloat()) * 100).toInt()
-    }
-    val scrollState = rememberScrollState()
-
-
-    Scaffold(
-        modifier = Modifier.semantics { this.testTagsAsResourceId = true },
-        bottomBar = {
-            BottomAppBar(
-                actions = {
-                    IconButton(onClick = back) {
-                        Icon(
-                            imageVector = Icons.Default.ArrowBackIosNew,
-                            contentDescription = "back"
-                        )
-                    }
-
-                },
-                floatingActionButton = {
-                    ExtendedFloatingActionButton(
-                        onClick = onFinish,
-                        containerColor = if (finishPercent == 100)
-                            Color.Green
-                        else
-                            FloatingActionButtonDefaults.containerColor
-                    ) {
-                        Icon(imageVector = Icons.Default.Kitesurfing, contentDescription = "submit")
-                        Spacer(modifier = Modifier.width(ButtonDefaults.IconSpacing))
-                        Text(text = "Submit: $finishPercent%")
-                    }
-                }
-            )
+        var show by remember {
+            mutableStateOf(false)
         }
+        var instructionUiState by remember {
+            mutableStateOf<InstructionUiState?>(null)
+        }
+        val coroutineScope = rememberCoroutineScope()
+        val state = rememberPagerState {
+            questions.size
+        }
+        val chooses = remember(questions) {
+            questions.map { questionUiState ->
+                questionUiState.options.any { it.choose }
+            }.toImmutableList()
+        }
+        val finishPercent = remember(chooses) {
+            ((chooses.count {
+                it
+            } / chooses.size.toFloat()) * 100).toInt()
+        }
+        val scrollState = rememberScrollState()
 
-    ) { paddingValues ->
-        Column(
-            Modifier
-                .padding(paddingValues)
-                .padding(8.dp)
-                .fillMaxSize(),
-            verticalArrangement = Arrangement.spacedBy(8.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
 
-            TimeCounter(
-                modifier = Modifier.padding(top = 4.dp),
-                currentTime = 400, total = 500
-            )
+        Scaffold(
+            modifier = Modifier.semantics { this.testTagsAsResourceId = true },
+            bottomBar = {
+                BottomAppBar(
+                    actions = {
+                        IconButton(onClick = back) {
+                            Icon(
+                                imageVector = Icons.Default.ArrowBackIosNew,
+                                contentDescription = "back"
+                            )
+                        }
 
-            Spacer(modifier = Modifier.height(8.dp))
-
-            HorizontalPager(
-                modifier = Modifier
-                    .weight(1f)
-                    .verticalScroll(state = scrollState),
-                state = state,
-                verticalAlignment = Alignment.Top,
-                userScrollEnabled = false
-            ) { index ->
-                QuestionUi(
-                    number = (index + 1L),
-                    questionUiState = questions[index],
-                    generalPath = getGeneralPath(FileManager.ImageType.QUESTION),
-                    title = "Waec 2015 Q4",
-
-                    onInstruction = {
-                        instructionUiState = questions[index].instructionUiState!!
                     },
-                    onOptionClick = {
-                        onOption(index, it)
-                        if (state.canScrollForward) {
-                            coroutineScope
-                                .launch {
-                                    state.animateScrollToPage(index + 1)
-                                    scrollState.scrollTo(0)
-                                }
+                    floatingActionButton = {
+                        ExtendedFloatingActionButton(
+                            onClick = onFinish,
+                            containerColor = if (finishPercent == 100)
+                                Color.Green
+                            else
+                                FloatingActionButtonDefaults.containerColor
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.Kitesurfing,
+                                contentDescription = "submit"
+                            )
+                            Spacer(modifier = Modifier.width(ButtonDefaults.IconSpacing))
+                            Text(text = "Submit: $finishPercent%")
                         }
                     }
                 )
             }
 
-            Spacer(modifier = Modifier.height(8.dp))
+        ) { paddingValues ->
+            Column(
+                Modifier
+                    .padding(paddingValues)
+                    .padding(8.dp)
+                    .fillMaxSize(),
+                verticalArrangement = Arrangement.spacedBy(8.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
 
-            QuestionScroll(
-                currentQuestion = state.currentPage,
-                showPrev = state.canScrollBackward,
-                showNext = state.canScrollForward,
-                chooses = chooses,
-                onChooseClick = {
-                    coroutineScope.launch {
-                        state.animateScrollToPage(it)
-                        scrollState.scrollTo(0)
-                    }
-                },
+                TimeCounter(
+                    modifier = Modifier.padding(top = 4.dp),
+                    currentTime = 400, total = 500
+                )
 
-                onNext = {
-                    coroutineScope.launch {
-                        state.animateScrollToPage(state.currentPage + 1)
-                        scrollState.scrollTo(0)
-                    }
-                },
-                onPrev = {
-                    coroutineScope.launch {
-                        state.animateScrollToPage(state.currentPage - 1)
-                        scrollState.scrollTo(0)
-                    }
+                Spacer(modifier = Modifier.height(8.dp))
+
+                HorizontalPager(
+                    modifier = Modifier
+                        .weight(1f)
+                        .verticalScroll(state = scrollState),
+                    state = state,
+                    verticalAlignment = Alignment.Top,
+                    userScrollEnabled = false
+                ) { index ->
+                    QuestionUi(
+                        number = (index + 1L),
+                        questionUiState = questions[index],
+                        generalPath = getGeneralPath(FileManager.ImageType.QUESTION),
+                        title = "Waec 2015 Q4",
+
+                        onInstruction = {
+                            instructionUiState = questions[index].instructionUiState!!
+                        },
+                        onOptionClick = {
+                            onOption(index, it)
+                            if (state.canScrollForward) {
+                                coroutineScope
+                                    .launch {
+                                        state.animateScrollToPage(index + 1)
+                                        scrollState.scrollTo(0)
+                                    }
+                            }
+                        }
+                    )
                 }
-            )
-            TextButton(onClick = { show = true }) {
-                Text("Show all questions")
+
+                Spacer(modifier = Modifier.height(8.dp))
+
+                QuestionScroll(
+                    currentQuestion = state.currentPage,
+                    showPrev = state.canScrollBackward,
+                    showNext = state.canScrollForward,
+                    chooses = chooses,
+                    onChooseClick = {
+                        coroutineScope.launch {
+                            state.animateScrollToPage(it)
+                            scrollState.scrollTo(0)
+                        }
+                    },
+
+                    onNext = {
+                        coroutineScope.launch {
+                            state.animateScrollToPage(state.currentPage + 1)
+                            scrollState.scrollTo(0)
+                        }
+                    },
+                    onPrev = {
+                        coroutineScope.launch {
+                            state.animateScrollToPage(state.currentPage - 1)
+                            scrollState.scrollTo(0)
+                        }
+                    }
+                )
+                TextButton(onClick = { show = true }) {
+                    Text("Show all questions")
+                }
+
+
             }
-
-
         }
+
+        InstructionBottomSheet(
+            instructionUiState = instructionUiState,
+            generalPath = getGeneralPath(FileManager.ImageType.INSTRUCTION),
+            onDismissRequest = { instructionUiState = null }
+        )
+        AllQuestionBottomSheet(
+            show = show,
+            chooses = chooses,
+            onChooseClick = {
+                show = false
+                coroutineScope
+                    .launch {
+                        state.animateScrollToPage(it)
+                    }
+            },
+            currentNumber = state.currentPage,
+            onDismissRequest = { show = false })
+
+
     }
-
-    InstructionBottomSheet(
-        instructionUiState = instructionUiState,
-        generalPath = getGeneralPath(FileManager.ImageType.INSTRUCTION),
-        onDismissRequest = { instructionUiState = null }
-    )
-    AllQuestionBottomSheet(
-        show = show,
-        chooses = chooses,
-        onChooseClick = {
-            show = false
-            coroutineScope
-                .launch {
-                    state.animateScrollToPage(it)
-                }
-        },
-        currentNumber = state.currentPage,
-        onDismissRequest = { show = false })
-
 }
 
 @Preview

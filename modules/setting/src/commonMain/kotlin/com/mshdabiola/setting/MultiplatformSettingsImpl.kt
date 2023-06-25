@@ -1,5 +1,6 @@
 package com.mshdabiola.setting
 
+import com.mshdabiola.model.CurrentExam
 import com.mshdabiola.model.DummySetting
 import com.mshdabiola.model.data.Instruction
 import com.mshdabiola.model.data.QuestionFull
@@ -10,6 +11,7 @@ import com.russhwolf.settings.ExperimentalSettingsApi
 import com.russhwolf.settings.coroutines.FlowSettings
 import com.russhwolf.settings.coroutines.toBlockingSettings
 import com.russhwolf.settings.serialization.decodeValue
+import com.russhwolf.settings.serialization.decodeValueOrNull
 import com.russhwolf.settings.serialization.encodeValue
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
@@ -163,6 +165,22 @@ internal class MultiplatformSettingsImpl(
                 .encodeValue(ListSerializer(QuestionFull.serializer()), Keys.questionKey, list)
 
         }
+    }
+
+    @OptIn(ExperimentalSerializationApi::class)
+    override suspend fun setCurrentExam(currentExam: CurrentExam) {
+        withContext(Dispatchers.IO){
+            settings
+                .toBlockingSettings()
+                .encodeValue(CurrentExam.serializer(),Keys.currentExamKey,currentExam)
+        }
+    }
+
+    @OptIn(ExperimentalSerializationApi::class)
+    override suspend fun getCurrentExam(): CurrentExam? {
+      return settings
+          .toBlockingSettings()
+          .decodeValueOrNull(CurrentExam.serializer(),Keys.currentExamKey)
     }
 
     @OptIn(ExperimentalSerializationApi::class)

@@ -70,7 +70,9 @@ class SaveWorker(
             Subject(1, "English")
         )
         val exams: List<Exam> = listOf(
-            Exam(1, 1, 2012)
+            Exam(1, 1, 2012),
+             Exam(2, 1, 2014),
+            Exam(3, 1, 2015)
         )
 
         val questions: List<QuestionFull> = (1L..90L).map { quID ->

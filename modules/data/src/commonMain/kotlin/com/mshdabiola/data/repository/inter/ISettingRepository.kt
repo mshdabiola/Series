@@ -1,5 +1,6 @@
 package com.mshdabiola.data.repository.inter
 
+import com.mshdabiola.model.CurrentExam
 import com.mshdabiola.model.DummySetting
 import com.mshdabiola.model.data.Instruction
 import com.mshdabiola.model.data.QuestionFull
@@ -21,4 +22,8 @@ interface ISettingRepository {
     fun getCurrentQuestion(examId: Long): QuestionFull?
 
     suspend fun removeQuestion(examId: Long)
+
+    suspend fun setCurrentExam(currentExam: CurrentExam)
+
+    suspend fun getCurrentExam() : CurrentExam?
 }

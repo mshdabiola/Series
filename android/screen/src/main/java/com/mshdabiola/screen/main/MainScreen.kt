@@ -33,27 +33,33 @@ import androidx.compose.ui.semantics.testTagsAsResourceId
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.mshdabiola.screen.MainViewModel
 import com.mshdabiola.screen.R
 import com.mshdabiola.ui.ContinueCard
 import com.mshdabiola.ui.OtherCard
 import com.mshdabiola.ui.StartCard
+import com.mshdabiola.ui.state.ExamUiState
+import kotlinx.collections.immutable.toImmutableList
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
 internal fun MainScreen(onQuestion: () -> Unit) {
     val viewModel: MainViewModel = koinViewModel()
+    val mainState = viewModel.currentExam.collectAsStateWithLifecycle()
     MainScreen(
+        mainState = mainState.value,
         onQuestion = onQuestion,
-        setName = {}
+        onStartExam = viewModel::startExam
     )
 }
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 @Composable
 internal fun MainScreen(
+    mainState: MainState,
     onQuestion: () -> Unit = {},
-    setName: (String) -> Unit = {}
+    onStartExam: (Int) -> Unit = {}
 ) {
     val snackbarHostState = remember {
         SnackbarHostState()
@@ -113,8 +119,22 @@ internal fun MainScreen(
                 Image(painter = painterResource(id = R.drawable.layer_2), contentDescription = "")
 
             }
-            ContinueCard(onQuestion)
-            StartCard()
+            mainState.currentExam?.let {
+
+                ContinueCard(
+                    year = it.year,
+                    progress = mainState.progress,
+                    onClick = onQuestion
+                )
+
+            }
+
+            StartCard(
+                exams = mainState.exams,
+                onClick = {
+                    onStartExam(it)
+                    onQuestion()
+                })
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
                 OtherCard(
                     title = "Random test",
@@ -135,6 +155,15 @@ internal fun MainScreen(
 @Composable
 fun MainScreenPreview() {
     MainScreen(
-
+        mainState = MainState(
+            exams = listOf(
+                ExamUiState(
+                    id = 7353L,
+                    subjectID = 7692L,
+                    year = 6756L,
+                    subject = "Taya"
+                )
+            ).toImmutableList()
+        )
     )
 }
