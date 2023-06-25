@@ -49,15 +49,7 @@ class MainViewModel(
             listOf(SubjectUiState(2, name = "English")).toImmutableList()
         )
 
-    private val allExam = iExamRepository
-        .getAllWithSub()
-        .map { it.map { it.toUi() }.toImmutableList() }
-        .stateIn(
-            viewModelScope,
-            SharingStarted.WhileSubscribed(5000),
-            emptyList<ExamUiState>().toImmutableList()
-        )
-    private var chooseList : MutableMap<Int,Int> = HashMap<Int, Int>()
+    private var chooseList: MutableMap<Int, Int> = HashMap<Int, Int>()
 
 
     private val _currentExam =
@@ -71,42 +63,27 @@ class MainViewModel(
     init {
 
         viewModelScope.launch(Dispatchers.IO) {
-            allExam
+            iExamRepository
+                .getAllWithSub()
+                .map { examWithSubs ->
+                    examWithSubs
+                        .map { it.toUi() }
+                        .toImmutableList()
+                }
                 .collectLatest { exam ->
                     _currentExam.update {
                         it.copy(exams = exam)
                     }
                 }
         }
-//        viewModelScope.launch(Dispatchers.IO) {
-//            currentExam
-//                .mapNotNull { it.currentExam?.id }
-//                .distinctUntilChanged()
-//                .collectLatest {
-//                    questionRepository
-//                        .getAllWithExamId(it)
-//                        .map { questionFulls ->
-//                            questionFulls.map {
-//                                it
-//                                    .toQuestionUiState()
-//
-//                            }.toImmutableList()
-//                        }
-//                        .collectLatest { question ->
-//
-//                            _questionsList.update {
-//                                question
-//                            }
-//                        }
-//                }
-//        }
+
 
         viewModelScope.launch(Dispatchers.IO) {
             delay(2000)
             val currentExam1 = settingRepository.getCurrentExam()
             Timber.e("seeting exam $currentExam1")
             if (currentExam1 != null) {
-                val exam = allExam.value.find {
+                val exam = currentExam.value.exams.find {
                     currentExam1.id == it.id
                 }
                 Timber.e("exam $exam")
@@ -114,12 +91,12 @@ class MainViewModel(
                     _currentExam.update {
                         it.copy(currentExam = exam)
                     }
-                    chooseList= currentExam1.choose.associate{
+                    chooseList = currentExam1.choose.associate {
                         it
                     }.toMutableMap()
+                    delay(2000)
+                    onContinueExam()
                 }
-
-
             }
         }
 
@@ -128,12 +105,12 @@ class MainViewModel(
 
     fun startExam(index: Int) {
         viewModelScope.launch(Dispatchers.IO) {
-            val exam = allExam.value[index]
+            val exam = currentExam.value.exams[index]
             delay(1000)
             _currentExam.update {
                 it.copy(currentExam = exam.copy(id = 1))
             }
-           addQuestions(1)
+            addQuestions(1)
         }
     }
 
