@@ -8,6 +8,7 @@ import com.mshdabiola.data.repository.inter.IQuestionRepository
 import com.mshdabiola.data.repository.inter.ISettingRepository
 import com.mshdabiola.data.repository.inter.ISubjectRepository
 import com.mshdabiola.model.CurrentExam
+import com.mshdabiola.model.data.Subject
 import com.mshdabiola.screen.main.MainState
 import com.mshdabiola.ui.state.ExamUiState
 import com.mshdabiola.ui.state.QuestionUiState
@@ -23,6 +24,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
@@ -42,11 +44,10 @@ class MainViewModel(
 
     val subject = iSubjectRepository
         .getAll()
-        .map { it.map { it.toUi() }.toImmutableList() }
         .stateIn(
             viewModelScope,
             SharingStarted.WhileSubscribed(5000),
-            listOf(SubjectUiState(2, name = "English")).toImmutableList()
+            listOf(Subject(2, name = "English"))
         )
 
     private var chooseList: MutableMap<Int, Int> = HashMap<Int, Int>()
@@ -61,6 +62,19 @@ class MainViewModel(
     val questionsList = _questionsList.asStateFlow()
 
     init {
+
+        viewModelScope.launch(Dispatchers.IO){
+            subject
+                .distinctUntilChanged { old, new -> old==new }
+                .collectLatest {
+                    val sub=it.first()
+                    _currentExam.update {
+                        it.copy(title = sub.name)
+                    }
+
+
+                }
+        }
 
         viewModelScope.launch(Dispatchers.IO) {
             iExamRepository
@@ -109,15 +123,13 @@ class MainViewModel(
                 it.copy(currentExam = exam.copy(id = 1))
             }
             addQuestions(1)
+            saveCurrentExam()
         }
     }
 
-    fun onContinueExam() {
-        viewModelScope.launch(Dispatchers.IO) {
+   private suspend fun onContinueExam() {
             addQuestions(1)
             addChoose()
-        }
-
     }
 
     private suspend fun addQuestions(examId: Long) {

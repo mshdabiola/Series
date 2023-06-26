@@ -51,7 +51,6 @@ internal fun MainScreen(onQuestion: () -> Unit) {
         mainState = mainState.value,
         onQuestion = onQuestion,
         onStartExam = viewModel::startExam,
-        onContinueExam = viewModel::onContinueExam
     )
 }
 
@@ -61,7 +60,6 @@ internal fun MainScreen(
     mainState: MainState,
     onQuestion: () -> Unit = {},
     onStartExam: (Int) -> Unit = {},
-    onContinueExam: () -> Unit = {}
 ) {
     val snackbarHostState = remember {
         SnackbarHostState()
@@ -83,7 +81,7 @@ internal fun MainScreen(
             CenterAlignedTopAppBar(
                 title = {
                     Column(verticalArrangement = Arrangement.Center) {
-                        Text(text = "Physics")
+                        Text(text = mainState.title)
                         Text(text = "Waec series", style = MaterialTheme.typography.labelMedium)
                     }
 
@@ -128,7 +126,6 @@ internal fun MainScreen(
                     progress = mainState.progress,
                     onClick = {
                         onQuestion()
-                        onContinueExam()
                     }
                 )
 
