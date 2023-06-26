@@ -79,7 +79,6 @@ class MainViewModel(
 
 
         viewModelScope.launch(Dispatchers.IO) {
-            delay(2000)
             val currentExam1 = settingRepository.getCurrentExam()
             Timber.e("seeting exam $currentExam1")
             if (currentExam1 != null) {
@@ -94,7 +93,6 @@ class MainViewModel(
                     chooseList = currentExam1.choose.associate {
                         it
                     }.toMutableMap()
-                    delay(2000)
                     onContinueExam()
                 }
             }

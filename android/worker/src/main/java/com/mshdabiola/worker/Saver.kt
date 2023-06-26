@@ -3,8 +3,12 @@ package com.mshdabiola.worker
 import android.content.Context
 import androidx.startup.AppInitializer
 import androidx.work.ExistingWorkPolicy
+import androidx.work.WorkInfo
 import androidx.work.WorkManager
 import com.mshdabiola.worker.work.SaveWorker
+import kotlinx.coroutines.flow.map
+import timber.log.Timber
+import java.util.UUID
 
 object Saver {
     lateinit var workManager: WorkManager
@@ -28,4 +32,13 @@ object Saver {
 
         save("updater", id = id)
     }
+
+    fun getWorkLiveData()=
+        workManager
+            .getWorkInfosForUniqueWorkLiveData("updater")
+
+
+
 }
+
+

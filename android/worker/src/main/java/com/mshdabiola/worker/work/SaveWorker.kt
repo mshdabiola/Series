@@ -6,6 +6,7 @@ import android.app.NotificationManager
 import android.content.Context
 import android.os.Build
 import androidx.core.app.NotificationCompat
+import androidx.core.content.pm.PackageInfoCompat
 import androidx.work.Constraints
 import androidx.work.CoroutineWorker
 import androidx.work.Data
@@ -14,6 +15,7 @@ import androidx.work.OneTimeWorkRequest
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.OutOfQuotaPolicy
 import androidx.work.WorkerParameters
+import androidx.work.workDataOf
 import com.mshdabiola.data.repository.inter.IExamRepository
 import com.mshdabiola.data.repository.inter.IInstructionRepository
 import com.mshdabiola.data.repository.inter.IQuestionRepository
@@ -27,6 +29,8 @@ import com.mshdabiola.model.data.QuestionFull
 import com.mshdabiola.model.data.Subject
 import com.mshdabiola.model.data.Topic
 import com.mshdabiola.model.data.Type
+import com.mshdabiola.worker.util.prefsName
+import com.mshdabiola.worker.util.versionKey
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.koin.core.component.KoinComponent
@@ -137,12 +141,12 @@ class SaveWorker(
 
 //
 //
-//        val info = appContext.packageManager.getPackageInfo(appContext.packageName, 0)
-//        val version = PackageInfoCompat.getLongVersionCode(info)
-//        appContext.getSharedPreferences(prefsName, Context.MODE_PRIVATE)
-//            .edit()
-//            .putLong(versionKey, version)
-//            .apply()
+        val info = appContext.packageManager.getPackageInfo(appContext.packageName, 0)
+        val version = PackageInfoCompat.getLongVersionCode(info)
+        appContext.getSharedPreferences(prefsName, Context.MODE_PRIVATE)
+            .edit()
+            .putLong(versionKey, version)
+            .apply()
 
         Result.success()
     }
