@@ -39,7 +39,7 @@ internal actual fun ContinueCardPreview() {
     ContinueCard(
         year = 2015,
         progress = 0.5f,
-        isSubmit = false
+        enabled = false
     )
 
 }

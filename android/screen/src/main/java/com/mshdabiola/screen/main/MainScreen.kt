@@ -124,7 +124,7 @@ internal fun MainScreen(
                 ContinueCard(
                     year = it.year,
                     progress = it.progress,
-                    isSubmit=it.isSubmit,
+                    enabled =it.isSubmit.not(),
                     onClick = {
                         onQuestion()
                     }

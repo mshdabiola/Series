@@ -69,14 +69,6 @@ internal fun QuestionScreen(
     val questions = viewModel.questionsList.collectAsState()
     val mainState = viewModel.mainState.collectAsStateWithLifecycle()
 
-    LaunchedEffect(key1 = mainState.value.currentExam?.currentTime, block = {
-        mainState.value?.currentExam?.let {
-            if (it.currentTime== it.totalTime) {
-                onFinish()
-            }
-        }
-
-    })
 
     QuestionScreen(
         questions = questions.value,
@@ -132,6 +124,15 @@ internal fun QuestionScreen(
         }
         val scrollState = rememberScrollState()
 
+
+        LaunchedEffect(key1 = mainState.currentExam?.currentTime, block = {
+            mainState.currentExam?.let {
+                if (it.currentTime== it.totalTime) {
+                    onFinish()
+                }
+            }
+
+        })
 
         Scaffold(
             modifier = Modifier.semantics { this.testTagsAsResourceId = true },

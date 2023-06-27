@@ -38,7 +38,7 @@ fun ContinueCard(
     onClick: () -> Unit = {},
     year: Long,
     progress: Float,
-    isSubmit: Boolean,
+    enabled: Boolean,
 ) {
     val color = LocalTextStyle.current.color.copy(alpha = 0.7f)
     Card() {
@@ -69,7 +69,7 @@ fun ContinueCard(
             Button(
                 modifier = Modifier.align(Alignment.End),
                 onClick = onClick,
-                enabled = !isSubmit
+                enabled = enabled
             ) {
                 Text(text = "Continue Exam")
             }

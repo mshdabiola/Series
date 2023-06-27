@@ -271,7 +271,6 @@ class MainViewModel(
 
     fun onSubmit() {
         viewModelScope.launch(Dispatchers.IO) {
-            settingRepository.setCurrentExam(null)
             _mainState.update {
                 it.copy(currentExam = it.currentExam?.copy(isSubmit = true))
             }
