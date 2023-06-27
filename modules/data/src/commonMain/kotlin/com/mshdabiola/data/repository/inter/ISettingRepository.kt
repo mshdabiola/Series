@@ -23,7 +23,7 @@ interface ISettingRepository {
 
     suspend fun removeQuestion(examId: Long)
 
-    suspend fun setCurrentExam(currentExam: CurrentExam)
+    suspend fun setCurrentExam(currentExam: CurrentExam?)
 
     suspend fun getCurrentExam() : CurrentExam?
 }

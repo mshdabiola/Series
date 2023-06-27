@@ -25,6 +25,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -39,12 +40,15 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.testTagsAsResourceId
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.mshdabiola.screen.MainViewModel
+import com.mshdabiola.screen.main.MainState
 import com.mshdabiola.ui.QuestionScroll
 import com.mshdabiola.ui.QuestionUi
 import com.mshdabiola.ui.TimeCounter
 import com.mshdabiola.ui.com.mshdabiola.ui.AllQuestionBottomSheet
 import com.mshdabiola.ui.com.mshdabiola.ui.InstructionBottomSheet
+import com.mshdabiola.ui.state.ExamUiState
 import com.mshdabiola.ui.state.InstructionUiState
 import com.mshdabiola.ui.state.ItemUiState
 import com.mshdabiola.ui.state.OptionUiState
@@ -63,14 +67,28 @@ internal fun QuestionScreen(
 
 
     val questions = viewModel.questionsList.collectAsState()
+    val mainState = viewModel.mainState.collectAsStateWithLifecycle()
+
+    LaunchedEffect(key1 = mainState.value.currentExam?.currentTime, block = {
+        mainState.value?.currentExam?.let {
+            if (it.currentTime== it.totalTime) {
+                onFinish()
+            }
+        }
+
+    })
 
     QuestionScreen(
         questions = questions.value,
-        profileState = ProfileState(),
+        mainState = mainState.value,
         back = onBack,
-        onFinish = onFinish,
+        onFinish = {
+            onFinish()
+            viewModel.onSubmit()
+        },
         onOption = viewModel::onOption,
-        getGeneralPath = viewModel::getGeneraPath
+        getGeneralPath = viewModel::getGeneraPath,
+        onTimeChanged = viewModel::onTimeChanged
     )
 }
 
@@ -81,11 +99,12 @@ internal fun QuestionScreen(
 @Composable
 internal fun QuestionScreen(
     questions: ImmutableList<QuestionUiState>,
-    profileState: ProfileState,
+    mainState: MainState,
     back: () -> Unit = {},
     onFinish: () -> Unit = {},
     onOption: (Int, Int) -> Unit = { _, _ -> },
-    getGeneralPath: (FileManager.ImageType) -> String = { "" }
+    getGeneralPath: (FileManager.ImageType) -> String = { "" },
+    onTimeChanged: (Long) -> Unit = {}
 ) {
     if (questions.isEmpty()) {
         Text(text = "empty")
@@ -158,7 +177,8 @@ internal fun QuestionScreen(
 
                 TimeCounter(
                     modifier = Modifier.padding(top = 4.dp),
-                    currentTime = 400, total = 500
+                    currentTime2 = mainState.currentExam?.currentTime?:0, total = mainState.currentExam?.totalTime?:8,
+                    onTimeChanged = onTimeChanged
                 )
 
                 Spacer(modifier = Modifier.height(8.dp))
@@ -402,6 +422,6 @@ fun QuestionScreenPreview() {
         ).toImmutableList()
     QuestionScreen(
         questions = questions,
-        profileState = ProfileState()
+        mainState = MainState(exams = emptyList<ExamUiState>().toImmutableList())
     )
 }

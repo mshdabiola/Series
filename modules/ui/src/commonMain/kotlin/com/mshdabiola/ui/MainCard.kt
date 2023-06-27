@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -37,6 +38,7 @@ fun ContinueCard(
     onClick: () -> Unit = {},
     year: Long,
     progress: Float,
+    isSubmit: Boolean,
 ) {
     val color = LocalTextStyle.current.color.copy(alpha = 0.7f)
     Card() {
@@ -66,7 +68,8 @@ fun ContinueCard(
 
             Button(
                 modifier = Modifier.align(Alignment.End),
-                onClick = onClick
+                onClick = onClick,
+                enabled = !isSubmit
             ) {
                 Text(text = "Continue Exam")
             }
@@ -82,6 +85,7 @@ internal expect fun ContinueCardPreview()
 fun StartCard(
     onClick: (Int) -> Unit = {},
     exams: ImmutableList<ExamUiState>,
+    isSubmit: Boolean,
 ) {
     if (exams.isNotEmpty()) {
         var select by remember {
@@ -107,7 +111,13 @@ fun StartCard(
                         supportText = "Exam year",
                         selectedOptionText = select
                     ) { select = it }
-                    Button(onClick = { onClick(select) }) {
+
+                    Button(
+                        onClick = {
+                            onClick(select)
+                        },
+                        colors = if (isSubmit) ButtonDefaults.buttonColors() else ButtonDefaults.elevatedButtonColors()
+                    ) {
                         Text(text = "Start exam")
                     }
 

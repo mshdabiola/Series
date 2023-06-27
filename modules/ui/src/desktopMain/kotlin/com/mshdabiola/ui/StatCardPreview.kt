@@ -16,7 +16,8 @@ internal actual fun StatCardPreview() {
             subjectID = 2,
             year = 2015,
             subject = "Jeanpaul"
-        )).toImmutableList()
+        )).toImmutableList(),
+        isSubmit = mainState.currentExam?.isSubmit ?: false
     )
 }
 

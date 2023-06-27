@@ -12,7 +12,6 @@ import com.mshdabiola.model.data.Subject
 import com.mshdabiola.screen.main.MainState
 import com.mshdabiola.ui.state.ExamUiState
 import com.mshdabiola.ui.state.QuestionUiState
-import com.mshdabiola.ui.state.SubjectUiState
 import com.mshdabiola.ui.toQuestionUiState
 import com.mshdabiola.ui.toUi
 import com.mshdabiola.util.FileManager
@@ -50,12 +49,13 @@ class MainViewModel(
             listOf(Subject(2, name = "English"))
         )
 
-    private var chooseList: MutableMap<Int, Int> = HashMap<Int, Int>()
+
+    private var chooseList: MutableMap<Int, Int> = HashMap()
 
 
-    private val _currentExam =
+    private val _mainState =
         MutableStateFlow(MainState(exams = emptyList<ExamUiState>().toImmutableList()))
-    val currentExam = _currentExam.asStateFlow()
+    val mainState = _mainState.asStateFlow()
 
 
     private val _questionsList = MutableStateFlow(emptyList<QuestionUiState>().toImmutableList())
@@ -63,12 +63,12 @@ class MainViewModel(
 
     init {
 
-        viewModelScope.launch(Dispatchers.IO){
+        viewModelScope.launch(Dispatchers.IO) {
             subject
-                .distinctUntilChanged { old, new -> old==new }
+                .distinctUntilChanged { old, new -> old == new }
                 .collectLatest {
-                    val sub=it.first()
-                    _currentExam.update {
+                    val sub = it.first()
+                    _mainState.update {
                         it.copy(title = sub.name)
                     }
 
@@ -85,7 +85,7 @@ class MainViewModel(
                         .toImmutableList()
                 }
                 .collectLatest { exam ->
-                    _currentExam.update {
+                    _mainState.update {
                         it.copy(exams = exam)
                     }
                 }
@@ -96,13 +96,20 @@ class MainViewModel(
             val currentExam1 = settingRepository.getCurrentExam()
             Timber.e("seeting exam $currentExam1")
             if (currentExam1 != null) {
-                val exam = currentExam.value.exams.find {
+                val exam = mainState.value.exams.find {
                     currentExam1.id == it.id
                 }
                 Timber.e("exam $exam")
                 exam?.let { old ->
-                    _currentExam.update {
-                        it.copy(currentExam = exam)
+                    _mainState.update {
+                        it.copy(
+                            currentExam = exam.copy(
+                                currentTime = currentExam1.currentTime,
+                                totalTime = currentExam1.totalTime,
+                                progress = currentExam1.progress,
+                                isSubmit = currentExam1.isSubmit
+                            ),
+                        )
                     }
                     chooseList = currentExam1.choose.associate {
                         it
@@ -117,19 +124,27 @@ class MainViewModel(
 
     fun startExam(index: Int) {
         viewModelScope.launch(Dispatchers.IO) {
-            val exam = currentExam.value.exams[index]
             delay(1000)
-            _currentExam.update {
-                it.copy(currentExam = exam.copy(id = 1))
+            val exam = mainState.value.exams[index]
+            _mainState.update {
+                it.copy(
+                    currentExam = exam.copy(
+                        id = 1,
+                        currentTime = 0,
+                        totalTime = 40,
+                        isSubmit = false,
+                        progress = 0f
+                    )
+                )
             }
+
             addQuestions(1)
-            saveCurrentExam()
         }
     }
 
-   private suspend fun onContinueExam() {
-            addQuestions(1)
-            addChoose()
+    private suspend fun onContinueExam() {
+        addQuestions(1)
+        addChoose()
     }
 
     private suspend fun addQuestions(examId: Long) {
@@ -180,7 +195,11 @@ class MainViewModel(
             } else {
                 chooseList.remove(index)
             }
-            saveCurrentExam()
+            val progress=chooseList.size/questionsList.value.size.toFloat()
+
+            _mainState.update {
+                it.copy(currentExam = it.currentExam?.copy(progress=progress))
+            }
 
         }
 
@@ -192,9 +211,23 @@ class MainViewModel(
 
     private suspend fun saveCurrentExam() {
 
-        val id = currentExam.value.currentExam!!.id
-        val choose = chooseList.toList()
-        settingRepository.setCurrentExam(CurrentExam(id = id, choose = choose))
+        val id = mainState.value.currentExam
+
+        if (id != null) {
+            val choose = chooseList.toList()
+
+            settingRepository.setCurrentExam(
+                CurrentExam(
+                    id = id.id,
+                    currentTime = id.currentTime,
+                    totalTime = id.totalTime,
+                    isSubmit = id.isSubmit,
+                    progress = id.progress,
+                    choose = choose
+                )
+            )
+
+        }
 
 
     }
@@ -222,6 +255,27 @@ class MainViewModel(
 
         }
 
+    }
+
+    private var saveJob: Job? = null
+    fun onTimeChanged(time: Long) {
+        _mainState.update {
+            it.copy(currentExam = it.currentExam?.copy(currentTime = time))
+        }
+        saveJob?.cancel()
+        saveJob = viewModelScope.launch {
+            saveCurrentExam()
+        }
+    }
+
+
+    fun onSubmit() {
+        viewModelScope.launch(Dispatchers.IO) {
+            settingRepository.setCurrentExam(null)
+            _mainState.update {
+                it.copy(currentExam = it.currentExam?.copy(isSubmit = true))
+            }
+        }
     }
 
 

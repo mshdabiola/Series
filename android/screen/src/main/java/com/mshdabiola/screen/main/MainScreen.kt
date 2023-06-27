@@ -46,7 +46,7 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 internal fun MainScreen(onQuestion: () -> Unit) {
     val viewModel: MainViewModel = koinViewModel()
-    val mainState = viewModel.currentExam.collectAsStateWithLifecycle()
+    val mainState = viewModel.mainState.collectAsStateWithLifecycle()
     MainScreen(
         mainState = mainState.value,
         onQuestion = onQuestion,
@@ -123,7 +123,8 @@ internal fun MainScreen(
 
                 ContinueCard(
                     year = it.year,
-                    progress = mainState.progress,
+                    progress = it.progress,
+                    isSubmit=it.isSubmit,
                     onClick = {
                         onQuestion()
                     }
@@ -133,6 +134,7 @@ internal fun MainScreen(
 
             StartCard(
                 exams = mainState.exams,
+                isSubmit=mainState.currentExam?.isSubmit ?: true,
                 onClick = {
                     onStartExam(it)
                     onQuestion()

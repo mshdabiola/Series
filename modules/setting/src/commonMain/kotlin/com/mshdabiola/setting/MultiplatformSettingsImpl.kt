@@ -168,19 +168,24 @@ internal class MultiplatformSettingsImpl(
     }
 
     @OptIn(ExperimentalSerializationApi::class)
-    override suspend fun setCurrentExam(currentExam: CurrentExam) {
-        withContext(Dispatchers.IO){
+    override suspend fun setCurrentExam(currentExam: CurrentExam?) {
+        withContext(Dispatchers.IO) {
             settings
                 .toBlockingSettings()
-                .encodeValue(CurrentExam.serializer(),Keys.currentExamKey,currentExam)
+                .encodeValue(
+                    ListSerializer(CurrentExam.serializer()), Keys.currentExamKey,
+                    if (currentExam == null) emptyList() else listOf(currentExam)
+                )
         }
     }
 
     @OptIn(ExperimentalSerializationApi::class)
     override suspend fun getCurrentExam(): CurrentExam? {
-      return settings
-          .toBlockingSettings()
-          .decodeValueOrNull(CurrentExam.serializer(),Keys.currentExamKey)
+
+        val list = settings
+            .toBlockingSettings()
+            .decodeValueOrNull(ListSerializer(CurrentExam.serializer()), Keys.currentExamKey)
+        return list?.firstOrNull()
     }
 
     @OptIn(ExperimentalSerializationApi::class)

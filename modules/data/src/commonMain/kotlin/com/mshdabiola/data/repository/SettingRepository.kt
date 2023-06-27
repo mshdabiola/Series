@@ -41,7 +41,7 @@ internal class SettingRepository(private val settings: MultiplatformSettings) : 
         settings.removeQuestion(examId)
     }
 
-    override suspend fun setCurrentExam(currentExam: CurrentExam) {
+    override suspend fun setCurrentExam(currentExam: CurrentExam?) {
         settings.setCurrentExam(currentExam)
     }
 

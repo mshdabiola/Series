@@ -6,10 +6,8 @@ import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -29,7 +27,8 @@ internal actual fun StatCardPreview() {
             subjectID = 2,
             year = 2015,
             subject = "Jeanpaul"
-        )).toImmutableList()
+        )).toImmutableList(),
+        isSubmit = false
     )
 }
 
@@ -39,7 +38,8 @@ internal actual fun StatCardPreview() {
 internal actual fun ContinueCardPreview() {
     ContinueCard(
         year = 2015,
-        progress = 0.5f
+        progress = 0.5f,
+        isSubmit = false
     )
 
 }
