@@ -34,7 +34,7 @@ fun QuestionScroll(
     currentQuestion: Int,
     showPrev: Boolean,
     showNext: Boolean,
-    chooses: ImmutableList<Boolean>,
+    chooses: ImmutableList<Int>,
     onChooseClick: (Int) -> Unit = {},
     onNext: () -> Unit = {},
     onPrev: () -> Unit = {}
@@ -44,14 +44,14 @@ fun QuestionScroll(
 
     LaunchedEffect(currentQuestion) {
         println("current index $currentQuestion")
-        val value = if (currentQuestion == 0) currentQuestion else currentQuestion - 1
+        val value = if (currentQuestion == 0) 0 else currentQuestion - 1
         state.scrollToItem(value)
     }
 
     val number = remember (chooses){ chooses.size }
     val noAnswer = remember(chooses) {
         derivedStateOf {
-            chooses.count { it }
+            chooses.count { it>-1 }
         }
     }
     Column(
@@ -78,7 +78,7 @@ fun QuestionScroll(
                 items(count = number, key = { it }) {
                     QuestionNumberButton(
                         number = it,
-                        isChoose = chooses[it],
+                        isChoose = chooses[it]>-1,
                         isCurrent = it == currentQuestion
                     ) { onChooseClick(it) }
                 }

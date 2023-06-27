@@ -187,7 +187,7 @@ fun FinishScreenPreview() {
                                 content = "Isabelle"
                             )
                         ).toImmutableList(),
-                        isAnswer = false, choose = true
+                        isAnswer = false
                     ),
                     OptionUiState(
                         id = 2, nos = 2, content = listOf(
@@ -195,7 +195,7 @@ fun FinishScreenPreview() {
                                 content = "Isabelle"
                             )
                         ).toImmutableList(),
-                        isAnswer = false, choose = false
+                        isAnswer = false
                     ),
                     OptionUiState(
                         id = 3, nos = 3, content = listOf(
@@ -203,7 +203,7 @@ fun FinishScreenPreview() {
                                 content = "Isabelle"
                             )
                         ).toImmutableList(),
-                        isAnswer = false, choose = false
+                        isAnswer = false
                     ),
                     OptionUiState(
                         id = 4, nos = 4, content = listOf(
@@ -211,7 +211,7 @@ fun FinishScreenPreview() {
                                 content = "Isabelle",
                             )
                         ).toImmutableList(),
-                        isAnswer = false, choose = false
+                        isAnswer = false
                     )
                 ).toImmutableList(),
                 instructionUiState = InstructionUiState(
@@ -235,7 +235,7 @@ fun FinishScreenPreview() {
                                 content = "Isabelle"
                             )
                         ).toImmutableList(),
-                        isAnswer = false, choose = true
+                        isAnswer = false
                     ),
                     OptionUiState(
                         id = 2, nos = 2, content = listOf(
@@ -243,7 +243,7 @@ fun FinishScreenPreview() {
                                 content = "Isabelle"
                             )
                         ).toImmutableList(),
-                        isAnswer = false, choose = false
+                        isAnswer = false
                     ),
                     OptionUiState(
                         id = 3, nos = 3, content = listOf(
@@ -251,7 +251,7 @@ fun FinishScreenPreview() {
                                 content = "Isabelle"
                             )
                         ).toImmutableList(),
-                        isAnswer = false, choose = false
+                        isAnswer = false
                     ),
                     OptionUiState(
                         id = 4, nos = 4, content = listOf(
@@ -259,7 +259,7 @@ fun FinishScreenPreview() {
                                 content = "Isabelle",
                             )
                         ).toImmutableList(),
-                        isAnswer = false, choose = false
+                        isAnswer = false
                     )
                 ).toImmutableList(),
                 instructionUiState = InstructionUiState(
@@ -283,7 +283,7 @@ fun FinishScreenPreview() {
                                 content = "Isabelle"
                             )
                         ).toImmutableList(),
-                        isAnswer = false, choose = true
+                        isAnswer = false
                     ),
                     OptionUiState(
                         id = 2, nos = 2, content = listOf(
@@ -291,7 +291,7 @@ fun FinishScreenPreview() {
                                 content = "Isabelle"
                             )
                         ).toImmutableList(),
-                        isAnswer = false, choose = false
+                        isAnswer = false
                     ),
                     OptionUiState(
                         id = 3, nos = 3, content = listOf(
@@ -299,7 +299,7 @@ fun FinishScreenPreview() {
                                 content = "Isabelle"
                             )
                         ).toImmutableList(),
-                        isAnswer = false, choose = false
+                        isAnswer = false
                     ),
                     OptionUiState(
                         id = 4, nos = 4, content = listOf(
@@ -307,7 +307,7 @@ fun FinishScreenPreview() {
                                 content = "Isabelle",
                             )
                         ).toImmutableList(),
-                        isAnswer = false, choose = false
+                        isAnswer = false
                     )
                 ).toImmutableList(),
                 instructionUiState = InstructionUiState(

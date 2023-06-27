@@ -29,7 +29,8 @@ fun OptionsUi(
     optionUiStates: ImmutableList<OptionUiState>,
     generalPath: String,
     showAnswer: Boolean = false,
-    onClick: (Int) -> Unit = {}
+    onClick: (Int) -> Unit = {},
+    selectedOption: Int = -1
 
 ) {
 
@@ -52,6 +53,7 @@ fun OptionsUi(
                 optionUiState = optionUiState,
                 generalPath = generalPath,
                 showAnswer = showAnswer,
+                isChoose = selectedOption==index,
                 onClick = { onClick(index) })
         }
     }
@@ -70,12 +72,13 @@ fun OptionUi(
     optionUiState: OptionUiState,
     generalPath: String,
     showAnswer: Boolean = false,
+    isChoose : Boolean=false,
     onClick: () -> Unit = {}
 
 ) {
     val color = when {
         optionUiState.isAnswer && showAnswer -> Color.Green
-        optionUiState.choose -> MaterialTheme.colorScheme.primary
+        isChoose -> MaterialTheme.colorScheme.primary
         showAnswer -> MaterialTheme.colorScheme.background
         else -> MaterialTheme.colorScheme.primaryContainer
     }

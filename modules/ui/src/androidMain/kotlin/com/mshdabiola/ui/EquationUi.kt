@@ -116,7 +116,7 @@ internal actual fun QuestionUiPreview() {
                         content = "Isabelle"
                     )
                 ).toImmutableList(),
-                isAnswer = false, choose = false
+                isAnswer = false
             ),
             OptionUiState(
                 id = 2, nos = 2, content = listOf(
@@ -124,7 +124,7 @@ internal actual fun QuestionUiPreview() {
                         content = "Isabelle"
                     )
                 ).toImmutableList(),
-                isAnswer = false, choose = false
+                isAnswer = false,
             ),
             OptionUiState(
                 id = 3, nos = 3, content = listOf(
@@ -132,7 +132,7 @@ internal actual fun QuestionUiPreview() {
                         content = "Isabelle"
                     )
                 ).toImmutableList(),
-                isAnswer = false, choose = false
+                isAnswer = false
             ),
             OptionUiState(
                 id = 4, nos = 4, content = listOf(
@@ -140,7 +140,7 @@ internal actual fun QuestionUiPreview() {
                         content = "Isabelle",
                     )
                 ).toImmutableList(),
-                isAnswer = false, choose = false
+                isAnswer = false,
             )
         ).toImmutableList(),
         instructionUiState = InstructionUiState(
@@ -170,7 +170,7 @@ internal actual fun OptionsUiPreview() {
                         content = "Isabelle"
                     )
                 ).toImmutableList(),
-                isAnswer = false, choose = false
+                isAnswer = false,
             ),
             OptionUiState(
                 id = 2, nos = 2, content = listOf(
@@ -178,7 +178,7 @@ internal actual fun OptionsUiPreview() {
                         content = "Isabelle"
                     )
                 ).toImmutableList(),
-                isAnswer = false, choose = false
+                isAnswer = false
             ),
             OptionUiState(
                 id = 3, nos = 3, content = listOf(
@@ -186,7 +186,7 @@ internal actual fun OptionsUiPreview() {
                         content = "Isabelle"
                     )
                 ).toImmutableList(),
-                isAnswer = false, choose = false
+                isAnswer = false,
             ),
             OptionUiState(
                 id = 4, nos = 4, content = listOf(
@@ -194,7 +194,7 @@ internal actual fun OptionsUiPreview() {
                         content = "Isabelle",
                     )
                 ).toImmutableList(),
-                isAnswer = false, choose = false
+                isAnswer = false
             )
         ).toImmutableList(), generalPath = ""
     )

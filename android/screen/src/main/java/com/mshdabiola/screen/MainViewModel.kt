@@ -50,7 +50,6 @@ class MainViewModel(
         )
 
 
-    private var chooseList: MutableMap<Int, Int> = HashMap()
 
 
     private val _mainState =
@@ -106,14 +105,12 @@ class MainViewModel(
                             currentExam = exam.copy(
                                 currentTime = currentExam1.currentTime,
                                 totalTime = currentExam1.totalTime,
-                                progress = currentExam1.progress,
                                 isSubmit = currentExam1.isSubmit
                             ),
+                            choose = currentExam1.choose.toImmutableList()
                         )
                     }
-                    chooseList = currentExam1.choose.associate {
-                        it
-                    }.toMutableMap()
+
                     onContinueExam()
                 }
             }
@@ -124,7 +121,7 @@ class MainViewModel(
 
     fun startExam(index: Int) {
         viewModelScope.launch(Dispatchers.IO) {
-            delay(1000)
+
             val exam = mainState.value.exams[index]
             _mainState.update {
                 it.copy(
@@ -144,7 +141,6 @@ class MainViewModel(
 
     private suspend fun onContinueExam() {
         addQuestions(1)
-        addChoose()
     }
 
     private suspend fun addQuestions(examId: Long) {
@@ -164,44 +160,27 @@ class MainViewModel(
             _questionsList.update {
                 que
             }
+            _mainState.update {
+                it.copy(choose = MutableList(que.size){-1}.toImmutableList())
+            }
         }
 
 
     }
 
-    private var chooseJob: Job? = null
 
     fun onOption(index: Int, optionIndex: Int) {
-        val question = questionsList.value.toMutableList()
-        var optionList = question[index]
-            .options.toMutableList()
-        val lastChoose = optionList.indexOfFirst { it.choose }
-        optionList = optionList.map {
-            it.copy(choose = false)
-        }.toMutableList()
-        optionList[optionIndex] = optionList[optionIndex]
-            .copy(choose = lastChoose != optionIndex)
-        question[index] = question[index].copy(options = optionList.toImmutableList())
-        _questionsList.update {
-            question.toImmutableList()
+//
+        _mainState.update {
+            val choose=it.choose.toMutableList()
+            choose[index]=if (choose[index]==optionIndex)-1 else optionIndex
+            it.copy(
+                choose = choose.toImmutableList()
+            )
         }
 
         //add and remove Choose
-        chooseJob?.cancel()
-        chooseJob = viewModelScope.launch(Dispatchers.Default) {
-            if (lastChoose != optionIndex) {
-                //add
-                chooseList[index] = optionIndex
-            } else {
-                chooseList.remove(index)
-            }
-            val progress=chooseList.size/questionsList.value.size.toFloat()
 
-            _mainState.update {
-                it.copy(currentExam = it.currentExam?.copy(progress=progress))
-            }
-
-        }
 
     }
 
@@ -214,7 +193,6 @@ class MainViewModel(
         val id = mainState.value.currentExam
 
         if (id != null) {
-            val choose = chooseList.toList()
 
             settingRepository.setCurrentExam(
                 CurrentExam(
@@ -222,8 +200,7 @@ class MainViewModel(
                     currentTime = id.currentTime,
                     totalTime = id.totalTime,
                     isSubmit = id.isSubmit,
-                    progress = id.progress,
-                    choose = choose
+                    choose = mainState.value.choose
                 )
             )
 
@@ -232,30 +209,7 @@ class MainViewModel(
 
     }
 
-    private fun addChoose() {
-        viewModelScope.launch(Dispatchers.Default) {
-            val question = questionsList.value.toMutableList()
-            chooseList.forEach { entry ->
-                val index = entry.key
-                val optionIndex = entry.value
-                var optionList = question[index]
-                    .options.toMutableList()
-                val lastChoose = optionList.indexOfFirst { it.choose }
-                optionList = optionList.map {
-                    it.copy(choose = false)
-                }.toMutableList()
-                optionList[optionIndex] = optionList[optionIndex]
-                    .copy(choose = lastChoose != optionIndex)
-                question[index] = question[index].copy(options = optionList.toImmutableList())
-            }
 
-            _questionsList.update {
-                question.toImmutableList()
-            }
-
-        }
-
-    }
 
     private var saveJob: Job? = null
     fun onTimeChanged(time: Long) {

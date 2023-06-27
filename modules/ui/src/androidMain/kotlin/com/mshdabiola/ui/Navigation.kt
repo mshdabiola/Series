@@ -23,7 +23,7 @@ import kotlinx.collections.immutable.ImmutableList
 @Composable
 fun AllQuestionBottomSheet(
     show: Boolean,
-    chooses: ImmutableList<Boolean>,
+    chooses: ImmutableList<Int>,
     currentNumber: Int,
     onChooseClick: (Int) -> Unit = {},
     onDismissRequest: () -> Unit = {}
@@ -46,7 +46,7 @@ fun AllQuestionBottomSheet(
                         items(count = chooses.size, key = { it }) {
                             QuestionNumberButton(
                                 number = it,
-                                isChoose = chooses[it],
+                                isChoose = chooses[it]>-1,
                                 isCurrent = it == currentNumber,
                                 onClick = { onChooseClick(it) })
                         }

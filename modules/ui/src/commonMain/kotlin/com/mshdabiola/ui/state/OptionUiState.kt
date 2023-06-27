@@ -7,5 +7,4 @@ data class OptionUiState(
     val nos: Long,
     val content: ImmutableList<ItemUiState>,
     val isAnswer: Boolean,
-    val choose: Boolean = false
 )

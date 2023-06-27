@@ -64,12 +64,14 @@ internal fun MainScreen(
     val snackbarHostState = remember {
         SnackbarHostState()
     }
-//    LaunchedEffect(key1 = mainState.messages, block = {
-//        Timber.d(mainState.messages.joinToString())
-//    })
-    var name by remember {
-        mutableStateOf("")
+
+    val finishPercent = remember(mainState.choose) {
+        val choose=mainState.choose
+        choose.count {
+            it>-1
+        } / choose.size.toFloat()
     }
+
     val state = rememberScrollState()
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
 //    NotifySnacker(snackHostState = snackbarHostState, notifys = mainState.messages)
@@ -123,7 +125,7 @@ internal fun MainScreen(
 
                 ContinueCard(
                     year = it.year,
-                    progress = it.progress,
+                    progress = finishPercent,
                     enabled =it.isSubmit.not(),
                     onClick = {
                         onQuestion()

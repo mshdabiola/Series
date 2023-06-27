@@ -112,22 +112,19 @@ internal fun QuestionScreen(
         val state = rememberPagerState {
             questions.size
         }
-        val chooses = remember(questions) {
-            questions.map { questionUiState ->
-                questionUiState.options.any { it.choose }
-            }.toImmutableList()
-        }
-        val finishPercent = remember(chooses) {
-            ((chooses.count {
-                it
-            } / chooses.size.toFloat()) * 100).toInt()
+
+        val finishPercent = remember(mainState.choose) {
+            val choose=mainState.choose
+            ((choose.count {
+                it>-1
+            } / choose.size.toFloat()) * 100).toInt()
         }
         val scrollState = rememberScrollState()
 
 
         LaunchedEffect(key1 = mainState.currentExam?.currentTime, block = {
             mainState.currentExam?.let {
-                if (it.currentTime== it.totalTime) {
+                if (it.currentTime == it.totalTime) {
                     onFinish()
                 }
             }
@@ -178,7 +175,8 @@ internal fun QuestionScreen(
 
                 TimeCounter(
                     modifier = Modifier.padding(top = 4.dp),
-                    currentTime2 = mainState.currentExam?.currentTime?:0, total = mainState.currentExam?.totalTime?:8,
+                    currentTime2 = mainState.currentExam?.currentTime ?: 0,
+                    total = mainState.currentExam?.totalTime ?: 8,
                     onTimeChanged = onTimeChanged
                 )
 
@@ -201,6 +199,7 @@ internal fun QuestionScreen(
                         onInstruction = {
                             instructionUiState = questions[index].instructionUiState!!
                         },
+                        selectedOption = mainState.choose.getOrNull(index) ?: -1,
                         onOptionClick = {
                             onOption(index, it)
                             if (state.canScrollForward) {
@@ -220,7 +219,7 @@ internal fun QuestionScreen(
                     currentQuestion = state.currentPage,
                     showPrev = state.canScrollBackward,
                     showNext = state.canScrollForward,
-                    chooses = chooses,
+                    chooses = mainState.choose,
                     onChooseClick = {
                         coroutineScope.launch {
                             state.animateScrollToPage(it)
@@ -256,7 +255,7 @@ internal fun QuestionScreen(
         )
         AllQuestionBottomSheet(
             show = show,
-            chooses = chooses,
+            chooses = mainState.choose,
             onChooseClick = {
                 show = false
                 coroutineScope
@@ -290,7 +289,7 @@ fun QuestionScreenPreview() {
                                 content = "Isabelle"
                             )
                         ).toImmutableList(),
-                        isAnswer = false, choose = true
+                        isAnswer = false
                     ),
                     OptionUiState(
                         id = 2, nos = 2, content = listOf(
@@ -298,7 +297,7 @@ fun QuestionScreenPreview() {
                                 content = "Isabelle"
                             )
                         ).toImmutableList(),
-                        isAnswer = false, choose = false
+                        isAnswer = false
                     ),
                     OptionUiState(
                         id = 3, nos = 3, content = listOf(
@@ -306,7 +305,7 @@ fun QuestionScreenPreview() {
                                 content = "Isabelle"
                             )
                         ).toImmutableList(),
-                        isAnswer = false, choose = false
+                        isAnswer = false
                     ),
                     OptionUiState(
                         id = 4, nos = 4, content = listOf(
@@ -314,7 +313,7 @@ fun QuestionScreenPreview() {
                                 content = "Isabelle",
                             )
                         ).toImmutableList(),
-                        isAnswer = false, choose = false
+                        isAnswer = false
                     )
                 ).toImmutableList(),
                 instructionUiState = InstructionUiState(
@@ -338,7 +337,7 @@ fun QuestionScreenPreview() {
                                 content = "Isabelle"
                             )
                         ).toImmutableList(),
-                        isAnswer = false, choose = true
+                        isAnswer = false
                     ),
                     OptionUiState(
                         id = 2, nos = 2, content = listOf(
@@ -346,7 +345,7 @@ fun QuestionScreenPreview() {
                                 content = "Isabelle"
                             )
                         ).toImmutableList(),
-                        isAnswer = false, choose = false
+                        isAnswer = false
                     ),
                     OptionUiState(
                         id = 3, nos = 3, content = listOf(
@@ -354,7 +353,7 @@ fun QuestionScreenPreview() {
                                 content = "Isabelle"
                             )
                         ).toImmutableList(),
-                        isAnswer = false, choose = false
+                        isAnswer = false
                     ),
                     OptionUiState(
                         id = 4, nos = 4, content = listOf(
@@ -362,7 +361,7 @@ fun QuestionScreenPreview() {
                                 content = "Isabelle",
                             )
                         ).toImmutableList(),
-                        isAnswer = false, choose = false
+                        isAnswer = false
                     )
                 ).toImmutableList(),
                 instructionUiState = InstructionUiState(
@@ -386,7 +385,7 @@ fun QuestionScreenPreview() {
                                 content = "Isabelle"
                             )
                         ).toImmutableList(),
-                        isAnswer = false, choose = true
+                        isAnswer = false
                     ),
                     OptionUiState(
                         id = 2, nos = 2, content = listOf(
@@ -394,7 +393,7 @@ fun QuestionScreenPreview() {
                                 content = "Isabelle"
                             )
                         ).toImmutableList(),
-                        isAnswer = false, choose = false
+                        isAnswer = false
                     ),
                     OptionUiState(
                         id = 3, nos = 3, content = listOf(
@@ -402,7 +401,7 @@ fun QuestionScreenPreview() {
                                 content = "Isabelle"
                             )
                         ).toImmutableList(),
-                        isAnswer = false, choose = false
+                        isAnswer = false
                     ),
                     OptionUiState(
                         id = 4, nos = 4, content = listOf(
@@ -410,7 +409,7 @@ fun QuestionScreenPreview() {
                                 content = "Isabelle",
                             )
                         ).toImmutableList(),
-                        isAnswer = false, choose = false
+                        isAnswer = false
                     )
                 ).toImmutableList(),
                 instructionUiState = InstructionUiState(

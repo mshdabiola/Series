@@ -26,6 +26,7 @@ fun QuestionUi(
     title: String,
     generalPath: String,
     showAnswer: Boolean = false,
+    selectedOption:Int=-1,
     onInstruction: () -> Unit = {},
     onOptionClick: (Int) -> Unit = {}
 ) {
@@ -45,6 +46,7 @@ fun QuestionUi(
             optionUiStates = questionUiState.options,
             generalPath = generalPath,
             showAnswer = showAnswer,
+            selectedOption=selectedOption,
             onClick = onOptionClick
         )
 
