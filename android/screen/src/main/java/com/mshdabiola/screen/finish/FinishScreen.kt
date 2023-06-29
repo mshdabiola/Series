@@ -23,6 +23,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -37,10 +38,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.mshdabiola.screen.MainViewModel
+import com.mshdabiola.screen.main.MainState
 import com.mshdabiola.ui.FinishCard
 import com.mshdabiola.ui.QuestionUi
 import com.mshdabiola.ui.ScoreCard
 import com.mshdabiola.ui.com.mshdabiola.ui.InstructionBottomSheet
+import com.mshdabiola.ui.state.ExamUiState
 import com.mshdabiola.ui.state.InstructionUiState
 import com.mshdabiola.ui.state.ItemUiState
 import com.mshdabiola.ui.state.OptionUiState
@@ -49,15 +52,24 @@ import com.mshdabiola.util.FileManager
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 @Composable
 internal fun FinishScreen(onBack: () -> Unit, toQuestion: () -> Unit, viewModel: MainViewModel) {
 
     val questions = viewModel.questionsList.collectAsStateWithLifecycle()
+    val mainState = viewModel.mainState.collectAsStateWithLifecycle()
     FinishScreen(
         questions = questions.value,
-        back = onBack,
-        toQuestion = toQuestion,
+        mainState = mainState.value,
+        back = {
+            onBack()
+            viewModel.onFinishBack()
+        },
+        toQuestion = {
+            toQuestion()
+            viewModel.onRetry()
+        },
         getGeneralPath = viewModel::getGeneraPath
     )
 }
@@ -66,6 +78,7 @@ internal fun FinishScreen(onBack: () -> Unit, toQuestion: () -> Unit, viewModel:
 @Composable
 internal fun FinishScreen(
     questions: ImmutableList<QuestionUiState>,
+    mainState: MainState,
     back: () -> Unit = {},
     toQuestion: () -> Unit = {},
     getGeneralPath: (FileManager.ImageType) -> String = { "" }
@@ -78,6 +91,10 @@ internal fun FinishScreen(
     var instructionUiState by remember {
         mutableStateOf<InstructionUiState?>(null)
     }
+
+    LaunchedEffect(key1 = mainState, block = {
+        Timber.e(mainState.toString())
+    })
 
     Scaffold(
         modifier = Modifier.semantics { this.testTagsAsResourceId = true },
@@ -140,7 +157,7 @@ internal fun FinishScreen(
                 ScoreCard()
             }
             if (showAnswer) {
-                itemsIndexed(items = questions) { index, item ->
+                itemsIndexed(items = questions,key={ _, item->item.id}) { index, item ->
                     QuestionUi(
                         number = (index + 1L),
                         questionUiState = item,
@@ -149,6 +166,7 @@ internal fun FinishScreen(
                         onInstruction = {
                             instructionUiState = item.instructionUiState
                         },
+                        selectedOption = mainState.choose.getOrNull(index) ?: -1,
                         onOptionClick = {
                         },
                         showAnswer = true
@@ -319,6 +337,12 @@ fun FinishScreenPreview() {
             )
         ).toImmutableList()
     FinishScreen(
-        questions = questions
+        questions = questions,
+        mainState = MainState(
+            title = "Jade",
+            currentExam = null,
+            exams = emptyList<ExamUiState>().toImmutableList(),
+            choose = emptyList<Int>().toImmutableList()
+        )
     )
 }

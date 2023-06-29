@@ -50,6 +50,8 @@ class MainViewModel(
         )
 
 
+    private val totalTIme = 100L
+    private val currentTIme = 0L
 
 
     private val _mainState =
@@ -122,6 +124,7 @@ class MainViewModel(
     fun startExam(index: Int) {
         viewModelScope.launch(Dispatchers.IO) {
 
+            delay(1000)
             val exam = mainState.value.exams[index]
             _mainState.update {
                 it.copy(
@@ -161,7 +164,7 @@ class MainViewModel(
                 que
             }
             _mainState.update {
-                it.copy(choose = MutableList(que.size){-1}.toImmutableList())
+                it.copy(choose = MutableList(que.size) { -1 }.toImmutableList())
             }
         }
 
@@ -172,8 +175,8 @@ class MainViewModel(
     fun onOption(index: Int, optionIndex: Int) {
 //
         _mainState.update {
-            val choose=it.choose.toMutableList()
-            choose[index]=if (choose[index]==optionIndex)-1 else optionIndex
+            val choose = it.choose.toMutableList()
+            choose[index] = if (choose[index] == optionIndex) -1 else optionIndex
             it.copy(
                 choose = choose.toImmutableList()
             )
@@ -210,7 +213,6 @@ class MainViewModel(
     }
 
 
-
     private var saveJob: Job? = null
     fun onTimeChanged(time: Long) {
         _mainState.update {
@@ -226,9 +228,41 @@ class MainViewModel(
     fun onSubmit() {
         viewModelScope.launch(Dispatchers.IO) {
             _mainState.update {
-                it.copy(currentExam = it.currentExam?.copy(isSubmit = true))
+                it.copy(
+                    currentExam = it.currentExam?.copy(
+                        isSubmit = true,
+                        currentTime = currentTIme,
+                        totalTime = totalTIme
+                    )
+                )
+
             }
+            saveCurrentExam()
         }
+    }
+
+    fun onFinishBack() {
+        _questionsList.update {
+            emptyList<QuestionUiState>().toImmutableList()
+        }
+        _mainState.update {
+            it.copy(currentExam = null)
+        }
+        viewModelScope.launch(Dispatchers.IO){
+            settingRepository.setCurrentExam(null)
+        }
+    }
+
+    fun onRetry() {
+        _questionsList.update {
+            emptyList<QuestionUiState>().toImmutableList()
+        }
+        mainState.value.currentExam?.id?.let { id ->
+            val index = mainState.value.exams.indexOfFirst { it.id == id }
+            startExam(index)
+        }
+
+
     }
 
 
