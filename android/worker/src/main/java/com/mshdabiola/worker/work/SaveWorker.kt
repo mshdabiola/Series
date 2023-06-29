@@ -87,7 +87,10 @@ class SaveWorker(
                     nos = index,
                     questionNos = quID,
                     examId = 1,
-                    content = listOf(Item("Option$index")),
+                    content = listOf(
+                        Item("What is your name"),
+                        Item("yyy.svg", Type.IMAGE)
+                    ),
                     isAnswer = index == ans
                 )
             }

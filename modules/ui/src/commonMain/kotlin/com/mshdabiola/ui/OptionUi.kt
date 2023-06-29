@@ -38,8 +38,14 @@ fun OptionsUi(
         val isLong = optionUiStates
             .map { it.content }
             .any { itemUiStates ->
-                itemUiStates.filter { it.type == Type.TEXT }
-                    .any { it.content.length > 15 }
+                itemUiStates
+                    .any {
+                        when (it.type) {
+                            Type.TEXT -> it.content.length > 15
+                            Type.IMAGE -> true
+                            else -> it.content.length > 25
+                        }
+                    }
             }
         if (isLong) 1 else 2
 
@@ -53,7 +59,7 @@ fun OptionsUi(
                 optionUiState = optionUiState,
                 generalPath = generalPath,
                 showAnswer = showAnswer,
-                isChoose = selectedOption==index,
+                isChoose = selectedOption == index,
                 onClick = { onClick(index) })
         }
     }
@@ -72,7 +78,7 @@ fun OptionUi(
     optionUiState: OptionUiState,
     generalPath: String,
     showAnswer: Boolean = false,
-    isChoose : Boolean=false,
+    isChoose: Boolean = false,
     onClick: () -> Unit = {}
 
 ) {
