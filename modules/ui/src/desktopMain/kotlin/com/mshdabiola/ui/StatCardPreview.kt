@@ -10,15 +10,15 @@ import kotlinx.collections.immutable.toImmutableList
 @Preview
 @Composable
 internal actual fun StatCardPreview() {
-    StartCard(
-        exams = listOf(ExamUiState(
-            id = 1,
-            subjectID = 2,
-            year = 2015,
-            subject = "Jeanpaul"
-        )).toImmutableList(),
-        isSubmit = mainState.currentExam?.isSubmit ?: false
-    )
+//    StartCard(
+//        exams = listOf(ExamUiState(
+//            id = 1,
+//            subjectID = 2,
+//            year = 2015,
+//            subject = "Jeanpaul"
+//        )).toImmutableList(),
+//        isSubmit = mainState.currentExam?.isSubmit ?: false
+//    )
 }
 
 @Preview
