@@ -14,4 +14,6 @@ interface ISubjectRepository {
     suspend fun deleteSubject(subjectId: Long)
 
     suspend fun updateSubject(subject: Subject)
+
+    suspend fun deleteAll()
 }

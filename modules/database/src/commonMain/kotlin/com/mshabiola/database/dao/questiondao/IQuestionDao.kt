@@ -17,4 +17,5 @@ interface IQuestionDao {
     suspend fun update(question: Question)
     fun getOne(id: Long): Flow<Question>
     suspend fun delete(id: Long)
+    suspend fun deleteAll()
 }

@@ -34,3 +34,6 @@ update:
 UPDATE topicEntity
 SET name = ?,subjectId=?
 WHERE id = ?;
+
+deleteAll:
+DELETE FROM topicEntity;

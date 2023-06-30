@@ -31,6 +31,7 @@ import com.mshdabiola.worker.util.versionKey
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
@@ -57,10 +58,23 @@ class SaveWorker(
     override suspend fun doWork(): Result = withContext(Dispatchers.IO) {
 
 
+
+
+        //delete all data
+        launch {
+            iSubjectRepository.deleteAll()
+            iExamRepository.deleteAll()
+            iInstructionRepository.deleteAll()
+            iTopicRepository.deleteAll()
+            questionRepository.deleteAll()
+        }
+
 //
         Timber.e("worker id" + workerParams.inputData.getLong(ID, -1L))
 
         val manager = appContext.assets!!
+
+
 //
         val subjects: Deferred<List<Subject>> =
             async { exInPort.import(manager.open("${ExInPort.subject}.ex")) }

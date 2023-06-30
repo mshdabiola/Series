@@ -35,3 +35,6 @@ UPDATE instructionEntity
 SET title = ?, content=?,examId=?
 WHERE id = ?;
 
+deleteAll:
+DELETE FROM instructionEntity;
+

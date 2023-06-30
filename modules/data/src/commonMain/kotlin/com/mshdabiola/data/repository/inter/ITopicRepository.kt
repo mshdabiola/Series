@@ -15,4 +15,6 @@ interface ITopicRepository {
 
     suspend fun update(topic: Topic)
     suspend fun insertAll(topics: List<Topic>)
+
+    suspend fun deleteAll()
 }

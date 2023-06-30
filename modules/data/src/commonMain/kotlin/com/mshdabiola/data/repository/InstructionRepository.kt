@@ -31,4 +31,8 @@ internal class InstructionRepository(
             insert(it)
         }
     }
+
+    override suspend fun deleteAll() {
+        instructionDao.deleteAll()
+    }
 }

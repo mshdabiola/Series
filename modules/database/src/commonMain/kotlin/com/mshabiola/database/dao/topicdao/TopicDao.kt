@@ -65,4 +65,10 @@ internal class TopicDao(
             topicQueries.deleteByID(id)
         }
     }
+
+    override suspend fun deleteAll() {
+        withContext(coroutineDispatcher) {
+            topicQueries.deleteAll()
+        }
+    }
 }

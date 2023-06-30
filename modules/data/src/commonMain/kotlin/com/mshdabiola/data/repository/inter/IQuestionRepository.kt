@@ -18,4 +18,5 @@ interface IQuestionRepository {
     suspend fun delete(id: Long)
 
     suspend fun insertMany(questionWithOptions: List<QuestionFull>)
+    suspend fun deleteAll()
 }

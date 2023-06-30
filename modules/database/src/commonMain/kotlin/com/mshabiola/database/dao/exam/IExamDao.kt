@@ -19,4 +19,5 @@ interface IExamDao {
     suspend fun delete(id: Long)
 
     fun getAllBySubjectIdWithSub(subjectID: Long): Flow<List<ExamWithSub>>
+    suspend fun deleteAll()
 }

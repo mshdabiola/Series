@@ -46,3 +46,6 @@ update:
 UPDATE questionEntity
 SET examId=?,content=?,isTheory=?,answer=?,instructionId=?,topicId=?
 WHERE id = ?;
+
+deleteAll:
+DELETE FROM questionEntity;

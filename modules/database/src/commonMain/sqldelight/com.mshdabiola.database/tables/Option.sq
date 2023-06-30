@@ -49,3 +49,6 @@ update:
 UPDATE optionEntity
 SET nos=?,questionNos = ?,content=?,isAnswer=?
 WHERE id = ?;
+
+deleteAll:
+DELETE FROM optionEntity;

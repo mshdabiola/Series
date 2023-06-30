@@ -12,4 +12,5 @@ interface ISubjectDao {
     suspend fun update(subject: Subject)
     fun getOne(id: Long): Flow<Subject>
     suspend fun delete(id: Long)
+    suspend fun deleteAll()
 }

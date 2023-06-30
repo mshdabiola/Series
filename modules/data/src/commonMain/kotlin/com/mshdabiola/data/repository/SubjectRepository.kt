@@ -32,4 +32,8 @@ internal class SubjectRepository(
     override suspend fun updateSubject(subject: Subject) {
         iSubjectDao.update(subject)
     }
+
+    override suspend fun deleteAll() {
+        iSubjectDao.deleteAll()
+    }
 }

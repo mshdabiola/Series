@@ -67,6 +67,13 @@ internal class ExamDao(
 
     }
 
+    override suspend fun deleteAll() {
+        withContext(coroutineDispatcher){
+            examQueries.deleteAll()
+        }
+
+    }
+
     override fun getBySubject(subjectID: Long): Flow<List<Exam>> {
         return examQueries
             .getBySubject(subjectID)

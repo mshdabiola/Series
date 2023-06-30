@@ -14,4 +14,5 @@ interface ITopicDao {
     suspend fun update(topic: Topic)
     fun getOne(id: Long): Flow<Topic>
     suspend fun delete(id: Long)
+    suspend fun deleteAll()
 }

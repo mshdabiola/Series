@@ -32,6 +32,10 @@ internal class TopicRepository(
         }
     }
 
+    override suspend fun deleteAll() {
+        iTopicDao.deleteAll()
+    }
+
     override fun getOne(id: Long): Flow<Topic> {
         return iTopicDao.getOne(id)
     }

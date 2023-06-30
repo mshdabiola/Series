@@ -18,6 +18,10 @@ internal class ExamRepository(
             .getAllWithSub()
     }
 
+    override suspend fun deleteAll() {
+        iExamDao.deleteAll()
+    }
+
     override suspend fun insertAll(exams: List<Exam>) {
         exams.forEach {
             insertExam(it)

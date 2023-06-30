@@ -12,4 +12,5 @@ interface IInstructionDao {
     suspend fun update(instruction: Instruction)
     fun getOne(id: Long): Flow<Instruction>
     suspend fun delete(id: Long)
+    suspend fun deleteAll()
 }

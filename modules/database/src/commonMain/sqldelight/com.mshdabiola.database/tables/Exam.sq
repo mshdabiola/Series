@@ -53,4 +53,7 @@ JOIN subjectEntity AS sub
 ON exam.subjectId = sub.id
 WHERE subjectId =?;
 
+deleteAll:
+DELETE FROM examEntity;
+
 

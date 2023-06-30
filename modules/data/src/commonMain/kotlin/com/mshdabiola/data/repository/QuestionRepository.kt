@@ -52,4 +52,9 @@ internal class QuestionRepository(
             insert(it)
         }
     }
+
+    override suspend fun deleteAll() {
+        iOptionDao.deleteAll()
+        iQuestionDao.deleteAll()
+    }
 }

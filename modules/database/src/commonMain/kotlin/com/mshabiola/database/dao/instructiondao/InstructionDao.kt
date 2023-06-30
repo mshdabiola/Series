@@ -58,4 +58,10 @@ internal class InstructionDao(
             instructionQueries.deleteByID(id)
         }
     }
+
+    override suspend fun deleteAll() {
+        withContext(coroutineDispatcher){
+            instructionQueries.deleteAll()
+        }
+    }
 }

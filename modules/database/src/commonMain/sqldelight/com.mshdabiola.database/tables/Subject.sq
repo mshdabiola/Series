@@ -31,3 +31,6 @@ update:
 UPDATE subjectEntity
 SET name = ?
 WHERE id = ?;
+
+deleteAll:
+DELETE FROM subjectEntity;
