@@ -138,7 +138,7 @@ class MainViewModel(
                 )
             }
 
-            addQuestions(1)
+            addQuestions(exam.id)
         }
     }
 
@@ -148,7 +148,7 @@ class MainViewModel(
 
     private suspend fun addQuestions(examId: Long) {
         val que = questionRepository
-            .getAllWithExamId(1)
+            .getAllWithExamId(examId)
             .map { questionFulls ->
                 questionFulls.map {
                     it
