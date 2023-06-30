@@ -12,6 +12,7 @@ import com.mshdabiola.model.data.Subject
 import com.mshdabiola.screen.main.MainState
 import com.mshdabiola.ui.state.ExamUiState
 import com.mshdabiola.ui.state.QuestionUiState
+import com.mshdabiola.ui.state.ScoreUiState
 import com.mshdabiola.ui.toQuestionUiState
 import com.mshdabiola.ui.toUi
 import com.mshdabiola.util.FileManager
@@ -113,7 +114,11 @@ class MainViewModel(
                         )
                     }
 
-                    onContinueExam()
+                    if (currentExam1.isSubmit.not()) {
+                        onContinueExam()
+                    }
+
+
                 }
             }
         }
@@ -129,7 +134,6 @@ class MainViewModel(
             _mainState.update {
                 it.copy(
                     currentExam = exam.copy(
-                        id = 1,
                         currentTime = 0,
                         totalTime = 40,
                         isSubmit = false,
@@ -151,8 +155,7 @@ class MainViewModel(
             .getAllWithExamId(examId)
             .map { questionFulls ->
                 questionFulls.map {
-                    it
-                        .toQuestionUiState()
+                    it.copy(options = it.options.shuffled()).toQuestionUiState()
 
                 }.toImmutableList()
             }
@@ -188,9 +191,9 @@ class MainViewModel(
     }
 
     fun getGeneraPath(imageType: FileManager.ImageType): String {
-        return when(imageType){
-            FileManager.ImageType.INSTRUCTION->"instruction/${mainState.value.currentExam?.id}"
-            FileManager.ImageType.QUESTION->"question/${mainState.value.currentExam?.id}"
+        return when (imageType) {
+            FileManager.ImageType.INSTRUCTION -> "instruction/${mainState.value.currentExam?.id}"
+            FileManager.ImageType.QUESTION -> "question/${mainState.value.currentExam?.id}"
         }
     }
 
@@ -240,6 +243,7 @@ class MainViewModel(
                 )
 
             }
+            markExam()
             saveCurrentExam()
         }
     }
@@ -251,7 +255,7 @@ class MainViewModel(
         _mainState.update {
             it.copy(currentExam = null)
         }
-        viewModelScope.launch(Dispatchers.IO){
+        viewModelScope.launch(Dispatchers.IO) {
             settingRepository.setCurrentExam(null)
         }
     }
@@ -262,10 +266,48 @@ class MainViewModel(
         }
         mainState.value.currentExam?.id?.let { id ->
             val index = mainState.value.exams.indexOfFirst { it.id == id }
+            Timber.e("retry index is $index")
             startExam(index)
         }
 
 
+    }
+
+    suspend fun markExam() {
+        val answerIndex = questionsList.value
+            .map { questionUiState ->
+                questionUiState.options.indexOfFirst { it.isAnswer }
+            }
+        val choose = mainState.value.choose
+        val size = choose.size
+        val corrent = answerIndex
+            .mapIndexed { index, i ->
+                choose[index] == i
+            }
+            .count { it }
+        val inCorrent = answerIndex.size - corrent
+
+        val complete = choose.count { it > -1 }
+        val skipped = size - complete
+        val compPercent = ((complete / size.toFloat()) * 100).toInt()
+        val grade = when (((corrent / size.toFloat()) * 100).toInt()) {
+            in 0..40 -> 'D'
+            in 41..50 -> 'C'
+            in 51..60 -> 'B'
+            else -> 'A'
+        }
+
+        _mainState.update {
+            it.copy(
+                score = ScoreUiState(
+                    completed = compPercent,
+                    inCorrect = inCorrent,
+                    skipped = skipped,
+                    grade = grade,
+                    correct = corrent
+                )
+            )
+        }
     }
 
 

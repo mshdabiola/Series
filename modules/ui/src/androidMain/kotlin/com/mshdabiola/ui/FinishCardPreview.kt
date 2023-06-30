@@ -8,11 +8,11 @@ import androidx.compose.ui.tooling.preview.Preview
 @Preview
 @Composable
 internal actual fun FinishCardPreview() {
-    FinishCard(imageVector = Icons.Default.WineBar, percent = 74)
+    FinishCard(imageVector = Icons.Default.WineBar, grade = 'E')
 }
 
 @Preview
 @Composable
 internal actual fun ScoreCardPreview() {
-    ScoreCard()
+    //ScoreCard()
 }

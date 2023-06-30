@@ -3,6 +3,7 @@ package com.mshdabiola.screen.finish
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
@@ -34,6 +35,7 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.testTagsAsResourceId
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -141,7 +143,7 @@ internal fun FinishScreen(
             item {
                 FinishCard(
                     imageVector = Icons.Default.WineBar,
-                    percent = 54,
+                    grade = mainState.score.grade,
                     isHide = !showAnswer,
                     onShowAnswers = {
                         showAnswer = !showAnswer
@@ -154,10 +156,18 @@ internal fun FinishScreen(
                     })
             }
             item {
-                ScoreCard()
+                ScoreCard(mainState.score)
             }
             if (showAnswer) {
-                itemsIndexed(items = questions,key={ _, item->item.id}) { index, item ->
+                item {
+                    Text(
+                        text = "Questions and answers",
+                        textAlign = TextAlign.Center,
+                        style = MaterialTheme.typography.titleSmall,
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                }
+                itemsIndexed(items = questions, key = { _, item -> item.id }) { index, item ->
                     QuestionUi(
                         number = (index + 1L),
                         questionUiState = item,

@@ -18,12 +18,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
+import com.mshdabiola.ui.state.ScoreUiState
 
 @Composable
 fun FinishCard(
     modifier: Modifier = Modifier,
     imageVector: ImageVector,
-    percent: Int,
+    grade: Char,
     isHide: Boolean = true,
     onShowAnswers: () -> Unit = {}
 ) {
@@ -40,7 +41,7 @@ fun FinishCard(
                 tint = MaterialTheme.colorScheme.primary
             )
             Text(
-                "Your Grade is A",
+                "Your Grade is $grade",
                 style = MaterialTheme.typography.titleMedium,
                 color = MaterialTheme.colorScheme.primary
             )
@@ -60,18 +61,18 @@ internal expect fun FinishCardPreview()
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun ScoreCard() {
+fun ScoreCard(scoreUiState: ScoreUiState) {
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceEvenly
     ) {
         Column {
-            ScoreItem(heading = "Correct answers", content = "59 Questions")
-            ScoreItem(heading = "Incorrect answers", content = "3 Questions")
+            ScoreItem(heading = "Correct answers", content = "${scoreUiState.correct} ${if (scoreUiState.correct>1) "Questions" else "Question"}")
+            ScoreItem(heading = "Incorrect answers", content = "${scoreUiState.inCorrect} ${if (scoreUiState.inCorrect>1) "Questions" else "Question"}")
         }
         Column {
-            ScoreItem(heading = "Completion", content = "60%")
-            ScoreItem(heading = "skipped", content = "4 Questions")
+            ScoreItem(heading = "Completion", content = "${scoreUiState.completed}%")
+            ScoreItem(heading = "skipped", content = "${scoreUiState.skipped} ${if (scoreUiState.skipped>1) "Questions" else "Question"}")
         }
 
     }
