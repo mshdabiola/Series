@@ -9,6 +9,7 @@ android {
 dependencies {
     implementation(project(":modules:model"))
     implementation(project(":modules:data"))
+    implementation(project(":modules:util"))
 
     implementation(libs.androidx.lifecycle.livedata.ktx)
     implementation(libs.androidx.startup)

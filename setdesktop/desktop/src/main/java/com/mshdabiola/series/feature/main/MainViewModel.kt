@@ -11,6 +11,7 @@ import com.mshdabiola.model.data.Exam
 import com.mshdabiola.model.data.Instruction
 import com.mshdabiola.model.data.Option
 import com.mshdabiola.model.data.Question
+import com.mshdabiola.model.data.QuestionFull
 import com.mshdabiola.model.data.Subject
 import com.mshdabiola.model.data.Topic
 import com.mshdabiola.series.ViewModel
@@ -199,7 +200,7 @@ class MainViewModel(
             iExInPortRepository.export(
                 coroutineScope = this,
                 subjectId = currentSubjectId.value
-            ) { subjects: List<Subject>, exams: List<Exam>, questions: List<Question>, options: List<Option>, instructions: List<Instruction>, topics: List<Topic> ->
+            ) { subjects: List<Subject>, exams: List<Exam>, questions: List<QuestionFull>,instructions: List<Instruction>, topics: List<Topic> ->
 
                 viewModelScope.launch {
                     launch { exInPort.copyImage(path, subjects) }
@@ -226,13 +227,7 @@ class MainViewModel(
                         ExInPort.question
                     )
                 }
-                viewModelScope.launch {
-                    exInPort.export(
-                        options,
-                        path,
-                        ExInPort.option
-                    )
-                }
+
                 viewModelScope.launch {
                     exInPort.export(
                         instructions,

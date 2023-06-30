@@ -12,6 +12,7 @@ import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
+import java.io.InputStream
 import java.io.ObjectInputStream
 import java.io.ObjectOutputStream
 import java.security.SecureRandom
@@ -53,6 +54,14 @@ class ExInPort(
         }
     }
 
+    suspend inline fun <reified T> import(
+       inputStream: InputStream
+    ): List<T> {
+        return withContext(Dispatchers.IO) {
+            Json.decodeFromStream(ByteArrayInputStream(readIt(inputStream)))
+        }
+    }
+
     suspend fun copyImage(dir: String, subject: List<Subject>) {
         withContext(Dispatchers.IO) {
             subject.forEach {
@@ -87,6 +96,17 @@ class ExInPort(
     fun readIt(file: File): ByteArray? {
 
         val fileInputStream = FileInputStream(file)
+        return ObjectInputStream(fileInputStream).use {
+            val map: HashMap<String, ByteArray>? = it.readObject() as? HashMap<String, ByteArray>
+
+            map?.let { it1 -> decrypt(it1) }
+        }
+
+    }
+
+    fun readIt(inputStream : InputStream): ByteArray? {
+
+        val fileInputStream =inputStream
         return ObjectInputStream(fileInputStream).use {
             val map: HashMap<String, ByteArray>? = it.readObject() as? HashMap<String, ByteArray>
 

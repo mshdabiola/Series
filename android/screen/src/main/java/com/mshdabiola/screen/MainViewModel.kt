@@ -188,7 +188,10 @@ class MainViewModel(
     }
 
     fun getGeneraPath(imageType: FileManager.ImageType): String {
-        return "image"//fileManager.getGeneraPath(subjectId, examId, imageType)
+        return when(imageType){
+            FileManager.ImageType.INSTRUCTION->"instruction/${mainState.value.currentExam?.id}"
+            FileManager.ImageType.QUESTION->"question/${mainState.value.currentExam?.id}"
+        }
     }
 
     private suspend fun saveCurrentExam() {
