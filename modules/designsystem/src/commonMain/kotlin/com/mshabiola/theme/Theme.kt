@@ -16,96 +16,84 @@ import com.mshabiola.theme.util.canShowDynamic
 import com.mshabiola.theme.util.dynamicDarkScheme
 import com.mshabiola.theme.util.dynamicLightScheme
 
-private val AppLightColorScheme = lightColorScheme(
-    primary = PrimaryColor,
-    onPrimary = PrimaryTextColor,
-    secondary = SecondaryColor,
-    onSecondary = SecondaryTextColor,
-    tertiary = PrimaryLightColor,
-    onTertiary = PrimaryTextColor,
-    background = BackgroundLightColor,
-    onBackground = Color.Black,
-    surface = SurfaceLight,
-    onSurface = Color.Black,
-    surfaceVariant = SurfaceLight,
-    onSurfaceVariant = Color.Black,
-    secondaryContainer = PrimaryColor,
-    onSecondaryContainer = Color.White,
-    error = ErrorColor,
-    onError = OnErrorColor
+private val LightColors = lightColorScheme(
+    primary = md_theme_light_primary,
+    onPrimary = md_theme_light_onPrimary,
+    primaryContainer = md_theme_light_primaryContainer,
+    onPrimaryContainer = md_theme_light_onPrimaryContainer,
+    secondary = md_theme_light_secondary,
+    onSecondary = md_theme_light_onSecondary,
+    secondaryContainer = md_theme_light_secondaryContainer,
+    onSecondaryContainer = md_theme_light_onSecondaryContainer,
+    tertiary = md_theme_light_tertiary,
+    onTertiary = md_theme_light_onTertiary,
+    tertiaryContainer = md_theme_light_tertiaryContainer,
+    onTertiaryContainer = md_theme_light_onTertiaryContainer,
+    error = md_theme_light_error,
+    errorContainer = md_theme_light_errorContainer,
+    onError = md_theme_light_onError,
+    onErrorContainer = md_theme_light_onErrorContainer,
+    background = md_theme_light_background,
+    onBackground = md_theme_light_onBackground,
+    surface = md_theme_light_surface,
+    onSurface = md_theme_light_onSurface,
+    surfaceVariant = md_theme_light_surfaceVariant,
+    onSurfaceVariant = md_theme_light_onSurfaceVariant,
+    outline = md_theme_light_outline,
+    inverseOnSurface = md_theme_light_inverseOnSurface,
+    inverseSurface = md_theme_light_inverseSurface,
+    inversePrimary = md_theme_light_inversePrimary,
+    surfaceTint = md_theme_light_surfaceTint,
+    outlineVariant = md_theme_light_outlineVariant,
+    scrim = md_theme_light_scrim,
 )
 
-private val AppDarkColorScheme = darkColorScheme(
-    primary = PrimaryColor,
-    onPrimary = PrimaryTextColor,
-    secondary = SecondaryLightColor,
-    onSecondary = SecondaryTextColor,
-    tertiary = PrimaryLightColor,
-    onTertiary = PrimaryTextColor,
-    background = BackgroundDarkColor,
-    onBackground = Color.White,
-    surface = SurfaceDark,
-    onSurface = Color.White,
-    surfaceVariant = SurfaceDark,
-    onSurfaceVariant = Color.White,
-    secondaryContainer = PrimaryColor,
-    onSecondaryContainer = Color.White,
-    error = ErrorColor,
-    onError = OnErrorColor
+
+private val DarkColors = darkColorScheme(
+    primary = md_theme_dark_primary,
+    onPrimary = md_theme_dark_onPrimary,
+    primaryContainer = md_theme_dark_primaryContainer,
+    onPrimaryContainer = md_theme_dark_onPrimaryContainer,
+    secondary = md_theme_dark_secondary,
+    onSecondary = md_theme_dark_onSecondary,
+    secondaryContainer = md_theme_dark_secondaryContainer,
+    onSecondaryContainer = md_theme_dark_onSecondaryContainer,
+    tertiary = md_theme_dark_tertiary,
+    onTertiary = md_theme_dark_onTertiary,
+    tertiaryContainer = md_theme_dark_tertiaryContainer,
+    onTertiaryContainer = md_theme_dark_onTertiaryContainer,
+    error = md_theme_dark_error,
+    errorContainer = md_theme_dark_errorContainer,
+    onError = md_theme_dark_onError,
+    onErrorContainer = md_theme_dark_onErrorContainer,
+    background = md_theme_dark_background,
+    onBackground = md_theme_dark_onBackground,
+    surface = md_theme_dark_surface,
+    onSurface = md_theme_dark_onSurface,
+    surfaceVariant = md_theme_dark_surfaceVariant,
+    onSurfaceVariant = md_theme_dark_onSurfaceVariant,
+    outline = md_theme_dark_outline,
+    inverseOnSurface = md_theme_dark_inverseOnSurface,
+    inverseSurface = md_theme_dark_inverseSurface,
+    inversePrimary = md_theme_dark_inversePrimary,
+    surfaceTint = md_theme_dark_surfaceTint,
+    outlineVariant = md_theme_dark_outlineVariant,
+    scrim = md_theme_dark_scrim,
 )
 
 @Composable
 fun AppTheme(
-    theme: Int = Theme.FOLLOW_SYSTEM.themeValue,
-    content: @Composable () -> Unit,
+    useDarkTheme: Boolean = isSystemInDarkTheme(),
+    content: @Composable() () -> Unit
 ) {
-    val autoColors = if (isSystemInDarkTheme()) AppDarkColorScheme else AppLightColorScheme
-
-    val dynamicColors = if (canShowDynamic()) {
-        if (isSystemInDarkTheme()) dynamicDarkScheme() else dynamicLightScheme()
+    val colors = if (!useDarkTheme) {
+        LightColors
     } else {
-        autoColors
-    }
-
-    val colors = when (theme) {
-        Theme.LIGHT_THEME.themeValue -> AppLightColorScheme
-        Theme.DARK_THEME.themeValue -> AppDarkColorScheme
-        Theme.MATERIAL_YOU.themeValue -> dynamicColors
-        else -> autoColors
+        DarkColors
     }
 
     MaterialTheme(
         colorScheme = colors,
-        typography = customTypography(),
-        shapes = Shapes,
         content = content
     )
-}
-
-// To be used to set the preferred theme inside settings
-enum class Theme(
-    val themeName: String,
-    val icon: ImageVector,
-    val themeValue: Int
-) {
-    MATERIAL_YOU(
-        themeName = "Material You",
-        icon = Icons.Outlined.Wallpaper,
-        themeValue = 12
-    ),
-    FOLLOW_SYSTEM(
-        themeName = "Follow System Settings",
-        icon = Icons.Outlined.SettingsSuggest,
-        themeValue = -1
-    ),
-    LIGHT_THEME(
-        themeName = "Light Theme",
-        icon = Icons.Outlined.LightMode,
-        themeValue = 1
-    ),
-    DARK_THEME(
-        themeName = "Dark Theme",
-        icon = Icons.Outlined.DarkMode,
-        themeValue = 2
-    );
 }

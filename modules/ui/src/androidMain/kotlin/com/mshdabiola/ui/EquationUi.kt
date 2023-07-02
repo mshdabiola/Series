@@ -105,6 +105,7 @@ internal actual fun QuestionUiPreview() {
     val questionUiState = QuestionUiState(
         id = 1,
         nos = 1,
+        examId = 1,
         content = listOf(
             ItemUiState(content = "What is your name")
         )
@@ -154,7 +155,6 @@ internal actual fun QuestionUiPreview() {
         number = 1,
         questionUiState = questionUiState,
         generalPath = "",
-        title = "Waec"
     )
 }
 

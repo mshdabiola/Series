@@ -49,3 +49,8 @@ WHERE id = ?;
 
 deleteAll:
 DELETE FROM questionEntity;
+
+getRandom:
+SELECT *
+FROM questionEntity
+ORDER BY RANDOM() LIMIT ?;

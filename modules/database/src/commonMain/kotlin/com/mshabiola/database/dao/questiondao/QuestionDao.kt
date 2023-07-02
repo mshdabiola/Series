@@ -82,6 +82,37 @@ internal class QuestionDao(
             .flowOn(coroutineDispatcher)
     }
 
+    override fun getRandom(num: Long): Flow<List<QuestionFull>> {
+        return questionQueries
+            .getRandom(num)
+            .asFlow()
+            .mapToList(coroutineDispatcher)
+            .map { it.map { it.toModel() } }
+            .map { questionList ->
+                questionList.map { question ->
+
+                    val list = optionQueries
+                        .getAllWithQuestionNo(question.nos, question.examId)
+                        .executeAsList()
+                        .map { it.toModel() }
+                    val inst = question.instructionId?.let { it1 ->
+                        instructionQueries
+                            .getById(it1)
+                            .executeAsOne()
+                            .toModel()
+                    }
+                    val topic = question.topicId?.let {
+                        topicQueries
+                            .getById(it)
+                            .executeAsOne()
+                            .toModel()
+                    }
+                    question.toQuestionWithOptions(list, inst, topic)
+                }
+            }
+            .flowOn(coroutineDispatcher)
+    }
+
     override suspend fun update(question: Question) {
         withContext(coroutineDispatcher) {
             val questione = question.toEntity()

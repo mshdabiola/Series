@@ -20,6 +20,7 @@ import kotlinx.collections.immutable.toImmutableList
 fun QuestionFull.toQuestionUiState(isEdit: Boolean = false) = QuestionUiState(
     id = id,
     nos = nos,
+    examId=examId,
     content = content.map {
         it.toItemUi(isEdit)
     }.toImmutableList(),

@@ -16,10 +16,10 @@ import com.mshdabiola.ui.state.ScoreUiState
 import com.mshdabiola.ui.toQuestionUiState
 import com.mshdabiola.ui.toUi
 import com.mshdabiola.util.FileManager
+import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
@@ -42,6 +42,7 @@ class MainViewModel(
     ) : ViewModel() {
 
 
+    private var type: ExamType = ExamType.YEAR
     val subject = iSubjectRepository
         .getAll()
         .stateIn(
@@ -95,83 +96,117 @@ class MainViewModel(
 
 
         viewModelScope.launch(Dispatchers.IO) {
-            val currentExam1 = settingRepository.getCurrentExam()
-            Timber.e("seeting exam $currentExam1")
-            if (currentExam1 != null) {
-                val exam = mainState.value.exams.find {
-                    currentExam1.id == it.id
-                }
-                Timber.e("exam $exam")
-                exam?.let { old ->
-                    _mainState.update {
-                        it.copy(
-                            currentExam = exam.copy(
-                                currentTime = currentExam1.currentTime,
-                                totalTime = currentExam1.totalTime,
-                                isSubmit = currentExam1.isSubmit
-                            ),
-                            choose = currentExam1.choose.toImmutableList()
-                        )
-                    }
 
-                    if (currentExam1.isSubmit.not()) {
-                        onContinueExam()
-                    }
-
-
-                }
-            }
+            onContinueExam()
         }
 
 
     }
 
-    fun startExam(index: Int) {
+    fun startExam(examType: ExamType, index: Int) {
         viewModelScope.launch(Dispatchers.IO) {
 
-            delay(1000)
-            val exam = mainState.value.exams[index]
-            _mainState.update {
-                it.copy(
-                    currentExam = exam.copy(
-                        currentTime = 0,
-                        totalTime = 40,
-                        isSubmit = false,
-                        progress = 0f
-                    )
-                )
+            type = examType
+
+            val exam = when (type) {
+                ExamType.YEAR -> {
+                    mainState.value.exams[index]
+                }
+
+                ExamType.FAST_FINGER -> {
+                    mainState.value.exams[0]
+                }
+
+                ExamType.RANDOM -> {
+                    mainState.value.exams.random()
+                }
             }
 
-            addQuestions(exam.id)
+            val questions = when (type) {
+                ExamType.YEAR, ExamType.RANDOM -> {
+                    getQuestions(exam.id)
+                }
+
+                ExamType.FAST_FINGER -> {
+                  getQuestions(null)
+                }
+
+            }
+            val time = when (type) {
+                ExamType.RANDOM, ExamType.YEAR -> 20L
+                ExamType.FAST_FINGER -> type.secondPerQuestion.toLong()
+            }
+
+
+            val totalTime = questions.size * time
+            val choose= List(questions.size){-1}
+
+            _mainState.update {
+                it.copy(
+                    currentExam = exam.copy(totalTime = totalTime),
+                    choose = choose.toImmutableList()
+                )
+            }
+            _questionsList.update {
+                questions
+            }
+
         }
     }
 
     private suspend fun onContinueExam() {
-        addQuestions(1)
-    }
+        val currentExam1 = settingRepository.getCurrentExam()
+        Timber.e("seeting exam $currentExam1")
 
-    private suspend fun addQuestions(examId: Long) {
-        val que = questionRepository
-            .getAllWithExamId(examId)
-            .map { questionFulls ->
-                questionFulls.map {
-                    it.copy(options = it.options.shuffled()).toQuestionUiState()
+        if (currentExam1 != null) {
 
-                }.toImmutableList()
+            val que =
+                if (currentExam1.isSubmit)
+                    emptyList<QuestionUiState>().toImmutableList()
+                else
+
+                    getQuestions(currentExam1.id)
+            val exam = mainState.value.exams.find {
+                currentExam1.id == it.id
             }
-            .firstOrNull()
 
-
-        if (que != null) {
+            _mainState.update {
+                it.copy(
+                    currentExam = exam?.copy(
+                        currentTime = currentExam1.currentTime,
+                        totalTime = currentExam1.totalTime,
+                        isSubmit = currentExam1.isSubmit
+                    ),
+                    choose = currentExam1.choose.toImmutableList(),
+                )
+            }
             _questionsList.update {
                 que
             }
-            _mainState.update {
-                it.copy(choose = MutableList(que.size) { -1 }.toImmutableList())
-            }
         }
+    }
 
 
+    private suspend fun getQuestions(id: Long?): ImmutableList<QuestionUiState> {
+
+        val que=if (id==null)
+            questionRepository.getRandom(6)
+        else
+        questionRepository
+            .getAllWithExamId(id)
+
+            return que
+            .map { questionFulls ->
+                questionFulls.map {
+                    it.copy(
+                        options = it.options.shuffled())
+                        .toQuestionUiState()
+                        .copy(title = getTitle(it.examId,it.nos))
+
+
+                }.toImmutableList()
+            }
+            .firstOrNull() ?: emptyList<QuestionUiState>().toImmutableList()
     }
 
 
@@ -190,10 +225,10 @@ class MainViewModel(
 
     }
 
-    fun getGeneraPath(imageType: FileManager.ImageType): String {
+    fun getGeneraPath(imageType: FileManager.ImageType,examId:Long): String {
         return when (imageType) {
-            FileManager.ImageType.INSTRUCTION -> "instruction/${mainState.value.currentExam?.id}"
-            FileManager.ImageType.QUESTION -> "question/${mainState.value.currentExam?.id}"
+            FileManager.ImageType.INSTRUCTION -> "instruction/$examId"
+            FileManager.ImageType.QUESTION -> "question/$examId"
         }
     }
 
@@ -201,7 +236,7 @@ class MainViewModel(
 
         val id = mainState.value.currentExam
 
-        if (id != null) {
+        if (id != null && type.save) {
 
             settingRepository.setCurrentExam(
                 CurrentExam(
@@ -256,7 +291,13 @@ class MainViewModel(
             it.copy(currentExam = null)
         }
         viewModelScope.launch(Dispatchers.IO) {
-            settingRepository.setCurrentExam(null)
+            if (type.save) {
+                settingRepository.setCurrentExam(null)
+            }else{
+                onContinueExam()
+            }
+
+
         }
     }
 
@@ -267,7 +308,7 @@ class MainViewModel(
         mainState.value.currentExam?.id?.let { id ->
             val index = mainState.value.exams.indexOfFirst { it.id == id }
             Timber.e("retry index is $index")
-            startExam(index)
+            startExam(type, index)
         }
 
 
@@ -308,6 +349,12 @@ class MainViewModel(
                 )
             )
         }
+    }
+
+    private fun getTitle(examId: Long, no:Long):String{
+        val exam=mainState.value.exams.find { it.id==examId }
+
+        return "Waec ${exam?.year} Q$no"
     }
 
 

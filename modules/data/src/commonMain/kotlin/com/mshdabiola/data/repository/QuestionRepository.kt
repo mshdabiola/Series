@@ -34,6 +34,10 @@ internal class QuestionRepository(
         return iQuestionDao.getAllWithOptions(examId)
     }
 
+    override fun getRandom(num: Long): Flow<List<QuestionFull>> {
+        return iQuestionDao.getRandom(num)
+    }
+
     override fun getAll(): Flow<List<Question>> {
         return iQuestionDao.getAll()
     }

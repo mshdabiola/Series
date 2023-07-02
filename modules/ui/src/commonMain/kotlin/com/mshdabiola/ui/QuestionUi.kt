@@ -23,7 +23,6 @@ fun QuestionUi(
     modifier: Modifier = Modifier,
     number: Long,
     questionUiState: QuestionUiState,
-    title: String,
     generalPath: String,
     showAnswer: Boolean = false,
     selectedOption:Int=-1,
@@ -39,7 +38,7 @@ fun QuestionUi(
             content = questionUiState.content,
             generalPath = generalPath,
             isInstruction = questionUiState.instructionUiState != null,
-            title = title,
+            title = questionUiState.title,
             onInstruction = onInstruction
         )
         OptionsUi(

@@ -32,15 +32,24 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.unit.dp
 import com.mshdabiola.ui.state.ExamUiState
 import kotlinx.collections.immutable.ImmutableList
+import kotlinx.datetime.Instant
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toLocalDateTime
 
 @Composable
 fun ContinueCard(
     onClick: () -> Unit = {},
     year: Long,
+    time:Long,
     progress: Float,
     enabled: Boolean,
 ) {
     val color = LocalTextStyle.current.color.copy(alpha = 0.7f)
+    val timeString = remember(time) {
+        val instant = Instant.fromEpochSeconds(time)
+        val time = instant.toLocalDateTime(TimeZone.UTC).time
+        String.format("%02d : %02d", time.minute, time.second)
+    }
     Card() {
         Column(
             Modifier.padding(8.dp),
@@ -54,8 +63,7 @@ fun ContinueCard(
             )
 
             Text("Year : $year")
-
-
+            Text("Remaining: $timeString")
             Text("Question progress : ${(progress * 100).toInt()}%")
 
 

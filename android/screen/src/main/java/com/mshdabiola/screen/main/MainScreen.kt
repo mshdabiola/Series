@@ -10,8 +10,12 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
@@ -19,10 +23,7 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -34,6 +35,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.mshdabiola.screen.ExamType
 import com.mshdabiola.screen.MainViewModel
 import com.mshdabiola.screen.R
 import com.mshdabiola.ui.ContinueCard
@@ -59,16 +61,16 @@ internal fun MainScreen(onQuestion: () -> Unit) {
 internal fun MainScreen(
     mainState: MainState,
     onQuestion: () -> Unit = {},
-    onStartExam: (Int) -> Unit = {},
+    onStartExam: (ExamType, Int) -> Unit = { _, _ -> },
 ) {
     val snackbarHostState = remember {
         SnackbarHostState()
     }
 
     val finishPercent = remember(mainState.choose) {
-        val choose=mainState.choose
+        val choose = mainState.choose
         choose.count {
-            it>-1
+            it > -1
         } / choose.size.toFloat()
     }
 
@@ -88,7 +90,12 @@ internal fun MainScreen(
                     }
 
                 },
-                scrollBehavior = scrollBehavior
+                scrollBehavior = scrollBehavior,
+                actions = {
+                    IconButton(onClick = { /*TODO*/ }) {
+                        Icon(imageVector = Icons.Default.Settings, contentDescription = "settings")
+                    }
+                }
 
             )
         },
@@ -126,7 +133,8 @@ internal fun MainScreen(
                 ContinueCard(
                     year = it.year,
                     progress = finishPercent,
-                    enabled =it.isSubmit.not(),
+                    enabled = it.isSubmit.not(),
+                    time = it.totalTime-it.currentTime,
                     onClick = {
                         onQuestion()
                     }
@@ -136,19 +144,28 @@ internal fun MainScreen(
 
             StartCard(
                 exams = mainState.exams,
-                isSubmit=mainState.currentExam?.isSubmit ?: true,
+                isSubmit = mainState.currentExam?.isSubmit ?: true,
                 onClick = {
-                    onStartExam(it)
+                    onStartExam(ExamType.YEAR, it)
                     onQuestion()
                 })
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
                 OtherCard(
-                    title = "Random test",
-                    painter = painterResource(id = R.drawable.layer__1)
+                    title = "Random exam",
+                    painter = painterResource(id = R.drawable.layer__1),
+                    onClick = {
+
+                        onStartExam(ExamType.RANDOM, -1)
+                        onQuestion()
+                    }
                 )
                 OtherCard(
                     title = "Fast finger",
-                    painter = painterResource(id = R.drawable.layer_1)
+                    painter = painterResource(id = R.drawable.layer_1),
+                    onClick = {
+                        onStartExam(ExamType.FAST_FINGER, -1)
+                        onQuestion()
+                    }
                 )
             }
 

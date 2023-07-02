@@ -12,6 +12,7 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -84,11 +85,12 @@ fun OptionUi(
 ) {
     val color = when {
         optionUiState.isAnswer && showAnswer -> Color.Green
-        isChoose && showAnswer->Color.Red
+        isChoose && showAnswer->MaterialTheme.colorScheme.errorContainer
         isChoose -> MaterialTheme.colorScheme.primary
         showAnswer -> MaterialTheme.colorScheme.background
         else -> MaterialTheme.colorScheme.primaryContainer
     }
+
     Card(
         modifier = modifier,
         colors = CardDefaults.cardColors(containerColor = color),

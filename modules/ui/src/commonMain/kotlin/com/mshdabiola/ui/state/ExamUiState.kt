@@ -8,5 +8,4 @@ data class ExamUiState(
     val currentTime:Long=0,
     val totalTime : Long=4,
     val isSubmit:Boolean=false,
-    val progress:Float=0.5f
 )

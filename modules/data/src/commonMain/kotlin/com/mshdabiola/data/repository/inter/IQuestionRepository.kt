@@ -12,6 +12,7 @@ interface IQuestionRepository {
     suspend fun insertAll(questionFull: List<QuestionFull>)
 
     fun getAllWithExamId(examId: Long): Flow<List<QuestionFull>>
+    fun getRandom(num: Long): Flow<List<QuestionFull>>
 
     fun getAll(): Flow<List<Question>>
 
@@ -19,4 +20,6 @@ interface IQuestionRepository {
 
     suspend fun insertMany(questionWithOptions: List<QuestionFull>)
     suspend fun deleteAll()
+
+
 }

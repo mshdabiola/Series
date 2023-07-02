@@ -83,7 +83,7 @@ internal fun FinishScreen(
     mainState: MainState,
     back: () -> Unit = {},
     toQuestion: () -> Unit = {},
-    getGeneralPath: (FileManager.ImageType) -> String = { "" }
+    getGeneralPath: (FileManager.ImageType,Long) -> String = {_,_-> "" },
 ) {
     val lazyState = rememberLazyListState()
     val coroutineScope = rememberCoroutineScope()
@@ -171,8 +171,7 @@ internal fun FinishScreen(
                     QuestionUi(
                         number = (index + 1L),
                         questionUiState = item,
-                        generalPath = getGeneralPath(FileManager.ImageType.QUESTION),
-                        title = "Waec 2015 Q4",
+                        generalPath = getGeneralPath(FileManager.ImageType.QUESTION,item.examId),
                         onInstruction = {
                             instructionUiState = item.instructionUiState
                         },
@@ -190,7 +189,7 @@ internal fun FinishScreen(
     }
     InstructionBottomSheet(
         instructionUiState = instructionUiState,
-        generalPath = getGeneralPath(FileManager.ImageType.INSTRUCTION),
+        generalPath = getGeneralPath(FileManager.ImageType.INSTRUCTION,instructionUiState?.examId?:0),
         onDismissRequest = { instructionUiState = null }
     )
 
@@ -204,6 +203,7 @@ fun FinishScreenPreview() {
             QuestionUiState(
                 id = 1,
                 nos = 1,
+                examId = 0,
                 content = listOf(
                     ItemUiState(content = "What is your name")
                 )
@@ -252,6 +252,7 @@ fun FinishScreenPreview() {
             QuestionUiState(
                 id = 1,
                 nos = 1,
+                examId = 0,
                 content = listOf(
                     ItemUiState(content = "What is your name")
                 )
@@ -300,6 +301,7 @@ fun FinishScreenPreview() {
             QuestionUiState(
                 id = 1,
                 nos = 1,
+                examId = 0,
                 content = listOf(
                     ItemUiState(content = "What is your name")
                 )

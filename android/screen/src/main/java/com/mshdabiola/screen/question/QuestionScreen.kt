@@ -95,7 +95,7 @@ internal fun QuestionScreen(
     back: () -> Unit = {},
     onFinish: () -> Unit = {},
     onOption: (Int, Int) -> Unit = { _, _ -> },
-    getGeneralPath: (FileManager.ImageType) -> String = { "" },
+    getGeneralPath: (FileManager.ImageType,Long) -> String = {_,_-> "" },
     onTimeChanged: (Long) -> Unit = {}
 ) {
     if (questions.isEmpty()) {
@@ -193,8 +193,7 @@ internal fun QuestionScreen(
                     QuestionUi(
                         number = (index + 1L),
                         questionUiState = questions[index],
-                        generalPath = getGeneralPath(FileManager.ImageType.QUESTION),
-                        title = "Waec 2015 Q4",
+                        generalPath = getGeneralPath(FileManager.ImageType.QUESTION,questions[index].examId),
 
                         onInstruction = {
                             instructionUiState = questions[index].instructionUiState!!
@@ -250,7 +249,7 @@ internal fun QuestionScreen(
 
         InstructionBottomSheet(
             instructionUiState = instructionUiState,
-            generalPath = getGeneralPath(FileManager.ImageType.INSTRUCTION),
+            generalPath = getGeneralPath(FileManager.ImageType.INSTRUCTION,instructionUiState?.examId?:0),
             onDismissRequest = { instructionUiState = null }
         )
         AllQuestionBottomSheet(
@@ -278,6 +277,7 @@ fun QuestionScreenPreview() {
             QuestionUiState(
                 id = 1,
                 nos = 1,
+                examId = 1,
                 content = listOf(
                     ItemUiState(content = "What is your name")
                 )
@@ -326,6 +326,7 @@ fun QuestionScreenPreview() {
             QuestionUiState(
                 id = 1,
                 nos = 1,
+                examId = 1,
                 content = listOf(
                     ItemUiState(content = "What is your name")
                 )
@@ -374,6 +375,7 @@ fun QuestionScreenPreview() {
             QuestionUiState(
                 id = 1,
                 nos = 1,
+                examId = 1,
                 content = listOf(
                     ItemUiState(content = "What is your name")
                 )
