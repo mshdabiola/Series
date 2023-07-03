@@ -21,6 +21,7 @@ import androidx.compose.material.icons.filled.Android
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material.icons.filled.SaveAs
 import androidx.compose.material.icons.filled.Update
 import androidx.compose.material3.Button
 import androidx.compose.material3.DropdownMenu
@@ -105,6 +106,19 @@ fun MainScreen(
                                     viewModel.updateSubject(currentSubjectIndex)
                                     showDrop = false
                                 })
+                            DropdownMenuItem(
+                                leadingIcon = {
+                                    androidx.compose.material.Icon(
+                                        Icons.Default.SaveAs,
+                                        "export"
+                                    )
+                                },
+                                text = { Text("Export") },
+                                onClick = {
+                                    // onDelete(examUiState.id)
+                                    show = true
+                                    showDrop = false
+                                })
 
                             DropdownMenuItem(
                                 leadingIcon = {
@@ -115,10 +129,9 @@ fun MainScreen(
                                 },
                                 text = { Text("Delete") },
                                 onClick = {
-                                    // onDelete(examUiState.id)
-                                    show = true
-                                    showDrop = false
+                                   
                                 })
+
 
 
                         }

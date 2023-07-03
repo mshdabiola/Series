@@ -111,12 +111,10 @@ class Graphics2DA : Graphics2DInterface {
 
     override fun lineTo(x: Double, y: Double) {
         println("line to $x $y")
-        TODO("line")
     }
 
     override fun quadraticCurveTo(x: Double, y: Double, x1: Double, y1: Double) {
         println("quadratic curve to $x $y $x1 $y1")
-        TODO("quadratic curve to")
     }
 
     override fun bezierCurveTo(
@@ -127,7 +125,6 @@ class Graphics2DA : Graphics2DInterface {
         x2: Double,
         y2: Double
     ) {
-        TODO("bezier curve to")
     }
 
     override fun finishDrawing() {

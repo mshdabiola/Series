@@ -60,9 +60,9 @@ fun main() {
     }
 
     val appArgs = AppArgs(
-        appName = "My App", // To show on title bar
+        appName = "Series", // To show on title bar
         version = "v1.0.0", // To show on title inside brackets
-        versionCode = 100 // To compare with latest version code (in case if you want to prompt update)
+        versionCode = 1// To compare with latest version code (in case if you want to prompt update)
     )
 //    FactoryProvider.instance = FactoryProviderAndroid()
 //    TeXFormula("latex")
