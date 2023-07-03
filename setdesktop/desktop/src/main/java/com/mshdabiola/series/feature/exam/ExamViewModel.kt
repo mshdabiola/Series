@@ -255,6 +255,7 @@ class ExamViewModel(
     private fun getEmptyQuestion(): QuestionUiState {
         return QuestionUiState(
             nos = -1,
+            examId = 0,
             content = listOf(
                 ItemUiState(isEditMode = true, focus = true)
             ).toImmutableList(),

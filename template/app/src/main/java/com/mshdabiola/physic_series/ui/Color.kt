@@ -1,4 +1,4 @@
-package com.mshdabiola.designsystem.theme
+package com.mshdabiola.physic_series.ui
 
 import androidx.compose.ui.graphics.Color
 
@@ -66,12 +66,3 @@ val md_theme_dark_scrim = Color(0xFF000000)
 
 
 val seed = Color(0xFF914278)
-val corrent = Color(0xFF3AC200)
-val light_corrent = Color(0xFF1D6D00)
-val light_oncorrent = Color(0xFFFFFFFF)
-val light_correntContainer = Color(0xFF7BFF50)
-val light_oncorrentContainer = Color(0xFF042100)
-val dark_corrent = Color(0xFF5CE230)
-val dark_oncorrent = Color(0xFF0B3900)
-val dark_correntContainer = Color(0xFF145200)
-val dark_oncorrentContainer = Color(0xFF7BFF50)

@@ -21,9 +21,11 @@ import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -48,6 +50,9 @@ import com.mshdabiola.ui.QuestionUi
 import com.mshdabiola.ui.TimeCounter
 import com.mshdabiola.ui.com.mshdabiola.ui.AllQuestionBottomSheet
 import com.mshdabiola.ui.com.mshdabiola.ui.InstructionBottomSheet
+import com.mshdabiola.ui.correct
+import com.mshdabiola.ui.correctContainer
+import com.mshdabiola.ui.onCorrect
 import com.mshdabiola.ui.state.ExamUiState
 import com.mshdabiola.ui.state.InstructionUiState
 import com.mshdabiola.ui.state.ItemUiState
@@ -148,9 +153,13 @@ internal fun QuestionScreen(
                         ExtendedFloatingActionButton(
                             onClick = onFinish,
                             containerColor = if (finishPercent == 100)
-                                Color.Green
+                                MaterialTheme.correct()
                             else
-                                FloatingActionButtonDefaults.containerColor
+                                FloatingActionButtonDefaults.containerColor,
+                            contentColor =  if (finishPercent == 100)
+                                MaterialTheme.onCorrect()
+                            else
+                                contentColorFor(backgroundColor = FloatingActionButtonDefaults.containerColor)
                         ) {
                             Icon(
                                 imageVector = Icons.Default.Kitesurfing,

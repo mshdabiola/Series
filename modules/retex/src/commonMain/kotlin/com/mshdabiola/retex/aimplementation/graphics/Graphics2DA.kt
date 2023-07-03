@@ -20,7 +20,7 @@ import com.mshdabiola.retex.aimplementation.geom.Line2DA
 import com.mshdabiola.retex.aimplementation.geom.Rectangle2DA
 import com.mshdabiola.retex.aimplementation.geom.RoundRectangle2DA
 
-class Graphics2DA() : Graphics2DInterface {
+class Graphics2DA : Graphics2DInterface {
     private var mStroke: Stroke = StrokeA()
     private var mColor = ColorA(androidx.compose.ui.graphics.Color.Black)
     private var mTransform: Transform = TransformA()
@@ -111,10 +111,12 @@ class Graphics2DA() : Graphics2DInterface {
 
     override fun lineTo(x: Double, y: Double) {
         println("line to $x $y")
+        TODO("line")
     }
 
     override fun quadraticCurveTo(x: Double, y: Double, x1: Double, y1: Double) {
         println("quadratic curve to $x $y $x1 $y1")
+        TODO("quadratic curve to")
     }
 
     override fun bezierCurveTo(
@@ -125,7 +127,7 @@ class Graphics2DA() : Graphics2DInterface {
         x2: Double,
         y2: Double
     ) {
-        TODO("Not yet implemented")
+        TODO("bezier curve to")
     }
 
     override fun finishDrawing() {
