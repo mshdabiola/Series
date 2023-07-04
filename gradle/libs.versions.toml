@@ -34,7 +34,7 @@ androidxWindowManager = "1.1.0"
 androidxWork = "2.9.0-alpha01"
 coil = "2.2.2"
 decomposeVersion = "2.0.0-beta-01"
-firebaseBom = "32.1.0"
+firebaseBom = "32.1.1"
 firebaseAnalytics = "21.2.2"
 firebaseCrashlyticsKts = "18.3.6"
 firebaseCrashylyticsPlugins = "2.9.2"
@@ -138,6 +138,9 @@ firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.r
 firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics-ktx" }
 firebase-cloud-messaging = { group = "com.google.firebase", name = "firebase-messaging-ktx" }
 firebase-crashlytics = { group = "com.google.firebase", name = "firebase-crashlytics-ktx" }
+firebase-remoteconfig = { group = "com.google.firebase", name = "firebase-config-ktx" }
+firebase-message= { group = "com.google.firebase", name = "firebase-inappmessaging-display-ktx" }
+
 firebase-crashlytics-gradle = { group = "com.google.firebase", name = "firebase-crashlytics-gradle", version.ref = "firebaseCrashlyticsPlugin" }
 firebase-performance = { group = "com.google.firebase", name = "firebase-perf-ktx" }
 firebase-performance-gradle = { group = "com.google.firebase", name = "perf-plugin", version.ref = "firebasePerfPlugin" }

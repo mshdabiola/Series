@@ -20,6 +20,8 @@ dependencyResolutionManagement {
 rootProject.name = "Series"
 include(":template:app")
 include(":template:benchmark")
+include(":physics:app")
+include(":physics:benchmark")
 include(":modules:database")
 include(":modules:designsystem")
 include(":modules:model")

@@ -4,17 +4,16 @@ import com.mshdabiola.app.BuildType
 plugins {
     id("mshdabiola.android.application")
     id("mshdabiola.android.application.compose")
-    id("mshdabiola.android.application.flavor")
     id("mshdabiola.android.application.firebase")
 
 
 }
 
 android {
-    namespace = "com.mshdabiola.physic"
+    namespace = "com.mshdabiola.physics"
 
     defaultConfig {
-        applicationId = "com.mshdabiola.physic"
+        applicationId = "com.mshdabiola.physics"
         testInstrumentationRunner = "com.mshdabiola.testing.InstrumentationTestRunner"
     }
 
@@ -75,5 +74,11 @@ dependencies {
     androidTestImplementation(project(":modules:testing"))
     implementation(libs.koin.core)
     implementation(libs.koin.android)
+   // implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.remoteconfig)
+    implementation(libs.firebase.message)
+    implementation(libs.firebase.cloud.messaging)
+
+
 
 }
