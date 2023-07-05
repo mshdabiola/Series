@@ -74,11 +74,10 @@ dependencies {
     androidTestImplementation(project(":modules:testing"))
     implementation(libs.koin.core)
     implementation(libs.koin.android)
-   // implementation(platform(libs.firebase.bom))
+    // implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.remoteconfig)
     implementation(libs.firebase.message)
     implementation(libs.firebase.cloud.messaging)
-
 
 
 }

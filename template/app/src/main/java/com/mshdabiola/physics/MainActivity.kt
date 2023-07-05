@@ -23,17 +23,17 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         var show: Boolean by mutableStateOf(true)
-       val splashScreen= installSplashScreen()
-          Saver
+        val splashScreen = installSplashScreen()
+        Saver
             .getWorkLiveData()
-            .observe(this){
+            .observe(this) {
                 Timber.e(it.toString())
-                val work=it.getOrNull(0)
-                show=work?.state== WorkInfo.State.RUNNING
+                val work = it.getOrNull(0)
+                show = work?.state == WorkInfo.State.RUNNING
 
             }
 
-        splashScreen.setKeepOnScreenCondition{
+        splashScreen.setKeepOnScreenCondition {
             show
         }
 

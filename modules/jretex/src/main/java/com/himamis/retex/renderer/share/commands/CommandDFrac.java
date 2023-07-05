@@ -5,9 +5,9 @@ import com.himamis.retex.renderer.share.TeXParser;
 
 public class CommandDFrac extends Command2A {
 
-	@Override
-	public Atom newI(TeXParser tp, Atom a, Atom b) {
-		return CommandGenfrac.get(null, a, b, null, null, 0);
-	}
+    @Override
+    public Atom newI(TeXParser tp, Atom a, Atom b) {
+        return CommandGenfrac.get(null, a, b, null, null, 0);
+    }
 
 }

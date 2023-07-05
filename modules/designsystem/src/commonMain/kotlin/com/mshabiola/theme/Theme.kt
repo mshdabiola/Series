@@ -1,20 +1,10 @@
 package com.mshabiola.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.DarkMode
-import androidx.compose.material.icons.outlined.LightMode
-import androidx.compose.material.icons.outlined.SettingsSuggest
-import androidx.compose.material.icons.outlined.Wallpaper
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
-import com.mshabiola.theme.util.canShowDynamic
-import com.mshabiola.theme.util.dynamicDarkScheme
-import com.mshabiola.theme.util.dynamicLightScheme
 
 private val LightColors = lightColorScheme(
     primary = md_theme_light_primary,

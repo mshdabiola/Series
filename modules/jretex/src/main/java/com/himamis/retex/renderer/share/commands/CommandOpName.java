@@ -54,40 +54,40 @@ import com.himamis.retex.renderer.share.TeXParser;
 
 public class CommandOpName extends Command {
 
-	private final String name;
-	private final String post;
-	private final boolean limits;
+    private final String name;
+    private final String post;
+    private final boolean limits;
 
-	public CommandOpName(final String name, final String post,
-			final boolean limits) {
-		this.name = name;
-		this.post = post;
-		this.limits = limits;
-	}
+    public CommandOpName(final String name, final String post,
+                         final boolean limits) {
+        this.name = name;
+        this.post = post;
+        this.limits = limits;
+    }
 
-	public CommandOpName(final String name, final boolean limits) {
-		this(name, null, limits);
-	}
+    public CommandOpName(final String name, final boolean limits) {
+        this(name, null, limits);
+    }
 
-	@Override
-	public boolean init(TeXParser tp) {
-		tp.addToConsumer(createOperation(name, post, limits));
-		return false;
-	}
+    public static Atom createOperation(String name, String post, boolean limits) {
+        Atom a;
+        if (post == null) {
+            a = new RomanAtom(TeXParser.getAtomForLatinStr(name, true));
+        } else {
+            final RowAtom ra = TeXParser.getAtomForLatinStr(name,
+                    new RowAtom(name.length() + 1 + post.length()), true);
+            ra.add(new SpaceAtom(TeXConstants.Muskip.THIN));
+            a = new RomanAtom(TeXParser.getAtomForLatinStr(post, ra, true));
+        }
+        a = a.changeType(TeXConstants.TYPE_BIG_OPERATOR);
+        a.type_limits = limits ? TeXConstants.SCRIPT_LIMITS
+                : TeXConstants.SCRIPT_NOLIMITS;
+        return a;
+    }
 
-	public static Atom createOperation(String name, String post, boolean limits) {
-		Atom a;
-		if (post == null) {
-			a = new RomanAtom(TeXParser.getAtomForLatinStr(name, true));
-		} else {
-			final RowAtom ra = TeXParser.getAtomForLatinStr(name,
-					new RowAtom(name.length() + 1 + post.length()), true);
-			ra.add(new SpaceAtom(TeXConstants.Muskip.THIN));
-			a = new RomanAtom(TeXParser.getAtomForLatinStr(post, ra, true));
-		}
-		a = a.changeType(TeXConstants.TYPE_BIG_OPERATOR);
-		a.type_limits = limits ? TeXConstants.SCRIPT_LIMITS
-				: TeXConstants.SCRIPT_NOLIMITS;
-		return a;
-	}
+    @Override
+    public boolean init(TeXParser tp) {
+        tp.addToConsumer(createOperation(name, post, limits));
+        return false;
+    }
 }

@@ -49,56 +49,56 @@ import com.himamis.retex.renderer.share.commands.Command;
 
 public class Column extends Command {
 
-	protected ArrayOfAtoms aoa;
+    protected ArrayOfAtoms aoa;
 
-	public Column() {
-		//
-	}
+    public Column() {
+        //
+    }
 
-	public Column(ArrayOfAtoms aoa2) {
-		this.aoa = aoa2;
-	}
+    public Column(ArrayOfAtoms aoa2) {
+        this.aoa = aoa2;
+    }
 
-	@Override
-	public boolean init(TeXParser tp) {
-		aoa = new ArrayOfAtoms();
-		aoa.setOneColumn(true);
-		return true;
-	}
+    @Override
+    public boolean init(TeXParser tp) {
+        aoa = new ArrayOfAtoms();
+        aoa.setOneColumn(true);
+        return true;
+    }
 
-	@Override
-	public void add(TeXParser tp, Atom a) {
-		aoa.add(tp, a);
-	}
+    @Override
+    public void add(TeXParser tp, Atom a) {
+        aoa.add(tp, a);
+    }
 
-	@Override
-	public RowAtom steal(TeXParser tp) {
-		return aoa.steal(tp);
-	}
+    @Override
+    public RowAtom steal(TeXParser tp) {
+        return aoa.steal(tp);
+    }
 
-	@Override
-	public Atom getLastAtom() {
-		return aoa.getLastAtom();
-	}
+    @Override
+    public Atom getLastAtom() {
+        return aoa.getLastAtom();
+    }
 
-	@Override
-	public boolean isArray() {
-		return true;
-	}
+    @Override
+    public boolean isArray() {
+        return true;
+    }
 
-	@Override
-	public boolean close(TeXParser tp) {
-		aoa.checkDimensions();
-		Atom a;
-		if (aoa.col == 0) {
-			a = EmptyAtom.get();
-		} else {
-			VRowAtom vra = new VRowAtom(aoa.getFirstColumn());
-			vra.setAddInterline(true);
-			a = vra;
-		}
-		tp.closeConsumer(a);
+    @Override
+    public boolean close(TeXParser tp) {
+        aoa.checkDimensions();
+        Atom a;
+        if (aoa.col == 0) {
+            a = EmptyAtom.get();
+        } else {
+            VRowAtom vra = new VRowAtom(aoa.getFirstColumn());
+            vra.setAddInterline(true);
+            a = vra;
+        }
+        tp.closeConsumer(a);
 
-		return true;
-	}
+        return true;
+    }
 }

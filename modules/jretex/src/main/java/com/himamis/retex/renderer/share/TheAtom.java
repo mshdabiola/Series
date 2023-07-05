@@ -50,19 +50,19 @@ import com.himamis.retex.renderer.share.exception.ParseException;
  * An atom representing a boxed base atom.
  */
 public class TheAtom extends Atom {
-	protected final String name;
+    protected final String name;
 
-	public TheAtom(String name) {
-		this.name = name;
-	}
+    public TheAtom(String name) {
+        this.name = name;
+    }
 
-	@Override
-	public Box createBox(TeXEnvironment env) {
-		if (TeXLengthSettings.isLengthName(name)) {
-			return env.lengthSettings().getLength(name).createBox(env);
-		}
+    @Override
+    public Box createBox(TeXEnvironment env) {
+        if (TeXLengthSettings.isLengthName(name)) {
+            return env.lengthSettings().getLength(name).createBox(env);
+        }
 
-		throw new ParseException("Invalid length name in \\the: " + name);
-	}
+        throw new ParseException("Invalid length name in \\the: " + name);
+    }
 
 }

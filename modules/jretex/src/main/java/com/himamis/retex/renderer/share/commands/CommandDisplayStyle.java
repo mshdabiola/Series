@@ -8,17 +8,17 @@ import com.himamis.retex.renderer.share.TeXParser;
 
 public class CommandDisplayStyle extends CommandStyle {
 
-	public CommandDisplayStyle() {
-		//
-	}
+    public CommandDisplayStyle() {
+        //
+    }
 
-	public CommandDisplayStyle(RowAtom size) {
-		this.size = size;
-	}
+    public CommandDisplayStyle(RowAtom size) {
+        this.size = size;
+    }
 
-	@Override
-	public Atom newI(TeXParser tp, Atom a) {
-		return new StyleAtom(TeXConstants.STYLE_DISPLAY, a);
-	}
+    @Override
+    public Atom newI(TeXParser tp, Atom a) {
+        return new StyleAtom(TeXConstants.STYLE_DISPLAY, a);
+    }
 
 }

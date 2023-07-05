@@ -7,9 +7,9 @@ import com.himamis.retex.renderer.share.Box;
  */
 public interface BoxDecorator {
 
-	/**
-	 * @param box The returned decorated box is based on this one.
-	 * @return A decorated box.
-	 */
-	Box decorate(Box box);
+    /**
+     * @param box The returned decorated box is based on this one.
+     * @return A decorated box.
+     */
+    Box decorate(Box box);
 }

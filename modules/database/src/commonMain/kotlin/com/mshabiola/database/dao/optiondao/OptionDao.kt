@@ -81,7 +81,7 @@ internal class OptionDao(
     }
 
     override suspend fun deleteAll() {
-        withContext(coroutineDispatcher){
+        withContext(coroutineDispatcher) {
             optionQueries.deleteAll()
         }
     }

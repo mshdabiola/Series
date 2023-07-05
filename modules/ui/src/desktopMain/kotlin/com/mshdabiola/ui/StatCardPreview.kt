@@ -5,7 +5,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.mshdabiola.ui.state.ExamUiState
 import kotlinx.collections.immutable.ImmutableList
-import kotlinx.collections.immutable.toImmutableList
 
 @Preview
 @Composable
@@ -35,8 +34,8 @@ internal actual fun OtherCardPreview() {
 internal actual fun YearExposed(
     modifier: Modifier,
     exams: ImmutableList<ExamUiState>,
-    selectedOptionText : Int,
-    supportText:String,
+    selectedOptionText: Int,
+    supportText: String,
     onChange: (Int) -> Unit
 ) {
 }

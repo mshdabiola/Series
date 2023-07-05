@@ -22,12 +22,14 @@ import kotlinx.collections.immutable.toImmutableList
 @Composable
 internal actual fun StatCardPreview() {
     StartCard(
-        exams = listOf(ExamUiState(
-            id = 1,
-            subjectID = 2,
-            year = 2015,
-            subject = "Jeanpaul"
-        )).toImmutableList(),
+        exams = listOf(
+            ExamUiState(
+                id = 1,
+                subjectID = 2,
+                year = 2015,
+                subject = "Jeanpaul"
+            )
+        ).toImmutableList(),
         isSubmit = false
     )
 }
@@ -57,8 +59,8 @@ internal actual fun OtherCardPreview() {
 internal actual fun YearExposed(
     modifier: Modifier,
     exams: ImmutableList<ExamUiState>,
-    selectedOptionText : Int,
-    supportText:String,
+    selectedOptionText: Int,
+    supportText: String,
     onChange: (Int) -> Unit
 ) {
     var expanded by remember { mutableStateOf(false) }

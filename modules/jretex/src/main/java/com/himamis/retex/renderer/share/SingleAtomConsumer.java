@@ -47,65 +47,65 @@ package com.himamis.retex.renderer.share;
 
 public final class SingleAtomConsumer implements AtomConsumer {
 
-	private Atom a;
+    private Atom a;
 
-	@Override
-	public boolean init(TeXParser tp) {
-		return true;
-	}
+    @Override
+    public boolean init(TeXParser tp) {
+        return true;
+    }
 
-	@Override
-	public void add(TeXParser tp, Atom a) {
-		this.a = a;
-	}
+    @Override
+    public void add(TeXParser tp, Atom a) {
+        this.a = a;
+    }
 
-	public Atom get() {
-		if (a instanceof RowAtom) {
-			return ((RowAtom) a).simplify();
-		}
-		return a;
-	}
+    public Atom get() {
+        if (a instanceof RowAtom) {
+            return ((RowAtom) a).simplify();
+        }
+        return a;
+    }
 
-	@Override
-	public Atom getLastAtom() {
-		return null;
-	}
+    @Override
+    public Atom getLastAtom() {
+        return null;
+    }
 
-	@Override
-	public boolean close(TeXParser tp) {
-		return false;
-	}
+    @Override
+    public boolean close(TeXParser tp) {
+        return false;
+    }
 
-	@Override
-	public boolean isClosable() {
-		return false;
-	}
+    @Override
+    public boolean isClosable() {
+        return false;
+    }
 
-	@Override
-	public RowAtom steal(TeXParser tp) {
-		return null;
-	}
+    @Override
+    public RowAtom steal(TeXParser tp) {
+        return null;
+    }
 
-	@Override
-	public boolean isArray() {
-		return false;
-	}
+    @Override
+    public boolean isArray() {
+        return false;
+    }
 
-	@Override
-	public boolean isAmpersandAllowed() {
-		return false;
-	}
+    @Override
+    public boolean isAmpersandAllowed() {
+        return false;
+    }
 
-	@Override
-	public boolean isHandlingArg() {
-		return false;
-	}
+    @Override
+    public boolean isHandlingArg() {
+        return false;
+    }
 
-	@Override
-	public void lbrace(TeXParser tp) {
-	}
+    @Override
+    public void lbrace(TeXParser tp) {
+    }
 
-	@Override
-	public void rbrace(TeXParser tp) {
-	}
+    @Override
+    public void rbrace(TeXParser tp) {
+    }
 }

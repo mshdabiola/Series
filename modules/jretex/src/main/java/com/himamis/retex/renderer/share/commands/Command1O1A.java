@@ -52,30 +52,30 @@ import com.himamis.retex.renderer.share.TeXParser;
 
 public abstract class Command1O1A extends Command {
 
-	protected boolean hasopt;
-	protected Atom option;
+    protected boolean hasopt;
+    protected Atom option;
 
-	@Override
-	public boolean init(TeXParser tp) {
-		hasopt = tp.hasOption();
-		if (hasopt) {
-			tp.addConsumer(this);
-			tp.addConsumer(new GroupConsumer(TeXConstants.Opener.LSQBRACKET));
-			return false;
-		}
-		return true;
-	}
+    @Override
+    public boolean init(TeXParser tp) {
+        hasopt = tp.hasOption();
+        if (hasopt) {
+            tp.addConsumer(this);
+            tp.addConsumer(new GroupConsumer(TeXConstants.Opener.LSQBRACKET));
+            return false;
+        }
+        return true;
+    }
 
-	@Override
-	public void add(TeXParser tp, Atom a) {
-		if (hasopt) {
-			option = a;
-			hasopt = false;
-		} else {
-			tp.closeConsumer(newI(tp, option, a));
-		}
-	}
+    @Override
+    public void add(TeXParser tp, Atom a) {
+        if (hasopt) {
+            option = a;
+            hasopt = false;
+        } else {
+            tp.closeConsumer(newI(tp, option, a));
+        }
+    }
 
-	public abstract Atom newI(TeXParser tp, Atom a, Atom b);
+    public abstract Atom newI(TeXParser tp, Atom a, Atom b);
 
 }

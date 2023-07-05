@@ -1,6 +1,6 @@
 package com.himamis.retex.renderer.android
 
-enum class LatexType (val value:Int){
+enum class LatexType(val value: Int) {
     SERIF(0),
     SANSERIF(1),
     BOLD(2),

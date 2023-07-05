@@ -67,12 +67,21 @@ fun ScoreCard(scoreUiState: ScoreUiState) {
         horizontalArrangement = Arrangement.SpaceEvenly
     ) {
         Column {
-            ScoreItem(heading = "Correct answers", content = "${scoreUiState.correct} ${if (scoreUiState.correct>1) "Questions" else "Question"}")
-            ScoreItem(heading = "Incorrect answers", content = "${scoreUiState.inCorrect} ${if (scoreUiState.inCorrect>1) "Questions" else "Question"}")
+            ScoreItem(
+                heading = "Correct answers",
+                content = "${scoreUiState.correct} ${if (scoreUiState.correct > 1) "Questions" else "Question"}"
+            )
+            ScoreItem(
+                heading = "Incorrect answers",
+                content = "${scoreUiState.inCorrect} ${if (scoreUiState.inCorrect > 1) "Questions" else "Question"}"
+            )
         }
         Column {
             ScoreItem(heading = "Completion", content = "${scoreUiState.completed}%")
-            ScoreItem(heading = "skipped", content = "${scoreUiState.skipped} ${if (scoreUiState.skipped>1) "Questions" else "Question"}")
+            ScoreItem(
+                heading = "skipped",
+                content = "${scoreUiState.skipped} ${if (scoreUiState.skipped > 1) "Questions" else "Question"}"
+            )
         }
 
     }

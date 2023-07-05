@@ -83,7 +83,7 @@ internal fun FinishScreen(
     mainState: MainState,
     back: () -> Unit = {},
     toQuestion: () -> Unit = {},
-    getGeneralPath: (FileManager.ImageType,Long) -> String = {_,_-> "" },
+    getGeneralPath: (FileManager.ImageType, Long) -> String = { _, _ -> "" },
 ) {
     val lazyState = rememberLazyListState()
     val coroutineScope = rememberCoroutineScope()
@@ -171,7 +171,7 @@ internal fun FinishScreen(
                     QuestionUi(
                         number = (index + 1L),
                         questionUiState = item,
-                        generalPath = getGeneralPath(FileManager.ImageType.QUESTION,item.examId),
+                        generalPath = getGeneralPath(FileManager.ImageType.QUESTION, item.examId),
                         onInstruction = {
                             instructionUiState = item.instructionUiState
                         },
@@ -189,7 +189,10 @@ internal fun FinishScreen(
     }
     InstructionBottomSheet(
         instructionUiState = instructionUiState,
-        generalPath = getGeneralPath(FileManager.ImageType.INSTRUCTION,instructionUiState?.examId?:0),
+        generalPath = getGeneralPath(
+            FileManager.ImageType.INSTRUCTION,
+            instructionUiState?.examId ?: 0
+        ),
         onDismissRequest = { instructionUiState = null }
     )
 

@@ -40,7 +40,7 @@ import kotlinx.datetime.toLocalDateTime
 fun ContinueCard(
     onClick: () -> Unit = {},
     year: Long,
-    time:Long,
+    time: Long,
     progress: Float,
     enabled: Boolean,
 ) {

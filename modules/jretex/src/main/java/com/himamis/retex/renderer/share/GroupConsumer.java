@@ -47,84 +47,84 @@ package com.himamis.retex.renderer.share;
 
 public class GroupConsumer implements AtomConsumer {
 
-	private final TeXConstants.Opener opener;
-	private RowAtom ra;
+    private final TeXConstants.Opener opener;
+    private RowAtom ra;
 
-	public GroupConsumer(final TeXConstants.Opener opener, Atom... atoms) {
-		this.opener = opener;
-		ra = new RowAtom(atoms);
-	}
+    public GroupConsumer(final TeXConstants.Opener opener, Atom... atoms) {
+        this.opener = opener;
+        ra = new RowAtom(atoms);
+    }
 
-	public boolean close(TeXParser tp, final TeXConstants.Opener opener) {
-		if (this.opener == opener) {
-			tp.closeConsumer(ra.simplify());
-			return true;
-		}
-		return false;
-	}
+    public boolean close(TeXParser tp, final TeXConstants.Opener opener) {
+        if (this.opener == opener) {
+            tp.closeConsumer(ra.simplify());
+            return true;
+        }
+        return false;
+    }
 
-	public TeXConstants.Opener getOpener() {
-		return opener;
-	}
+    public TeXConstants.Opener getOpener() {
+        return opener;
+    }
 
-	// TODO: cette methode est appele par TeXParser::flush
-	// verifier si on peut pas applique ca a ts les consumers
-	public Atom getAtom() {
-		return ra.simplify();
-	}
+    // TODO: cette methode est appele par TeXParser::flush
+    // verifier si on peut pas applique ca a ts les consumers
+    public Atom getAtom() {
+        return ra.simplify();
+    }
 
-	@Override
-	public boolean init(TeXParser tp) {
-		return false;
-	}
+    @Override
+    public boolean init(TeXParser tp) {
+        return false;
+    }
 
-	@Override
-	public void add(TeXParser tp, Atom a) {
-		ra.add(a);
-	}
+    @Override
+    public void add(TeXParser tp, Atom a) {
+        ra.add(a);
+    }
 
-	@Override
-	public Atom getLastAtom() {
-		return ra.getLastAtom();
-	}
+    @Override
+    public Atom getLastAtom() {
+        return ra.getLastAtom();
+    }
 
-	@Override
-	public boolean close(TeXParser tp) {
-		return false;
-	}
+    @Override
+    public boolean close(TeXParser tp) {
+        return false;
+    }
 
-	@Override
-	public boolean isClosable() {
-		return false;
-	}
+    @Override
+    public boolean isClosable() {
+        return false;
+    }
 
-	@Override
-	public RowAtom steal(TeXParser tp) {
-		final RowAtom _ra = ra;
-		ra = new RowAtom();
-		return _ra;
-	}
+    @Override
+    public RowAtom steal(TeXParser tp) {
+        final RowAtom _ra = ra;
+        ra = new RowAtom();
+        return _ra;
+    }
 
-	@Override
-	public boolean isArray() {
-		return false;
-	}
+    @Override
+    public boolean isArray() {
+        return false;
+    }
 
-	@Override
-	public boolean isAmpersandAllowed() {
-		return false;
-	}
+    @Override
+    public boolean isAmpersandAllowed() {
+        return false;
+    }
 
-	@Override
-	public boolean isHandlingArg() {
-		return false;
-	}
+    @Override
+    public boolean isHandlingArg() {
+        return false;
+    }
 
-	@Override
-	public void lbrace(TeXParser tp) {
-	}
+    @Override
+    public void lbrace(TeXParser tp) {
+    }
 
-	@Override
-	public void rbrace(TeXParser tp) {
-	}
+    @Override
+    public void rbrace(TeXParser tp) {
+    }
 }

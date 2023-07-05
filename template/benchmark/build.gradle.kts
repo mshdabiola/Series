@@ -1,5 +1,4 @@
 import com.mshdabiola.app.BuildType
-import com.mshdabiola.app.configureFlavors
 
 plugins {
 

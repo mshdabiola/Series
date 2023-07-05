@@ -6,9 +6,9 @@ import com.himamis.retex.renderer.share.TtAtom;
 
 public class CommandTextTt extends CommandText {
 
-	@Override
-	public Atom newI(TeXParser tp, Atom a) {
-		return new TtAtom(a);
-	}
+    @Override
+    public Atom newI(TeXParser tp, Atom a) {
+        return new TtAtom(a);
+    }
 
 }

@@ -50,198 +50,197 @@ import java.util.List;
 
 public final class ArrayOptions {
 
-	public static final class Option {
+    private final static ArrayOptions empty = new ArrayOptions(0);
+    private final List<Option> options;
+    public ArrayOptions() {
+        options = new ArrayList<Option>();
+    }
 
-		private final TeXConstants.Align alignment;
-		private final TeXConstants.Align vertAlignment;
-		private final TeXLength minWidth;
-		private List<Atom> separators;
+    public ArrayOptions(final int size) {
+        options = new ArrayList<Option>(size);
+    }
 
-		Option(final TeXConstants.Align alignment, final TeXConstants.Align vertAlignment,
-				final TeXLength minWidth) {
-			this.alignment = alignment;
-			this.vertAlignment = vertAlignment;
-			this.separators = new ArrayList<>();
-			this.minWidth = minWidth;
-		}
+    public static ArrayOptions getEmpty() {
+        return empty;
+    }
 
-		public TeXConstants.Align getAlignment() {
-			return alignment;
-		}
+    public List<List<Atom>> getSeparators() {
+        List<List<Atom>> atoms = new ArrayList<>();
+        for (final Option opt : options) {
+            atoms.add(opt.getSeparators());
+        }
 
-		public boolean isVline() {
-			return separators.size() == 1
-					&& separators.get(0) instanceof VlineAtom;
-		}
+        return atoms;
+    }
 
-		public boolean isAlignment() {
-			return !isVline();
-		}
+    public List<Box> getSeparatorBoxes(TeXEnvironment env) {
+        List<Box> boxes = new ArrayList<>();
+        for (Option opt : options) {
+            boxes.add(new RowAtom(opt.separators).createBox(env));
+        }
 
-		public List<Atom> getSeparators() {
-			return separators;
-		}
+        return boxes;
+    }
 
-		@Override
-		public String toString() {
-			String a = "";
-			switch (alignment) {
-			case LEFT:
-				a = "left";
-				break;
-			case RIGHT:
-				a = "right";
-				break;
-			case CENTER:
-				a = "center";
-				break;
-			case NONE:
-				a = "none";
-				break;
-			case INVALID:
-				a = "first";
-				break;
-			}
+    public ArrayOptions close() {
+        if (!options.isEmpty() && last().isAlignment()) {
+            addSeparator(VlineAtom.getEmpty());
+        }
+        return this;
+    }
 
-			a += ":";
-			for (Atom separator : separators) {
-				a += separator.toString();
-			}
+    public Option last() {
+        return options.get(options.size() - 1);
+    }
 
-			return a;
-		}
+    public ArrayOptions complete(final int n) {
+        final int s = options.size();
+        for (int i = 0; i < n - s; ++i) {
+            addAlignment(TeXConstants.Align.CENTER);
+        }
+        return this;
+    }
 
-		public TeXLength getMinWidth() {
-			return minWidth;
-		}
+    public TeXConstants.Align getAlignment(final int i) {
+        return options.get(i + 1).getAlignment();
+    }
 
-		public TeXConstants.Align getVertAlignment() {
-			return vertAlignment;
-		}
-	}
+    public boolean hasAlignment() {
+        return options.size() >= 1;
+    }
 
-	private final List<Option> options;
-	private final static ArrayOptions empty = new ArrayOptions(0);
+    public ArrayOptions addAlignment(final TeXConstants.Align alignment) {
+        return addAlignment(alignment, TeXConstants.Align.TOP, null);
+    }
 
-	public ArrayOptions() {
-		options = new ArrayList<Option>();
-	}
+    public ArrayOptions addAlignment(final TeXConstants.Align alignment,
+                                     TeXConstants.Align vertAlignment, TeXLength minWidth) {
+        if (options.isEmpty() || last().isAlignment()) {
+            addSeparator(VlineAtom.getEmpty());
+        }
+        options.add(new Option(alignment, vertAlignment, minWidth));
+        return this;
+    }
 
-	public ArrayOptions(final int size) {
-		options = new ArrayList<Option>(size);
-	}
+    public void addVline(final int n) {
+        addSeparator(new VlineAtom(n));
+    }
 
-	public static ArrayOptions getEmpty() {
-		return empty;
-	}
+    public ArrayOptions addSeparator(final Atom a) {
+        final int s = options.size();
+        if (s == 0) {
+            final Option o = new Option(TeXConstants.Align.INVALID, TeXConstants.Align.TOP, null);
+            o.separators.add(a);
+            options.add(o);
+        } else {
+            final Option lastOption = options.get(s - 1);
+            final List<Atom> separators = lastOption.separators;
 
-	public List<List<Atom>> getSeparators() {
-		List<List<Atom>> atoms = new ArrayList<>();
-		for (final Option opt : options) {
-			atoms.add(opt.getSeparators());
-		}
+            if (!separators.isEmpty()) {
+                Atom lastSeparator = separators.get(separators.size() - 1);
 
-		return atoms;
-	}
+                if (lastSeparator instanceof VlineAtom && a instanceof VlineAtom) {
+                    ((VlineAtom) lastSeparator).add(((VlineAtom) a).getNumber());
+                    return this;
+                }
+            }
 
-	public List<Box> getSeparatorBoxes(TeXEnvironment env) {
-		List<Box> boxes = new ArrayList<>();
-		for (Option opt : options) {
-			boxes.add(new RowAtom(opt.separators).createBox(env));
-		}
+            separators.add(a);
+        }
 
-		return boxes;
-	}
+        return this;
+    }
 
-	public ArrayOptions close() {
-		if (!options.isEmpty() && last().isAlignment()) {
-			addSeparator(VlineAtom.getEmpty());
-		}
-		return this;
-	}
+    @Override
+    public String toString() {
+        String s = "";
+        boolean first = true;
+        for (Option o : options) {
+            if (first) {
+                s = o.toString();
+                first = false;
+            } else {
+                s += ", " + o.toString();
+            }
+        }
+        return s + " size:" + options.size();
+    }
 
-	public Option last() {
-		return options.get(options.size() - 1);
-	}
+    public TeXLength getMinWidth(int j) {
+        return options.get(j + 1).getMinWidth();
+    }
 
-	public ArrayOptions complete(final int n) {
-		final int s = options.size();
-		for (int i = 0; i < n - s; ++i) {
-			addAlignment(TeXConstants.Align.CENTER);
-		}
-		return this;
-	}
+    public TeXConstants.Align getVertAlignment(int j) {
+        return options.get(j + 1).getVertAlignment();
+    }
 
-	public TeXConstants.Align getAlignment(final int i) {
-		return options.get(i + 1).getAlignment();
-	}
+    public static final class Option {
 
-	public boolean hasAlignment() {
-		return options.size() >= 1;
-	}
+        private final TeXConstants.Align alignment;
+        private final TeXConstants.Align vertAlignment;
+        private final TeXLength minWidth;
+        private List<Atom> separators;
 
-	public ArrayOptions addAlignment(final TeXConstants.Align alignment) {
-		return addAlignment(alignment, TeXConstants.Align.TOP, null);
-	}
+        Option(final TeXConstants.Align alignment, final TeXConstants.Align vertAlignment,
+               final TeXLength minWidth) {
+            this.alignment = alignment;
+            this.vertAlignment = vertAlignment;
+            this.separators = new ArrayList<>();
+            this.minWidth = minWidth;
+        }
 
-	public ArrayOptions addAlignment(final TeXConstants.Align alignment,
-			TeXConstants.Align vertAlignment, TeXLength minWidth) {
-		if (options.isEmpty() || last().isAlignment()) {
-			addSeparator(VlineAtom.getEmpty());
-		}
-		options.add(new Option(alignment, vertAlignment, minWidth));
-		return this;
-	}
+        public TeXConstants.Align getAlignment() {
+            return alignment;
+        }
 
-	public void addVline(final int n) {
-		addSeparator(new VlineAtom(n));
-	}
+        public boolean isVline() {
+            return separators.size() == 1
+                    && separators.get(0) instanceof VlineAtom;
+        }
 
-	public ArrayOptions addSeparator(final Atom a) {
-		final int s = options.size();
-		if (s == 0) {
-			final Option o = new Option(TeXConstants.Align.INVALID, TeXConstants.Align.TOP, null);
-			o.separators.add(a);
-			options.add(o);
-		} else {
-			final Option lastOption = options.get(s - 1);
-			final List<Atom> separators = lastOption.separators;
+        public boolean isAlignment() {
+            return !isVline();
+        }
 
-			if (!separators.isEmpty()) {
-				Atom lastSeparator = separators.get(separators.size() - 1);
+        public List<Atom> getSeparators() {
+            return separators;
+        }
 
-				if (lastSeparator instanceof VlineAtom && a instanceof VlineAtom) {
-					((VlineAtom) lastSeparator).add(((VlineAtom) a).getNumber());
-					return this;
-				}
-			}
+        @Override
+        public String toString() {
+            String a = "";
+            switch (alignment) {
+                case LEFT:
+                    a = "left";
+                    break;
+                case RIGHT:
+                    a = "right";
+                    break;
+                case CENTER:
+                    a = "center";
+                    break;
+                case NONE:
+                    a = "none";
+                    break;
+                case INVALID:
+                    a = "first";
+                    break;
+            }
 
-			separators.add(a);
-		}
+            a += ":";
+            for (Atom separator : separators) {
+                a += separator.toString();
+            }
 
-		return this;
-	}
+            return a;
+        }
 
-	@Override
-	public String toString() {
-		String s = "";
-		boolean first = true;
-		for (Option o : options) {
-			if (first) {
-				s = o.toString();
-				first = false;
-			} else {
-				s += ", " + o.toString();
-			}
-		}
-		return s + " size:" + options.size();
-	}
+        public TeXLength getMinWidth() {
+            return minWidth;
+        }
 
-	public TeXLength getMinWidth(int j) {
-		return options.get(j + 1).getMinWidth();
-	}
-
-	public TeXConstants.Align getVertAlignment(int j) {
-		return options.get(j + 1).getVertAlignment();
-	}
+        public TeXConstants.Align getVertAlignment() {
+            return vertAlignment;
+        }
+    }
 }

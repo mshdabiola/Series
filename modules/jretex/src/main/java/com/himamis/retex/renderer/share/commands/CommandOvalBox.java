@@ -6,8 +6,8 @@ import com.himamis.retex.renderer.share.TeXParser;
 
 public class CommandOvalBox extends Command1A {
 
-	@Override
-	public Atom newI(TeXParser tp, Atom a) {
-		return new OvalAtom(a);
-	}
+    @Override
+    public Atom newI(TeXParser tp, Atom a) {
+        return new OvalAtom(a);
+    }
 }

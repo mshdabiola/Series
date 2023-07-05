@@ -53,81 +53,76 @@ import com.himamis.retex.renderer.share.platform.graphics.Color;
  */
 public class ColorAtom extends Atom implements Row {
 
-	// background color
-	private final Color background;
+    // RowAtom for which the colorsettings apply
+    protected final RowAtom elements;
+    // background color
+    private final Color background;
+    // foreground color
+    private final Color color;
 
-	// foreground color
-	private final Color color;
+    /**
+     * Creates a new ColorAtom that sets the given colors for the given atom.
+     * Null for a color means: no specific color set for this atom.
+     *
+     * @param atom the atom for which the given colors have to be set
+     * @param bg   the background color
+     * @param c    the foreground color
+     */
+    public ColorAtom(Atom atom, Color bg, Color c) {
+        elements = new RowAtom(atom);
+        background = bg;
+        color = c;
+    }
 
-	// RowAtom for which the colorsettings apply
-	protected final RowAtom elements;
+    @Override
+    public Box createBox(TeXEnvironment env) {
+        env.isColored = true;
+        TeXEnvironment copy = env.copy();
+        if (background != null)
+            copy.setBackground(background);
+        if (color != null)
+            copy.setColor(color);
+        Box box = elements.createBox(copy);
+        box.setAtom(this);
+        return box;
+    }
 
-	/**
-	 * Creates a new ColorAtom that sets the given colors for the given atom.
-	 * Null for a color means: no specific color set for this atom.
-	 *
-	 * @param atom
-	 *            the atom for which the given colors have to be set
-	 * @param bg
-	 *            the background color
-	 * @param c
-	 *            the foreground color
-	 */
-	public ColorAtom(Atom atom, Color bg, Color c) {
-		elements = new RowAtom(atom);
-		background = bg;
-		color = c;
-	}
+    @Override
+    public int getLeftType() {
+        return elements.getLeftType();
+    }
 
-	@Override
-	public Box createBox(TeXEnvironment env) {
-		env.isColored = true;
-		TeXEnvironment copy = env.copy();
-		if (background != null)
-			copy.setBackground(background);
-		if (color != null)
-			copy.setColor(color);
-		Box box = elements.createBox(copy);
-		box.setAtom(this);
-		return box;
-	}
+    @Override
+    public int getRightType() {
+        return elements.getRightType();
+    }
 
-	@Override
-	public int getLeftType() {
-		return elements.getLeftType();
-	}
+    @Override
+    public void setPreviousAtom(Dummy prev) {
+        elements.setPreviousAtom(prev);
+    }
 
-	@Override
-	public int getRightType() {
-		return elements.getRightType();
-	}
+    protected Color getColor() {
+        return color;
+    }
 
-	@Override
-	public void setPreviousAtom(Dummy prev) {
-		elements.setPreviousAtom(prev);
-	}
+    protected Color getBackground() {
+        return background;
+    }
 
-	protected Color getColor() {
-		return color;
-	}
+    protected Color getFg() {
+        return color;
+    }
 
-	protected Color getBackground() {
-		return background;
-	}
+    protected Color getBg() {
+        return background;
+    }
 
-	protected Color getFg() {
-		return color;
-	}
+    public RowAtom getElements() {
+        return elements;
+    }
 
-	protected Color getBg() {
-		return background;
-	}
-
-	public RowAtom getElements() {
-		return elements;
-	}
-
-	public Atom getElement(int i) {
-		return elements.getElement(i);
-	}
+    public Atom getElement(int i) {
+        return elements.getElement(i);
+    }
 }

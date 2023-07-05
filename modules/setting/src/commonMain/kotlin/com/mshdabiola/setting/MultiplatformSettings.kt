@@ -30,5 +30,5 @@ interface MultiplatformSettings {
 
     suspend fun setCurrentExam(currentExam: CurrentExam?)
 
-    suspend fun getCurrentExam() : CurrentExam?
+    suspend fun getCurrentExam(): CurrentExam?
 }

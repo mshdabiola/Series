@@ -5,8 +5,6 @@ import android.content.res.Configuration
 import android.graphics.Canvas
 import android.util.AttributeSet
 import android.view.View
-import androidx.compose.ui.graphics.ImageBitmap
-import androidx.compose.ui.graphics.asAndroidBitmap
 import com.himamis.retex.renderer.android.graphics.ColorA
 import com.himamis.retex.renderer.android.graphics.Graphics2DA
 import com.himamis.retex.renderer.share.TeXConstants
@@ -271,7 +269,7 @@ class LaTeXView : View {
 
     internal inner class TexIconCreatorRunnable : Runnable {
         override fun run() {
-            mFormula?.createBufferedImage()
+
             if (mFormula == null) {
                 mFormula = try {
                     TeXFormula(mLatexText)

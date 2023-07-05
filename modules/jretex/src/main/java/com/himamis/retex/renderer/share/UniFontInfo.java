@@ -53,128 +53,128 @@ import java.util.Map;
  */
 public class UniFontInfo extends FontInfo {
 
-	private final Map<Character, Character> unicode;
+    private final Map<Character, Character> unicode;
 
-	public UniFontInfo(int size, String path, int xHeight, int space,
-			int quad, int skewChar) {
-		super(size, path, xHeight, space, quad, skewChar);
-		this.unicode = new HashMap<>(size);
-	}
+    public UniFontInfo(int size, String path, int xHeight, int space,
+                       int quad, int skewChar) {
+        super(size, path, xHeight, space, quad, skewChar);
+        this.unicode = new HashMap<>(size);
+    }
 
-	@Override
-	public void addKern(final char left, final char right, final double k) {
-		super.addKern(get(left), get(right), k);
-	}
+    @Override
+    public void addKern(final char left, final char right, final double k) {
+        super.addKern(get(left), get(right), k);
+    }
 
-	@Override
-	public double getKern(final char left, final char right,
-			final double factor) {
-		init();
-		if (kern == null) {
-			return 0.;
-		}
-		final char l = unicode.get(left);
-		if (kern[l] == null) {
-			return 0.;
-		}
-		return kern[l][unicode.get(right)] * factor;
-	}
+    @Override
+    public double getKern(final char left, final char right,
+                          final double factor) {
+        init();
+        if (kern == null) {
+            return 0.;
+        }
+        final char l = unicode.get(left);
+        if (kern[l] == null) {
+            return 0.;
+        }
+        return kern[l][unicode.get(right)] * factor;
+    }
 
-	@Override
-	public void addLigature(final char left, final char right,
-			final char ligChar) {
-		super.addLigature(get(left), get(right), ligChar);
-	}
+    @Override
+    public void addLigature(final char left, final char right,
+                            final char ligChar) {
+        super.addLigature(get(left), get(right), ligChar);
+    }
 
-	@Override
-	public CharFont getLigature(final char left, final char right) {
-		init();
-		if (lig == null) {
-			return null;
-		}
-		final char l = unicode.get(left);
-		if (lig[l] == null) {
-			return null;
-		}
-		return lig[l][unicode.get(right)];
-	}
+    @Override
+    public CharFont getLigature(final char left, final char right) {
+        init();
+        if (lig == null) {
+            return null;
+        }
+        final char l = unicode.get(left);
+        if (lig[l] == null) {
+            return null;
+        }
+        return lig[l][unicode.get(right)];
+    }
 
-	@Override
-	public char[] getExtension(final char c) {
-		init();
-		if (extensions == null) {
-			return null;
-		}
-		return extensions[unicode.get(c)];
-	}
+    @Override
+    public char[] getExtension(final char c) {
+        init();
+        if (extensions == null) {
+            return null;
+        }
+        return extensions[unicode.get(c)];
+    }
 
-	@Override
-	public double[] getMetrics(final char c) {
-		init();
-		return metrics[unicode.get(c)];
-	}
+    @Override
+    public double[] getMetrics(final char c) {
+        init();
+        return metrics[unicode.get(c)];
+    }
 
-	@Override
-	public double getWidth(final char c) {
-		init();
-		return metrics[unicode.get(c)][0];
-	}
+    @Override
+    public double getWidth(final char c) {
+        init();
+        return metrics[unicode.get(c)][0];
+    }
 
-	@Override
-	public double getHeight(final char c) {
-		init();
-		return metrics[unicode.get(c)][1];
-	}
+    @Override
+    public double getHeight(final char c) {
+        init();
+        return metrics[unicode.get(c)][1];
+    }
 
-	@Override
-	public double getDepth(final char c) {
-		init();
-		return metrics[unicode.get(c)][2];
-	}
+    @Override
+    public double getDepth(final char c) {
+        init();
+        return metrics[unicode.get(c)][2];
+    }
 
-	@Override
-	public double getItalic(final char c) {
-		init();
-		return metrics[unicode.get(c)][3];
-	}
+    @Override
+    public double getItalic(final char c) {
+        init();
+        return metrics[unicode.get(c)][3];
+    }
 
-	@Override
-	public CharFont getNextLarger(final char c) {
-		init();
-		if (nextLarger == null) {
-			return null;
-		}
-		return nextLarger[unicode.get(c)];
-	}
+    @Override
+    public CharFont getNextLarger(final char c) {
+        init();
+        if (nextLarger == null) {
+            return null;
+        }
+        return nextLarger[unicode.get(c)];
+    }
 
-	@Override
-	public void setExtension(final char c, final char[] ext) {
-		super.setExtension(get(c), ext);
-	}
+    @Override
+    public void setExtension(final char c, final char[] ext) {
+        super.setExtension(get(c), ext);
+    }
 
-	@Override
-	public void setMetrics(final char c, final double[] arr) {
-		super.setMetrics(get(c), arr);
-	}
+    @Override
+    public void setMetrics(final char c, final double[] arr) {
+        super.setMetrics(get(c), arr);
+    }
 
-	@Override
-	public void setNextLarger(final char c, final char larger,
-			final FontInfo fontLarger) {
-		super.setNextLarger(get(c), larger, fontLarger);
-	}
+    @Override
+    public void setNextLarger(final char c, final char larger,
+                              final FontInfo fontLarger) {
+        super.setNextLarger(get(c), larger, fontLarger);
+    }
 
-	@Override
-	public String toString() {
-		return "UniFontInfo: " + path;
-	}
+    @Override
+    public String toString() {
+        return "UniFontInfo: " + path;
+    }
 
-	private char get(final char c) {
-		final Character ch = unicode.get(c);
-		if (ch == null) {
-			final char s = (char) unicode.size();
-			unicode.put(c, s);
-			return s;
-		}
-		return ch.charValue();
-	}
+    private char get(final char c) {
+        final Character ch = unicode.get(c);
+        if (ch == null) {
+            final char s = (char) unicode.size();
+            unicode.put(c, s);
+            return s;
+        }
+        return ch.charValue();
+    }
 }

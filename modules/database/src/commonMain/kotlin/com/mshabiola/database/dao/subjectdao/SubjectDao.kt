@@ -57,8 +57,8 @@ internal class SubjectDao(
     }
 
     override suspend fun deleteAll() {
-        withContext(coroutineDispatcher){
-          subjectQueries  .deleteAll()
+        withContext(coroutineDispatcher) {
+            subjectQueries.deleteAll()
         }
     }
 }

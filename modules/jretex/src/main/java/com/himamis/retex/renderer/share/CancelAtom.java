@@ -53,110 +53,108 @@ import com.himamis.retex.renderer.share.serialize.HasTrueBase;
  */
 public class CancelAtom extends Atom implements HasTrueBase {
 
-	public static enum Type {
-		SLASH, BACKSLASH, X
-	}
+    private static Color cancelColor = null;
+    private final Atom base;
+    private final Type ctype;
+    private final Color color;
+    public CancelAtom(final Atom base, final Type ctype, final Color color) {
+        this.base = base;
+        this.ctype = ctype;
+        this.color = color;
+    }
 
-	private static Color cancelColor = null;
+    public CancelAtom(final Atom base, final Type ctype) {
+        this.base = base;
+        this.ctype = ctype;
+        this.color = cancelColor;
+    }
 
-	private final Atom base;
-	private final Type ctype;
-	private final Color color;
+    public static void handleColor(final TeXParser tp, final String code) {
+        final SingleAtomConsumer sac = new SingleAtomConsumer();
+        tp.addConsumer(sac);
+        tp.addString(code, true);
+        tp.parse();
+        tp.pop();
+        final Atom c = sac.get();
+        if (c instanceof ColorAtom) {
+            final ColorAtom ca = (ColorAtom) c;
+            Color col = ca.getFg();
+            if (col == null) {
+                col = ca.getBg();
+            }
+            cancelColor = col;
+        } else {
+            cancelColor = null;
+        }
+    }
 
-	public CancelAtom(final Atom base, final Type ctype, final Color color) {
-		this.base = base;
-		this.ctype = ctype;
-		this.color = color;
-	}
+    @Override
+    public Box createBox(TeXEnvironment env) {
+        final Box b = base.createBox(env);
+        final double drt = env.getTeXFont()
+                .getDefaultRuleThickness(env.getStyle());
+        final double extra = new TeXLength(Unit.EX, 0.5)
+                .getValue(env);
+        return new CancelBox(b, ctype, drt, extra, color);
+    }
 
-	public CancelAtom(final Atom base, final Type ctype) {
-		this.base = base;
-		this.ctype = ctype;
-		this.color = cancelColor;
-	}
+    @Override
+    public int getLeftType() {
+        return base.getLeftType();
+    }
 
-	@Override
-	public Box createBox(TeXEnvironment env) {
-		final Box b = base.createBox(env);
-		final double drt = env.getTeXFont()
-				.getDefaultRuleThickness(env.getStyle());
-		final double extra = new TeXLength(Unit.EX, 0.5)
-				.getValue(env);
-		return new CancelBox(b, ctype, drt, extra, color);
-	}
+    @Override
+    public int getRightType() {
+        return base.getRightType();
+    }
 
-	public static void handleColor(final TeXParser tp, final String code) {
-		final SingleAtomConsumer sac = new SingleAtomConsumer();
-		tp.addConsumer(sac);
-		tp.addString(code, true);
-		tp.parse();
-		tp.pop();
-		final Atom c = sac.get();
-		if (c instanceof ColorAtom) {
-			final ColorAtom ca = (ColorAtom) c;
-			Color col = ca.getFg();
-			if (col == null) {
-				col = ca.getBg();
-			}
-			cancelColor = col;
-		} else {
-			cancelColor = null;
-		}
-	}
+    @Override
+    public int getLimits() {
+        return base.getLimits();
+    }
 
-	@Override
-	public int getLeftType() {
-		return base.getLeftType();
-	}
+    @Override
+    public double getItalic(TeXEnvironment env) {
+        return base.getItalic(env);
+    }
 
-	@Override
-	public int getRightType() {
-		return base.getRightType();
-	}
+    @Override
+    public double getXHeight(TeXEnvironment env) {
+        return base.getXHeight(env);
+    }
 
-	@Override
-	public int getLimits() {
-		return base.getLimits();
-	}
+    @Override
+    public boolean isMathMode() {
+        return base.isMathMode();
+    }
 
-	@Override
-	public double getItalic(TeXEnvironment env) {
-		return base.getItalic(env);
-	}
+    @Override
+    public void setMathMode(final boolean mathMode) {
+        base.setMathMode(mathMode);
+    }
 
-	@Override
-	public double getXHeight(TeXEnvironment env) {
-		return base.getXHeight(env);
-	}
+    @Override
+    public boolean mustAddItalicCorrection() {
+        return base.mustAddItalicCorrection();
+    }
 
-	@Override
-	public boolean isMathMode() {
-		return base.isMathMode();
-	}
+    @Override
+    public boolean setAddItalicCorrection(boolean b) {
+        return base.setAddItalicCorrection(b);
+    }
 
-	@Override
-	public void setMathMode(final boolean mathMode) {
-		base.setMathMode(mathMode);
-	}
+    @Override
+    public Atom getBase() {
+        return base.getBase();
+    }
 
-	@Override
-	public boolean mustAddItalicCorrection() {
-		return base.mustAddItalicCorrection();
-	}
+    @Override
+    public Atom getTrueBase() {
+        return base;
+    }
 
-	@Override
-	public boolean setAddItalicCorrection(boolean b) {
-		return base.setAddItalicCorrection(b);
-	}
-
-	@Override
-	public Atom getBase() {
-		return base.getBase();
-	}
-
-	@Override
-	public Atom getTrueBase() {
-		return base;
-	}
+    public static enum Type {
+        SLASH, BACKSLASH, X
+    }
 
 }

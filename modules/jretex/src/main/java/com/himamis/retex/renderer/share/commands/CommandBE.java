@@ -45,71 +45,71 @@
 
 package com.himamis.retex.renderer.share.commands;
 
-import java.util.ArrayList;
-
 import com.himamis.retex.renderer.share.Commands;
 import com.himamis.retex.renderer.share.Env;
 import com.himamis.retex.renderer.share.NewEnvironmentMacro;
 import com.himamis.retex.renderer.share.TeXParser;
 import com.himamis.retex.renderer.share.exception.ParseException;
 
+import java.util.ArrayList;
+
 public class CommandBE {
 
-	public static class Begin extends Command {
+    public static class Begin extends Command {
 
-		@Override
-		public boolean init(TeXParser tp) {
-			final String name = tp.getArgAsString();
-			final Command com = (Command) Commands.get("begin@" + name);
-			if (com == null) {
-				final ArrayList<String> args = NewEnvironmentMacro
-						.executeBeginEnv(tp, name);
-				if (args != null) {
-					final Env.Begin beg = new Env.Begin(name, args);
-					tp.addConsumer(beg);
-					return false;
-				}
-				throw new ParseException(tp,
-						"Environment " + name + " doesn't exist");
-			}
-			if (com.init(tp)) {
-				tp.addConsumer(com);
-			}
+        @Override
+        public boolean init(TeXParser tp) {
+            final String name = tp.getArgAsString();
+            final Command com = (Command) Commands.get("begin@" + name);
+            if (com == null) {
+                final ArrayList<String> args = NewEnvironmentMacro
+                        .executeBeginEnv(tp, name);
+                if (args != null) {
+                    final Env.Begin beg = new Env.Begin(name, args);
+                    tp.addConsumer(beg);
+                    return false;
+                }
+                throw new ParseException(tp,
+                        "Environment " + name + " doesn't exist");
+            }
+            if (com.init(tp)) {
+                tp.addConsumer(com);
+            }
 
-			return false;
-		}
+            return false;
+        }
 
-	}
+    }
 
-	public static class End extends Command {
+    public static class End extends Command {
 
-		@Override
-		public boolean init(TeXParser tp) {
-			tp.close();
-			final String name = tp.getArgAsString();
-			final Command com = (Command) Commands.get("end@" + name);
-			if (com == null) {
-				// don't pop here since we must add the end stuff
-				final Env.Begin beg = tp.getBegin();
-				if (beg != null) {
-					if (name.equals(beg.getName())) {
-						NewEnvironmentMacro.executeEndEnv(tp, name,
-								beg.getArgs());
-						tp.closeConsumer(beg.getBase());
-						return false;
-					}
-					tp.pop();
-					throw new ParseException(tp,
-							"Mismatching environments: \\begin{" + beg.getName()
-									+ "} and \\end{" + name + "}");
-				}
+        @Override
+        public boolean init(TeXParser tp) {
+            tp.close();
+            final String name = tp.getArgAsString();
+            final Command com = (Command) Commands.get("end@" + name);
+            if (com == null) {
+                // don't pop here since we must add the end stuff
+                final Env.Begin beg = tp.getBegin();
+                if (beg != null) {
+                    if (name.equals(beg.getName())) {
+                        NewEnvironmentMacro.executeEndEnv(tp, name,
+                                beg.getArgs());
+                        tp.closeConsumer(beg.getBase());
+                        return false;
+                    }
+                    tp.pop();
+                    throw new ParseException(tp,
+                            "Mismatching environments: \\begin{" + beg.getName()
+                                    + "} and \\end{" + name + "}");
+                }
 
-				throw new ParseException(tp,
-						"No matching \\begin{" + name + "}");
-			}
-			com.init(tp);
-			return false;
-		}
+                throw new ParseException(tp,
+                        "No matching \\begin{" + name + "}");
+            }
+            com.init(tp);
+            return false;
+        }
 
-	}
+    }
 }

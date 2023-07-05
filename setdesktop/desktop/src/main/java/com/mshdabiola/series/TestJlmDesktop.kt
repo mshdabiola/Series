@@ -29,7 +29,7 @@ class TestJlmDesktop : JFrame() {
         val panel = JPanel()
         contentPane.add(panel)
 
-      //  contentPane.add(LatexComponent(im))
+        //  contentPane.add(LatexComponent(im))
         setSize(1000, 1000)
     }
 
@@ -68,11 +68,11 @@ fun main() {
             state = windowState,
         ) {
             MaterialTheme {
-                LazyColumn  {
-                    items(40){
+                LazyColumn {
+                    items(40) {
                         Text("name $it")
                     }
-                    item {  LatexComponen() }
+                    item { LatexComponen() }
                     item { Text("abiola") }
 
 
@@ -81,4 +81,5 @@ fun main() {
             }
         }
 
-    }}
+    }
+}

@@ -54,20 +54,20 @@ import com.himamis.retex.renderer.share.xarrows.XHookRightArrow;
  */
 public class XHookAtom extends XAtom {
 
-	private final boolean left;
+    private final boolean left;
 
-	public XHookAtom(Atom over, Atom under, boolean left) {
-		super(over, under);
-		this.left = left;
-	}
+    public XHookAtom(Atom over, Atom under, boolean left) {
+        super(over, under);
+        this.left = left;
+    }
 
-	@Override
-	public Box createExtension(TeXEnvironment env, double width) {
-		if (left) {
-			return new XHookLeftArrow(width);
-		} else {
-			return new XHookRightArrow(width);
-		}
-	}
+    @Override
+    public Box createExtension(TeXEnvironment env, double width) {
+        if (left) {
+            return new XHookLeftArrow(width);
+        } else {
+            return new XHookRightArrow(width);
+        }
+    }
 
 }

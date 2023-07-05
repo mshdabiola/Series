@@ -53,130 +53,126 @@ import com.himamis.retex.renderer.share.serialize.IsAccentedAtom;
  */
 public class AccentedAtom extends Atom implements IsAccentedAtom {
 
-	// accent symbol
-	private final SymbolAtom accent;
+    // base atom
+    protected final Atom base;
+    // accent symbol
+    private final SymbolAtom accent;
+    // extra skew
+    protected double skew = Double.NaN;
 
-	// base atom
-	protected final Atom base;
+    public AccentedAtom(Atom base, SymbolAtom accent) {
+        this.base = base;
+        this.accent = accent;
+    }
 
-	// extra skew
-	protected double skew = Double.NaN;
+    /**
+     * Creates an AccentedAtom from a base atom and an accent symbol defined by
+     * its name
+     *
+     * @param base       base atom
+     * @param accentName name of the accent symbol to be put over the base atom
+     */
+    public AccentedAtom(Atom base, String accentName) {
+        this(base, SymbolAtom.get(accentName));
+    }
 
-	public AccentedAtom(Atom base, SymbolAtom accent) {
-		this.base = base;
-		this.accent = accent;
-	}
+    public void setSkew(final double skew) {
+        this.skew = skew;
+    }
 
-	/**
-	 * Creates an AccentedAtom from a base atom and an accent symbol defined by
-	 * its name
-	 *
-	 * @param base
-	 *            base atom
-	 * @param accentName
-	 *            name of the accent symbol to be put over the base atom
-	 */
-	public AccentedAtom(Atom base, String accentName) {
-		this(base, SymbolAtom.get(accentName));
-	}
+    @Override
+    public Box createBox(TeXEnvironment env) {
+        final TeXFont tf = env.getTeXFont();
+        final int style = env.getStyle();
 
-	public void setSkew(final double skew) {
-		this.skew = skew;
-	}
+        // set base in cramped style and remove italic correction
+        Box b = base.createBox(env.crampStyle());
+        double italic = 0.;
+        if (!mustAddItalicCorrection()) {
+            italic = base.getItalic(env);
+        }
 
-	@Override
-	public Box createBox(TeXEnvironment env) {
-		final TeXFont tf = env.getTeXFont();
-		final int style = env.getStyle();
+        double u = b.getWidth() + italic;
+        double s;
+        final Atom trueBase = getBase();
+        if (trueBase instanceof CharSymbol) {
+            s = tf.getSkew(((CharSymbol) trueBase).getCharFont(tf), style);
+        } else {
+            s = 0.;
+        }
 
-		// set base in cramped style and remove italic correction
-		Box b = base.createBox(env.crampStyle());
-		double italic = 0.;
-		if (!mustAddItalicCorrection()) {
-			italic = base.getItalic(env);
-		}
+        if (!Double.isNaN(skew)) {
+            s = skew * Unit.MU.getFactor(env) - s;
+        }
 
-		double u = b.getWidth() + italic;
-		double s;
-		final Atom trueBase = getBase();
-		if (trueBase instanceof CharSymbol) {
-			s = tf.getSkew(((CharSymbol) trueBase).getCharFont(tf), style);
-		} else {
-			s = 0.;
-		}
+        // TODO: maybe we've a bug here
+        // we take xheight for the accent and not for its extension... wait and
+        // see
+        final double delta = Math.min(b.getHeight(), accent.getXHeight(env));
 
-		if (!Double.isNaN(skew)) {
-			s = skew * Unit.MU.getFactor(env) - s;
-		}
+        // create vertical box
+        VerticalBox vBox = new VerticalBox();
 
-		// TODO: maybe we've a bug here
-		// we take xheight for the accent and not for its extension... wait and
-		// see
-		final double delta = Math.min(b.getHeight(), accent.getXHeight(env));
+        // accent
+        Box y = accent.getNextLarger(env, u);
 
-		// create vertical box
-		VerticalBox vBox = new VerticalBox();
+        // if diff > 0, center accent, otherwise center base
+        y.setShift(s + (u - y.getWidth()) / 2.);
+        y.setWidth(0.);
+        vBox.add(y);
 
-		// accent
-		Box y = accent.getNextLarger(env, u);
+        // kern
+        vBox.add(new StrutBox(0., -delta, 0., 0.));
+        // base
+        vBox.add(b);
 
-		// if diff > 0, center accent, otherwise center base
-		y.setShift(s + (u - y.getWidth()) / 2.);
-		y.setWidth(0.);
-		vBox.add(y);
+        // set height and depth vertical box
+        final double total = vBox.getHeight() + vBox.getDepth();
+        final double d = b.getDepth();
+        vBox.setDepth(d);
+        vBox.setHeight(total - d);
 
-		// kern
-		vBox.add(new StrutBox(0., -delta, 0., 0.));
-		// base
-		vBox.add(b);
+        return vBox.setAtom(this);
+    }
 
-		// set height and depth vertical box
-		final double total = vBox.getHeight() + vBox.getDepth();
-		final double d = b.getDepth();
-		vBox.setDepth(d);
-		vBox.setHeight(total - d);
+    @Override
+    public int getLeftType() {
+        return base.getLeftType();
+    }
 
-		return vBox.setAtom(this);
-	}
+    @Override
+    public int getRightType() {
+        return base.getRightType();
+    }
 
-	@Override
-	public int getLeftType() {
-		return base.getLeftType();
-	}
+    @Override
+    public int getLimits() {
+        return base.getLimits();
+    }
 
-	@Override
-	public int getRightType() {
-		return base.getRightType();
-	}
+    @Override
+    public Atom getBase() {
+        return base.getBase();
+    }
 
-	@Override
-	public int getLimits() {
-		return base.getLimits();
-	}
+    @Override
+    public boolean mustAddItalicCorrection() {
+        return base.mustAddItalicCorrection();
+    }
 
-	@Override
-	public Atom getBase() {
-		return base.getBase();
-	}
+    @Override
+    public boolean setAddItalicCorrection(boolean b) {
+        return base.setAddItalicCorrection(b);
+    }
 
-	@Override
-	public boolean mustAddItalicCorrection() {
-		return base.mustAddItalicCorrection();
-	}
+    @Override
+    public Atom getTrueBase() {
+        return base;
+    }
 
-	@Override
-	public boolean setAddItalicCorrection(boolean b) {
-		return base.setAddItalicCorrection(b);
-	}
-
-	@Override
-	public Atom getTrueBase() {
-		return base;
-	}
-
-	@Override
-	public SymbolAtom getAccent() {
-		return this.accent;
-	}
+    @Override
+    public SymbolAtom getAccent() {
+        return this.accent;
+    }
 
 }

@@ -53,34 +53,34 @@ import com.himamis.retex.renderer.share.platform.graphics.Graphics2DInterface;
  */
 public class StrutBox extends Box {
 
-	public StrutBox() {
-		this(0., 0., 0., 0.);
-	}
+    public StrutBox() {
+        this(0., 0., 0., 0.);
+    }
 
-	public StrutBox(final double w, final double h, final double d,
-			final double s) {
-		width = w;
-		height = h;
-		depth = d;
-		shift = s;
-	}
+    public StrutBox(final double w, final double h, final double d,
+                    final double s) {
+        width = w;
+        height = h;
+        depth = d;
+        shift = s;
+    }
 
-	public static StrutBox getEmpty() {
-		return new StrutBox();
-	}
+    public static StrutBox getEmpty() {
+        return new StrutBox();
+    }
 
-	@Override
-	public void draw(Graphics2DInterface g2, double x, double y) {
-		// no visual effect
-	}
+    @Override
+    public void draw(Graphics2DInterface g2, double x, double y) {
+        // no visual effect
+    }
 
-	@Override
-	public FontInfo getLastFont() {
-		return null;
-	}
+    @Override
+    public FontInfo getLastFont() {
+        return null;
+    }
 
-	@Override
-	public String toString() {
-		return "StrutBox: " + width + ":" + height + ":" + depth + ":" + shift;
-	}
+    @Override
+    public String toString() {
+        return "StrutBox: " + width + ":" + height + ":" + depth + ":" + shift;
+    }
 }

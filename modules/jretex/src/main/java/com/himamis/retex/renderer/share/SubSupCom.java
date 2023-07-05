@@ -49,164 +49,163 @@ import com.himamis.retex.renderer.share.exception.ParseException;
 
 public class SubSupCom implements AtomConsumer {
 
-	private enum State {
-		SUB_WAIT,
+    private Atom base;
+    private Atom sub;
+    private Atom sup;
+    private State state;
+    public SubSupCom(final char c) {
+        state = c == '^' ? State.SUP_WAIT : State.SUB_WAIT;
+    }
 
-		SUP_WAIT,
+    public static Atom get(Atom base, Atom sub, Atom sup) {
+        if (base.getRightType() == TeXConstants.TYPE_BIG_OPERATOR) {
+            return new BigOperatorAtom(base, sub, sup);
+        } else if (base instanceof OverUnderDelimiter) {
+            if (((OverUnderDelimiter) base).isOver()) {
+                if (sup != null) {
+                    ((OverUnderDelimiter) base).addScript(sup);
+                    return new ScriptsAtom(base, sub, null);
+                }
+            } else if (sub != null) {
+                ((OverUnderDelimiter) base).addScript(sub);
+                return new ScriptsAtom(base, null, sup);
+            }
+        }
+        return new ScriptsAtom(base, sub, sup);
+    }
 
-		OK
-	}
+    public static Atom getBase(TeXParser tp) {
+        final Atom a = tp.getLastAtom();
+        if (a != null) {
+            return a;
+        }
+        return MHeightAtom.get();
+    }
 
-	private Atom base;
-	private Atom sub;
-	private Atom sup;
-	private State state;
+    public void setSub(Atom sub) {
+        this.sub = sub;
+    }
 
-	public SubSupCom(final char c) {
-		state = c == '^' ? State.SUP_WAIT : State.SUB_WAIT;
-	}
+    public void setBase(Atom base) {
+        this.base = base;
+    }
 
-	public void setSub(Atom sub) {
-		this.sub = sub;
-	}
+    public void setState(TeXParser tp, final char c) {
+        switch (state) {
+            case SUB_WAIT:
+            case SUP_WAIT:
+                throw new ParseException(tp, "Invalid " + c);
+            case OK:
+                if (c == '^') {
+                    state = State.SUP_WAIT;
+                } else {
+                    state = State.SUB_WAIT;
+                }
+        }
+    }
 
-	public void setBase(Atom base) {
-		this.base = base;
-	}
+    @Override
+    public boolean init(TeXParser tp) {
+        this.base = SubSupCom.getBase(tp);
+        return false;
+    }
 
-	public void setState(TeXParser tp, final char c) {
-		switch (state) {
-		case SUB_WAIT:
-		case SUP_WAIT:
-			throw new ParseException(tp, "Invalid " + c);
-		case OK:
-			if (c == '^') {
-				state = State.SUP_WAIT;
-			} else {
-				state = State.SUB_WAIT;
-			}
-		}
-	}
+    @Override
+    public void add(TeXParser tp, Atom a) {
+        switch (state) {
+            case SUB_WAIT:
+                addToSub(a);
+                state = State.OK;
+                break;
+            case SUP_WAIT:
+                addToSup(a);
+                state = State.OK;
+                break;
+            case OK:
+                tp.closeConsumer(get());
+                tp.addToConsumer(a);
+                break;
+        }
+    }
 
-	@Override
-	public boolean init(TeXParser tp) {
-		this.base = SubSupCom.getBase(tp);
-		return false;
-	}
+    private void addToSup(Atom a) {
+        if (sup != null) {
+            if (sup instanceof RowAtom) {
+                ((RowAtom) sup).add(a);
+            } else {
+                sup = new RowAtom(sup, a);
+            }
+        } else {
+            sup = a;
+        }
+    }
 
-	@Override
-	public void add(TeXParser tp, Atom a) {
-		switch (state) {
-		case SUB_WAIT:
-			addToSub(a);
-			state = State.OK;
-			break;
-		case SUP_WAIT:
-			addToSup(a);
-			state = State.OK;
-			break;
-		case OK:
-			tp.closeConsumer(get());
-			tp.addToConsumer(a);
-			break;
-		}
-	}
+    private void addToSub(Atom a) {
+        if (sub != null) {
+            if (sub instanceof RowAtom) {
+                ((RowAtom) sub).add(a);
+            } else {
+                sub = new RowAtom(sub, a);
+            }
+        } else {
+            sub = a;
+        }
+    }
 
-	private void addToSup(Atom a) {
-		if (sup != null) {
-			if (sup instanceof RowAtom) {
-				((RowAtom) sup).add(a);
-			} else {
-				sup = new RowAtom(sup, a);
-			}
-		} else {
-			sup = a;
-		}
-	}
+    @Override
+    public Atom getLastAtom() {
+        return null;
+    }
 
-	private void addToSub(Atom a) {
-		if (sub != null) {
-			if (sub instanceof RowAtom) {
-				((RowAtom) sub).add(a);
-			} else {
-				sub = new RowAtom(sub, a);
-			}
-		} else {
-			sub = a;
-		}
-	}
+    @Override
+    public boolean close(TeXParser tp) {
+        tp.closeConsumer(get());
+        return true;
+    }
 
-	@Override
-	public Atom getLastAtom() {
-		return null;
-	}
+    @Override
+    public boolean isClosable() {
+        return true;
+    }
 
-	@Override
-	public boolean close(TeXParser tp) {
-		tp.closeConsumer(get());
-		return true;
-	}
+    @Override
+    public RowAtom steal(TeXParser tp) {
+        close(tp);
+        return tp.steal();
+    }
 
-	@Override
-	public boolean isClosable() {
-		return true;
-	}
+    @Override
+    public boolean isArray() {
+        return false;
+    }
 
-	@Override
-	public RowAtom steal(TeXParser tp) {
-		close(tp);
-		return tp.steal();
-	}
+    @Override
+    public boolean isAmpersandAllowed() {
+        return false;
+    }
 
-	@Override
-	public boolean isArray() {
-		return false;
-	}
+    @Override
+    public boolean isHandlingArg() {
+        return false;
+    }
 
-	@Override
-	public boolean isAmpersandAllowed() {
-		return false;
-	}
+    @Override
+    public void lbrace(TeXParser tp) {
+    }
 
-	@Override
-	public boolean isHandlingArg() {
-		return false;
-	}
+    @Override
+    public void rbrace(TeXParser tp) {
+    }
 
-	@Override
-	public void lbrace(TeXParser tp) {
-	}
+    private Atom get() {
+        return SubSupCom.get(base, sub, sup);
+    }
 
-	@Override
-	public void rbrace(TeXParser tp) {
-	}
+    private enum State {
+        SUB_WAIT,
 
-	public static Atom get(Atom base, Atom sub, Atom sup) {
-		if (base.getRightType() == TeXConstants.TYPE_BIG_OPERATOR) {
-			return new BigOperatorAtom(base, sub, sup);
-		} else if (base instanceof OverUnderDelimiter) {
-			if (((OverUnderDelimiter) base).isOver()) {
-				if (sup != null) {
-					((OverUnderDelimiter) base).addScript(sup);
-					return new ScriptsAtom(base, sub, null);
-				}
-			} else if (sub != null) {
-				((OverUnderDelimiter) base).addScript(sub);
-				return new ScriptsAtom(base, null, sup);
-			}
-		}
-		return new ScriptsAtom(base, sub, sup);
-	}
+        SUP_WAIT,
 
-	public static Atom getBase(TeXParser tp) {
-		final Atom a = tp.getLastAtom();
-		if (a != null) {
-			return a;
-		}
-		return MHeightAtom.get();
-	}
-
-	private Atom get() {
-		return SubSupCom.get(base, sub, sup);
-	}
+        OK
+    }
 }

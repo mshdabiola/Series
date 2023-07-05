@@ -9,8 +9,6 @@ import android.media.RingtoneManager
 import android.os.Build
 import android.util.Log
 import androidx.core.app.NotificationCompat
-import androidx.work.OneTimeWorkRequest
-import androidx.work.WorkManager
 import androidx.work.Worker
 import androidx.work.WorkerParameters
 import com.google.firebase.messaging.FirebaseMessagingService
@@ -41,7 +39,7 @@ class MessageService : FirebaseMessagingService() {
 
         // Check if message contains a notification payload.
         remoteMessage.notification?.let {
-           sendNotification(it)
+            sendNotification(it)
 
         }
 
@@ -78,8 +76,8 @@ class MessageService : FirebaseMessagingService() {
         // [END dispatch_job]
     }
 
-    private fun handleNow(title:String,body:String) {
-      // sendNotification(title = title, messageBody = body)
+    private fun handleNow(title: String, body: String) {
+        // sendNotification(title = title, messageBody = body)
     }
 
     private fun sendRegistrationToServer(token: String?) {
@@ -108,7 +106,8 @@ class MessageService : FirebaseMessagingService() {
             .setSound(defaultSoundUri)
             .setContentIntent(pendingIntent)
 
-        val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        val notificationManager =
+            getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
         // Since android Oreo notification channel is needed.
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -128,7 +127,8 @@ class MessageService : FirebaseMessagingService() {
         private const val TAG = "MyFirebaseMsgService"
     }
 
-    internal class MyWorker(appContext: Context, workerParams: WorkerParameters) : Worker(appContext, workerParams) {
+    internal class MyWorker(appContext: Context, workerParams: WorkerParameters) :
+        Worker(appContext, workerParams) {
         override fun doWork(): Result {
             // TODO(developer): add long running task here.
             return Result.success()

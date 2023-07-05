@@ -50,30 +50,30 @@ package com.himamis.retex.renderer.share;
  */
 public class HlineAtom extends Atom {
 
-	private double width;
-	private double shift;
+    private double width;
+    private double shift;
 
-	public HlineAtom() {
-	}
+    public HlineAtom() {
+    }
 
-	public HlineAtom(double width, double shift) {
-		this.width = width;
-		this.shift = shift;
-	}
+    public HlineAtom(double width, double shift) {
+        this.width = width;
+        this.shift = shift;
+    }
 
-	public void setWidth(double width) {
-		this.width = width;
-	}
+    public void setWidth(double width) {
+        this.width = width;
+    }
 
-	public void setShift(double shift) {
-		this.shift = shift;
-	}
+    public void setShift(double shift) {
+        this.shift = shift;
+    }
 
-	@Override
-	public Box createBox(TeXEnvironment env) {
-		final double drt = env.getTeXFont()
-				.getDefaultRuleThickness(env.getStyle());
-		return new HlineBox(drt);
-	}
+    @Override
+    public Box createBox(TeXEnvironment env) {
+        final double drt = env.getTeXFont()
+                .getDefaultRuleThickness(env.getStyle());
+        return new HlineBox(drt);
+    }
 
 }

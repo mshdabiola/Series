@@ -34,7 +34,8 @@ internal actual fun OptionsUiPreview() {
     OptionsUi(
         optionUiStates = listOf(
             OptionUiState(
-                id = 1, nos = 1, content = listOf(
+                id = 1, nos = 1,
+                content = listOf(
                     ItemUiState(
                         content = "Isabelle"
                     )
@@ -42,7 +43,8 @@ internal actual fun OptionsUiPreview() {
                 isAnswer = false,
             ),
             OptionUiState(
-                id = 2, nos = 2, content = listOf(
+                id = 2, nos = 2,
+                content = listOf(
                     ItemUiState(
                         content = "Isabelle"
                     )
@@ -50,7 +52,8 @@ internal actual fun OptionsUiPreview() {
                 isAnswer = true,
             ),
             OptionUiState(
-                id = 3, nos = 3, content = listOf(
+                id = 3, nos = 3,
+                content = listOf(
                     ItemUiState(
                         content = "Isabelle"
                     )
@@ -58,7 +61,8 @@ internal actual fun OptionsUiPreview() {
                 isAnswer = true,
             ),
             OptionUiState(
-                id = 4, nos = 4, content = listOf(
+                id = 4, nos = 4,
+                content = listOf(
                     ItemUiState(
                         content = "Isabelle",
                     )

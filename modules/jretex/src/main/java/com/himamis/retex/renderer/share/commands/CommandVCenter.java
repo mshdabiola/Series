@@ -6,9 +6,9 @@ import com.himamis.retex.renderer.share.VCenteredAtom;
 
 public class CommandVCenter extends Command1A {
 
-	@Override
-	public Atom newI(TeXParser tp, Atom a) {
-		return new VCenteredAtom(a);
-	}
+    @Override
+    public Atom newI(TeXParser tp, Atom a) {
+        return new VCenteredAtom(a);
+    }
 
 }

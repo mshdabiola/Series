@@ -129,9 +129,8 @@ fun MainScreen(
                                 },
                                 text = { Text("Delete") },
                                 onClick = {
-                                   
-                                })
 
+                                })
 
 
                         }

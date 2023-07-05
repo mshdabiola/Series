@@ -8,6 +8,7 @@ import android.graphics.Paint
 import android.graphics.PathEffect
 import android.graphics.RectF
 import android.view.View
+import androidx.compose.ui.graphics.asAndroidBitmap
 import com.himamis.retex.renderer.android.font.FontA
 import com.himamis.retex.renderer.android.font.FontRenderContextA
 import com.himamis.retex.renderer.android.geom.Line2DA
@@ -253,7 +254,7 @@ class Graphics2DA() : Graphics2DInterface {
         val imageA = image as ImageA
         val bitmap = imageA.bitmap
         mCanvas!!.drawBitmap(
-            mScaleStack.scaleBitmap(bitmap),
+            mScaleStack.scaleBitmap(bitmap.asAndroidBitmap()),
             mScaleStack.scaleX(x.toFloat()),
             mScaleStack.scaleY(y.toFloat()),
             mDrawPaint
@@ -263,7 +264,11 @@ class Graphics2DA() : Graphics2DInterface {
     override fun drawImage(image: Image, transform: Transform) {
         val imageA = image as ImageA
         val bitmap = imageA.bitmap
-        mCanvas!!.drawBitmap(mScaleStack.scaleBitmap(bitmap), (transform as Matrix), mDrawPaint)
+        mCanvas!!.drawBitmap(
+            mScaleStack.scaleBitmap(bitmap.asAndroidBitmap()),
+            (transform as Matrix),
+            mDrawPaint
+        )
     }
 
     override fun getFontRenderContext(): FontRenderContext {

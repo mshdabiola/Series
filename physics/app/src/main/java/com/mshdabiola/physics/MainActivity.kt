@@ -16,7 +16,6 @@ import com.arkivanov.decompose.defaultComponentContext
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.FirebaseMessaging
-import com.google.firebase.messaging.ktx.messaging
 import com.google.firebase.remoteconfig.ktx.remoteConfig
 import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
 import com.mshdabiola.navigation.RootComponent
@@ -29,9 +28,9 @@ class MainActivity : ComponentActivity() {
     @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3WindowSizeClassApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val remoteConfig=Firebase.remoteConfig
+        val remoteConfig = Firebase.remoteConfig
         remoteConfig.setConfigSettingsAsync(remoteConfigSettings {
-            minimumFetchIntervalInSeconds=3600
+            minimumFetchIntervalInSeconds = 3600
         })
         remoteConfig.setDefaultsAsync(R.xml.remote_config_defaults)
 //        remoteConfig.fetchAndActivate()
@@ -82,17 +81,17 @@ class MainActivity : ComponentActivity() {
         })
 
         var show: Boolean by mutableStateOf(true)
-       val splashScreen= installSplashScreen()
-          Saver
+        val splashScreen = installSplashScreen()
+        Saver
             .getWorkLiveData()
-            .observe(this){
+            .observe(this) {
                 Timber.e(it.toString())
-                val work=it.getOrNull(0)
-                show=work?.state== WorkInfo.State.RUNNING
+                val work = it.getOrNull(0)
+                show = work?.state == WorkInfo.State.RUNNING
 
             }
 
-        splashScreen.setKeepOnScreenCondition{
+        splashScreen.setKeepOnScreenCondition {
             show
         }
 

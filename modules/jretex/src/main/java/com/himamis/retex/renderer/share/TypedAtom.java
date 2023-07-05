@@ -51,60 +51,60 @@ package com.himamis.retex.renderer.share;
  */
 public class TypedAtom extends Atom {
 
-	// new lefttype and righttype
-	private final int leftType;
-	private final int rightType;
+    // new lefttype and righttype
+    private final int leftType;
+    private final int rightType;
 
-	// atom for which new types are set
-	private final Atom base;
+    // atom for which new types are set
+    private final Atom base;
 
-	public TypedAtom(int leftType, int rightType, Atom atom) {
-		this.leftType = leftType;
-		this.rightType = rightType;
-		this.base = atom;
-	}
+    public TypedAtom(int leftType, int rightType, Atom atom) {
+        this.leftType = leftType;
+        this.rightType = rightType;
+        this.base = atom;
+    }
 
-	public TypedAtom(int lrType, Atom atom) {
-		this(lrType, lrType, atom);
-	}
+    public TypedAtom(int lrType, Atom atom) {
+        this(lrType, lrType, atom);
+    }
 
-	@Override
-	public Box createBox(TeXEnvironment env) {
-		return base.createBox(env);
-	}
+    @Override
+    public Box createBox(TeXEnvironment env) {
+        return base.createBox(env);
+    }
 
-	@Override
-	public int getLeftType() {
-		return leftType;
-	}
+    @Override
+    public int getLeftType() {
+        return leftType;
+    }
 
-	@Override
-	public int getRightType() {
-		return rightType;
-	}
+    @Override
+    public int getRightType() {
+        return rightType;
+    }
 
-	@Override
-	public boolean isMathMode() {
-		return base.isMathMode();
-	}
+    @Override
+    public boolean isMathMode() {
+        return base.isMathMode();
+    }
 
-	@Override
-	public void setMathMode(final boolean mathMode) {
-		base.setMathMode(mathMode);
-	}
+    @Override
+    public void setMathMode(final boolean mathMode) {
+        base.setMathMode(mathMode);
+    }
 
-	@Override
-	public boolean mustAddItalicCorrection() {
-		return base.mustAddItalicCorrection();
-	}
+    @Override
+    public boolean mustAddItalicCorrection() {
+        return base.mustAddItalicCorrection();
+    }
 
-	@Override
-	public boolean setAddItalicCorrection(boolean b) {
-		return base.setAddItalicCorrection(b);
-	}
+    @Override
+    public boolean setAddItalicCorrection(boolean b) {
+        return base.setAddItalicCorrection(b);
+    }
 
-	@Override
-	public Atom getBase() {
-		return base.getBase();
-	}
+    @Override
+    public Atom getBase() {
+        return base.getBase();
+    }
 }

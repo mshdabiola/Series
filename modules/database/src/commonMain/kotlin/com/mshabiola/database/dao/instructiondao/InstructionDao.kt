@@ -60,7 +60,7 @@ internal class InstructionDao(
     }
 
     override suspend fun deleteAll() {
-        withContext(coroutineDispatcher){
+        withContext(coroutineDispatcher) {
             instructionQueries.deleteAll()
         }
     }

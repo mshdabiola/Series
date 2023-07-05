@@ -45,89 +45,89 @@
 
 package com.himamis.retex.renderer.share;
 
-import java.util.Map;
-
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
 import com.himamis.retex.renderer.share.platform.graphics.Image;
 import com.himamis.retex.renderer.share.platform.graphics.RenderingHints;
+
+import java.util.Map;
 
 /**
  * An atom representing an atom containing a graphic.
  */
 public class GraphicsAtom extends Atom {
 
-	private Image bimage;
-	private Atom base;
-	private boolean first = true;
-	private int interp = -1;
+    private Image bimage;
+    private Atom base;
+    private boolean first = true;
+    private int interp = -1;
 
-	public GraphicsAtom(final String path, final Map<String, String> option) {
-		bimage = FactoryProvider.getInstance().getGraphicsFactory()
-				.createImage(path);
-		buildAtom(option);
-	}
+    public GraphicsAtom(final String path, final Map<String, String> option) {
+        bimage = FactoryProvider.getInstance().getGraphicsFactory()
+                .createImage(path);
+        buildAtom(option);
+    }
 
-	protected void buildAtom(final Map<String, String> options) {
-		base = this;
-		final boolean hasWidth = options.containsKey("width");
-		final boolean hasHeight = options.containsKey("height");
-		if (hasWidth || hasHeight) {
-			TeXLength width = null;
-			TeXLength height = null;
-			final TeXParser tp = new TeXParser();
-			if (hasWidth) {
-				tp.setParseString(options.get("width"));
-				width = tp.getLength();
-			}
-			if (hasHeight) {
-				tp.setParseString(options.get("height"));
-				height = tp.getLength();
-			}
+    protected void buildAtom(final Map<String, String> options) {
+        base = this;
+        final boolean hasWidth = options.containsKey("width");
+        final boolean hasHeight = options.containsKey("height");
+        if (hasWidth || hasHeight) {
+            TeXLength width = null;
+            TeXLength height = null;
+            final TeXParser tp = new TeXParser();
+            if (hasWidth) {
+                tp.setParseString(options.get("width"));
+                width = tp.getLength();
+            }
+            if (hasHeight) {
+                tp.setParseString(options.get("height"));
+                height = tp.getLength();
+            }
 
-			base = new ResizeAtom(base, width, height,
-					options.containsKey("keepaspectratio"));
-		}
-		if (options.containsKey("scale")) {
-			final double scl = Double.parseDouble(options.get("scale"));
-			if (!Double.isNaN(scl)) {
-				base = new ScaleAtom(base, scl, scl);
-			}
-		}
-		if (options.containsKey("angle")) {
-			final double angle = Double.parseDouble(options.get("angle"));
-			if (!Double.isNaN(angle)) {
-				base = new RotateAtom(base, angle, options);
-			}
-		}
-		if (options.containsKey("interpolation")) {
-			final String meth = options.get("interpolation");
-			if (meth.equalsIgnoreCase("bilinear")) {
-				interp = RenderingHints.VALUE_INTERPOLATION_BILINEAR;
-			} else if (meth.equalsIgnoreCase("bicubic")) {
-				interp = RenderingHints.VALUE_INTERPOLATION_BICUBIC;
-			} else if (meth.equalsIgnoreCase("nearest_neighbor")) {
-				interp = RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR;
-			}
-		}
-	}
+            base = new ResizeAtom(base, width, height,
+                    options.containsKey("keepaspectratio"));
+        }
+        if (options.containsKey("scale")) {
+            final double scl = Double.parseDouble(options.get("scale"));
+            if (!Double.isNaN(scl)) {
+                base = new ScaleAtom(base, scl, scl);
+            }
+        }
+        if (options.containsKey("angle")) {
+            final double angle = Double.parseDouble(options.get("angle"));
+            if (!Double.isNaN(angle)) {
+                base = new RotateAtom(base, angle, options);
+            }
+        }
+        if (options.containsKey("interpolation")) {
+            final String meth = options.get("interpolation");
+            if (meth.equalsIgnoreCase("bilinear")) {
+                interp = RenderingHints.VALUE_INTERPOLATION_BILINEAR;
+            } else if (meth.equalsIgnoreCase("bicubic")) {
+                interp = RenderingHints.VALUE_INTERPOLATION_BICUBIC;
+            } else if (meth.equalsIgnoreCase("nearest_neighbor")) {
+                interp = RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR;
+            }
+        }
+    }
 
-	@Override
-	public Box createBox(TeXEnvironment env) {
-		if (bimage != null) {
-			if (first) {
-				first = false;
-				return base.createBox(env);
-			}
-			env.isColored = true;
-			final double width = bimage.getWidth()
-					* Unit.PIXEL.getFactor(env);
-			final double height = bimage.getHeight()
-					* Unit.PIXEL.getFactor(env);
-			return new GraphicsBox(bimage, width, height, env.getSize(),
-					interp);
-		}
+    @Override
+    public Box createBox(TeXEnvironment env) {
+        if (bimage != null) {
+            if (first) {
+                first = false;
+                return base.createBox(env);
+            }
+            env.isColored = true;
+            final double width = bimage.getWidth()
+                    * Unit.PIXEL.getFactor(env);
+            final double height = bimage.getHeight()
+                    * Unit.PIXEL.getFactor(env);
+            return new GraphicsBox(bimage, width, height, env.getSize(),
+                    interp);
+        }
 
-		return TeXParser.getAtomForLatinStr("No such image file", false)
-				.createBox(env);
-	}
+        return TeXParser.getAtomForLatinStr("No such image file", false)
+                .createBox(env);
+    }
 }

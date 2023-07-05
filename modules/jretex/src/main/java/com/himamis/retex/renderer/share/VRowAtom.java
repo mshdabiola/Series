@@ -48,166 +48,166 @@
 
 package com.himamis.retex.renderer.share;
 
+import com.himamis.retex.renderer.share.TeXConstants.Align;
+import com.himamis.retex.renderer.share.serialize.HasElements;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
-
-import com.himamis.retex.renderer.share.TeXConstants.Align;
-import com.himamis.retex.renderer.share.serialize.HasElements;
 
 /**
  * An atom representing a vertical row of other atoms.
  */
 public class VRowAtom extends Atom implements HasElements {
 
-	// atoms to be displayed horizontally next to eachother
-	protected List<Atom> elements;
-	private SpaceAtom raise = new SpaceAtom(Unit.EX, 0, 0, 0);
-	protected boolean addInterline = false;
-	protected boolean vtop = false;
-	protected Align halign = Align.NONE;
+    // atoms to be displayed horizontally next to eachother
+    protected List<Atom> elements;
+    protected boolean addInterline = false;
+    protected boolean vtop = false;
+    protected Align halign = Align.NONE;
+    private SpaceAtom raise = new SpaceAtom(Unit.EX, 0, 0, 0);
 
-	private VRowAtom(List<Atom> elements, SpaceAtom raise, boolean addInterline,
-			boolean vtop, Align halign) {
-		this.elements = elements;
-		this.raise = raise;
-		this.addInterline = addInterline;
-		this.vtop = vtop;
-		this.halign = halign;
-	}
+    private VRowAtom(List<Atom> elements, SpaceAtom raise, boolean addInterline,
+                     boolean vtop, Align halign) {
+        this.elements = elements;
+        this.raise = raise;
+        this.addInterline = addInterline;
+        this.vtop = vtop;
+        this.halign = halign;
+    }
 
-	public VRowAtom() {
-		this.elements = new ArrayList<Atom>();
-	}
+    public VRowAtom() {
+        this.elements = new ArrayList<Atom>();
+    }
 
-	public VRowAtom(Atom el) {
-		if (el == null) {
-			this.elements = new ArrayList<Atom>();
-		} else {
-			if (el instanceof VRowAtom) {
-				this.elements = new ArrayList<Atom>(
-						((VRowAtom) el).elements.size());
-				// no need to make an mrow the only element of an mrow
-				elements.addAll(((VRowAtom) el).elements);
-			} else {
-				this.elements = new ArrayList<Atom>();
-				elements.add(el);
-			}
-		}
-	}
+    public VRowAtom(Atom el) {
+        if (el == null) {
+            this.elements = new ArrayList<Atom>();
+        } else {
+            if (el instanceof VRowAtom) {
+                this.elements = new ArrayList<Atom>(
+                        ((VRowAtom) el).elements.size());
+                // no need to make an mrow the only element of an mrow
+                elements.addAll(((VRowAtom) el).elements);
+            } else {
+                this.elements = new ArrayList<Atom>();
+                elements.add(el);
+            }
+        }
+    }
 
-	public VRowAtom(Atom... atoms) {
-		this.elements = new ArrayList<Atom>(atoms.length);
-		for (Atom a : atoms) {
-			elements.add(a);
-		}
-	}
+    public VRowAtom(Atom... atoms) {
+        this.elements = new ArrayList<Atom>(atoms.length);
+        for (Atom a : atoms) {
+            elements.add(a);
+        }
+    }
 
-	public VRowAtom(ArrayList<Atom> atoms) {
-		this.elements = atoms;
-	}
+    public VRowAtom(ArrayList<Atom> atoms) {
+        this.elements = atoms;
+    }
 
-	public void setAddInterline(boolean addInterline) {
-		this.addInterline = addInterline;
-	}
+    public boolean getAddInterline() {
+        return this.addInterline;
+    }
 
-	public boolean getAddInterline() {
-		return this.addInterline;
-	}
+    public void setAddInterline(boolean addInterline) {
+        this.addInterline = addInterline;
+    }
 
-	public void setHalign(Align halign) {
-		this.halign = halign;
-	}
+    public Align getHalign() {
+        return halign;
+    }
 
-	public Align getHalign() {
-		return halign;
-	}
+    public void setHalign(Align halign) {
+        this.halign = halign;
+    }
 
-	public void setVtop(boolean vtop) {
-		this.vtop = vtop;
-	}
+    public boolean getVtop() {
+        return vtop;
+    }
 
-	public boolean getVtop() {
-		return vtop;
-	}
+    public void setVtop(boolean vtop) {
+        this.vtop = vtop;
+    }
 
-	public void setRaise(Unit unit, double r) {
-		raise = new SpaceAtom(unit, r, 0, 0);
-	}
+    public void setRaise(Unit unit, double r) {
+        raise = new SpaceAtom(unit, r, 0, 0);
+    }
 
-	public Atom getLastAtom() {
-		final int s = elements.size();
-		if (s != 0) {
-			return elements.remove(s - 1);
-		}
+    public Atom getLastAtom() {
+        final int s = elements.size();
+        if (s != 0) {
+            return elements.remove(s - 1);
+        }
 
-		return EmptyAtom.get();
-	}
+        return EmptyAtom.get();
+    }
 
-	public final void add(Atom el) {
-		if (el != null) {
-			elements.add(0, el);
-		}
-	}
+    public final void add(Atom el) {
+        if (el != null) {
+            elements.add(0, el);
+        }
+    }
 
-	public final void append(Atom el) {
-		if (el != null) {
-			elements.add(el);
-		}
-	}
+    public final void append(Atom el) {
+        if (el != null) {
+            elements.add(el);
+        }
+    }
 
-	@Override
-	public Box createBox(TeXEnvironment env) {
-		VerticalBox vb = new VerticalBox();
-		Box interline = new StrutBox(0.,
-				env.lengthSettings().getLength("baselineskip", env), 0., 0.);
-		if (halign != Align.NONE) {
-			double maxWidth = -Double.POSITIVE_INFINITY;
-			ArrayList<Box> boxes = new ArrayList<>();
-			for (ListIterator it = elements.listIterator(); it.hasNext();) {
-				Box b = ((Atom) it.next()).createBox(env);
-				boxes.add(b);
-				if (maxWidth < b.getWidth()) {
-					maxWidth = b.getWidth();
-				}
-			}
+    @Override
+    public Box createBox(TeXEnvironment env) {
+        VerticalBox vb = new VerticalBox();
+        Box interline = new StrutBox(0.,
+                env.lengthSettings().getLength("baselineskip", env), 0., 0.);
+        if (halign != Align.NONE) {
+            double maxWidth = -Double.POSITIVE_INFINITY;
+            ArrayList<Box> boxes = new ArrayList<>();
+            for (ListIterator it = elements.listIterator(); it.hasNext(); ) {
+                Box b = ((Atom) it.next()).createBox(env);
+                boxes.add(b);
+                if (maxWidth < b.getWidth()) {
+                    maxWidth = b.getWidth();
+                }
+            }
 
-			// convert atoms to boxes and add to the horizontal box
-			for (ListIterator it = boxes.listIterator(); it.hasNext();) {
-				Box b = (Box) it.next();
-				vb.add(new HorizontalBox(b, maxWidth, halign));
-				if (addInterline && it.hasNext()) {
-					vb.add(interline);
-				}
-			}
-		} else {
-			// convert atoms to boxes and add to the horizontal box
-			for (ListIterator it = elements.listIterator(); it.hasNext();) {
-				vb.add(((Atom) it.next()).createBox(env));
-				if (addInterline && it.hasNext()) {
-					vb.add(interline);
-				}
-			}
-		}
+            // convert atoms to boxes and add to the horizontal box
+            for (ListIterator it = boxes.listIterator(); it.hasNext(); ) {
+                Box b = (Box) it.next();
+                vb.add(new HorizontalBox(b, maxWidth, halign));
+                if (addInterline && it.hasNext()) {
+                    vb.add(interline);
+                }
+            }
+        } else {
+            // convert atoms to boxes and add to the horizontal box
+            for (ListIterator it = elements.listIterator(); it.hasNext(); ) {
+                vb.add(((Atom) it.next()).createBox(env));
+                if (addInterline && it.hasNext()) {
+                    vb.add(interline);
+                }
+            }
+        }
 
-		vb.setShift(-raise.createBox(env).getWidth());
-		if (vtop) {
-			final double t = vb.getSize() == 0 ? 0
-					: vb.children.get(0).getHeight();
-			vb.setHeight(t);
-			vb.setDepth(vb.getDepth() + vb.getHeight() - t);
-		} else {
-			final int s = vb.children.size();
-			final double t = vb.getSize() == 0 ? 0
-					: vb.children.get(s - 1).getDepth();
-			vb.setHeight(vb.getDepth() + vb.getHeight() - t);
-			vb.setDepth(t);
-		}
+        vb.setShift(-raise.createBox(env).getWidth());
+        if (vtop) {
+            final double t = vb.getSize() == 0 ? 0
+                    : vb.children.get(0).getHeight();
+            vb.setHeight(t);
+            vb.setDepth(vb.getDepth() + vb.getHeight() - t);
+        } else {
+            final int s = vb.children.size();
+            final double t = vb.getSize() == 0 ? 0
+                    : vb.children.get(s - 1).getDepth();
+            vb.setHeight(vb.getDepth() + vb.getHeight() - t);
+            vb.setDepth(t);
+        }
 
-		return vb;
-	}
+        return vb;
+    }
 
-	public Atom getElement(int index) {
-		return index < elements.size() ? elements.get(index) : null;
-	}
+    public Atom getElement(int index) {
+        return index < elements.size() ? elements.get(index) : null;
+    }
 }

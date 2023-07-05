@@ -6,7 +6,7 @@ object Keys {
     const val questionKey = "questionList"
     const val setting = "dummy"
     const val instructionKey = "instructionlist"
-    const val currentExamKey="currentExam"
+    const val currentExamKey = "currentExam"
 
 
     object Defaults {

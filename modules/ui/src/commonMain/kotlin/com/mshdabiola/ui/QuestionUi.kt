@@ -25,7 +25,7 @@ fun QuestionUi(
     questionUiState: QuestionUiState,
     generalPath: String,
     showAnswer: Boolean = false,
-    selectedOption:Int=-1,
+    selectedOption: Int = -1,
     onInstruction: () -> Unit = {},
     onOptionClick: (Int) -> Unit = {}
 ) {
@@ -45,7 +45,7 @@ fun QuestionUi(
             optionUiStates = questionUiState.options,
             generalPath = generalPath,
             showAnswer = showAnswer,
-            selectedOption=selectedOption,
+            selectedOption = selectedOption,
             onClick = onOptionClick
         )
 

@@ -24,23 +24,23 @@
  * Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
  * 02110-1301, USA.
  *
- * Linking this library statically or dynamically with other modules 
- * is making a combined work based on this library. Thus, the terms 
- * and conditions of the GNU General Public License cover the whole 
+ * Linking this library statically or dynamically with other modules
+ * is making a combined work based on this library. Thus, the terms
+ * and conditions of the GNU General Public License cover the whole
  * combination.
- * 
- * As a special exception, the copyright holders of this library give you 
- * permission to link this library with independent modules to produce 
- * an executable, regardless of the license terms of these independent 
- * modules, and to copy and distribute the resulting executable under terms 
- * of your choice, provided that you also meet, for each linked independent 
- * module, the terms and conditions of the license of that module. 
- * An independent module is a module which is not derived from or based 
- * on this library. If you modify this library, you may extend this exception 
- * to your version of the library, but you are not obliged to do so. 
- * If you do not wish to do so, delete this exception statement from your 
+ *
+ * As a special exception, the copyright holders of this library give you
+ * permission to link this library with independent modules to produce
+ * an executable, regardless of the license terms of these independent
+ * modules, and to copy and distribute the resulting executable under terms
+ * of your choice, provided that you also meet, for each linked independent
+ * module, the terms and conditions of the license of that module.
+ * An independent module is a module which is not derived from or based
+ * on this library. If you modify this library, you may extend this exception
+ * to your version of the library, but you are not obliged to do so.
+ * If you do not wish to do so, delete this exception statement from your
  * version.
- * 
+ *
  */
 
 package com.himamis.retex.renderer.share;
@@ -53,24 +53,24 @@ import com.himamis.retex.renderer.share.platform.graphics.Image;
  */
 public class GraphicsAtomBase64 extends Atom {
 
-	private final Image image;
-	private final int w;
-	private final int h;
+    private final Image image;
+    private final int w;
+    private final int h;
 
-	public GraphicsAtomBase64(int width, int height, String base64) {
-		image = FactoryProvider.getInstance().getGraphicsFactory()
-				.createImage(base64, width, height);
-		w = image.getWidth();
-		h = image.getHeight();
-	}
+    public GraphicsAtomBase64(int width, int height, String base64) {
+        image = FactoryProvider.getInstance().getGraphicsFactory()
+                .createImage(base64, width, height);
+        w = image.getWidth();
+        h = image.getHeight();
+    }
 
-	@Override
-	public Box createBox(TeXEnvironment env) {
-		env.isColored = true;
-		final double width = w * Unit.PIXEL.getFactor(env);
-		final double height = h
-				* Unit.PIXEL.getFactor(env);
+    @Override
+    public Box createBox(TeXEnvironment env) {
+        env.isColored = true;
+        final double width = w * Unit.PIXEL.getFactor(env);
+        final double height = h
+                * Unit.PIXEL.getFactor(env);
 
-		return new GraphicsBox(image, width, height, env.getSize());
-	}
+        return new GraphicsBox(image, width, height, env.getSize());
+    }
 }

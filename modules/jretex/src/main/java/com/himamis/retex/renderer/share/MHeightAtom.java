@@ -50,18 +50,18 @@ package com.himamis.retex.renderer.share;
  */
 public class MHeightAtom extends Atom {
 
-	private MHeightAtom() {
-		type = TeXConstants.TYPE_ORDINARY;
-	}
+    private MHeightAtom() {
+        type = TeXConstants.TYPE_ORDINARY;
+    }
 
-	public static MHeightAtom get() {
-		return new MHeightAtom();
-	}
+    public static MHeightAtom get() {
+        return new MHeightAtom();
+    }
 
-	@Override
-	public Box createBox(TeXEnvironment env) {
-		return new StrutBox(0., env.getTeXFont().getMHeight(env.getStyle()), 0.,
-				0.);
-	}
+    @Override
+    public Box createBox(TeXEnvironment env) {
+        return new StrutBox(0., env.getTeXFont().getMHeight(env.getStyle()), 0.,
+                0.);
+    }
 
 }

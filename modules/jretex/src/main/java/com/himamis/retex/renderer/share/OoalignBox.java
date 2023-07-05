@@ -45,48 +45,48 @@
 
 package com.himamis.retex.renderer.share;
 
-import java.util.List;
-
 import com.himamis.retex.renderer.share.platform.graphics.Graphics2DInterface;
+
+import java.util.List;
 
 /**
  * A box representing a rotated box.
  */
 public class OoalignBox extends Box {
 
-	private final List<Box> boxes;
+    private final List<Box> boxes;
 
-	public OoalignBox(List<Box> boxes) {
-		this.boxes = boxes;
-		this.width = Double.NEGATIVE_INFINITY;
-		this.height = Double.NEGATIVE_INFINITY;
-		this.depth = Double.NEGATIVE_INFINITY;
-		for (final Box b : boxes) {
-			width = Math.max(width, b.getWidth());
-			height = Math.max(height, b.getHeight());
-			depth = Math.max(depth, b.getDepth());
-		}
-	}
+    public OoalignBox(List<Box> boxes) {
+        this.boxes = boxes;
+        this.width = Double.NEGATIVE_INFINITY;
+        this.height = Double.NEGATIVE_INFINITY;
+        this.depth = Double.NEGATIVE_INFINITY;
+        for (final Box b : boxes) {
+            width = Math.max(width, b.getWidth());
+            height = Math.max(height, b.getHeight());
+            depth = Math.max(depth, b.getDepth());
+        }
+    }
 
-	@Override
-	public void draw(Graphics2DInterface g2, double x, double y) {
-		startDraw(g2, x, y);
-		for (final Box b : boxes) {
-			b.draw(g2, x + b.getShift(), y);
-		}
-		endDraw(g2);
-	}
+    @Override
+    public void draw(Graphics2DInterface g2, double x, double y) {
+        startDraw(g2, x, y);
+        for (final Box b : boxes) {
+            b.draw(g2, x + b.getShift(), y);
+        }
+        endDraw(g2);
+    }
 
-	@Override
-	public FontInfo getLastFont() {
-		return boxes.get(boxes.size() - 1).getLastFont();
-	}
+    @Override
+    public FontInfo getLastFont() {
+        return boxes.get(boxes.size() - 1).getLastFont();
+    }
 
-	@Override
-	public void inspect(BoxConsumer handler, BoxPosition position) {
-		super.inspect(handler, position);
-		for (Box box : boxes) {
-			box.inspect(handler, position);
-		}
-	}
+    @Override
+    public void inspect(BoxConsumer handler, BoxPosition position) {
+        super.inspect(handler, position);
+        for (Box box : boxes) {
+            box.inspect(handler, position);
+        }
+    }
 }

@@ -63,7 +63,7 @@ class ImageD : BufferedImage, Image {
         return Graphics2DD(createGraphics())
     }
 
-    fun compose():ImageBitmap{
-       return toComposeImageBitmap()
+    fun compose(): ImageBitmap {
+        return toComposeImageBitmap()
     }
 }

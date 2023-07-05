@@ -52,40 +52,40 @@ import com.himamis.retex.renderer.share.TextStyleAtom;
 
 public class CommandTextStyleTeX extends Command {
 
-	final int style;
-	RowAtom ts;
+    final int style;
+    RowAtom ts;
 
-	public CommandTextStyleTeX(final int style) {
-		this.style = style;
-	}
+    public CommandTextStyleTeX(final int style) {
+        this.style = style;
+    }
 
-	@Override
-	public boolean init(TeXParser tp) {
-		ts = new RowAtom();
-		return true;
-	}
+    @Override
+    public boolean init(TeXParser tp) {
+        ts = new RowAtom();
+        return true;
+    }
 
-	@Override
-	public void add(TeXParser tp, Atom a) {
-		ts.add(a);
-	}
+    @Override
+    public void add(TeXParser tp, Atom a) {
+        ts.add(a);
+    }
 
-	@Override
-	public RowAtom steal(TeXParser tp) {
-		final RowAtom ra = ts;
-		ts = new RowAtom();
-		return ra;
-	}
+    @Override
+    public RowAtom steal(TeXParser tp) {
+        final RowAtom ra = ts;
+        ts = new RowAtom();
+        return ra;
+    }
 
-	@Override
-	public Atom getLastAtom() {
-		return ts.getLastAtom();
-	}
+    @Override
+    public Atom getLastAtom() {
+        return ts.getLastAtom();
+    }
 
-	@Override
-	public boolean close(TeXParser tp) {
-		tp.closeConsumer(new TextStyleAtom(ts.simplify(), style));
+    @Override
+    public boolean close(TeXParser tp) {
+        tp.closeConsumer(new TextStyleAtom(ts.simplify(), style));
 
-		return true;
-	}
+        return true;
+    }
 }

@@ -6,16 +6,16 @@ import com.himamis.retex.renderer.share.TeXLength;
 import com.himamis.retex.renderer.share.TeXParser;
 
 public class CommandRaise extends Command1A {
-	TeXLength raise;
+    TeXLength raise;
 
-	@Override
-	public boolean init(TeXParser tp) {
-		raise = tp.getArgAsLength();
-		return true;
-	}
+    @Override
+    public boolean init(TeXParser tp) {
+        raise = tp.getArgAsLength();
+        return true;
+    }
 
-	@Override
-	public Atom newI(TeXParser tp, Atom a) {
-		return new RaiseAtom(a, raise, null, null);
-	}
+    @Override
+    public Atom newI(TeXParser tp, Atom a) {
+        return new RaiseAtom(a, raise, null, null);
+    }
 }

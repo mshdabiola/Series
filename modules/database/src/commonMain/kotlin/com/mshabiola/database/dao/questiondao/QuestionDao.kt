@@ -143,8 +143,8 @@ internal class QuestionDao(
     }
 
     override suspend fun deleteAll() {
-        withContext(coroutineDispatcher){
-           questionQueries .deleteAll()
+        withContext(coroutineDispatcher) {
+            questionQueries.deleteAll()
         }
     }
 }

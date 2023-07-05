@@ -128,7 +128,7 @@ class MainViewModel(
                 }
 
                 ExamType.FAST_FINGER -> {
-                  getQuestions(null)
+                    getQuestions(null)
                 }
 
             }
@@ -139,7 +139,7 @@ class MainViewModel(
 
 
             val totalTime = questions.size * time
-            val choose= List(questions.size){-1}
+            val choose = List(questions.size) { -1 }
 
             _mainState.update {
                 it.copy(
@@ -189,19 +189,20 @@ class MainViewModel(
 
     private suspend fun getQuestions(id: Long?): ImmutableList<QuestionUiState> {
 
-        val que=if (id==null)
+        val que = if (id == null)
             questionRepository.getRandom(6)
         else
-        questionRepository
-            .getAllWithExamId(id)
+            questionRepository
+                .getAllWithExamId(id)
 
-            return que
+        return que
             .map { questionFulls ->
                 questionFulls.map {
                     it.copy(
-                        options = it.options.shuffled())
+                        options = it.options.shuffled()
+                    )
                         .toQuestionUiState()
-                        .copy(title = getTitle(it.examId,it.nos))
+                        .copy(title = getTitle(it.examId, it.nos))
 
 
                 }.toImmutableList()
@@ -225,7 +226,7 @@ class MainViewModel(
 
     }
 
-    fun getGeneraPath(imageType: FileManager.ImageType,examId:Long): String {
+    fun getGeneraPath(imageType: FileManager.ImageType, examId: Long): String {
         return when (imageType) {
             FileManager.ImageType.INSTRUCTION -> "instruction/$examId"
             FileManager.ImageType.QUESTION -> "question/$examId"
@@ -293,7 +294,7 @@ class MainViewModel(
         viewModelScope.launch(Dispatchers.IO) {
             if (type.save) {
                 settingRepository.setCurrentExam(null)
-            }else{
+            } else {
                 onContinueExam()
             }
 
@@ -351,8 +352,8 @@ class MainViewModel(
         }
     }
 
-    private fun getTitle(examId: Long, no:Long):String{
-        val exam=mainState.value.exams.find { it.id==examId }
+    private fun getTitle(examId: Long, no: Long): String {
+        val exam = mainState.value.exams.find { it.id == examId }
 
         return "Waec ${exam?.year} Q$no"
     }

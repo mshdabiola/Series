@@ -8,26 +8,26 @@ import com.himamis.retex.renderer.share.platform.graphics.Color;
 
 public class CommandColor extends CommandStyle {
 
-	Color fg;
+    Color fg;
 
-	public CommandColor() {
-		//
-	}
+    public CommandColor() {
+        //
+    }
 
-	public CommandColor(RowAtom size, Color fg2) {
-		this.size = size;
-		this.fg = fg2;
-	}
+    public CommandColor(RowAtom size, Color fg2) {
+        this.size = size;
+        this.fg = fg2;
+    }
 
-	@Override
-	public boolean init(TeXParser tp) {
-		fg = CommandDefinecolor.getColor(tp);
-		return super.init(tp);
-	}
+    @Override
+    public boolean init(TeXParser tp) {
+        fg = CommandDefinecolor.getColor(tp);
+        return super.init(tp);
+    }
 
-	@Override
-	public Atom newI(TeXParser tp, Atom a) {
-		return new ColorAtom(a, null, fg);
-	}
+    @Override
+    public Atom newI(TeXParser tp, Atom a) {
+        return new ColorAtom(a, null, fg);
+    }
 
 }

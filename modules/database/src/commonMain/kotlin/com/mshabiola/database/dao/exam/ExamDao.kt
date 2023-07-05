@@ -68,7 +68,7 @@ internal class ExamDao(
     }
 
     override suspend fun deleteAll() {
-        withContext(coroutineDispatcher){
+        withContext(coroutineDispatcher) {
             examQueries.deleteAll()
         }
 

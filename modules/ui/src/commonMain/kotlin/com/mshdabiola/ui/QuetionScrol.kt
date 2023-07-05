@@ -48,10 +48,10 @@ fun QuestionScroll(
         state.scrollToItem(value)
     }
 
-    val number = remember (chooses){ chooses.size }
+    val number = remember(chooses) { chooses.size }
     val noAnswer = remember(chooses) {
         derivedStateOf {
-            chooses.count { it>-1 }
+            chooses.count { it > -1 }
         }
     }
     Column(
@@ -78,7 +78,7 @@ fun QuestionScroll(
                 items(count = number, key = { it }) {
                     QuestionNumberButton(
                         number = it,
-                        isChoose = chooses[it]>-1,
+                        isChoose = chooses[it] > -1,
                         isCurrent = it == currentQuestion
                     ) { onChooseClick(it) }
                 }

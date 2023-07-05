@@ -7,9 +7,9 @@ import com.himamis.retex.renderer.share.TypedAtom;
 
 public class CommandMathPunct extends Command1A {
 
-	@Override
-	public Atom newI(TeXParser tp, Atom a) {
-		return new TypedAtom(TeXConstants.TYPE_PUNCTUATION, a);
-	}
+    @Override
+    public Atom newI(TeXParser tp, Atom a) {
+        return new TypedAtom(TeXConstants.TYPE_PUNCTUATION, a);
+    }
 
 }

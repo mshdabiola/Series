@@ -37,7 +37,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.testTagsAsResourceId
 import androidx.compose.ui.tooling.preview.Preview
@@ -51,7 +50,6 @@ import com.mshdabiola.ui.TimeCounter
 import com.mshdabiola.ui.com.mshdabiola.ui.AllQuestionBottomSheet
 import com.mshdabiola.ui.com.mshdabiola.ui.InstructionBottomSheet
 import com.mshdabiola.ui.correct
-import com.mshdabiola.ui.correctContainer
 import com.mshdabiola.ui.onCorrect
 import com.mshdabiola.ui.state.ExamUiState
 import com.mshdabiola.ui.state.InstructionUiState
@@ -100,7 +98,7 @@ internal fun QuestionScreen(
     back: () -> Unit = {},
     onFinish: () -> Unit = {},
     onOption: (Int, Int) -> Unit = { _, _ -> },
-    getGeneralPath: (FileManager.ImageType,Long) -> String = {_,_-> "" },
+    getGeneralPath: (FileManager.ImageType, Long) -> String = { _, _ -> "" },
     onTimeChanged: (Long) -> Unit = {}
 ) {
     if (questions.isEmpty()) {
@@ -119,9 +117,9 @@ internal fun QuestionScreen(
         }
 
         val finishPercent = remember(mainState.choose) {
-            val choose=mainState.choose
+            val choose = mainState.choose
             ((choose.count {
-                it>-1
+                it > -1
             } / choose.size.toFloat()) * 100).toInt()
         }
         val scrollState = rememberScrollState()
@@ -156,7 +154,7 @@ internal fun QuestionScreen(
                                 MaterialTheme.correct()
                             else
                                 FloatingActionButtonDefaults.containerColor,
-                            contentColor =  if (finishPercent == 100)
+                            contentColor = if (finishPercent == 100)
                                 MaterialTheme.onCorrect()
                             else
                                 contentColorFor(backgroundColor = FloatingActionButtonDefaults.containerColor)
@@ -202,7 +200,10 @@ internal fun QuestionScreen(
                     QuestionUi(
                         number = (index + 1L),
                         questionUiState = questions[index],
-                        generalPath = getGeneralPath(FileManager.ImageType.QUESTION,questions[index].examId),
+                        generalPath = getGeneralPath(
+                            FileManager.ImageType.QUESTION,
+                            questions[index].examId
+                        ),
 
                         onInstruction = {
                             instructionUiState = questions[index].instructionUiState!!
@@ -258,7 +259,10 @@ internal fun QuestionScreen(
 
         InstructionBottomSheet(
             instructionUiState = instructionUiState,
-            generalPath = getGeneralPath(FileManager.ImageType.INSTRUCTION,instructionUiState?.examId?:0),
+            generalPath = getGeneralPath(
+                FileManager.ImageType.INSTRUCTION,
+                instructionUiState?.examId ?: 0
+            ),
             onDismissRequest = { instructionUiState = null }
         )
         AllQuestionBottomSheet(

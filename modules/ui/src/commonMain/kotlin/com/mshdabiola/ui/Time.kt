@@ -33,7 +33,7 @@ fun TimeCounter(
 ) {
 
     val time = remember(currentTime2) {
-        val instant = Instant.fromEpochSeconds(total-currentTime2)
+        val instant = Instant.fromEpochSeconds(total - currentTime2)
         val time = instant.toLocalDateTime(TimeZone.UTC).time
         String.format("%02d : %02d", time.minute, time.second)
     }
@@ -53,7 +53,7 @@ fun TimeCounter(
         withContext(Dispatchers.IO) {
             if (currentTime2 <= total) {
                 delay(1000)
-                onTimeChanged(currentTime2+1)
+                onTimeChanged(currentTime2 + 1)
                 if (currentTime2 > ten) {
                     color = if (currentTime2 % 2 == 0L) initColor else Color.Red
                 }

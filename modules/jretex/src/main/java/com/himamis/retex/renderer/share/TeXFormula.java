@@ -48,14 +48,14 @@
 
 package com.himamis.retex.renderer.share;
 
-import java.util.Map;
-
 import com.himamis.retex.renderer.share.exception.ParseException;
 import com.himamis.retex.renderer.share.platform.Graphics;
 import com.himamis.retex.renderer.share.platform.graphics.Color;
 import com.himamis.retex.renderer.share.platform.graphics.Graphics2DInterface;
 import com.himamis.retex.renderer.share.platform.graphics.Image;
 import com.himamis.retex.renderer.share.platform.graphics.Insets;
+
+import java.util.Map;
 
 /**
  * Represents a logical mathematical formula that will be displayed (by creating
@@ -82,508 +82,483 @@ import com.himamis.retex.renderer.share.platform.graphics.Insets;
  */
 public class TeXFormula {
 
-	public static final String VERSION = "1.0.3";
+    public static final String VERSION = "1.0.3";
 
-	// TODO remove after jlm2 merge (check MathFieldA/I)
-	public static final int SERIF = TeXFont.SERIF;
-	public static final int SANSSERIF = TeXFont.SANSSERIF;
-	public static final int BOLD = TeXFont.BOLD;
-	public static final int ITALIC = TeXFont.ITALIC;
-	public static final int ROMAN = TeXFont.ROMAN;
-	public static final int TYPEWRITER = TeXFont.TYPEWRITER;
+    // TODO remove after jlm2 merge (check MathFieldA/I)
+    public static final int SERIF = TeXFont.SERIF;
+    public static final int SANSSERIF = TeXFont.SANSSERIF;
+    public static final int BOLD = TeXFont.BOLD;
+    public static final int ITALIC = TeXFont.ITALIC;
+    public static final int ROMAN = TeXFont.ROMAN;
+    public static final int TYPEWRITER = TeXFont.TYPEWRITER;
+    // for comparing doubles with 0
+    protected static final double PREC = 0.0000001;
+    // point-to-pixel conversion
+    public static double PIXELS_PER_POINT = 1.;
+    // font scale for deriving
+    public static double FONT_SCALE_FACTOR = 100.;
 
-	// point-to-pixel conversion
-	public static double PIXELS_PER_POINT = 1.;
+    static {
+        // setDefaultDPI();
+    }
 
-	// font scale for deriving
-	public static double FONT_SCALE_FACTOR = 100.;
+    /**
+     * Set the default target DPI to the screen dpi (only if we're in
+     * non-headless mode)
+     */
+    // public static void setDefaultDPI() {
+    // if (!GraphicsEnvironment.isHeadless()) {
+    // setDPITarget(
+    // (double) Toolkit.getDefaultToolkit().getScreenResolution());
+    // }
+    // }
 
-	// for comparing doubles with 0
-	protected static final double PREC = 0.0000001;
+    // the root atom of the "atom tree" that represents the formula
+    public Atom root = null;
+    public boolean isColored = false;
+    private TeXParser parser;
+    // the current text style
+    private int textStyle = TextStyle.NONE;
 
-	private TeXParser parser;
+    /**
+     * Creates an empty TeXFormula.
+     */
+    public TeXFormula() {
+        parser = new TeXParser(false, "");
+    }
 
-	static {
-		// setDefaultDPI();
-	}
+    /**
+     * Creates a new TeXFormula by parsing the given string (using a primitive
+     * TeX parser).
+     *
+     * @param s the string to be parsed
+     * @throws ParseException if the string could not be parsed correctly
+     */
+    TeXFormula(final String s, final boolean isPartial) throws ParseException {
+        parser = new TeXParser(isPartial, s);
+        run();
+    }
 
-	/**
-	 * Set the DPI of target
-	 * 
-	 * @param dpi
-	 *            the target DPI
-	 */
-	public static void setDPITarget(double dpi) {
-		PIXELS_PER_POINT = dpi / 72.;
-	}
+    public TeXFormula(final String s, final Map<String, String> xmlMap)
+            throws ParseException {
+        parser = new TeXParser(false, s);
+        parser.setXMLMap(xmlMap);
+        run();
+    }
 
-	/**
-	 * Set the default target DPI to the screen dpi (only if we're in
-	 * non-headless mode)
-	 */
-	// public static void setDefaultDPI() {
-	// if (!GraphicsEnvironment.isHeadless()) {
-	// setDPITarget(
-	// (double) Toolkit.getDefaultToolkit().getScreenResolution());
-	// }
-	// }
+    /**
+     * Creates a new TeXFormula by parsing the given string (using a primitive
+     * TeX parser).
+     *
+     * @param s the string to be parsed
+     * @throws ParseException if the string could not be parsed correctly
+     */
+    public TeXFormula(final String s) throws ParseException {
+        this(s, false);
+    }
 
-	// the root atom of the "atom tree" that represents the formula
-	public Atom root = null;
+    public TeXFormula(final String s, final String textStyle)
+            throws ParseException {
+        this.textStyle = TextStyle.getStyle(textStyle);
+        parser = new TeXParser(false, s);
+        run();
+    }
 
-	// the current text style
-	private int textStyle = TextStyle.NONE;
+    /**
+     * Set the DPI of target
+     *
+     * @param dpi the target DPI
+     */
+    public static void setDPITarget(double dpi) {
+        PIXELS_PER_POINT = dpi / 72.;
+    }
 
-	public boolean isColored = false;
+    public static TeXFormula getAsText(final String text,
+                                       final TeXConstants.Align alignment) throws ParseException {
+        final TeXFormula formula = new TeXFormula();
+        if (text == null || text.isEmpty()) {
+            formula.root = EmptyAtom.get();
+            return formula;
+        }
 
-	/**
-	 * Creates an empty TeXFormula.
-	 *
-	 */
-	public TeXFormula() {
-		parser = new TeXParser(false, "");
-	}
+        final String[] arr = text.split("\n|\\\\\\\\|\\\\cr");
+        final ArrayOfAtoms atoms = new ArrayOfAtoms();
+        final TeXParser parser = new TeXParser(false, arr[0]);
+        parser.parse();
+        atoms.add(new RomanAtom(parser.get()));
+        for (int i = 1; i < arr.length; ++i) {
+            parser.reset(arr[i]);
+            parser.parse();
+            atoms.add(new AlignedAtom(new RomanAtom(parser.get()), alignment));
+            atoms.add(EnvArray.RowSep.get());
+        }
+        atoms.checkDimensions();
+        formula.root = new MultlineAtom(atoms, MultlineAtom.MULTLINE);
 
-	/**
-	 * Creates a new TeXFormula by parsing the given string (using a primitive
-	 * TeX parser).
-	 *
-	 * @param s
-	 *            the string to be parsed
-	 * @throws ParseException
-	 *             if the string could not be parsed correctly
-	 */
-	TeXFormula(final String s, final boolean isPartial) throws ParseException {
-		parser = new TeXParser(isPartial, s);
-		run();
-	}
+        return formula;
+    }
 
-	public TeXFormula(final String s, final Map<String, String> xmlMap)
-			throws ParseException {
-		parser = new TeXParser(false, s);
-		parser.setXMLMap(xmlMap);
-		run();
-	}
+    /**
+     * @param formula formula
+     * @return a partial TeXFormula containing the valid part of formula
+     */
+    public static TeXFormula getPartialTeXFormula(final String formula) {
+        final TeXFormula f = new TeXFormula();
+        if (formula == null) {
+            f.root = EmptyAtom.get();
+            return f;
+        }
 
-	/**
-	 * Creates a new TeXFormula by parsing the given string (using a primitive
-	 * TeX parser).
-	 *
-	 * @param s
-	 *            the string to be parsed
-	 * @throws ParseException
-	 *             if the string could not be parsed correctly
-	 */
-	public TeXFormula(final String s) throws ParseException {
-		this(s, false);
-	}
+        final TeXParser parser = new TeXParser(true, formula);
+        try {
+            parser.parse();
+        } catch (Exception e) {
+        }
+        f.parser = parser;
+        f.root = parser.get();
 
-	public TeXFormula(final String s, final String textStyle)
-			throws ParseException {
-		this.textStyle = TextStyle.getStyle(textStyle);
-		parser = new TeXParser(false, s);
-		run();
-	}
+        return f;
+    }
 
-	protected void run() {
-		parser.parse();
-		root = parser.get();
-	}
+    /**
+     * @param formula the formula
+     * @param style   the style
+     * @param size    the size
+     * @param fg      foreground color
+     * @return the generated image
+     */
+    public static Image createBufferedImage(String formula, int style,
+                                            double size, Color fg, Color bg) throws ParseException {
+        TeXFormula f = new TeXFormula(formula);
+        TeXIcon icon = f.createTeXIcon(style, size);
+        return asImage(icon, fg, bg);
+    }
 
-	public static TeXFormula getAsText(final String text,
-			final TeXConstants.Align alignment) throws ParseException {
-		final TeXFormula formula = new TeXFormula();
-		if (text == null || text.isEmpty()) {
-			formula.root = EmptyAtom.get();
-			return formula;
-		}
+    /**
+     * @param b
+     *            true if the fonts should be registered (Java 1.6 only) to be
+     *            used with FOP.
+     */
+    // public static void registerFonts(boolean b) {
+    // FontLoader.registerFonts(b);
+    // }
 
-		final String[] arr = text.split("\n|\\\\\\\\|\\\\cr");
-		final ArrayOfAtoms atoms = new ArrayOfAtoms();
-		final TeXParser parser = new TeXParser(false, arr[0]);
-		parser.parse();
-		atoms.add(new RomanAtom(parser.get()));
-		for (int i = 1; i < arr.length; ++i) {
-			parser.reset(arr[i]);
-			parser.parse();
-			atoms.add(new AlignedAtom(new RomanAtom(parser.get()), alignment));
-			atoms.add(EnvArray.RowSep.get());
-		}
-		atoms.checkDimensions();
-		formula.root = new MultlineAtom(atoms, MultlineAtom.MULTLINE);
+    /**
+     * @param icon icon
+     * @param fg   text color
+     * @param bg   background color
+     * @return image
+     */
+    public static Image asImage(TeXIcon icon, Color fg, Color bg) {
+        icon.setInsets(new Insets(2, 2, 2, 2));
+        int w = icon.getIconWidth(), h = icon.getIconHeight();
 
-		return formula;
-	}
+        Image image = new Graphics().createImage(w, h,
+                bg == null ? Image.TYPE_INT_ARGB : Image.TYPE_INT_RGB);
+        Graphics2DInterface g2 = image.createGraphics2D();
+        if (bg != null) {
+            g2.setColor(bg);
+            g2.fillRect(0, 0, w, h);
+        }
 
-	/**
-	 * @param formula
-	 *            formula
-	 * @return a partial TeXFormula containing the valid part of formula
-	 */
-	public static TeXFormula getPartialTeXFormula(final String formula) {
-		final TeXFormula f = new TeXFormula();
-		if (formula == null) {
-			f.root = EmptyAtom.get();
-			return f;
-		}
+        icon.setForeground(fg == null ? Colors.BLACK : fg);
+        icon.paintIcon(null, g2, 0, 0);
+        g2.dispose();
 
-		final TeXParser parser = new TeXParser(true, formula);
-		try {
-			parser.parse();
-		} catch (Exception e) {
-		}
-		f.parser = parser;
-		f.root = parser.get();
+        return image;
+    }
 
-		return f;
-	}
+    protected void run() {
+        parser.parse();
+        root = parser.get();
+    }
 
-	/**
-	 * @param b
-	 *            true if the fonts should be registered (Java 1.6 only) to be
-	 *            used with FOP.
-	 */
-	// public static void registerFonts(boolean b) {
-	// FontLoader.registerFonts(b);
-	// }
+    /**
+     * Change the text of the TeXFormula and regenerate the root
+     *
+     * @param ltx the latex formula
+     */
+    public void setLaTeX(final String ltx) throws ParseException {
+        parser.reset(ltx);
+        if (ltx != null && ltx.length() != 0) {
+            run();
+        }
+    }
 
-	/**
-	 * Change the text of the TeXFormula and regenerate the root
-	 *
-	 * @param ltx
-	 *            the latex formula
-	 */
-	public void setLaTeX(final String ltx) throws ParseException {
-		parser.reset(ltx);
-		if (ltx != null && ltx.length() != 0) {
-			run();
-		}
-	}
+    /**
+     * Centers the current TeXformula vertically on the axis (defined by the
+     * parameter "axisheight" in the resource "TeXFont.xml".
+     *
+     * @return the modified TeXFormula
+     */
+    public TeXFormula centerOnAxis() {
+        root = new VCenteredAtom(root);
+        return this;
+    }
 
-	/**
-	 * Centers the current TeXformula vertically on the axis (defined by the
-	 * parameter "axisheight" in the resource "TeXFont.xml".
-	 *
-	 * @return the modified TeXFormula
-	 */
-	public TeXFormula centerOnAxis() {
-		root = new VCenteredAtom(root);
-		return this;
-	}
+    public Atom getAtom() {
+        return root;
+    }
 
-	public Atom getAtom() {
-		return root;
-	}
+    /*
+     * Convert this TeXFormula into a box, starting form the given style
+     */
+    public Box createBox(TeXEnvironment env) {
+        if (root == null) {
+            return StrutBox.getEmpty();
+        } else {
+            return root.createBox(env);
+        }
+    }
 
-	/*
-	 * Convert this TeXFormula into a box, starting form the given style
-	 */
-	public Box createBox(TeXEnvironment env) {
-		if (root == null) {
-			return StrutBox.getEmpty();
-		} else {
-			return root.createBox(env);
-		}
-	}
+    private TeXFont createFont(final double size, final int type) {
+        final TeXFont dtf = new TeXFont(size);
+        if (type == TeXFont.SERIF) {
+            dtf.setSs(false);
+        }
+        if ((type & TeXFont.ROMAN) != 0) {
+            dtf.setRoman(true);
+        }
+        if ((type & TeXFont.TYPEWRITER) != 0) {
+            dtf.setTt(true);
+        }
+        if ((type & TeXFont.SANSSERIF) != 0) {
+            dtf.setSs(true);
+        }
+        if ((type & TeXFont.ITALIC) != 0) {
+            dtf.setIt(true);
+        }
+        if ((type & TeXFont.BOLD) != 0) {
+            dtf.setBold(true);
+        }
 
-	private TeXFont createFont(final double size, final int type) {
-		final TeXFont dtf = new TeXFont(size);
-		if (type == TeXFont.SERIF) {
-			dtf.setSs(false);
-		}
-		if ((type & TeXFont.ROMAN) != 0) {
-			dtf.setRoman(true);
-		}
-		if ((type & TeXFont.TYPEWRITER) != 0) {
-			dtf.setTt(true);
-		}
-		if ((type & TeXFont.SANSSERIF) != 0) {
-			dtf.setSs(true);
-		}
-		if ((type & TeXFont.ITALIC) != 0) {
-			dtf.setIt(true);
-		}
-		if ((type & TeXFont.BOLD) != 0) {
-			dtf.setBold(true);
-		}
+        return dtf;
+    }
 
-		return dtf;
-	}
+    /**
+     * Creates a TeXIcon from this TeXFormula using the default TeXFont in the
+     * given point size and starting from the given TeX style. If the given
+     * integer value does not represent a valid TeX style, the default style
+     * TeXConstants.STYLE_DISPLAY will be used.
+     *
+     * @param style a TeX style constant (from {@link TeXConstants}) to start from
+     * @param size  the default TeXFont's point size
+     * @return the created TeXIcon
+     */
+    public TeXIcon createTeXIcon(int style, double size) {
+        return new TeXIconBuilder().setStyle(style).setSize(size).build();
+    }
 
-	/**
-	 * Apply the Builder pattern instead of using the createTeXIcon(...)
-	 * factories
-	 * 
-	 * @author Felix Natter
-	 *
-	 */
-	public class TeXIconBuilder {
-		private Integer style;
-		private Double size;
-		private Integer type;
-		private Color fgcolor;
-		private boolean trueValues = false;
-		private TeXConstants.Align align;
+    public TeXIcon createTeXIcon(int style, double size, int type) {
+        return new TeXIconBuilder().setStyle(style).setSize(size).setType(type)
+                .build();
+    }
 
-		/**
-		 * Specify the style for rendering the given TeXFormula
-		 * 
-		 * @param style
-		 *            the style
-		 * @return the builder, used for chaining
-		 */
-		public TeXIconBuilder setStyle(final int style) {
-			this.style = style;
-			return this;
-		}
+    public TeXIcon createTeXIcon(int style, double size, int type,
+                                 Color fgcolor) {
+        return new TeXIconBuilder().setStyle(style).setSize(size).setType(type)
+                .setFGColor(fgcolor).build();
+    }
 
-		/**
-		 * Specify the font size for rendering the given TeXFormula
-		 * 
-		 * @param size
-		 *            the size
-		 * @return the builder, used for chaining
-		 */
-		public TeXIconBuilder setSize(final double size) {
-			this.size = size;
-			return this;
-		}
+    public TeXIcon createTeXIcon(int style, double size, boolean trueValues) {
+        return new TeXIconBuilder().setStyle(style).setSize(size)
+                .setTrueValues(trueValues).build();
+    }
 
-		/**
-		 * Specify the font type for rendering the given TeXFormula
-		 * 
-		 * @param type
-		 *            the font type
-		 * @return the builder, used for chaining
-		 */
-		public TeXIconBuilder setType(final int type) {
-			this.type = type;
-			return this;
-		}
+    public TeXIcon createTeXIcon(int style, double size,
+                                 TeXConstants.Align align) {
+        return createTeXIcon(style, size, 0, align);
+    }
 
-		/**
-		 * Specify the background color for rendering the given TeXFormula
-		 * 
-		 * @param fgcolor
-		 *            the foreground color
-		 * @return the builder, used for chaining
-		 */
-		public TeXIconBuilder setFGColor(final Color fgcolor) {
-			this.fgcolor = fgcolor;
-			return this;
-		}
+    // public void createImage(String format, int style, double size, String
+    // out,
+    // Color bg, Color fg, boolean transparency) {
+    // TeXIcon icon = createTeXIcon(style, size);
+    // icon.setInsets(new Insets(1, 1, 1, 1));
+    // int w = icon.getIconWidth(), h = icon.getIconHeight();
+    //
+    // Image image = new Graphics().createImage(w, h, transparency
+    // ? BufferedImage.TYPE_INT_ARGB : BufferedImage.TYPE_INT_RGB);
+    // Graphics2DInterface g2 = image.createGraphics2D();
+    // if (bg != null && !transparency) {
+    // g2.setColor(bg);
+    // g2.fillRect(0, 0, w, h);
+    // }
+    //
+    // icon.setForeground(fg);
+    // icon.paintIcon(null, g2, 0, 0);
+    // try {
+    // FileImageOutputStream imout = new FileImageOutputStream(
+    // new File(out));
+    // ImageIO.write(image, format, imout);
+    // imout.flush();
+    // imout.close();
+    // } catch (IOException ex) {
+    // System.err.println("I/O error : Cannot generate " + out);
+    // }
+    //
+    // g2.dispose();
+    // }
+    //
+    // public void createPNG(int style, double size, String out, Color bg,
+    // Color fg) {
+    // createImage("png", style, size, out, bg, fg, bg == null);
+    // }
+    //
+    // public void createGIF(int style, double size, String out, Color bg,
+    // Color fg) {
+    // createImage("gif", style, size, out, bg, fg, bg == null);
+    // }
+    //
+    // public void createJPEG(int style, double size, String out, Color bg,
+    // Color fg) {
+    // // There is a bug when a BufferedImage has a component alpha so we
+    // // disable it
+    // createImage("jpeg", style, size, out, bg, fg, false);
+    // }
 
-		/**
-		 * Specify the "true values" parameter for rendering the given
-		 * TeXFormula
-		 * 
-		 * @param trueValues
-		 *            the "true values" value
-		 * @return the builder, used for chaining
-		 */
-		public TeXIconBuilder setTrueValues(final boolean trueValues) {
-			this.trueValues = trueValues;
-			return this;
-		}
+    public TeXIcon createTeXIcon(int style, double size, int type,
+                                 TeXConstants.Align align) {
+        return new TeXIconBuilder().setStyle(style).setSize(size).setType(type)
+                .setAlign(align).build();
+    }
 
-		/**
-		 * Specify the alignment
-		 *
-		 * @param align
-		 *            the alignment
-		 * @return the builder, used for chaining
-		 */
-		public TeXIconBuilder setAlign(final TeXConstants.Align align) {
-			this.align = align;
-			trueValues = true;
-			return this;
-		}
+    /**
+     * @param style the style
+     * @param size  the size
+     * @param fg    text color
+     * @param bg    background color
+     * @return the generated image
+     */
+    public Image createBufferedImage(int style, double size, Color fg, Color bg)
+            throws ParseException {
+        TeXIcon icon = createTeXIcon(style, size);
+        return asImage(icon, fg, bg);
+    }
 
-		/**
-		 * Create a TeXIcon from the information gathered by the (chained)
-		 * setXXX() methods. (see Builder pattern)
-		 * 
-		 * @return the TeXIcon
-		 */
-		public TeXIcon build() {
-			if (style == null) {
-				throw new IllegalStateException(
-						"A style is required. Use setStyle()");
-			}
-			if (size == null) {
-				throw new IllegalStateException(
-						"A size is required. Use setStyle()");
-			}
-			TeXFont font = (type == null) ? new TeXFont(size)
-					: createFont(size, type);
-			TeXEnvironment te = new TeXEnvironment(style, font, textStyle);
+    public Image createBufferedImage(int style, int type, double size, Color fg, Color bg)
+            throws ParseException {
+        TeXIcon icon = createTeXIcon(style, size, type);
+        return asImage(icon, fg, bg);
+    }
 
-			Box box = createBox(te);
-			TeXIcon ti;
-			final double textwidth = te.lengthSettings().getLength("textwidth", te);
-			if (!Double.isInfinite(textwidth) && !Double.isNaN(textwidth)) {
-				final double baselineskip = te.lengthSettings().getLength("baselineskip",
-						te);
-				box = BreakFormula.split(box, textwidth, baselineskip, align);
-			}
-			ti = new TeXIcon(box, size, trueValues);
+    /**
+     * Apply the Builder pattern instead of using the createTeXIcon(...)
+     * factories
+     *
+     * @author Felix Natter
+     */
+    public class TeXIconBuilder {
+        private Integer style;
+        private Double size;
+        private Integer type;
+        private Color fgcolor;
+        private boolean trueValues = false;
+        private TeXConstants.Align align;
 
-			if (fgcolor != null) {
-				ti.setForeground(fgcolor);
-			}
-			ti.isColored = te.isColored;
-			return ti;
-		}
-	}
+        /**
+         * Specify the style for rendering the given TeXFormula
+         *
+         * @param style the style
+         * @return the builder, used for chaining
+         */
+        public TeXIconBuilder setStyle(final int style) {
+            this.style = style;
+            return this;
+        }
 
-	/**
-	 * Creates a TeXIcon from this TeXFormula using the default TeXFont in the
-	 * given point size and starting from the given TeX style. If the given
-	 * integer value does not represent a valid TeX style, the default style
-	 * TeXConstants.STYLE_DISPLAY will be used.
-	 *
-	 * @param style
-	 *            a TeX style constant (from {@link TeXConstants}) to start from
-	 * @param size
-	 *            the default TeXFont's point size
-	 * @return the created TeXIcon
-	 */
-	public TeXIcon createTeXIcon(int style, double size) {
-		return new TeXIconBuilder().setStyle(style).setSize(size).build();
-	}
+        /**
+         * Specify the font size for rendering the given TeXFormula
+         *
+         * @param size the size
+         * @return the builder, used for chaining
+         */
+        public TeXIconBuilder setSize(final double size) {
+            this.size = size;
+            return this;
+        }
 
-	public TeXIcon createTeXIcon(int style, double size, int type) {
-		return new TeXIconBuilder().setStyle(style).setSize(size).setType(type)
-				.build();
-	}
+        /**
+         * Specify the font type for rendering the given TeXFormula
+         *
+         * @param type the font type
+         * @return the builder, used for chaining
+         */
+        public TeXIconBuilder setType(final int type) {
+            this.type = type;
+            return this;
+        }
 
-	public TeXIcon createTeXIcon(int style, double size, int type,
-			Color fgcolor) {
-		return new TeXIconBuilder().setStyle(style).setSize(size).setType(type)
-				.setFGColor(fgcolor).build();
-	}
+        /**
+         * Specify the background color for rendering the given TeXFormula
+         *
+         * @param fgcolor the foreground color
+         * @return the builder, used for chaining
+         */
+        public TeXIconBuilder setFGColor(final Color fgcolor) {
+            this.fgcolor = fgcolor;
+            return this;
+        }
 
-	public TeXIcon createTeXIcon(int style, double size, boolean trueValues) {
-		return new TeXIconBuilder().setStyle(style).setSize(size)
-				.setTrueValues(trueValues).build();
-	}
+        /**
+         * Specify the "true values" parameter for rendering the given
+         * TeXFormula
+         *
+         * @param trueValues the "true values" value
+         * @return the builder, used for chaining
+         */
+        public TeXIconBuilder setTrueValues(final boolean trueValues) {
+            this.trueValues = trueValues;
+            return this;
+        }
 
-	public TeXIcon createTeXIcon(int style, double size,
-			TeXConstants.Align align) {
-		return createTeXIcon(style, size, 0, align);
-	}
+        /**
+         * Specify the alignment
+         *
+         * @param align the alignment
+         * @return the builder, used for chaining
+         */
+        public TeXIconBuilder setAlign(final TeXConstants.Align align) {
+            this.align = align;
+            trueValues = true;
+            return this;
+        }
 
-	public TeXIcon createTeXIcon(int style, double size, int type,
-			TeXConstants.Align align) {
-		return new TeXIconBuilder().setStyle(style).setSize(size).setType(type)
-				.setAlign(align).build();
-	}
+        /**
+         * Create a TeXIcon from the information gathered by the (chained)
+         * setXXX() methods. (see Builder pattern)
+         *
+         * @return the TeXIcon
+         */
+        public TeXIcon build() {
+            if (style == null) {
+                throw new IllegalStateException(
+                        "A style is required. Use setStyle()");
+            }
+            if (size == null) {
+                throw new IllegalStateException(
+                        "A size is required. Use setStyle()");
+            }
+            TeXFont font = (type == null) ? new TeXFont(size)
+                    : createFont(size, type);
+            TeXEnvironment te = new TeXEnvironment(style, font, textStyle);
 
-	// public void createImage(String format, int style, double size, String
-	// out,
-	// Color bg, Color fg, boolean transparency) {
-	// TeXIcon icon = createTeXIcon(style, size);
-	// icon.setInsets(new Insets(1, 1, 1, 1));
-	// int w = icon.getIconWidth(), h = icon.getIconHeight();
-	//
-	// Image image = new Graphics().createImage(w, h, transparency
-	// ? BufferedImage.TYPE_INT_ARGB : BufferedImage.TYPE_INT_RGB);
-	// Graphics2DInterface g2 = image.createGraphics2D();
-	// if (bg != null && !transparency) {
-	// g2.setColor(bg);
-	// g2.fillRect(0, 0, w, h);
-	// }
-	//
-	// icon.setForeground(fg);
-	// icon.paintIcon(null, g2, 0, 0);
-	// try {
-	// FileImageOutputStream imout = new FileImageOutputStream(
-	// new File(out));
-	// ImageIO.write(image, format, imout);
-	// imout.flush();
-	// imout.close();
-	// } catch (IOException ex) {
-	// System.err.println("I/O error : Cannot generate " + out);
-	// }
-	//
-	// g2.dispose();
-	// }
-	//
-	// public void createPNG(int style, double size, String out, Color bg,
-	// Color fg) {
-	// createImage("png", style, size, out, bg, fg, bg == null);
-	// }
-	//
-	// public void createGIF(int style, double size, String out, Color bg,
-	// Color fg) {
-	// createImage("gif", style, size, out, bg, fg, bg == null);
-	// }
-	//
-	// public void createJPEG(int style, double size, String out, Color bg,
-	// Color fg) {
-	// // There is a bug when a BufferedImage has a component alpha so we
-	// // disable it
-	// createImage("jpeg", style, size, out, bg, fg, false);
-	// }
+            Box box = createBox(te);
+            TeXIcon ti;
+            final double textwidth = te.lengthSettings().getLength("textwidth", te);
+            if (!Double.isInfinite(textwidth) && !Double.isNaN(textwidth)) {
+                final double baselineskip = te.lengthSettings().getLength("baselineskip",
+                        te);
+                box = BreakFormula.split(box, textwidth, baselineskip, align);
+            }
+            ti = new TeXIcon(box, size, trueValues);
 
-	/**
-	 * @param formula
-	 *            the formula
-	 * @param style
-	 *            the style
-	 * @param size
-	 *            the size
-	 * @param fg
-	 *            foreground color
-	 * @return the generated image
-	 */
-	public static Image createBufferedImage(String formula, int style,
-			double size, Color fg, Color bg) throws ParseException {
-		TeXFormula f = new TeXFormula(formula);
-		TeXIcon icon = f.createTeXIcon(style, size);
-		return asImage(icon, fg, bg);
-	}
-
-	/**
-	 * @param icon icon
-	 * @param fg text color
-	 * @param bg background color
-	 * @return image
-	 */
-	public static Image asImage(TeXIcon icon, Color fg, Color bg) {
-		icon.setInsets(new Insets(2, 2, 2, 2));
-		int w = icon.getIconWidth(), h = icon.getIconHeight();
-
-		Image image = new Graphics().createImage(w, h,
-				bg == null ? Image.TYPE_INT_ARGB : Image.TYPE_INT_RGB);
-		Graphics2DInterface g2 = image.createGraphics2D();
-		if (bg != null) {
-			g2.setColor(bg);
-			g2.fillRect(0, 0, w, h);
-		}
-
-		icon.setForeground(fg == null ? Colors.BLACK : fg);
-		icon.paintIcon(null, g2, 0, 0);
-		g2.dispose();
-
-		return image;
-	}
-
-	/**
-	 * @param style
-	 *            the style
-	 * @param size
-	 *            the size
-	 * @param fg
-	 *            text color
-	 * @param bg
-	 *            background color
-	 * @return the generated image
-	 */
-	public Image createBufferedImage(int style, double size, Color fg, Color bg)
-			throws ParseException {
-		TeXIcon icon = createTeXIcon(style, size);
-		return asImage(icon, fg, bg);
-	}
+            if (fgcolor != null) {
+                ti.setForeground(fgcolor);
+            }
+            ti.isColored = te.isColored;
+            return ti;
+        }
+    }
 
 }

@@ -2,41 +2,41 @@ package com.himamis.retex.renderer.share;
 
 public enum ArrayTypes {
 
-	ARRAY,
+    ARRAY,
 
-	EQNARRAY,
+    EQNARRAY,
 
-	TABULAR,
+    TABULAR,
 
-	MATRIX,
+    MATRIX,
 
-	PMATRIX,
+    PMATRIX,
 
-	BMATRIX,
+    BMATRIX,
 
-	VMATRIX,
+    VMATRIX,
 
-	ALIGN,
+    ALIGN,
 
-	ALIGNAT,
+    ALIGNAT,
 
-	FLALIGN,
+    FLALIGN,
 
-	SMALLMATRIX,
+    SMALLMATRIX,
 
-	ALIGNED,
+    ALIGNED,
 
-	ALIGNEDAT,
+    ALIGNEDAT,
 
-	MULTILINE,
+    MULTILINE,
 
-	SUBARRAY,
+    SUBARRAY,
 
-	GATHER,
+    GATHER,
 
-	GATHERED,
+    GATHERED,
 
-	CASES,
+    CASES,
 
-	SPLIT,
+    SPLIT,
 }

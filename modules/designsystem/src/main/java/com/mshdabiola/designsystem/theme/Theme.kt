@@ -15,7 +15,7 @@ fun SeriesAppTheme(
     useDarkTheme: Boolean = isSystemInDarkTheme(),
     dynamicColor: Boolean = true,
     darkColors: ColorScheme,
-    lightColors:ColorScheme,
+    lightColors: ColorScheme,
     content: @Composable () -> Unit,
 ) {
     val colorScheme = when {

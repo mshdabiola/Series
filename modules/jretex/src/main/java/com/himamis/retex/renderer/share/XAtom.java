@@ -53,65 +53,65 @@ import com.himamis.retex.renderer.share.serialize.HasTrueBase;
  */
 public abstract class XAtom extends Atom implements HasTrueBase {
 
-	protected final Atom over;
-	protected final Atom under;
-	protected final TeXLength minW;
+    protected final Atom over;
+    protected final Atom under;
+    protected final TeXLength minW;
 
-	public XAtom(Atom over, Atom under, TeXLength minW) {
-		this.type = TeXConstants.TYPE_RELATION;
-		this.over = over;
-		this.under = under;
-		this.minW = minW;
-	}
+    public XAtom(Atom over, Atom under, TeXLength minW) {
+        this.type = TeXConstants.TYPE_RELATION;
+        this.over = over;
+        this.under = under;
+        this.minW = minW;
+    }
 
-	public XAtom(Atom over, Atom under) {
-		this(over, under, TeXLength.getZero());
-	}
+    public XAtom(Atom over, Atom under) {
+        this(over, under, TeXLength.getZero());
+    }
 
-	@Override
-	public Box createBox(TeXEnvironment env) {
-		final Box O = over != null ? over.createBox(env.supStyle())
-				: StrutBox.getEmpty();
-		final Box U = under != null ? under.createBox(env.subStyle())
-				: StrutBox.getEmpty();
-		final Box oside = new SpaceAtom(Unit.MU, 5., 0., 0.)
-				.createBox(env.supStyle());
-		final Box uside = new SpaceAtom(Unit.MU, 9., 0., 0.)
-				.createBox(env.subStyle());
-		final Box osep = new SpaceAtom(Unit.MU, 0., 2., 0.)
-				.createBox(env);
-		final Box usep = new SpaceAtom(Unit.MU, 0., 3.5, 0.)
-				.createBox(env);
-		double width = Math.max(O.getWidth() + 2. * oside.getWidth(),
-				U.getWidth() + 2. * uside.getWidth());
-		width = Math.max(width, minW.getValue(env));
+    @Override
+    public Box createBox(TeXEnvironment env) {
+        final Box O = over != null ? over.createBox(env.supStyle())
+                : StrutBox.getEmpty();
+        final Box U = under != null ? under.createBox(env.subStyle())
+                : StrutBox.getEmpty();
+        final Box oside = new SpaceAtom(Unit.MU, 5., 0., 0.)
+                .createBox(env.supStyle());
+        final Box uside = new SpaceAtom(Unit.MU, 9., 0., 0.)
+                .createBox(env.subStyle());
+        final Box osep = new SpaceAtom(Unit.MU, 0., 2., 0.)
+                .createBox(env);
+        final Box usep = new SpaceAtom(Unit.MU, 0., 3.5, 0.)
+                .createBox(env);
+        double width = Math.max(O.getWidth() + 2. * oside.getWidth(),
+                U.getWidth() + 2. * uside.getWidth());
+        width = Math.max(width, minW.getValue(env));
 
-		final Box extended = createExtension(env, width);
-		width = extended.getWidth();
+        final Box extended = createExtension(env, width);
+        width = extended.getWidth();
 
-		final Box ohb = new HorizontalBox(O, width, TeXConstants.Align.CENTER);
-		final Box uhb = new HorizontalBox(U, width, TeXConstants.Align.CENTER);
+        final Box ohb = new HorizontalBox(O, width, TeXConstants.Align.CENTER);
+        final Box uhb = new HorizontalBox(U, width, TeXConstants.Align.CENTER);
 
-		final VerticalBox vb = new VerticalBox();
-		vb.add(ohb);
-		vb.add(osep);
-		vb.add(extended);
-		vb.add(usep);
-		vb.add(uhb);
+        final VerticalBox vb = new VerticalBox();
+        vb.add(ohb);
+        vb.add(osep);
+        vb.add(extended);
+        vb.add(usep);
+        vb.add(uhb);
 
-		final double h = vb.getHeight() + vb.getDepth();
-		final double d = osep.getHeight() + uhb.getHeight() + uhb.getDepth();
-		vb.setDepth(d);
-		vb.setHeight(h - d);
+        final double h = vb.getHeight() + vb.getDepth();
+        final double d = osep.getHeight() + uhb.getHeight() + uhb.getDepth();
+        vb.setDepth(d);
+        vb.setHeight(h - d);
 
-		return new HorizontalBox(vb, vb.getWidth() + 2. * osep.getHeight(),
-				TeXConstants.Align.CENTER);
-	}
+        return new HorizontalBox(vb, vb.getWidth() + 2. * osep.getHeight(),
+                TeXConstants.Align.CENTER);
+    }
 
-	public abstract Box createExtension(TeXEnvironment env, double width);
+    public abstract Box createExtension(TeXEnvironment env, double width);
 
-	@Override
-	public Atom getTrueBase() {
-		return over != null ? over : under;
-	}
+    @Override
+    public Atom getTrueBase() {
+        return over != null ? over : under;
+    }
 }

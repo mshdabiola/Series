@@ -46,7 +46,7 @@ fun AllQuestionBottomSheet(
                         items(count = chooses.size, key = { it }) {
                             QuestionNumberButton(
                                 number = it,
-                                isChoose = chooses[it]>-1,
+                                isChoose = chooses[it] > -1,
                                 isCurrent = it == currentNumber,
                                 onClick = { onChooseClick(it) })
                         }

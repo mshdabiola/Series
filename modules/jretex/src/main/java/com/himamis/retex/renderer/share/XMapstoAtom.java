@@ -53,12 +53,12 @@ import com.himamis.retex.renderer.share.xarrows.XMapsTo;
  */
 public class XMapstoAtom extends XAtom {
 
-	public XMapstoAtom(Atom over, Atom under) {
-		super(over, under);
-	}
+    public XMapstoAtom(Atom over, Atom under) {
+        super(over, under);
+    }
 
-	@Override
-	public Box createExtension(TeXEnvironment env, double width) {
-		return new XMapsTo(width);
-	}
+    @Override
+    public Box createExtension(TeXEnvironment env, double width) {
+        return new XMapsTo(width);
+    }
 }

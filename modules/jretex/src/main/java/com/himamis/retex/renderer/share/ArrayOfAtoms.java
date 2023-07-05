@@ -45,279 +45,279 @@
 
 package com.himamis.retex.renderer.share;
 
+import com.himamis.retex.renderer.share.platform.graphics.Color;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import com.himamis.retex.renderer.share.platform.graphics.Color;
-
 public class ArrayOfAtoms implements AtomConsumer {
 
-	protected RowAtom ra;
-	protected ArrayList<ArrayList<Atom>> array;
-	protected ArrayList<ArrayList<Color>> colors;
-	protected ArrayList<Color> rowcolors;
-	protected ArrayList<Atom> currentRow;
-	protected HashMap<Integer, TeXLength> minHeights = new HashMap<>();
-	public int col;
-	protected int row;
-	protected boolean oneColumn = false;
+    public int col;
+    protected RowAtom ra;
+    protected ArrayList<ArrayList<Atom>> array;
+    protected ArrayList<ArrayList<Color>> colors;
+    protected ArrayList<Color> rowcolors;
+    protected ArrayList<Atom> currentRow;
+    protected HashMap<Integer, TeXLength> minHeights = new HashMap<>();
+    protected int row;
+    protected boolean oneColumn = false;
 
-	public ArrayOfAtoms() {
-		ra = new RowAtom();
-		array = new ArrayList<ArrayList<Atom>>();
-		currentRow = new ArrayList<Atom>();
-		array.add(currentRow);
-		row = 0;
-	}
+    public ArrayOfAtoms() {
+        ra = new RowAtom();
+        array = new ArrayList<ArrayList<Atom>>();
+        currentRow = new ArrayList<Atom>();
+        array.add(currentRow);
+        row = 0;
+    }
 
-	public ArrayList<Atom> getFirstColumn() {
-		final ArrayList<Atom> l = new ArrayList<>(row);
-		for (final ArrayList<Atom> al : array) {
-			if (al == null || al.size() == 0) {
-				l.add(EmptyAtom.get());
-			} else {
-				l.add(al.get(0));
-			}
-		}
-		return l;
-	}
+    public ArrayList<Atom> getFirstColumn() {
+        final ArrayList<Atom> l = new ArrayList<>(row);
+        for (final ArrayList<Atom> al : array) {
+            if (al == null || al.size() == 0) {
+                l.add(EmptyAtom.get());
+            } else {
+                l.add(al.get(0));
+            }
+        }
+        return l;
+    }
 
-	@Override
-	public boolean init(TeXParser tp) {
-		return false;
-	}
+    @Override
+    public boolean init(TeXParser tp) {
+        return false;
+    }
 
-	@Override
-	public boolean close(TeXParser tp) {
-		return false;
-	}
+    @Override
+    public boolean close(TeXParser tp) {
+        return false;
+    }
 
-	@Override
-	public boolean isClosable() {
-		return false;
-	}
+    @Override
+    public boolean isClosable() {
+        return false;
+    }
 
-	@Override
-	public RowAtom steal(TeXParser tp) {
-		final RowAtom old = ra;
-		ra = new RowAtom();
-		return old;
-	}
+    @Override
+    public RowAtom steal(TeXParser tp) {
+        final RowAtom old = ra;
+        ra = new RowAtom();
+        return old;
+    }
 
-	@Override
-	public boolean isArray() {
-		return true;
-	}
+    @Override
+    public boolean isArray() {
+        return true;
+    }
 
-	@Override
-	public boolean isAmpersandAllowed() {
-		return !oneColumn;
-	}
+    @Override
+    public boolean isAmpersandAllowed() {
+        return !oneColumn;
+    }
 
-	@Override
-	public boolean isHandlingArg() {
-		return false;
-	}
+    @Override
+    public boolean isHandlingArg() {
+        return false;
+    }
 
-	@Override
-	public void lbrace(TeXParser tp) {
-	}
+    @Override
+    public void lbrace(TeXParser tp) {
+    }
 
-	@Override
-	public void rbrace(TeXParser tp) {
-	}
+    @Override
+    public void rbrace(TeXParser tp) {
+    }
 
-	public final boolean isOneColumn() {
-		return oneColumn;
-	}
+    public final boolean isOneColumn() {
+        return oneColumn;
+    }
 
-	public final void setOneColumn(boolean oneColumn) {
-		this.oneColumn = oneColumn;
-	}
+    public final void setOneColumn(boolean oneColumn) {
+        this.oneColumn = oneColumn;
+    }
 
-	@Override
-	public void add(TeXParser tp, Atom a) {
-		if (a instanceof EnvArray.ColSep) {
-			currentRow.add(ra.simplify());
-			ra = new RowAtom();
-		} else if (a instanceof EnvArray.RowSep) {
-			currentRow.add(ra.simplify());
-			currentRow = new ArrayList<Atom>();
-			TeXLength minHeight = ((EnvArray.RowSep) a).getMinHeight();
-			if (minHeight != null) {
-				minHeights.put(array.size(), minHeight);
-			}
-			array.add(currentRow);
-			ra = new RowAtom();
-			++row;
-		} else if (a instanceof EnvArray.CellColor) {
-			updateColors(((EnvArray.CellColor) a).getColor());
-		} else if (a instanceof EnvArray.RowColor) {
-			updateRowColors(((EnvArray.RowColor) a).getColor());
-		} else {
-			ra.add(a);
-			if (a instanceof HlineAtom) {
-				addRow();
-			} else if (a instanceof HdotsforAtom
-					|| a instanceof MulticolumnAtom) {
-				final MulticolumnAtom ma = (MulticolumnAtom) a;
-				addCol(ma.getSkipped());
-			}
-		}
-	}
+    @Override
+    public void add(TeXParser tp, Atom a) {
+        if (a instanceof EnvArray.ColSep) {
+            currentRow.add(ra.simplify());
+            ra = new RowAtom();
+        } else if (a instanceof EnvArray.RowSep) {
+            currentRow.add(ra.simplify());
+            currentRow = new ArrayList<Atom>();
+            TeXLength minHeight = ((EnvArray.RowSep) a).getMinHeight();
+            if (minHeight != null) {
+                minHeights.put(array.size(), minHeight);
+            }
+            array.add(currentRow);
+            ra = new RowAtom();
+            ++row;
+        } else if (a instanceof EnvArray.CellColor) {
+            updateColors(((EnvArray.CellColor) a).getColor());
+        } else if (a instanceof EnvArray.RowColor) {
+            updateRowColors(((EnvArray.RowColor) a).getColor());
+        } else {
+            ra.add(a);
+            if (a instanceof HlineAtom) {
+                addRow();
+            } else if (a instanceof HdotsforAtom
+                    || a instanceof MulticolumnAtom) {
+                final MulticolumnAtom ma = (MulticolumnAtom) a;
+                addCol(ma.getSkipped());
+            }
+        }
+    }
 
-	public void add(Atom a) {
-		if (a instanceof EnvArray.ColSep) {
-			currentRow.add(ra.simplify());
-			ra = new RowAtom();
-		} else if (a instanceof EnvArray.RowSep) {
-			currentRow.add(ra.simplify());
-			currentRow = new ArrayList<Atom>();
-			array.add(currentRow);
-			ra = new RowAtom();
-			++row;
-		} else {
-			ra.add(a);
-		}
-	}
+    public void add(Atom a) {
+        if (a instanceof EnvArray.ColSep) {
+            currentRow.add(ra.simplify());
+            ra = new RowAtom();
+        } else if (a instanceof EnvArray.RowSep) {
+            currentRow.add(ra.simplify());
+            currentRow = new ArrayList<Atom>();
+            array.add(currentRow);
+            ra = new RowAtom();
+            ++row;
+        } else {
+            ra.add(a);
+        }
+    }
 
-	public void updateRowColors(Color c) {
-		if (rowcolors == null) {
-			rowcolors = new ArrayList<Color>(array.size());
-		}
-		final int N = array.size() - rowcolors.size();
-		for (int i = 0; i < N; i++) {
-			rowcolors.add(null);
-		}
-		rowcolors.set(rowcolors.size() - 1, c);
-	}
+    public void updateRowColors(Color c) {
+        if (rowcolors == null) {
+            rowcolors = new ArrayList<Color>(array.size());
+        }
+        final int N = array.size() - rowcolors.size();
+        for (int i = 0; i < N; i++) {
+            rowcolors.add(null);
+        }
+        rowcolors.set(rowcolors.size() - 1, c);
+    }
 
-	public void updateColors(Color c) {
-		if (colors == null) {
-			colors = new ArrayList<ArrayList<Color>>(array.size());
-		}
-		final int N = array.size() - colors.size();
-		for (int i = 0; i < N; ++i) {
-			colors.add(null);
-		}
+    public void updateColors(Color c) {
+        if (colors == null) {
+            colors = new ArrayList<ArrayList<Color>>(array.size());
+        }
+        final int N = array.size() - colors.size();
+        for (int i = 0; i < N; ++i) {
+            colors.add(null);
+        }
 
-		final int last = colors.size() - 1;
-		ArrayList<Color> rowC = colors.get(last);
-		ArrayList<Atom> rowA = array.get(last);
-		if (rowC == null) {
-			rowC = new ArrayList<Color>(rowA.size());
-			colors.set(last, rowC);
-		}
-		final int Nc = rowA.size() - rowC.size();
-		for (int i = 0; i < Nc; ++i) {
-			rowC.add(null);
-		}
-		rowC.add(c);
-	}
+        final int last = colors.size() - 1;
+        ArrayList<Color> rowC = colors.get(last);
+        ArrayList<Atom> rowA = array.get(last);
+        if (rowC == null) {
+            rowC = new ArrayList<Color>(rowA.size());
+            colors.set(last, rowC);
+        }
+        final int Nc = rowA.size() - rowC.size();
+        for (int i = 0; i < Nc; ++i) {
+            rowC.add(null);
+        }
+        rowC.add(c);
+    }
 
-	public Color getColor(final int i, final int j) {
-		if (colors != null) {
-			if (i < colors.size()) {
-				final ArrayList<Color> colorsR = colors.get(i);
-				if (colorsR != null && j < colorsR.size()) {
-					final Color c = colorsR.get(j);
-					if (c != null) {
-						return c;
-					}
-				}
-			}
-		}
-		if (rowcolors != null && i < rowcolors.size()) {
-			return rowcolors.get(i);
-		}
-		return null;
-	}
+    public Color getColor(final int i, final int j) {
+        if (colors != null) {
+            if (i < colors.size()) {
+                final ArrayList<Color> colorsR = colors.get(i);
+                if (colorsR != null && j < colorsR.size()) {
+                    final Color c = colorsR.get(j);
+                    if (c != null) {
+                        return c;
+                    }
+                }
+            }
+        }
+        if (rowcolors != null && i < rowcolors.size()) {
+            return rowcolors.get(i);
+        }
+        return null;
+    }
 
-	@Override
-	public Atom getLastAtom() {
-		return ra.getLastAtom();
-	}
+    @Override
+    public Atom getLastAtom() {
+        return ra.getLastAtom();
+    }
 
-	private void addCol(int n) {
-		// this function is used when a multicolumn is added
-		currentRow.add(ra.simplify());
-		ra = new RowAtom();
-		for (int i = 0; i < n - 2; i++) {
-			currentRow.add(null);
-		}
-	}
+    private void addCol(int n) {
+        // this function is used when a multicolumn is added
+        currentRow.add(ra.simplify());
+        ra = new RowAtom();
+        for (int i = 0; i < n - 2; i++) {
+            currentRow.add(null);
+        }
+    }
 
-	private void addRow() {
-		add(null, EnvArray.RowSep.get());
-	}
+    private void addRow() {
+        add(null, EnvArray.RowSep.get());
+    }
 
-	public int getRows() {
-		return row;
-	}
+    public int getRows() {
+        return row;
+    }
 
-	public int getCols() {
-		return col;
-	}
+    public int getCols() {
+        return col;
+    }
 
-	public Atom get(final int i, final int j) {
-		return array.get(i).get(j);
-	}
+    public Atom get(final int i, final int j) {
+        return array.get(i).get(j);
+    }
 
-	public VRowAtom getAsVRow() {
-		VRowAtom vr = new VRowAtom();
-		vr.setAddInterline(true);
-		for (ArrayList<Atom> r : array) {
-			for (Atom a : r) {
-				vr.append(a);
-			}
-		}
+    public VRowAtom getAsVRow() {
+        VRowAtom vr = new VRowAtom();
+        vr.setAddInterline(true);
+        for (ArrayList<Atom> r : array) {
+            for (Atom a : r) {
+                vr.append(a);
+            }
+        }
 
-		return vr;
-	}
+        return vr;
+    }
 
-	public void checkDimensions() {
-		if (currentRow.size() != 0 || !ra.isEmpty()) {
-			addRow();
-		}
+    public void checkDimensions() {
+        if (currentRow.size() != 0 || !ra.isEmpty()) {
+            addRow();
+        }
 
-		row = array.size() - 1;
-		col = array.get(0).size();
+        row = array.size() - 1;
+        col = array.get(0).size();
 
-		// Get the max number of columns
-		for (int i = 1; i < row; ++i) {
-			col = Math.max(array.get(i).size(), col);
-		}
+        // Get the max number of columns
+        for (int i = 1; i < row; ++i) {
+            col = Math.max(array.get(i).size(), col);
+        }
 
-		/*
-		 * Thanks to Juan Enrique Escobar Robles for this patch which lets the
-		 * user have empty columns
-		 */
-		for (int i = 0; i < row; ++i) {
-			final ArrayList<Atom> r = array.get(i);
-			final int N = col - r.size();
-			if (N > 0) {
-				r.ensureCapacity(col);
-				for (int j = 0; j < N; ++j) {
-					r.add(null);
-				}
-			}
-		}
-	}
+        /*
+         * Thanks to Juan Enrique Escobar Robles for this patch which lets the
+         * user have empty columns
+         */
+        for (int i = 0; i < row; ++i) {
+            final ArrayList<Atom> r = array.get(i);
+            final int N = col - r.size();
+            if (N > 0) {
+                r.ensureCapacity(col);
+                for (int j = 0; j < N; ++j) {
+                    r.add(null);
+                }
+            }
+        }
+    }
 
-	@Override
-	public String toString() {
-		String s = "";
-		for (ArrayList<Atom> aa : array) {
-			for (Atom a : aa) {
-				s += a + " & ";
-			}
-			s += "\n";
-		}
+    @Override
+    public String toString() {
+        String s = "";
+        for (ArrayList<Atom> aa : array) {
+            for (Atom a : aa) {
+                s += a + " & ";
+            }
+            s += "\n";
+        }
 
-		return s;
-	}
+        return s;
+    }
 
-	public Atom getFirstColumnElement(int i) {
-		return array.size() > i && !array.get(i).isEmpty() ? get(i, 0) : null;
-	}
+    public Atom getFirstColumnElement(int i) {
+        return array.size() > i && !array.get(i).isEmpty() ? get(i, 0) : null;
+    }
 }

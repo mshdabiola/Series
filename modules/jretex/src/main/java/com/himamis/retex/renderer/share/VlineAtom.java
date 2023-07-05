@@ -50,61 +50,61 @@ package com.himamis.retex.renderer.share;
  */
 public class VlineAtom extends Atom {
 
-	private double height;
-	private double shift;
-	private int n;
+    private double height;
+    private double shift;
+    private int n;
 
-	public VlineAtom(double height, double shift, int n) {
-		this.height = height;
-		this.shift = shift;
-		this.n = n;
-	}
+    public VlineAtom(double height, double shift, int n) {
+        this.height = height;
+        this.shift = shift;
+        this.n = n;
+    }
 
-	public VlineAtom(int n) {
-		this.n = n;
-	}
+    public VlineAtom(int n) {
+        this.n = n;
+    }
 
-	public void setHeight(double height) {
-		this.height = height;
-	}
+    public static VlineAtom getEmpty() {
+        return new VlineAtom(0);
+    }
 
-	public void setShift(double shift) {
-		this.shift = shift;
-	}
+    public void setHeight(double height) {
+        this.height = height;
+    }
 
-	public static VlineAtom getEmpty() {
-		return new VlineAtom(0);
-	}
+    public void setShift(double shift) {
+        this.shift = shift;
+    }
 
-	public void add(final int n) {
-		this.n += n;
-	}
+    public void add(final int n) {
+        this.n += n;
+    }
 
-	public int getNumber() {
-		return n;
-	}
+    public int getNumber() {
+        return n;
+    }
 
-	@Override
-	public Box createBox(TeXEnvironment env) {
-		if (n != 0) {
-			double drt = env.getTeXFont()
-					.getDefaultRuleThickness(env.getStyle());
+    @Override
+    public Box createBox(TeXEnvironment env) {
+        if (n != 0) {
+            double drt = env.getTeXFont()
+                    .getDefaultRuleThickness(env.getStyle());
 
-			return new VlineBox(n, drt, height, shift);
-		}
+            return new VlineBox(n, drt, height, shift);
+        }
 
-		return StrutBox.getEmpty();
-	}
+        return StrutBox.getEmpty();
+    }
 
-	@Override
-	public String toString() {
-		if (n == 0) {
-			return ".";
-		}
-		String s = "";
-		for (int i = 0; i < n; ++i) {
-			s += "|";
-		}
-		return s;
-	}
+    @Override
+    public String toString() {
+        if (n == 0) {
+            return ".";
+        }
+        String s = "";
+        for (int i = 0; i < n; ++i) {
+            s += "|";
+        }
+        return s;
+    }
 }

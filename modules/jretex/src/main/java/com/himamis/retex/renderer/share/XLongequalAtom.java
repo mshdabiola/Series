@@ -53,12 +53,12 @@ import com.himamis.retex.renderer.share.xarrows.XLongEqual;
  */
 public class XLongequalAtom extends XAtom {
 
-	public XLongequalAtom(Atom over, Atom under) {
-		super(over, under);
-	}
+    public XLongequalAtom(Atom over, Atom under) {
+        super(over, under);
+    }
 
-	@Override
-	public Box createExtension(TeXEnvironment env, double width) {
-		return new XLongEqual(width);
-	}
+    @Override
+    public Box createExtension(TeXEnvironment env, double width) {
+        return new XLongEqual(width);
+    }
 }

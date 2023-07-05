@@ -52,21 +52,21 @@ import com.himamis.retex.renderer.share.TeXParser;
 
 public class CommandBigr extends Command {
 
-	final int type;
-	final int size;
+    final int type;
+    final int size;
 
-	public CommandBigr(final int type, final int size) {
-		this.type = type;
-		this.size = size;
-	}
+    public CommandBigr(final int type, final int size) {
+        this.type = type;
+        this.size = size;
+    }
 
-	@Override
-	public void add(TeXParser tp, Atom a) {
-		if (a instanceof SymbolAtom) {
-			a = new BigDelimiterAtom((SymbolAtom) a, size);
-			a.setType(type);
-		}
-		tp.closeConsumer(a);
-	}
+    @Override
+    public void add(TeXParser tp, Atom a) {
+        if (a instanceof SymbolAtom) {
+            a = new BigDelimiterAtom((SymbolAtom) a, size);
+            a.setType(type);
+        }
+        tp.closeConsumer(a);
+    }
 
 }

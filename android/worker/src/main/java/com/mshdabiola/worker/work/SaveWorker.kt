@@ -58,8 +58,6 @@ class SaveWorker(
     override suspend fun doWork(): Result = withContext(Dispatchers.IO) {
 
 
-
-
         //delete all data
         launch {
             iSubjectRepository.deleteAll()

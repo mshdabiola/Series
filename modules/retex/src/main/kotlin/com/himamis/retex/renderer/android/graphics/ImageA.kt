@@ -1,15 +1,17 @@
 package com.himamis.retex.renderer.android.graphics
 
-import android.graphics.Bitmap
 import android.graphics.Canvas
+import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.ImageBitmapConfig
+import androidx.compose.ui.graphics.asAndroidBitmap
 import com.himamis.retex.renderer.share.platform.graphics.Graphics2DInterface
 import com.himamis.retex.renderer.share.platform.graphics.Image
 
 class ImageA(width: Int, height: Int, type: Int) : Image {
-    val bitmap: Bitmap
+    val bitmap: ImageBitmap
 
     init {
-        bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+        bitmap = ImageBitmap(width, height, ImageBitmapConfig.Argb8888)
     }
 
     override fun getWidth(): Int {
@@ -21,11 +23,9 @@ class ImageA(width: Int, height: Int, type: Int) : Image {
     }
 
     override fun createGraphics2D(): Graphics2DInterface {
-        val canvas = Canvas(bitmap)
+        val canvas = Canvas(bitmap.asAndroidBitmap())
         return Graphics2DA(canvas)
     }
 
-    fun compose(){
 
-    }
 }

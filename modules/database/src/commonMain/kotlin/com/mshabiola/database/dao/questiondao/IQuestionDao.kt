@@ -14,7 +14,7 @@ interface IQuestionDao {
 
     fun getAllWithOptions(examId: Long): Flow<List<QuestionFull>>
 
-    fun getRandom(num:Long):Flow<List<QuestionFull>>
+    fun getRandom(num: Long): Flow<List<QuestionFull>>
 
     suspend fun update(question: Question)
     fun getOne(id: Long): Flow<Question>

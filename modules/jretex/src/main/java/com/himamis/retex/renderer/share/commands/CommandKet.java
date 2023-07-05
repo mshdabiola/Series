@@ -7,8 +7,8 @@ import com.himamis.retex.renderer.share.TeXParser;
 
 public class CommandKet extends Command1A {
 
-	@Override
-	public Atom newI(TeXParser tp, Atom a) {
-		return new RowAtom(Symbols.VERT, a, Symbols.RANGLE);
-	}
+    @Override
+    public Atom newI(TeXParser tp, Atom a) {
+        return new RowAtom(Symbols.VERT, a, Symbols.RANGLE);
+    }
 }

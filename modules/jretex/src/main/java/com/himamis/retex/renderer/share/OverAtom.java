@@ -51,15 +51,15 @@ package com.himamis.retex.renderer.share;
  */
 public class OverAtom extends FractionAtom {
 
-	public OverAtom(Atom num, Atom den) {
-		super(num, den);
-	}
+    public OverAtom(Atom num, Atom den) {
+        super(num, den);
+    }
 
-	public Atom getNum() {
-		return numerator;
-	}
+    public Atom getNum() {
+        return numerator;
+    }
 
-	public Atom getDen() {
-		return denominator;
-	}
+    public Atom getDen() {
+        return denominator;
+    }
 }

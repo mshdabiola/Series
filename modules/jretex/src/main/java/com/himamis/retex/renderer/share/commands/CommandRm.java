@@ -7,16 +7,16 @@ import com.himamis.retex.renderer.share.TeXParser;
 
 public class CommandRm extends CommandStyle {
 
-	public CommandRm() {
-		//
-	}
+    public CommandRm() {
+        //
+    }
 
-	public CommandRm(RowAtom size) {
-		this.size = size;
-	}
+    public CommandRm(RowAtom size) {
+        this.size = size;
+    }
 
-	@Override
-	public Atom newI(TeXParser tp, Atom a) {
-		return new RomanAtom(a);
-	}
+    @Override
+    public Atom newI(TeXParser tp, Atom a) {
+        return new RomanAtom(a);
+    }
 }

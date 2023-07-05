@@ -134,7 +134,7 @@ internal fun MainScreen(
                     year = it.year,
                     progress = finishPercent,
                     enabled = it.isSubmit.not(),
-                    time = it.totalTime-it.currentTime,
+                    time = it.totalTime - it.currentTime,
                     onClick = {
                         onQuestion()
                     }

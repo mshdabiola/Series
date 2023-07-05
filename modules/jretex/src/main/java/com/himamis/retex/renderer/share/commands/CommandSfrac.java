@@ -56,31 +56,31 @@ import com.himamis.retex.renderer.share.VRowAtom;
 
 public class CommandSfrac extends Command2A {
 
-	@Override
-	public Atom newI(TeXParser tp, Atom a, Atom b) {
-		double scaleX = 0.75;
-		double scaleY = 0.75;
-		double raise1 = 0.45;
-		double shiftL = -0.13;
-		double shiftR = -0.065;
-		Atom slash = Symbols.SLASH;
+    @Override
+    public Atom newI(TeXParser tp, Atom a, Atom b) {
+        double scaleX = 0.75;
+        double scaleY = 0.75;
+        double raise1 = 0.45;
+        double shiftL = -0.13;
+        double shiftR = -0.065;
+        Atom slash = Symbols.SLASH;
 
-		if (!tp.isMathMode()) {
-			scaleX = 0.6;
-			scaleY = 0.6;
-			raise1 = 0.75;
-			shiftL = -0.24;
-			shiftR = -0.24;
-			slash = new VRowAtom(
-					new ScaleAtom(Symbols.TEXTFRACTIONSOLIDUS, 1.25, 0.65));
-			((VRowAtom) slash).setRaise(Unit.EX, 0.4);
-		}
+        if (!tp.isMathMode()) {
+            scaleX = 0.6;
+            scaleY = 0.6;
+            raise1 = 0.75;
+            shiftL = -0.24;
+            shiftR = -0.24;
+            slash = new VRowAtom(
+                    new ScaleAtom(Symbols.TEXTFRACTIONSOLIDUS, 1.25, 0.65));
+            ((VRowAtom) slash).setRaise(Unit.EX, 0.4);
+        }
 
-		final VRowAtom snum = new VRowAtom(new ScaleAtom(a, scaleX, scaleY));
-		snum.setRaise(Unit.EX, raise1);
-		return new RowAtom(snum,
-				new SpaceAtom(Unit.EM, shiftL, 0., 0.), slash,
-				new SpaceAtom(Unit.EM, shiftR, 0., 0.),
-				new ScaleAtom(b, scaleX, scaleY));
-	}
+        final VRowAtom snum = new VRowAtom(new ScaleAtom(a, scaleX, scaleY));
+        snum.setRaise(Unit.EX, raise1);
+        return new RowAtom(snum,
+                new SpaceAtom(Unit.EM, shiftL, 0., 0.), slash,
+                new SpaceAtom(Unit.EM, shiftR, 0., 0.),
+                new ScaleAtom(b, scaleX, scaleY));
+    }
 }

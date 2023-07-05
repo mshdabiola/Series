@@ -56,7 +56,6 @@ import com.himamis.retex.renderer.share.platform.graphics.Graphics2DInterface
 import com.himamis.retex.renderer.share.platform.graphics.Image
 import com.himamis.retex.renderer.share.platform.graphics.Stroke
 import com.himamis.retex.renderer.share.platform.graphics.Transform
-import java.awt.Canvas
 import java.awt.Graphics2D
 import java.awt.RenderingHints
 import java.awt.geom.AffineTransform

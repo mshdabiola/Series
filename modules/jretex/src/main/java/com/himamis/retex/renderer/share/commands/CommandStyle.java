@@ -51,38 +51,38 @@ import com.himamis.retex.renderer.share.TeXParser;
 
 public abstract class CommandStyle extends Command {
 
-	protected RowAtom size;
+    protected RowAtom size;
 
-	@Override
-	public boolean init(TeXParser tp) {
-		size = new RowAtom();
-		return true;
-	}
+    @Override
+    public boolean init(TeXParser tp) {
+        size = new RowAtom();
+        return true;
+    }
 
-	@Override
-	public void add(TeXParser tp, Atom a) {
-		size.add(a);
-	}
+    @Override
+    public void add(TeXParser tp, Atom a) {
+        size.add(a);
+    }
 
-	@Override
-	public RowAtom steal(TeXParser tp) {
-		final RowAtom ra = size;
-		size = new RowAtom();
-		return ra;
-	}
+    @Override
+    public RowAtom steal(TeXParser tp) {
+        final RowAtom ra = size;
+        size = new RowAtom();
+        return ra;
+    }
 
-	@Override
-	public Atom getLastAtom() {
-		return size.getLastAtom();
-	}
+    @Override
+    public Atom getLastAtom() {
+        return size.getLastAtom();
+    }
 
-	@Override
-	public boolean close(TeXParser tp) {
-		final Atom at = newI(tp, size.simplify());
-		tp.closeConsumer(at);
-		return true;
-	}
+    @Override
+    public boolean close(TeXParser tp) {
+        final Atom at = newI(tp, size.simplify());
+        tp.closeConsumer(at);
+        return true;
+    }
 
-	public abstract Atom newI(TeXParser tp, Atom a);
+    public abstract Atom newI(TeXParser tp, Atom a);
 
 }

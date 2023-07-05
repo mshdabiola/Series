@@ -55,7 +55,7 @@ class ExInPort(
     }
 
     suspend inline fun <reified T> import(
-       inputStream: InputStream
+        inputStream: InputStream
     ): List<T> {
         return withContext(Dispatchers.IO) {
             Json.decodeFromStream(ByteArrayInputStream(readIt(inputStream)))
@@ -104,9 +104,9 @@ class ExInPort(
 
     }
 
-    fun readIt(inputStream : InputStream): ByteArray? {
+    fun readIt(inputStream: InputStream): ByteArray? {
 
-        val fileInputStream =inputStream
+        val fileInputStream = inputStream
         return ObjectInputStream(fileInputStream).use {
             val map: HashMap<String, ByteArray>? = it.readObject() as? HashMap<String, ByteArray>
 

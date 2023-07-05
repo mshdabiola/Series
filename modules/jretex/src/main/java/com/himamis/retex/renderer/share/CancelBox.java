@@ -56,80 +56,80 @@ import com.himamis.retex.renderer.share.platform.graphics.Stroke;
  */
 public class CancelBox extends Box {
 
-	private final Box b;
-	private final CancelAtom.Type ctype;
-	private final double thickness;
-	private final double extra;
-	private final Color color;
+    private final Box b;
+    private final CancelAtom.Type ctype;
+    private final double thickness;
+    private final double extra;
+    private final Color color;
 
-	public CancelBox(final Box b, final CancelAtom.Type ctype,
-			final double thickness, final double extra, Color color) {
-		this.b = b;
-		this.ctype = ctype;
-		this.thickness = thickness;
-		this.extra = extra;
-		this.color = color;
-		this.width = b.width;
-		this.height = b.height;
-		this.depth = b.depth;
-		this.shift = b.shift;
-	}
+    public CancelBox(final Box b, final CancelAtom.Type ctype,
+                     final double thickness, final double extra, Color color) {
+        this.b = b;
+        this.ctype = ctype;
+        this.thickness = thickness;
+        this.extra = extra;
+        this.color = color;
+        this.width = b.width;
+        this.height = b.height;
+        this.depth = b.depth;
+        this.shift = b.shift;
+    }
 
-	@Override
-	public void draw(Graphics2DInterface g2, double x, double y) {
-		b.draw(g2, x, y);
-		startDraw(g2, x, y);
-		final Stroke oldStroke = g2.getStroke();
-		g2.setStroke(graphics.createBasicStroke(thickness, BasicStroke.CAP_BUTT,
-				BasicStroke.JOIN_MITER));
-		final double th = thickness / 2.;
-		final double hyp = Math.hypot(width, height + depth);
-		final double a = extra * width / hyp;
-		final double b = extra * height / hyp;
-		Color oldColor = null;
-		if (color != null) {
-			oldColor = g2.getColor();
-			g2.setColor(color);
-		}
+    @Override
+    public void draw(Graphics2DInterface g2, double x, double y) {
+        b.draw(g2, x, y);
+        startDraw(g2, x, y);
+        final Stroke oldStroke = g2.getStroke();
+        g2.setStroke(graphics.createBasicStroke(thickness, BasicStroke.CAP_BUTT,
+                BasicStroke.JOIN_MITER));
+        final double th = thickness / 2.;
+        final double hyp = Math.hypot(width, height + depth);
+        final double a = extra * width / hyp;
+        final double b = extra * height / hyp;
+        Color oldColor = null;
+        if (color != null) {
+            oldColor = g2.getColor();
+            g2.setColor(color);
+        }
 
-		Line2D line = geom.createLine2D();
+        Line2D line = geom.createLine2D();
 
-		switch (ctype) {
-		case SLASH:
-			line.setLine(x + th - a, y + depth - th + b, x + width - th + a,
-					y - height + th - b);
-			g2.draw(line);
-			break;
-		case BACKSLASH:
-			line.setLine(x + th - a, y - height + th - b, x + width - th + a,
-					y + depth - th + b);
-			g2.draw(line);
-			break;
-		case X:
-			line.setLine(x + th - a, y - height + th - b, x + width - th + a,
-					y + depth - th + b);
-			g2.draw(line);
-			line.setLine(x + th - a, y + depth - th + b, x + width - th + a,
-					y - height + th - b);
-			g2.draw(line);
-			break;
-		}
-		g2.setStroke(oldStroke);
-		if (color != null) {
-			g2.setColor(oldColor);
-		}
+        switch (ctype) {
+            case SLASH:
+                line.setLine(x + th - a, y + depth - th + b, x + width - th + a,
+                        y - height + th - b);
+                g2.draw(line);
+                break;
+            case BACKSLASH:
+                line.setLine(x + th - a, y - height + th - b, x + width - th + a,
+                        y + depth - th + b);
+                g2.draw(line);
+                break;
+            case X:
+                line.setLine(x + th - a, y - height + th - b, x + width - th + a,
+                        y + depth - th + b);
+                g2.draw(line);
+                line.setLine(x + th - a, y + depth - th + b, x + width - th + a,
+                        y - height + th - b);
+                g2.draw(line);
+                break;
+        }
+        g2.setStroke(oldStroke);
+        if (color != null) {
+            g2.setColor(oldColor);
+        }
 
-		endDraw(g2);
-	}
+        endDraw(g2);
+    }
 
-	@Override
-	public FontInfo getLastFont() {
-		return b.getLastFont();
-	}
+    @Override
+    public FontInfo getLastFont() {
+        return b.getLastFont();
+    }
 
-	@Override
-	public void inspect(BoxConsumer handler, BoxPosition position) {
-		super.inspect(handler, position);
-		b.inspect(handler, position);
-	}
+    @Override
+    public void inspect(BoxConsumer handler, BoxPosition position) {
+        super.inspect(handler, position);
+        b.inspect(handler, position);
+    }
 }

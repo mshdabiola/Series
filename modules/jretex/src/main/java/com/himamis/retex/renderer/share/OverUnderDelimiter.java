@@ -52,89 +52,86 @@ package com.himamis.retex.renderer.share;
  */
 public class OverUnderDelimiter extends Atom implements HasUnderOver {
 
-	// base and script atom
-	private final Atom base;
-	private Atom script;
+    // base and script atom
+    private final Atom base;
+    // delimiter symbol
+    private final SymbolAtom symbol;
+    // kern between delimiter and script
+    private final SpaceAtom kern;
+    // whether the delimiter should be positioned above or under the base
+    private final boolean over;
+    private Atom script;
 
-	// delimiter symbol
-	private final SymbolAtom symbol;
+    public OverUnderDelimiter(Atom base, Atom script, SymbolAtom s,
+                              Unit kernUnit, double kern, boolean over) {
+        this.type = TeXConstants.TYPE_INNER;
+        this.base = base;
+        this.script = script;
+        symbol = s;
+        this.kern = new SpaceAtom(kernUnit, 0., kern, 0.);
+        this.over = over;
+    }
 
-	// kern between delimiter and script
-	private final SpaceAtom kern;
+    private static double getMaxWidth(Box b, Box del, Box script) {
+        double max = Math.max(b.getWidth(), del.getHeight() + del.getDepth());
+        if (script != null) {
+            max = Math.max(max, script.getWidth());
+        }
 
-	// whether the delimiter should be positioned above or under the base
-	private final boolean over;
+        return max;
+    }
 
-	public OverUnderDelimiter(Atom base, Atom script, SymbolAtom s,
-			Unit kernUnit, double kern, boolean over) {
-		this.type = TeXConstants.TYPE_INNER;
-		this.base = base;
-		this.script = script;
-		symbol = s;
-		this.kern = new SpaceAtom(kernUnit, 0., kern, 0.);
-		this.over = over;
-	}
+    public void addScript(Atom script) {
+        this.script = script;
+    }
 
-	public void addScript(Atom script) {
-		this.script = script;
-	}
+    public boolean isOver() {
+        return over;
+    }
 
-	public boolean isOver() {
-		return over;
-	}
+    @Override
+    public Box createBox(TeXEnvironment env) {
+        Box b = base == null ? StrutBox.getEmpty() : base.createBox(env);
+        Box del = DelimiterFactory.create(symbol.getCf(), env, b.getWidth());
+        Box scriptBox = null;
+        if (script != null) {
+            scriptBox = script
+                    .createBox(over ? env.supStyle() : env.subStyle());
+        }
 
-	@Override
-	public Box createBox(TeXEnvironment env) {
-		Box b = base == null ? StrutBox.getEmpty() : base.createBox(env);
-		Box del = DelimiterFactory.create(symbol.getCf(), env, b.getWidth());
-		Box scriptBox = null;
-		if (script != null) {
-			scriptBox = script
-					.createBox(over ? env.supStyle() : env.subStyle());
-		}
+        // create centered horizontal box if smaller than maximum width
+        double max = getMaxWidth(b, del, scriptBox);
+        if (max - b.getWidth() > TeXFormula.PREC) {
+            b = new HorizontalBox(b, max, TeXConstants.Align.CENTER);
+        }
 
-		// create centered horizontal box if smaller than maximum width
-		double max = getMaxWidth(b, del, scriptBox);
-		if (max - b.getWidth() > TeXFormula.PREC) {
-			b = new HorizontalBox(b, max, TeXConstants.Align.CENTER);
-		}
+        del = new VerticalBox(del, max, TeXConstants.Align.CENTER);
+        if (scriptBox != null && max - scriptBox.getWidth() > TeXFormula.PREC) {
+            scriptBox = new HorizontalBox(scriptBox, max,
+                    TeXConstants.Align.CENTER);
+        }
 
-		del = new VerticalBox(del, max, TeXConstants.Align.CENTER);
-		if (scriptBox != null && max - scriptBox.getWidth() > TeXFormula.PREC) {
-			scriptBox = new HorizontalBox(scriptBox, max,
-					TeXConstants.Align.CENTER);
-		}
+        return new OverUnderBox(b, del, scriptBox,
+                kern.createBox(env).getHeight(), over);
+    }
 
-		return new OverUnderBox(b, del, scriptBox,
-				kern.createBox(env).getHeight(), over);
-	}
+    @Override
+    public int getLimits() {
+        return base.getLimits();
+    }
 
-	private static double getMaxWidth(Box b, Box del, Box script) {
-		double max = Math.max(b.getWidth(), del.getHeight() + del.getDepth());
-		if (script != null) {
-			max = Math.max(max, script.getWidth());
-		}
+    @Override
+    public Atom getTrueBase() {
+        return base;
+    }
 
-		return max;
-	}
+    @Override
+    public Atom getUnderOver() {
+        return symbol;
+    }
 
-	@Override
-	public int getLimits() {
-		return base.getLimits();
-	}
-
-	@Override
-	public Atom getTrueBase() {
-		return base;
-	}
-
-	@Override
-	public Atom getUnderOver() {
-		return symbol;
-	}
-
-	@Override
-	public boolean isUnder() {
-		return !over;
-	}
+    @Override
+    public boolean isUnder() {
+        return !over;
+    }
 }

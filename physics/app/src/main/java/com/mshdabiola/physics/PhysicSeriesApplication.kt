@@ -35,9 +35,9 @@ class PhysicSeriesApplication : Application() {
 
         Timber.e("saved v $oldV version $version")
         Saver.initialize(applicationContext)
-         if (version > oldV) {
-        Saver.saveGame(89L)
-          }
+        if (version > oldV) {
+            Saver.saveGame(89L)
+        }
 
     }
 }

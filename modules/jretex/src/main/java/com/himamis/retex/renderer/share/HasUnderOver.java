@@ -1,9 +1,9 @@
 package com.himamis.retex.renderer.share;
 
 public interface HasUnderOver {
-	Atom getTrueBase();
+    Atom getTrueBase();
 
-	Atom getUnderOver();
+    Atom getUnderOver();
 
-	boolean isUnder();
+    boolean isUnder();
 }

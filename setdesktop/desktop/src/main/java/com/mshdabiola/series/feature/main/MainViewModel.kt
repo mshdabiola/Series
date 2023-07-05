@@ -9,8 +9,6 @@ import com.mshdabiola.data.repository.inter.ISettingRepository
 import com.mshdabiola.data.repository.inter.ISubjectRepository
 import com.mshdabiola.model.data.Exam
 import com.mshdabiola.model.data.Instruction
-import com.mshdabiola.model.data.Option
-import com.mshdabiola.model.data.Question
 import com.mshdabiola.model.data.QuestionFull
 import com.mshdabiola.model.data.Subject
 import com.mshdabiola.model.data.Topic
@@ -200,7 +198,7 @@ class MainViewModel(
             iExInPortRepository.export(
                 coroutineScope = this,
                 subjectId = currentSubjectId.value
-            ) { subjects: List<Subject>, exams: List<Exam>, questions: List<QuestionFull>,instructions: List<Instruction>, topics: List<Topic> ->
+            ) { subjects: List<Subject>, exams: List<Exam>, questions: List<QuestionFull>, instructions: List<Instruction>, topics: List<Topic> ->
 
                 viewModelScope.launch {
                     launch { exInPort.copyImage(path, subjects) }

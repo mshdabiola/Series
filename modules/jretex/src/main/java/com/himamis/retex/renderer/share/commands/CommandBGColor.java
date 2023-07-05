@@ -7,25 +7,25 @@ import com.himamis.retex.renderer.share.platform.graphics.Color;
 
 public class CommandBGColor extends Command1A {
 
-	Color bg;
+    Color bg;
 
-	public CommandBGColor() {
-		//
-	}
+    public CommandBGColor() {
+        //
+    }
 
-	public CommandBGColor(Color bg2) {
-		this.bg = bg2;
-	}
+    public CommandBGColor(Color bg2) {
+        this.bg = bg2;
+    }
 
-	@Override
-	public boolean init(TeXParser tp) {
-		bg = CommandDefinecolor.getColor(tp);
-		return true;
-	}
+    @Override
+    public boolean init(TeXParser tp) {
+        bg = CommandDefinecolor.getColor(tp);
+        return true;
+    }
 
-	@Override
-	public Atom newI(TeXParser tp, Atom a) {
-		return new ColorAtom(a, bg, null);
-	}
+    @Override
+    public Atom newI(TeXParser tp, Atom a) {
+        return new ColorAtom(a, bg, null);
+    }
 
 }

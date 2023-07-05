@@ -6,8 +6,8 @@ import com.himamis.retex.renderer.share.UnderOverArrowAtom;
 
 public class CommandOverLeftArrow extends Command1A {
 
-	@Override
-	public Atom newI(TeXParser tp, Atom a) {
-		return new UnderOverArrowAtom(a, true, true);
-	}
+    @Override
+    public Atom newI(TeXParser tp, Atom a) {
+        return new UnderOverArrowAtom(a, true, true);
+    }
 }

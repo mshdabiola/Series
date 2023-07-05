@@ -7,20 +7,20 @@ import com.himamis.retex.renderer.share.TeXParser;
 
 public class CommandWideTilde extends Command1A {
 
-	@Override
-	public Atom newI(TeXParser tp, Atom a) {
-		return new AccentedAtom(a, Symbols.WIDETILDE);
-	}
+    @Override
+    public Atom newI(TeXParser tp, Atom a) {
+        return new AccentedAtom(a, Symbols.WIDETILDE);
+    }
 
-	@Override
-	public boolean close(TeXParser tp) {
-		tp.closeConsumer(Symbols.WIDETILDE);
-		return true;
-	}
+    @Override
+    public boolean close(TeXParser tp) {
+        tp.closeConsumer(Symbols.WIDETILDE);
+        return true;
+    }
 
-	@Override
-	public boolean isClosable() {
-		return true;
-	}
+    @Override
+    public boolean isClosable() {
+        return true;
+    }
 
 }
