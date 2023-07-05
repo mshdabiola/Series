@@ -56,44 +56,44 @@ import com.himamis.retex.renderer.share.platform.graphics.Graphics2DInterface;
  */
 public class ShapeBox extends Box {
 
-    private Shape shape;
+	private Shape shape;
 
-    public ShapeBox(final Shape shape) {
-        this.shape = shape;
-        final Rectangle2D rect = shape.getBounds2DX();
-        this.height = rect.getHeight();
-        this.depth = 0.;
-        this.width = rect.getWidth();
-    }
+	public ShapeBox(final Shape shape) {
+		this.shape = shape;
+		final Rectangle2D rect = shape.getBounds2DX();
+		this.height = rect.getHeight();
+		this.depth = 0.;
+		this.width = rect.getWidth();
+	}
 
-    public static Box create(final Box b) {
-        final Area a = b.getArea();
-        if (a != null) {
-            final ShapeBox sb = new ShapeBox(a);
-            sb.setDepth(b.getDepth());
-            sb.setHeight(b.getHeight());
-            sb.setWidth(b.getWidth());
-            return sb;
-        }
-        return b;
-    }
+	@Override
+	public void draw(Graphics2DInterface g2, double x, double y) {
+		startDraw(g2, x, y);
+		g2.translate(x, y);
+		g2.fill(shape);
+		g2.translate(-x, -y);
+		endDraw(g2);
+	}
 
-    @Override
-    public void draw(Graphics2DInterface g2, double x, double y) {
-        startDraw(g2, x, y);
-        g2.translate(x, y);
-        g2.fill(shape);
-        g2.translate(-x, -y);
-        endDraw(g2);
-    }
+	@Override
+	public FontInfo getLastFont() {
+		return null;
+	}
 
-    @Override
-    public FontInfo getLastFont() {
-        return null;
-    }
+	@Override
+	public String toString() {
+		return super.toString();
+	}
 
-    @Override
-    public String toString() {
-        return super.toString();
-    }
+	public static Box create(final Box b) {
+		final Area a = b.getArea();
+		if (a != null) {
+			final ShapeBox sb = new ShapeBox(a);
+			sb.setDepth(b.getDepth());
+			sb.setHeight(b.getHeight());
+			sb.setWidth(b.getWidth());
+			return sb;
+		}
+		return b;
+	}
 }

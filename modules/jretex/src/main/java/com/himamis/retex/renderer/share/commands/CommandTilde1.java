@@ -7,9 +7,9 @@ import com.himamis.retex.renderer.share.TeXParser;
 
 public class CommandTilde1 extends Command1A {
 
-    @Override
-    public Atom newI(TeXParser tp, Atom a) {
-        return new AccentedAtom(a, Symbols.TILDE);
-    }
+	@Override
+	public Atom newI(TeXParser tp, Atom a) {
+		return new AccentedAtom(a, Symbols.TILDE);
+	}
 
 }

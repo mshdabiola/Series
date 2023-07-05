@@ -51,16 +51,16 @@ package com.himamis.retex.renderer.share;
 public class BreakMarkAtom extends Atom {
 
 
-    BreakMarkAtom() {
-        //
-    }
+	BreakMarkAtom() {
+		//
+	}
 
-    public static BreakMarkAtom get() {
-        return new BreakMarkAtom();
-    }
+	public static BreakMarkAtom get() {
+		return new BreakMarkAtom();
+	}
 
-    @Override
-    public Box createBox(TeXEnvironment env) {
-        return StrutBox.getEmpty();
-    }
+	@Override
+	public Box createBox(TeXEnvironment env) {
+		return StrutBox.getEmpty();
+	}
 }

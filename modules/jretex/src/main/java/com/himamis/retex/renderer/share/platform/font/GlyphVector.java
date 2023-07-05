@@ -4,6 +4,6 @@ import com.himamis.retex.renderer.share.platform.geom.Shape;
 
 public abstract class GlyphVector {
 
-    public abstract Shape getGlyphOutline(int i);
+	public abstract Shape getGlyphOutline(int i);
 
 }

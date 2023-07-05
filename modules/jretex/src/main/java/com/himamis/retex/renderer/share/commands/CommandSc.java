@@ -7,16 +7,16 @@ import com.himamis.retex.renderer.share.TeXParser;
 
 public class CommandSc extends CommandStyle {
 
-    public CommandSc() {
-        //
-    }
+	public CommandSc() {
+		//
+	}
 
-    public CommandSc(RowAtom size) {
-        this.size = size;
-    }
+	public CommandSc(RowAtom size) {
+		this.size = size;
+	}
 
-    @Override
-    public Atom newI(TeXParser tp, Atom a) {
-        return new SmallCapAtom(a);
-    }
+	@Override
+	public Atom newI(TeXParser tp, Atom a) {
+		return new SmallCapAtom(a);
+	}
 }

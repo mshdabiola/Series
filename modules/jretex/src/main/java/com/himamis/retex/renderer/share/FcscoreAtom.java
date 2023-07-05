@@ -52,38 +52,38 @@ import com.himamis.retex.renderer.share.serialize.HasCharacter;
  */
 public class FcscoreAtom extends Atom implements HasCharacter {
 
-    private int N;
+	private int N;
 
-    public FcscoreAtom(int N) {
-        this.N = N;
-    }
+	public FcscoreAtom(int N) {
+		this.N = N;
+	}
 
-    public static Atom get(final int n) {
-        if (n > 5) {
-            final int q = n / 5;
-            final int r = n % 5;
-            RowAtom rat = new RowAtom(new FcscoreAtom(5));
-            for (int i = 1; i < q; i++) {
-                rat.add(new FcscoreAtom(5));
-            }
-            rat.add(new FcscoreAtom(r));
+	@Override
+	public Box createBox(TeXEnvironment env) {
+		final double factor = 12 * Unit.MU.getFactor(env);
 
-            return rat;
-        } else {
-            return new FcscoreAtom(n);
-        }
-    }
+		return new FcscoreBox(N == 5 ? 4 : N, factor * 1., factor * 0.07,
+				factor * 0.125, N == 5);
+	}
 
-    @Override
-    public Box createBox(TeXEnvironment env) {
-        final double factor = 12 * Unit.MU.getFactor(env);
+	public static Atom get(final int n) {
+		if (n > 5) {
+			final int q = n / 5;
+			final int r = n % 5;
+			RowAtom rat = new RowAtom(new FcscoreAtom(5));
+			for (int i = 1; i < q; i++) {
+				rat.add(new FcscoreAtom(5));
+			}
+			rat.add(new FcscoreAtom(r));
 
-        return new FcscoreBox(N == 5 ? 4 : N, factor * 1., factor * 0.07,
-                factor * 0.125, N == 5);
-    }
+			return rat;
+		} else {
+			return new FcscoreAtom(n);
+		}
+	}
 
-    @Override
-    public String getCharacter() {
-        return "|||||".substring(0, N);
-    }
+	@Override
+	public String getCharacter() {
+		return "|||||".substring(0, N);
+	}
 }

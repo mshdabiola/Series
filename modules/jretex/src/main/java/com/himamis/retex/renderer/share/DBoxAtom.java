@@ -51,36 +51,36 @@ import com.himamis.retex.renderer.share.serialize.HasTrueBase;
  * An atom representing a boxed base atom.
  */
 public class DBoxAtom extends Atom implements HasTrueBase {
-    protected final Atom base;
-    protected final Color bg;
-    protected final Color line;
+	protected final Atom base;
+	protected final Color bg;
+	protected final Color line;
 
-    public DBoxAtom(Atom base, Color bg, Color line) {
-        this.base = base;
-        this.bg = bg;
-        this.line = line;
-    }
+	public DBoxAtom(Atom base, Color bg, Color line) {
+		this.base = base;
+		this.bg = bg;
+		this.line = line;
+	}
 
-    public DBoxAtom(Atom base) {
-        this(base, null, null);
-    }
+	public DBoxAtom(Atom base) {
+		this(base, null, null);
+	}
 
-    @Override
-    public Box createBox(TeXEnvironment env) {
-        final Box bbase = base.createBox(env);
-        final double drt = env.lengthSettings().getLength("fboxrule", env);
-        final double space = env.lengthSettings().getLength("fboxsep", env);
-        final double dl = env.lengthSettings().getLength("dashlength", env);
-        final double dd = env.lengthSettings().getLength("dashdash", env);
-        if (bg == null) {
-            return new FramedBox(bbase, drt, space, dl, dd);
-        }
-        env.isColored = true;
-        return new FramedBox(bbase, drt, space, line, bg, dl, dd);
-    }
+	@Override
+	public Box createBox(TeXEnvironment env) {
+		final Box bbase = base.createBox(env);
+		final double drt = env.lengthSettings().getLength("fboxrule", env);
+		final double space = env.lengthSettings().getLength("fboxsep", env);
+		final double dl = env.lengthSettings().getLength("dashlength", env);
+		final double dd = env.lengthSettings().getLength("dashdash", env);
+		if (bg == null) {
+			return new FramedBox(bbase, drt, space, dl, dd);
+		}
+		env.isColored = true;
+		return new FramedBox(bbase, drt, space, line, bg, dl, dd);
+	}
 
-    @Override
-    public Atom getTrueBase() {
-        return base;
-    }
+	@Override
+	public Atom getTrueBase() {
+		return base;
+	}
 }

@@ -6,9 +6,9 @@ import com.himamis.retex.renderer.share.TeXParser;
 
 public class CommandVPhantom extends Command1A {
 
-    @Override
-    public Atom newI(TeXParser tp, Atom a) {
-        return new PhantomAtom(a, false, true, true);
-    }
+	@Override
+	public Atom newI(TeXParser tp, Atom a) {
+		return new PhantomAtom(a, false, true, true);
+	}
 
 }

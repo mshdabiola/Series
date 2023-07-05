@@ -57,117 +57,117 @@ import com.himamis.retex.renderer.share.platform.font.Font;
 
 public class CommandUnicode extends Command {
 
-    private static boolean isHD(final String s) {
-        if (!s.isEmpty()) {
-            for (int i = 0; i < s.length(); ++i) {
-                final char c = s.charAt(i);
-                if (c == ',' || c == ';') {
-                    // we've a couple (height, depth)
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
+	@Override
+	public boolean init(TeXParser tp) {
+		final String opt1 = tp.getOptionAsString();
+		final String opt2 = tp.getOptionAsString();
+		final int c = tp.getArgAsCharFromCode();
+		if (c == 0) {
+			throw new ParseException(tp, "Invalid character in \\unicode: 0.");
+		}
+		TeXLength[] hd = null;
+		Font font = null;
+		String fontName = null;
 
-    private static TeXLength[] getHD(final String s) {
-        final TeXParser tp = new TeXParser();
-        tp.setParseString(s);
-        tp.skipPureWhites();
-        final TeXLength[] hd = new TeXLength[2];
-        hd[0] = tp.getLength(Unit.EM);
-        tp.skipSeparators(",;");
-        hd[1] = tp.getLength(Unit.EM);
+		if (isHD(opt1)) {
+			hd = getHD(opt1);
+			fontName = opt2;
+		} else if (isHD(opt2)) {
+			hd = getHD(opt2);
+			fontName = opt1;
+		}
 
-        return hd;
-    }
+		if (hd == null) {
+			if (!opt1.isEmpty()) {
+				fontName = opt1;
+			} else if (!opt2.isEmpty()) {
+				fontName = opt2;
+			}
+		}
 
-    @Override
-    public boolean init(TeXParser tp) {
-        final String opt1 = tp.getOptionAsString();
-        final String opt2 = tp.getOptionAsString();
-        final int c = tp.getArgAsCharFromCode();
-        if (c == 0) {
-            throw new ParseException(tp, "Invalid character in \\unicode: 0.");
-        }
-        TeXLength[] hd = null;
-        Font font = null;
-        String fontName = null;
+		if (fontName != null && !fontName.isEmpty()) {
+			font = FactoryProvider.getInstance().getFontFactory()
+					.createFont(fontName, Font.PLAIN, 10);
+			if (!font.canDisplay(c)) {
+				final String s = new String(new int[] { c }, 0, 1);
+				throw new ParseException(tp, "The font " + fontName
+						+ " can't display char " + s + " (code " + c + ")");
+			}
+		}
 
-        if (isHD(opt1)) {
-            hd = getHD(opt1);
-            fontName = opt2;
-        } else if (isHD(opt2)) {
-            hd = getHD(opt2);
-            fontName = opt1;
-        }
+		if (font == null) {
+			if (hd == null) {
+				if (c <= 0xFFFF) {
+					final char ch = (char) c;
+					if ((ch >= '0' && ch <= '9') || (ch >= 'a' && ch <= 'z')
+							|| (ch >= 'A' && ch <= 'Z')) {
+						tp.convertASCIIChar(ch, true);
+					} else {
+						tp.convertCharacter(ch, true);
+					}
+				} else {
+					tp.convertCharacter(c);
+				}
+			} else {
+				Atom atom;
+				if (c <= 0xFFFF) {
+					final char ch = (char) c;
+					if ((ch >= '0' && ch <= '9') || (ch >= 'a' && ch <= 'z')
+							|| (ch >= 'A' && ch <= 'Z')) {
+						atom = tp.convertASCIICharToAtom(ch, true);
+					} else {
+						atom = tp.getCharMapping().getAtom(ch, tp.isMathMode());
+						if (atom == null) {
+							atom = new JavaFontRenderingAtom(
+									String.valueOf(ch));
+						}
+					}
+				} else {
+					atom = new JavaFontRenderingAtom(
+							new String(new int[] { c }, 0, 1));
+				}
+				tp.addToConsumer(new HeightDepthAtom(hd[0], hd[1], atom));
+			}
+			return false;
+		}
 
-        if (hd == null) {
-            if (!opt1.isEmpty()) {
-                fontName = opt1;
-            } else if (!opt2.isEmpty()) {
-                fontName = opt2;
-            }
-        }
+		String s;
+		if (c <= 0xFFFF) {
+			s = String.valueOf((char) c);
+		} else {
+			s = new String(new int[] { c }, 0, 1);
+		}
+		Atom a = new JavaFontRenderingAtom(s, font);
+		if (hd != null) {
+			a = new HeightDepthAtom(hd[0], hd[1], a);
+		}
+		tp.addToConsumer(a);
 
-        if (fontName != null && !fontName.isEmpty()) {
-            font = FactoryProvider.getInstance().getFontFactory()
-                    .createFont(fontName, Font.PLAIN, 10);
-            if (!font.canDisplay(c)) {
-                final String s = new String(new int[]{c}, 0, 1);
-                throw new ParseException(tp, "The font " + fontName
-                        + " can't display char " + s + " (code " + c + ")");
-            }
-        }
+		return false;
+	}
 
-        if (font == null) {
-            if (hd == null) {
-                if (c <= 0xFFFF) {
-                    final char ch = (char) c;
-                    if ((ch >= '0' && ch <= '9') || (ch >= 'a' && ch <= 'z')
-                            || (ch >= 'A' && ch <= 'Z')) {
-                        tp.convertASCIIChar(ch, true);
-                    } else {
-                        tp.convertCharacter(ch, true);
-                    }
-                } else {
-                    tp.convertCharacter(c);
-                }
-            } else {
-                Atom atom;
-                if (c <= 0xFFFF) {
-                    final char ch = (char) c;
-                    if ((ch >= '0' && ch <= '9') || (ch >= 'a' && ch <= 'z')
-                            || (ch >= 'A' && ch <= 'Z')) {
-                        atom = tp.convertASCIICharToAtom(ch, true);
-                    } else {
-                        atom = tp.getCharMapping().getAtom(ch, tp.isMathMode());
-                        if (atom == null) {
-                            atom = new JavaFontRenderingAtom(
-                                    String.valueOf(ch));
-                        }
-                    }
-                } else {
-                    atom = new JavaFontRenderingAtom(
-                            new String(new int[]{c}, 0, 1));
-                }
-                tp.addToConsumer(new HeightDepthAtom(hd[0], hd[1], atom));
-            }
-            return false;
-        }
+	private static boolean isHD(final String s) {
+		if (!s.isEmpty()) {
+			for (int i = 0; i < s.length(); ++i) {
+				final char c = s.charAt(i);
+				if (c == ',' || c == ';') {
+					// we've a couple (height, depth)
+					return true;
+				}
+			}
+		}
+		return false;
+	}
 
-        String s;
-        if (c <= 0xFFFF) {
-            s = String.valueOf((char) c);
-        } else {
-            s = new String(new int[]{c}, 0, 1);
-        }
-        Atom a = new JavaFontRenderingAtom(s, font);
-        if (hd != null) {
-            a = new HeightDepthAtom(hd[0], hd[1], a);
-        }
-        tp.addToConsumer(a);
+	private static TeXLength[] getHD(final String s) {
+		final TeXParser tp = new TeXParser();
+		tp.setParseString(s);
+		tp.skipPureWhites();
+		final TeXLength[] hd = new TeXLength[2];
+		hd[0] = tp.getLength(Unit.EM);
+		tp.skipSeparators(",;");
+		hd[1] = tp.getLength(Unit.EM);
 
-        return false;
-    }
+		return hd;
+	}
 }

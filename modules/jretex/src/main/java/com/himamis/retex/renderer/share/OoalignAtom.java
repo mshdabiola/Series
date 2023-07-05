@@ -45,48 +45,48 @@
 
 package com.himamis.retex.renderer.share;
 
-import com.himamis.retex.renderer.share.serialize.HasElements;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import com.himamis.retex.renderer.share.serialize.HasElements;
 
 /**
  * An atom representing a vertical row of other atoms.
  */
 public class OoalignAtom extends Atom implements HasElements {
 
-    private final List<Atom> column;
+	private final List<Atom> column;
 
-    public OoalignAtom(ArrayOfAtoms column) {
-        this.column = column.getFirstColumn();
-    }
+	public OoalignAtom(ArrayOfAtoms column) {
+		this.column = column.getFirstColumn();
+	}
 
-    public OoalignAtom(Atom... atoms) {
-        this.column = new ArrayList<Atom>(atoms.length);
-        for (final Atom a : atoms) {
-            this.column.add(a);
-        }
-    }
+	public OoalignAtom(Atom... atoms) {
+		this.column = new ArrayList<Atom>(atoms.length);
+		for (final Atom a : atoms) {
+			this.column.add(a);
+		}
+	}
 
-    public OoalignAtom(List<Atom> column) {
-        this.column = column;
-    }
+	public OoalignAtom(List<Atom> column) {
+		this.column = column;
+	}
 
-    @Override
-    public Box createBox(TeXEnvironment env) {
-        final int N = column.size();
-        if (N == 0) {
-            return StrutBox.getEmpty();
-        }
-        final List<Box> l = new ArrayList<Box>(N);
-        for (final Atom a : column) {
-            l.add(a.createBox(env));
-        }
-        return new OoalignBox(l);
-    }
+	@Override
+	public Box createBox(TeXEnvironment env) {
+		final int N = column.size();
+		if (N == 0) {
+			return StrutBox.getEmpty();
+		}
+		final List<Box> l = new ArrayList<Box>(N);
+		for (final Atom a : column) {
+			l.add(a.createBox(env));
+		}
+		return new OoalignBox(l);
+	}
 
-    @Override
-    public Atom getElement(int index) {
-        return index < column.size() ? column.get(index) : null;
-    }
+	@Override
+	public Atom getElement(int index) {
+		return index < column.size() ? column.get(index) : null;
+	}
 }

@@ -51,263 +51,263 @@ import com.himamis.retex.renderer.share.platform.graphics.Color;
 
 public class EnvArray {
 
-    public static final class ColSep extends EmptyAtom {
+	public static final class ColSep extends EmptyAtom {
 
-        private ColSep() {
-        }
+		private ColSep() {
+		}
 
-        public static ColSep get() {
-            return new ColSep();
-        }
+		public static ColSep get() {
+			return new ColSep();
+		}
 
-        @Override
-        public Atom duplicate() {
-            return setFields(new ColSep());
-        }
-    }
+		@Override
+		public Atom duplicate() {
+			return setFields(new ColSep());
+		}
+	}
 
-    public static final class RowSep extends EmptyAtom {
+	public static final class RowSep extends EmptyAtom {
 
-        private final TeXLength minHeight;
+		private final TeXLength minHeight;
 
-        public RowSep(TeXLength minHeight) {
-            this.minHeight = minHeight;
-        }
+		public RowSep(TeXLength minHeight) {
+			this.minHeight = minHeight;
+		}
 
-        public static RowSep get() {
-            return new RowSep(null);
-        }
+		public static RowSep get() {
+			return new RowSep(null);
+		}
 
-        @Override
-        public Atom duplicate() {
-            return setFields(new RowSep(minHeight));
-        }
+		@Override
+		public Atom duplicate() {
+			return setFields(new RowSep(minHeight));
+		}
 
-        public TeXLength getMinHeight() {
-            return minHeight;
-        }
-    }
+		public TeXLength getMinHeight() {
+			return minHeight;
+		}
+	}
 
-    public static final class CellColor extends EmptyAtom {
-        final Color c;
+	public static final class CellColor extends EmptyAtom {
+		final Color c;
 
-        public CellColor(final Color c) {
-            this.c = c;
-        }
+		public CellColor(final Color c) {
+			this.c = c;
+		}
 
-        public Color getColor() {
-            return c;
-        }
+		public Color getColor() {
+			return c;
+		}
 
-        @Override
-        public Atom duplicate() {
-            return setFields(new CellColor(c));
-        }
-    }
+		@Override
+		public Atom duplicate() {
+			return setFields(new CellColor(c));
+		}
+	}
 
-    public static final class RowColor extends EmptyAtom {
-        final Color c;
+	public static final class RowColor extends EmptyAtom {
+		final Color c;
 
-        public RowColor(final Color c) {
-            this.c = c;
-        }
+		public RowColor(final Color c) {
+			this.c = c;
+		}
 
-        public Color getColor() {
-            return c;
-        }
+		public Color getColor() {
+			return c;
+		}
 
-        @Override
-        public Atom duplicate() {
-            return setFields(new RowColor(c));
-        }
-    }
+		@Override
+		public Atom duplicate() {
+			return setFields(new RowColor(c));
+		}
+	}
 
-    public static class Begin extends Command {
+	public static class Begin extends Command {
 
-        ArrayTypes type;
-        ArrayOptions opt;
-        ArrayOfAtoms aoa;
-        int n;
+		ArrayTypes type;
+		ArrayOptions opt;
+		ArrayOfAtoms aoa;
+		int n;
 
-        public Begin(ArrayTypes type) {
-            this.type = type;
-            this.opt = null;
-        }
+		public Begin(ArrayTypes type) {
+			this.type = type;
+			this.opt = null;
+		}
 
-        public Begin(ArrayTypes type, ArrayOptions opt) {
-            this.type = type;
-            this.opt = opt;
-        }
+		public Begin(ArrayTypes type, ArrayOptions opt) {
+			this.type = type;
+			this.opt = opt;
+		}
 
-        @Override
-        final public boolean init(TeXParser tp) {
-            if (type == ArrayTypes.ALIGNEDAT || type == ArrayTypes.ALIGNAT) {
-                n = tp.getArgAsPositiveInteger();
-                if (n <= 0) {
-                    throw new ParseException(tp,
-                            "Invalid argument in " + type.toString() + " environment");
-                }
+		@Override
+		final public boolean init(TeXParser tp) {
+			if (type == ArrayTypes.ALIGNEDAT || type == ArrayTypes.ALIGNAT) {
+				n = tp.getArgAsPositiveInteger();
+				if (n <= 0) {
+					throw new ParseException(tp,
+							"Invalid argument in " + type.toString() + " environment");
+				}
 
-                aoa = new ArrayOfAtoms();
-                tp.addConsumer(this);
-                tp.addConsumer(aoa);
-                return false;
-            }
+				aoa = new ArrayOfAtoms();
+				tp.addConsumer(this);
+				tp.addConsumer(aoa);
+				return false;
+			}
 
-            if (opt == null) {
-                opt = tp.getArrayOptions();
-            }
+			if (opt == null) {
+				opt = tp.getArrayOptions();
+			}
 
-            aoa = new ArrayOfAtoms();
-            tp.addConsumer(this);
-            tp.addConsumer(aoa);
+			aoa = new ArrayOfAtoms();
+			tp.addConsumer(this);
+			tp.addConsumer(aoa);
 
-            switch (type) {
-                case MULTILINE:
-                case SUBARRAY:
-                case GATHER:
-                case GATHERED:
-                    aoa.setOneColumn(true);
-                    return false;
+			switch (type) {
+			case MULTILINE:
+			case SUBARRAY:
+			case GATHER:
+			case GATHERED:
+				aoa.setOneColumn(true);
+				return false;
 
-                default:
-                    return false;
-            }
+			default:
+				return false;
+			}
 
-        }
+		}
 
-        public final ArrayTypes getType() {
-            return type;
-        }
+		public final ArrayTypes getType() {
+			return type;
+		}
 
-        public ArrayOptions getOptions() {
-            return opt;
-        }
+		public ArrayOptions getOptions() {
+			return opt;
+		}
 
-        public ArrayOfAtoms getAOA() {
-            return aoa;
-        }
-    }
+		public ArrayOfAtoms getAOA() {
+			return aoa;
+		}
+	}
 
-    public static class End extends Command {
+	public static class End extends Command {
 
-        final ArrayTypes type;
-        final String op;
-        final String cl;
+		final ArrayTypes type;
+		final String op;
+		final String cl;
 
-        public End(ArrayTypes type, String op, String cl) {
-            this.type = type;
-            this.op = op;
-            this.cl = cl;
-        }
+		public End(ArrayTypes type, String op, String cl) {
+			this.type = type;
+			this.op = op;
+			this.cl = cl;
+		}
 
-        public End(ArrayTypes type, String op) {
-            this(type, op, null);
-        }
+		public End(ArrayTypes type, String op) {
+			this(type, op, null);
+		}
 
-        public End(ArrayTypes type) {
-            this(type, null, null);
-        }
+		public End(ArrayTypes type) {
+			this(type, null, null);
+		}
 
-        @Override
-        final public boolean init(TeXParser tp) {
-            tp.close();
-            final AtomConsumer ac = tp.pop();
-            if (ac instanceof ArrayOfAtoms) {
-                final AtomConsumer c = tp.pop();
-                if (c instanceof Begin) {
-                    final Begin beg = (Begin) c;
-                    if (type != beg.getType()) {
-                        throw new ParseException(tp,
-                                "Close a " + beg.getType().toString() + " with a " + type.toString());
-                    }
-                    beg.aoa.checkDimensions();
-                    if (op == null) {
-                        tp.addToConsumer(newI(tp, beg));
-                    } else {
-                        tp.addToConsumer(newFenced(beg));
-                    }
-                } else {
-                    throw new ParseException(tp,
-                            "Close something which is not a " + type.toString());
-                }
-            } else {
-                throw new ParseException(tp,
-                        "Close something which is not a " + type.toString());
-            }
+		@Override
+		final public boolean init(TeXParser tp) {
+			tp.close();
+			final AtomConsumer ac = tp.pop();
+			if (ac instanceof ArrayOfAtoms) {
+				final AtomConsumer c = tp.pop();
+				if (c instanceof Begin) {
+					final Begin beg = (Begin) c;
+					if (type != beg.getType()) {
+						throw new ParseException(tp,
+								"Close a " + beg.getType().toString() + " with a " + type.toString());
+					}
+					beg.aoa.checkDimensions();
+					if (op == null) {
+						tp.addToConsumer(newI(tp, beg));
+					} else {
+						tp.addToConsumer(newFenced(beg));
+					}
+				} else {
+					throw new ParseException(tp,
+							"Close something which is not a " + type.toString());
+				}
+			} else {
+				throw new ParseException(tp,
+						"Close something which is not a " + type.toString());
+			}
 
-            return false;
-        }
+			return false;
+		}
 
-        public Atom newFenced(Begin beg) {
-            final SymbolAtom op = SymbolAtom.get(this.op);
-            final SymbolAtom cl = this.cl == null ? op
-                    : SymbolAtom.get(this.cl);
-            final Atom mat = new SMatrixAtom(beg.aoa, false);
-            return new FencedAtom(mat, op, cl);
-        }
+		public Atom newFenced(Begin beg) {
+			final SymbolAtom op = SymbolAtom.get(this.op);
+			final SymbolAtom cl = this.cl == null ? op
+					: SymbolAtom.get(this.cl);
+			final Atom mat = new SMatrixAtom(beg.aoa, false);
+			return new FencedAtom(mat, op, cl);
+		}
 
-        final public Atom newI(TeXParser tp, Begin beg) {
-            switch (type) {
-                case ALIGN:
-                    return new AlignAtom(beg.aoa, false);
-                case CASES:
-                    return new FencedAtom(new ArrayAtom(beg.aoa, beg.opt, true),
-                            Symbols.LBRACE, null, null);
+		final public Atom newI(TeXParser tp, Begin beg) {
+			switch (type) {
+			case ALIGN:
+				return new AlignAtom(beg.aoa, false);
+			case CASES:
+				return new FencedAtom(new ArrayAtom(beg.aoa, beg.opt, true),
+						Symbols.LBRACE, null, null);
 
-                case MATRIX:
-                    return new SMatrixAtom(beg.aoa, false);
+			case MATRIX:
+				return new SMatrixAtom(beg.aoa, false);
 
-                case SMALLMATRIX:
-                    return new SMatrixAtom(beg.aoa, true);
+			case SMALLMATRIX:
+				return new SMatrixAtom(beg.aoa, true);
 
-                case ALIGNED:
-                    return new AlignAtom(beg.aoa, true);
+			case ALIGNED:
+				return new AlignAtom(beg.aoa, true);
 
-                case FLALIGN:
-                    return new FlalignAtom(beg.aoa);
+			case FLALIGN:
+				return new FlalignAtom(beg.aoa);
 
-                case ALIGNAT:
-                    if (2 * beg.n != beg.aoa.col) {
-                        throw new ParseException(tp,
-                                "Bad number of equations in alignat environment !");
-                    }
-                    return new AlignAtAtom(beg.aoa, false);
+			case ALIGNAT:
+				if (2 * beg.n != beg.aoa.col) {
+					throw new ParseException(tp,
+							"Bad number of equations in alignat environment !");
+				}
+				return new AlignAtAtom(beg.aoa, false);
 
-                case ALIGNEDAT:
-                    if (2 * beg.n != beg.aoa.col) {
-                        throw new ParseException(tp,
-                                "Bad number of equations in alignedat environment !");
-                    }
-                    return new AlignAtAtom(beg.aoa, true);
+			case ALIGNEDAT:
+				if (2 * beg.n != beg.aoa.col) {
+					throw new ParseException(tp,
+							"Bad number of equations in alignedat environment !");
+				}
+				return new AlignAtAtom(beg.aoa, true);
 
-                case MULTILINE:
-                    if (beg.aoa.col == 0) {
-                        return EmptyAtom.get();
-                    }
-                    return new MultlineAtom(beg.aoa, MultlineAtom.MULTLINE);
+			case MULTILINE:
+				if (beg.aoa.col == 0) {
+					return EmptyAtom.get();
+				}
+				return new MultlineAtom(beg.aoa, MultlineAtom.MULTLINE);
 
-                case SUBARRAY:
-                    if (beg.aoa.col == 0) {
-                        return EmptyAtom.get();
-                    }
-                    return new SubarrayAtom(beg.getAOA(), beg.getOptions());
+			case SUBARRAY:
+				if (beg.aoa.col == 0) {
+					return EmptyAtom.get();
+				}
+				return new SubarrayAtom(beg.getAOA(), beg.getOptions());
 
-                case GATHER:
-                    if (beg.aoa.col == 0) {
-                        return EmptyAtom.get();
-                    }
-                    return new MultlineAtom(beg.aoa, MultlineAtom.GATHER);
+			case GATHER:
+				if (beg.aoa.col == 0) {
+					return EmptyAtom.get();
+				}
+				return new MultlineAtom(beg.aoa, MultlineAtom.GATHER);
 
-                case GATHERED:
-                    if (beg.aoa.col == 0) {
-                        return EmptyAtom.get();
-                    }
-                    return new MultlineAtom(beg.aoa, MultlineAtom.GATHERED);
+			case GATHERED:
+				if (beg.aoa.col == 0) {
+					return EmptyAtom.get();
+				}
+				return new MultlineAtom(beg.aoa, MultlineAtom.GATHERED);
 
-                default:
-                    return new ArrayAtom(beg.aoa, beg.opt, true);
-            }
-        }
-    }
+			default:
+				return new ArrayAtom(beg.aoa, beg.opt, true);
+			}
+		}
+	}
 }

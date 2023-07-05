@@ -56,71 +56,71 @@ import com.himamis.retex.renderer.share.TeXParser;
 
 public class CommandOverwithdelims extends Command {
 
-    protected Atom num;
-    protected RowAtom den;
-    protected Atom left;
-    protected Atom right;
+	protected Atom num;
+	protected RowAtom den;
+	protected Atom left;
+	protected Atom right;
 
-    public CommandOverwithdelims() {
-    }
+	public CommandOverwithdelims() {
+	}
 
-    @Override
-    public boolean init(TeXParser tp) {
-        final RowAtom at = tp.steal();
-        this.num = at != null ? at.simplify() : EmptyAtom.get();
-        den = new RowAtom();
-        return true;
-    }
+	@Override
+	public boolean init(TeXParser tp) {
+		final RowAtom at = tp.steal();
+		this.num = at != null ? at.simplify() : EmptyAtom.get();
+		den = new RowAtom();
+		return true;
+	}
 
-    @Override
-    public RowAtom steal(TeXParser tp) {
-        final RowAtom ra = den;
-        den = new RowAtom();
-        return ra;
-    }
+	@Override
+	public RowAtom steal(TeXParser tp) {
+		final RowAtom ra = den;
+		den = new RowAtom();
+		return ra;
+	}
 
-    @Override
-    public Atom getLastAtom() {
-        return den.getLastAtom();
-    }
+	@Override
+	public Atom getLastAtom() {
+		return den.getLastAtom();
+	}
 
-    @Override
-    public void add(TeXParser tp, Atom a) {
-        if (left == null) {
-            left = a;
-        } else if (right == null) {
-            right = a;
-        } else {
-            den.add(a);
-        }
-    }
+	@Override
+	public void add(TeXParser tp, Atom a) {
+		if (left == null) {
+			left = a;
+		} else if (right == null) {
+			right = a;
+		} else {
+			den.add(a);
+		}
+	}
 
-    @Override
-    public boolean close(TeXParser tp) {
-        Atom r;
-        if (left instanceof BigDelimiterAtom) {
-            left = ((BigDelimiterAtom) left).delim;
-        }
-        if (right instanceof BigDelimiterAtom) {
-            right = ((BigDelimiterAtom) right).delim;
-        }
-        final Atom a = newI(tp, num, den);
-        if (left instanceof SymbolAtom && right instanceof SymbolAtom) {
-            r = new FencedAtom(a, (SymbolAtom) left, (SymbolAtom) right);
-        } else {
-            r = new RowAtom(left, a, right);
-        }
-        tp.closeConsumer(r);
+	@Override
+	public boolean close(TeXParser tp) {
+		Atom r;
+		if (left instanceof BigDelimiterAtom) {
+			left = ((BigDelimiterAtom) left).delim;
+		}
+		if (right instanceof BigDelimiterAtom) {
+			right = ((BigDelimiterAtom) right).delim;
+		}
+		final Atom a = newI(tp, num, den);
+		if (left instanceof SymbolAtom && right instanceof SymbolAtom) {
+			r = new FencedAtom(a, (SymbolAtom) left, (SymbolAtom) right);
+		} else {
+			r = new RowAtom(left, a, right);
+		}
+		tp.closeConsumer(r);
 
-        return true;
-    }
+		return true;
+	}
 
-    @Override
-    public boolean isClosable() {
-        return true;
-    }
+	@Override
+	public boolean isClosable() {
+		return true;
+	}
 
-    public Atom newI(TeXParser tp, Atom num, Atom den) {
-        return new FractionAtom(num, den, true);
-    }
+	public Atom newI(TeXParser tp, Atom num, Atom den) {
+		return new FractionAtom(num, den, true);
+	}
 }

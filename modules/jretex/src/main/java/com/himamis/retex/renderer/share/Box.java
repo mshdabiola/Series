@@ -75,290 +75,310 @@ import com.himamis.retex.renderer.share.platform.graphics.Stroke;
  */
 public abstract class Box {
 
-    final public static boolean DEBUG = false;
+	final public static boolean DEBUG = false;
 
-    /**
-     * Factory providing platform independent implementations of forms used for
-     * drawing.
-     */
-    protected final Geom geom;
+	/**
+	 * Factory providing platform independent implementations of forms used for
+	 * drawing.
+	 */
+	protected final Geom geom;
 
-    /**
-     * Factory providing platform independent implementations of graphics
-     * related objects.
-     */
-    protected final Graphics graphics;
+	/**
+	 * Factory providing platform independent implementations of graphics
+	 * related objects.
+	 */
+	protected final Graphics graphics;
 
-    /**
-     * The foreground color of the whole box. Child boxes can override this
-     * color. If it's null and it has a parent box, the foreground color of the
-     * parent will be used. If it has no parent, the foreground color of the
-     * component on which it will be painted, will be used.
-     */
-    protected Color foreground;
+	/**
+	 * The foreground color of the whole box. Child boxes can override this
+	 * color. If it's null and it has a parent box, the foreground color of the
+	 * parent will be used. If it has no parent, the foreground color of the
+	 * component on which it will be painted, will be used.
+	 */
+	protected Color foreground;
 
-    /**
-     * The background color of the whole box. Child boxes can paint a background
-     * on top of this background. If it's null, no background will be painted.
-     */
-    protected Color background;
-    /**
-     * The width of this box, i.e. the value that will be used for further
-     * calculations.
-     */
-    protected double width = 0;
-    /**
-     * The height of this box, i.e. the value that will be used for further
-     * calculations.
-     */
-    protected double height = 0;
-    /**
-     * The depth of this box, i.e. the value that will be used for further
-     * calculations.
-     */
-    protected double depth = 0;
-    /**
-     * The shift amount: the meaning depends on the particular kind of box (up,
-     * down, left, right)
-     */
-    protected double shift = 0;
-    protected int type = -1;
-    protected Color markForDEBUG;
-    protected Atom atom;
-    // used temporarily in startDraw and endDraw
-    private Color prevColor;
+	/**
+	 * The background color of the whole box. Child boxes can paint a background
+	 * on top of this background. If it's null, no background will be painted.
+	 */
+	protected Color background;
 
-    /**
-     * Creates an empty box (no children) with all dimensions set to 0 and no
-     * foreground and background color set (default values will be used: null)
-     */
-    protected Box() {
-        this(null, null);
-    }
+	// used temporarily in startDraw and endDraw
+	private Color prevColor;
 
-    /**
-     * Creates an empty box (no children) with all dimensions set to 0 and sets
-     * the foreground and background color of the box.
-     *
-     * @param fg the foreground color
-     * @param bg the background color
-     */
-    protected Box(Color fg, Color bg) {
-        foreground = fg;
-        background = bg;
-        geom = new Geom();
-        graphics = new Graphics();
-    }
+	/**
+	 * The width of this box, i.e. the value that will be used for further
+	 * calculations.
+	 */
+	protected double width = 0;
 
-    public Area getArea() {
-        return null;
-    }
+	/**
+	 * The height of this box, i.e. the value that will be used for further
+	 * calculations.
+	 */
+	protected double height = 0;
 
-    public Box setBg(Color bg) {
-        background = bg;
-        return this;
-    }
+	/**
+	 * The depth of this box, i.e. the value that will be used for further
+	 * calculations.
+	 */
+	protected double depth = 0;
 
-    public Box setFg(Color fg) {
-        foreground = fg;
-        return this;
-    }
+	/**
+	 * The shift amount: the meaning depends on the particular kind of box (up,
+	 * down, left, right)
+	 */
+	protected double shift = 0;
 
-    /**
-     * Get the width of this box.
-     *
-     * @return the width of this box
-     */
-    public double getWidth() {
-        return width;
-    }
+	protected int type = -1;
 
-    /**
-     * Set the width for this box.
-     *
-     * @param w the width
-     */
-    public void setWidth(double w) {
-        width = w;
-    }
+	protected Color markForDEBUG;
+	protected Atom atom;
 
-    public void negWidth() {
-        width = -width;
-    }
+	/**
+	 * Creates an empty box (no children) with all dimensions set to 0 and no
+	 * foreground and background color set (default values will be used: null)
+	 */
+	protected Box() {
+		this(null, null);
+	}
 
-    /**
-     * Get the height of this box.
-     *
-     * @return the height of this box
-     */
-    public double getHeight() {
-        return height;
-    }
+	/**
+	 * Creates an empty box (no children) with all dimensions set to 0 and sets
+	 * the foreground and background color of the box.
+	 *
+	 * @param fg
+	 *            the foreground color
+	 * @param bg
+	 *            the background color
+	 */
+	protected Box(Color fg, Color bg) {
+		foreground = fg;
+		background = bg;
+		geom = new Geom();
+		graphics = new Graphics();
+	}
 
-    /**
-     * Set the height for this box.
-     *
-     * @param h the height
-     */
-    public void setHeight(double h) {
-        height = h;
-    }
+	public Area getArea() {
+		return null;
+	}
 
-    public void addToWidth(double w) {
-        width += w;
-    }
+	public Box setBg(Color bg) {
+		background = bg;
+		return this;
+	}
 
-    /**
-     * Get the depth of this box.
-     *
-     * @return the depth of this box
-     */
-    public double getDepth() {
-        return depth;
-    }
+	public Box setFg(Color fg) {
+		foreground = fg;
+		return this;
+	}
 
-    /**
-     * Set the depth for this box.
-     *
-     * @param d the depth
-     */
-    public void setDepth(double d) {
-        depth = d;
-    }
+	/**
+	 * Get the width of this box.
+	 *
+	 * @return the width of this box
+	 */
+	public double getWidth() {
+		return width;
+	}
 
-    /**
-     * Get the shift amount for this box.
-     *
-     * @return the shift amount
-     */
-    public double getShift() {
-        return shift;
-    }
+	public void negWidth() {
+		width = -width;
+	}
 
-    /**
-     * Set the shift amount for this box.
-     *
-     * @param s the shift amount
-     */
-    public void setShift(double s) {
-        shift = s;
-    }
+	/**
+	 * Get the height of this box.
+	 *
+	 * @return the height of this box
+	 */
+	public double getHeight() {
+		return height;
+	}
 
-    /**
-     * Paints this box at the given coordinates using the given graphics
-     * context.
-     *
-     * @param g2 the graphics (2D) context to use for painting
-     * @param x  the x-coordinate
-     * @param y  the y-coordinate
-     */
-    public abstract void draw(Graphics2DInterface g2, double x, double y);
+	public void addToWidth(double w) {
+		width += w;
+	}
 
-    /**
-     * Get the id of the font that will be used the last when this box will be
-     * painted.
-     *
-     * @return the id of the last font that will be used.
-     */
-    public abstract FontInfo getLastFont();
+	/**
+	 * Get the depth of this box.
+	 *
+	 * @return the depth of this box
+	 */
+	public double getDepth() {
+		return depth;
+	}
 
-    /**
-     * Stores the old color setting, draws the background of the box (if not
-     * null) and sets the foreground color (if not null).
-     *
-     * @param g2 the graphics (2D) context
-     * @param x  the x-coordinate
-     * @param y  the y-coordinate
-     */
-    protected void startDraw(Graphics2DInterface g2, double x, double y) {
-        // old color
-        prevColor = g2.getColor();
-        if (background != null) { // draw background
-            g2.setColor(background);
-            g2.fill(geom.createRectangle2D(x, y - height, width,
-                    height + depth));
-        }
-        if (foreground == null) {
-            g2.setColor(prevColor); // old foreground color
-        } else {
-            g2.setColor(foreground); // overriding foreground color
-        }
-        drawDebug(g2, x, y);
-    }
+	/**
+	 * Get the shift amount for this box.
+	 *
+	 * @return the shift amount
+	 */
+	public double getShift() {
+		return shift;
+	}
 
-    protected void drawDebug(Graphics2DInterface g2, double x, double y,
-                             boolean showDepth) {
-        if (DEBUG) {
-            double x1 = x;
-            Stroke st = g2.getStroke();
-            if (markForDEBUG != null) {
-                Color c = g2.getColor();
-                g2.setColor(markForDEBUG);
-                g2.fill(geom.createRectangle2D(x1, y - height, width,
-                        height + depth));
-                g2.setColor(c);
-            }
-            g2.setStroke(graphics.createBasicStroke(
-                    (Math.abs(1 / g2.getTransform().getScaleX())),
-                    BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER));
-            if (width < 0) {
-                x1 += width;
-                width = -width;
-            }
-            g2.draw(geom.createRectangle2D(x1, y - height, width,
-                    height + depth));
-            if (showDepth) {
-                Color c = g2.getColor();
-                g2.setColor(Colors.RED);
-                if (depth > 0) {
-                    g2.fill(geom.createRectangle2D(x1, y, width, depth));
-                    g2.setColor(c);
-                    g2.draw(geom.createRectangle2D(x1, y, width, depth));
-                } else if (depth < 0) {
-                    g2.fill(geom.createRectangle2D(x1, y + depth, width,
-                            -depth));
-                    g2.setColor(c);
-                    g2.draw(geom.createRectangle2D(x1, y + depth, width,
-                            -depth));
-                } else {
-                    g2.setColor(c);
-                }
-            }
-            g2.setStroke(st);
-        }
-    }
+	/**
+	 * Set the width for this box.
+	 *
+	 * @param w
+	 *            the width
+	 */
+	public void setWidth(double w) {
+		width = w;
+	}
 
-    protected void drawDebug(Graphics2DInterface g2, double x, double y) {
-        if (DEBUG) {
-            drawDebug(g2, x, y, true);
-        }
-    }
+	/**
+	 * Set the depth for this box.
+	 *
+	 * @param d
+	 *            the depth
+	 */
+	public void setDepth(double d) {
+		depth = d;
+	}
 
-    /**
-     * Restores the previous color setting.
-     *
-     * @param g2 the graphics (2D) context
-     */
-    protected void endDraw(Graphics2DInterface g2) {
-        g2.setColor(prevColor);
-    }
+	/**
+	 * Set the height for this box.
+	 *
+	 * @param h
+	 *            the height
+	 */
+	public void setHeight(double h) {
+		height = h;
+	}
 
-    @Override
-    public String toString() {
-        return super.toString() + ": w=" + width + ";h=" + height + ";d="
-                + depth + ";s=" + shift;
-    }
+	/**
+	 * Set the shift amount for this box.
+	 *
+	 * @param s
+	 *            the shift amount
+	 */
+	public void setShift(double s) {
+		shift = s;
+	}
 
-    public Atom getAtom() {
-        return this.atom;
-    }
+	/**
+	 * Paints this box at the given coordinates using the given graphics
+	 * context.
+	 *
+	 * @param g2
+	 *            the graphics (2D) context to use for painting
+	 * @param x
+	 *            the x-coordinate
+	 * @param y
+	 *            the y-coordinate
+	 */
+	public abstract void draw(Graphics2DInterface g2, double x, double y);
 
-    public Box setAtom(final Atom atom) {
-        this.atom = atom;
-        return this;
-    }
+	/**
+	 * Get the id of the font that will be used the last when this box will be
+	 * painted.
+	 *
+	 * @return the id of the last font that will be used.
+	 */
+	public abstract FontInfo getLastFont();
 
-    public void inspect(BoxConsumer handler, BoxPosition position) {
-        handler.handle(this, position);
-    }
+	/**
+	 * Stores the old color setting, draws the background of the box (if not
+	 * null) and sets the foreground color (if not null).
+	 *
+	 * @param g2
+	 *            the graphics (2D) context
+	 * @param x
+	 *            the x-coordinate
+	 * @param y
+	 *            the y-coordinate
+	 */
+	protected void startDraw(Graphics2DInterface g2, double x, double y) {
+		// old color
+		prevColor = g2.getColor();
+		if (background != null) { // draw background
+			g2.setColor(background);
+			g2.fill(geom.createRectangle2D(x, y - height, width,
+					height + depth));
+		}
+		if (foreground == null) {
+			g2.setColor(prevColor); // old foreground color
+		} else {
+			g2.setColor(foreground); // overriding foreground color
+		}
+		drawDebug(g2, x, y);
+	}
+
+	protected void drawDebug(Graphics2DInterface g2, double x, double y,
+			boolean showDepth) {
+		if (DEBUG) {
+			double x1 = x;
+			Stroke st = g2.getStroke();
+			if (markForDEBUG != null) {
+				Color c = g2.getColor();
+				g2.setColor(markForDEBUG);
+				g2.fill(geom.createRectangle2D(x1, y - height, width,
+						height + depth));
+				g2.setColor(c);
+			}
+			g2.setStroke(graphics.createBasicStroke(
+					(Math.abs(1 / g2.getTransform().getScaleX())),
+					BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER));
+			if (width < 0) {
+				x1 += width;
+				width = -width;
+			}
+			g2.draw(geom.createRectangle2D(x1, y - height, width,
+					height + depth));
+			if (showDepth) {
+				Color c = g2.getColor();
+				g2.setColor(Colors.RED);
+				if (depth > 0) {
+					g2.fill(geom.createRectangle2D(x1, y, width, depth));
+					g2.setColor(c);
+					g2.draw(geom.createRectangle2D(x1, y, width, depth));
+				} else if (depth < 0) {
+					g2.fill(geom.createRectangle2D(x1, y + depth, width,
+							-depth));
+					g2.setColor(c);
+					g2.draw(geom.createRectangle2D(x1, y + depth, width,
+							-depth));
+				} else {
+					g2.setColor(c);
+				}
+			}
+			g2.setStroke(st);
+		}
+	}
+
+	protected void drawDebug(Graphics2DInterface g2, double x, double y) {
+		if (DEBUG) {
+			drawDebug(g2, x, y, true);
+		}
+	}
+
+	/**
+	 * Restores the previous color setting.
+	 *
+	 * @param g2
+	 *            the graphics (2D) context
+	 */
+	protected void endDraw(Graphics2DInterface g2) {
+		g2.setColor(prevColor);
+	}
+
+	@Override
+	public String toString() {
+		return super.toString() + ": w=" + width + ";h=" + height + ";d="
+				+ depth + ";s=" + shift;
+	}
+
+	public Box setAtom(final Atom atom) {
+		this.atom = atom;
+		return this;
+	}
+
+	public Atom getAtom() {
+		return this.atom;
+	}
+
+	public void inspect(BoxConsumer handler, BoxPosition position) {
+		handler.handle(this, position);
+	}
 }

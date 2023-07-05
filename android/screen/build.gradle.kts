@@ -15,5 +15,5 @@ dependencies {
     implementation(libs.decompose.core)
 
     implementation(libs.decompose.compose.jetbrains)
-//    implementation(project(":common:data"))
+    implementation(project(":modules:retex"))
 }

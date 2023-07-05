@@ -49,35 +49,35 @@ import com.himamis.retex.renderer.share.serialize.HasTrueBase;
 
 public class PodAtom extends Atom implements HasTrueBase {
 
-    private final Atom a;
-    private final double x;
-    private final boolean lrpar;
+	private final Atom a;
+	private final double x;
+	private final boolean lrpar;
 
-    public PodAtom(final Atom a, final double x, final boolean lrpar) {
-        this.a = a;
-        this.x = x;
-        this.lrpar = lrpar;
-    }
+	public PodAtom(final Atom a, final double x, final boolean lrpar) {
+		this.a = a;
+		this.x = x;
+		this.lrpar = lrpar;
+	}
 
-    @Override
-    public Box createBox(TeXEnvironment env) {
-        final HorizontalBox hb = new HorizontalBox(lrpar ? 4 : 2);
-        final double l = env.getStyle() == TeXConstants.STYLE_DISPLAY ? 18. : x;
-        hb.add(new StrutBox(Unit.MU.getFactor(env) * l, 0.,
-                0., 0.));
-        if (lrpar) {
-            hb.add(Symbols.LBRACK.createBox(env));
-            hb.add(a.createBox(env));
-            hb.add(Symbols.RBRACK.createBox(env));
-        } else {
-            hb.add(a.createBox(env));
-        }
+	@Override
+	public Box createBox(TeXEnvironment env) {
+		final HorizontalBox hb = new HorizontalBox(lrpar ? 4 : 2);
+		final double l = env.getStyle() == TeXConstants.STYLE_DISPLAY ? 18. : x;
+		hb.add(new StrutBox(Unit.MU.getFactor(env) * l, 0.,
+				0., 0.));
+		if (lrpar) {
+			hb.add(Symbols.LBRACK.createBox(env));
+			hb.add(a.createBox(env));
+			hb.add(Symbols.RBRACK.createBox(env));
+		} else {
+			hb.add(a.createBox(env));
+		}
 
-        return hb;
-    }
+		return hb;
+	}
 
-    @Override
-    public Atom getTrueBase() {
-        return a;
-    }
+	@Override
+	public Atom getTrueBase() {
+		return a;
+	}
 }

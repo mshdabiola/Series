@@ -52,26 +52,26 @@ import com.himamis.retex.renderer.share.serialize.HasTrueBase;
  */
 public class TextCircledAtom extends Atom implements HasTrueBase {
 
-    private Atom at;
+	private Atom at;
 
-    public TextCircledAtom(Atom at) {
-        this.at = at;
-    }
+	public TextCircledAtom(Atom at) {
+		this.at = at;
+	}
 
-    @Override
-    public Box createBox(TeXEnvironment env) {
-        Box circle = SymbolAtom.get("bigcirc").createBox(env);
-        circle.setShift(-0.07 * Unit.EX.getFactor(env));
-        Box box = at.createBox(env);
-        HorizontalBox hb = new HorizontalBox(box, circle.getWidth(),
-                TeXConstants.Align.CENTER);
-        hb.add(new StrutBox(-hb.getWidth(), 0, 0, 0));
-        hb.add(circle);
-        return hb;
-    }
+	@Override
+	public Box createBox(TeXEnvironment env) {
+		Box circle = SymbolAtom.get("bigcirc").createBox(env);
+		circle.setShift(-0.07 * Unit.EX.getFactor(env));
+		Box box = at.createBox(env);
+		HorizontalBox hb = new HorizontalBox(box, circle.getWidth(),
+				TeXConstants.Align.CENTER);
+		hb.add(new StrutBox(-hb.getWidth(), 0, 0, 0));
+		hb.add(circle);
+		return hb;
+	}
 
-    @Override
-    public Atom getTrueBase() {
-        return at;
-    }
+	@Override
+	public Atom getTrueBase() {
+		return at;
+	}
 }

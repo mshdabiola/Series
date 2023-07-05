@@ -6,9 +6,9 @@ import com.himamis.retex.renderer.share.XArrowAtom;
 
 public class CommandXLeftRightHarpoons extends Command1O1A {
 
-    @Override
-    public Atom newI(TeXParser tp, Atom a, Atom b) {
-        return new XArrowAtom(b, a, XArrowAtom.Kind.LeftRightHarpoons);
-    }
+	@Override
+	public Atom newI(TeXParser tp, Atom a, Atom b) {
+		return new XArrowAtom(b, a, XArrowAtom.Kind.LeftRightHarpoons);
+	}
 
 }

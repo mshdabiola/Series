@@ -7,17 +7,17 @@ import com.himamis.retex.renderer.share.TeXParser;
 
 public class CommandFootnoteSize extends CommandStyle {
 
-    public CommandFootnoteSize() {
-        //
-    }
+	public CommandFootnoteSize() {
+		//
+	}
 
-    public CommandFootnoteSize(RowAtom size) {
-        this.size = size;
-    }
+	public CommandFootnoteSize(RowAtom size) {
+		this.size = size;
+	}
 
-    @Override
-    public Atom newI(TeXParser tp, Atom a) {
-        return new MonoScaleAtom(a, 0.8);
-    }
+	@Override
+	public Atom newI(TeXParser tp, Atom a) {
+		return new MonoScaleAtom(a, 0.8);
+	}
 
 }

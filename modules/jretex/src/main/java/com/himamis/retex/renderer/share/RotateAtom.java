@@ -45,85 +45,85 @@
 
 package com.himamis.retex.renderer.share;
 
-import com.himamis.retex.renderer.share.serialize.HasTrueBase;
-
 import java.util.Map;
+
+import com.himamis.retex.renderer.share.serialize.HasTrueBase;
 
 /**
  * An atom representing a rotated Atom.
  */
 public class RotateAtom extends Atom implements HasTrueBase {
 
-    private Atom base;
-    private double angle;
-    private int option = -1;
-    private Unit xunit;
-    private Unit yunit;
-    private double x, y;
+	private Atom base;
+	private double angle;
+	private int option = -1;
+	private Unit xunit;
+	private Unit yunit;
+	private double x, y;
 
-    public RotateAtom() {
-        //
-    }
+	public RotateAtom() {
+		//
+	}
 
-    public RotateAtom(Atom base, double angle, Map<String, String> map) {
-        this.base = base;
-        this.angle = angle;
-        if (map.containsKey("origin")) {
-            this.option = RotateBox.getOrigin(map.get("origin"));
-        } else {
-            TeXParser tp = null;
-            if (map.containsKey("x")) {
-                tp = new TeXParser();
-                tp.setParseString(map.get("x"));
-                final TeXLength lenX = tp.getLength();
-                this.xunit = lenX.getUnit();
-                this.x = lenX.getL();
-            } else {
-                this.xunit = Unit.POINT;
-                this.x = 0.;
-            }
-            if (map.containsKey("y")) {
-                if (tp == null) {
-                    tp = new TeXParser();
-                }
-                tp.setParseString(map.get("y"));
-                final TeXLength lenY = tp.getLength();
-                this.xunit = lenY.getUnit();
-                this.x = lenY.getL();
-            } else {
-                this.yunit = Unit.POINT;
-                this.y = 0.;
-            }
-        }
-    }
+	public RotateAtom(Atom base, double angle, Map<String, String> map) {
+		this.base = base;
+		this.angle = angle;
+		if (map.containsKey("origin")) {
+			this.option = RotateBox.getOrigin(map.get("origin"));
+		} else {
+			TeXParser tp = null;
+			if (map.containsKey("x")) {
+				tp = new TeXParser();
+				tp.setParseString(map.get("x"));
+				final TeXLength lenX = tp.getLength();
+				this.xunit = lenX.getUnit();
+				this.x = lenX.getL();
+			} else {
+				this.xunit = Unit.POINT;
+				this.x = 0.;
+			}
+			if (map.containsKey("y")) {
+				if (tp == null) {
+					tp = new TeXParser();
+				}
+				tp.setParseString(map.get("y"));
+				final TeXLength lenY = tp.getLength();
+				this.xunit = lenY.getUnit();
+				this.x = lenY.getL();
+			} else {
+				this.yunit = Unit.POINT;
+				this.y = 0.;
+			}
+		}
+	}
 
-    @Override
-    public Box createBox(TeXEnvironment env) {
-        if (option != -1) {
-            return new RotateBox(base.createBox(env), angle, option);
-        }
-        return new RotateBox(base.createBox(env), angle,
-                x * xunit.getFactor(env),
-                y * yunit.getFactor(env));
-    }
+	@Override
+	public Box createBox(TeXEnvironment env) {
+		if (option != -1) {
+			return new RotateBox(base.createBox(env), angle, option);
+		}
+		return new RotateBox(base.createBox(env), angle,
+				x * xunit.getFactor(env),
+				y * yunit.getFactor(env));
+	}
 
-    @Override
-    public int getLeftType() {
-        return base.getLeftType();
-    }
+	@Override
+	public int getLeftType() {
+		return base.getLeftType();
+	}
 
-    @Override
-    public int getRightType() {
-        return base.getRightType();
-    }
+	@Override
+	public int getRightType() {
+		return base.getRightType();
+	}
 
-    @Override
-    public int getLimits() {
-        return base.getLimits();
-    }
+	@Override
+	public int getLimits() {
+		return base.getLimits();
+	}
 
-    @Override
-    public Atom getTrueBase() {
-        return base;
-    }
+	@Override
+	public Atom getTrueBase() {
+		return base;
+	}
 }

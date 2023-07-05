@@ -7,9 +7,9 @@ import com.himamis.retex.renderer.share.TextCircledAtom;
 
 public class CommandTextCircled extends Command1A {
 
-    @Override
-    public Atom newI(TeXParser tp, Atom a) {
-        return new TextCircledAtom(new RomanAtom(a));
-    }
+	@Override
+	public Atom newI(TeXParser tp, Atom a) {
+		return new TextCircledAtom(new RomanAtom(a));
+	}
 
 }

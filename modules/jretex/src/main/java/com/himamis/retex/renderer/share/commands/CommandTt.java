@@ -7,17 +7,17 @@ import com.himamis.retex.renderer.share.TtAtom;
 
 public class CommandTt extends CommandStyle {
 
-    public CommandTt() {
-        //
-    }
+	public CommandTt() {
+		//
+	}
 
-    public CommandTt(RowAtom size) {
-        this.size = size;
-    }
+	public CommandTt(RowAtom size) {
+		this.size = size;
+	}
 
-    @Override
-    public Atom newI(TeXParser tp, Atom a) {
-        return new TtAtom(a);
-    }
+	@Override
+	public Atom newI(TeXParser tp, Atom a) {
+		return new TtAtom(a);
+	}
 
 }

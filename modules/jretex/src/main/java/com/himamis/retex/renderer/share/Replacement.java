@@ -49,15 +49,15 @@ import com.himamis.retex.renderer.share.commands.Command;
 
 public final class Replacement extends Command implements Reusable {
 
-    private final String code;
+	private final String code;
 
-    public Replacement(final String code) {
-        this.code = code;
-    }
+	public Replacement(final String code) {
+		this.code = code;
+	}
 
-    @Override
-    public boolean init(TeXParser tp) {
-        tp.addString(code);
-        return false;
-    }
+	@Override
+	public boolean init(TeXParser tp) {
+		tp.addString(code);
+		return false;
+	}
 }

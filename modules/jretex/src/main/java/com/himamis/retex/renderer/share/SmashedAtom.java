@@ -52,37 +52,37 @@ import com.himamis.retex.renderer.share.serialize.HasTrueBase;
  */
 public class SmashedAtom extends Atom implements HasTrueBase {
 
-    private Atom at;
-    private boolean h = true;
-    private boolean d = true;
+	private Atom at;
+	private boolean h = true;
+	private boolean d = true;
 
-    public SmashedAtom(Atom at, char opt) {
-        this.at = at;
-        if (opt == 't') {
-            d = false;
-        } else if (opt == 'b') {
-            h = false;
-        }
-    }
+	public SmashedAtom(Atom at, char opt) {
+		this.at = at;
+		if (opt == 't') {
+			d = false;
+		} else if (opt == 'b') {
+			h = false;
+		}
+	}
 
-    public SmashedAtom(Atom at) {
-        this.at = at;
-    }
+	public SmashedAtom(Atom at) {
+		this.at = at;
+	}
 
-    @Override
-    public Box createBox(TeXEnvironment env) {
-        Box b = at.createBox(env);
-        if (h) {
-            b.setHeight(0.);
-        }
-        if (d) {
-            b.setDepth(0.);
-        }
-        return b;
-    }
+	@Override
+	public Box createBox(TeXEnvironment env) {
+		Box b = at.createBox(env);
+		if (h) {
+			b.setHeight(0.);
+		}
+		if (d) {
+			b.setDepth(0.);
+		}
+		return b;
+	}
 
-    @Override
-    public Atom getTrueBase() {
-        return at;
-    }
+	@Override
+	public Atom getTrueBase() {
+		return at;
+	}
 }

@@ -47,78 +47,78 @@ package com.himamis.retex.renderer.share;
 
 public class TeXLength {
 
-    private static final TeXLength zero = new TeXLength();
+	private static final TeXLength zero = new TeXLength();
 
-    private final Unit unit;
-    private final double l;
+	private final Unit unit;
+	private final double l;
 
-    public TeXLength() {
-        this.unit = Unit.PIXEL;
-        this.l = 0.;
-    }
+	public TeXLength() {
+		this.unit = Unit.PIXEL;
+		this.l = 0.;
+	}
 
-    public TeXLength(Unit unit, double l) {
-        this.unit = unit;
-        this.l = l;
-    }
+	public TeXLength(Unit unit, double l) {
+		this.unit = unit;
+		this.l = l;
+	}
 
-    public static TeXLength getZero() {
-        return zero;
-    }
+	public Unit getUnit() {
+		return unit;
+	}
 
-    private static int getIntPart(double x) {
-        return (int) (x >= 0. ? Math.floor(x) : -Math.floor(-x));
-    }
+	public double getL() {
+		return l;
+	}
 
-    private static int getDecPart(double x) {
-        final double frac = Math.abs(x - getIntPart(x));
-        int part = (int) Math.round(frac * Math.pow(10, TeXParser.MAX_DEC));
-        while (part != 0 && (part % 10 == 0)) {
-            part /= 10;
-        }
-        return part;
-    }
+	public double getValue(TeXEnvironment env) {
+		return l * unit.getFactor(env);
+	}
 
-    public Unit getUnit() {
-        return unit;
-    }
+	public TeXLength scale(final double factor) {
+		return new TeXLength(unit, l * factor);
+	}
 
-    public double getL() {
-        return l;
-    }
+	public static TeXLength getZero() {
+		return zero;
+	}
 
-    public double getValue(TeXEnvironment env) {
-        return l * unit.getFactor(env);
-    }
+	@Override
+	public String toString() {
+		return Double.toString(getL()) + unit.toString();
+	}
 
-    public TeXLength scale(final double factor) {
-        return new TeXLength(unit, l * factor);
-    }
+	private static int getIntPart(double x) {
+		return (int) (x >= 0. ? Math.floor(x) : -Math.floor(-x));
+	}
 
-    @Override
-    public String toString() {
-        return Double.toString(getL()) + unit.toString();
-    }
+	private static int getDecPart(double x) {
+		final double frac = Math.abs(x - getIntPart(x));
+		int part = (int) Math.round(frac * Math.pow(10, TeXParser.MAX_DEC));
+		while (part != 0 && (part % 10 == 0)) {
+			part /= 10;
+		}
+		return part;
+	}
 
-    public Atom toAtom() {
-        RowAtom ra = new RowAtom();
-        final double l = getL();
-        final int frac = TeXLength.getDecPart(l);
-        final int inte = TeXLength.getIntPart(l);
-        if (inte < 0) {
-            ra.add(Symbols.MINUS);
-            TeXParser.getAtomForNumber(-inte, ra, true);
-        } else {
-            TeXParser.getAtomForNumber(inte, ra, true);
-        }
-        if (frac != 0) {
-            ra.add(Symbols.NORMALDOT);
-            TeXParser.getAtomForNumber(frac, ra, true);
-        }
-        final String u = unit.toString();
-        if (!u.isEmpty()) {
-            ra.add(new RomanAtom(TeXParser.getAtomForLatinStr(u, false)));
-        }
-        return ra;
-    }
+	public Atom toAtom() {
+		RowAtom ra = new RowAtom();
+		final double l = getL();
+		final int frac = TeXLength.getDecPart(l);
+		final int inte = TeXLength.getIntPart(l);
+		if (inte < 0) {
+			ra.add(Symbols.MINUS);
+			TeXParser.getAtomForNumber(-inte, ra, true);
+		} else {
+			TeXParser.getAtomForNumber(inte, ra, true);
+		}
+		if (frac != 0) {
+			ra.add(Symbols.NORMALDOT);
+			TeXParser.getAtomForNumber(frac, ra, true);
+		}
+		final String u = unit.toString();
+		if (!u.isEmpty()) {
+			ra.add(new RomanAtom(TeXParser.getAtomForLatinStr(u, false)));
+		}
+		return ra;
+	}
 }

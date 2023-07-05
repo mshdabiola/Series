@@ -58,225 +58,247 @@ import com.himamis.retex.renderer.share.platform.graphics.Color;
  */
 public class TeXEnvironment {
 
-    public boolean isColored = false;
-    // colors
-    private Color background;
-    private Color color;
-    // current style
-    private int style;
-    // TeXFont used
-    private TeXFont tf;
-    // Java Font to use
-    private Font javaFont;
-    // last used font
-    private FontInfo lastFont;
-    private int textStyle;
-    private boolean smallCap;
-    private double scaleFactor = 1.;
-    private TeXLengthSettings lengthSettings;
+	// colors
+	private Color background;
+	private Color color;
 
-    public TeXEnvironment(int style, TeXFont tf, int textStyle) {
-        this.style = style;
-        this.tf = tf;
-        this.textStyle = textStyle;
-        this.lengthSettings = new TeXLengthSettings();
-    }
+	// current style
+	private int style;
 
-    private TeXEnvironment(int style, double scaleFactor, TeXFont tf, Color bg,
-                           Color c, int textStyle, boolean smallCap, Font javaFont,
-                           TeXLengthSettings lengthSettings) {
-        this.style = style;
-        this.scaleFactor = scaleFactor;
-        this.tf = tf;
-        this.background = bg;
-        this.color = c;
-        this.textStyle = textStyle;
-        this.smallCap = smallCap;
-        this.javaFont = javaFont;
-        this.lengthSettings = lengthSettings;
-    }
+	// TeXFont used
+	private TeXFont tf;
 
-    public double getScaleFactor() {
-        return scaleFactor;
-    }
+	// Java Font to use
+	private Font javaFont;
 
-    public void setScaleFactor(double f) {
-        scaleFactor = f;
-    }
+	// last used font
+	private FontInfo lastFont;
 
-    protected TeXEnvironment copy() {
-        return new TeXEnvironment(style, scaleFactor, tf, background, color,
-                textStyle, smallCap, javaFont, lengthSettings);
-    }
+	private int textStyle;
 
-    protected TeXEnvironment copy(TeXFont tf) {
-        return new TeXEnvironment(style, scaleFactor, tf,
-                background, color, textStyle, smallCap, javaFont, lengthSettings);
-    }
+	private boolean smallCap;
+	private double scaleFactor = 1.;
+	public boolean isColored = false;
 
-    /**
-     * @return a copy of the environment, but in a cramped style.
-     */
-    public TeXEnvironment crampStyle() {
-        TeXEnvironment s = copy();
-        s.style = style | 1;
-        return s;
-    }
+	private TeXLengthSettings lengthSettings;
 
-    /**
-     * @return a copy of the environment, but in denominator style.
-     */
-    public TeXEnvironment denomStyle() {
-        TeXEnvironment s = copy();
-        s.style = style <= 3 ? ((style & 2) + 3) : 7;
-        return s;
-    }
+	public TeXEnvironment(int style, TeXFont tf, int textStyle) {
+		this.style = style;
+		this.tf = tf;
+		this.textStyle = textStyle;
+		this.lengthSettings = new TeXLengthSettings();
+	}
 
-    /**
-     * @return a copy of the environment, but in numerator style.
-     */
-    public TeXEnvironment numStyle() {
-        TeXEnvironment s = copy();
-        s.style = (style <= 5 ? 2 : 0) + style;
-        return s;
-    }
+	private TeXEnvironment(int style, double scaleFactor, TeXFont tf, Color bg,
+			Color c, int textStyle, boolean smallCap, Font javaFont,
+			TeXLengthSettings lengthSettings) {
+		this.style = style;
+		this.scaleFactor = scaleFactor;
+		this.tf = tf;
+		this.background = bg;
+		this.color = c;
+		this.textStyle = textStyle;
+		this.smallCap = smallCap;
+		this.javaFont = javaFont;
+		this.lengthSettings = lengthSettings;
+	}
 
-    /**
-     * @return a copy of the environment, but in subscript style.
-     */
-    public TeXEnvironment subStyle() {
-        TeXEnvironment s = copy();
-        s.style = style <= 3 ? 5 : 7;
-        return s;
-    }
+	public void setScaleFactor(double f) {
+		scaleFactor = f;
+	}
 
-    /**
-     * @return a copy of the environment, but in superscript style.
-     */
-    public TeXEnvironment supStyle() {
-        TeXEnvironment s = copy();
-        s.style = (style <= 3 ? 4 : 6) + (style & 1);
-        return s;
-    }
+	public double getScaleFactor() {
+		return scaleFactor;
+	}
 
-    /**
-     * @return the background color setting
-     */
-    public Color getBackground() {
-        return background;
-    }
+	protected TeXEnvironment copy() {
+		return new TeXEnvironment(style, scaleFactor, tf, background, color,
+				textStyle, smallCap, javaFont, lengthSettings);
+	}
 
-    /**
-     * @param c the background color to be set
-     */
-    public void setBackground(Color c) {
-        background = c;
-    }
+	protected TeXEnvironment copy(TeXFont tf) {
+		return new TeXEnvironment(style, scaleFactor, tf,
+				background, color, textStyle, smallCap, javaFont, lengthSettings);
+	}
 
-    /**
-     * @return the foreground color setting
-     */
-    public Color getColor() {
-        return color;
-    }
+	/**
+	 * @return a copy of the environment, but in a cramped style.
+	 */
+	public TeXEnvironment crampStyle() {
+		TeXEnvironment s = copy();
+		s.style = style | 1;
+		return s;
+	}
 
-    /**
-     * @param c the foreground color to be set
-     */
-    public void setColor(Color c) {
-        color = c;
-    }
+	/**
+	 *
+	 * @return a copy of the environment, but in denominator style.
+	 */
+	public TeXEnvironment denomStyle() {
+		TeXEnvironment s = copy();
+		s.style = style <= 3 ? ((style & 2) + 3) : 7;
+		return s;
+	}
 
-    /**
-     * @return the point size of the TeXFont
-     */
-    public double getSize() {
-        return tf.getSize();
-    }
+	/**
+	 *
+	 * @return a copy of the environment, but in numerator style.
+	 */
+	public TeXEnvironment numStyle() {
+		TeXEnvironment s = copy();
+		s.style = (style <= 5 ? 2 : 0) + style;
+		return s;
+	}
 
-    /**
-     * @return the current style
-     */
-    public int getStyle() {
-        return style;
-    }
+	/**
+	 *
+	 * @return a copy of the environment, but in subscript style.
+	 */
+	public TeXEnvironment subStyle() {
+		TeXEnvironment s = copy();
+		s.style = style <= 3 ? 5 : 7;
+		return s;
+	}
 
-    public void setStyle(int style) {
-        this.style = style;
-    }
+	/**
+	 *
+	 * @return a copy of the environment, but in superscript style.
+	 */
+	public TeXEnvironment supStyle() {
+		TeXEnvironment s = copy();
+		s.style = (style <= 3 ? 4 : 6) + (style & 1);
+		return s;
+	}
 
-    /**
-     * @return the current textStyle
-     */
-    public int getTextStyle() {
-        return textStyle;
-    }
+	/**
+	 *
+	 * @return the background color setting
+	 */
+	public Color getBackground() {
+		return background;
+	}
 
-    public void setTextStyle(int textStyle) {
-        this.textStyle = textStyle;
-    }
+	/**
+	 *
+	 * @return the foreground color setting
+	 */
+	public Color getColor() {
+		return color;
+	}
 
-    /**
-     * @return the current java Font
-     */
-    public Font getJavaFont() {
-        return javaFont;
-    }
+	/**
+	 *
+	 * @return the point size of the TeXFont
+	 */
+	public double getSize() {
+		return tf.getSize();
+	}
 
-    public void setJavaFont(Font javaFont) {
-        this.javaFont = javaFont;
-    }
+	/**
+	 *
+	 * @return the current style
+	 */
+	public int getStyle() {
+		return style;
+	}
 
-    /**
-     * @return the current textStyle
-     */
-    public boolean getSmallCap() {
-        return smallCap;
-    }
+	public void setStyle(int style) {
+		this.style = style;
+	}
 
-    public void setSmallCap(boolean smallCap) {
-        this.smallCap = smallCap;
-    }
+	/**
+	 * @return the current textStyle
+	 */
+	public int getTextStyle() {
+		return textStyle;
+	}
 
-    /**
-     * @return the TeXFont to be used
-     */
-    public TeXFont getTeXFont() {
-        return tf;
-    }
+	public void setTextStyle(int textStyle) {
+		this.textStyle = textStyle;
+	}
 
-    /**
-     * Resets the color settings.
-     */
-    public void resetColors() {
-        color = null;
-        background = null;
-    }
+	/**
+	 * @return the current java Font
+	 */
+	public Font getJavaFont() {
+		return javaFont;
+	}
 
-    /**
-     * @return a copy of the environment, but with the style changed for roots
-     */
-    public TeXEnvironment rootStyle() {
-        TeXEnvironment s = copy();
-        s.style = TeXConstants.STYLE_SCRIPT_SCRIPT;
-        return s;
-    }
+	public void setJavaFont(Font javaFont) {
+		this.javaFont = javaFont;
+	}
 
-    public double getSpace() {
-        return tf.getSpace(style) * tf.getScaleFactor();
-    }
+	/**
+	 * @return the current textStyle
+	 */
+	public boolean getSmallCap() {
+		return smallCap;
+	}
 
-    public FontInfo getLastFont() {
-        // if there was no last font (whitespace boxes only), use default "mu
-        // font"
-        return lastFont == null ? TeXFont.MUFONT : lastFont;
-    }
+	public void setSmallCap(boolean smallCap) {
+		this.smallCap = smallCap;
+	}
 
-    public void setLastFont(FontInfo font) {
-        lastFont = font;
-    }
+	/**
+	 *
+	 * @return the TeXFont to be used
+	 */
+	public TeXFont getTeXFont() {
+		return tf;
+	}
 
-    public TeXLengthSettings lengthSettings() {
-        return lengthSettings;
-    }
+	/**
+	 * Resets the color settings.
+	 *
+	 */
+	public void resetColors() {
+		color = null;
+		background = null;
+	}
+
+	/**
+	 *
+	 * @return a copy of the environment, but with the style changed for roots
+	 */
+	public TeXEnvironment rootStyle() {
+		TeXEnvironment s = copy();
+		s.style = TeXConstants.STYLE_SCRIPT_SCRIPT;
+		return s;
+	}
+
+	/**
+	 *
+	 * @param c
+	 *            the background color to be set
+	 */
+	public void setBackground(Color c) {
+		background = c;
+	}
+
+	/**
+	 *
+	 * @param c
+	 *            the foreground color to be set
+	 */
+	public void setColor(Color c) {
+		color = c;
+	}
+
+	public double getSpace() {
+		return tf.getSpace(style) * tf.getScaleFactor();
+	}
+
+	public void setLastFont(FontInfo font) {
+		lastFont = font;
+	}
+
+	public FontInfo getLastFont() {
+		// if there was no last font (whitespace boxes only), use default "mu
+		// font"
+		return lastFont == null ? TeXFont.MUFONT : lastFont;
+	}
+
+	public TeXLengthSettings lengthSettings() {
+		return lengthSettings;
+	}
 }

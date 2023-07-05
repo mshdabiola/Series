@@ -52,54 +52,54 @@ import com.himamis.retex.renderer.share.serialize.HasTrueBase;
  */
 public class RaiseAtom extends Atom implements HasTrueBase {
 
-    private final Atom base;
-    private final TeXLength r;
-    private final TeXLength h;
-    private final TeXLength d;
+	private final Atom base;
+	private final TeXLength r;
+	private final TeXLength h;
+	private final TeXLength d;
 
-    public RaiseAtom(Atom base, TeXLength r, TeXLength h, TeXLength d) {
-        this.base = base;
-        this.r = r;
-        this.h = h;
-        this.d = d;
-    }
+	public RaiseAtom(Atom base, TeXLength r, TeXLength h, TeXLength d) {
+		this.base = base;
+		this.r = r;
+		this.h = h;
+		this.d = d;
+	}
 
-    @Override
-    public Box createBox(TeXEnvironment env) {
-        final Box bbox = base.createBox(env);
-        bbox.setShift(-r.getValue(env));
+	@Override
+	public Box createBox(TeXEnvironment env) {
+		final Box bbox = base.createBox(env);
+		bbox.setShift(-r.getValue(env));
 
-        final HorizontalBox hbox = new HorizontalBox(bbox);
-        if (h == null) {
-            // TODO: in jlm1 it returned bbox not hbox
-            return hbox;
-        }
+		final HorizontalBox hbox = new HorizontalBox(bbox);
+		if (h == null) {
+			// TODO: in jlm1 it returned bbox not hbox
+			return hbox;
+		}
 
-        hbox.setHeight(h.getValue(env));
-        if (d != null) {
-            hbox.setDepth(d.getValue(env));
-        }
+		hbox.setHeight(h.getValue(env));
+		if (d != null) {
+			hbox.setDepth(d.getValue(env));
+		}
 
-        return hbox;
-    }
+		return hbox;
+	}
 
-    @Override
-    public int getLeftType() {
-        return base.getLeftType();
-    }
+	@Override
+	public int getLeftType() {
+		return base.getLeftType();
+	}
 
-    @Override
-    public int getRightType() {
-        return base.getRightType();
-    }
+	@Override
+	public int getRightType() {
+		return base.getRightType();
+	}
 
-    @Override
-    public int getLimits() {
-        return base.getLimits();
-    }
+	@Override
+	public int getLimits() {
+		return base.getLimits();
+	}
 
-    @Override
-    public Atom getTrueBase() {
-        return base;
-    }
+	@Override
+	public Atom getTrueBase() {
+		return base;
+	}
 }

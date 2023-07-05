@@ -52,24 +52,24 @@ package com.himamis.retex.renderer.share;
  */
 public class MathCharAtom extends CharAtom {
 
-    public MathCharAtom(char c, boolean mathMode) {
-        super(c, mathMode);
-    }
+	public MathCharAtom(char c, boolean mathMode) {
+		super(c, mathMode);
+	}
 
-    @Override
-    public Box createBox(TeXEnvironment env) {
-        final TeXFont tf = env.getTeXFont();
-        final boolean sroman = tf.getRoman();
+	@Override
+	public Box createBox(TeXEnvironment env) {
+		final TeXFont tf = env.getTeXFont();
+		final boolean sroman = tf.getRoman();
 
-        tf.setRoman(false);
-        final Box box = super.createBox(env);
-        tf.setRoman(sroman);
+		tf.setRoman(false);
+		final Box box = super.createBox(env);
+		tf.setRoman(sroman);
 
-        return box;
-    }
+		return box;
+	}
 
-    @Override
-    public String toString() {
-        return "MathCharAtom: \'" + c + "\'";
-    }
+	@Override
+	public String toString() {
+		return "MathCharAtom: \'" + c + "\'";
+	}
 }

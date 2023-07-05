@@ -50,18 +50,18 @@ package com.himamis.retex.renderer.share;
  */
 public class DoubleFramedAtom extends FBoxAtom {
 
-    public DoubleFramedAtom(Atom base) {
-        super(base);
-    }
+	public DoubleFramedAtom(Atom base) {
+		super(base);
+	}
 
-    @Override
-    public Box createBox(TeXEnvironment env) {
-        Box bbase = base.createBox(env);
-        double drt = env.lengthSettings().getLength("fboxrule", env);
-        double space = env.lengthSettings().getLength("fboxsep", env);
-        double sspace = 1.5 * drt
-                + 0.5 * Unit.POINT.getFactor(env);
-        return new FramedBox(new FramedBox(bbase, 0.75 * drt, space), 1.5 * drt,
-                sspace);
-    }
+	@Override
+	public Box createBox(TeXEnvironment env) {
+		Box bbase = base.createBox(env);
+		double drt = env.lengthSettings().getLength("fboxrule", env);
+		double space = env.lengthSettings().getLength("fboxsep", env);
+		double sspace = 1.5 * drt
+				+ 0.5 * Unit.POINT.getFactor(env);
+		return new FramedBox(new FramedBox(bbase, 0.75 * drt, space), 1.5 * drt,
+				sspace);
+	}
 }

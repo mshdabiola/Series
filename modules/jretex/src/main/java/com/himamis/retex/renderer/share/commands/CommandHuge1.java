@@ -7,17 +7,17 @@ import com.himamis.retex.renderer.share.TeXParser;
 
 public class CommandHuge1 extends CommandStyle {
 
-    public CommandHuge1() {
-        //
-    }
+	public CommandHuge1() {
+		//
+	}
 
-    public CommandHuge1(RowAtom size) {
-        this.size = size;
-    }
+	public CommandHuge1(RowAtom size) {
+		this.size = size;
+	}
 
-    @Override
-    public Atom newI(TeXParser tp, Atom a) {
-        return new MonoScaleAtom(a, 2.);
-    }
+	@Override
+	public Atom newI(TeXParser tp, Atom a) {
+		return new MonoScaleAtom(a, 2.);
+	}
 
 }

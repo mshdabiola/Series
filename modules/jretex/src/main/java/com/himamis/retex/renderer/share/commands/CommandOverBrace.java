@@ -8,9 +8,9 @@ import com.himamis.retex.renderer.share.Unit;
 
 public class CommandOverBrace extends Command1A {
 
-    @Override
-    public Atom newI(TeXParser tp, Atom a) {
-        return new OverUnderDelimiter(a, null, Symbols.LBRACE,
-                Unit.EX, 0, true);
-    }
+	@Override
+	public Atom newI(TeXParser tp, Atom a) {
+		return new OverUnderDelimiter(a, null, Symbols.LBRACE,
+				Unit.EX, 0, true);
+	}
 }

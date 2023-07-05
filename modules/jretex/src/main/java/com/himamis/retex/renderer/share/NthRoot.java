@@ -54,97 +54,97 @@ import com.himamis.retex.renderer.share.serialize.HasTrueBase;
  */
 public class NthRoot extends Atom implements HasTrueBase {
 
-    private static final double FACTOR = 0.55;
+	private static final double FACTOR = 0.55;
 
-    // base atom to be put under the root sign
-    private final Atom base;
+	// base atom to be put under the root sign
+	private final Atom base;
 
-    // root atom to be put in the upper left corner above the root sign
-    private final Atom root;
+	// root atom to be put in the upper left corner above the root sign
+	private final Atom root;
 
-    public NthRoot(Atom base, Atom root) {
-        this.base = base == null ? EmptyAtom.get() : base;
-        this.root = root;
-    }
+	public NthRoot(Atom base, Atom root) {
+		this.base = base == null ? EmptyAtom.get() : base;
+		this.root = root;
+	}
 
-    @Override
-    public Box createBox(TeXEnvironment env) {
-        // first create a simple square root construction
-        TeXFont tf = env.getTeXFont();
-        int style = env.getStyle();
-        // calculate minimum clearance clr
-        double clr;
-        final double drt = tf.getDefaultRuleThickness(style);
-        if (style < TeXConstants.STYLE_TEXT) {
-            clr = tf.getXHeight(style,
-                    tf.getChar(Symbols.SQRT.getCf(), style).getFontInfo());
-        } else {
-            clr = drt;
-        }
-        clr = drt + Math.abs(clr) / 4.;
+	@Override
+	public Box createBox(TeXEnvironment env) {
+		// first create a simple square root construction
+		TeXFont tf = env.getTeXFont();
+		int style = env.getStyle();
+		// calculate minimum clearance clr
+		double clr;
+		final double drt = tf.getDefaultRuleThickness(style);
+		if (style < TeXConstants.STYLE_TEXT) {
+			clr = tf.getXHeight(style,
+					tf.getChar(Symbols.SQRT.getCf(), style).getFontInfo());
+		} else {
+			clr = drt;
+		}
+		clr = drt + Math.abs(clr) / 4.;
 
-        // cramped style for the formula under the root sign
-        Box bs = base.createBox(env.crampStyle());
-        HorizontalBox b = new HorizontalBox(bs);
-        b.add(new SpaceAtom(Unit.MU, 1., 0., 0.)
-                .createBox(env.crampStyle()));
-        // create root sign
-        double totalH = b.getHeight() + b.getDepth();
-        Box rootSign = DelimiterFactory.create(Symbols.SQRT.getCf(), env,
-                totalH + clr + drt);
+		// cramped style for the formula under the root sign
+		Box bs = base.createBox(env.crampStyle());
+		HorizontalBox b = new HorizontalBox(bs);
+		b.add(new SpaceAtom(Unit.MU, 1., 0., 0.)
+				.createBox(env.crampStyle()));
+		// create root sign
+		double totalH = b.getHeight() + b.getDepth();
+		Box rootSign = DelimiterFactory.create(Symbols.SQRT.getCf(), env,
+				totalH + clr + drt);
 
-        if (rootSign instanceof CharBox) {
-            rootSign = FactoryProvider.getInstance().getBoxDecorator().decorate(rootSign);
-        }
+		if (rootSign instanceof CharBox) {
+			rootSign = FactoryProvider.getInstance().getBoxDecorator().decorate(rootSign);
+		}
 
-        // add half the excess to clr
-        double delta = rootSign.getDepth() - (totalH + clr);
-        clr += delta / 2.;
+		// add half the excess to clr
+		double delta = rootSign.getDepth() - (totalH + clr);
+		clr += delta / 2.;
 
-        // create total box
-        rootSign.setShift(-(b.getHeight() + clr));
-        OverBar ob = new OverBar(b, clr, rootSign.getHeight());
-        ob.setShift(-(b.getHeight() + clr + drt));
-        HorizontalBox squareRoot = new HorizontalBox(rootSign);
-        squareRoot.add(ob);
+		// create total box
+		rootSign.setShift(-(b.getHeight() + clr));
+		OverBar ob = new OverBar(b, clr, rootSign.getHeight());
+		ob.setShift(-(b.getHeight() + clr + drt));
+		HorizontalBox squareRoot = new HorizontalBox(rootSign);
+		squareRoot.add(ob);
 
-        if (root == null) {
-            // simple square root
-            return squareRoot;
-        } else { // nthRoot, not a simple square root
-            // create box from root
-            Box r = root.createBox(env.rootStyle());
+		if (root == null) {
+			// simple square root
+			return squareRoot;
+		} else { // nthRoot, not a simple square root
+			// create box from root
+			Box r = root.createBox(env.rootStyle());
 
-            // shift root up
-            double bottomShift = FACTOR
-                    * (squareRoot.getHeight() + squareRoot.getDepth());
-            r.setShift(squareRoot.getDepth() - r.getDepth() - bottomShift);
+			// shift root up
+			double bottomShift = FACTOR
+					* (squareRoot.getHeight() + squareRoot.getDepth());
+			r.setShift(squareRoot.getDepth() - r.getDepth() - bottomShift);
 
-            // negative kern
-            Box negativeKern = new SpaceAtom(Unit.MU, -10., 0., 0.)
-                    .createBox(env);
+			// negative kern
+			Box negativeKern = new SpaceAtom(Unit.MU, -10., 0., 0.)
+					.createBox(env);
 
-            // arrange both boxes together with the negative kern
-            HorizontalBox res = new HorizontalBox();
-            double pos = r.getWidth() + negativeKern.getWidth();
-            if (pos < 0) {
-                res.add(new StrutBox(-pos, 0., 0., 0.));
-            }
+			// arrange both boxes together with the negative kern
+			HorizontalBox res = new HorizontalBox();
+			double pos = r.getWidth() + negativeKern.getWidth();
+			if (pos < 0) {
+				res.add(new StrutBox(-pos, 0., 0., 0.));
+			}
 
-            res.add(r);
-            res.add(negativeKern);
-            res.add(squareRoot);
-            return res.setAtom(this);
-        }
-    }
+			res.add(r);
+			res.add(negativeKern);
+			res.add(squareRoot);
+			return res.setAtom(this);
+		}
+	}
 
-    public Atom getRoot() {
-        return root;
-    }
+	public Atom getRoot() {
+		return root;
+	}
 
-    @Override
-    public Atom getTrueBase() {
-        return base;
-    }
+	@Override
+	public Atom getTrueBase() {
+		return base;
+	}
 
 }

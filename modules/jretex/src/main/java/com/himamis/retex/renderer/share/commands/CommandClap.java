@@ -6,9 +6,9 @@ import com.himamis.retex.renderer.share.TeXParser;
 
 public class CommandClap extends Command1A {
 
-    @Override
-    public Atom newI(TeXParser tp, Atom a) {
-        return new LapedAtom(a, 'c');
-    }
+	@Override
+	public Atom newI(TeXParser tp, Atom a) {
+		return new LapedAtom(a, 'c');
+	}
 
 }

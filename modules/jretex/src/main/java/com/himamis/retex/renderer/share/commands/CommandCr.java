@@ -54,36 +54,36 @@ import com.himamis.retex.renderer.share.exception.ParseException;
 
 public class CommandCr extends Command {
 
-    final String cmd;
+	final String cmd;
 
-    public CommandCr(final String cmd) {
-        this.cmd = cmd;
-    }
+	public CommandCr(final String cmd) {
+		this.cmd = cmd;
+	}
 
-    @Override
-    public boolean init(TeXParser tp) {
-        if (cmd.equals("cr")) {
-            tp.eatWhite();
-        }
-        if (!tp.isColumn()) {
-            tp.close();
-        }
-        if (tp.isArrayMode()) {
-            TeXLength minHeight = tp.getOptionAsLength(null);
-            tp.addToConsumer(new EnvArray.RowSep(minHeight));
-        } else {
-            final RowAtom ra = tp.steal();
-            if (ra == null) {
-                throw new ParseException(tp,
-                        "The macro \\" + cmd + " must be used in an array");
-            }
-            final Column col = new Column();
-            col.init(tp);
-            col.add(tp, ra.simplify());
-            col.add(tp, EnvArray.RowSep.get());
-            tp.addConsumer(col);
-        }
+	@Override
+	public boolean init(TeXParser tp) {
+		if (cmd.equals("cr")) {
+			tp.eatWhite();
+		}
+		if (!tp.isColumn()) {
+			tp.close();
+		}
+		if (tp.isArrayMode()) {
+			TeXLength minHeight = tp.getOptionAsLength(null);
+			tp.addToConsumer(new EnvArray.RowSep(minHeight));
+		} else {
+			final RowAtom ra = tp.steal();
+			if (ra == null) {
+				throw new ParseException(tp,
+						"The macro \\" + cmd + " must be used in an array");
+			}
+			final Column col = new Column();
+			col.init(tp);
+			col.add(tp, ra.simplify());
+			col.add(tp, EnvArray.RowSep.get());
+			tp.addConsumer(col);
+		}
 
-        return false;
-    }
+		return false;
+	}
 }

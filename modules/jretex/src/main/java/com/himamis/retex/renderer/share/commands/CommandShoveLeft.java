@@ -7,8 +7,8 @@ import com.himamis.retex.renderer.share.TeXParser;
 
 public class CommandShoveLeft extends Command1A {
 
-    @Override
-    public Atom newI(TeXParser tp, Atom a) {
-        return new AlignedAtom(a, TeXConstants.Align.LEFT);
-    }
+	@Override
+	public Atom newI(TeXParser tp, Atom a) {
+		return new AlignedAtom(a, TeXConstants.Align.LEFT);
+	}
 }

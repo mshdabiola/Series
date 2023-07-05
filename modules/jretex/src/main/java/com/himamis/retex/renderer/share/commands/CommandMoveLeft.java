@@ -8,16 +8,16 @@ import com.himamis.retex.renderer.share.TeXParser;
 
 public class CommandMoveLeft extends Command1A {
 
-    TeXLength left;
+	TeXLength left;
 
-    @Override
-    public boolean init(TeXParser tp) {
-        left = tp.getArgAsLength();
-        return true;
-    }
+	@Override
+	public boolean init(TeXParser tp) {
+		left = tp.getArgAsLength();
+		return true;
+	}
 
-    @Override
-    public Atom newI(TeXParser tp, Atom a) {
-        return new RowAtom(new SpaceAtom(left.scale(-1.)), a);
-    }
+	@Override
+	public Atom newI(TeXParser tp, Atom a) {
+		return new RowAtom(new SpaceAtom(left.scale(-1.)), a);
+	}
 }

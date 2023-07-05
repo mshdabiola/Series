@@ -6,8 +6,8 @@ import com.himamis.retex.renderer.share.TeXParser;
 
 public class CommandATop extends CommandOver {
 
-    @Override
-    public Atom newI(TeXParser tp, Atom a, Atom b) {
-        return new FractionAtom(a, b, false);
-    }
+	@Override
+	public Atom newI(TeXParser tp, Atom a, Atom b) {
+		return new FractionAtom(a, b, false);
+	}
 }

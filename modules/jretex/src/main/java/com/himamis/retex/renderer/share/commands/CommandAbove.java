@@ -7,17 +7,17 @@ import com.himamis.retex.renderer.share.TeXParser;
 
 public class CommandAbove extends CommandOver {
 
-    TeXLength len;
+	TeXLength len;
 
-    @Override
-    public boolean init(TeXParser tp) {
-        super.init(tp);
-        len = tp.getArgAsLength();
-        return false;
-    }
+	@Override
+	public boolean init(TeXParser tp) {
+		super.init(tp);
+		len = tp.getArgAsLength();
+		return false;
+	}
 
-    @Override
-    public Atom newI(TeXParser tp, Atom a, Atom b) {
-        return new FractionAtom(a, b, len);
-    }
+	@Override
+	public Atom newI(TeXParser tp, Atom a, Atom b) {
+		return new FractionAtom(a, b, len);
+	}
 }

@@ -7,16 +7,16 @@ import com.himamis.retex.renderer.share.TeXParser;
 
 public class CommandScriptSize extends CommandStyle {
 
-    public CommandScriptSize() {
-        //
-    }
+	public CommandScriptSize() {
+		//
+	}
 
-    public CommandScriptSize(RowAtom size) {
-        this.size = size;
-    }
+	public CommandScriptSize(RowAtom size) {
+		this.size = size;
+	}
 
-    @Override
-    public Atom newI(TeXParser tp, Atom a) {
-        return new MonoScaleAtom(a, 0.7);
-    }
+	@Override
+	public Atom newI(TeXParser tp, Atom a) {
+		return new MonoScaleAtom(a, 0.7);
+	}
 }

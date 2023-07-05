@@ -52,45 +52,45 @@ import com.himamis.retex.renderer.share.platform.graphics.Graphics2DInterface;
  */
 public class CellBox extends Box {
 
-    private Box box;
-    private double left;
+	private Box box;
+	private double left;
 
-    public CellBox(Box box, double height, double depth, double left,
-                   double right, double colW, TeXConstants.Align alignment) {
-        this.width = left + colW + right;
-        this.height = height;
-        this.depth = depth;
-        this.box = box;
-        switch (alignment) {
-            case LEFT:
-                this.left = left;
-                break;
-            case RIGHT:
-                this.left = left + colW - box.width;
-                break;
-            case CENTER:
-                this.left = left + (colW - box.width) / 2.;
-                break;
-            default:
-                this.left = left;
-        }
-    }
+	public CellBox(Box box, double height, double depth, double left,
+			double right, double colW, TeXConstants.Align alignment) {
+		this.width = left + colW + right;
+		this.height = height;
+		this.depth = depth;
+		this.box = box;
+		switch (alignment) {
+		case LEFT:
+			this.left = left;
+			break;
+		case RIGHT:
+			this.left = left + colW - box.width;
+			break;
+		case CENTER:
+			this.left = left + (colW - box.width) / 2.;
+			break;
+		default:
+			this.left = left;
+		}
+	}
 
-    @Override
-    public void draw(Graphics2DInterface g2, double x, double y) {
-        startDraw(g2, x, y);
-        box.draw(g2, x + left, y);
-        endDraw(g2);
-    }
+	@Override
+	public void draw(Graphics2DInterface g2, double x, double y) {
+		startDraw(g2, x, y);
+		box.draw(g2, x + left, y);
+		endDraw(g2);
+	}
 
-    @Override
-    public FontInfo getLastFont() {
-        return box.getLastFont();
-    }
+	@Override
+	public FontInfo getLastFont() {
+		return box.getLastFont();
+	}
 
-    @Override
-    public void inspect(BoxConsumer handler, BoxPosition position) {
-        super.inspect(handler, position);
-        box.inspect(handler, position.withX(position.x + left));
-    }
+	@Override
+	public void inspect(BoxConsumer handler, BoxPosition position) {
+		super.inspect(handler, position);
+		box.inspect(handler, position.withX(position.x + left));
+	}
 }

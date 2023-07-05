@@ -52,49 +52,49 @@ import com.himamis.retex.renderer.share.serialize.IsAccentedAtom;
  */
 public class CedillaAtom extends Atom implements IsAccentedAtom {
 
-    public static final SymbolAtom CEDILLA = SymbolAtom
-            .get("jlatexmathcedilla");
-    private Atom base;
+	private Atom base;
+	public static final SymbolAtom CEDILLA = SymbolAtom
+			.get("jlatexmathcedilla");
 
-    public CedillaAtom(Atom base) {
-        this.base = base;
-    }
+	public CedillaAtom(Atom base) {
+		this.base = base;
+	}
 
-    @Override
-    public Box createBox(TeXEnvironment env) {
-        Box b = base.createBox(env);
-        VerticalBox vb = new VerticalBox();
-        vb.add(b);
-        Char ch = env.getTeXFont().getChar(CEDILLA.getCf(), env.getStyle());
-        double italic = ch.getItalic();
-        Box cedilla = new CharBox(ch);
-        Box y;
-        if (Math.abs(italic) > TeXFormula.PREC) {
-            HorizontalBox hb = new HorizontalBox(
-                    new StrutBox(-italic, 0, 0, 0));
-            hb.add(cedilla);
-            y = hb;
-        } else {
-            y = cedilla;
-        }
+	@Override
+	public Box createBox(TeXEnvironment env) {
+		Box b = base.createBox(env);
+		VerticalBox vb = new VerticalBox();
+		vb.add(b);
+		Char ch = env.getTeXFont().getChar(CEDILLA.getCf(), env.getStyle());
+		double italic = ch.getItalic();
+		Box cedilla = new CharBox(ch);
+		Box y;
+		if (Math.abs(italic) > TeXFormula.PREC) {
+			HorizontalBox hb = new HorizontalBox(
+					new StrutBox(-italic, 0, 0, 0));
+			hb.add(cedilla);
+			y = hb;
+		} else {
+			y = cedilla;
+		}
 
-        Box ce = new HorizontalBox(y, b.getWidth(), TeXConstants.Align.CENTER);
-        double x = 0.4 * Unit.MU.getFactor(env);
-        vb.add(new StrutBox(0, -x, 0, 0));
-        vb.add(ce);
-        double f = vb.getHeight() + vb.getDepth();
-        vb.setHeight(b.getHeight());
-        vb.setDepth(f - b.getHeight());
-        return vb;
-    }
+		Box ce = new HorizontalBox(y, b.getWidth(), TeXConstants.Align.CENTER);
+		double x = 0.4 * Unit.MU.getFactor(env);
+		vb.add(new StrutBox(0, -x, 0, 0));
+		vb.add(ce);
+		double f = vb.getHeight() + vb.getDepth();
+		vb.setHeight(b.getHeight());
+		vb.setDepth(f - b.getHeight());
+		return vb;
+	}
 
-    @Override
-    public Atom getTrueBase() {
-        return base;
-    }
+	@Override
+	public Atom getTrueBase() {
+		return base;
+	}
 
-    @Override
-    public Atom getAccent() {
-        return CEDILLA;
-    }
+	@Override
+	public Atom getAccent() {
+		return CEDILLA;
+	}
 }

@@ -54,42 +54,42 @@ import com.himamis.retex.renderer.share.platform.graphics.Graphics2DInterface;
  */
 public class HorizontalRule extends Box {
 
-    protected double speShift;
+	protected double speShift;
 
-    public HorizontalRule(double thickness, double width, double s) {
-        height = thickness;
-        this.width = width;
-        shift = s;
-        speShift = 0.;
-    }
+	public HorizontalRule(double thickness, double width, double s) {
+		height = thickness;
+		this.width = width;
+		shift = s;
+		speShift = 0.;
+	}
 
-    public HorizontalRule(double thickness, double width, double s,
-                          boolean trueShift) {
-        height = thickness;
-        this.width = width;
-        if (trueShift) {
-            shift = s;
-            speShift = 0.;
-        } else {
-            shift = 0.;
-            speShift = s;
-        }
-    }
+	public HorizontalRule(double thickness, double width, double s,
+			boolean trueShift) {
+		height = thickness;
+		this.width = width;
+		if (trueShift) {
+			shift = s;
+			speShift = 0.;
+		} else {
+			shift = 0.;
+			speShift = s;
+		}
+	}
 
-    @Override
-    public void draw(Graphics2DInterface g2, double x, double y) {
-        g2.fill(geom.createRectangle2D(x, y - height + speShift, width,
-                height));
-    }
+	@Override
+	public void draw(Graphics2DInterface g2, double x, double y) {
+		g2.fill(geom.createRectangle2D(x, y - height + speShift, width,
+				height));
+	}
 
-    @Override
-    public Area getArea() {
-        return geom.createArea(
-                geom.createRectangle2D(0., -height + speShift, width, height));
-    }
+	@Override
+	public Area getArea() {
+		return geom.createArea(
+				geom.createRectangle2D(0., -height + speShift, width, height));
+	}
 
-    @Override
-    public FontInfo getLastFont() {
-        return null;
-    }
+	@Override
+	public FontInfo getLastFont() {
+		return null;
+	}
 }

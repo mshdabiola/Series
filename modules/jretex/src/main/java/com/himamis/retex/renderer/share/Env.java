@@ -49,103 +49,103 @@ import java.util.ArrayList;
 
 public class Env {
 
-    private final Macro before;
-    private final Macro after;
+	private final Macro before;
+	private final Macro after;
 
-    public Env(final String before, final String after, final int nargs) {
-        this.before = new Macro(before, nargs);
-        this.after = new Macro(after, nargs);
-    }
+	public static class Begin implements AtomConsumer {
 
-    public int getNArgs() {
-        return before.getNArgs();
-    }
+		private final String name;
+		private RowAtom base;
+		private final ArrayList<String> args;
 
-    public String getBefore(final TeXParser tp, final ArrayList<String> args) {
-        return before.get(tp, args);
-    }
+		public Begin(final String name, final ArrayList<String> args) {
+			this.name = name;
+			base = new RowAtom();
+			this.args = args;
+		}
 
-    public String getAfter(final TeXParser tp, final ArrayList<String> args) {
-        return after.get(tp, args);
-    }
+		@Override
+		public Atom getLastAtom() {
+			return base.getLastAtom();
+		}
 
-    public static class Begin implements AtomConsumer {
+		@Override
+		public boolean init(TeXParser tp) {
+			return false;
+		}
 
-        private final String name;
-        private final ArrayList<String> args;
-        private RowAtom base;
+		@Override
+		public void add(TeXParser tp, Atom a) {
+			base.add(a);
+		}
 
-        public Begin(final String name, final ArrayList<String> args) {
-            this.name = name;
-            base = new RowAtom();
-            this.args = args;
-        }
+		@Override
+		public boolean close(TeXParser tp) {
+			return false;
+		}
 
-        @Override
-        public Atom getLastAtom() {
-            return base.getLastAtom();
-        }
+		@Override
+		public boolean isClosable() {
+			return false;
+		}
 
-        @Override
-        public boolean init(TeXParser tp) {
-            return false;
-        }
+		public ArrayList<String> getArgs() {
+			return args;
+		}
 
-        @Override
-        public void add(TeXParser tp, Atom a) {
-            base.add(a);
-        }
+		public String getName() {
+			return name;
+		}
 
-        @Override
-        public boolean close(TeXParser tp) {
-            return false;
-        }
+		@Override
+		public RowAtom steal(TeXParser tp) {
+			final RowAtom ra = base;
+			base = new RowAtom();
+			return ra;
+		}
 
-        @Override
-        public boolean isClosable() {
-            return false;
-        }
+		public Atom getBase() {
+			return base.simplify();
+		}
 
-        public ArrayList<String> getArgs() {
-            return args;
-        }
+		@Override
+		public boolean isArray() {
+			return false;
+		}
 
-        public String getName() {
-            return name;
-        }
+		@Override
+		public boolean isAmpersandAllowed() {
+			return false;
+		}
 
-        @Override
-        public RowAtom steal(TeXParser tp) {
-            final RowAtom ra = base;
-            base = new RowAtom();
-            return ra;
-        }
+		@Override
+		public boolean isHandlingArg() {
+			return false;
+		}
 
-        public Atom getBase() {
-            return base.simplify();
-        }
+		@Override
+		public void lbrace(TeXParser tp) {
+		}
 
-        @Override
-        public boolean isArray() {
-            return false;
-        }
+		@Override
+		public void rbrace(TeXParser tp) {
+		}
+	}
 
-        @Override
-        public boolean isAmpersandAllowed() {
-            return false;
-        }
+	public Env(final String before, final String after, final int nargs) {
+		this.before = new Macro(before, nargs);
+		this.after = new Macro(after, nargs);
+	}
 
-        @Override
-        public boolean isHandlingArg() {
-            return false;
-        }
+	public int getNArgs() {
+		return before.getNArgs();
+	}
 
-        @Override
-        public void lbrace(TeXParser tp) {
-        }
+	public String getBefore(final TeXParser tp, final ArrayList<String> args) {
+		return before.get(tp, args);
+	}
 
-        @Override
-        public void rbrace(TeXParser tp) {
-        }
-    }
+	public String getAfter(final TeXParser tp, final ArrayList<String> args) {
+		return after.get(tp, args);
+	}
 }

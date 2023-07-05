@@ -52,67 +52,67 @@ import com.himamis.retex.renderer.share.serialize.HasTrueBase;
  */
 public class ResizeAtom extends Atom implements HasTrueBase {
 
-    private Atom base;
-    private TeXLength width;
-    private TeXLength height;
-    private boolean keepaspectratio;
+	private Atom base;
+	private TeXLength width;
+	private TeXLength height;
+	private boolean keepaspectratio;
 
-    public ResizeAtom(Atom base, TeXLength width, TeXLength height,
-                      boolean keepaspectratio) {
-        this.base = base;
-        this.width = width;
-        this.height = height;
-        this.keepaspectratio = keepaspectratio;
-    }
+	public ResizeAtom(Atom base, TeXLength width, TeXLength height,
+			boolean keepaspectratio) {
+		this.base = base;
+		this.width = width;
+		this.height = height;
+		this.keepaspectratio = keepaspectratio;
+	}
 
-    public ResizeAtom(Atom base, TeXLength width, TeXLength height) {
-        this(base, width, height, width == null || height == null);
-    }
+	public ResizeAtom(Atom base, TeXLength width, TeXLength height) {
+		this(base, width, height, width == null || height == null);
+	}
 
-    @Override
-    public Box createBox(TeXEnvironment env) {
-        Box bbox = base.createBox(env);
-        if (width == null && height == null) {
-            return bbox.setAtom(this);
-        } else {
-            double xscl;
-            double yscl;
-            if (width != null && height != null) {
-                xscl = width.getValue(env) / bbox.width;
-                yscl = height.getValue(env) / bbox.height;
-                if (keepaspectratio) {
-                    xscl = Math.min(xscl, yscl);
-                    yscl = xscl;
-                }
-            } else if (width != null) {
-                xscl = width.getValue(env) / bbox.width;
-                yscl = xscl;
-            } else {
-                yscl = height.getValue(env) / bbox.height;
-                xscl = yscl;
-            }
+	@Override
+	public Box createBox(TeXEnvironment env) {
+		Box bbox = base.createBox(env);
+		if (width == null && height == null) {
+			return bbox.setAtom(this);
+		} else {
+			double xscl;
+			double yscl;
+			if (width != null && height != null) {
+				xscl = width.getValue(env) / bbox.width;
+				yscl = height.getValue(env) / bbox.height;
+				if (keepaspectratio) {
+					xscl = Math.min(xscl, yscl);
+					yscl = xscl;
+				}
+			} else if (width != null) {
+				xscl = width.getValue(env) / bbox.width;
+				yscl = xscl;
+			} else {
+				yscl = height.getValue(env) / bbox.height;
+				xscl = yscl;
+			}
 
-            return new ScaleBox(bbox, xscl, yscl).setAtom(this);
-        }
-    }
+			return new ScaleBox(bbox, xscl, yscl).setAtom(this);
+		}
+	}
 
-    @Override
-    public int getLeftType() {
-        return base.getLeftType();
-    }
+	@Override
+	public int getLeftType() {
+		return base.getLeftType();
+	}
 
-    @Override
-    public int getRightType() {
-        return base.getRightType();
-    }
+	@Override
+	public int getRightType() {
+		return base.getRightType();
+	}
 
-    @Override
-    public int getLimits() {
-        return base.getLimits();
-    }
+	@Override
+	public int getLimits() {
+		return base.getLimits();
+	}
 
-    @Override
-    public Atom getTrueBase() {
-        return base;
-    }
+	@Override
+	public Atom getTrueBase() {
+		return base;
+	}
 }

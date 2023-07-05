@@ -53,19 +53,19 @@ import com.himamis.retex.renderer.share.TextStyleAtom;
 
 public abstract class CommandText extends Command1A {
 
-    protected boolean mode;
+	protected boolean mode;
 
-    @Override
-    public boolean init(TeXParser tp) {
-        mode = tp.setTextMode();
-        return true;
-    }
+	@Override
+	public boolean init(TeXParser tp) {
+		mode = tp.setTextMode();
+		return true;
+	}
 
-    @Override
-    public void add(TeXParser tp, Atom a) {
-        tp.setMathMode(mode);
-        a = new TextStyleAtom(a, TextStyle.MATHNORMAL);
-        tp.closeConsumer(newI(tp, new RomanAtom(a)));
-    }
+	@Override
+	public void add(TeXParser tp, Atom a) {
+		tp.setMathMode(mode);
+		a = new TextStyleAtom(a, TextStyle.MATHNORMAL);
+		tp.closeConsumer(newI(tp, new RomanAtom(a)));
+	}
 
 }

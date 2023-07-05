@@ -59,107 +59,108 @@ import com.himamis.retex.renderer.share.platform.graphics.Graphics2DInterface;
  */
 public class CharBox extends Box {
 
-    private static final FontRenderContext FRC;
+	private static final FontRenderContext FRC;
+	static {
+		FRC = new Graphics().createImage(1, 1).createGraphics2D()
+				.getFontRenderContext();
+	}
 
-    static {
-        FRC = new Graphics().createImage(1, 1).createGraphics2D()
-                .getFontRenderContext();
-    }
+	protected CharFont cf;
+	protected double size;
 
-    private final char[] arr = new char[1];
-    protected CharFont cf;
-    protected double size;
+	private final char[] arr = new char[1];
 
-    protected CharBox() {
-    }
+	protected CharBox() {
+	}
 
-    /**
-     * Create a new CharBox that will represent the character defined by the
-     * given Char-object.
-     *
-     * @param c a Char-object containing the character's font information.
-     */
-    public CharBox(Char c) {
-        cf = c.getCharFont();
-        size = c.getMetrics().getSize();
-        width = c.getWidth();
-        height = c.getHeight();
-        depth = c.getDepth();
-    }
+	/**
+	 * Create a new CharBox that will represent the character defined by the
+	 * given Char-object.
+	 *
+	 * @param c
+	 *            a Char-object containing the character's font information.
+	 */
+	public CharBox(Char c) {
+		cf = c.getCharFont();
+		size = c.getMetrics().getSize();
+		width = c.getWidth();
+		height = c.getHeight();
+		depth = c.getDepth();
+	}
 
-    @Override
-    public void addToWidth(final double x) {
-        width += x;
-    }
+	@Override
+	public void addToWidth(final double x) {
+		width += x;
+	}
 
-    @Override
-    public void draw(Graphics2DInterface g2, double x, double y) {
-        drawDebug(g2, x, y);
-        g2.saveTransformation();
-        g2.translate(x, y);
-        Font font = cf.fontInfo.getFont();
+	@Override
+	public void draw(Graphics2DInterface g2, double x, double y) {
+		drawDebug(g2, x, y);
+		g2.saveTransformation();
+		g2.translate(x, y);
+		Font font = cf.fontInfo.getFont();
 
-        // https://github.com/opencollab/jlatexmath/issues/32
-        int fontScale = font.getScale();
+		// https://github.com/opencollab/jlatexmath/issues/32
+		int fontScale = font.getScale();
 
-        if (fontScale != 1) {
+		if (fontScale != 1) {
 
-            if (Math.abs(size - fontScale) > TeXFormula.PREC) {
-                g2.scale(size / fontScale, size / fontScale);
-            }
+			if (Math.abs(size - fontScale) > TeXFormula.PREC) {
+				g2.scale(size / fontScale, size / fontScale);
+			}
 
-        } else {
+		} else {
 
-            if (size != 1) {
-                g2.scale(size, size);
-            }
+			if (size != 1) {
+				g2.scale(size, size);
+			}
 
-        }
-        Font oldFont = g2.getFont();
-        if (!oldFont.isEqual(font)) {
-            g2.setFont(font);
-        }
+		}
+		Font oldFont = g2.getFont();
+		if (!oldFont.isEqual(font)) {
+			g2.setFont(font);
+		}
 
-        arr[0] = cf.c;
+		arr[0] = cf.c;
 
-        g2.drawChars(arr, 0, 1, 0, 0);
+		g2.drawChars(arr, 0, 1, 0, 0);
 
-        if (!oldFont.isEqual(font)) {
-            g2.setFont(oldFont);
-        }
-        g2.restoreTransformation();
-    }
+		if (!oldFont.isEqual(font)) {
+			g2.setFont(oldFont);
+		}
+		g2.restoreTransformation();
+	}
 
-    @Override
-    public Area getArea() {
-        // final Font font = Configuration.get().getFont(cf.fontId);
-        FontInfo info = cf.fontInfo;
-        Font font = info.getFont();
+	@Override
+	public Area getArea() {
+		// final Font font = Configuration.get().getFont(cf.fontId);
+		FontInfo info = cf.fontInfo;
+		Font font = info.getFont();
 
-        // can be null (if font not loaded - HTML5)
-        final Shape s = font.getGlyphOutline(FRC, cf);
+		// can be null (if font not loaded - HTML5)
+		final Shape s = font.getGlyphOutline(FRC, cf);
 
-        final Area a = geom.createArea(s);
-        final double x = size / FactoryProvider.getInstance().getFontFactory()
-                .getFontScaleFactor();
-        if (x != 1) {
-            a.scale(x);
-        }
-        return a;
-    }
+		final Area a = geom.createArea(s);
+		final double x = size / FactoryProvider.getInstance().getFontFactory()
+				.getFontScaleFactor();
+		if (x != 1) {
+			a.scale(x);
+		}
+		return a;
+	}
 
-    @Override
-    public FontInfo getLastFont() {
-        return cf.fontInfo;
-    }
+	@Override
+	public FontInfo getLastFont() {
+		return cf.fontInfo;
+	}
 
-    @Override
-    public String toString() {
-        return super.toString() + "; char=" + cf.c;
-    }
+	@Override
+	public String toString() {
+		return super.toString() + "; char=" + cf.c;
+	}
 
-    @Override
-    public void inspect(BoxConsumer handler, BoxPosition position) {
-        super.inspect(handler, position.withScale(size));
-    }
+	@Override
+	public void inspect(BoxConsumer handler, BoxPosition position) {
+		super.inspect(handler, position.withScale(size));
+	}
 }

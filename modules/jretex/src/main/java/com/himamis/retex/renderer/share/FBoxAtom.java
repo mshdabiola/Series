@@ -53,34 +53,34 @@ import com.himamis.retex.renderer.share.serialize.HasTrueBase;
  */
 public class FBoxAtom extends Atom implements HasTrueBase {
 
-    protected final Atom base;
-    protected final Color bg;
-    protected final Color line;
+	protected final Atom base;
+	protected final Color bg;
+	protected final Color line;
 
-    public FBoxAtom(Atom base, Color bg, Color line) {
-        this.base = base;
-        this.bg = bg;
-        this.line = line;
-    }
+	public FBoxAtom(Atom base, Color bg, Color line) {
+		this.base = base;
+		this.bg = bg;
+		this.line = line;
+	}
 
-    public FBoxAtom(Atom base) {
-        this(base, null, null);
-    }
+	public FBoxAtom(Atom base) {
+		this(base, null, null);
+	}
 
-    @Override
-    public Box createBox(TeXEnvironment env) {
-        final Box bbase = base.createBox(env);
-        final double drt = env.lengthSettings().getLength("fboxrule", env);
-        final double space = env.lengthSettings().getLength("fboxsep", env);
-        if (bg == null) {
-            return new FramedBox(bbase, drt, space);
-        }
+	@Override
+	public Box createBox(TeXEnvironment env) {
+		final Box bbase = base.createBox(env);
+		final double drt = env.lengthSettings().getLength("fboxrule", env);
+		final double space = env.lengthSettings().getLength("fboxsep", env);
+		if (bg == null) {
+			return new FramedBox(bbase, drt, space);
+		}
 
-        env.isColored = true;
-        return new FramedBox(bbase, drt, space, line, bg);
-    }
+		env.isColored = true;
+		return new FramedBox(bbase, drt, space, line, bg);
+	}
 
-    public Atom getTrueBase() {
-        return base;
-    }
+	public Atom getTrueBase() {
+		return base;
+	}
 }

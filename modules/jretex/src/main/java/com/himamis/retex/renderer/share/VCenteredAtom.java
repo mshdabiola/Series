@@ -54,86 +54,86 @@ import com.himamis.retex.renderer.share.serialize.HasTrueBase;
  */
 public class VCenteredAtom extends Atom implements HasTrueBase {
 
-    // atom to be centered vertically with respect to the axis
-    private final Atom base;
+	// atom to be centered vertically with respect to the axis
+	private final Atom base;
 
-    // when we know that the final box will be in an HorizontalBox
-    // then no need to return a HorizontalBox (hbox == false)
-    private final boolean hbox;
+	// when we know that the final box will be in an HorizontalBox
+	// then no need to return a HorizontalBox (hbox == false)
+	private final boolean hbox;
 
-    public VCenteredAtom(Atom atom, boolean hbox) {
-        this.base = atom;
-        this.hbox = hbox;
-    }
+	public VCenteredAtom(Atom atom, boolean hbox) {
+		this.base = atom;
+		this.hbox = hbox;
+	}
 
-    public VCenteredAtom(Atom atom) {
-        this(atom, true);
-    }
+	public VCenteredAtom(Atom atom) {
+		this(atom, true);
+	}
 
-    @Override
-    public Box createBox(TeXEnvironment env) {
-        final Box b = base.createBox(env);
-        final double axis = env.getTeXFont().getAxisHeight(env.getStyle());
+	@Override
+	public Box createBox(TeXEnvironment env) {
+		final Box b = base.createBox(env);
+		final double axis = env.getTeXFont().getAxisHeight(env.getStyle());
 
-        // center on axis
-        b.setShift((b.getHeight() - b.getDepth()) / 2. - axis);
+		// center on axis
+		b.setShift((b.getHeight() - b.getDepth()) / 2. - axis);
 
-        // put in horizontal box, so shifting will be vertically!
-        return hbox ? new HorizontalBox(b) : b;
-    }
+		// put in horizontal box, so shifting will be vertically!
+		return hbox ? new HorizontalBox(b) : b;
+	}
 
-    @Override
-    public int getLeftType() {
-        return base.getLeftType();
-    }
+	@Override
+	public int getLeftType() {
+		return base.getLeftType();
+	}
 
-    @Override
-    public int getRightType() {
-        return base.getRightType();
-    }
+	@Override
+	public int getRightType() {
+		return base.getRightType();
+	}
 
-    @Override
-    public int getLimits() {
-        return base.getLimits();
-    }
+	@Override
+	public int getLimits() {
+		return base.getLimits();
+	}
 
-    @Override
-    public double getItalic(TeXEnvironment env) {
-        return base.getItalic(env);
-    }
+	@Override
+	public double getItalic(TeXEnvironment env) {
+		return base.getItalic(env);
+	}
 
-    @Override
-    public double getXHeight(TeXEnvironment env) {
-        return base.getXHeight(env);
-    }
+	@Override
+	public double getXHeight(TeXEnvironment env) {
+		return base.getXHeight(env);
+	}
 
-    @Override
-    public boolean isMathMode() {
-        return base.isMathMode();
-    }
+	@Override
+	public boolean isMathMode() {
+		return base.isMathMode();
+	}
 
-    @Override
-    public void setMathMode(final boolean mathMode) {
-        base.setMathMode(mathMode);
-    }
+	@Override
+	public void setMathMode(final boolean mathMode) {
+		base.setMathMode(mathMode);
+	}
 
-    @Override
-    public boolean mustAddItalicCorrection() {
-        return base.mustAddItalicCorrection();
-    }
+	@Override
+	public boolean mustAddItalicCorrection() {
+		return base.mustAddItalicCorrection();
+	}
 
-    @Override
-    public boolean setAddItalicCorrection(boolean b) {
-        return base.setAddItalicCorrection(b);
-    }
+	@Override
+	public boolean setAddItalicCorrection(boolean b) {
+		return base.setAddItalicCorrection(b);
+	}
 
-    @Override
-    public Atom getBase() {
-        return base.getBase();
-    }
+	@Override
+	public Atom getBase() {
+		return base.getBase();
+	}
 
-    @Override
-    public Atom getTrueBase() {
-        return base;
-    }
+	@Override
+	public Atom getTrueBase() {
+		return base;
+	}
 }

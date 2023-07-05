@@ -54,274 +54,286 @@ import com.himamis.retex.renderer.share.platform.font.Font;
  */
 public class FontInfo {
 
-    /**
-     * Maximum number of character codes in a TeX font.
-     */
-    private static final int NUMBER_OF_CHAR_CODES = 256;
-    protected final int size;
-    protected final String path;
-    protected final double[][] metrics;
-    // skew character of the font (used for positioning accents)
-    protected final char skewChar;
-    // general parameters for this font
-    protected final double xHeight;
-    protected final double space;
-    protected final double quad;
-    // font
-    protected Font font;
-    protected boolean loaded = false;
-    protected FontInfo bold;
-    protected FontInfo roman;
-    protected FontInfo ss;
-    protected FontInfo tt;
-    protected FontInfo it;
+	/**
+	 * Maximum number of character codes in a TeX font.
+	 */
+	private static final int NUMBER_OF_CHAR_CODES = 256;
 
-    protected CharFont[][] lig;
-    protected double[][] kern;
-    protected CharFont[] nextLarger;
-    protected char[][] extensions;
+	// font
+	protected Font font;
+	protected final int size;
+	protected final String path;
+	protected boolean loaded = false;
 
-    // This is the currently loaded character, so that calls to
-    // setKern etc do not have to pass it, and allows for better
-    // optimization of common code pieces. Should not be used after
-    // initMetrics returns
-    private char current;
+	protected final double[][] metrics;
 
-    public FontInfo(int size, String path, int xHeight, int space,
-                    int quad, int skewChar) {
-        this.path = path;
-        this.xHeight = xHeight / 1000.;
-        this.space = space / 1000.;
-        this.quad = quad / 1000.;
-        this.skewChar = (char) skewChar;
-        this.size = size == 0 ? NUMBER_OF_CHAR_CODES : size;
-        this.metrics = new double[this.size][];
-    }
+	// skew character of the font (used for positioning accents)
+	protected final char skewChar;
 
-    public void setDependencies(FontInfo bold, FontInfo roman, FontInfo ss,
-                                FontInfo tt, FontInfo it) {
-        this.bold = bold == null ? this : bold;
-        this.roman = roman == null ? this : roman;
-        this.ss = ss == null ? this : ss;
-        this.tt = tt == null ? this : tt;
-        this.it = it == null ? this : it;
-    }
+	// general parameters for this font
+	protected final double xHeight;
+	protected final double space;
+	protected final double quad;
 
-    /**
-     * @param left  left character
-     * @param right right character
-     * @param k     kern value
-     */
-    public void addKern(final char left, final char right, final double k) {
-        if (kern == null) {
-            kern = new double[size][];
-        }
-        if (kern[left] == null) {
-            kern[left] = new double[size];
-        }
-        kern[left][right] = k;
-    }
+	protected FontInfo bold;
+	protected FontInfo roman;
+	protected FontInfo ss;
+	protected FontInfo tt;
+	protected FontInfo it;
 
-    /**
-     * @param left    left character
-     * @param right   right character
-     * @param ligChar ligature to replace left and right character
-     */
-    public void addLigature(final char left, final char right,
-                            final char ligChar) {
-        if (lig == null) {
-            lig = new CharFont[size][];
-        }
-        if (lig[left] == null) {
-            lig[left] = new CharFont[size];
-        }
-        lig[left][right] = new CharFont(ligChar, this);
-    }
+	protected CharFont[][] lig;
+	protected double[][] kern;
+	protected CharFont[] nextLarger;
+	protected char[][] extensions;
 
-    public char[] getExtension(final char c) {
-        init();
-        if (extensions == null) {
-            return null;
-        }
-        return extensions[c];
-    }
+	// This is the currently loaded character, so that calls to
+	// setKern etc do not have to pass it, and allows for better
+	// optimization of common code pieces. Should not be used after
+	// initMetrics returns
+	private char current;
 
-    public double getKern(final char left, final char right,
-                          final double factor) {
-        init();
-        if (kern == null || kern[left] == null) {
-            return 0.;
-        }
+	public FontInfo(int size, String path, int xHeight, int space,
+			int quad, int skewChar) {
+		this.path = path;
+		this.xHeight = xHeight / 1000.;
+		this.space = space / 1000.;
+		this.quad = quad / 1000.;
+		this.skewChar = (char) skewChar;
+		this.size = size == 0 ? NUMBER_OF_CHAR_CODES : size;
+		this.metrics = new double[this.size][];
+	}
 
-        return kern[left][right] * factor;
-    }
+	public void setDependencies(FontInfo bold, FontInfo roman, FontInfo ss,
+			FontInfo tt, FontInfo it) {
+		this.bold = bold == null ? this : bold;
+		this.roman = roman == null ? this : roman;
+		this.ss = ss == null ? this : ss;
+		this.tt = tt == null ? this : tt;
+		this.it = it == null ? this : it;
+	}
 
-    public CharFont getLigature(final char left, final char right) {
-        init();
-        if (lig == null || lig[left] == null) {
-            return null;
-        }
-        return lig[left][right];
-    }
+	/**
+	 *
+	 * @param left
+	 *            left character
+	 * @param right
+	 *            right character
+	 * @param k
+	 *            kern value
+	 */
+	public void addKern(final char left, final char right, final double k) {
+		if (kern == null) {
+			kern = new double[size][];
+		}
+		if (kern[left] == null) {
+			kern[left] = new double[size];
+		}
+		kern[left][right] = k;
+	}
 
-    public double[] getMetrics(final char c) {
-        init();
-        return metrics[c];
-    }
+	/**
+	 * @param left
+	 *            left character
+	 * @param right
+	 *            right character
+	 * @param ligChar
+	 *            ligature to replace left and right character
+	 */
+	public void addLigature(final char left, final char right,
+			final char ligChar) {
+		if (lig == null) {
+			lig = new CharFont[size][];
+		}
+		if (lig[left] == null) {
+			lig[left] = new CharFont[size];
+		}
+		lig[left][right] = new CharFont(ligChar, this);
+	}
 
-    public double getWidth(final char c) {
-        init();
-        return metrics[c][0];
-    }
+	public char[] getExtension(final char c) {
+		init();
+		if (extensions == null) {
+			return null;
+		}
+		return extensions[c];
+	}
 
-    public double getHeight(final char c) {
-        init();
-        return metrics[c][1];
-    }
+	public double getKern(final char left, final char right,
+			final double factor) {
+		init();
+		if (kern == null || kern[left] == null) {
+			return 0.;
+		}
 
-    public double getDepth(final char c) {
-        init();
-        return metrics[c][2];
-    }
+		return kern[left][right] * factor;
+	}
 
-    public double getItalic(final char c) {
-        init();
-        return metrics[c][3];
-    }
+	public CharFont getLigature(final char left, final char right) {
+		init();
+		if (lig == null || lig[left] == null) {
+			return null;
+		}
+		return lig[left][right];
+	}
 
-    public CharFont getNextLarger(final char c) {
-        init();
-        if (nextLarger == null) {
-            return null;
-        }
-        return nextLarger[c];
-    }
+	public double[] getMetrics(final char c) {
+		init();
+		return metrics[c];
+	}
 
-    /**
-     * @return the skew character of the font (for the correct positioning of
-     * accents)
-     */
-    public double getSkew(final char c, final double factor) {
-        init();
-        if (skewChar != '\0') {
-            return getKern(c, skewChar, factor);
-        }
-        return 0.;
-    }
+	public double getWidth(final char c) {
+		init();
+		return metrics[c][0];
+	}
 
-    public void setExtension(final char c, final char[] ext) {
-        if (extensions == null) {
-            extensions = new char[size][];
-        }
-        extensions[c] = ext;
-    }
+	public double getHeight(final char c) {
+		init();
+		return metrics[c][1];
+	}
 
-    public void setMetrics(int c, int... metrics) {
-        current = (char) c;
+	public double getDepth(final char c) {
+		init();
+		return metrics[c][2];
+	}
 
-        if (metrics.length == 2) {
-            setMetrics(current, new double[]{metrics[0] / 1000., metrics[1] / 1000.,
-                    0, 0});
-        } else if (metrics.length == 3) {
-            setMetrics(current, new double[]{metrics[0] / 1000., metrics[1] / 1000.,
-                    metrics[2] / 1000., 0});
-        } else {
-            setMetrics(current, new double[]{metrics[0] / 1000., metrics[1] / 1000.,
-                    metrics[2] / 1000., metrics[3] / 1000.});
-        }
-    }
+	public double getItalic(final char c) {
+		init();
+		return metrics[c][3];
+	}
 
-    public void setNextLarger(FontInfo fi, int nextLarger) {
-        setNextLarger(current, (char) nextLarger, fi);
-    }
+	public CharFont getNextLarger(final char c) {
+		init();
+		if (nextLarger == null) {
+			return null;
+		}
+		return nextLarger[c];
+	}
 
-    public void setKern(int... kerns) {
-        for (int i = 0; i < kerns.length; i += 2) {
-            addKern(current, (char) kerns[i], kerns[i + 1] / 1000.);
-        }
-    }
+	/**
+	 * @return the skew character of the font (for the correct positioning of
+	 *         accents)
+	 */
+	public double getSkew(final char c, final double factor) {
+		init();
+		if (skewChar != '\0') {
+			return getKern(c, skewChar, factor);
+		}
+		return 0.;
+	}
 
-    public void setLigatures(int... chars) {
-        for (int i = 0; i < chars.length; i += 2) {
-            addLigature(current, (char) chars[i], (char) chars[i + 1]);
-        }
-    }
+	public void setExtension(final char c, final char[] ext) {
+		if (extensions == null) {
+			extensions = new char[size][];
+		}
+		extensions[c] = ext;
+	}
 
-    public void setExtension(int top, int mid, int rep, int bot) {
-        setExtension(current, new char[]{(char) top, (char) mid, (char) rep, (char) bot});
-    }
+	public void setMetrics(int c, int... metrics) {
+		current = (char) c;
 
-    public void setMetrics(char c, double[] arr) {
-        metrics[c] = arr;
-    }
+		if (metrics.length == 2) {
+			setMetrics(current, new double[] {metrics[0] / 1000., metrics[1] / 1000.,
+					0, 0});
+		} else if (metrics.length == 3) {
+			setMetrics(current, new double[] {metrics[0] / 1000., metrics[1] / 1000.,
+					metrics[2] / 1000., 0});
+		} else {
+			setMetrics(current, new double[] {metrics[0] / 1000., metrics[1] / 1000.,
+					metrics[2] / 1000., metrics[3] / 1000.});
+		}
+	}
 
-    public void setNextLarger(final char c, final char larger,
-                              final FontInfo fontLarger) {
-        if (nextLarger == null) {
-            nextLarger = new CharFont[size];
-        }
-        nextLarger[c] = new CharFont(larger, fontLarger);
-    }
+	public void setNextLarger(FontInfo fi, int nextLarger) {
+		setNextLarger(current, (char) nextLarger, fi);
+	}
 
-    protected final void init() {
-        if (!loaded) {
-            initMetrics();
-            loaded = true;
-        }
-    }
+	public void setKern(int... kerns) {
+		for (int i = 0; i < kerns.length; i += 2) {
+			addKern(current, (char) kerns[i], kerns[i + 1] / 1000.);
+		}
+	}
 
-    protected void initMetrics() {
-    }
+	public void setLigatures(int... chars) {
+		for (int i = 0; i < chars.length; i += 2) {
+			addLigature(current, (char) chars[i], (char) chars[i + 1]);
+		}
+	}
 
-    public double getQuad(final double factor) {
-        return quad * factor;
-    }
+	public void setExtension(int top, int mid, int rep, int bot) {
+		setExtension(current, new char[] {(char) top, (char) mid, (char) rep, (char) bot});
+	}
 
-    public final double getSpace(final double factor) {
-        return space * factor;
-    }
+	public void setMetrics(char c, double[] arr) {
+		metrics[c] = arr;
+	}
 
-    public final double getXHeight(final double factor) {
-        return xHeight * factor;
-    }
+	public void setNextLarger(final char c, final char larger,
+			final FontInfo fontLarger) {
+		if (nextLarger == null) {
+			nextLarger = new CharFont[size];
+		}
+		nextLarger[c] = new CharFont(larger, fontLarger);
+	}
 
-    public final boolean hasSpace() {
-        return space > TeXFormula.PREC;
-    }
+	protected final void init() {
+		if (!loaded) {
+			initMetrics();
+			loaded = true;
+		}
+	}
 
-    public final char getSkewChar() {
-        return skewChar;
-    }
+	protected void initMetrics() {
+	}
 
-    public final FontInfo getBold() {
-        return bold;
-    }
+	public double getQuad(final double factor) {
+		return quad * factor;
+	}
 
-    public final FontInfo getRoman() {
-        return roman;
-    }
+	public final double getSpace(final double factor) {
+		return space * factor;
+	}
 
-    public final FontInfo getTt() {
-        return tt;
-    }
+	public final double getXHeight(final double factor) {
+		return xHeight * factor;
+	}
 
-    public final FontInfo getIt() {
-        return it;
-    }
+	public final boolean hasSpace() {
+		return space > TeXFormula.PREC;
+	}
 
-    public final FontInfo getSs() {
-        return ss;
-    }
+	public final char getSkewChar() {
+		return skewChar;
+	}
 
-    public final Font getFont() {
-        if (font == null) {
-            font = new FontAdapter().loadFont(path + ".ttf");
-        }
-        return font;
-    }
+	public final FontInfo getBold() {
+		return bold;
+	}
 
-    @Override
-    public String toString() {
-        return "FontInfo: " + path;
-    }
+	public final FontInfo getRoman() {
+		return roman;
+	}
+
+	public final FontInfo getTt() {
+		return tt;
+	}
+
+	public final FontInfo getIt() {
+		return it;
+	}
+
+	public final FontInfo getSs() {
+		return ss;
+	}
+
+	public final Font getFont() {
+		if (font == null) {
+			font = new FontAdapter().loadFont(path + ".ttf");
+		}
+		return font;
+	}
+
+	@Override
+	public String toString() {
+		return "FontInfo: " + path;
+	}
 }
