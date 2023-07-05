@@ -31,9 +31,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.text.buildAnnotatedString
-import androidx.compose.ui.text.platform.Font
 import androidx.compose.ui.unit.dp
-import com.mshdabiola.retex.aimplementation.LatexText
+import com.mshdabiola.retex.Latex
 import kotlinx.coroutines.launch
 
 
@@ -626,7 +625,7 @@ internal fun TemplateContent(name: String, list: List<String>) {
                                 append(it)
                             }
                         )
-                    }, label = { LatexText(equationsStr = it) { Font(it) } })
+                    }, label = { Latex(text = it) })
                 }
             }
         }

@@ -15,11 +15,10 @@ import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.graphics.toRect
 import com.caverock.androidsvg.SVG
-import com.mshdabiola.retex.aimplementation.LatexText
+import com.mshdabiola.retex.Latex
 import com.mshdabiola.ui.state.InstructionUiState
 import com.mshdabiola.ui.state.ItemUiState
 import com.mshdabiola.ui.state.OptionUiState
@@ -33,8 +32,7 @@ actual fun EquationUi(
     modifier: Modifier,
     equation: ItemUiState
 ) {
-    val context = LocalContext.current
-    LatexText(modifier = modifier, equation.content) { Font(it, assetManager = context.assets) }
+    Latex(modifier = modifier, equation.content)
 }
 
 @Composable

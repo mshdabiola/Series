@@ -33,10 +33,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.platform.Font
 import androidx.compose.ui.unit.dp
 import com.mshdabiola.model.data.Type
-import com.mshdabiola.retex.aimplementation.LatexText
+import com.mshdabiola.retex.Latex
 import com.mshdabiola.ui.DragAndDropImage
 import com.mshdabiola.ui.ImageUi
 import com.mshdabiola.ui.MarkUpText
@@ -65,7 +64,7 @@ fun ContentView(
 
                     when (item.type) {
                         Type.EQUATION -> Box(childModifier, contentAlignment = Alignment.Center) {
-                            LatexText(modifier = Modifier, item.content) { Font(it) }
+                            Latex(modifier = Modifier, item.content)
                         }
 
                         Type.TEXT -> MarkUpText(modifier = childModifier, text = item.content)
@@ -271,7 +270,7 @@ fun EquationContent(
                 onValueChange = onTextChange
             )
         else
-            LatexText(modifier = Modifier, equation.content) { Font(it) }
+            Latex(modifier = Modifier, equation.content)
     }
 }
 

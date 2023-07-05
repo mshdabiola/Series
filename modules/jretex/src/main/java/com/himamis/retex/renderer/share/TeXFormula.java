@@ -254,7 +254,7 @@ public class TeXFormula {
         int w = icon.getIconWidth(), h = icon.getIconHeight();
 
         Image image = new Graphics().createImage(w, h,
-                bg == null ? Image.TYPE_INT_ARGB : Image.TYPE_INT_RGB);
+                Image.TYPE_INT_ARGB);
         Graphics2DInterface g2 = image.createGraphics2D();
         if (bg != null) {
             g2.setColor(bg);

@@ -9,8 +9,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.platform.Font
-import com.mshdabiola.retex.aimplementation.LatexText
+import com.mshdabiola.retex.Latex
 import com.mshdabiola.ui.state.ItemUiState
 import com.mshdabiola.ui.state.OptionUiState
 import kotlinx.collections.immutable.toImmutableList
@@ -20,7 +19,8 @@ internal actual fun EquationUi(
     modifier: Modifier,
     equation: ItemUiState
 ) {
-    LatexText(modifier = Modifier, equation.content) { Font(it) }
+    // LatexText(modifier = Modifier, equation.content) { Font(it) }
+    Latex(modifier = modifier, text = equation.content)
 }
 
 

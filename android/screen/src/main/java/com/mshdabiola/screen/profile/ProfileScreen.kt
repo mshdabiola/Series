@@ -16,7 +16,7 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.testTagsAsResourceId
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.himamis.retex.renderer.android.LatexComponen
+import com.mshdabiola.retex.Latex
 import com.mshdabiola.screen.MainViewModel
 import org.koin.androidx.compose.koinViewModel
 
@@ -65,7 +65,7 @@ internal fun ProfileScreen(
 //                text = latex,
 //            )
 
-            LatexComponen(text = latex, foregroundColor = Color.Magenta)
+            Latex(text = latex, foregroundColor = Color.Magenta)
 
         }
     }

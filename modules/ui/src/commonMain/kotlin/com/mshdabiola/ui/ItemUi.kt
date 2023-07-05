@@ -27,7 +27,7 @@ fun ItemUi(items: ImmutableList<ItemUiState>, generalPath: String) {
 
             Type.IMAGE -> {
                 ImageUi(
-                    Modifier.fillMaxWidth().heightIn(60.dp, 200.dp),
+                    Modifier.fillMaxWidth().heightIn(60.dp, 300.dp),
                     path = "$generalPath/${item.content}",
                     contentDescription = item.content
                 )
