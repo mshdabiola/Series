@@ -7,3 +7,14 @@ plugins {
 android {
     namespace = "com.mshdabiola.retex"
 }
+
+kotlin {
+    sourceSets {
+        val commonMain by getting {
+            dependencies {
+                implementation(project(":modules:jretex"))
+            }
+        }
+    }
+
+}

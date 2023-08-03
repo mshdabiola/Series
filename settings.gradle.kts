@@ -18,10 +18,10 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "Series"
-include(":template:app")
-include(":template:benchmark")
-include(":physics:app")
-include(":physics:benchmark")
+//include(":template:app")
+//include(":template:benchmark")
+include(":app")
+//include(":physics:benchmark")
 include(":modules:database")
 include(":modules:designsystem")
 include(":modules:model")
@@ -31,7 +31,7 @@ include(":modules:domain")
 include(":modules:testing")
 include(":modules:ui")
 include(":android:worker")
-include("setdesktop:desktop")
+include(":desktop")
 include(":modules:setting")
 include(":modules:navigation")
 include(":modules:retex")
