@@ -2,7 +2,6 @@ plugins {
     //kotlin("multiplatform")
     id("mshdabiola.mpp.library")
     id("mshdabiola.mpp.library.compose")
-    id("org.jetbrains.compose") version "1.4.0"
 }
 
 android {
@@ -59,7 +58,7 @@ kotlin {
         val desktopMain by getting {
             dependencies {
                 implementation(compose.preview)
-                implementation("dev.icerock.moko:resources-compose:0.22.0")
+                //implementation("dev.icerock.moko:resources-compose:0.22.0")
             }
         }
 

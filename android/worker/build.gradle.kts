@@ -29,5 +29,5 @@ dependencies {
     // kapt(libs.hilt.ext.compiler)
     implementation(libs.kotlinx.serialization.json)
     androidTestImplementation(libs.androidx.work.testing)
-    androidTestImplementation(libs.hilt.android.testing)
+//    androidTestImplementation(libs.hilt.android.testing)
 }

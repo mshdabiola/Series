@@ -24,7 +24,7 @@ class MppLibraryConventionPlugin : Plugin<Project> {
                 configureKotlinAndroid(this)
                 defaultConfig.targetSdk = 33
                 defaultConfig.testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-                // configureFlavors(this)
+                //configureFlavors(this)
                 configureGradleManagedDevices(this)
             }
             extensions.configure<LibraryAndroidComponentsExtension> {
