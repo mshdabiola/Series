@@ -45,10 +45,7 @@ gradlePlugin {
             id = "mshdabiola.android.application.compose"
             implementationClass = "AndroidApplicationComposeConventionPlugin"
         }
-        register("androidApplicationFlavor") {
-            id = "mshdabiola.android.application.flavor"
-            implementationClass = "AndroidApplicationFlavorsConventionPlugin"
-        }
+
         register("androidApplicationFirebase") {
             id = "mshdabiola.android.application.firebase"
             implementationClass = "AndroidApplicationFirebaseConventionPlugin"
@@ -58,32 +55,11 @@ gradlePlugin {
             implementationClass = "AndroidApplicationConventionPlugin"
         }
 
-        register("androidLibraryCompose") {
-            id = "mshdabiola.android.library.compose"
-            implementationClass = "AndroidLibraryComposeConventionPlugin"
-        }
-        register("androidLibrary") {
-            id = "mshdabiola.android.library"
-            implementationClass = "AndroidLibraryConventionPlugin"
-        }
-        register("androidFeature") {
-            id = "mshdabiola.android.feature"
-            implementationClass = "AndroidFeatureConventionPlugin"
-        }
-
         register("androidTest") {
             id = "mshdabiola.android.test"
             implementationClass = "AndroidTestConventionPlugin"
         }
-        register("androidHilt") {
-            id = "mshdabiola.android.hilt"
-            implementationClass = "AndroidHiltConventionPlugin"
-        }
-
-        register("androidRoom") {
-            id = "mshdabiola.android.room"
-            implementationClass = "AndroidRoomConventionPlugin"
-        }
+      
         register("desktop") {
             id = "mshdabiola.mpp.desktop"
             implementationClass = "Desktop"

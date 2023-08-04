@@ -9,7 +9,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:43349711997:android:d153e6e121afe7d96fe514",
         "android_client_info": {
-          "package_name": "com.mshdabiola.physics"
+          "package_name": "com.mshdabiola.series.physics"
         }
       },
       "oauth_client": [
@@ -38,7 +38,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:43349711997:android:68309f843ca84f736fe514",
         "android_client_info": {
-          "package_name": "com.mshdabiola.physics.debug"
+          "package_name": "com.mshdabiola.series.physics.debug"
         }
       },
       "oauth_client": [

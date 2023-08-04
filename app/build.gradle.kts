@@ -10,10 +10,10 @@ plugins {
 }
 
 android {
-    namespace = "com.mshdabiola.physics"
+    namespace = "com.mshdabiola.series"
 
     defaultConfig {
-        applicationId = "com.mshdabiola.physics"
+        applicationId = "com.mshdabiola.series"
         testInstrumentationRunner = "com.mshdabiola.testing.InstrumentationTestRunner"
     }
 
