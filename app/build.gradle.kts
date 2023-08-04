@@ -63,21 +63,36 @@ dependencies {
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.activity.compose)
-    implementation(project(":modules:designsystem"))
-    implementation(project(":android:screen"))
-    implementation(project(":modules:navigation"))
-    implementation(libs.decompose.core)
-    implementation(project(":android:worker"))
     implementation(libs.androidx.profileinstaller)
     implementation(libs.androidx.core.splashscreen)
     implementation(libs.timber)
-    androidTestImplementation(project(":modules:testing"))
+
+
     implementation(libs.koin.core)
     implementation(libs.koin.android)
-    // implementation(platform(libs.firebase.bom))
-    implementation(libs.firebase.remoteconfig)
-    implementation(libs.firebase.message)
-    implementation(libs.firebase.cloud.messaging)
+
+    implementation(project(":modules:designsystem"))
+    //implementation(project(":android:screen"))
+    implementation(project(":modules:retex"))
+    implementation(project(":android:worker"))
+
+    implementation(project(":modules:navigation"))
+    implementation(libs.decompose.core)
+    implementation(libs.decompose.compose.jetbrains)
+
+
+
+    androidTestImplementation(project(":modules:testing"))
+
+//
+//
+//    // implementation(platform(libs.firebase.bom))
+//    implementation(libs.firebase.remoteconfig)
+//    implementation(libs.firebase.message)
+//    implementation(libs.firebase.cloud.messaging)
+
+
+
 
 
 }

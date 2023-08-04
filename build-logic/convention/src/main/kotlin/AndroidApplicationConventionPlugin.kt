@@ -5,7 +5,12 @@ import com.mshdabiola.app.configureKotlinAndroid
 import com.mshdabiola.app.configurePrintApksTask
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.api.artifacts.VersionCatalogsExtension
 import org.gradle.kotlin.dsl.configure
+import org.gradle.kotlin.dsl.dependencies
+import org.gradle.kotlin.dsl.getByType
+import org.gradle.kotlin.dsl.kotlin
+import org.gradle.kotlin.dsl.project
 import org.gradle.kotlin.dsl.withType
 
 class AndroidApplicationConventionPlugin : Plugin<Project> {
@@ -43,6 +48,32 @@ class AndroidApplicationConventionPlugin : Plugin<Project> {
                 kotlinOptions {
                     jvmTarget = "17"
                 }
+            }
+            val libs = extensions.getByType<VersionCatalogsExtension>().named("libs")
+
+            dependencies {
+                add("implementation", project(":modules:model"))
+                add("implementation", project(":modules:ui"))
+                add("implementation", project(":modules:util"))
+                add("implementation", project(":modules:data"))
+                add("implementation", libs.findLibrary("koin.core").get())
+                add("implementation", libs.findLibrary("koin.android").get())
+                add("implementation", libs.findLibrary("koin.android.compose").get())
+                add("implementation", libs.findLibrary("kotlinx-collection-immutable").get())
+
+                add("testImplementation", kotlin("test"))
+                add("testImplementation", project(":modules:testing"))
+                add("androidTestImplementation", kotlin("test"))
+                add("androidTestImplementation", project(":modules:testing"))
+                add("androidTestImplementation", libs.findLibrary("androidx-compose-ui-test").get())
+                add(
+                    "androidTestImplementation",
+                    libs.findLibrary("androidx-test-espresso-core").get()
+                )
+                add("androidTestImplementation", libs.findLibrary("androidx-test-ext").get())
+
+
+
             }
 
         }

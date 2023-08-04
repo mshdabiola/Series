@@ -5,7 +5,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.mshdabiola.designsystem.theme.SeriesAppTheme
 import com.mshdabiola.navigation.IRootComponent
-import com.mshdabiola.screen.navigation.AppNavHost
+import com.mshdabiola.physics.screen.navigation.AppNavHost
 
 
 @Composable
