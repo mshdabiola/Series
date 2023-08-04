@@ -1,4 +1,4 @@
-package com.mshdabiola.worker.work
+package com.mshdabiola.physics.worker
 
 import android.app.Notification
 import android.app.NotificationChannel
@@ -26,8 +26,7 @@ import com.mshdabiola.model.data.QuestionFull
 import com.mshdabiola.model.data.Subject
 import com.mshdabiola.model.data.Topic
 import com.mshdabiola.util.ExInPort
-import com.mshdabiola.worker.util.prefsName
-import com.mshdabiola.worker.util.versionKey
+import com.mshdabiola.util.FileManager
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -45,7 +44,7 @@ class SaveWorker(
 ) : CoroutineWorker(appContext, workerParams), KoinComponent {
 
 
-    private val exInPort by inject<ExInPort>()
+    private val exInPort =ExInPort(FileManager())
     private val questionRepository by inject<IQuestionRepository>()
     private val iExamRepository by inject<IExamRepository>()
     private val iSubjectRepository by inject<ISubjectRepository>()
@@ -110,18 +109,9 @@ class SaveWorker(
 
 
     companion object {
-        fun startUpSaveWork(id: Long): OneTimeWorkRequest {
-            val data = Data.Builder()
-                .putLong(ID, id)
-                .build()
-            val saverConstraints = Constraints.Builder()
-                .build()
-
-
+        fun getRequest(): OneTimeWorkRequest {
             return OneTimeWorkRequestBuilder<SaveWorker>()
                 .setExpedited(OutOfQuotaPolicy.RUN_AS_NON_EXPEDITED_WORK_REQUEST)
-                .setConstraints(saverConstraints)
-                .setInputData(data)
                 .build()
         }
     }
@@ -163,4 +153,7 @@ private fun Context.saveWorkNotification(): Notification {
         .setPriority(NotificationCompat.PRIORITY_DEFAULT)
         .build()
 }
+
+const val versionKey = "versionKey"
+const val prefsName = "version"
 

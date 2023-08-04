@@ -3,11 +3,12 @@ package com.mshdabiola.physics
 import android.app.Application
 import android.content.Context
 import androidx.core.content.pm.PackageInfoCompat
+import androidx.work.ExistingWorkPolicy
+import androidx.work.WorkManager
 import com.mshdabiola.physics.di.appModule
-import com.mshdabiola.worker.Saver
-import com.mshdabiola.worker.di.workModule
-import com.mshdabiola.worker.util.prefsName
-import com.mshdabiola.worker.util.versionKey
+import com.mshdabiola.physics.worker.SaveWorker
+import com.mshdabiola.physics.worker.prefsName
+import com.mshdabiola.physics.worker.versionKey
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 import timber.log.Timber
@@ -19,7 +20,7 @@ class PhysicSeriesApplication : Application() {
 
         startKoin {
             androidContext(this@PhysicSeriesApplication)
-            modules(appModule, workModule)
+            modules(appModule)
         }
 
         val share = this.applicationContext.getSharedPreferences(prefsName, Context.MODE_PRIVATE)
@@ -34,9 +35,14 @@ class PhysicSeriesApplication : Application() {
         }
 
         Timber.e("saved v $oldV version $version")
-        Saver.initialize(applicationContext)
         if (version > oldV) {
-            Saver.saveGame(89L)
+            val workManager=WorkManager.getInstance(this)
+            workManager
+                .enqueueUniqueWork(
+                    "updater",
+                    ExistingWorkPolicy.REPLACE,
+                    SaveWorker.getRequest()
+                )
         }
 
     }

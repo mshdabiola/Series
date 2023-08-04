@@ -12,6 +12,7 @@ import androidx.compose.runtime.setValue
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
 import androidx.work.WorkInfo
+import androidx.work.WorkManager
 import com.arkivanov.decompose.defaultComponentContext
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.ktx.Firebase
@@ -20,7 +21,7 @@ import com.google.firebase.remoteconfig.ktx.remoteConfig
 import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
 import com.mshdabiola.navigation.RootComponent
 import com.mshdabiola.physics.ui.PhysicsApp
-import com.mshdabiola.worker.Saver
+import com.mshdabiola.physics.worker.getWorkLiveData
 import timber.log.Timber
 
 class MainActivity : ComponentActivity() {
@@ -82,7 +83,8 @@ class MainActivity : ComponentActivity() {
 
         var show: Boolean by mutableStateOf(true)
         val splashScreen = installSplashScreen()
-        Saver
+        val workManager=WorkManager.getInstance(this)
+        workManager
             .getWorkLiveData()
             .observe(this) {
                 Timber.e(it.toString())

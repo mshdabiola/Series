@@ -74,11 +74,13 @@ dependencies {
     implementation(project(":modules:designsystem"))
     //implementation(project(":android:screen"))
     implementation(project(":modules:retex"))
-    implementation(project(":android:worker"))
+    //implementation(project(":android:worker"))
 
     implementation(project(":modules:navigation"))
     implementation(libs.decompose.core)
     implementation(libs.decompose.compose.jetbrains)
+
+    implementation(libs.androidx.work.ktx)
 
 
 
