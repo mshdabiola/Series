@@ -1,13 +1,10 @@
-name: Deploy multiPlatform
+name: Deploy Desktop
 
 on:
   push:
     tags:
-      - '*'
+      - 'd[0-9]+.[0-9]+.[0-9]+'
 #v[0-9]+.[0-9]+.[0-9]+
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
 
 jobs:
   BuildBinaries:
@@ -29,10 +26,6 @@ jobs:
             os: windows-latest
             build: packageReleaseUberJarForCurrentOS packageReleaseMsi
 
-          - runtime: android
-            os: ubuntu-latest
-            build: assembleProdRelease
-
     runs-on: ${{ matrix.os }}
     timeout-minutes: 60
     steps:
@@ -44,25 +37,11 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Setup Android SDK
-        uses: android-actions/setup-android@v2
-        if: ${{ matrix.runtime == 'android' }}
-
       - name: Build
         uses: gradle/gradle-build-action@v2
         with:
           arguments: >
             ${{ matrix.build }}
-
-      - name: Sign APK
-        uses: r0adkll/sign-android-release@v1
-        if: ${{ matrix.runtime == 'android' }}
-        with:
-          releaseDirectory: app/build/outputs/apk/prod/release
-          signingKeyBase64: ${{ secrets.SIGNING_KEY }}
-          alias: ${{ secrets.ALIAS }}
-          keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
-          keyPassword: ${{ secrets.KEY_PASSWORD }}
 
       # Upload runner package tar.gz/zip as artifact
       - name: Publish Artifact
