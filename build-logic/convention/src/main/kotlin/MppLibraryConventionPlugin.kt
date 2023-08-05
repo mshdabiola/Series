@@ -42,7 +42,7 @@ class MppLibraryConventionPlugin : Plugin<Project> {
 //            }
 
             extensions.configure<KotlinMultiplatformExtension> {
-                androidTarget()
+                android()
                 jvm("desktop")
                 val libs = extensions.getByType<VersionCatalogsExtension>().named("libs")
                 with(sourceSets) {
