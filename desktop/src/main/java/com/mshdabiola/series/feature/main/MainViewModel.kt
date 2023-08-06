@@ -177,6 +177,8 @@ class MainViewModel(
     fun onDeleteExam(id: Long) {
         viewModelScope.launch {
 
+            iExamRepository.deleteExam(id)
+
         }
     }
 

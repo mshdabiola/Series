@@ -120,17 +120,17 @@ fun MainScreen(
                                     showDrop = false
                                 })
 
-                            DropdownMenuItem(
-                                leadingIcon = {
-                                    androidx.compose.material.Icon(
-                                        Icons.Default.Delete,
-                                        "Delete"
-                                    )
-                                },
-                                text = { Text("Delete") },
-                                onClick = {
-
-                                })
+//                            DropdownMenuItem(
+//                                leadingIcon = {
+//                                    androidx.compose.material.Icon(
+//                                        Icons.Default.Delete,
+//                                        "Delete"
+//                                    )
+//                                },
+//                                text = { Text("Delete") },
+//                                onClick = {
+//
+//                                })
 
 
                         }
