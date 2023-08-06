@@ -1,8 +1,11 @@
 package com.mshdabiola.util
 
+import com.android.ide.common.vectordrawable.Svg2Vector
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.File
+import java.io.FileOutputStream
+import kotlin.io.path.Path
 
 expect val generalPath: String
 
@@ -23,7 +26,14 @@ class FileManager {
             val newPath = newPath(path, subjectId, examId, imageType)
             val imageFile = File(path)
 
-            imageFile.copyTo(newPath)
+            if (imageFile.extension=="svg"){
+                val fileOutputStream=FileOutputStream(newPath)
+                Svg2Vector.parseSvgToXml(Path(path),fileOutputStream)
+                fileOutputStream.close()
+            }else{
+                imageFile.copyTo(newPath)
+            }
+
 
             newPath.name
         }
@@ -32,7 +42,8 @@ class FileManager {
     private fun newPath(path: String, subjectId: Long, examId: Long, imageType: ImageType): File {
         val oldPath = File(path)
         val time = System.currentTimeMillis()
-        return path("$time.${oldPath.extension}", subjectId, examId, imageType)
+        val extension=if(oldPath.extension=="svg")"xml" else oldPath.extension
+        return path("$time.$extension", subjectId, examId, imageType)
     }
 
     private fun path(name: String, subjectId: Long, examId: Long, imageType: ImageType): File {

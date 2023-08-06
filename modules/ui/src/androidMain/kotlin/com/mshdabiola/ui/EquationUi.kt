@@ -9,21 +9,21 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Canvas
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
-import androidx.compose.ui.graphics.nativeCanvas
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.core.graphics.toRect
-import com.caverock.androidsvg.SVG
 import com.mshdabiola.retex.Latex
 import com.mshdabiola.ui.state.InstructionUiState
 import com.mshdabiola.ui.state.ItemUiState
 import com.mshdabiola.ui.state.OptionUiState
 import com.mshdabiola.ui.state.QuestionUiState
+import com.mshdabiola.ui.com.mshdabiola.ui.loadXmlImageVector
 import kotlinx.collections.immutable.toImmutableList
+import org.xml.sax.InputSource
 import timber.log.Timber
 import java.io.File
 
@@ -42,6 +42,75 @@ actual fun ImageUi(
     contentDescription: String,
     contentScale: ContentScale
 ) {
+
+    val file  = remember(path) {
+        File(path)
+    }
+
+    if (file.extension=="xml"){
+        VectorImage(
+            modifier = modifier,
+            path = path,
+            contentDescription = contentDescription,
+            contentScale = contentScale
+        )
+    }else{
+        BitmapImage(
+            modifier = modifier,
+            path = path,
+            contentDescription = contentDescription,
+            contentScale = contentScale
+        )
+    }
+
+
+
+}
+
+@Composable
+fun VectorImage(
+    modifier: Modifier,
+    path: String,
+    contentDescription: String,
+    contentScale: ContentScale
+) {
+    val context = LocalContext.current
+    val density = LocalDensity.current
+    var image by remember {
+        mutableStateOf<ImageVector?>(null)
+    }
+
+    LaunchedEffect(key1 = path, block = {
+        try {
+
+
+            val instream = context.assets.open(path)
+            image = instream.buffered().use { loadXmlImageVector(InputSource(it), density) }
+
+        } catch (e: Exception) {
+            Timber.e(e)
+        }
+    })
+
+
+    if (image != null) {
+        Image(
+            modifier = modifier,
+            imageVector = image!!,
+            contentDescription = contentDescription,
+            contentScale = contentScale
+        )
+    }
+
+}
+
+@Composable
+fun BitmapImage(
+    modifier: Modifier,
+    path: String,
+    contentDescription: String,
+    contentScale: ContentScale
+) {
     val context = LocalContext.current
     var image by remember {
         mutableStateOf<ImageBitmap?>(null)
@@ -49,27 +118,11 @@ actual fun ImageUi(
 
     LaunchedEffect(key1 = path, block = {
         try {
-            val file = File(path)
-            Timber.e("extention ${file.extension}")
-            image = when (file.extension) {
-                "svg" -> {
-                    val svg = SVG.getFromAsset(context.assets, path)
 
-                    val rect = svg.documentViewBox.toRect()
+            image = BitmapFactory
+                .decodeStream(context.assets.open(path))
+                .asImageBitmap()
 
-                    val imageBitmap = ImageBitmap(rect.width(), rect.height())
-                    val canvas = Canvas(imageBitmap)
-                    svg.renderToCanvas(canvas.nativeCanvas)
-                    canvas.save()
-                    imageBitmap
-                }
-
-                else -> {
-                    BitmapFactory
-                        .decodeStream(context.assets.open(path))
-                        .asImageBitmap()
-                }
-            }
         } catch (e: Exception) {
             Timber.e(e)
         }
@@ -84,10 +137,7 @@ actual fun ImageUi(
             contentScale = contentScale
         )
     }
-
-
 }
-
 
 @Composable
 actual fun DragAndDropImage(

@@ -32,7 +32,7 @@ kotlin {
 
         val desktopMain by getting {
             dependencies {
-
+                implementation("com.android.tools:sdk-common:31.1.0")
             }
         }
 
