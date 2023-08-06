@@ -14,9 +14,15 @@ class ConverterTest {
         val qu = converter
             .textToQuestion(
                 """
-                q*sss
+                    
+                    
+                    
+                    dfdd
+                *q*sss
                 *o*sss
                 *o*sfs
+                
+                
                 *o*ddkd
                 *q*What is your name
                 *o*abiola

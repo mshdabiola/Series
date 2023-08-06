@@ -60,9 +60,13 @@ class Converter {
             var options = mutableListOf<String>()
             var nos = nextQuestionNos
             var question: String? = null
-            path
+          val s=  path
                 .split(Regex("\\s*\\*\\s*"))
-                .chunked(2) {
+              .toMutableList()
+                println(s.joinToString())
+            s.removeAt(0)
+
+                s.chunked(2) {
                     Pair(it[0].trim(), it[1])
                 }
                 .onEach { println(it) }
