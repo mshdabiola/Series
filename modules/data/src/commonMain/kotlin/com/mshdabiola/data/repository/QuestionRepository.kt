@@ -17,11 +17,22 @@ internal class QuestionRepository(
     override suspend fun insert(questionFull: QuestionFull) {
         println("reposi insert")
 
-        questionFull.options.forEach {
-            iOptionDao.insert(it)
+        if (questionFull.id==-1L){
+            val id=(iQuestionDao.getMaxId() ?: 0)+1
+            println("id $id")
+            iQuestionDao.insert(questionFull.copy(id=id).toQuestion())
+            iOptionDao.insertMany(questionFull.options.map { it.copy(questionId = id) })
+
+        }else{
+
+            iQuestionDao.insert(questionFull.toQuestion())
+            iOptionDao.insertMany(questionFull.options)
+
         }
 
-        iQuestionDao.insert(questionFull.toQuestion())
+
+
+
     }
 
     override suspend fun insertAll(questionFull: List<QuestionFull>) {
@@ -43,11 +54,9 @@ internal class QuestionRepository(
     }
 
     override suspend fun delete(id: Long) {
-        val question = iQuestionDao.getOne(id).firstOrNull()
-        question?.let {
-            iOptionDao.deleteQuestionNos(it.nos, it.examId)
+
             iQuestionDao.delete(id)
-        }
+
 
     }
 

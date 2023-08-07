@@ -4,10 +4,12 @@ import kotlin.collections.List;
 CREATE TABLE IF NOT EXISTS optionEntity (
    id INTEGER PRIMARY KEY AUTOINCREMENT ,
    nos INTEGER NOT NULL ,
-   questionNos INTEGER NOT NULL ,
+   questionId INTEGER NOT NULL ,
    examId INTEGER NOT NULL ,
    content TEXT AS List<Item> NOT NULL,
-   isAnswer INTEGER DEFAULT 0
+   isAnswer INTEGER DEFAULT 0,
+   FOREIGN KEY (questionId) REFERENCES questionEntity(id)
+         ON DELETE CASCADE
 );
 
 getById:
@@ -22,7 +24,7 @@ FROM  optionEntity;
 getAllWithQuestionNo:
 SELECT *
 FROM  optionEntity
-WHERE questionNos = ? AND examId = ?;
+WHERE questionId = ? AND examId = ?;
 
 getAllByExamId:
 SELECT *
@@ -30,24 +32,21 @@ FROM  optionEntity
 WHERE examId = ?;
 
 insert:
-INSERT INTO optionEntity(nos,questionNos,examId,content,isAnswer)
+INSERT INTO optionEntity(nos,questionId,examId,content,isAnswer)
 VALUES ?;
 
 insertOrReplace:
-INSERT OR REPLACE INTO optionEntity(id,nos,questionNos,examId,content,isAnswer)
+INSERT OR REPLACE INTO optionEntity(id,nos,questionId,examId,content,isAnswer)
 VALUES ?;
 
 deleteByID:
 DELETE FROM optionEntity
 WHERE id = ?;
 
-deleteByQuestionNos:
-DELETE FROM optionEntity
-WHERE questionNos = ? AND examId = ?;
 
 update:
 UPDATE optionEntity
-SET nos=?,questionNos = ?,content=?,isAnswer=?
+SET nos=?,questionId = ?,content=?,isAnswer=?
 WHERE id = ?;
 
 deleteAll:

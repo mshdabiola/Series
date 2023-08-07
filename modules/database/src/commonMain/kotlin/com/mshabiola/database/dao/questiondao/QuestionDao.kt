@@ -14,6 +14,7 @@ import commshdabioladatabase.tables.QuestionQueries
 import commshdabioladatabase.tables.TopicQueries
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
@@ -52,34 +53,40 @@ internal class QuestionDao(
     }
 
     override fun getAllWithOptions(examId: Long): Flow<List<QuestionFull>> {
-        return questionQueries
+      val flow1=  questionQueries
             .getAllWithExamId(examId)
             .asFlow()
             .mapToList(coroutineDispatcher)
             .map { it.map { it.toModel() } }
-            .map { questionList ->
-                questionList.map { question ->
-
-                    val list = optionQueries
-                        .getAllWithQuestionNo(question.nos, examId)
-                        .executeAsList()
-                        .map { it.toModel() }
-                    val inst = question.instructionId?.let { it1 ->
-                        instructionQueries
-                            .getById(it1)
-                            .executeAsOne()
-                            .toModel()
-                    }
-                    val topic = question.topicId?.let {
-                        topicQueries
-                            .getById(it)
-                            .executeAsOne()
-                            .toModel()
-                    }
-                    question.toQuestionWithOptions(list, inst, topic)
-                }
-            }
             .flowOn(coroutineDispatcher)
+        val flow2=optionQueries.getAllByExamId(examId)
+            .asFlow()
+            .mapToList(coroutineDispatcher)
+            .map { it.map { it.toModel() } }
+
+      return  combine(flow1,flow2){ questions, options->
+            questions.map {question->
+                val inst = question.instructionId?.let { it1 ->
+                    instructionQueries
+                        .getById(it1)
+                        .executeAsOne()
+                        .toModel()
+                }
+                val topic = question.topicId?.let {
+                    topicQueries
+                        .getById(it)
+                        .executeAsOne()
+                        .toModel()
+                }
+
+               val option= options.filter { it.questionId==question.id }
+                question.toQuestionWithOptions(option, inst, topic)
+            }
+
+
+        }
+          .flowOn(coroutineDispatcher)
+
     }
 
     override fun getRandom(num: Long): Flow<List<QuestionFull>> {
@@ -146,5 +153,9 @@ internal class QuestionDao(
         withContext(coroutineDispatcher) {
             questionQueries.deleteAll()
         }
+    }
+
+    override suspend fun getMaxId(): Long? {
+        return questionQueries.getMaxId().executeAsOne().max
     }
 }

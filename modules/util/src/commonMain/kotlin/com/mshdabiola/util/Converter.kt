@@ -123,7 +123,7 @@ class Converter {
             .mapIndexed { index, s ->
                 Option(
                     nos = index + 1L,
-                    questionNos = questionNos,
+                    questionId = questionNos,
                     examId = examId,
                     content = listOf(itemise(s)),
                     isAnswer = false

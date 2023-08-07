@@ -5,6 +5,9 @@ CREATE TABLE IF NOT EXISTS examEntity(
    FOREIGN KEY (subjectId) REFERENCES subjectEntity(id)
    ON DELETE CASCADE
 );
+
+INSERT INTO subjectEntity
+VALUES (1,"English");
 INSERT INTO examEntity
 VALUES (1,1,2012);
 

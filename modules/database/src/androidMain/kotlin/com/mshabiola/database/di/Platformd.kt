@@ -1,5 +1,6 @@
 package com.mshabiola.database.di
 
+import androidx.sqlite.db.SupportSQLiteDatabase
 import app.cash.sqldelight.driver.android.AndroidSqliteDriver
 import com.mshabiola.database.model.listOfValueAdapter
 import com.mshabiola.database.util.Constant
@@ -17,7 +18,13 @@ actual val databaseModule: Module
             val driver = AndroidSqliteDriver(
                 schema = SeriesDatabase.Schema,
                 context = get(),
-                name = Constant.databaseName
+                name = Constant.databaseName,
+//                callback = object : AndroidSqliteDriver.Callback(SeriesDatabase.Schema) {
+//                    override fun onOpen(db: SupportSQLiteDatabase) {
+//                        super.onOpen(db)
+//                        db.setForeignKeyConstraintsEnabled(true)
+//                    }
+//                }
             )
 
 
@@ -33,7 +40,13 @@ actual val databaseModule: Module
             val driver = AndroidSqliteDriver(
                 schema = SeriesDatabase.Schema,
                 context = get(),
-                name = null
+                name = null,
+//                callback = object : AndroidSqliteDriver.Callback(SeriesDatabase.Schema) {
+//                    override fun onOpen(db: SupportSQLiteDatabase) {
+//                        super.onOpen(db)
+//                        db.setForeignKeyConstraintsEnabled(true)
+//                    }
+//                }
             )
 
             SeriesDatabase(

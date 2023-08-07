@@ -18,7 +18,7 @@ kotlin {
                 api(libs.kotlinx.coroutines.test)
                 api(libs.turbine)
                 api(libs.koin.test)
-                //  api(libs.koin.test.junit)
+                  api(libs.koin.test.junit)
             }
         }
 

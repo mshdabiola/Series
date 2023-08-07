@@ -13,6 +13,7 @@ import org.koin.core.qualifier.qualifier
 import org.koin.dsl.module
 import org.koin.test.KoinTest
 import org.koin.test.KoinTestRule
+import java.util.Properties
 
 abstract class AbstractTest : KoinTest {
 
@@ -20,7 +21,10 @@ abstract class AbstractTest : KoinTest {
     val koinTestRule = KoinTestRule.create {
         val module = module {
             single(qualifier = qualifier("temp")) {
-                val driver = JdbcSqliteDriver(JdbcSqliteDriver.IN_MEMORY)
+                val driver = JdbcSqliteDriver(
+                    JdbcSqliteDriver.IN_MEMORY,
+                    properties = Properties().apply { put("foreign_keys","true") }
+                    )
                     .also { SeriesDatabase.Schema.create(it) }
 
                 SeriesDatabase(

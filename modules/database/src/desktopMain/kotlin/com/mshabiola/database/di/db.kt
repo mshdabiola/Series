@@ -2,9 +2,13 @@ package com.mshabiola.database.di
 
 import app.cash.sqldelight.driver.jdbc.sqlite.JdbcSqliteDriver
 import com.mshdabiola.database.SeriesDatabase
+import java.util.Properties
 
 fun withDatabase(path: String): JdbcSqliteDriver {
-    return JdbcSqliteDriver("jdbc:sqlite:$path").apply {
+    return JdbcSqliteDriver(
+        "jdbc:sqlite:$path",
+                properties = Properties().apply { put("foreign_keys","true") }
+    ).apply {
         migrateIfNeeded(this)
     }
 

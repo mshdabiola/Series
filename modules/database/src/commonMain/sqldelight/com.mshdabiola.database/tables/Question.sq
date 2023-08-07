@@ -54,3 +54,7 @@ getRandom:
 SELECT *
 FROM questionEntity
 ORDER BY RANDOM() LIMIT ?;
+
+getMaxId:
+SELECT max(id)
+FROM questionEntity;

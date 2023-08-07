@@ -55,6 +55,7 @@ class ExamViewModel(
 
     val questions = questionRepository.getAllWithExamId(examId)
         .map {
+            println(it.joinToString(separator = "\n"))
             it
                 .map { it.toQuestionUiState() }
                 .toImmutableList()

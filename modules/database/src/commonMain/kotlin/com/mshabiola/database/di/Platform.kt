@@ -24,7 +24,7 @@ import org.koin.dsl.module
 
 expect val databaseModule: Module
 
-const val name = "real"
+const val name = "temp"
 
 internal val daoModules = module {
 

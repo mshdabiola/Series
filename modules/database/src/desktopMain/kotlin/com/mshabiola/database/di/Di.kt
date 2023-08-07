@@ -11,6 +11,7 @@ import org.koin.core.module.Module
 import org.koin.core.qualifier.qualifier
 import org.koin.dsl.module
 import java.io.File
+import java.util.Properties
 
 actual val databaseModule: Module
     get() = module {
@@ -34,7 +35,10 @@ actual val databaseModule: Module
             )
         }
         single(qualifier = qualifier("temp")) {
-            val driver = JdbcSqliteDriver(JdbcSqliteDriver.IN_MEMORY)
+            val driver = JdbcSqliteDriver(
+                JdbcSqliteDriver.IN_MEMORY,
+                properties = Properties().apply { put("foreign_keys","true") }
+            )
                 .also { SeriesDatabase.Schema.create(it) }
 
             SeriesDatabase(

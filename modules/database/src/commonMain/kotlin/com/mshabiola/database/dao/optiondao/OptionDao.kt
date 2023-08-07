@@ -47,11 +47,19 @@ internal class OptionDao(
             .map { it.map { it.toModel() } }
     }
 
+    override fun getAllByQuestionIdAndExamId(questionId: Long, examId: Long): Flow<List<Option>> {
+        return optionQueries
+            .getAllWithQuestionNo(questionId,examId)
+            .asFlow()
+            .mapToList(coroutineDispatcher)
+            .map { it.map { it.toModel() } }
+    }
+
     override suspend fun update(option: Option) {
         withContext(coroutineDispatcher) {
             val optionEntity = option.toEntity()
             optionQueries.update(
-                questionNos = optionEntity.questionNos,
+                questionId = optionEntity.questionId,
                 content = optionEntity.content,
                 isAnswer = optionEntity.isAnswer,
                 id = optionEntity.id,
@@ -74,11 +82,7 @@ internal class OptionDao(
         }
     }
 
-    override suspend fun deleteQuestionNos(questionNos: Long, examId: Long) {
-        withContext(coroutineDispatcher) {
-            optionQueries.deleteByQuestionNos(questionNos, examId)
-        }
-    }
+
 
     override suspend fun deleteAll() {
         withContext(coroutineDispatcher) {
