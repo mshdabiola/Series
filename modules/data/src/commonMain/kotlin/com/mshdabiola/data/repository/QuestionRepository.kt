@@ -7,6 +7,7 @@ import com.mshdabiola.model.data.Question
 import com.mshdabiola.model.data.QuestionFull
 import com.mshdabiola.model.data.toQuestion
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.firstOrNull
 
 internal class QuestionRepository(
@@ -15,7 +16,6 @@ internal class QuestionRepository(
 ) : IQuestionRepository {
 
     override suspend fun insert(questionFull: QuestionFull) {
-        println("reposi insert")
 
         if (questionFull.id==-1L){
             val id=(iQuestionDao.getMaxId() ?: 0)+1
@@ -69,5 +69,9 @@ internal class QuestionRepository(
     override suspend fun deleteAll() {
         iOptionDao.deleteAll()
         iQuestionDao.deleteAll()
+    }
+
+    override suspend fun deleteOption(id: Long) {
+        iOptionDao.delete(id)
     }
 }

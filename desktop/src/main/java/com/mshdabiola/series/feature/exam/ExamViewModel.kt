@@ -26,12 +26,15 @@ import com.mshdabiola.ui.toUi
 import com.mshdabiola.util.Converter
 import com.mshdabiola.util.FileManager
 import kotlinx.collections.immutable.toImmutableList
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import java.util.logging.Level
+import java.util.logging.Logger
 
 class ExamViewModel(
     private val examId: Long,
@@ -55,7 +58,7 @@ class ExamViewModel(
 
     val questions = questionRepository.getAllWithExamId(examId)
         .map {
-            println(it.joinToString(separator = "\n"))
+          //  log(it.joinToString(separator = "\n"))
             it
                 .map { it.toQuestionUiState() }
                 .toImmutableList()
@@ -94,7 +97,7 @@ class ExamViewModel(
 
         viewModelScope.launch {
             settingRepository.getCurrentInstruction(examId)?.let {
-                println(it)
+                log(it.toString())
                 val uiState = it.toInstructionUiState()
                 _instructionUiState.value =
                     uiState.copy(content = uiState.content.map { it.copy(isEditMode = true) }
@@ -104,10 +107,9 @@ class ExamViewModel(
                 .distinctUntilChanged()
                 .collectLatest {
                     if (it == defaultInstruction) {
-                        println("remove")
                         settingRepository.removeInstruction(examId)
                     } else {
-                        println("save $it")
+                        log("save $it")
                         settingRepository.setCurrentInstruction(it.toInstruction())
                     }
 
@@ -116,7 +118,7 @@ class ExamViewModel(
 
         viewModelScope.launch {
             settingRepository.getCurrentQuestion(examId)?.let {
-                println(it)
+                log(it.toString())
                 val uiState = it.toQuestionUiState(isEdit = true)
                 _question.value =
                     uiState
@@ -125,7 +127,7 @@ class ExamViewModel(
                 .distinctUntilChanged()
                 .collectLatest {
                     if (it == getEmptyQuestion()) {
-                        println("remove")
+                        log("remove")
                         settingRepository.removeQuestion(examId)
                     } else {
                         settingRepository.setCurrentQuestion(it.toQuestionWithOptions(examId))
@@ -203,7 +205,7 @@ class ExamViewModel(
         question2 = question2.copy(nos = number)
 
         viewModelScope.launch {
-            println("insert")
+            log("insert")
             questionRepository.insert(question2.toQuestionWithOptions(examId = examId))
         }
         _question.value = getEmptyQuestion()
@@ -364,7 +366,7 @@ class ExamViewModel(
     }
 
     fun delete(questionIndex: Int, index: Int) {
-
+        var removeOption=false
         editContent(questionIndex) {
             val oldItem = it[index]
             if (oldItem.type == Type.IMAGE) {
@@ -375,10 +377,35 @@ class ExamViewModel(
                     FileManager.ImageType.QUESTION
                 )
             }
-            it.removeAt(index)
+
+          if (questionIndex<0){
+              if (it.size==1){
+                  it[index]=ItemUiState(isEditMode = true, focus = true)
+              }else{
+                  it.removeAt(index)
+              }
+
+          }else{
+              it.removeAt(index)
+              if (it.isEmpty()){
+                  removeOption=true
+              }
+          }
             null
         }
-        removeEmptyOptions()
+        if (removeOption){
+            val quest = _question.value
+            val options = quest.options.toMutableList()
+            val option=options.removeAt(questionIndex)
+
+            if (option.id>0){
+                viewModelScope.launch{
+                    questionRepository.deleteOption(option.id)
+                }
+            }
+            _question.value = quest.copy(options = options.toImmutableList())
+
+        }
 
     }
 
@@ -413,7 +440,7 @@ class ExamViewModel(
                         subjectId,
                         FileManager.ImageType.QUESTION
                     )
-                println("name $name")
+                log("name $name")
                 it[index] = item.copy(content = name)
 
             } else {
@@ -472,16 +499,16 @@ class ExamViewModel(
 
     //remove option when its items is empty
     private fun removeEmptyOptions() {
-        val question = question.value
-        if (question.options.any { it.content.isEmpty() }) {
-            val index = question.options.indexOfFirst { it.content.isEmpty() }
-            var options = question.options.toMutableList()
-            options.removeAt(index)
-            options = options.mapIndexed { index2, optionsUiState ->
-                optionsUiState.copy(id = index2.toLong())
-            }.toMutableList()
-            _question.value = question.copy(options = options.toImmutableList())
-        }
+//        val question = question.value
+//        if (question.options.any { it.content.isEmpty() }) {
+//            val index = question.options.indexOfFirst { it.content.isEmpty() }
+//            var options = question.options.toMutableList()
+//            options.removeAt(index)
+//            options = options.mapIndexed { index2, optionsUiState ->
+//                optionsUiState.copy(id = index2.toLong())
+//            }.toMutableList()
+//            _question.value = question.copy(options = options.toImmutableList())
+//        }
     }
 
     private val _examInputUiState = mutableStateOf(ExamInputUiState("", false))
@@ -502,7 +529,7 @@ class ExamViewModel(
                         nextQuestionNos = questions.value.size + 1L
                     )
 
-                println(list.joinToString())
+                log(list.joinToString())
                 launch { questionRepository.insertAll(list) }
                 _examInputUiState.value = examInputUiState.value.copy(content = "", isError = false)
 
@@ -532,7 +559,7 @@ class ExamViewModel(
                         subjectId = subjectId
                     )
 
-                println(list.joinToString())
+                log(list.joinToString())
                 launch { topicRepository.insertAll(list) }
                 _topicInputUiState.value =
                     topicInputUiState.value.copy(content = "", isError = false)
@@ -563,7 +590,7 @@ class ExamViewModel(
                         examId = examId
                     )
 
-                println(list.joinToString())
+                log(list.joinToString())
                 launch { instructionRepository.insertAll(list) }
                 _instruInputUiState.value =
                     instruInputUiState.value.copy(content = "", isError = false)
@@ -592,7 +619,7 @@ class ExamViewModel(
                 _question.value = question.value.copy(instructionUiState = instr)
             }
 
-            println()
+            
 
         } catch (e: Exception) {
             _instructIdError.value = true
@@ -727,7 +754,7 @@ class ExamViewModel(
                         subjectId,
                         FileManager.ImageType.INSTRUCTION
                     )
-                println("name $name")
+                log("name $name")
                 it[index] = item.copy(content = name)
 
             } else {
@@ -805,6 +832,12 @@ class ExamViewModel(
 
     fun getGeneraPath(imageType: FileManager.ImageType): String {
         return fileManager.getGeneraPath(subjectId, examId, imageType)
+    }
+    
+    private val logger: Logger =Logger.getGlobal()
+    
+    private fun log(msg:String){
+        logger.log(Level.SEVERE,msg)
     }
 
 

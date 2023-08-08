@@ -21,16 +21,23 @@ val listOfStringAdapter = object : ColumnAdapter<List<String>, String> {
 val listOfValueAdapter = object : ColumnAdapter<List<Item>, String> {
     private val delimit = "||"
     override fun decode(databaseValue: String): List<Item> {
-        val list = databaseValue
-            .split(delimit)
-            .chunked(2) {
-                Pair(it[0], it[1])
-            }
+        return try {
+            val list = databaseValue
+                .split(delimit)
+                .chunked(2) {
+                    Pair(it[0], it[1])
+                }
 
-        return list
-            .map {
-                Item(it.first, Type.valueOf(it.second))
-            }
+             list
+                .map {
+                    Item(it.first, Type.valueOf(it.second))
+                }
+        }catch (e:Exception){
+            println("value $databaseValue")
+            e.printStackTrace()
+            emptyList()
+        }
+
 
 
     }
