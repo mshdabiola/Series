@@ -26,15 +26,12 @@ import com.mshdabiola.ui.toUi
 import com.mshdabiola.util.Converter
 import com.mshdabiola.util.FileManager
 import kotlinx.collections.immutable.toImmutableList
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import java.util.logging.Level
-import java.util.logging.Logger
 
 class ExamViewModel(
     private val examId: Long,
@@ -201,7 +198,7 @@ class ExamViewModel(
         var question2 = _question.value
 
 
-        val number = if (question2.nos == -1L) questions.value.size.toLong() + 1 else question2.nos
+        val number = if (question2.nos == -1L) questions.value.filter { it.isTheory==question2.isTheory }.size.toLong() + 1 else question2.nos
         question2 = question2.copy(nos = number)
 
         viewModelScope.launch {
@@ -330,9 +327,17 @@ class ExamViewModel(
         viewModelScope.launch {
             var list = questions.value.toMutableList()
             onEdit(list)
-            var num = 0
-            list = list.mapIndexed { index, questionUiState ->
-                questionUiState.copy(nos = index + 1L)
+            var theory = 0L
+            var obj=0L
+            list = list.map{questionUiState ->
+                if (questionUiState.isTheory){
+                    theory+=1
+                    questionUiState.copy(nos = theory)
+                }else{
+                    obj+=1
+                    questionUiState.copy(nos =obj)
+                }
+
             }.toMutableList()
 
             //save
@@ -569,13 +574,16 @@ class ExamViewModel(
 
     fun onAddExamFromInput() {
 
+        val count=questions.value.partition { it.isTheory.not() }
+
         viewModelScope.launch {
             try {
                 val list =
                     converter.textToQuestion(
                         path = examInputUiState.value.content,
                         examId = examId,
-                        nextQuestionNos = questions.value.size + 1L
+                        nextObjNumber =count.first.size + 1L,
+                        nextTheoryNumber = count.second.size+1L
                     )
 
                 log(list.joinToString())

@@ -124,6 +124,7 @@ fun QuestionUi(
     }
     OutlinedCard(modifier) {
         Column {
+            Text("${if(questionUiState.isTheory)"Theory" else "Objective"} Number ${questionUiState.nos}",modifier=Modifier.padding(horizontal = 16.dp))
             ListItem(
                 headlineText = {
                     ContentView(
