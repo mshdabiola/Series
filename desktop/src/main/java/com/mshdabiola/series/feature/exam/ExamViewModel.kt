@@ -255,6 +255,38 @@ class ExamViewModel(
         _question.value = question
     }
 
+
+    fun onAddAnswer(show: Boolean) {
+        var question = _question.value
+        question = question.copy(
+            answer = if (show) listOf(
+                ItemUiState(isEditMode = true, focus = true)
+            ).toImmutableList() else null
+        )
+
+        _question.value = question
+
+    }
+
+    fun isTheory(isT: Boolean) {
+        var question = _question.value
+
+        question = if (isT){
+            question.copy(
+                answer = listOf(
+                    ItemUiState(isEditMode = true, focus = true)
+                ).toImmutableList(),
+                options = emptyList<OptionUiState>().toImmutableList()
+            )
+
+        }else{
+            getEmptyQuestion()
+        }
+        _question.value = question.copy(isTheory = isT)
+
+
+    }
+
     private fun getEmptyQuestion(): QuestionUiState {
         return QuestionUiState(
             nos = -1,
@@ -463,35 +495,52 @@ class ExamViewModel(
 
             var quest = _question.value
 
-            if (questionIndex == -1) {
-                var qItem = quest.content.toMutableList()
-                val i = items(qItem)
-                if (i != null) {
-                    qItem = qItem.mapIndexed { index, itemUi ->
-                        itemUi.copy(focus = index == i)
-                    }.toMutableList()
+            when(questionIndex){
+                -1->{
+                    var qItem = quest.content.toMutableList()
+                    val i = items(qItem)
+                    if (i != null) {
+                        qItem = qItem.mapIndexed { index, itemUi ->
+                            itemUi.copy(focus = index == i)
+                        }.toMutableList()
+                    }
+
+                    quest = quest.copy(content = qItem.toImmutableList())
                 }
+                -2->{
+                    var qItem = quest.answer?.toMutableList()
+                    if (qItem!=null){
+                        val i = items(qItem)
+                        if (i != null) {
+                            qItem = qItem.mapIndexed { index, itemUi ->
+                                itemUi.copy(focus = index == i)
+                            }.toMutableList()
+                        }
 
-                quest = quest.copy(content = qItem.toImmutableList())
-
-            } else {
-                val options = quest.options.toMutableList()
-                var option = options[questionIndex]
-                var qItem = option.content.toMutableList()
-                val i = items(qItem)
-                if (i != null) {
-                    qItem = qItem.mapIndexed { index, itemUi ->
-                        itemUi.copy(focus = index == i)
-                    }.toMutableList()
+                        quest = quest.copy(answer = qItem?.toImmutableList())
+                    }
                 }
+                else->{
+                    val options = quest.options.toMutableList()
+                    var option = options[questionIndex]
+                    var qItem = option.content.toMutableList()
+                    val i = items(qItem)
+                    if (i != null) {
+                        qItem = qItem.mapIndexed { index, itemUi ->
+                            itemUi.copy(focus = index == i)
+                        }.toMutableList()
+                    }
 
-                option = option.copy(content = qItem.toImmutableList())
-                options[questionIndex] = option
+                    option = option.copy(content = qItem.toImmutableList())
+                    options[questionIndex] = option
 
-                quest = quest.copy(options = options.toImmutableList())
+                    quest = quest.copy(options = options.toImmutableList())
 
 
+                }
             }
+
+
             _question.value = quest
         }
 
@@ -839,6 +888,7 @@ class ExamViewModel(
     private fun log(msg:String){
         co.touchlab.kermit.Logger.e(msg)
     }
+
 
 
 }

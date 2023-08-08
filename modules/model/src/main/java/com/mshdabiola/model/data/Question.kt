@@ -9,7 +9,7 @@ data class Question(
     val examId: Long,
     val content: List<Item>,
     val isTheory: Boolean,
-    val answer: String?,
+    val answer: List<Item>?,
     val instructionId: Long?,
     val topicId: Long?
 )

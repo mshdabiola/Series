@@ -4,6 +4,9 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.onClick
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDownward
@@ -27,6 +30,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
 import com.mshdabiola.model.data.Type
 import com.mshdabiola.ui.state.QuestionUiState
 
@@ -83,6 +87,23 @@ fun QuestionEditUi(
             }
         }
 
+        if (questionUiState.answer!=null){
+            Spacer(Modifier.height(4.dp))
+            Text("Answer",modifier=Modifier.padding(horizontal = 16.dp))
+            Content(
+                items = questionUiState.answer,
+                generalPath = generalPath,
+                addUp = { addUp(-2, it) },
+                addBottom = { addBottom(-2, it) },
+                delete = { delete(-2, it) },
+                moveUp = { moveUp(-2, it) },
+                moveDown = { moveDown(-2, it) },
+                edit = { edit(-2, it) },
+                changeType = { i, t -> changeType(-2, i, t) },
+                onTextChange = { i, s -> onTextChange(-2, i, s) }
+
+            )
+        }
     }
 }
 
@@ -178,6 +199,16 @@ fun QuestionUi(
                     }
 
                 }
+            }
+
+            if (questionUiState.answer!=null){
+                Spacer(Modifier.height(4.dp))
+                Text("Answer",modifier=Modifier.padding(horizontal = 16.dp))
+                ContentView(
+                    items = questionUiState.answer,
+                    generalPath = generalPath,
+
+                )
             }
 
         }

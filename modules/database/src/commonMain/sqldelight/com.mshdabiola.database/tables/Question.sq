@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS questionEntity (
    examId INTEGER NOT NULL ,
    content TEXT AS List<Item> NOT NULL,
    isTheory INTEGER DEFAULT 0,
-   answer TEXT,
+   answer TEXT AS List<Item>,
    instructionId INTEGER,
    topicId INTEGER,
    FOREIGN KEY (examId) REFERENCES examEntity(id)

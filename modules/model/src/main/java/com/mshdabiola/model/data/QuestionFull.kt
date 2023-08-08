@@ -10,7 +10,7 @@ data class QuestionFull(
     val content: List<Item>,
     val options: List<Option>,
     val isTheory: Boolean,
-    val answer: String?,
+    val answer: List<Item>?,
     val instruction: Instruction? = null,
     val topic: Topic?
 )

@@ -29,7 +29,7 @@ actual val databaseModule: Module
 
             SeriesDatabase(
                 driver = driver,
-                questionEntityAdapter = QuestionEntity.Adapter(listOfValueAdapter),
+                questionEntityAdapter = QuestionEntity.Adapter(listOfValueAdapter,listOfValueAdapter),
                 instructionEntityAdapter = InstructionEntity.Adapter(listOfValueAdapter),
                 optionEntityAdapter = OptionEntity.Adapter(listOfValueAdapter)
             )
@@ -43,7 +43,7 @@ actual val databaseModule: Module
 
             SeriesDatabase(
                 driver = driver,
-                questionEntityAdapter = QuestionEntity.Adapter(listOfValueAdapter),
+                questionEntityAdapter = QuestionEntity.Adapter(listOfValueAdapter,listOfValueAdapter),
                 instructionEntityAdapter = InstructionEntity.Adapter(listOfValueAdapter),
                 optionEntityAdapter = OptionEntity.Adapter(listOfValueAdapter)
             )

@@ -28,7 +28,9 @@ fun QuestionFull.toQuestionUiState(isEdit: Boolean = false) = QuestionUiState(
         it.toOptionUi(isEdit)
     }.toImmutableList(),
     isTheory = isTheory,
-    answer = answer,
+    answer = answer?.map {
+        it.toItemUi(isEdit)
+    }?.toImmutableList(),
     instructionUiState = instruction?.toInstructionUiState(),
     topicUiState = topic?.toUi()
 )
@@ -42,7 +44,7 @@ fun QuestionUiState.toQuestionWithOptions(examId: Long) = QuestionFull(
         it.toOption(questionId = id, examId)
     },
     isTheory = isTheory,
-    answer = answer,
+    answer = answer?.map { it.toItem() },
     instruction = instructionUiState?.toInstruction(),
     topic = topicUiState?.toTopic()
 )

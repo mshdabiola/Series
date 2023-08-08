@@ -34,6 +34,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SuggestionChip
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
@@ -52,6 +54,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.unit.dp
+import co.touchlab.kermit.Logger
 import com.mshdabiola.model.data.Type
 import com.mshdabiola.ui.TemplateUi
 import com.mshdabiola.ui.instructionui.InstructionEditUi
@@ -155,6 +158,8 @@ fun ExamScreen(
                             onTextChange = viewModel::onTextChange,
                             onAddQuestion = viewModel::onAddQuestion,
                             onAddOption = viewModel::addOption,
+                            onAddAnswer = viewModel::onAddAnswer,
+                            isTheory = viewModel::isTheory,
                             onDeleteQuestion = viewModel::onDeleteQuestion,
                             onUpdateQuestion = viewModel::onUpdateQuestion,
                             onMoveDownQuestion = viewModel::onMoveDownQuestion,
@@ -233,6 +238,8 @@ fun ExamContent(
     onTextChange: (Int, Int, String) -> Unit = { _, _, _ -> },
     onAddQuestion: () -> Unit = {},
     onAddOption: () -> Unit = {},
+    onAddAnswer: (Boolean) -> Unit = {},
+    isTheory: (Boolean) -> Unit = {},
     onUpdateQuestion: (Long) -> Unit = {},
     onDeleteQuestion: (Long) -> Unit = {},
     onMoveUpQuestion: (Long) -> Unit = {},
@@ -333,10 +340,29 @@ fun ExamContent(
                     onTextChange = onTextChange,
                     generalPath = generalPath(FileManager.ImageType.QUESTION)
                 )
-                Row(Modifier.fillMaxSize()) {
-                    IconButton(onClick = onAddOption) {
-                        Icon(Icons.Default.Add, "")
-                    }
+                Row(Modifier.fillMaxSize(), verticalAlignment = Alignment.CenterVertically) {
+
+                    SuggestionChip(
+                        onClick = onAddOption,
+                        label = { Text("Add Option") }
+                    )
+                    Spacer(Modifier.width(4.dp))
+
+
+                    SuggestionChip(
+                        onClick = {onAddAnswer(questionUiState.answer==null)},
+                        label = {  Text(
+                            if (questionUiState.answer==null)"Add Answers" else "Remove answer") }
+                    )
+                    Spacer(Modifier.width(4.dp))
+                    Text("Is Theory")
+                    Switch(
+                        checked = questionUiState.isTheory,
+                        onCheckedChange = { isTheory(it) },
+                        enabled = questionUiState.id<0
+                    )
+
+
                     Spacer(Modifier.weight(1f))
                     Button(modifier = Modifier, onClick = onAddQuestion) {
                         Icon(Icons.Default.Add, "add")
