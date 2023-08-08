@@ -44,6 +44,7 @@ dependencies {
     //implementation(libs.decompose.android)
     implementation(libs.decompose.compose.jetbrains)
     implementation(libs.koin.core)
+    implementation(libs.kermit.log)
 
 
 }

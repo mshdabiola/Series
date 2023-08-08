@@ -64,6 +64,8 @@ sqlDelight = "2.0.0-alpha05"
 ktor = "2.3.0"
 androidx-baselineprofile = "1.2.0-beta02"
 
+kermit = "2.0.0-RC5"
+
 
 
 [libraries]
@@ -186,6 +188,7 @@ ktor-client-logging = { module = "io.ktor:ktor-client-logging-jvm", version.ref 
 ktor-client-auth = { module = "io.ktor:ktor-client-auth", version.ref = "ktor" }
 ktor-client-cio = { module = "io.ktor:ktor-client-cio", version.ref = "ktor" }
 
+kermit-log={module= "co.touchlab:kermit", version.ref="kermit"}
 # Dependencies of the included build-logic
 
 compose-gradlePlugin = { group = "org.jetbrains.compose", name = "compose-gradle-plugin", version.ref = "composePlugin" }

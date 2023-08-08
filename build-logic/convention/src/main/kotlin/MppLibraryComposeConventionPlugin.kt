@@ -48,7 +48,7 @@ class MppLibraryComposeConventionPlugin : Plugin<Project> {
                             implementation(compose.dependencies.materialIconsExtended)
                             implementation(compose.dependencies.material3)
                             implementation(libs.findLibrary("kotlinx.collection.immutable").get())
-
+                            implementation(libs.findLibrary("kermit.log").get())
                         }
 
                     }

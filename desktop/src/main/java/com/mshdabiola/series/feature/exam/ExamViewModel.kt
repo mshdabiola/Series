@@ -834,10 +834,10 @@ class ExamViewModel(
         return fileManager.getGeneraPath(subjectId, examId, imageType)
     }
     
-    private val logger: Logger =Logger.getGlobal()
+
     
     private fun log(msg:String){
-        logger.log(Level.SEVERE,msg)
+        co.touchlab.kermit.Logger.e(msg)
     }
 
 
