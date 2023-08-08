@@ -55,9 +55,10 @@ class ExamViewModel(
 
     val questions = questionRepository.getAllWithExamId(examId)
         .map {
-          //  log(it.joinToString(separator = "\n"))
+           log(it.joinToString(separator = "\n"))
             it
                 .map { it.toQuestionUiState() }
+                .sortedBy { it.isTheory }
                 .toImmutableList()
         }
         .stateIn(

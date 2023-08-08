@@ -26,13 +26,9 @@ FROM  questionEntity;
 
 getAllWithExamId:
 SELECT *
-FROM  (
-SELECT *
 FROM  questionEntity
 WHERE examId=?
-ORDER BY nos ASC
-)
-ORDER BY isTheory ASC ;
+ORDER BY nos ASC;
 
 insert:
 INSERT INTO questionEntity(nos,examId,content,isTheory,answer,instructionId,topicId)
