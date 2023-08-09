@@ -35,7 +35,15 @@ internal actual fun YearExposed(
     modifier: Modifier,
     exams: ImmutableList<ExamUiState>,
     selectedOptionText: Int,
-    supportText: String,
+    label: String,
+    onChange: (Int) -> Unit
+) {
+}
+
+@Composable
+internal actual fun ExamType(
+    modifier: Modifier,
+    selectedOption: Int,
     onChange: (Int) -> Unit
 ) {
 }

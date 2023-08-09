@@ -40,13 +40,13 @@ import kotlinx.datetime.toLocalDateTime
 fun ContinueCard(
     onClick: () -> Unit = {},
     year: Long,
-    time: Long,
+    time2: Long,
     progress: Float,
     enabled: Boolean,
 ) {
     val color = LocalTextStyle.current.color.copy(alpha = 0.7f)
-    val timeString = remember(time) {
-        val instant = Instant.fromEpochSeconds(time)
+    val timeString = remember(time2) {
+        val instant = Instant.fromEpochSeconds(time2)
         val time = instant.toLocalDateTime(TimeZone.UTC).time
         String.format("%02d : %02d", time.minute, time.second)
     }
@@ -96,7 +96,10 @@ fun StartCard(
     isSubmit: Boolean,
 ) {
     if (exams.isNotEmpty()) {
-        var select by remember {
+        var yearIndex by remember {
+            mutableStateOf(0)
+        }
+        var typeIndex by remember {
             mutableStateOf(0)
         }
         Card() {
@@ -114,21 +117,25 @@ fun StartCard(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     YearExposed(
-                        modifier = Modifier.width(200.dp),
+                        modifier = Modifier.width(130.dp),
                         exams = exams,
-                        supportText = "Exam year",
-                        selectedOptionText = select
-                    ) { select = it }
+                        label = "Exam year",
+                        selectedOptionText = yearIndex
+                    ) { yearIndex = it }
 
-                    Button(
-                        onClick = {
-                            onClick(select)
-                        },
-                        colors = if (isSubmit) ButtonDefaults.buttonColors() else ButtonDefaults.elevatedButtonColors()
-                    ) {
-                        Text(text = "Start exam")
-                    }
-
+                    ExamType( modifier = Modifier.width(150.dp),
+                        selectedOption = typeIndex,
+                        onChange = {typeIndex=it}
+                    )
+                }
+                Button(
+                    modifier = Modifier.align(Alignment.End),
+                    onClick = {
+                        onClick(yearIndex)
+                    },
+                    colors = if (isSubmit) ButtonDefaults.buttonColors() else ButtonDefaults.elevatedButtonColors()
+                ) {
+                    Text(text = "Start exam")
                 }
             }
 
@@ -182,7 +189,14 @@ internal expect fun YearExposed(
     modifier: Modifier = Modifier,
     exams: ImmutableList<ExamUiState>,
     selectedOptionText: Int,
-    supportText: String = "",
+    label: String = "",
+    onChange: (Int) -> Unit = {}
+)
+
+@Composable
+internal expect fun ExamType(
+    modifier: Modifier = Modifier,
+    selectedOption: Int,
     onChange: (Int) -> Unit = {}
 )
 
