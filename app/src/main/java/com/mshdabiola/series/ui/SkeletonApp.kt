@@ -12,7 +12,7 @@ import com.mshdabiola.series.screen.navigation.AppNavHost
 fun PhysicsApp(
     iRootComponent: IRootComponent
 ) {
-    SeriesAppTheme(darkColors = DarkColors, lightColors = LightColors) {
+    SeriesAppTheme() {
         AppNavHost(iRootComponent = iRootComponent, modifier = Modifier.fillMaxSize())
     }
 }

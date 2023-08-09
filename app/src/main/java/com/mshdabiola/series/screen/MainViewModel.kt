@@ -70,9 +70,9 @@ class MainViewModel(
             subject
                 .distinctUntilChanged { old, new -> old == new }
                 .collectLatest {
-                    val sub = it.first()
+                    val sub = it.firstOrNull()
                     _mainState.update {
-                        it.copy(title = sub.name)
+                        it.copy(title = sub?.name ?:"Subject")
                     }
 
 

@@ -16,6 +16,7 @@ import com.arkivanov.decompose.DefaultComponentContext
 import com.arkivanov.decompose.ExperimentalDecomposeApi
 import com.arkivanov.decompose.extensions.compose.jetbrains.lifecycle.LifecycleController
 import com.arkivanov.essenty.lifecycle.LifecycleRegistry
+import com.mshdabiola.designsystem.theme.SeriesAppTheme
 import com.mshdabiola.series.di.desktopModule
 import com.mshdabiola.series.model.AppArgs
 import com.mshdabiola.series.nav.DefaultRootComp
@@ -44,7 +45,7 @@ fun mainApp(appArgs: AppArgs) {
             icon = painterResource("drawables/launcher/system.png"),
             state = windowState,
         ) {
-            MaterialTheme {
+            SeriesAppTheme {
                 // Igniting navigation
                 RootComp(rootComp, modifier = Modifier)
             }
