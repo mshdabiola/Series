@@ -91,7 +91,7 @@ internal expect fun ContinueCardPreview()
 
 @Composable
 fun StartCard(
-    onClick: (Int) -> Unit = {},
+    onClick: (Int,Int) -> Unit = {_,_->},
     exams: ImmutableList<ExamUiState>,
     isSubmit: Boolean,
 ) {
@@ -131,7 +131,7 @@ fun StartCard(
                 Button(
                     modifier = Modifier.align(Alignment.End),
                     onClick = {
-                        onClick(yearIndex)
+                        onClick(yearIndex,typeIndex)
                     },
                     colors = if (isSubmit) ButtonDefaults.buttonColors() else ButtonDefaults.elevatedButtonColors()
                 ) {

@@ -103,14 +103,14 @@ class MainViewModel(
 
     }
 
-    fun startExam(examType: ExamType, index: Int) {
+    fun startExam(examType: ExamType, yearIndex: Int,typeIndex:Int) {
         viewModelScope.launch(Dispatchers.IO) {
 
             type = examType
 
             val exam = when (type) {
                 ExamType.YEAR -> {
-                    mainState.value.exams[index]
+                    mainState.value.exams[yearIndex]
                 }
 
                 ExamType.FAST_FINGER -> {
@@ -309,7 +309,8 @@ class MainViewModel(
         mainState.value.currentExam?.id?.let { id ->
             val index = mainState.value.exams.indexOfFirst { it.id == id }
             Timber.e("retry index is $index")
-            startExam(type, index)
+            TODO("add type index")
+            startExam(type, index,-1)
         }
 
 

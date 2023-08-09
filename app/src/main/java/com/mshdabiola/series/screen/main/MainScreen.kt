@@ -61,7 +61,7 @@ internal fun MainScreen(onQuestion: () -> Unit) {
 internal fun MainScreen(
     mainState: MainState,
     onQuestion: () -> Unit = {},
-    onStartExam: (ExamType, Int) -> Unit = { _, _ -> },
+    onStartExam: (ExamType, Int,Int) -> Unit = { _, _ ,_-> },
 ) {
     val snackbarHostState = remember {
         SnackbarHostState()
@@ -145,8 +145,8 @@ internal fun MainScreen(
             StartCard(
                 exams = mainState.exams,
                 isSubmit = mainState.currentExam?.isSubmit ?: true,
-                onClick = {
-                    onStartExam(ExamType.YEAR, it)
+                onClick = {yearIndex,typeIndex->
+                    onStartExam(ExamType.YEAR, yearIndex,typeIndex)
                     onQuestion()
                 })
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
@@ -155,7 +155,7 @@ internal fun MainScreen(
                     painter = painterResource(id = R.drawable.layer__1),
                     onClick = {
 
-                        onStartExam(ExamType.RANDOM, -1)
+                        onStartExam(ExamType.RANDOM, -1,-1)
                         onQuestion()
                     }
                 )
@@ -163,7 +163,7 @@ internal fun MainScreen(
                     title = "Fast finger",
                     painter = painterResource(id = R.drawable.layer_1),
                     onClick = {
-                        onStartExam(ExamType.FAST_FINGER, -1)
+                        onStartExam(ExamType.FAST_FINGER, -1,-1)
                         onQuestion()
                     }
                 )
