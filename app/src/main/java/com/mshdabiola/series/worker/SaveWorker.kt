@@ -42,7 +42,7 @@ class SaveWorker(
 ) : CoroutineWorker(appContext, workerParams), KoinComponent {
 
 
-    private val exInPort =ExInPort(FileManager())
+    private val exInPort =ExInPort()
     private val questionRepository by inject<IQuestionRepository>()
     private val iExamRepository by inject<IExamRepository>()
     private val iSubjectRepository by inject<ISubjectRepository>()

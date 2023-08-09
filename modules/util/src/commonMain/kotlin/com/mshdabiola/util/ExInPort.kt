@@ -25,7 +25,7 @@ import javax.crypto.spec.SecretKeySpec
 
 @OptIn(ExperimentalSerializationApi::class)
 class ExInPort(
-    private val fileManager: FileManager
+    //private val fileManager: FileManager
 ) {
     private val passwordString = "Swordfish"
 
@@ -65,7 +65,7 @@ class ExInPort(
     suspend fun copyImage(dir: String, subject: List<Subject>) {
         withContext(Dispatchers.IO) {
             subject.forEach {
-                val from = File(fileManager.getSubjectPath(it.id))
+                val from = File(FileManager.getSubjectPath(it.id))
                 val to = File(dir, it.name)
                 if (to.exists().not()) {
                     to.mkdirs()

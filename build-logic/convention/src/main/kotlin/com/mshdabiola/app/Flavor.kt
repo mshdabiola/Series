@@ -8,7 +8,8 @@ import org.gradle.api.Project
 
 @Suppress("EnumEntryName")
 enum class FlavorDimension {
-    subjectType
+    subjectType,
+    premiumType
 }
 
 // The content for the app can either come from local static data which is useful for demo
@@ -20,7 +21,9 @@ enum class Flavor(
     val versionNameSuffix: String? = null
 ) {
     Physics(FlavorDimension.subjectType, applicationIdSuffix = ".physics", "-physics"),
-    Math(FlavorDimension.subjectType, applicationIdSuffix = ".math", "-math")
+    Math(FlavorDimension.subjectType, applicationIdSuffix = ".math", "-math"),
+    Free(FlavorDimension.premiumType,applicationIdSuffix = ".free","-free"),
+    Paid(FlavorDimension.premiumType,applicationIdSuffix = ".paid","-paid")
 }
 
 fun Project.configureFlavors(
@@ -29,6 +32,7 @@ fun Project.configureFlavors(
 ) {
     commonExtension.apply {
         flavorDimensions += FlavorDimension.subjectType.name
+        flavorDimensions += FlavorDimension.premiumType.name
         productFlavors {
             Flavor.values().forEach {
                 create(it.name) {

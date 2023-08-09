@@ -25,6 +25,7 @@ import com.mshdabiola.ui.toTopic
 import com.mshdabiola.ui.toUi
 import com.mshdabiola.util.Converter
 import com.mshdabiola.util.FileManager
+import com.mshdabiola.util.SvgObject
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.collectLatest
@@ -41,7 +42,7 @@ class ExamViewModel(
     private val topicRepository: ITopicRepository,
     private val converter: Converter,
     private val settingRepository: ISettingRepository,
-    private val fileManager: FileManager
+
 ) : ViewModel() {
 
 
@@ -408,7 +409,7 @@ class ExamViewModel(
         editContent(questionIndex) {
             val oldItem = it[index]
             if (oldItem.type == Type.IMAGE) {
-                fileManager.delete(
+                FileManager.delete(
                     oldItem.content,
                     subjectId,
                     examId,
@@ -452,7 +453,7 @@ class ExamViewModel(
         editContent(questionIndex) {
             val oldItem = it[index]
             if (oldItem.type == Type.IMAGE) {
-                fileManager.delete(
+                FileManager.delete(
                     oldItem.content,
                     subjectId,
                     examId,
@@ -470,7 +471,7 @@ class ExamViewModel(
             val item = it[index]
             if (item.type == Type.IMAGE) {
 
-                val name = fileManager
+                val name = SvgObject
                     .saveImage(
                         item.content,
                         text,
@@ -770,7 +771,7 @@ class ExamViewModel(
         editContentInstruction() {
             val oldItem = it[index]
             if (oldItem.type == Type.IMAGE) {
-                fileManager.delete(
+                FileManager.delete(
                     oldItem.content,
                     subjectId,
                     examId,
@@ -788,7 +789,7 @@ class ExamViewModel(
         editContentInstruction() {
             val oldItem = it[index]
             if (oldItem.type == Type.IMAGE) {
-                fileManager.delete(
+                FileManager.delete(
                     oldItem.content,
                     subjectId,
                     examId,
@@ -804,7 +805,7 @@ class ExamViewModel(
         editContentInstruction {
             val item = it[index]
             if (item.type == Type.IMAGE) {
-                val name = fileManager
+                val name = SvgObject
                     .saveImage(
                         item.content,
                         text,
@@ -889,7 +890,7 @@ class ExamViewModel(
     }
 
     fun getGeneraPath(imageType: FileManager.ImageType): String {
-        return fileManager.getGeneraPath(subjectId, examId, imageType)
+        return FileManager.getGeneraPath(subjectId, examId, imageType)
     }
     
 
