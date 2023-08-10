@@ -15,14 +15,13 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.TextField
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Android
 import androidx.compose.material.icons.filled.ArrowDropDown
-import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.SaveAs
 import androidx.compose.material.icons.filled.Update
+import androidx.compose.material3.TextField
 import androidx.compose.material3.Button
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
@@ -89,14 +88,14 @@ fun MainScreen(
                             onClick = { showDrop = true },
                             enabled = currentSubjectIndex > -1
                         ) {
-                            androidx.compose.material.Icon(Icons.Default.MoreVert, "more")
+                            Icon(Icons.Default.MoreVert, "more")
                         }
                         DropdownMenu(expanded = showDrop, onDismissRequest = { showDrop = false }) {
 
 
                             DropdownMenuItem(
                                 leadingIcon = {
-                                    androidx.compose.material.Icon(
+                                    Icon(
                                         Icons.Default.Update,
                                         "update"
                                     )
@@ -108,7 +107,7 @@ fun MainScreen(
                                 })
                             DropdownMenuItem(
                                 leadingIcon = {
-                                    androidx.compose.material.Icon(
+                                   Icon(
                                         Icons.Default.SaveAs,
                                         "export"
                                     )
@@ -186,7 +185,7 @@ fun MainScreen(
     }
 }
 
-@OptIn(ExperimentalSplitPaneApi::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalSplitPaneApi::class)
 @Composable
 fun MainContent(
     modifier: Modifier = Modifier,
@@ -217,7 +216,6 @@ fun MainContent(
         }
     }
 
-    //Todo adjust home drawer
 
     HorizontalSplitPane(
         modifier = modifier,
