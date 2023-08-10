@@ -25,6 +25,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -97,16 +98,18 @@ fun StartCard(
     isSubmit: Boolean,
 ) {
     if (exams.isNotEmpty()) {
-        var yearIndex by remember {
+        var yearIndex by rememberSaveable {
             mutableStateOf(0)
         }
-        var typeIndex by remember {
+        var typeIndex by rememberSaveable {
             mutableStateOf(0)
         }
 
         LaunchedEffect(yearIndex){
-            if (exams[yearIndex].isObjOnly){
-                typeIndex=2
+            typeIndex = if (exams[yearIndex].isObjOnly){
+                2
+            }else{
+                0
             }
         }
 
