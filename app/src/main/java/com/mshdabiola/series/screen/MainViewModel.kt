@@ -126,7 +126,7 @@ class MainViewModel(
                 }
 
                 ExamType.RANDOM -> {
-                    mainState.value.listOfAllExams.random()
+                    mainState.value.listOfAllExams.filter { it.isObjOnly }.random()
                 }
             }
 //            "Objective & Theory","Theory","Objective"
@@ -156,11 +156,15 @@ class MainViewModel(
                         }
                     }
                     ExamType.RANDOM->{
-                        getAllQuestions(exam.id)
+                        _isObjPart.update { true }
+                        _isMultiPart.update { false }
+                        getAllQuestions(exam.id).filter { it.isTheory.not() }
                     }
 
                     ExamType.FAST_FINGER -> {
-                        getAllQuestions(null)
+                        _isObjPart.update { true }
+                        _isMultiPart.update { false }
+                        getAllQuestions(null).filter { it.isTheory.not() }
                     }
 
                 }

@@ -53,6 +53,7 @@ DELETE FROM questionEntity;
 getRandom:
 SELECT *
 FROM questionEntity
+WHERE isTheory = 0
 ORDER BY RANDOM() LIMIT ?;
 
 getMaxId:

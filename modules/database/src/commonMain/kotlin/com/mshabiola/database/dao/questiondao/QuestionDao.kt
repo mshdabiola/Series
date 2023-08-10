@@ -99,7 +99,7 @@ internal class QuestionDao(
                 questionList.map { question ->
 
                     val list = optionQueries
-                        .getAllWithQuestionNo(question.nos, question.examId)
+                        .getAllWithQuestionNo(question.id, question.examId)
                         .executeAsList()
                         .map { it.toModel() }
                     val inst = question.instructionId?.let { it1 ->
