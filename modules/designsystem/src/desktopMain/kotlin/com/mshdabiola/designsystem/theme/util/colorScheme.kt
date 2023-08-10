@@ -6,8 +6,8 @@ import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 
 @Composable
-internal actual fun colorScheme(): ColorScheme {
-   return DarkColors
+internal actual fun colorScheme(isDarkMode:Boolean): ColorScheme {
+   return if (isDarkMode)DarkColors else LightColors
 }
 
 

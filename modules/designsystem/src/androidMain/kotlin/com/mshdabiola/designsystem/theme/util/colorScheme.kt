@@ -11,16 +11,15 @@ import com.mshdabiola.designsystem.theme.DarkColors
 import com.mshdabiola.designsystem.theme.LightColors
 
 @Composable
-internal actual fun colorScheme(): ColorScheme {
+internal actual fun colorScheme(isDarkMode:Boolean): ColorScheme {
     val dynamicColor=false
-    val useDarkTheme= isSystemInDarkTheme()
     return when {
         dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
             val context = LocalContext.current
-            if (useDarkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
+            if (isDarkMode) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
         }
 
-        useDarkTheme -> DarkColors
+        isDarkMode -> DarkColors
         else -> LightColors
     }
 }
