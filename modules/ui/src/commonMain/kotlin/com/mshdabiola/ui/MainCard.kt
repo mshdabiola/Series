@@ -123,7 +123,9 @@ fun StartCard(
                         selectedOptionText = yearIndex
                     ) { yearIndex = it }
 
-                    ExamType( modifier = Modifier.width(150.dp),
+                    ExamType(
+                        modifier = Modifier.width(150.dp),
+                        enabled = exams.getOrNull(yearIndex)?.isObjOnly==false,
                         selectedOption = typeIndex,
                         onChange = {typeIndex=it}
                     )
@@ -196,6 +198,7 @@ internal expect fun YearExposed(
 @Composable
 internal expect fun ExamType(
     modifier: Modifier = Modifier,
+    enabled: Boolean,
     selectedOption: Int,
     onChange: (Int) -> Unit = {}
 )

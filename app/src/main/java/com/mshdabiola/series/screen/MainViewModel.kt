@@ -25,7 +25,6 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
@@ -62,11 +61,10 @@ class MainViewModel(
     val mainState = _mainState.asStateFlow()
 
 
-
-    private val _objQuestionsList = MutableStateFlow<ImmutableList<QuestionUiState>?>(null)
+private val _objQuestionsList = MutableStateFlow(emptyList<QuestionUiState>().toImmutableList())
     val objQuestionsList = _objQuestionsList.asStateFlow()
 
-    private val _theQuestionsList = MutableStateFlow<ImmutableList<QuestionUiState>?>(null)
+    private val _theQuestionsList = MutableStateFlow(emptyList<QuestionUiState>().toImmutableList())
     val theQuestionsList = _theQuestionsList.asStateFlow()
 
     init {
@@ -77,7 +75,7 @@ class MainViewModel(
                 .collectLatest {
                     val sub = it.firstOrNull()
                     _mainState.update {
-                        it.copy(title = sub?.name ?:"Subject")
+                        it.copy(title = sub?.name ?: "Subject")
                     }
 
 
@@ -108,7 +106,7 @@ class MainViewModel(
 
     }
 
-    fun startExam(examType: ExamType, yearIndex: Int,typeIndex:Int) {
+    fun startExam(examType: ExamType, yearIndex: Int, typeIndex: Int) {
         viewModelScope.launch(Dispatchers.IO) {
 
             type = examType
@@ -126,24 +124,68 @@ class MainViewModel(
                     mainState.value.listOfAllExams.random()
                 }
             }
+//            "Objective & Theory","Theory","Objective"
+            val loadTheo = when (type) {
+                ExamType.YEAR -> {
+                    when {
+                        exam.isObjOnly -> false
+                        typeIndex == 2 -> false
+                        else -> true
+                    }
 
-            val objQuestions = when (type) {
-                ExamType.YEAR, ExamType.RANDOM -> {
-                    getQuestions(exam.id)
                 }
 
                 ExamType.FAST_FINGER -> {
-                    getQuestions(null)
+                    false
                 }
 
+                ExamType.RANDOM -> {
+                    false
+                }
             }
+            val loadObj = when (type) {
+                ExamType.YEAR -> {
+                    when (typeIndex) {
+                        1 -> false
+                        else -> true
+                    }
+
+                }
+
+                ExamType.FAST_FINGER -> {
+                    true
+                }
+
+                ExamType.RANDOM -> {
+                    true
+                }
+            }
+
+            val objQuestions =
+                if (loadObj)
+                    when (type) {
+                        ExamType.YEAR, ExamType.RANDOM -> {
+                            getObjQuestions(exam.id)
+                        }
+
+                        ExamType.FAST_FINGER -> {
+                            getObjQuestions(null)
+                        }
+
+                    }
+                else
+                    emptyList<QuestionUiState>().toImmutableList()
+            val theQuestion = if (loadTheo)
+                getTheQuestions(exam.id)
+            else
+                emptyList<QuestionUiState>().toImmutableList()
+
+
             val time = when (type) {
                 ExamType.RANDOM, ExamType.YEAR -> 20L
                 ExamType.FAST_FINGER -> type.secondPerQuestion.toLong()
-            }
-
-
-            val totalTime = objQuestions.size * time
+            } + if (loadTheo) 40L else 0L
+            val totalTime = (objQuestions.size+theQuestion.size) * time
             val choose = List(objQuestions.size) { -1 }
 
             _mainState.update {
@@ -152,10 +194,11 @@ class MainViewModel(
                     choose = choose.toImmutableList()
                 )
             }
-            Timber.e("list ${objQuestions.joinToString()}")
-            Timber.e("exam $exam")
             _objQuestionsList.update {
                 objQuestions
+            }
+            _theQuestionsList.update {
+                theQuestion
             }
 
         }
@@ -172,7 +215,7 @@ class MainViewModel(
                     emptyList<QuestionUiState>().toImmutableList()
                 else
 
-                    getQuestions(currentExam1.id)
+                    getObjQuestions(currentExam1.id)
             val exam = mainState.value.listOfAllExams.find {
                 currentExam1.id == it.id
             }
@@ -194,7 +237,7 @@ class MainViewModel(
     }
 
 
-    private suspend fun getQuestions(id: Long?): ImmutableList<QuestionUiState> {
+    private suspend fun getObjQuestions(id: Long?): ImmutableList<QuestionUiState> {
 
         val que = if (id == null)
             questionRepository.getRandom(6)
@@ -204,15 +247,40 @@ class MainViewModel(
 
         return que
             .map { questionFulls ->
-                questionFulls.map {
-                    it.copy(
-                        options = it.options.shuffled()
-                    )
-                        .toQuestionUiState()
-                        .copy(title = getTitle(it.examId, it.nos))
+                questionFulls
+                    .filter { it.isTheory.not() }
+                    .map {
+                        it.copy(
+                            options = it.options.shuffled()
+                        )
+                            .toQuestionUiState()
+                            .copy(title = getTitle(it.examId, it.nos, false))
 
 
-                }.toImmutableList()
+                    }.toImmutableList()
+            }
+            .firstOrNull() ?: emptyList<QuestionUiState>().toImmutableList()
+    }
+
+    private suspend fun getTheQuestions(id: Long): ImmutableList<QuestionUiState> {
+
+        val que =
+            questionRepository
+                .getAllWithExamId(id)
+
+        return que
+            .map { questionFulls ->
+                questionFulls
+                    .filter { it.isTheory }
+                    .map {
+                        it.copy(
+                            options = it.options.shuffled()
+                        )
+                            .toQuestionUiState()
+                            .copy(title = getTitle(it.examId, it.nos, true))
+
+
+                    }.toImmutableList()
             }
             .firstOrNull() ?: emptyList<QuestionUiState>().toImmutableList()
     }
@@ -317,7 +385,7 @@ class MainViewModel(
             val index = mainState.value.listOfAllExams.indexOfFirst { it.id == id }
             Timber.e("retry index is $index")
             TODO("add type index")
-            startExam(type, index,-1)
+            startExam(type, index, -1)
         }
 
 
@@ -360,10 +428,10 @@ class MainViewModel(
         }
     }
 
-    private fun getTitle(examId: Long, no: Long): String {
+    private fun getTitle(examId: Long, no: Long, isTheory: Boolean): String {
         val exam = mainState.value.listOfAllExams.find { it.id == examId }
 
-        return "Waec ${exam?.year} Q$no"
+        return "Waec ${exam?.year} ${if (isTheory) "Theo" else "Obj"} Q$no"
     }
 
 
