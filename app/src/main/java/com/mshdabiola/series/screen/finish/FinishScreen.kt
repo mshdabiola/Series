@@ -59,7 +59,7 @@ import timber.log.Timber
 @Composable
 internal fun FinishScreen(onBack: () -> Unit, toQuestion: () -> Unit, viewModel: MainViewModel) {
 
-    val questions = viewModel.objQuestionsList.collectAsStateWithLifecycle()
+    val questions = viewModel.allQuestions.collectAsStateWithLifecycle()
     val mainState = viewModel.mainState.collectAsStateWithLifecycle()
     FinishScreen(
         questions = questions.value ?: emptyList<QuestionUiState>().toImmutableList(),
@@ -175,7 +175,7 @@ internal fun FinishScreen(
                         onInstruction = {
                             instructionUiState = item.instructionUiState
                         },
-                        selectedOption = mainState.choose.getOrNull(index) ?: -1,
+                        selectedOption = mainState.chooseObj.getOrNull(index) ?: -1,
                         onOptionClick = {
                         },
                         showAnswer = true
@@ -357,7 +357,7 @@ fun FinishScreenPreview() {
             title = "Jade",
             currentExam = null,
             listOfAllExams = emptyList<ExamUiState>().toImmutableList(),
-            choose = emptyList<Int>().toImmutableList()
+            chooseObj = emptyList<Int>().toImmutableList()
         )
     )
 }

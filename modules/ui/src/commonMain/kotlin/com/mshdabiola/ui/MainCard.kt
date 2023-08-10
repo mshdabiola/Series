@@ -21,6 +21,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -102,6 +103,13 @@ fun StartCard(
         var typeIndex by remember {
             mutableStateOf(0)
         }
+
+        LaunchedEffect(yearIndex){
+            if (exams[yearIndex].isObjOnly){
+                typeIndex=2
+            }
+        }
+
         Card() {
             Column(
                 Modifier.padding(8.dp),

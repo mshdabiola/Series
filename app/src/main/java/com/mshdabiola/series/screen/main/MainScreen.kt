@@ -23,7 +23,11 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -67,8 +71,10 @@ internal fun MainScreen(
         SnackbarHostState()
     }
 
-    val finishPercent = remember(mainState.choose) {
-        val choose = mainState.choose
+
+    val finishPercent = remember(mainState.chooseObj,mainState.chooseThe) {
+        var choose = mainState.chooseObj.toMutableList()
+        choose.addAll(mainState.chooseThe)
         choose.count {
             it > -1
         } / choose.size.toFloat()

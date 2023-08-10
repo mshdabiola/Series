@@ -23,6 +23,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SuggestionChip
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.contentColorFor
@@ -69,18 +70,32 @@ internal fun QuestionScreen(
 ) {
 
 
-    val questions = viewModel.objQuestionsList.collectAsState()
+    val questions = viewModel.allQuestions.collectAsState()
     val mainState = viewModel.mainState.collectAsStateWithLifecycle()
+    val isMultiPart = viewModel.isMultiPart.collectAsStateWithLifecycle()
+    val isObjPart =viewModel.isObjPart.collectAsStateWithLifecycle()
+
+    val allQuestions = remember(isMultiPart.value,isObjPart.value,questions.value) {
+        when{
+            isMultiPart.value&&isObjPart.value->questions.value.filter { it.isTheory.not() }
+            isMultiPart.value&&!isObjPart.value->questions.value.filter { it.isTheory }
+            else->questions.value
+        }.toImmutableList()
+    }
 
 
     QuestionScreen(
-        questions = questions.value ?: emptyList<QuestionUiState>().toImmutableList(),
-        mainState = mainState.value,
+        questions = allQuestions,
+        mainStat = mainState.value,
+        isMultiPart = isMultiPart.value,
+        isObjPart=isObjPart.value,
+        togglePart = viewModel::togglePart,
         back = onBack,
         onFinish = {
             onFinish()
             viewModel.onSubmit()
         },
+        onNextTheory = viewModel::onNextTheory,
         onOption = viewModel::onOption,
         getGeneralPath = viewModel::getGeneraPath,
         onTimeChanged = viewModel::onTimeChanged
@@ -94,13 +109,22 @@ internal fun QuestionScreen(
 @Composable
 internal fun QuestionScreen(
     questions: ImmutableList<QuestionUiState>,
-    mainState: MainState,
+    mainStat: MainState,
+    isMultiPart : Boolean,
+    isObjPart : Boolean,
+    togglePart : ()->Unit={},
     back: () -> Unit = {},
     onFinish: () -> Unit = {},
+    onNextTheory:(Int)->Unit={},
     onOption: (Int, Int) -> Unit = { _, _ -> },
     getGeneralPath: (FileManager.ImageType, Long) -> String = { _, _ -> "" },
     onTimeChanged: (Long) -> Unit = {}
 ) {
+
+    val choose = remember (isObjPart,mainStat.chooseThe,mainStat.chooseObj){
+        if (isObjPart) mainStat.chooseObj else mainStat.chooseThe
+    }
+
     if (questions.isEmpty()) {
         Text(text = "empty")
     } else {
@@ -116,17 +140,17 @@ internal fun QuestionScreen(
             questions.size
         }
 
-        val finishPercent = remember(mainState.choose) {
-            val choose = mainState.choose
-            ((choose.count {
+        val finishPercent = remember(mainStat.chooseObj,mainStat.chooseThe) {
+            val allChoose = mainStat.chooseObj+mainStat.chooseThe
+            ((allChoose.count {
                 it > -1
-            } / choose.size.toFloat()) * 100).toInt()
+            } / allChoose.size.toFloat()) * 100).toInt()
         }
         val scrollState = rememberScrollState()
 
 
-        LaunchedEffect(key1 = mainState.currentExam?.currentTime, block = {
-            mainState.currentExam?.let {
+        LaunchedEffect(key1 = mainStat.currentExam?.currentTime, block = {
+            mainStat.currentExam?.let {
                 if (it.currentTime == it.totalTime) {
                     onFinish()
                 }
@@ -146,6 +170,9 @@ internal fun QuestionScreen(
                             )
                         }
 
+                        if (isMultiPart) {
+                            SuggestionChip(onClick =  togglePart, label = { Text(text = if(isObjPart) "Theory Part" else "Obj Part") })
+                        }
                     },
                     floatingActionButton = {
                         ExtendedFloatingActionButton(
@@ -182,8 +209,8 @@ internal fun QuestionScreen(
 
                 TimeCounter(
                     modifier = Modifier.padding(top = 4.dp),
-                    currentTime2 = mainState.currentExam?.currentTime ?: 0,
-                    total = mainState.currentExam?.totalTime ?: 8,
+                    currentTime2 = mainStat.currentExam?.currentTime ?: 0,
+                    total = mainStat.currentExam?.totalTime ?: 8,
                     onTimeChanged = onTimeChanged
                 )
 
@@ -208,7 +235,7 @@ internal fun QuestionScreen(
                         onInstruction = {
                             instructionUiState = questions[index].instructionUiState!!
                         },
-                        selectedOption = mainState.choose.getOrNull(index) ?: -1,
+                        selectedOption = choose.getOrNull(index) ?: -1,
                         onOptionClick = {
                             onOption(index, it)
                             if (state.canScrollForward) {
@@ -228,8 +255,9 @@ internal fun QuestionScreen(
                     currentQuestion = state.currentPage,
                     showPrev = state.canScrollBackward,
                     showNext = state.canScrollForward,
-                    chooses = mainState.choose,
+                    chooses = choose,
                     onChooseClick = {
+                        onNextTheory(it)
                         coroutineScope.launch {
                             state.animateScrollToPage(it)
                             scrollState.scrollTo(0)
@@ -237,7 +265,9 @@ internal fun QuestionScreen(
                     },
 
                     onNext = {
+
                         coroutineScope.launch {
+                            onNextTheory(state.currentPage)
                             state.animateScrollToPage(state.currentPage + 1)
                             scrollState.scrollTo(0)
                         }
@@ -267,9 +297,10 @@ internal fun QuestionScreen(
         )
         AllQuestionBottomSheet(
             show = show,
-            chooses = mainState.choose,
+            chooses = choose,
             onChooseClick = {
                 show = false
+                onNextTheory(it)
                 coroutineScope
                     .launch {
                         state.animateScrollToPage(it)
@@ -437,6 +468,8 @@ fun QuestionScreenPreview() {
         ).toImmutableList()
     QuestionScreen(
         questions = questions,
-        mainState = MainState(listOfAllExams = emptyList<ExamUiState>().toImmutableList())
+        isMultiPart = false,
+        isObjPart = true,
+        mainStat = MainState(listOfAllExams = emptyList<ExamUiState>().toImmutableList())
     )
 }

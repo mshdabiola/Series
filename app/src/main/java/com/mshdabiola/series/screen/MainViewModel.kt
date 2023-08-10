@@ -16,7 +16,6 @@ import com.mshdabiola.ui.state.ScoreUiState
 import com.mshdabiola.ui.toQuestionUiState
 import com.mshdabiola.ui.toUi
 import com.mshdabiola.util.FileManager
-import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -61,11 +60,17 @@ class MainViewModel(
     val mainState = _mainState.asStateFlow()
 
 
-private val _objQuestionsList = MutableStateFlow(emptyList<QuestionUiState>().toImmutableList())
-    val objQuestionsList = _objQuestionsList.asStateFlow()
+    private val _allQuestions = MutableStateFlow(emptyList<QuestionUiState>().toImmutableList())
+    val allQuestions = _allQuestions.asStateFlow()
 
-    private val _theQuestionsList = MutableStateFlow(emptyList<QuestionUiState>().toImmutableList())
-    val theQuestionsList = _theQuestionsList.asStateFlow()
+    private val _isMultiPart = MutableStateFlow(false)
+    val isMultiPart= _isMultiPart.asStateFlow()
+
+    private val _isObjPart = MutableStateFlow(false)
+    val isObjPart= _isObjPart.asStateFlow()
+
+//    private val _theQuestionsList = MutableStateFlow(emptyList<QuestionUiState>().toImmutableList())
+//    val theQuestionsList = _theQuestionsList.asStateFlow()
 
     init {
 
@@ -125,80 +130,61 @@ private val _objQuestionsList = MutableStateFlow(emptyList<QuestionUiState>().to
                 }
             }
 //            "Objective & Theory","Theory","Objective"
-            val loadTheo = when (type) {
-                ExamType.YEAR -> {
-                    when {
-                        exam.isObjOnly -> false
-                        typeIndex == 2 -> false
-                        else -> true
-                    }
 
-                }
 
-                ExamType.FAST_FINGER -> {
-                    false
-                }
 
-                ExamType.RANDOM -> {
-                    false
-                }
-            }
-            val loadObj = when (type) {
-                ExamType.YEAR -> {
-                    when (typeIndex) {
-                        1 -> false
-                        else -> true
-                    }
-
-                }
-
-                ExamType.FAST_FINGER -> {
-                    true
-                }
-
-                ExamType.RANDOM -> {
-                    true
-                }
-            }
-
-            val objQuestions =
-                if (loadObj)
-                    when (type) {
-                        ExamType.YEAR, ExamType.RANDOM -> {
-                            getObjQuestions(exam.id)
+            val allQuestions =
+                when (type) {
+                    ExamType.YEAR -> {
+                        val list=getAllQuestions(exam.id)
+                        when(typeIndex){
+                            0->{
+                                _isObjPart.update { true }
+                                _isMultiPart.update { true }
+                                list
+                            }
+                            1->{
+                                _isObjPart.update { false }
+                                _isMultiPart.update { false }
+                                list.filter { it.isTheory }
+                            }
+                            else->{
+                                _isObjPart.update { true }
+                                _isMultiPart.update { false }
+                                list.filter { it.isTheory.not() }
+                            }
                         }
-
-                        ExamType.FAST_FINGER -> {
-                            getObjQuestions(null)
-                        }
-
                     }
-                else
-                    emptyList<QuestionUiState>().toImmutableList()
-            val theQuestion = if (loadTheo)
-                getTheQuestions(exam.id)
-            else
-                emptyList<QuestionUiState>().toImmutableList()
+                    ExamType.RANDOM->{
+                        getAllQuestions(exam.id)
+                    }
+
+                    ExamType.FAST_FINGER -> {
+                        getAllQuestions(null)
+                    }
+
+                }
+
 
 
             val time = when (type) {
                 ExamType.RANDOM, ExamType.YEAR -> 20L
                 ExamType.FAST_FINGER -> type.secondPerQuestion.toLong()
-            } + if (loadTheo) 40L else 0L
-            val totalTime = (objQuestions.size+theQuestion.size) * time
-            val choose = List(objQuestions.size) { -1 }
+            }
+
+            val totalTime = (allQuestions.size) * time
+            val chooseObj = List(allQuestions.filter { it.isTheory.not() }.size) { -1 }
+            val chooseThe = List(allQuestions.filter { it.isTheory }.size) { -1 }
 
             _mainState.update {
                 it.copy(
                     currentExam = exam.copy(totalTime = totalTime),
-                    choose = choose.toImmutableList()
+                    chooseObj = chooseObj.toImmutableList(),
+                    chooseThe = chooseThe.toImmutableList()
                 )
             }
-            _objQuestionsList.update {
-                objQuestions
-            }
-            _theQuestionsList.update {
-                theQuestion
+            _allQuestions.update {
+                allQuestions.toImmutableList()
             }
 
         }
@@ -212,10 +198,10 @@ private val _objQuestionsList = MutableStateFlow(emptyList<QuestionUiState>().to
 
             val que =
                 if (currentExam1.isSubmit)
-                    emptyList<QuestionUiState>().toImmutableList()
+                    emptyList()
                 else
 
-                    getObjQuestions(currentExam1.id)
+                    getAllQuestions(currentExam1.id)
             val exam = mainState.value.listOfAllExams.find {
                 currentExam1.id == it.id
             }
@@ -227,17 +213,17 @@ private val _objQuestionsList = MutableStateFlow(emptyList<QuestionUiState>().to
                         totalTime = currentExam1.totalTime,
                         isSubmit = currentExam1.isSubmit
                     ),
-                    choose = currentExam1.choose.toImmutableList(),
+                    chooseObj = currentExam1.choose.toImmutableList(),
                 )
             }
-            _objQuestionsList.update {
-                que
+            _allQuestions.update {
+                que.toImmutableList()
             }
         }
     }
 
 
-    private suspend fun getObjQuestions(id: Long?): ImmutableList<QuestionUiState> {
+    private suspend fun getAllQuestions(id: Long?): List<QuestionUiState> {
 
         val que = if (id == null)
             questionRepository.getRandom(6)
@@ -248,58 +234,48 @@ private val _objQuestionsList = MutableStateFlow(emptyList<QuestionUiState>().to
         return que
             .map { questionFulls ->
                 questionFulls
-                    .filter { it.isTheory.not() }
                     .map {
                         it.copy(
                             options = it.options.shuffled()
                         )
                             .toQuestionUiState()
-                            .copy(title = getTitle(it.examId, it.nos, false))
+                            .copy(title = getTitle(it.examId, it.nos, it.isTheory))
 
 
-                    }.toImmutableList()
+                    }
             }
-            .firstOrNull() ?: emptyList<QuestionUiState>().toImmutableList()
+            .firstOrNull() ?: emptyList<QuestionUiState>()
     }
-
-    private suspend fun getTheQuestions(id: Long): ImmutableList<QuestionUiState> {
-
-        val que =
-            questionRepository
-                .getAllWithExamId(id)
-
-        return que
-            .map { questionFulls ->
-                questionFulls
-                    .filter { it.isTheory }
-                    .map {
-                        it.copy(
-                            options = it.options.shuffled()
-                        )
-                            .toQuestionUiState()
-                            .copy(title = getTitle(it.examId, it.nos, true))
-
-
-                    }.toImmutableList()
-            }
-            .firstOrNull() ?: emptyList<QuestionUiState>().toImmutableList()
-    }
-
 
     fun onOption(index: Int, optionIndex: Int) {
+
+//
+            _mainState.update {
+                val choose = it.chooseObj.toMutableList()
+                choose[index] = if (choose[index] == optionIndex) -1 else optionIndex
+                it.copy(
+                    chooseObj = choose.toImmutableList()
+                )
+            }
+
+        //add and remove Choose
+    }
+    fun onNextTheory(index: Int) {
+
+        if (isObjPart.value)
+            return
 //
         _mainState.update {
-            val choose = it.choose.toMutableList()
-            choose[index] = if (choose[index] == optionIndex) -1 else optionIndex
+            val choose = it.chooseThe.toMutableList()
+            choose[index] = 2
             it.copy(
-                choose = choose.toImmutableList()
+                chooseThe = choose.toImmutableList()
             )
         }
 
         //add and remove Choose
-
-
     }
+
 
     fun getGeneraPath(imageType: FileManager.ImageType, examId: Long): String {
         return when (imageType) {
@@ -320,7 +296,7 @@ private val _objQuestionsList = MutableStateFlow(emptyList<QuestionUiState>().to
                     currentTime = id.currentTime,
                     totalTime = id.totalTime,
                     isSubmit = id.isSubmit,
-                    choose = mainState.value.choose
+                    choose = mainState.value.chooseObj
                 )
             )
 
@@ -360,7 +336,7 @@ private val _objQuestionsList = MutableStateFlow(emptyList<QuestionUiState>().to
     }
 
     fun onFinishBack() {
-        _objQuestionsList.update {
+        _allQuestions.update {
             emptyList<QuestionUiState>().toImmutableList()
         }
         _mainState.update {
@@ -378,7 +354,7 @@ private val _objQuestionsList = MutableStateFlow(emptyList<QuestionUiState>().to
     }
 
     fun onRetry() {
-        _objQuestionsList.update {
+        _allQuestions.update {
             emptyList<QuestionUiState>().toImmutableList()
         }
         mainState.value.currentExam?.id?.let { id ->
@@ -392,11 +368,12 @@ private val _objQuestionsList = MutableStateFlow(emptyList<QuestionUiState>().to
     }
 
     suspend fun markExam() {
-        val answerIndex = objQuestionsList.value
-            ?.map { questionUiState ->
+        val answerIndex = allQuestions.value
+            .filter { it.isTheory.not() }
+            .map { questionUiState ->
                 questionUiState.options.indexOfFirst { it.isAnswer }
             } ?: return
-        val choose = mainState.value.choose
+        val choose = mainState.value.chooseObj
         val size = choose.size
         val corrent = answerIndex
             .mapIndexed { index, i ->
@@ -432,6 +409,12 @@ private val _objQuestionsList = MutableStateFlow(emptyList<QuestionUiState>().to
         val exam = mainState.value.listOfAllExams.find { it.id == examId }
 
         return "Waec ${exam?.year} ${if (isTheory) "Theo" else "Obj"} Q$no"
+    }
+
+    fun togglePart() {
+        _isObjPart.update {
+            !it
+        }
     }
 
 

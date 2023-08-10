@@ -9,7 +9,10 @@ data class MainState(
     val title: String = "Title",
     val currentExam: ExamUiState? = null,
     val listOfAllExams: ImmutableList<ExamUiState>,
-    val choose: ImmutableList<Int> = emptyList<Int>().toImmutableList(),
+    val chooseObj: ImmutableList<Int> = emptyList<Int>().toImmutableList(),
+    val chooseThe: ImmutableList<Int> = emptyList<Int>().toImmutableList(),
+    val isMultiplePart : Boolean=false,
+    val isObjPath:Boolean=true,
     val score: ScoreUiState = ScoreUiState(
         correct = 0,
         completed = 0,
