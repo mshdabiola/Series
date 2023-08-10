@@ -6,6 +6,7 @@ import com.mshdabiola.data.repository.inter.IExamRepository
 import com.mshdabiola.model.data.Exam
 import com.mshdabiola.model.data.ExamWithSub
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOn
 
 internal class ExamRepository(
     private val iExamDao: IExamDao,
@@ -18,8 +19,17 @@ internal class ExamRepository(
             .getAllWithSub()
     }
 
+    override fun getOne(id:Long): Flow<Exam> {
+        return iExamDao
+            .getOne(id)
+    }
+
     override suspend fun deleteAll() {
         iExamDao.deleteAll()
+    }
+
+    override suspend fun updateType(id: Long, isOnlyObj: Boolean) {
+        iExamDao.updateType(id, isOnlyObj)
     }
 
     override suspend fun insertAll(exams: List<Exam>) {

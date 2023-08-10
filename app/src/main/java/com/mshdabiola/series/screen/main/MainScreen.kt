@@ -143,7 +143,7 @@ internal fun MainScreen(
             }
 
             StartCard(
-                exams = mainState.exams,
+                exams = mainState.listOfAllExams,
                 isSubmit = mainState.currentExam?.isSubmit ?: true,
                 onClick = {yearIndex,typeIndex->
                     onStartExam(ExamType.YEAR, yearIndex,typeIndex)
@@ -179,12 +179,13 @@ internal fun MainScreen(
 fun MainScreenPreview() {
     MainScreen(
         mainState = MainState(
-            exams = listOf(
+            listOfAllExams = listOf(
                 ExamUiState(
                     id = 7353L,
                     subjectID = 7692L,
                     year = 6756L,
-                    subject = "Taya"
+                    subject = "Taya",
+                    isObjOnly = false
                 )
             ).toImmutableList()
         )

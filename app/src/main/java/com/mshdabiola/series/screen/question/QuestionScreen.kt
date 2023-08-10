@@ -69,12 +69,12 @@ internal fun QuestionScreen(
 ) {
 
 
-    val questions = viewModel.questionsList.collectAsState()
+    val questions = viewModel.objQuestionsList.collectAsState()
     val mainState = viewModel.mainState.collectAsStateWithLifecycle()
 
 
     QuestionScreen(
-        questions = questions.value,
+        questions = questions.value ?: emptyList<QuestionUiState>().toImmutableList(),
         mainState = mainState.value,
         back = onBack,
         onFinish = {
@@ -437,6 +437,6 @@ fun QuestionScreenPreview() {
         ).toImmutableList()
     QuestionScreen(
         questions = questions,
-        mainState = MainState(exams = emptyList<ExamUiState>().toImmutableList())
+        mainState = MainState(listOfAllExams = emptyList<ExamUiState>().toImmutableList())
     )
 }

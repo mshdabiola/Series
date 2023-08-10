@@ -25,6 +25,7 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
@@ -57,12 +58,16 @@ class MainViewModel(
 
 
     private val _mainState =
-        MutableStateFlow(MainState(exams = emptyList<ExamUiState>().toImmutableList()))
+        MutableStateFlow(MainState(listOfAllExams = emptyList<ExamUiState>().toImmutableList()))
     val mainState = _mainState.asStateFlow()
 
 
-    private val _questionsList = MutableStateFlow(emptyList<QuestionUiState>().toImmutableList())
-    val questionsList = _questionsList.asStateFlow()
+
+    private val _objQuestionsList = MutableStateFlow<ImmutableList<QuestionUiState>?>(null)
+    val objQuestionsList = _objQuestionsList.asStateFlow()
+
+    private val _theQuestionsList = MutableStateFlow<ImmutableList<QuestionUiState>?>(null)
+    val theQuestionsList = _theQuestionsList.asStateFlow()
 
     init {
 
@@ -89,7 +94,7 @@ class MainViewModel(
                 }
                 .collectLatest { exam ->
                     _mainState.update {
-                        it.copy(exams = exam)
+                        it.copy(listOfAllExams = exam)
                     }
                 }
         }
@@ -110,19 +115,19 @@ class MainViewModel(
 
             val exam = when (type) {
                 ExamType.YEAR -> {
-                    mainState.value.exams[yearIndex]
+                    mainState.value.listOfAllExams[yearIndex]
                 }
 
                 ExamType.FAST_FINGER -> {
-                    mainState.value.exams[0]
+                    mainState.value.listOfAllExams[0]
                 }
 
                 ExamType.RANDOM -> {
-                    mainState.value.exams.random()
+                    mainState.value.listOfAllExams.random()
                 }
             }
 
-            val questions = when (type) {
+            val objQuestions = when (type) {
                 ExamType.YEAR, ExamType.RANDOM -> {
                     getQuestions(exam.id)
                 }
@@ -138,8 +143,8 @@ class MainViewModel(
             }
 
 
-            val totalTime = questions.size * time
-            val choose = List(questions.size) { -1 }
+            val totalTime = objQuestions.size * time
+            val choose = List(objQuestions.size) { -1 }
 
             _mainState.update {
                 it.copy(
@@ -147,8 +152,10 @@ class MainViewModel(
                     choose = choose.toImmutableList()
                 )
             }
-            _questionsList.update {
-                questions
+            Timber.e("list ${objQuestions.joinToString()}")
+            Timber.e("exam $exam")
+            _objQuestionsList.update {
+                objQuestions
             }
 
         }
@@ -166,7 +173,7 @@ class MainViewModel(
                 else
 
                     getQuestions(currentExam1.id)
-            val exam = mainState.value.exams.find {
+            val exam = mainState.value.listOfAllExams.find {
                 currentExam1.id == it.id
             }
 
@@ -180,7 +187,7 @@ class MainViewModel(
                     choose = currentExam1.choose.toImmutableList(),
                 )
             }
-            _questionsList.update {
+            _objQuestionsList.update {
                 que
             }
         }
@@ -285,7 +292,7 @@ class MainViewModel(
     }
 
     fun onFinishBack() {
-        _questionsList.update {
+        _objQuestionsList.update {
             emptyList<QuestionUiState>().toImmutableList()
         }
         _mainState.update {
@@ -303,11 +310,11 @@ class MainViewModel(
     }
 
     fun onRetry() {
-        _questionsList.update {
+        _objQuestionsList.update {
             emptyList<QuestionUiState>().toImmutableList()
         }
         mainState.value.currentExam?.id?.let { id ->
-            val index = mainState.value.exams.indexOfFirst { it.id == id }
+            val index = mainState.value.listOfAllExams.indexOfFirst { it.id == id }
             Timber.e("retry index is $index")
             TODO("add type index")
             startExam(type, index,-1)
@@ -317,10 +324,10 @@ class MainViewModel(
     }
 
     suspend fun markExam() {
-        val answerIndex = questionsList.value
-            .map { questionUiState ->
+        val answerIndex = objQuestionsList.value
+            ?.map { questionUiState ->
                 questionUiState.options.indexOfFirst { it.isAnswer }
-            }
+            } ?: return
         val choose = mainState.value.choose
         val size = choose.size
         val corrent = answerIndex
@@ -354,7 +361,7 @@ class MainViewModel(
     }
 
     private fun getTitle(examId: Long, no: Long): String {
-        val exam = mainState.value.exams.find { it.id == examId }
+        val exam = mainState.value.listOfAllExams.find { it.id == examId }
 
         return "Waec ${exam?.year} Q$no"
     }

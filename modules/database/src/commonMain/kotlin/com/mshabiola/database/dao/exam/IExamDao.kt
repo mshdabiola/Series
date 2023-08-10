@@ -20,4 +20,6 @@ interface IExamDao {
 
     fun getAllBySubjectIdWithSub(subjectID: Long): Flow<List<ExamWithSub>>
     suspend fun deleteAll()
+
+    suspend fun updateType(id: Long,isOnlyObj:Boolean)
 }

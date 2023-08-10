@@ -2,6 +2,7 @@ CREATE TABLE IF NOT EXISTS examEntity(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     subjectId INTEGER NOT NULL,
     year INTEGER NOT NULL,
+    isObjOnly INTEGER DEFAULT 0,
    FOREIGN KEY (subjectId) REFERENCES subjectEntity(id)
    ON DELETE CASCADE
 );
@@ -9,7 +10,7 @@ CREATE TABLE IF NOT EXISTS examEntity(
 INSERT INTO subjectEntity
 VALUES (1,"English");
 INSERT INTO examEntity
-VALUES (1,1,2012);
+VALUES (1,1,2012,0);
 
 getById:
 SELECT *
@@ -27,11 +28,11 @@ SELECT *
 FROM  examEntity;
 
 insert:
-INSERT INTO examEntity(subjectId,year)
+INSERT INTO examEntity(subjectId,year,isObjOnly)
 VALUES ?;
 
 insertOrReplace:
-INSERT OR REPLACE INTO examEntity(id,subjectId,year)
+INSERT OR REPLACE INTO examEntity(id,subjectId,year,isObjOnly)
 VALUES ?;
 
 deleteByID:
@@ -58,5 +59,10 @@ WHERE subjectId =?;
 
 deleteAll:
 DELETE FROM examEntity;
+
+updateType:
+UPDATE examEntity
+SET isObjOnly =?
+WHERE id = ?;
 
 

@@ -64,15 +64,20 @@ class ExInPort(
 
     suspend fun copyImage(dir: String, subject: List<Subject>) {
         withContext(Dispatchers.IO) {
-            subject.forEach {
-                val from = File(FileManager.getSubjectPath(it.id))
-                val to = File(dir, it.name)
-                if (to.exists().not()) {
-                    to.mkdirs()
-                }
+            try {
+                subject.forEach {
+                    val from = File(FileManager.getSubjectPath(it.id))
+                    val to = File(dir, it.name)
+                    if (to.exists().not()) {
+                        to.mkdirs()
+                    }
 
-                from.copyRecursively(to, true)
+                    from.copyRecursively(to, true)
+                }
+            }catch (e:Exception){
+                e.printStackTrace()
             }
+
 
         }
     }

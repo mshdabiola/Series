@@ -63,7 +63,7 @@ class MainViewModel(
     private val _subject = mutableStateOf(SubjectUiState(name = ""))
     val subject: State<SubjectUiState> = _subject
 
-    private val _exam = mutableStateOf(ExamUiState(subjectID = -1L, year = -1L, subject = ""))
+    private val _exam = mutableStateOf(ExamUiState(subjectID = -1L, year = -1L, subject = "", isObjOnly = false))
     val exam: State<ExamUiState> = _exam
 
 

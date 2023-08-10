@@ -59,10 +59,10 @@ import timber.log.Timber
 @Composable
 internal fun FinishScreen(onBack: () -> Unit, toQuestion: () -> Unit, viewModel: MainViewModel) {
 
-    val questions = viewModel.questionsList.collectAsStateWithLifecycle()
+    val questions = viewModel.objQuestionsList.collectAsStateWithLifecycle()
     val mainState = viewModel.mainState.collectAsStateWithLifecycle()
     FinishScreen(
-        questions = questions.value,
+        questions = questions.value ?: emptyList<QuestionUiState>().toImmutableList(),
         mainState = mainState.value,
         back = {
             onBack()
@@ -356,7 +356,7 @@ fun FinishScreenPreview() {
         mainState = MainState(
             title = "Jade",
             currentExam = null,
-            exams = emptyList<ExamUiState>().toImmutableList(),
+            listOfAllExams = emptyList<ExamUiState>().toImmutableList(),
             choose = emptyList<Int>().toImmutableList()
         )
     )

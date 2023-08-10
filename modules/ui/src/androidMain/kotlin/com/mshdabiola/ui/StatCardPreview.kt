@@ -20,7 +20,8 @@ internal actual fun StatCardPreview() {
                 id = 1,
                 subjectID = 2,
                 year = 2015,
-                subject = "Jeanpaul"
+                subject = "Jeanpaul",
+                isObjOnly = false
             )
         ).toImmutableList(),
         isSubmit = false

@@ -3,6 +3,8 @@ package com.mshdabiola.series.feature.exam
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.snapshotFlow
+import co.touchlab.kermit.Logger
+import com.mshdabiola.data.repository.inter.IExamRepository
 import com.mshdabiola.data.repository.inter.IInstructionRepository
 import com.mshdabiola.data.repository.inter.IQuestionRepository
 import com.mshdabiola.data.repository.inter.ISettingRepository
@@ -27,9 +29,11 @@ import com.mshdabiola.util.Converter
 import com.mshdabiola.util.FileManager
 import com.mshdabiola.util.SvgObject
 import kotlinx.collections.immutable.toImmutableList
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
@@ -40,6 +44,7 @@ class ExamViewModel(
     private val questionRepository: IQuestionRepository,
     private val instructionRepository: IInstructionRepository,
     private val topicRepository: ITopicRepository,
+    private val examRepository: IExamRepository,
     private val converter: Converter,
     private val settingRepository: ISettingRepository,
 
@@ -136,6 +141,18 @@ class ExamViewModel(
         }
     }
 
+    //exam
+    private fun updateExamType(isObjOnly:Boolean){
+         viewModelScope.launch (Dispatchers.IO){
+             val exam=examRepository.getOne(examId).firstOrNull()?: return@launch
+
+             if (exam.isObjOnly!=isObjOnly){
+                 examRepository.updateType(examId,isObjOnly)
+             }
+         }
+
+    }
+
     //topic
 
     val topicUiStates = topicRepository
@@ -204,8 +221,9 @@ class ExamViewModel(
         question2 = question2.copy(nos = number)
 
         viewModelScope.launch {
-            log("insert")
+            val allIsObj=questions.value.all { it.isTheory.not() } &&  question2.isTheory.not()
             questionRepository.insert(question2.toQuestionWithOptions(examId = examId))
+            updateExamType(isObjOnly =allIsObj)
         }
         _question.value = getEmptyQuestion()
     }
