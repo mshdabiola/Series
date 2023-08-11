@@ -28,8 +28,6 @@ import com.mshdabiola.series.nav.RootComp
 import org.koin.core.context.GlobalContext.startKoin
 import java.util.prefs.Preferences
 
-//import com.toxicbakery.logging.Arbor
-//import com.toxicbakery.logging.Seedling
 
 @OptIn(ExperimentalDecomposeApi::class)
 fun mainApp(appArgs: AppArgs) {
@@ -109,7 +107,7 @@ fun main() {
     }
 
     val appArgs = AppArgs(
-        appName = "Series", // To show on title bar
+        appName = "Series Editor", // To show on title bar
         version = "v1.0.0", // To show on title inside brackets
         versionCode = 1// To compare with latest version code (in case if you want to prompt update)
     )

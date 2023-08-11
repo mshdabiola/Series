@@ -18,7 +18,7 @@ kotlin {
                 implementation(project(":modules:model"))
                 implementation(project(":modules:database"))
                 implementation(project(":modules:setting"))
-                implementation(project(":modules:network"))
+               // implementation(project(":modules:network"))
                 implementation(libs.kotlinx.coroutines.core)
             }
         }

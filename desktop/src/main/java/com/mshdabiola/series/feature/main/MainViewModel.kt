@@ -4,7 +4,6 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import com.mshdabiola.data.repository.inter.IExInPortRepository
 import com.mshdabiola.data.repository.inter.IExamRepository
-import com.mshdabiola.data.repository.inter.INetworkRepository
 import com.mshdabiola.data.repository.inter.ISettingRepository
 import com.mshdabiola.data.repository.inter.ISubjectRepository
 import com.mshdabiola.model.data.Exam
@@ -34,7 +33,7 @@ class MainViewModel(
     private val settingRepository: ISettingRepository,
     private val iSubjectRepository: ISubjectRepository,
     private val iExamRepository: IExamRepository,
-    private val networkRepository: INetworkRepository,
+    //private val networkRepository: INetworkRepository,
     private val iExInPortRepository: IExInPortRepository,
     private val exInPort: ExInPort
 ) : ViewModel() {
@@ -110,20 +109,20 @@ class MainViewModel(
         viewModelScope.launch {
 //            settingRepository.setName("Ademola")
         }
-        viewModelScope.launch(Dispatchers.IO) {
-            try {
-                networkRepository.gotoGoogle()
-            } catch (e: Exception) {
-                //   e.printStackTrace()
-            }
-
-
-            settingRepository.dummy
-                .collectLatest {
-                    println(it)
-                }
-
-        }
+//        viewModelScope.launch(Dispatchers.IO) {
+//            try {
+//                networkRepository.gotoGoogle()
+//            } catch (e: Exception) {
+//                //   e.printStackTrace()
+//            }
+//
+//
+//            settingRepository.dummy
+//                .collectLatest {
+//                    println(it)
+//                }
+//
+//        }
 
 //        viewModelScope.launch(Dispatchers.IO) {
 //            settingRepository.setDummy(DummySetting("abiola", "female"))

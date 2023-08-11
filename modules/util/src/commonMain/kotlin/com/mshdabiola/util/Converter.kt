@@ -74,7 +74,7 @@ class Converter {
                 Pair(it[0].trim(), it[1])
             }
                 .onEach { println(it) }
-                .forEachIndexed { index, pair ->
+                .forEachIndexed { _, pair ->
                     when (pair.first) {
                         "q" -> {
                             if (question != null) {

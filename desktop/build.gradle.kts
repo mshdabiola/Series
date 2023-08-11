@@ -34,14 +34,8 @@ dependencies {
     testImplementation(kotlin("test"))
     testImplementation(project(":modules:testing"))
 
-    // Dagger : A fast dependency injector for Android and Java.
-//    kapt("com.google.dagger:dagger-compiler:2.44.2")
-//    api("com.google.dagger:dagger:2.44.2")
 
-    // Decompose : Decompose
-    val decomposeVersion = "2.0.0-alpha-02"
     implementation(libs.decompose.core)
-    //implementation(libs.decompose.android)
     implementation(libs.decompose.compose.jetbrains)
     implementation(libs.koin.core)
     implementation(libs.kermit.log)

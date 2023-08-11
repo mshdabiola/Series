@@ -28,7 +28,7 @@ class DefaultRootComp(
         get() = _stack
     private val _stack = childStack(
         source = navigation,
-        initialConfiguration = Config.Main,
+        initialConfiguration = Config.Splash,
         handleBackButton = true,
         childFactory = ::factory
 
