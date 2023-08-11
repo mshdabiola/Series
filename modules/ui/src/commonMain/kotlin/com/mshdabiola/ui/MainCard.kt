@@ -4,6 +4,9 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowColumn
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -38,12 +41,14 @@ import kotlinx.datetime.Instant
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun ContinueCard(
     onClick: () -> Unit = {},
     year: Long,
     time2: Long,
     progress: Float,
+    part : String,
     enabled: Boolean,
 ) {
     val color = LocalTextStyle.current.color.copy(alpha = 0.7f)
@@ -63,10 +68,32 @@ fun ContinueCard(
                 style = MaterialTheme.typography.bodySmall,
                 color = color
             )
+            FlowRow (
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(16.dp),
+               // verticalAlignment = Alignment.Start,
+                maxItemsInEachRow = 2
+            ) {
+                Text(modifier = Modifier.weight(0.4f), text = "Year : $year")
+                Text(modifier = Modifier.weight(0.6f), text = "Remaining: $timeString")
+                Text(modifier = Modifier.weight(0.4f), text = "Progress : ${(progress * 100).toInt()}%")
+                Text(modifier = Modifier.weight(0.6f), text = "Type : $part")
+            }
+            Row (
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ){
 
-            Text("Year : $year")
-            Text("Remaining: $timeString")
-            Text("Question progress : ${(progress * 100).toInt()}%")
+            }
+            Row (
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ){
+
+            }
+
+
+
 
 
             LinearProgressIndicator(
@@ -107,7 +134,7 @@ fun StartCard(
 
         LaunchedEffect(yearIndex){
             typeIndex = if (exams[yearIndex].isObjOnly){
-                2
+                1
             }else{
                 0
             }

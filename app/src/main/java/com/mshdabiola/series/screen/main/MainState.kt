@@ -11,8 +11,6 @@ data class MainState(
     val listOfAllExams: ImmutableList<ExamUiState>,
     val chooseObj: ImmutableList<Int> = emptyList<Int>().toImmutableList(),
     val chooseThe: ImmutableList<Int> = emptyList<Int>().toImmutableList(),
-    val isMultiplePart : Boolean=false,
-    val isObjPath:Boolean=true,
     val score: ScoreUiState = ScoreUiState(
         correct = 0,
         completed = 0,

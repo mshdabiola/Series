@@ -8,7 +8,9 @@ data class CurrentExam(
     val currentTime: Long = 0,
     val totalTime: Long = 4,
     val isSubmit: Boolean = false,
-    val choose: List<Int>
+    val examPart : Int=0,
+    val chooseObj: List<Int>,
+    val chooseThe: List<Int>,
 )
 
 

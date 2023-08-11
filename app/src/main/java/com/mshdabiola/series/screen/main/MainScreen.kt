@@ -33,6 +33,7 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.testTagsAsResourceId
 import androidx.compose.ui.text.style.TextAlign
@@ -141,6 +142,7 @@ internal fun MainScreen(
                     progress = finishPercent,
                     enabled = it.isSubmit.not(),
                     time2 = it.totalTime - it.currentTime,
+                    part = stringArrayResource(id = com.mshdabiola.ui.R.array.exam_part)[it.examPart],
                     onClick = {
                         onQuestion()
                     }
@@ -161,7 +163,7 @@ internal fun MainScreen(
                     painter = painterResource(id = R.drawable.layer__1),
                     onClick = {
 
-                        onStartExam(ExamType.RANDOM, -1,-1)
+                        onStartExam(ExamType.RANDOM, -1,2)
                         onQuestion()
                     }
                 )

@@ -4,6 +4,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.mshdabiola.ui.com.mshdabiola.ui.LargeDropdownMenu
 import com.mshdabiola.ui.com.mshdabiola.ui.LargeDropdownMenuItem
@@ -35,7 +36,8 @@ internal actual fun ContinueCardPreview() {
         year = 2015,
         progress = 0.5f,
         time2 = 23,
-        enabled = false
+        enabled = false,
+        part = "Objective and Theory"
     )
 
 }
@@ -84,14 +86,14 @@ internal actual fun ExamType(
     selectedOption: Int,
     onChange: (Int) -> Unit
 ) {
-    val types= listOf("Objective & Theory","Theory","Objective")
+    val types= stringArrayResource(id = R.array.exam_part)
 
     LargeDropdownMenu(
         modifier=modifier,
         enabled = enabled,
         label = "Exam Type",
         notSetLabel = "Select Exam Type",
-        items = types,
+        items = types.toList(),
         selectedIndex = selectedOption,
         selectedItemToString = {it},
         onItemSelected = { index: Int, _: String -> onChange(index) })
