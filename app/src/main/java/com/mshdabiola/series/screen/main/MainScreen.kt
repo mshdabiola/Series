@@ -171,7 +171,7 @@ internal fun MainScreen(
                     title = "Fast finger",
                     painter = painterResource(id = R.drawable.layer_1),
                     onClick = {
-                        onStartExam(ExamType.FAST_FINGER, -1,-1)
+                        onStartExam(ExamType.FAST_FINGER, -1,2)
                         onQuestion()
                     }
                 )

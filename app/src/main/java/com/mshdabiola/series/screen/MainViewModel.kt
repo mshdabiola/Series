@@ -168,13 +168,15 @@ class MainViewModel(
                 ExamType.FAST_FINGER -> type.secondPerQuestion.toLong()
             }
 
-            val totalTime = (allQuestions.size) * time
+            val objTime = (allQuestions.filter { it.isTheory.not() }.size) * time
+            val theoryTime=(allQuestions.filter { it.isTheory }.size) * 40L
+            Timber.e("tTime $theoryTime objTime $objTime")
             val chooseObj = List(allQuestions.filter { it.isTheory.not() }.size) { -1 }
-            val chooseThe = List(allQuestions.filter { it.isTheory }.size) { -1 }
+            val chooseThe = List(allQuestions.filter { it.isTheory }.size) { if (it==0) 2 else -1 }
 
             _mainState.update {
                 it.copy(
-                    currentExam = exam.copy(totalTime = totalTime, examPart =typeIndex),
+                    currentExam = exam.copy(totalTime = objTime+theoryTime, examPart =typeIndex),
                     chooseObj = chooseObj.toImmutableList(),
                     chooseThe = chooseThe.toImmutableList()
                 )
@@ -234,7 +236,7 @@ class MainViewModel(
                         isSubmit = currentExam1.isSubmit
                     ),
                     chooseObj = currentExam1.chooseObj.toImmutableList(),
-                    chooseThe = currentExam1.chooseObj.toImmutableList()
+                    chooseThe = currentExam1.chooseThe.toImmutableList()
                 )
             }
             _allQuestions.update {

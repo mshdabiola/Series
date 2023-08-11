@@ -267,7 +267,7 @@ internal fun QuestionScreen(
                     onNext = {
 
                         coroutineScope.launch {
-                            onNextTheory(state.currentPage)
+                            onNextTheory(state.currentPage+1)
                             state.animateScrollToPage(state.currentPage + 1)
                             scrollState.scrollTo(0)
                         }

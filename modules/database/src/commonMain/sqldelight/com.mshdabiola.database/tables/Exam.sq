@@ -7,10 +7,10 @@ CREATE TABLE IF NOT EXISTS examEntity(
    ON DELETE CASCADE
 );
 
-INSERT INTO subjectEntity
-VALUES (1,"English");
-INSERT INTO examEntity
-VALUES (1,1,2012,0);
+-- INSERT INTO subjectEntity
+-- VALUES (1,"English");
+-- INSERT INTO examEntity
+-- VALUES (1,1,2012,0);
 
 getById:
 SELECT *
