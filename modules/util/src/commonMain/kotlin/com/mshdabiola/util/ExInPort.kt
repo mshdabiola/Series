@@ -74,7 +74,7 @@ class ExInPort(
 
                     from.copyRecursively(to, true)
                 }
-            }catch (e:Exception){
+            } catch (e: Exception) {
                 e.printStackTrace()
             }
 

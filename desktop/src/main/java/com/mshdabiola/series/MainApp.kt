@@ -1,7 +1,6 @@
 package com.mshdabiola.series
 
 
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -12,15 +11,11 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.MenuBar
-import androidx.compose.ui.window.Tray
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.WindowPlacement
 import androidx.compose.ui.window.WindowPosition
 import androidx.compose.ui.window.application
-import androidx.compose.ui.window.rememberNotification
-import androidx.compose.ui.window.rememberTrayState
 import androidx.compose.ui.window.rememberWindowState
-import co.touchlab.kermit.Logger
 import com.arkivanov.decompose.DefaultComponentContext
 import com.arkivanov.decompose.ExperimentalDecomposeApi
 import com.arkivanov.decompose.extensions.compose.jetbrains.lifecycle.LifecycleController
@@ -31,7 +26,6 @@ import com.mshdabiola.series.model.AppArgs
 import com.mshdabiola.series.nav.DefaultRootComp
 import com.mshdabiola.series.nav.RootComp
 import org.koin.core.context.GlobalContext.startKoin
-import java.awt.TrayIcon
 import java.util.prefs.Preferences
 
 //import com.toxicbakery.logging.Arbor
@@ -41,8 +35,8 @@ import java.util.prefs.Preferences
 fun mainApp(appArgs: AppArgs) {
 
     val life = LifecycleRegistry()
-    val preference=Preferences.userRoot()//.node("main")
-    val isLightKey="isLight"
+    val preference = Preferences.userRoot()//.node("main")
+    val isLightKey = "isLight"
 
 
 
@@ -54,11 +48,11 @@ fun mainApp(appArgs: AppArgs) {
             placement = WindowPlacement.Maximized,
             position = WindowPosition.Aligned(Alignment.Center)
         )
-        var isLight by remember { mutableStateOf(preference.getBoolean(isLightKey,false)) }
+        var isLight by remember { mutableStateOf(preference.getBoolean(isLightKey, false)) }
 
         LifecycleController(life, windowState)
 
-     //   var isOpen by remember { mutableStateOf(true) }
+        //   var isOpen by remember { mutableStateOf(true) }
 
 //        if (isOpen){
 //            val trayState= rememberTrayState()
@@ -81,7 +75,7 @@ fun mainApp(appArgs: AppArgs) {
             state = windowState,
         ) {
             MenuBar {
-                Menu("Theme",'T'){
+                Menu("Theme", 'T') {
                     if (!isLight) {
                         Item("Light Theme") {
                             isLight = true
@@ -89,10 +83,10 @@ fun mainApp(appArgs: AppArgs) {
                             preference.flush()
                         }
                     }
-                    if (isLight){
-                        Item("Dark Theme"){
-                            isLight=false
-                            preference.putBoolean(isLightKey,false)
+                    if (isLight) {
+                        Item("Dark Theme") {
+                            isLight = false
+                            preference.putBoolean(isLightKey, false)
                             preference.flush()
                         }
                     }

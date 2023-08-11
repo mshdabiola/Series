@@ -6,7 +6,6 @@ import com.mshdabiola.data.repository.inter.IExamRepository
 import com.mshdabiola.model.data.Exam
 import com.mshdabiola.model.data.ExamWithSub
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flowOn
 
 internal class ExamRepository(
     private val iExamDao: IExamDao,
@@ -19,7 +18,7 @@ internal class ExamRepository(
             .getAllWithSub()
     }
 
-    override fun getOne(id:Long): Flow<Exam> {
+    override fun getOne(id: Long): Flow<Exam> {
         return iExamDao
             .getOne(id)
     }

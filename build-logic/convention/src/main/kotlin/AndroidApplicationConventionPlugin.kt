@@ -37,7 +37,7 @@ class AndroidApplicationConventionPlugin : Plugin<Project> {
                     useSupportLibrary = true
                 }
                 // defaultConfig.resourceConfigurations+= listOf("en")
-                 configureFlavors(this)
+                configureFlavors(this)
                 configureGradleManagedDevices(this)
 
             }
@@ -72,7 +72,6 @@ class AndroidApplicationConventionPlugin : Plugin<Project> {
                     libs.findLibrary("androidx-test-espresso-core").get()
                 )
                 add("androidTestImplementation", libs.findLibrary("androidx-test-ext").get())
-
 
 
             }

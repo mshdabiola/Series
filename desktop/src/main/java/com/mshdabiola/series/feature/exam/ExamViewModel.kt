@@ -3,7 +3,6 @@ package com.mshdabiola.series.feature.exam
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.snapshotFlow
-import co.touchlab.kermit.Logger
 import com.mshdabiola.data.repository.inter.IExamRepository
 import com.mshdabiola.data.repository.inter.IInstructionRepository
 import com.mshdabiola.data.repository.inter.IQuestionRepository
@@ -48,7 +47,7 @@ class ExamViewModel(
     private val converter: Converter,
     private val settingRepository: ISettingRepository,
 
-) : ViewModel() {
+    ) : ViewModel() {
 
 
     private var _question =
@@ -61,7 +60,7 @@ class ExamViewModel(
 
     val questions = questionRepository.getAllWithExamId(examId)
         .map {
-           log(it.joinToString(separator = "\n"))
+            log(it.joinToString(separator = "\n"))
             it
                 .map { it.toQuestionUiState() }
                 .sortedBy { it.isTheory }
@@ -142,14 +141,14 @@ class ExamViewModel(
     }
 
     //exam
-    private fun updateExamType(isObjOnly:Boolean){
-         viewModelScope.launch (Dispatchers.IO){
-             val exam=examRepository.getOne(examId).firstOrNull()?: return@launch
+    private fun updateExamType(isObjOnly: Boolean) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val exam = examRepository.getOne(examId).firstOrNull() ?: return@launch
 
-             if (exam.isObjOnly!=isObjOnly){
-                 examRepository.updateType(examId,isObjOnly)
-             }
-         }
+            if (exam.isObjOnly != isObjOnly) {
+                examRepository.updateType(examId, isObjOnly)
+            }
+        }
 
     }
 
@@ -217,13 +216,14 @@ class ExamViewModel(
         var question2 = _question.value
 
 
-        val number = if (question2.nos == -1L) questions.value.filter { it.isTheory==question2.isTheory }.size.toLong() + 1 else question2.nos
+        val number =
+            if (question2.nos == -1L) questions.value.filter { it.isTheory == question2.isTheory }.size.toLong() + 1 else question2.nos
         question2 = question2.copy(nos = number)
 
         viewModelScope.launch {
-            val allIsObj=questions.value.all { it.isTheory.not() } &&  question2.isTheory.not()
+            val allIsObj = questions.value.all { it.isTheory.not() } && question2.isTheory.not()
             questionRepository.insert(question2.toQuestionWithOptions(examId = examId))
-            updateExamType(isObjOnly =allIsObj)
+            updateExamType(isObjOnly = allIsObj)
         }
         _question.value = getEmptyQuestion()
     }
@@ -288,7 +288,7 @@ class ExamViewModel(
     fun isTheory(isT: Boolean) {
         var question = _question.value
 
-        question = if (isT){
+        question = if (isT) {
             question.copy(
                 answer = listOf(
                     ItemUiState(isEditMode = true, focus = true)
@@ -296,7 +296,7 @@ class ExamViewModel(
                 options = emptyList<OptionUiState>().toImmutableList()
             )
 
-        }else{
+        } else {
             getEmptyQuestion()
         }
         _question.value = question.copy(isTheory = isT)
@@ -348,14 +348,14 @@ class ExamViewModel(
             var list = questions.value.toMutableList()
             onEdit(list)
             var theory = 0L
-            var obj=0L
-            list = list.map{questionUiState ->
-                if (questionUiState.isTheory){
-                    theory+=1
+            var obj = 0L
+            list = list.map { questionUiState ->
+                if (questionUiState.isTheory) {
+                    theory += 1
                     questionUiState.copy(nos = theory)
-                }else{
-                    obj+=1
-                    questionUiState.copy(nos =obj)
+                } else {
+                    obj += 1
+                    questionUiState.copy(nos = obj)
                 }
 
             }.toMutableList()
@@ -423,7 +423,7 @@ class ExamViewModel(
     }
 
     fun delete(questionIndex: Int, index: Int) {
-        var removeOption=false
+        var removeOption = false
         editContent(questionIndex) {
             val oldItem = it[index]
             if (oldItem.type == Type.IMAGE) {
@@ -435,28 +435,28 @@ class ExamViewModel(
                 )
             }
 
-          if (questionIndex<0){
-              if (it.size==1){
-                  it[index]=ItemUiState(isEditMode = true, focus = true)
-              }else{
-                  it.removeAt(index)
-              }
+            if (questionIndex < 0) {
+                if (it.size == 1) {
+                    it[index] = ItemUiState(isEditMode = true, focus = true)
+                } else {
+                    it.removeAt(index)
+                }
 
-          }else{
-              it.removeAt(index)
-              if (it.isEmpty()){
-                  removeOption=true
-              }
-          }
+            } else {
+                it.removeAt(index)
+                if (it.isEmpty()) {
+                    removeOption = true
+                }
+            }
             null
         }
-        if (removeOption){
+        if (removeOption) {
             val quest = _question.value
             val options = quest.options.toMutableList()
-            val option=options.removeAt(questionIndex)
+            val option = options.removeAt(questionIndex)
 
-            if (option.id>0){
-                viewModelScope.launch{
+            if (option.id > 0) {
+                viewModelScope.launch {
                     questionRepository.deleteOption(option.id)
                 }
             }
@@ -520,8 +520,8 @@ class ExamViewModel(
 
             var quest = _question.value
 
-            when(questionIndex){
-                -1->{
+            when (questionIndex) {
+                -1 -> {
                     var qItem = quest.content.toMutableList()
                     val i = items(qItem)
                     if (i != null) {
@@ -532,9 +532,10 @@ class ExamViewModel(
 
                     quest = quest.copy(content = qItem.toImmutableList())
                 }
-                -2->{
+
+                -2 -> {
                     var qItem = quest.answer?.toMutableList()
-                    if (qItem!=null){
+                    if (qItem != null) {
                         val i = items(qItem)
                         if (i != null) {
                             qItem = qItem.mapIndexed { index, itemUi ->
@@ -545,7 +546,8 @@ class ExamViewModel(
                         quest = quest.copy(answer = qItem?.toImmutableList())
                     }
                 }
-                else->{
+
+                else -> {
                     val options = quest.options.toMutableList()
                     var option = options[questionIndex]
                     var qItem = option.content.toMutableList()
@@ -594,7 +596,7 @@ class ExamViewModel(
 
     fun onAddExamFromInput() {
 
-        val count=questions.value.partition { it.isTheory.not() }
+        val count = questions.value.partition { it.isTheory.not() }
 
         viewModelScope.launch {
             try {
@@ -602,8 +604,8 @@ class ExamViewModel(
                     converter.textToQuestion(
                         path = examInputUiState.value.content,
                         examId = examId,
-                        nextObjNumber =count.first.size + 1L,
-                        nextTheoryNumber = count.second.size+1L
+                        nextObjNumber = count.first.size + 1L,
+                        nextTheoryNumber = count.second.size + 1L
                     )
 
                 log(list.joinToString())
@@ -696,7 +698,6 @@ class ExamViewModel(
                 _question.value = question.value.copy(instructionUiState = instr)
             }
 
-            
 
         } catch (e: Exception) {
             _instructIdError.value = true
@@ -910,13 +911,11 @@ class ExamViewModel(
     fun getGeneraPath(imageType: FileManager.ImageType): String {
         return FileManager.getGeneraPath(subjectId, examId, imageType)
     }
-    
 
-    
-    private fun log(msg:String){
+
+    private fun log(msg: String) {
         co.touchlab.kermit.Logger.e(msg)
     }
-
 
 
 }

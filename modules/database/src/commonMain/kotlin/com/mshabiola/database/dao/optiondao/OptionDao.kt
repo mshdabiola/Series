@@ -49,7 +49,7 @@ internal class OptionDao(
 
     override fun getAllByQuestionIdAndExamId(questionId: Long, examId: Long): Flow<List<Option>> {
         return optionQueries
-            .getAllWithQuestionNo(questionId,examId)
+            .getAllWithQuestionNo(questionId, examId)
             .asFlow()
             .mapToList(coroutineDispatcher)
             .map { it.map { it.toModel() } }
@@ -81,7 +81,6 @@ internal class OptionDao(
             optionQueries.deleteByID(id)
         }
     }
-
 
 
     override suspend fun deleteAll() {

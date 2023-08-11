@@ -87,9 +87,9 @@ fun QuestionEditUi(
             }
         }
 
-        if (questionUiState.answer!=null){
+        if (questionUiState.answer != null) {
             Spacer(Modifier.height(4.dp))
-            Text("Answer",modifier=Modifier.padding(horizontal = 16.dp))
+            Text("Answer", modifier = Modifier.padding(horizontal = 16.dp))
             Content(
                 items = questionUiState.answer,
                 generalPath = generalPath,
@@ -124,7 +124,10 @@ fun QuestionUi(
     }
     OutlinedCard(modifier) {
         Column {
-            Text("${if(questionUiState.isTheory)"Theory" else "Objective"} Number ${questionUiState.nos}",modifier=Modifier.padding(horizontal = 16.dp))
+            Text(
+                "${if (questionUiState.isTheory) "Theory" else "Objective"} Number ${questionUiState.nos}",
+                modifier = Modifier.padding(horizontal = 16.dp)
+            )
             ListItem(
                 headlineText = {
                     ContentView(
@@ -202,14 +205,14 @@ fun QuestionUi(
                 }
             }
 
-            if (questionUiState.answer!=null){
+            if (questionUiState.answer != null) {
                 Spacer(Modifier.height(4.dp))
-                Text("Answer",modifier=Modifier.padding(horizontal = 16.dp))
+                Text("Answer", modifier = Modifier.padding(horizontal = 16.dp))
                 ContentView(
                     items = questionUiState.answer,
                     generalPath = generalPath,
 
-                )
+                    )
             }
 
         }

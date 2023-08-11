@@ -180,7 +180,7 @@ internal fun QuestionScreen(
                         if (isMultiPart) {
                             if (isObjPart) {
                                 SuggestionChip(
-                                    colors = if (finishPercentO&&!finishPercentT)
+                                    colors = if (finishPercentO && !finishPercentT)
                                         SuggestionChipDefaults.suggestionChipColors(
                                             containerColor = MaterialTheme.colorScheme.primary,
                                             labelColor = MaterialTheme.colorScheme.onPrimary
@@ -192,7 +192,7 @@ internal fun QuestionScreen(
 
                             } else {
                                 SuggestionChip(
-                                    colors = if (!finishPercentO&&finishPercentT)
+                                    colors = if (!finishPercentO && finishPercentT)
                                         SuggestionChipDefaults.suggestionChipColors(
                                             containerColor = MaterialTheme.colorScheme.primary,
                                             labelColor = MaterialTheme.colorScheme.onPrimary

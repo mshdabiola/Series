@@ -92,5 +92,12 @@ fun TopicUiState.toTopic() = Topic(id = id, subjectId = subjectId, name = name)
 fun Subject.toUi() = SubjectUiState(id, name)
 fun SubjectUiState.toSubject() = Subject(id, name)
 
-fun ExamWithSub.toUi() = ExamUiState(id = id, subjectID = subjectID, year = year, subject = subject, isObjOnly =isObjOnly )
-fun ExamUiState.toExam() = Exam(id, subjectID, isObjOnly,year)
+fun ExamWithSub.toUi() = ExamUiState(
+    id = id,
+    subjectID = subjectID,
+    year = year,
+    subject = subject,
+    isObjOnly = isObjOnly
+)
+
+fun ExamUiState.toExam() = Exam(id, subjectID, isObjOnly, year)

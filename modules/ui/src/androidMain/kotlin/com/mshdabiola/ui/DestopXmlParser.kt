@@ -2,8 +2,8 @@ package com.mshdabiola.ui.com.mshdabiola.ui
 
 
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathFillType
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.StrokeCap
@@ -253,11 +253,12 @@ private fun Element.apptAttr(
         }
 }
 
-private val Element.childrenSequence get() = sequence<Node> {
-    for (i in 0 until childNodes.length) {
-        yield(childNodes.item(i))
+private val Element.childrenSequence
+    get() = sequence<Node> {
+        for (i in 0 until childNodes.length) {
+            yield(childNodes.item(i))
+        }
     }
-}
 
 internal fun parseColorValue(color: String): Int {
     require(color.startsWith("#")) { "Invalid color value $color" }
@@ -267,10 +268,12 @@ internal fun parseColorValue(color: String): Int {
             // #RRGGBB
             Integer.parseUnsignedInt(color.substring(1), 16) or ALPHA_MASK
         }
+
         9 -> {
             // #AARRGGBB
             Integer.parseUnsignedInt(color.substring(1), 16)
         }
+
         4 -> {
             // #RGB
             val v = Integer.parseUnsignedInt(color.substring(1), 16)
@@ -279,6 +282,7 @@ internal fun parseColorValue(color: String): Int {
             k = k or (v and 0xF) * 0x11
             k or ALPHA_MASK
         }
+
         5 -> {
             // #ARGB
             val v = Integer.parseUnsignedInt(color.substring(1), 16)
@@ -288,6 +292,7 @@ internal fun parseColorValue(color: String): Int {
             k = k or (v and 0xF) * 0x11
             k or ALPHA_MASK
         }
+
         else -> ALPHA_MASK
     }
 }

@@ -1,6 +1,5 @@
 package com.mshabiola.database.di
 
-import androidx.sqlite.db.SupportSQLiteDatabase
 import app.cash.sqldelight.driver.android.AndroidSqliteDriver
 import com.mshabiola.database.model.listOfValueAdapter
 import com.mshabiola.database.util.Constant
@@ -31,7 +30,10 @@ actual val databaseModule: Module
 
             SeriesDatabase(
                 driver = driver,
-                questionEntityAdapter = QuestionEntity.Adapter(listOfValueAdapter,listOfValueAdapter),
+                questionEntityAdapter = QuestionEntity.Adapter(
+                    listOfValueAdapter,
+                    listOfValueAdapter
+                ),
                 instructionEntityAdapter = InstructionEntity.Adapter(listOfValueAdapter),
                 optionEntityAdapter = OptionEntity.Adapter(listOfValueAdapter)
             )
@@ -51,7 +53,10 @@ actual val databaseModule: Module
 
             SeriesDatabase(
                 driver = driver,
-                questionEntityAdapter = QuestionEntity.Adapter(listOfValueAdapter,listOfValueAdapter),
+                questionEntityAdapter = QuestionEntity.Adapter(
+                    listOfValueAdapter,
+                    listOfValueAdapter
+                ),
                 instructionEntityAdapter = InstructionEntity.Adapter(listOfValueAdapter),
                 optionEntityAdapter = OptionEntity.Adapter(listOfValueAdapter)
             )

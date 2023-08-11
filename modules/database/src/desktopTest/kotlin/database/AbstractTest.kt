@@ -23,8 +23,8 @@ abstract class AbstractTest : KoinTest {
             single(qualifier = qualifier("temp")) {
                 val driver = JdbcSqliteDriver(
                     JdbcSqliteDriver.IN_MEMORY,
-                    properties = Properties().apply { put("foreign_keys","true") }
-                    )
+                    properties = Properties().apply { put("foreign_keys", "true") }
+                )
                     .also { SeriesDatabase.Schema.create(it) }
 
                 SeriesDatabase(

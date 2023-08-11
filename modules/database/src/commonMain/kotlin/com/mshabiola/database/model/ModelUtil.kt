@@ -69,6 +69,6 @@ fun Topic.toEntity() = TopicEntity(id, subjectId, name)
 
 fun TopicEntity.toModel() = Topic(id, subjectId, name)
 
-fun Exam.toEntity() = ExamEntity(id, subjectID, year,if (isObjOnly)0L else 1)
+fun Exam.toEntity() = ExamEntity(id, subjectID, year, if (isObjOnly) 0L else 1)
 
-fun ExamEntity.toModel() = Exam(id, subjectId,isObjOnly==0L ,year)
+fun ExamEntity.toModel() = Exam(id, subjectId, isObjOnly == 0L, year)

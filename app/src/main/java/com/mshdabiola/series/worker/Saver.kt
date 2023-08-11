@@ -4,8 +4,8 @@ import androidx.work.WorkManager
 
 
 fun WorkManager.getWorkLiveData() =
-        this
-            .getWorkInfosForUniqueWorkLiveData("updater")
+    this
+        .getWorkInfosForUniqueWorkLiveData("updater")
 
 
 

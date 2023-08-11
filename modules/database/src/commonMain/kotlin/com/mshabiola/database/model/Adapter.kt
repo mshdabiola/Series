@@ -28,16 +28,15 @@ val listOfValueAdapter = object : ColumnAdapter<List<Item>, String> {
                     Pair(it[0], it[1])
                 }
 
-             list
+            list
                 .map {
                     Item(it.first, Type.valueOf(it.second))
                 }
-        }catch (e:Exception){
+        } catch (e: Exception) {
             println("value $databaseValue")
             e.printStackTrace()
             emptyList()
         }
-
 
 
     }

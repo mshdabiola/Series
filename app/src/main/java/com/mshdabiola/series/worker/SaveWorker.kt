@@ -24,7 +24,6 @@ import com.mshdabiola.model.data.QuestionFull
 import com.mshdabiola.model.data.Subject
 import com.mshdabiola.model.data.Topic
 import com.mshdabiola.util.ExInPort
-import com.mshdabiola.util.FileManager
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -42,7 +41,7 @@ class SaveWorker(
 ) : CoroutineWorker(appContext, workerParams), KoinComponent {
 
 
-    private val exInPort =ExInPort()
+    private val exInPort = ExInPort()
     private val questionRepository by inject<IQuestionRepository>()
     private val iExamRepository by inject<IExamRepository>()
     private val iSubjectRepository by inject<ISubjectRepository>()

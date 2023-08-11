@@ -23,11 +23,11 @@ object SvgObject {
             val newPath = FileManager.newPath(path, subjectId, examId, imageType)
             val imageFile = File(path)
 
-            if (imageFile.extension=="svg"){
-                val fileOutputStream= FileOutputStream(newPath)
-                Svg2Vector.parseSvgToXml(Path(path),fileOutputStream)
+            if (imageFile.extension == "svg") {
+                val fileOutputStream = FileOutputStream(newPath)
+                Svg2Vector.parseSvgToXml(Path(path), fileOutputStream)
                 fileOutputStream.close()
-            }else{
+            } else {
                 imageFile.copyTo(newPath)
             }
 

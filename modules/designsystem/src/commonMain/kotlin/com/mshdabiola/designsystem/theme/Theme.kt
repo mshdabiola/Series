@@ -7,7 +7,7 @@ import com.mshdabiola.designsystem.theme.util.colorScheme
 
 @Composable
 fun SeriesAppTheme(
-    isDarkMode:Boolean=false,
+    isDarkMode: Boolean = false,
     content: @Composable () -> Unit,
 ) {
     val colorScheme = colorScheme(isDarkMode)

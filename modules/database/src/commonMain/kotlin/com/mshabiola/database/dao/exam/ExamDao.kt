@@ -48,7 +48,7 @@ internal class ExamDao(
             .mapToList(coroutineDispatcher)
             .map { getAllWithSubjects ->
                 getAllWithSubjects.map {
-                    ExamWithSub(it.id, it.subjectId, it.year, it.isObjOnly==0L,it.name,)
+                    ExamWithSub(it.id, it.subjectId, it.year, it.isObjOnly == 0L, it.name)
                 }
             }
 
@@ -61,7 +61,7 @@ internal class ExamDao(
             .mapToList(coroutineDispatcher)
             .map { getAllBySubjectIdWithSubjects ->
                 getAllBySubjectIdWithSubjects.map {
-                    ExamWithSub(it.id, it.subjectId, it.year,it.isObjOnly==0L,it.name)
+                    ExamWithSub(it.id, it.subjectId, it.year, it.isObjOnly == 0L, it.name)
                 }
             }
 
@@ -75,7 +75,7 @@ internal class ExamDao(
     }
 
     override suspend fun updateType(id: Long, isOnlyObj: Boolean) {
-        examQueries.updateType(if (isOnlyObj)0 else 1,id)
+        examQueries.updateType(if (isOnlyObj) 0 else 1, id)
     }
 
     override fun getBySubject(subjectID: Long): Flow<List<Exam>> {

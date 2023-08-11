@@ -59,14 +59,14 @@ internal actual fun YearExposed(
     onChange: (Int) -> Unit
 ) {
     LargeDropdownMenu(
-        modifier=modifier,
+        modifier = modifier,
         label = label,
         notSetLabel = "Select Exam Year",
         items = exams,
         selectedIndex = selectedOptionText,
-        selectedItemToString = {it.year.toString()},
-        onItemSelected = { index: Int, _:ExamUiState -> onChange(index) },
-        drawItem = {item, selected, itemEnabled, onClick ->
+        selectedItemToString = { it.year.toString() },
+        onItemSelected = { index: Int, _: ExamUiState -> onChange(index) },
+        drawItem = { item, selected, itemEnabled, onClick ->
             LargeDropdownMenuItem(
                 text = item.year.toString(),
                 selected = selected,
@@ -82,20 +82,20 @@ internal actual fun YearExposed(
 @Composable
 internal actual fun ExamType(
     modifier: Modifier,
-    enabled:Boolean,
+    enabled: Boolean,
     selectedOption: Int,
     onChange: (Int) -> Unit
 ) {
-    val types= stringArrayResource(id = R.array.exam_part)
+    val types = stringArrayResource(id = R.array.exam_part)
 
     LargeDropdownMenu(
-        modifier=modifier,
+        modifier = modifier,
         enabled = enabled,
         label = "Exam Type",
         notSetLabel = "Select Exam Type",
         items = types.toList(),
         selectedIndex = selectedOption,
-        selectedItemToString = {it},
+        selectedItemToString = { it },
         onItemSelected = { index: Int, _: String -> onChange(index) })
 
 }

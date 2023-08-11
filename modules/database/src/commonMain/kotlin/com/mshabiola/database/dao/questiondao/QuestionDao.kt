@@ -53,19 +53,19 @@ internal class QuestionDao(
     }
 
     override fun getAllWithOptions(examId: Long): Flow<List<QuestionFull>> {
-      val flow1=  questionQueries
+        val flow1 = questionQueries
             .getAllWithExamId(examId)
             .asFlow()
             .mapToList(coroutineDispatcher)
             .map { it.map { it.toModel() } }
             .flowOn(coroutineDispatcher)
-        val flow2=optionQueries.getAllByExamId(examId)
+        val flow2 = optionQueries.getAllByExamId(examId)
             .asFlow()
             .mapToList(coroutineDispatcher)
             .map { it.map { it.toModel() } }
 
-      return  combine(flow1,flow2){ questions, options->
-            questions.map {question->
+        return combine(flow1, flow2) { questions, options ->
+            questions.map { question ->
                 val inst = question.instructionId?.let { it1 ->
                     instructionQueries
                         .getById(it1)
@@ -79,13 +79,13 @@ internal class QuestionDao(
                         .toModel()
                 }
 
-               val option= options.filter { it.questionId==question.id }
+                val option = options.filter { it.questionId == question.id }
                 question.toQuestionWithOptions(option, inst, topic)
             }
 
 
         }
-          .flowOn(coroutineDispatcher)
+            .flowOn(coroutineDispatcher)
 
     }
 

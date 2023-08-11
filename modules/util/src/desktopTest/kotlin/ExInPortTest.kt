@@ -27,7 +27,7 @@ class ExInPortTest {
                         Item(content = "sfshsfsh ssfsj", type = Type.TEXT)
                     ),
                     isTheory = true,
-                    answer =null,
+                    answer = null,
                     instructionId = 344,
                     topicId = 44
                 ),

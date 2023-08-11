@@ -5,4 +5,4 @@ import androidx.compose.runtime.Composable
 
 
 @Composable
-internal expect fun colorScheme(isDarkMode:Boolean): ColorScheme
+internal expect fun colorScheme(isDarkMode: Boolean): ColorScheme

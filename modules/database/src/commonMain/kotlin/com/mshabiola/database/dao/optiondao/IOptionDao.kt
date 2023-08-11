@@ -11,7 +11,7 @@ interface IOptionDao {
 
     fun getAllByExamId(examId: Long): Flow<List<Option>>
 
-    fun getAllByQuestionIdAndExamId(questionId: Long,examId: Long): Flow<List<Option>>
+    fun getAllByQuestionIdAndExamId(questionId: Long, examId: Long): Flow<List<Option>>
 
     suspend fun update(option: Option)
     fun getOne(id: Long): Flow<Option>

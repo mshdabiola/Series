@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
-import androidx.compose.foundation.layout.FlowColumn
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -48,7 +47,7 @@ fun ContinueCard(
     year: Long,
     time2: Long,
     progress: Float,
-    part : String,
+    part: String,
     enabled: Boolean,
 ) {
     val color = LocalTextStyle.current.color.copy(alpha = 0.7f)
@@ -68,27 +67,30 @@ fun ContinueCard(
                 style = MaterialTheme.typography.bodySmall,
                 color = color
             )
-            FlowRow (
+            FlowRow(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(16.dp),
-               // verticalAlignment = Alignment.Start,
+                // verticalAlignment = Alignment.Start,
                 maxItemsInEachRow = 2
             ) {
                 Text(modifier = Modifier.weight(0.4f), text = "Year : $year")
                 Text(modifier = Modifier.weight(0.6f), text = "Remaining: $timeString")
-                Text(modifier = Modifier.weight(0.4f), text = "Progress : ${(progress * 100).toInt()}%")
+                Text(
+                    modifier = Modifier.weight(0.4f),
+                    text = "Progress : ${(progress * 100).toInt()}%"
+                )
                 Text(modifier = Modifier.weight(0.6f), text = "Type : $part")
             }
-            Row (
+            Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
-            ){
+            ) {
 
             }
-            Row (
+            Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
-            ){
+            ) {
 
             }
 
@@ -120,7 +122,7 @@ internal expect fun ContinueCardPreview()
 
 @Composable
 fun StartCard(
-    onClick: (Int,Int) -> Unit = {_,_->},
+    onClick: (Int, Int) -> Unit = { _, _ -> },
     exams: ImmutableList<ExamUiState>,
     isSubmit: Boolean,
 ) {
@@ -132,10 +134,10 @@ fun StartCard(
             mutableStateOf(0)
         }
 
-        LaunchedEffect(yearIndex){
-            typeIndex = if (exams[yearIndex].isObjOnly){
+        LaunchedEffect(yearIndex) {
+            typeIndex = if (exams[yearIndex].isObjOnly) {
                 1
-            }else{
+            } else {
                 0
             }
         }
@@ -163,15 +165,15 @@ fun StartCard(
 
                     ExamType(
                         modifier = Modifier.width(150.dp),
-                        enabled = exams.getOrNull(yearIndex)?.isObjOnly==false,
+                        enabled = exams.getOrNull(yearIndex)?.isObjOnly == false,
                         selectedOption = typeIndex,
-                        onChange = {typeIndex=it}
+                        onChange = { typeIndex = it }
                     )
                 }
                 Button(
                     modifier = Modifier.align(Alignment.End),
                     onClick = {
-                        onClick(yearIndex,typeIndex)
+                        onClick(yearIndex, typeIndex)
                     },
                     colors = if (isSubmit) ButtonDefaults.buttonColors() else ButtonDefaults.elevatedButtonColors()
                 ) {

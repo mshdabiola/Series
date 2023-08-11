@@ -36,7 +36,7 @@ class SeriesApplication : Application() {
 
         Timber.e("saved v $oldV version $version")
         if (version > oldV) {
-            val workManager=WorkManager.getInstance(this)
+            val workManager = WorkManager.getInstance(this)
             workManager
                 .enqueueUniqueWork(
                     "updater",

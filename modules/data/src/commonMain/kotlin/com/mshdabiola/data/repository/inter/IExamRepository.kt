@@ -18,9 +18,9 @@ interface IExamRepository {
     fun getExamBySubjectId(subId: Long): Flow<List<ExamWithSub>>
     fun getAllWithSub(): Flow<List<ExamWithSub>>
 
-    fun getOne(id:Long):Flow<Exam>
+    fun getOne(id: Long): Flow<Exam>
 
     suspend fun deleteAll()
 
-    suspend fun updateType(id: Long,isOnlyObj:Boolean)
+    suspend fun updateType(id: Long, isOnlyObj: Boolean)
 }

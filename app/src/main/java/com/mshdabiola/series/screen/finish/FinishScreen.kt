@@ -89,8 +89,8 @@ internal fun FinishScreen(onBack: () -> Unit, toQuestion: () -> Unit, viewModel:
 internal fun FinishScreen(
     questions: ImmutableList<QuestionUiState>,
     mainState: MainState,
-    isMultiPart:Boolean,
-    isObjPart : Boolean,
+    isMultiPart: Boolean,
+    isObjPart: Boolean,
     back: () -> Unit = {},
     toQuestion: () -> Unit = {},
     getGeneralPath: (FileManager.ImageType, Long) -> String = { _, _ -> "" },
@@ -116,11 +116,11 @@ internal fun FinishScreen(
             .toImmutableList()
     }
 
-    LaunchedEffect(isObjPart){
-        if (isObjPart){
-            currentIndex=0
-        }else{
-            currentIndex=1
+    LaunchedEffect(isObjPart) {
+        if (isObjPart) {
+            currentIndex = 0
+        } else {
+            currentIndex = 1
         }
     }
 
@@ -187,8 +187,9 @@ internal fun FinishScreen(
                     })
             }
             item {
-                if (mainState.score!=null)
-                ScoreCard(mainState.score)
+                if (mainState.score != null) {
+                    ScoreCard(mainState.score)
+                }
             }
 
             if (showAnswer) {

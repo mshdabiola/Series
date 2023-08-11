@@ -21,5 +21,5 @@ interface IQuestionDao {
     suspend fun delete(id: Long)
     suspend fun deleteAll()
 
-    suspend fun getMaxId():Long?
+    suspend fun getMaxId(): Long?
 }

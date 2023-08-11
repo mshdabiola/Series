@@ -83,7 +83,7 @@ class MainActivity : ComponentActivity() {
 
         var show: Boolean by mutableStateOf(true)
         val splashScreen = installSplashScreen()
-        val workManager=WorkManager.getInstance(this)
+        val workManager = WorkManager.getInstance(this)
         workManager
             .getWorkLiveData()
             .observe(this) {

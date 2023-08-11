@@ -17,11 +17,11 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.tooling.preview.Preview
 import com.mshdabiola.retex.Latex
+import com.mshdabiola.ui.com.mshdabiola.ui.loadXmlImageVector
 import com.mshdabiola.ui.state.InstructionUiState
 import com.mshdabiola.ui.state.ItemUiState
 import com.mshdabiola.ui.state.OptionUiState
 import com.mshdabiola.ui.state.QuestionUiState
-import com.mshdabiola.ui.com.mshdabiola.ui.loadXmlImageVector
 import kotlinx.collections.immutable.toImmutableList
 import org.xml.sax.InputSource
 import timber.log.Timber
@@ -43,18 +43,18 @@ actual fun ImageUi(
     contentScale: ContentScale
 ) {
 
-    val file  = remember(path) {
+    val file = remember(path) {
         File(path)
     }
 
-    if (file.extension=="xml"){
+    if (file.extension == "xml") {
         VectorImage(
             modifier = modifier,
             path = path,
             contentDescription = contentDescription,
             contentScale = contentScale
         )
-    }else{
+    } else {
         BitmapImage(
             modifier = modifier,
             path = path,
@@ -62,7 +62,6 @@ actual fun ImageUi(
             contentScale = contentScale
         )
     }
-
 
 
 }

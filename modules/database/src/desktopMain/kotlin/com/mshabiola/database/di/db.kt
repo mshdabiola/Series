@@ -7,7 +7,7 @@ import java.util.Properties
 fun withDatabase(path: String): JdbcSqliteDriver {
     return JdbcSqliteDriver(
         "jdbc:sqlite:$path",
-                properties = Properties().apply { put("foreign_keys","true") }
+        properties = Properties().apply { put("foreign_keys", "true") }
     ).apply {
         migrateIfNeeded(this)
     }

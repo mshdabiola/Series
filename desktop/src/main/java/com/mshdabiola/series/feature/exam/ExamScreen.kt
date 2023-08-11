@@ -54,7 +54,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.unit.dp
-import co.touchlab.kermit.Logger
 import com.mshdabiola.model.data.Type
 import com.mshdabiola.ui.TemplateUi
 import com.mshdabiola.ui.instructionui.InstructionEditUi
@@ -350,16 +349,19 @@ fun ExamContent(
 
 
                     SuggestionChip(
-                        onClick = {onAddAnswer(questionUiState.answer==null)},
-                        label = {  Text(
-                            if (questionUiState.answer==null)"Add Answers" else "Remove answer") }
+                        onClick = { onAddAnswer(questionUiState.answer == null) },
+                        label = {
+                            Text(
+                                if (questionUiState.answer == null) "Add Answers" else "Remove answer"
+                            )
+                        }
                     )
                     Spacer(Modifier.width(4.dp))
                     Text("Is Theory")
                     Switch(
                         checked = questionUiState.isTheory,
                         onCheckedChange = { isTheory(it) },
-                        enabled = questionUiState.id<0
+                        enabled = questionUiState.id < 0
                     )
 
 

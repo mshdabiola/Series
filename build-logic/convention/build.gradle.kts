@@ -59,7 +59,7 @@ gradlePlugin {
             id = "mshdabiola.android.test"
             implementationClass = "AndroidTestConventionPlugin"
         }
-      
+
         register("desktop") {
             id = "mshdabiola.mpp.desktop"
             implementationClass = "Desktop"

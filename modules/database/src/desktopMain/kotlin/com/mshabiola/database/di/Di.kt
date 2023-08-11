@@ -29,7 +29,10 @@ actual val databaseModule: Module
 
             SeriesDatabase(
                 driver = driver,
-                questionEntityAdapter = QuestionEntity.Adapter(listOfValueAdapter,listOfValueAdapter),
+                questionEntityAdapter = QuestionEntity.Adapter(
+                    listOfValueAdapter,
+                    listOfValueAdapter
+                ),
                 instructionEntityAdapter = InstructionEntity.Adapter(listOfValueAdapter),
                 optionEntityAdapter = OptionEntity.Adapter(listOfValueAdapter)
             )
@@ -37,13 +40,16 @@ actual val databaseModule: Module
         single(qualifier = qualifier("temp")) {
             val driver = JdbcSqliteDriver(
                 JdbcSqliteDriver.IN_MEMORY,
-                properties = Properties().apply { put("foreign_keys","true") }
+                properties = Properties().apply { put("foreign_keys", "true") }
             )
                 .also { SeriesDatabase.Schema.create(it) }
 
             SeriesDatabase(
                 driver = driver,
-                questionEntityAdapter = QuestionEntity.Adapter(listOfValueAdapter,listOfValueAdapter),
+                questionEntityAdapter = QuestionEntity.Adapter(
+                    listOfValueAdapter,
+                    listOfValueAdapter
+                ),
                 instructionEntityAdapter = InstructionEntity.Adapter(listOfValueAdapter),
                 optionEntityAdapter = OptionEntity.Adapter(listOfValueAdapter)
             )

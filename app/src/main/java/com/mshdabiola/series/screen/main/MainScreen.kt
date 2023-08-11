@@ -23,11 +23,7 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -66,14 +62,14 @@ internal fun MainScreen(onQuestion: () -> Unit) {
 internal fun MainScreen(
     mainState: MainState,
     onQuestion: () -> Unit = {},
-    onStartExam: (ExamType, Int,Int) -> Unit = { _, _ ,_-> },
+    onStartExam: (ExamType, Int, Int) -> Unit = { _, _, _ -> },
 ) {
     val snackbarHostState = remember {
         SnackbarHostState()
     }
 
 
-    val finishPercent = remember(mainState.chooseObj,mainState.chooseThe) {
+    val finishPercent = remember(mainState.chooseObj, mainState.chooseThe) {
         var choose = mainState.chooseObj.toMutableList()
         choose.addAll(mainState.chooseThe)
         choose.count {
@@ -153,8 +149,8 @@ internal fun MainScreen(
             StartCard(
                 exams = mainState.listOfAllExams,
                 isSubmit = mainState.currentExam?.isSubmit ?: true,
-                onClick = {yearIndex,typeIndex->
-                    onStartExam(ExamType.YEAR, yearIndex,typeIndex)
+                onClick = { yearIndex, typeIndex ->
+                    onStartExam(ExamType.YEAR, yearIndex, typeIndex)
                     onQuestion()
                 })
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
@@ -163,7 +159,7 @@ internal fun MainScreen(
                     painter = painterResource(id = R.drawable.layer__1),
                     onClick = {
 
-                        onStartExam(ExamType.RANDOM, -1,2)
+                        onStartExam(ExamType.RANDOM, -1, 2)
                         onQuestion()
                     }
                 )
@@ -171,7 +167,7 @@ internal fun MainScreen(
                     title = "Fast finger",
                     painter = painterResource(id = R.drawable.layer_1),
                     onClick = {
-                        onStartExam(ExamType.FAST_FINGER, -1,2)
+                        onStartExam(ExamType.FAST_FINGER, -1, 2)
                         onQuestion()
                     }
                 )

@@ -22,8 +22,8 @@ enum class Flavor(
 ) {
     Physics(FlavorDimension.subjectType, applicationIdSuffix = ".physics", "-physics"),
     Math(FlavorDimension.subjectType, applicationIdSuffix = ".math", "-math"),
-    Free(FlavorDimension.premiumType,applicationIdSuffix = ".free","-free"),
-    Paid(FlavorDimension.premiumType,applicationIdSuffix = ".paid","-paid")
+    Free(FlavorDimension.premiumType, applicationIdSuffix = ".free", "-free"),
+    Paid(FlavorDimension.premiumType, applicationIdSuffix = ".paid", "-paid")
 }
 
 fun Project.configureFlavors(

@@ -10,7 +10,7 @@ class ConverterTest {
     fun text() = runTest {
 
         val converter = Converter()
-        val text= """
+        val text = """
                  
                 *q*sss
                 *o*sss
@@ -23,7 +23,7 @@ class ConverterTest {
                 *o*moshood
                 *o*lawal
             """.trimIndent()
-        val text2="""
+        val text2 = """
             
                 *q*sss
                 *o*sss
@@ -40,7 +40,7 @@ class ConverterTest {
             *a* abiola
         """.trimIndent()
 
-        val text3="""
+        val text3 = """
             
             *q* what is your name
             *t* 1
@@ -50,7 +50,7 @@ class ConverterTest {
 
         val qu = converter
             .textToQuestion(
-               text2, 67, 78,2
+                text2, 67, 78, 2
             )
         println(qu)
 

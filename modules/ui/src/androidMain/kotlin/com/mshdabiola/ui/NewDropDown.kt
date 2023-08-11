@@ -14,18 +14,15 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.ArrowDropUp
-import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
@@ -68,7 +65,7 @@ fun <T> LargeDropdownMenu(
             enabled = enabled,
             modifier = Modifier.fillMaxWidth(),
             trailingIcon = {
-                val icon = if(expanded)Icons.Filled.ArrowDropUp else Icons.Filled.ArrowDropDown
+                val icon = if (expanded) Icons.Filled.ArrowDropUp else Icons.Filled.ArrowDropDown
                 Icon(imageVector = icon, "")
             },
             onValueChange = { },
@@ -78,9 +75,9 @@ fun <T> LargeDropdownMenu(
                 unfocusedIndicatorColor = Color.Transparent,
                 focusedIndicatorColor = Color.Transparent,
                 focusedContainerColor = MaterialTheme.colorScheme.surface,
-                unfocusedContainerColor =  MaterialTheme.colorScheme.surface,
+                unfocusedContainerColor = MaterialTheme.colorScheme.surface,
                 focusedTextColor = MaterialTheme.colorScheme.onSurface,
-                unfocusedTextColor =  MaterialTheme.colorScheme.onSurface,
+                unfocusedTextColor = MaterialTheme.colorScheme.onSurface,
                 focusedTrailingIconColor = MaterialTheme.colorScheme.onSurface,
                 unfocusedTrailingIconColor = MaterialTheme.colorScheme.onSurface,
                 focusedLabelColor = MaterialTheme.colorScheme.onSurface,
@@ -104,45 +101,45 @@ fun <T> LargeDropdownMenu(
         Dialog(
             onDismissRequest = { expanded = false },
         ) {
-           // MyTheme {
-                Surface(
-                    shape = RoundedCornerShape(12.dp),
-                ) {
-                    val listState = rememberLazyListState()
-                    if (selectedIndex > -1) {
-                        LaunchedEffect("ScrollToSelected") {
-                            listState.scrollToItem(index = selectedIndex)
+            // MyTheme {
+            Surface(
+                shape = RoundedCornerShape(12.dp),
+            ) {
+                val listState = rememberLazyListState()
+                if (selectedIndex > -1) {
+                    LaunchedEffect("ScrollToSelected") {
+                        listState.scrollToItem(index = selectedIndex)
+                    }
+                }
+
+                LazyColumn(modifier = Modifier.fillMaxWidth(), state = listState) {
+                    if (notSetLabel != null) {
+                        item {
+                            LargeDropdownMenuItem(
+                                text = notSetLabel,
+                                selected = false,
+                                enabled = false,
+                                onClick = { },
+                            )
                         }
                     }
-
-                    LazyColumn(modifier = Modifier.fillMaxWidth(), state = listState) {
-                        if (notSetLabel != null) {
-                            item {
-                                LargeDropdownMenuItem(
-                                    text = notSetLabel,
-                                    selected = false,
-                                    enabled = false,
-                                    onClick = { },
-                                )
-                            }
+                    itemsIndexed(items) { index, item ->
+                        val selectedItem = index == selectedIndex
+                        drawItem(
+                            item,
+                            selectedItem,
+                            true
+                        ) {
+                            onItemSelected(index, item)
+                            expanded = false
                         }
-                        itemsIndexed(items) { index, item ->
-                            val selectedItem = index == selectedIndex
-                            drawItem(
-                                item,
-                                selectedItem,
-                                true
-                            ) {
-                                onItemSelected(index, item)
-                                expanded = false
-                            }
 
-                            if (index < items.lastIndex) {
-                                HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp))
-                            }
+                        if (index < items.lastIndex) {
+                            HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp))
                         }
                     }
                 }
+            }
             //}
         }
     }
@@ -174,6 +171,6 @@ fun LargeDropdownMenuItem(
     }
 }
 
-const val ALPHA_DISABLED=0.38f
-const val ALPHA_DISABLED_LOW=0.12f
-const val ALPHA_FULL=1f
+const val ALPHA_DISABLED = 0.38f
+const val ALPHA_DISABLED_LOW = 0.12f
+const val ALPHA_FULL = 1f

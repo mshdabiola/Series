@@ -43,7 +43,7 @@ internal actual fun YearExposed(
 @Composable
 internal actual fun ExamType(
     modifier: Modifier,
-    enabled:Boolean,
+    enabled: Boolean,
     selectedOption: Int,
     onChange: (Int) -> Unit
 ) {

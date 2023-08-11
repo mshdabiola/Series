@@ -53,43 +53,43 @@ class Converter {
         path: String,
         examId: Long,
         nextObjNumber: Long,
-        nextTheoryNumber:Long
+        nextTheoryNumber: Long
     ): List<QuestionFull> {
         return withContext(Dispatchers.IO) {
 
             val list = mutableListOf<QuestionFull>()
             var options = mutableListOf<String>()
-            var answer:String?=null
-            var isTheory=false
+            var answer: String? = null
+            var isTheory = false
             var objNo = nextObjNumber
-            var thrNo=nextTheoryNumber
+            var thrNo = nextTheoryNumber
             var question: String? = null
-          val s=  path
+            val s = path
                 .split(Regex("\\s*\\*\\s*"))
-              .toMutableList()
-                println(s.joinToString())
+                .toMutableList()
+            println(s.joinToString())
             s.removeAt(0)
 
-                s.chunked(2) {
-                    Pair(it[0].trim(), it[1])
-                }
+            s.chunked(2) {
+                Pair(it[0].trim(), it[1])
+            }
                 .onEach { println(it) }
                 .forEachIndexed { index, pair ->
                     when (pair.first) {
                         "q" -> {
                             if (question != null) {
-                                if (isTheory){
+                                if (isTheory) {
                                     list.add(
                                         convertThe(
                                             theoryNo = thrNo,
                                             content = question!!,
                                             examId = examId,
-                                            answer = answer ?:""
+                                            answer = answer ?: ""
                                         )
                                     )
 
                                     thrNo += 1
-                                }else{
+                                } else {
                                     list.add(
                                         convertObj(
                                             questionNos = objNo,
@@ -100,8 +100,8 @@ class Converter {
                                     )
                                     objNo += 1
                                 }
-                                isTheory=false
-                                answer=null
+                                isTheory = false
+                                answer = null
                                 question = null
                                 options = mutableListOf()
                             }
@@ -113,25 +113,26 @@ class Converter {
                             options.add(pair.second)
                         }
 
-                        "t"->{
-                            isTheory=(pair.second.toIntOrNull() ?:0)==1
+                        "t" -> {
+                            isTheory = (pair.second.toIntOrNull() ?: 0) == 1
                         }
-                        "a"->{
-                            answer=pair.second
+
+                        "a" -> {
+                            answer = pair.second
                         }
                     }
                 }
             if (question != null) {
-                if (isTheory){
+                if (isTheory) {
                     list.add(
                         convertThe(
                             theoryNo = thrNo,
                             content = question!!,
                             examId = examId,
-                            answer = answer ?:""
+                            answer = answer ?: ""
                         )
                     )
-                }else{
+                } else {
                     list.add(
                         convertObj(
                             questionNos = objNo,
@@ -184,7 +185,7 @@ class Converter {
         theoryNo: Long,
         content: String,
         examId: Long,
-        answer:String
+        answer: String
     ): QuestionFull {
 
         return QuestionFull(
@@ -199,6 +200,7 @@ class Converter {
         )
 
     }
+
     private fun itemise(string: String): Item {
         return Item(content = string)
     }
