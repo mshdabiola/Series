@@ -3,7 +3,7 @@ package com.mshdabiola.series.screen.finish
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
@@ -16,16 +16,18 @@ import androidx.compose.material.icons.filled.Share
 import androidx.compose.material.icons.filled.WineBar
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Tab
+import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -35,7 +37,6 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.testTagsAsResourceId
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -61,9 +62,14 @@ internal fun FinishScreen(onBack: () -> Unit, toQuestion: () -> Unit, viewModel:
 
     val questions = viewModel.allQuestions.collectAsStateWithLifecycle()
     val mainState = viewModel.mainState.collectAsStateWithLifecycle()
+    val isMultiPart = viewModel.isMultiPart.collectAsStateWithLifecycle()
+    val isObjPart = viewModel.isObjPart.collectAsStateWithLifecycle()
+
     FinishScreen(
-        questions = questions.value ?: emptyList<QuestionUiState>().toImmutableList(),
+        questions = questions.value,
         mainState = mainState.value,
+        isObjPart = isObjPart.value,
+        isMultiPart = isMultiPart.value,
         back = {
             onBack()
             viewModel.onFinishBack()
@@ -76,16 +82,23 @@ internal fun FinishScreen(onBack: () -> Unit, toQuestion: () -> Unit, viewModel:
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
+@OptIn(
+    ExperimentalComposeUiApi::class
+)
 @Composable
 internal fun FinishScreen(
     questions: ImmutableList<QuestionUiState>,
     mainState: MainState,
+    isMultiPart:Boolean,
+    isObjPart : Boolean,
     back: () -> Unit = {},
     toQuestion: () -> Unit = {},
     getGeneralPath: (FileManager.ImageType, Long) -> String = { _, _ -> "" },
 ) {
     val lazyState = rememberLazyListState()
+    var currentIndex by remember {
+        mutableIntStateOf(0)
+    }
     val coroutineScope = rememberCoroutineScope()
     var showAnswer by remember {
         mutableStateOf(false)
@@ -93,10 +106,28 @@ internal fun FinishScreen(
     var instructionUiState by remember {
         mutableStateOf<InstructionUiState?>(null)
     }
+    val currentQuestions = remember(currentIndex) {
+        (if (currentIndex == 0)
+            questions
+                .filter { it.isTheory.not() }
+        else
+            questions
+                .filter { it.isTheory })
+            .toImmutableList()
+    }
+
+    LaunchedEffect(isObjPart){
+        if (isObjPart){
+            currentIndex=0
+        }else{
+            currentIndex=1
+        }
+    }
 
     LaunchedEffect(key1 = mainState, block = {
         Timber.e(mainState.toString())
     })
+
 
     Scaffold(
         modifier = Modifier.semantics { this.testTagsAsResourceId = true },
@@ -143,7 +174,7 @@ internal fun FinishScreen(
             item {
                 FinishCard(
                     imageVector = Icons.Default.WineBar,
-                    grade = mainState.score.grade,
+                    grade = mainState.score?.grade ?: 'B',
                     isHide = !showAnswer,
                     onShowAnswers = {
                         showAnswer = !showAnswer
@@ -156,18 +187,45 @@ internal fun FinishScreen(
                     })
             }
             item {
+                if (mainState.score!=null)
                 ScoreCard(mainState.score)
             }
+
             if (showAnswer) {
                 item {
-                    Text(
-                        text = "Questions and answers",
-                        textAlign = TextAlign.Center,
-                        style = MaterialTheme.typography.titleSmall,
-                        modifier = Modifier.fillMaxWidth()
-                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+//                    Text(
+//                        text = "Questions and answers",
+//                        textAlign = TextAlign.Center,
+//                        style = MaterialTheme.typography.titleSmall,
+//                        modifier = Modifier.fillMaxWidth()
+//                    )
                 }
-                itemsIndexed(items = questions, key = { _, item -> item.id }) { index, item ->
+                if (isMultiPart) {
+                    item {
+                        TabRow(selectedTabIndex = currentIndex) {
+                            Tab(selected = currentIndex == 0, onClick = {
+                                currentIndex = 0
+                                coroutineScope.launch {
+                                    lazyState.scrollToItem(3)
+                                }
+                            }, text = { Text(text = "Objective") })
+
+                            Tab(selected = currentIndex == 1, onClick = {
+                                coroutineScope.launch {
+                                    currentIndex = 1
+                                    coroutineScope.launch {
+                                        lazyState.scrollToItem(3)
+                                    }
+                                }
+                            }, text = { Text(text = "Theory") })
+
+                        }
+                    }
+                }
+                itemsIndexed(
+                    items = currentQuestions,
+                    key = { _, item -> item.id }) { index, item ->
                     QuestionUi(
                         number = (index + 1L),
                         questionUiState = item,
@@ -353,6 +411,8 @@ fun FinishScreenPreview() {
         ).toImmutableList()
     FinishScreen(
         questions = questions,
+        isMultiPart = false,
+        isObjPart = true,
         mainState = MainState(
             title = "Jade",
             currentExam = null,

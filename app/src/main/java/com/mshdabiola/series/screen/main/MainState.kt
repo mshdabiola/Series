@@ -11,11 +11,5 @@ data class MainState(
     val listOfAllExams: ImmutableList<ExamUiState>,
     val chooseObj: ImmutableList<Int> = emptyList<Int>().toImmutableList(),
     val chooseThe: ImmutableList<Int> = emptyList<Int>().toImmutableList(),
-    val score: ScoreUiState = ScoreUiState(
-        correct = 0,
-        completed = 0,
-        inCorrect = 0,
-        skipped = 0,
-        grade = 'A'
-    )
+    val score: ScoreUiState?=null
 )

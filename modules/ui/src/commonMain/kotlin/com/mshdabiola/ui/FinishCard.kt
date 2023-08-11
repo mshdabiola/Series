@@ -48,7 +48,7 @@ fun FinishCard(
             OutlinedButton(
                 onClick = onShowAnswers
             ) {
-                Text("${if (isHide) "Show" else "Hide"} correct answer")
+                Text("${if (isHide) "Show" else "Hide"} correct answers")
             }
         }
     }
