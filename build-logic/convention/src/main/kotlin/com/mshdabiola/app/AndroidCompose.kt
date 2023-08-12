@@ -41,9 +41,9 @@ internal fun Project.configureAndroidCompose(
                 libs.findVersion("androidxComposeCompiler").get().toString()
         }
 
-        kotlinOptions {
-            freeCompilerArgs = freeCompilerArgs + buildComposeMetricsParameters()
-        }
+//        kotlinOptions {
+//            freeCompilerArgs = freeCompilerArgs + buildComposeMetricsParameters()
+//        }
 
         dependencies {
             add("implementation", libs.findLibrary("androidx.compose.material3").get())
@@ -51,6 +51,7 @@ internal fun Project.configureAndroidCompose(
                 "implementation",
                 libs.findLibrary("androidx-compose-material3-windowSizeClass").get()
             )
+            add("implementation", libs.findLibrary("androidx.compose.material.iconsExtended").get())
             add("implementation", libs.findLibrary("androidx-compose-ui").get())
             add("implementation", libs.findLibrary("androidx-compose-ui-tooling-preview").get())
             add("implementation", libs.findLibrary("androidx-lifecycle-runtimeCompose").get())

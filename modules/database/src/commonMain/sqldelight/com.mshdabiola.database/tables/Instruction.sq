@@ -1,0 +1,40 @@
+import com.mshdabiola.model.data.Item;
+import kotlin.collections.List;
+
+CREATE TABLE IF NOT EXISTS instructionEntity (
+   id INTEGER PRIMARY KEY AUTOINCREMENT,
+   examId INTEGER NOT NULL,
+   title TEXT,
+   content TEXT AS List<Item> NOT NULL
+);
+
+getById:
+SELECT *
+FROM instructionEntity
+WHERE id = ?;
+
+getAll:
+SELECT *
+FROM  instructionEntity
+WHERE examId = ?;
+
+insert:
+INSERT INTO instructionEntity(examId,title,content)
+VALUES ?;
+
+insertOrReplace:
+INSERT OR REPLACE INTO instructionEntity(id,examId,title,content)
+VALUES ?;
+
+deleteByID:
+DELETE FROM instructionEntity
+WHERE id = ?;
+
+update:
+UPDATE instructionEntity
+SET title = ?, content=?,examId=?
+WHERE id = ?;
+
+deleteAll:
+DELETE FROM instructionEntity;
+

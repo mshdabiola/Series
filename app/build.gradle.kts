@@ -4,17 +4,16 @@ import com.mshdabiola.app.BuildType
 plugins {
     id("mshdabiola.android.application")
     id("mshdabiola.android.application.compose")
-    id("mshdabiola.android.application.flavor")
     id("mshdabiola.android.application.firebase")
 
 
 }
 
 android {
-    namespace = "com.mshdabiola.skeletonapp"
+    namespace = "com.mshdabiola.series"
 
     defaultConfig {
-        applicationId = "com.mshdabiola.skeletonapp"
+        applicationId = "com.mshdabiola.series"
         testInstrumentationRunner = "com.mshdabiola.testing.InstrumentationTestRunner"
     }
 
@@ -64,22 +63,35 @@ dependencies {
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.activity.compose)
-    implementation(project(":common:designsystem"))
-
-    implementation(project(":common:navigation"))
-    implementation(project(":feature:mainscreen"))
-
-    implementation(project(":feature:detail"))
-    implementation(project(":android:worker"))
-    val decomposeVersion = "2.0.0-alpha-02"
-    implementation(libs.decompose.core)
-    //implementation(libs.decompose.android)
-    implementation(libs.decompose.compose.jetbrains)
     implementation(libs.androidx.profileinstaller)
     implementation(libs.androidx.core.splashscreen)
     implementation(libs.timber)
-    androidTestImplementation(project(":common:testing"))
+
+
     implementation(libs.koin.core)
     implementation(libs.koin.android)
+
+    implementation(project(":modules:designsystem"))
+    //implementation(project(":android:screen"))
+    implementation(project(":modules:retex"))
+    //implementation(project(":android:worker"))
+
+    implementation(project(":modules:navigation"))
+    implementation(libs.decompose.core)
+    implementation(libs.decompose.compose.jetbrains)
+
+    implementation(libs.androidx.work.ktx)
+
+
+
+    androidTestImplementation(project(":modules:testing"))
+
+//
+//
+//    // implementation(platform(libs.firebase.bom))
+//    implementation(libs.firebase.remoteconfig)
+//    implementation(libs.firebase.message)
+//    implementation(libs.firebase.cloud.messaging)
+
 
 }
