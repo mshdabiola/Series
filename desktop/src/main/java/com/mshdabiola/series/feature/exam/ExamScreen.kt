@@ -97,7 +97,7 @@ fun ExamScreen(
         val questions = viewModel.questions.collectAsState()
         val instructionUiStates = viewModel.instructions.collectAsState()
         val topicUiStates = viewModel.topicUiStates.collectAsState()
-        val pagerState = rememberPagerState()
+        val pagerState = rememberPagerState(){3}
         val coroutineScope = rememberCoroutineScope()
         Column(Modifier.fillMaxSize().padding(paddingValues).padding(horizontal = 16.dp)) {
             TabRow(
@@ -134,7 +134,7 @@ fun ExamScreen(
             }
             HorizontalPager(
                 modifier = Modifier.padding(top = 8.dp).weight(1f),
-                pageCount = 3,
+               // pageCount = 3,
                 state = pagerState
             ) {
                 when (it) {
