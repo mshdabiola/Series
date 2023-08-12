@@ -5,6 +5,9 @@ on:
     tags:
       - 'd[0-9]+.[0-9]+.[0-9]+'
 #v[0-9]+.[0-9]+.[0-9]+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   BuildBinaries:
@@ -75,6 +78,6 @@ jobs:
 
       - uses: ncipollo/release-action@v1
         with:
-          artifacts: "*/binaries/main/*/*.*,*/binaries/main-release/*/*.*,*/jars/*.jar,*/app/build/outputs/apk/prod/release/*.apk"
+          artifacts: "*/binaries/main/*/*.*,*/binaries/main-release/*/*.*,*/jars/*.jar"
           draft: true
           token: ${{ secrets.TOKEN }}
