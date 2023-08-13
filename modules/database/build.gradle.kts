@@ -53,13 +53,5 @@ kotlin {
                 implementation(libs.sqldelight.sqlite.driver)
             }
         }
-
-        val desktopTest by getting
-
-//        val jsMain by getting {
-//            dependencies {
-//
-//            }
-//        }
     }
 }

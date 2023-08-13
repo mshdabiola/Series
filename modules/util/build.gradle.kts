@@ -16,34 +16,6 @@ kotlin {
                 implementation(libs.kotlinx.serialization.json)
             }
         }
-
-        val commonTest by getting {
-            dependencies {
-
-            }
-        }
-
-        val androidMain by getting {
-            dependencies {
-
-            }
-        }
-
-
-        val desktopMain by getting {
-            dependencies {
-              //  implementation("com.android.tools:sdk-common:31.1.0")
-
-            }
-        }
-
-        val desktopTest by getting
-
-//        val jsMain by getting {
-//            dependencies {
-//
-//            }
-//        }
     }
 }
 //
