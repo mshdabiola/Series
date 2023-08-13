@@ -19,16 +19,14 @@ import static com.android.utils.XmlUtils.formatFloatValue;
 import static com.mshdabiola.util.svg2vector.VdUtilKt.parseColorValue;
 
 import com.android.SdkConstants;
+import com.android.annotations.NonNull;
 import com.android.utils.PositionXmlParser;
-import com.mshdabiola.util.svg2vector.EllipseSolver;
-import com.mshdabiola.util.svg2vector.GradientStop;
-import com.mshdabiola.util.svg2vector.IllegalVectorDrawableResourceRefException;
-import com.mshdabiola.util.svg2vector.PathParser;
-import com.mshdabiola.util.svg2vector.ResourcesNotSupportedException;
-import com.mshdabiola.util.svg2vector.SvgTree;
-import com.mshdabiola.util.svg2vector.VdElement;
-import com.mshdabiola.util.svg2vector.VdNodeRender;
 import com.google.common.collect.ImmutableMap;
+import com.mshdabiola.util.svg2vector.PathParser.ParseMode;
+
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.NodeList;
+
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -47,11 +45,9 @@ import java.util.Arrays;
 import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.NodeList;
 
 /** Represents one path element of a vector drawable. */
-class VdPath extends VdElement {
+class VdPath extends com.mshdabiola.util.svg2vector.VdElement {
     private static final String PATH_ID = "android:name";
     private static final String PATH_DESCRIPTION = "android:pathData";
     private static final String PATH_FILL = "android:fillColor";
@@ -104,10 +100,10 @@ class VdPath extends VdElement {
                     .build();
 
 
-    private VdGradient fillGradient;
-    private VdGradient strokeGradient;
+    private com.mshdabiola.util.svg2vector.VdPath.VdGradient fillGradient;
+    private com.mshdabiola.util.svg2vector.VdPath.VdGradient strokeGradient;
 
-    private Node[] mNodeList;
+    private com.mshdabiola.util.svg2vector.VdPath.Node[] mNodeList;
     private int mStrokeColor;
     private int mFillColor;
 
@@ -123,10 +119,10 @@ class VdPath extends VdElement {
     private float mTrimPathEnd = 1;
     private float mTrimPathOffset;
 
-    private void toPath( Path2D path) {
+    private void toPath(@NonNull Path2D path) {
         path.reset();
         if (mNodeList != null) {
-            VdNodeRender.createPath(mNodeList, path);
+            com.mshdabiola.util.svg2vector.VdNodeRender.createPath(mNodeList, path);
         }
     }
 
@@ -145,19 +141,19 @@ class VdPath extends VdElement {
             return mParams;
         }
 
-        public Node(char type,  float[] params) {
+        public Node(char type, @NonNull float[] params) {
             this.mType = type;
             this.mParams = params;
         }
 
-        public Node( Node n) {
+        public Node(@NonNull com.mshdabiola.util.svg2vector.VdPath.Node n) {
             this.mType = n.mType;
             this.mParams = Arrays.copyOf(n.mParams, n.mParams.length);
         }
 
-        public static boolean hasRelMoveAfterClose( Node[] nodes) {
+        public static boolean hasRelMoveAfterClose(@NonNull com.mshdabiola.util.svg2vector.VdPath.Node[] nodes) {
             char preType = ' ';
-            for (Node n : nodes) {
+            for (com.mshdabiola.util.svg2vector.VdPath.Node n : nodes) {
                 if ((preType == 'z' || preType == 'Z') && n.mType == 'm') {
                     return true;
                 }
@@ -166,10 +162,10 @@ class VdPath extends VdElement {
             return false;
         }
 
-        
-        public static String nodeListToString( Node[] nodes,  SvgTree svgTree) {
+        @NonNull
+        public static String nodeListToString(@NonNull com.mshdabiola.util.svg2vector.VdPath.Node[] nodes, @NonNull com.mshdabiola.util.svg2vector.SvgTree svgTree) {
             StringBuilder result = new StringBuilder();
-            for (Node node : nodes) {
+            for (com.mshdabiola.util.svg2vector.VdPath.Node node : nodes) {
                 result.append(node.mType);
                 int len = node.mParams.length;
                 boolean implicitLineTo = false;
@@ -198,20 +194,20 @@ class VdPath extends VdElement {
         }
 
         public static void transform(
-                 AffineTransform totalTransform,  Node[] nodes) {
+                @NonNull AffineTransform totalTransform, @NonNull com.mshdabiola.util.svg2vector.VdPath.Node[] nodes) {
             Point2D.Float currentPoint = new Point2D.Float();
             Point2D.Float currentSegmentStartPoint = new Point2D.Float();
             char previousType = INIT_TYPE;
-            for (Node n : nodes) {
+            for (com.mshdabiola.util.svg2vector.VdPath.Node n : nodes) {
                 n.transform(totalTransform, currentPoint, currentSegmentStartPoint, previousType);
                 previousType = n.mType;
             }
         }
 
         private void transform(
-                 AffineTransform totalTransform,
-                 Point2D.Float currentPoint,
-                 Point2D.Float currentSegmentStartPoint,
+                @NonNull AffineTransform totalTransform,
+                @NonNull Point2D.Float currentPoint,
+                @NonNull Point2D.Float currentSegmentStartPoint,
                 char previousType) {
             // For horizontal and vertical lines, we have to convert to LineTo with 2 parameters.
             // And for arcTo, we also need to isolate the parameters for transformation.
@@ -363,7 +359,7 @@ class VdPath extends VdElement {
                         // (0:rx 1:ry 2:x-axis-rotation 3:large-arc-flag 4:sweep-flag 5:x 6:y)
                         // [0, 1, 2]
                         if (!isTranslationOnly(totalTransform)) {
-                            EllipseSolver ellipseSolver = new EllipseSolver(totalTransform,
+                            com.mshdabiola.util.svg2vector.EllipseSolver ellipseSolver = new com.mshdabiola.util.svg2vector.EllipseSolver(totalTransform,
                                     currentX, currentY,
                                     mParams[i], mParams[i + 1], mParams[i + 2],
                                     mParams[i + 3], mParams[i + 4],
@@ -391,7 +387,7 @@ class VdPath extends VdElement {
                         currentX += mParams[i + 5];
                         currentY += mParams[i + 6];
                         if (!isTranslationOnly(totalTransform)) {
-                            EllipseSolver ellipseSolver = new EllipseSolver(totalTransform,
+                            com.mshdabiola.util.svg2vector.EllipseSolver ellipseSolver = new com.mshdabiola.util.svg2vector.EllipseSolver(totalTransform,
                                     oldCurrentX, oldCurrentY,
                                     mParams[i], mParams[i + 1], mParams[i + 2],
                                     mParams[i + 3], mParams[i + 4],
@@ -418,7 +414,7 @@ class VdPath extends VdElement {
             currentSegmentStartPoint.setLocation(currentSegmentStartX, currentSegmentStartY);
         }
 
-        private static boolean isTranslationOnly( AffineTransform totalTransform) {
+        private static boolean isTranslationOnly(@NonNull AffineTransform totalTransform) {
             int type = totalTransform.getType();
             return type == AffineTransform.TYPE_IDENTITY
                     || type == AffineTransform.TYPE_TRANSLATION;
@@ -433,8 +429,8 @@ class VdPath extends VdElement {
          * @param paramsLen in number of floats, not points
          */
         private static void deltaTransform(
-                 AffineTransform totalTransform,
-                 float[] coordinates,
+                @NonNull AffineTransform totalTransform,
+                @NonNull float[] coordinates,
                 int offset,
                 int paramsLen) {
             double[] doubleArray = new double[paramsLen];
@@ -450,7 +446,7 @@ class VdPath extends VdElement {
         }
 
         @Override
-        
+        @NonNull
         public String toString() {
             StringBuilder result = new StringBuilder();
             result.append(mType);
@@ -463,7 +459,7 @@ class VdPath extends VdElement {
         }
     }
 
-    private void setNameValue( String name,  String value) {
+    private void setNameValue(@NonNull String name, @NonNull String value) {
         if (value.startsWith(SdkConstants.PREFIX_RESOURCE_REF) && PATH_FILL.equals(name)) {
             // Ignore the android resource in "android:fillColor" present in the new material icons.
             value = "#000000";
@@ -474,7 +470,7 @@ class VdPath extends VdElement {
         }
 
         if (PATH_DESCRIPTION.equals(name)) {
-            mNodeList = PathParser.parsePath(value, PathParser.ParseMode.ANDROID);
+            mNodeList = PathParser.parsePath(value, ParseMode.ANDROID);
         } else if (PATH_ID.equals(name)) {
             mName = value;
         } else if (PATH_FILL.equals(name)) {
@@ -518,7 +514,7 @@ class VdPath extends VdElement {
         }
     }
 
-    private static int parseFillType( String value) {
+    private static int parseFillType(@NonNull String value) {
         if (FILL_TYPE_EVEN_ODD.equalsIgnoreCase(value)) {
             return PathIterator.WIND_EVEN_ODD;
         }
@@ -536,8 +532,8 @@ class VdPath extends VdElement {
     /** Draws the current path. */
     @Override
     public void draw(
-             Graphics2D g,
-             AffineTransform currentMatrix,
+            @NonNull Graphics2D g,
+            @NonNull AffineTransform currentMatrix,
             float scaleX,
             float scaleY) {
         Path2D path2d = new Path2D.Double(mFillType);
@@ -584,7 +580,7 @@ class VdPath extends VdElement {
     }
 
     @Override
-    public void parseAttributes( NamedNodeMap attributes) {
+    public void parseAttributes(@NonNull NamedNodeMap attributes) {
         for (int i = 0; i < attributes.getLength(); i++) {
             org.w3c.dom.Node attribute = attributes.item(i);
 
@@ -605,7 +601,7 @@ class VdPath extends VdElement {
     }
 
     @Override
-    
+    @NonNull
     public String toString() {
         return "Path:" +
                 " Name: " + mName +
@@ -623,10 +619,10 @@ class VdPath extends VdElement {
      * depending on what type, we set the fillGradient or strokeGradient of the current VdPath to a
      * new VdGradient and add the gradient information.
      */
-    protected void addGradientIfExists( org.w3c.dom.Node current) {
+    protected void addGradientIfExists(@NonNull org.w3c.dom.Node current) {
         // This should be guaranteed to be the gradient given the way we are writing the VD XMLs.
         org.w3c.dom.Node gradientNode = current.getFirstChild();
-        VdGradient newGradient = new VdGradient();
+        com.mshdabiola.util.svg2vector.VdPath.VdGradient newGradient = new com.mshdabiola.util.svg2vector.VdPath.VdGradient();
         if (gradientNode != null) {
             gradientNode = gradientNode.getNextSibling();
             if (gradientNode != null) {
@@ -681,7 +677,7 @@ class VdPath extends VdElement {
                         offset = "0";
                         getLogger().log(Level.WARNING, ">>>>>> No offset for gradient found>>>>>>");
                     }
-                    GradientStop gradientStop = new GradientStop(color, offset);
+                    com.mshdabiola.util.svg2vector.GradientStop gradientStop = new com.mshdabiola.util.svg2vector.GradientStop(color, offset);
                     newGradient.mGradientStops.add(gradientStop);
                 }
             }
@@ -703,11 +699,11 @@ class VdPath extends VdElement {
         private String mTileMode = "NO_CYCLE";
         private String mGradientType = "linear";
 
-        private final ArrayList<GradientStop> mGradientStops = new ArrayList<>();
+        private final ArrayList<com.mshdabiola.util.svg2vector.GradientStop> mGradientStops = new ArrayList<>();
 
         VdGradient() {}
 
-        private void setGradientValue( String name,  String value) {
+        private void setGradientValue(@NonNull String name, @NonNull String value) {
             switch (name) {
                 case "android:type":
                     mGradientType = value;
@@ -739,7 +735,7 @@ class VdPath extends VdElement {
             }
         }
 
-        private void drawGradient( Graphics2D g,  Path2D path2d, boolean fill) {
+        private void drawGradient(@NonNull Graphics2D g, @NonNull Path2D path2d, boolean fill) {
             if (mGradientStops.isEmpty()) {
                 return;
             }
@@ -825,7 +821,7 @@ class VdPath extends VdElement {
                 } else if (mGradientType.equals("sweep")) {
                     // AWT doesn't support sweep gradients but Android does.
                     getLogger().log(Level.WARNING,
-                                    ">>>>>> Unable to render a sweep gradient."
+                            ">>>>>> Unable to render a sweep gradient."
                                     + " Using a solid color instead. >>>>>>");
                     g.setPaint(mGradientColors[0]);
                 } else {
@@ -843,8 +839,8 @@ class VdPath extends VdElement {
         }
     }
 
-    
+    @NonNull
     private static Logger getLogger() {
-        return Logger.getLogger(VdPath.class.getSimpleName());
+        return Logger.getLogger(com.mshdabiola.util.svg2vector.VdPath.class.getSimpleName());
     }
 }

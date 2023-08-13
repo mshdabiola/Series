@@ -11,11 +11,11 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation(compose.runtime)
-                implementation(compose.ui)
-                implementation(compose.foundation)
-                implementation(compose.materialIconsExtended)
-                implementation(compose.material3)
+//                implementation(compose.runtime)
+//                implementation(compose.ui)
+//                implementation(compose.foundation)
+//                implementation(compose.materialIconsExtended)
+//                implementation(compose.material3)
                 implementation(libs.kotlinx.collection.immutable)
                 implementation(libs.kotlinx.datetime)
                 implementation(project(":modules:retex"))
@@ -38,7 +38,7 @@ kotlin {
 //                implementation(libs.androidx.compose.material3)
 //
 //
-                implementation("com.caverock:androidsvg-aar:1.4")
+             //   implementation("com.caverock:androidsvg-aar:1.4")
 //                add("implementation", libs.findLibrary("androidx.compose.material3").get())
 //                add(
 //                    "implementation",

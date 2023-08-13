@@ -28,7 +28,7 @@ fun TopicUi(
 ) {
     var showDrop by remember { mutableStateOf(false) }
     ListItem(
-        headlineText = {
+        headlineContent = {
             Text(topicUiState.name)
         },
         trailingContent = {

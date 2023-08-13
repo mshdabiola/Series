@@ -40,8 +40,8 @@ class EllipseSolver {
      * the transform directly.
      */
     public EllipseSolver(AffineTransform totalTransform, float currentX, float currentY,
-            float rx, float ry, float xAxisRotation, float largeArcFlag, float sweepFlag,
-            float destX, float destY) {
+                         float rx, float ry, float xAxisRotation, float largeArcFlag, float sweepFlag,
+                         float destX, float destY) {
         if (rx == 0 || ry == 0) {
             // From https://www.w3.org/TR/SVG11/implnote.html#ArcOutOfRangeParameters:
             // "If rx = 0 or ry = 0 then this arc is treated as a straight line segment
@@ -72,18 +72,18 @@ class EllipseSolver {
         double middleR = rx * ry / Math.hypot(ry * cos(middleRadians), rx * sin(middleRadians));
 
         Point2D.Double middlePoint =
-            new Point2D.Double(middleR * cos(middleRadians),middleR * sin(middleRadians));
+                new Point2D.Double(middleR * cos(middleRadians),middleR * sin(middleRadians));
         middlePoint = rotatePoint2D(middlePoint, xAxisRotation);
         middlePoint.x += originalCenter.x;
         middlePoint.y += originalCenter.y;
 
         // Transform 3 points and center point into destination.
         Point2D.Double mDstMiddlePoint =
-            (Point2D.Double) totalTransform.transform(middlePoint, null);
+                (Point2D.Double) totalTransform.transform(middlePoint, null);
         Point2D.Double mDstMajorAxisPoint =
-            (Point2D.Double) totalTransform.transform(majorAxisPoint, null);
+                (Point2D.Double) totalTransform.transform(majorAxisPoint, null);
         Point2D.Double mDstMinorAxisPoint =
-            (Point2D.Double) totalTransform.transform(minorAxisPoint, null);
+                (Point2D.Double) totalTransform.transform(minorAxisPoint, null);
         Point2D dstCenter = totalTransform.transform(originalCenter, null);
         double dstCenterX = dstCenter.getX();
         double dstCenterY = dstCenter.getY();
@@ -120,9 +120,9 @@ class EllipseSolver {
      * src and dst ellipse.
      */
     private static boolean computeDirectionChange(Point2D.Double middlePoint,
-            Point2D.Double majorAxisPoint, Point2D.Double minorAxisPoint,
-            Point2D.Double dstMiddlePoint, Point2D.Double dstMajorAxisPoint,
-            Point2D.Double dstMinorAxisPoint) {
+                                                  Point2D.Double majorAxisPoint, Point2D.Double minorAxisPoint,
+                                                  Point2D.Double dstMiddlePoint, Point2D.Double dstMajorAxisPoint,
+                                                  Point2D.Double dstMinorAxisPoint) {
         // Compute both cross product, then compare the sign.
         double srcCrossProduct = getCrossProduct(middlePoint, majorAxisPoint, minorAxisPoint);
         double dstCrossProduct = getCrossProduct(dstMiddlePoint, dstMajorAxisPoint,
@@ -132,7 +132,7 @@ class EllipseSolver {
     }
 
     private static double getCrossProduct(Point2D.Double middlePoint, Point2D.Double majorAxisPoint,
-            Point2D.Double minorAxisPoint) {
+                                          Point2D.Double minorAxisPoint) {
         double majorMinusMiddleX = majorAxisPoint.x - middlePoint.x;
         double majorMinusMiddleY = majorAxisPoint.y - middlePoint.y;
 
@@ -148,8 +148,8 @@ class EllipseSolver {
      * will not be correct.
      */
     private boolean computeABThetaFromControlPoints(double relMiddleX, double relMiddleY,
-            double relativeMajorAxisPointX, double relativeMajorAxisPointY,
-            double relativeMinorAxisPointX, double relativeMinorAxisPointY) {
+                                                    double relativeMajorAxisPointX, double relativeMajorAxisPointY,
+                                                    double relativeMinorAxisPointX, double relativeMinorAxisPointY) {
         double m11 = relMiddleX * relMiddleX;
         double m12 = relMiddleX * relMiddleY;
         double m13 = relMiddleY * relMiddleY;
@@ -212,7 +212,7 @@ class EllipseSolver {
     }
 
     private static Point2D.Double computeOriginalCenter(float x1, float y1, float rx, float ry,
-            float phi, boolean largeArc, boolean sweep, float x2, float y2) {
+                                                        float phi, boolean largeArc, boolean sweep, float x2, float y2) {
         double cosPhi = cos(phi);
         double sinPhi = sin(phi);
         double xDelta = (x1 - x2) / 2;

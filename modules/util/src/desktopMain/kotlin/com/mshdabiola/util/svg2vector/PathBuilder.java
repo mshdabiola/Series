@@ -155,8 +155,8 @@ public class PathBuilder {
 
     public PathBuilder absoluteSmoothQuadraticCurveTo(double x, double y) {
         mPathData.append('T').append(formatFloatValue(x)).append(',').append(formatFloatValue(y));
-    return this;
-  }
+        return this;
+    }
 
     public PathBuilder relativeSmoothQuadraticCurveTo(double x, double y) {
         mPathData.append('t').append(formatFloatValue(x)).append(',').append(formatFloatValue(y));
@@ -231,6 +231,6 @@ public class PathBuilder {
     }
 
     public String toString() {
-    return mPathData.toString();
-  }
+        return mPathData.toString();
+    }
 }

@@ -22,7 +22,10 @@ import java.util.Locale;
 
 /** Methods for converting SVG color values to vector drawable format. */
 public class SvgColor {
-    /** Color table from https://www.w3.org/TR/SVG11/types.html#ColorKeywords. */
+    /**
+     * Color table from <a href="https://www.w3.org/TR/SVG11/types.html#ColorKeywords">Recognized
+     * color keyword names</a>.
+     */
     private static final ImmutableMap<String, String> colorMap =
             ImmutableMap.<String, String>builder()
                     .put("aliceblue", "#f0f8ff")
@@ -182,18 +185,25 @@ public class SvgColor {
      * Converts an SVG color value to "#RRGGBB" or "#AARRGGBB" format used by vector drawables.
      * The input color value can be "none" and RGB value, e.g. "rgb(255, 0, 0)",
      * "rgba(255, 0, 0, 127)", or a color name defined in
-     * https://www.w3.org/TR/SVG11/types.html#ColorKeywords.
+     * <a href="https://www.w3.org/TR/SVG11/types.html#ColorKeywords">Recognized color keyword names
+     * </a>.
      *
      * @param svgColorValue the SVG color value to convert
      * @return the converted value, or null if the given value cannot be interpreted as color
      * @throws IllegalArgumentException if the supplied SVG color value has invalid or unsupported
      *     format
      */
-    
-    protected static String colorSvg2Vd( String svgColorValue) {
+    @Nullable
+    protected static String colorSvg2Vd(@NonNull String svgColorValue) {
         String color = svgColorValue.trim();
 
         if (color.startsWith("#")) {
+            // Convert RGBA to ARGB.
+            if (color.length() == 5) {
+                return '#' + color.substring(4) + color.substring(1, 4);
+            } else if (color.length() == 9) {
+                return '#' + color.substring(7) + color.substring(1, 7);
+            }
             return color;
         }
 
@@ -237,7 +247,7 @@ public class SvgColor {
     }
 
     private static int getColorComponent(
-             String colorComponent,  String svgColorValue) {
+            @NonNull String colorComponent, @NonNull String svgColorValue) {
         try {
             if (colorComponent.endsWith("%")) {
                 float value =

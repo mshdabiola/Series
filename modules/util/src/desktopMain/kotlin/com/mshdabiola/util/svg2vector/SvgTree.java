@@ -17,22 +17,26 @@ package com.mshdabiola.util.svg2vector;
 
 import static com.android.utils.DecimalUtils.trimInsignificantZeros;
 import static com.android.utils.PositionXmlParser.getPosition;
-import static com.mshdabiola.util.svg2vector.SvgNode.CONTINUATION_INDENT;
-import static com.mshdabiola.util.svg2vector.SvgNode.INDENT_UNIT;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
+import com.android.annotations.NonNull;
+import com.android.annotations.Nullable;
 import com.android.utils.Pair;
 import com.android.utils.PositionXmlParser;
-import com.mshdabiola.util.svg2vector.SvgGroupNode;
-import com.mshdabiola.util.svg2vector.VdUtilKt;
 import com.google.common.base.Preconditions;
+import com.mshdabiola.util.svg2vector.VdUtil;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
+
 import java.awt.geom.AffineTransform;
 import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -44,19 +48,17 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javax.xml.parsers.ParserConfigurationException;
-import org.w3c.dom.Document;
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.Node;
 
 /**
  * Represents the SVG file in an internal data structure as a tree.
  */
 class SvgTree {
-    private static final Logger logger = Logger.getLogger(SvgTree.class.getSimpleName());
+    private static final Logger logger = Logger.getLogger(com.mshdabiola.util.svg2vector.SvgTree.class.getSimpleName());
 
     private static final String HEAD =
-        "<vector xmlns:android=\"http://schemas.android.com/apk/res/android\"";
+            "<vector xmlns:android=\"http://schemas.android.com/apk/res/android\"";
     private static final String AAPT_BOUND = "xmlns:aapt=\"http://schemas.android.com/aapt\"";
 
     public static final String SVG_WIDTH = "width";
@@ -67,38 +69,40 @@ class SvgTree {
     private float h = -1;
     private final AffineTransform mRootTransform = new AffineTransform();
     private float[] viewBox;
-    private float mScaleFactor = 1;
 
-    private SvgGroupNode mRoot;
+    private com.mshdabiola.util.svg2vector.SvgGroupNode mRoot;
     private String mFileName;
 
-    private final List<LogMessage> mLogMessages = new ArrayList<>();
+    private final List<com.mshdabiola.util.svg2vector.SvgTree.LogMessage> mLogMessages = new ArrayList<>();
 
     private boolean mHasLeafNode;
 
     private boolean mHasGradient;
 
     /** Map of SvgNode's id to the SvgNode. */
-    private final Map<String, SvgNode> mIdMap = new HashMap<>();
+    private final Map<String, com.mshdabiola.util.svg2vector.SvgNode> mIdMap = new HashMap<>();
 
     /** IDs of ignored SVG nodes. */
     private final Set<String> mIgnoredIds = new HashSet<>();
 
-    /** Set of SvgGroupNodes that contain use elements. */
-    private final Set<SvgGroupNode> mPendingUseGroupSet = new HashSet<>();
+    /** Set of SvgGroupNodes that contain "use" elements. */
+    private final Set<com.mshdabiola.util.svg2vector.SvgGroupNode> mPendingUseGroupSet = new HashSet<>();
+
+    /** Set of SvgGradientNodes that contain "href"" elements. */
+    private final Set<com.mshdabiola.util.svg2vector.SvgGradientNode> mPendingGradientRefSet = new HashSet<>();
 
     /**
      * Key is SvgNode that references a clipPath. Value is SvgGroupNode that is the parent of that
      * SvgNode.
      */
-    private final Map<SvgNode, Pair<SvgGroupNode, String>> mClipPathAffectedNodes =
+    private final Map<com.mshdabiola.util.svg2vector.SvgNode, Pair<com.mshdabiola.util.svg2vector.SvgGroupNode, String>> mClipPathAffectedNodes =
             new LinkedHashMap<>();
 
     /**
      * Key is String that is the id of a style class. Value is set of SvgNodes referencing that
      * class.
      */
-    private final Map<String, Set<SvgNode>> mStyleAffectedNodes = new HashMap<>();
+    private final Map<String, Set<com.mshdabiola.util.svg2vector.SvgNode>> mStyleAffectedNodes = new HashMap<>();
 
     /**
      * Key is String that is the id of a style class. Value is a String that contains attribute
@@ -106,15 +110,15 @@ class SvgTree {
      */
     private final Map<String, String> mStyleClassAttributeMap = new HashMap<>();
 
-     private NumberFormat mCoordinateFormat;
+    @Nullable private NumberFormat mCoordinateFormat;
 
     enum SvgLogLevel {
         ERROR,
         WARNING
     }
 
-    private static class LogMessage implements Comparable<LogMessage> {
-        final SvgLogLevel level;
+    private static class LogMessage implements Comparable<com.mshdabiola.util.svg2vector.SvgTree.LogMessage> {
+        final com.mshdabiola.util.svg2vector.SvgTree.SvgLogLevel level;
         final int line;
         final String message;
 
@@ -126,19 +130,19 @@ class SvgTree {
          *     or zero if the message applies to the whole file
          * @param message the text of the message
          */
-        LogMessage( SvgLogLevel level, int line,  String message) {
+        LogMessage(@NonNull com.mshdabiola.util.svg2vector.SvgTree.SvgLogLevel level, int line, @NonNull String message) {
             this.level = level;
             this.line = line;
             this.message = message;
         }
 
-        
+        @NonNull
         String getFormattedMessage() {
             return level.name() + (line == 0 ? "" : " @ line " + line) + ": " + message;
         }
 
         @Override
-        public int compareTo( LogMessage other) {
+        public int compareTo(@NonNull com.mshdabiola.util.svg2vector.SvgTree.LogMessage other) {
             int cmp = level.compareTo(other.level);
             if (cmp != 0) {
                 return cmp;
@@ -160,7 +164,7 @@ class SvgTree {
     }
 
     public float getScaleFactor() {
-        return mScaleFactor;
+        return 1;
     }
 
     public void setHasLeafNode(boolean hasLeafNode) {
@@ -188,10 +192,13 @@ class SvgTree {
         }
     }
 
-    public Document parse( File f,  List<String> parseErrors) throws IOException {
-        mFileName = f.getName();
+    @SuppressWarnings("NewApi")
+    @NonNull
+    public Document parse(@NonNull Path file, @NonNull List<String> parseErrors)
+            throws IOException {
+        mFileName = file.getFileName().toString();
         try {
-            BufferedInputStream inputStream = new BufferedInputStream(new FileInputStream(f));
+            BufferedInputStream inputStream = new BufferedInputStream(Files.newInputStream(file));
             return PositionXmlParser.parse(inputStream, false, parseErrors);
         } catch (ParserConfigurationException e) {
             throw new Error("Internal error", e); // Should not happen unless there is a bug.
@@ -206,7 +213,7 @@ class SvgTree {
         logger.log(Level.FINE, "matrix=" + mRootTransform);
     }
 
-    private void transform( AffineTransform rootTransform) {
+    private void transform(@NonNull AffineTransform rootTransform) {
         mRoot.transformIfNeeded(rootTransform);
     }
 
@@ -215,41 +222,41 @@ class SvgTree {
         mRoot.dumpNode("");
     }
 
-    public void setRoot( SvgGroupNode root) {
+    public void setRoot(@NonNull com.mshdabiola.util.svg2vector.SvgGroupNode root) {
         mRoot = root;
     }
 
-    
-    public SvgGroupNode getRoot() {
+    @Nullable
+    public com.mshdabiola.util.svg2vector.SvgGroupNode getRoot() {
         return mRoot;
     }
 
-    public void logError( String s,  Node node) {
-        logErrorLine(s, node, SvgLogLevel.ERROR);
+    public void logError(@NonNull String s, @Nullable Node node) {
+        logErrorLine(s, node, com.mshdabiola.util.svg2vector.SvgTree.SvgLogLevel.ERROR);
     }
 
-    public void logWarning( String s,  Node node) {
-        logErrorLine(s, node, SvgLogLevel.WARNING);
+    public void logWarning(@NonNull String s, @Nullable Node node) {
+        logErrorLine(s, node, com.mshdabiola.util.svg2vector.SvgTree.SvgLogLevel.WARNING);
     }
 
-    void logErrorLine( String s,  Node node,  SvgLogLevel level) {
+    void logErrorLine(@NonNull String s, @Nullable Node node, @NonNull com.mshdabiola.util.svg2vector.SvgTree.SvgLogLevel level) {
         Preconditions.checkArgument(!s.isEmpty());
         int line = node == null ? 0 : getStartLine(node);
-        mLogMessages.add(new LogMessage(level, line, s));
+        mLogMessages.add(new com.mshdabiola.util.svg2vector.SvgTree.LogMessage(level, line, s));
     }
 
     /**
      * Returns the error message that combines all logged errors and warnings. If there were no
      * errors, returns an empty string.
      */
-    
+    @NonNull
     public String getErrorMessage() {
         if (mLogMessages.isEmpty()) {
             return "";
         }
         Collections.sort(mLogMessages); // Sort by severity and line number.
         StringBuilder result = new StringBuilder();
-        for (LogMessage message : mLogMessages) {
+        for (com.mshdabiola.util.svg2vector.SvgTree.LogMessage message : mLogMessages) {
             if (result.length() != 0) {
                 result.append('\n');
             }
@@ -268,7 +275,7 @@ class SvgTree {
     }
 
     /** Returns the 1-based start line number of the given node. */
-    public static int getStartLine( Node node) {
+    public static int getStartLine(@NonNull Node node) {
         return getPosition(node).getStartLine() + 1;
     }
 
@@ -285,23 +292,23 @@ class SvgTree {
         PERCENTAGE
     }
 
-    public void parseDimension( Node nNode) {
+    public void parseDimension(@NonNull Node nNode) {
         NamedNodeMap a = nNode.getAttributes();
         int len = a.getLength();
-        SizeType widthType = SizeType.PIXEL;
-        SizeType heightType = SizeType.PIXEL;
+        com.mshdabiola.util.svg2vector.SvgTree.SizeType widthType = com.mshdabiola.util.svg2vector.SvgTree.SizeType.PIXEL;
+        com.mshdabiola.util.svg2vector.SvgTree.SizeType heightType = com.mshdabiola.util.svg2vector.SvgTree.SizeType.PIXEL;
         for (int i = 0; i < len; i++) {
             Node n = a.item(i);
             String name = n.getNodeName().trim();
             String value = n.getNodeValue().trim();
             int subStringSize = value.length();
-            SizeType currentType = SizeType.PIXEL;
+            com.mshdabiola.util.svg2vector.SvgTree.SizeType currentType = com.mshdabiola.util.svg2vector.SvgTree.SizeType.PIXEL;
             String unit = value.substring(Math.max(value.length() - 2, 0));
             if (unit.matches("em|ex|px|in|cm|mm|pt|pc")) {
                 subStringSize -= 2;
             } else if (value.endsWith("%")) {
                 subStringSize -= 1;
-                currentType = SizeType.PERCENTAGE;
+                currentType = com.mshdabiola.util.svg2vector.SvgTree.SizeType.PERCENTAGE;
             }
 
             if (SVG_WIDTH.equals(name)) {
@@ -330,10 +337,10 @@ class SvgTree {
             h = viewBox[3];
         }
 
-        if (widthType == SizeType.PERCENTAGE && w > 0) {
+        if (widthType == com.mshdabiola.util.svg2vector.SvgTree.SizeType.PERCENTAGE && w > 0) {
             w = viewBox[2] * w / 100;
         }
-        if (heightType == SizeType.PERCENTAGE && h > 0) {
+        if (heightType == com.mshdabiola.util.svg2vector.SvgTree.SizeType.PERCENTAGE && h > 0) {
             h = viewBox[3] * h / 100;
         }
     }
@@ -347,7 +354,7 @@ class SvgTree {
      * @throws IllegalArgumentException if the value is not a valid floating point number or
      *     percentage
      */
-    public double parseXValue( String value) {
+    public double parseXValue(@NonNull String value) {
         return parseCoordinateOrLength(value, getViewportWidth());
     }
 
@@ -360,79 +367,88 @@ class SvgTree {
      * @throws IllegalArgumentException if the value is not a valid floating point number or
      *     percentage
      */
-    public double parseYValue( String value) {
+    public double parseYValue(@NonNull String value) {
         return parseCoordinateOrLength(value, getViewportHeight());
     }
 
-    private static double parseCoordinateOrLength( String value, double percentageBase) {
+    private static double parseCoordinateOrLength(@NonNull String value, double percentageBase) {
         if (value.endsWith("%")) {
             return Double.parseDouble(value.substring(0, value.length() - 1)) / 100
-                   * percentageBase;
+                    * percentageBase;
         } else {
             return Double.parseDouble(value);
         }
     }
 
-    public void addIdToMap( String id,  SvgNode svgNode) {
+    public void addIdToMap(@NonNull String id, @NonNull com.mshdabiola.util.svg2vector.SvgNode svgNode) {
         mIdMap.put(id, svgNode);
     }
 
-    
-    public SvgNode getSvgNodeFromId( String id) {
+    @Nullable
+    public com.mshdabiola.util.svg2vector.SvgNode getSvgNodeFromId(@NonNull String id) {
         return mIdMap.get(id);
     }
 
-    public void addToPendingUseSet( SvgGroupNode useGroup) {
+    public void addToPendingUseSet(@NonNull com.mshdabiola.util.svg2vector.SvgGroupNode useGroup) {
         mPendingUseGroupSet.add(useGroup);
     }
 
-    
-    public Set<SvgGroupNode> getPendingUseSet() {
+    @NonNull
+    public Set<com.mshdabiola.util.svg2vector.SvgGroupNode> getPendingUseSet() {
         return mPendingUseGroupSet;
     }
 
-    public void addIgnoredId( String id) {
+    public void addToPendingGradientRefSet(@NonNull com.mshdabiola.util.svg2vector.SvgGradientNode node) {
+        mPendingGradientRefSet.add(node);
+    }
+
+    @NonNull
+    public Set<com.mshdabiola.util.svg2vector.SvgGradientNode> getPendingGradientRefSet() {
+        return mPendingGradientRefSet;
+    }
+
+    public void addIgnoredId(@NonNull String id) {
         mIgnoredIds.add(id);
     }
 
-    public boolean isIdIgnored( String id) {
+    public boolean isIdIgnored(@NonNull String id) {
         return mIgnoredIds.contains(id);
     }
 
     public void addClipPathAffectedNode(
-             SvgNode child,
-             SvgGroupNode currentGroup,
-             String clipPathName) {
+            @NonNull com.mshdabiola.util.svg2vector.SvgNode child,
+            @NonNull com.mshdabiola.util.svg2vector.SvgGroupNode currentGroup,
+            @NonNull String clipPathName) {
         mClipPathAffectedNodes.put(child, Pair.of(currentGroup, clipPathName));
     }
 
-    
-    public Set<Map.Entry<SvgNode, Pair<SvgGroupNode, String>>> getClipPathAffectedNodesSet() {
+    @NonNull
+    public Set<Map.Entry<com.mshdabiola.util.svg2vector.SvgNode, Pair<com.mshdabiola.util.svg2vector.SvgGroupNode, String>>> getClipPathAffectedNodesSet() {
         return mClipPathAffectedNodes.entrySet();
     }
 
     /** Adds child to set of SvgNodes that reference the style class with id className. */
-    public void addAffectedNodeToStyleClass( String className,  SvgNode child) {
+    public void addAffectedNodeToStyleClass(@NonNull String className, @NonNull com.mshdabiola.util.svg2vector.SvgNode child) {
         if (mStyleAffectedNodes.containsKey(className)) {
             mStyleAffectedNodes.get(className).add(child);
         } else {
-            Set<SvgNode> styleNodesSet = new HashSet<>();
+            Set<com.mshdabiola.util.svg2vector.SvgNode> styleNodesSet = new HashSet<>();
             styleNodesSet.add(child);
             mStyleAffectedNodes.put(className, styleNodesSet);
         }
     }
 
-    public void addStyleClassToTree( String className,  String attributes) {
+    public void addStyleClassToTree(@NonNull String className, @NonNull String attributes) {
         mStyleClassAttributeMap.put(className, attributes);
     }
 
-    
-    public String getStyleClassAttr( String classname) {
+    @Nullable
+    public String getStyleClassAttr(@NonNull String classname) {
         return mStyleClassAttributeMap.get(classname);
     }
 
-    
-    public Set<Map.Entry<String, Set<SvgNode>>> getStyleAffectedNodes() {
+    @NonNull
+    public Set<Map.Entry<String, Set<com.mshdabiola.util.svg2vector.SvgNode>>> getStyleAffectedNodes() {
         return mStyleAffectedNodes.entrySet();
     }
 
@@ -441,13 +457,13 @@ class SvgTree {
      *
      * @return the parent node, or null if node is not in the tree.
      */
-    
-    public SvgGroupNode findParent( SvgNode node) {
+    @Nullable
+    public com.mshdabiola.util.svg2vector.SvgGroupNode findParent(@NonNull com.mshdabiola.util.svg2vector.SvgNode node) {
         return mRoot.findParent(node);
     }
 
     /** Formats and returns the given coordinate with an appropriate precision. */
-    
+    @NonNull
     public String formatCoordinate(double coordinate) {
         return trimInsignificantZeros(getCoordinateFormat().format(coordinate));
     }
@@ -456,17 +472,17 @@ class SvgTree {
      * Returns a {@link NumberFormat] of sufficient precision to use for formatting coordinate
      * values within the viewport.
      */
-    
+    @NonNull
     private NumberFormat getCoordinateFormat() {
         if (mCoordinateFormat == null) {
             float viewportWidth = getViewportWidth();
             float viewportHeight = getViewportHeight();
-            mCoordinateFormat = VdUtilKt.getCoordinateFormat(Math.max(viewportHeight, viewportWidth));
+            mCoordinateFormat = VdUtil.getCoordinateFormat(Math.max(viewportHeight, viewportWidth));
         }
         return mCoordinateFormat;
     }
 
-    public void writeXml( OutputStream stream) throws IOException {
+    public void writeXml(@NonNull OutputStream stream) throws IOException {
         if (mRoot == null) {
             throw new IllegalStateException("SvgTree is not fully initialized");
         }

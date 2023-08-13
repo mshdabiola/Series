@@ -86,12 +86,12 @@ fun InstructionUi(
 
     ListItem(
         modifier = modifier,
-        overlineText = { Text("Id is ${instructionUiState.id}") },
-        headlineText = {
+        overlineContent = { Text("Id is ${instructionUiState.id}") },
+        headlineContent = {
             if (instructionUiState.title != null)
                 Text(instructionUiState.title)
         },
-        supportingText = {
+        supportingContent = {
             ContentView(items = instructionUiState.content, generalPath = generalPath)
         },
         trailingContent = {

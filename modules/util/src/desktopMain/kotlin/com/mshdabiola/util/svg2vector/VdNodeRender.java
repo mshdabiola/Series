@@ -15,30 +15,33 @@
  */
 package com.mshdabiola.util.svg2vector;
 
+
 import java.awt.geom.Path2D;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.jetbrains.annotations.NotNull;
+
 /**
- * Given an array of {@link VdPath.Node}, generates a Path2D object.
+ * Given an array of {@link com.mshdabiola.util.svg2vector.VdPath.Node}, generates a Path2D object.
  * In other words, this is the engine which converts the pathData into
  * a Path2D object, which is able to draw on Swing components.
  * The logic and math here are the same as PathParser.java in framework.
  */
 class VdNodeRender {
-    private static final Logger LOGGER = Logger.getLogger(VdNodeRender.class.getSimpleName());
+    private static final Logger LOGGER = Logger.getLogger(com.mshdabiola.util.svg2vector.VdNodeRender.class.getSimpleName());
 
-    public static void createPath( VdPath.Node[] nodes,  Path2D path) {
+    public static void createPath(@NotNull com.mshdabiola.util.svg2vector.VdPath.Node[] nodes, @NotNull Path2D path) {
         float[] current = new float[6];
         char lastCmd = ' ';
-        for (VdPath.Node node : nodes) {
+        for (com.mshdabiola.util.svg2vector.VdPath.Node node : nodes) {
             addCommand(path, current, node.getType(), lastCmd, node.getParams());
             lastCmd = node.getType();
         }
     }
 
-    private static void addCommand( Path2D path, float[] current, char cmd, char lastCmd,
-            float[] val) {
+    private static void addCommand(@NotNull Path2D path, float[] current, char cmd, char lastCmd,
+                                   float[] val) {
         int incr = 2;
 
         float cx = current[0];
@@ -266,8 +269,8 @@ class VdNodeRender {
         current[5] = loopY;
     }
 
-    private static void drawArc( Path2D p, double x0, double y0, double x1, double y1,
-            double a, double b, double theta, boolean isMoreThanHalf, boolean isPositiveArc) {
+    private static void drawArc(@NotNull Path2D p, double x0, double y0, double x1, double y1,
+                                double a, double b, double theta, boolean isMoreThanHalf, boolean isPositiveArc) {
         LOGGER.log(Level.FINE, "(" + x0 + "," + y0 + ")-(" + x1 + "," + y1
                 + ") {" + a + " " + b + "}");
         // Convert rotation angle from degrees to radians.
@@ -357,8 +360,8 @@ class VdNodeRender {
      * @param start The start angle of the arc on the ellipse
      * @param sweep The angle (positive or negative) of the sweep of the arc on the ellipse
      */
-    private static void arcToBezier( Path2D p, double cx, double cy, double a, double b,
-            double e1x, double e1y, double theta, double start, double sweep) {
+    private static void arcToBezier(@NotNull Path2D p, double cx, double cy, double a, double b,
+                                    double e1x, double e1y, double theta, double start, double sweep) {
         // Taken from equations at:
         // http://spaceroots.org/documents/ellipse/node8.html
         // and http://www.spaceroots.org/documents/ellipse/node22.html
