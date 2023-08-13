@@ -1,4 +1,4 @@
-package com.mshdabiola.model
+package com.mshdabiola.model.data
 
 import kotlinx.serialization.Serializable
 
