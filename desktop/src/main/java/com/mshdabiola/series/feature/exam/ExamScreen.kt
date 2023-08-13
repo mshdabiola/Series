@@ -15,8 +15,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.onClick
-import androidx.compose.foundation.pager.HorizontalPager
-import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -69,7 +67,6 @@ import com.mshdabiola.ui.state.TopicUiState
 import com.mshdabiola.ui.topicui.TopicUi
 import com.mshdabiola.util.FileManager
 import kotlinx.collections.immutable.ImmutableList
-import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.splitpane.ExperimentalSplitPaneApi
 import org.jetbrains.compose.splitpane.HorizontalSplitPane
@@ -97,47 +94,43 @@ fun ExamScreen(
         val questions = viewModel.questions.collectAsState()
         val instructionUiStates = viewModel.instructions.collectAsState()
         val topicUiStates = viewModel.topicUiStates.collectAsState()
-        val pagerState = rememberPagerState(){3}
+        var state by remember {
+            mutableStateOf(0)
+        }
         val coroutineScope = rememberCoroutineScope()
         Column(Modifier.fillMaxSize().padding(paddingValues).padding(horizontal = 16.dp)) {
             TabRow(
-                selectedTabIndex = pagerState.currentPage,
+                selectedTabIndex = state,
             ) {
                 Tab(
-                    selected = pagerState.currentPage == 0,
+                    selected = state == 0,
                     onClick = {
-                        coroutineScope.launch {
-                            pagerState.animateScrollToPage(0)
-                        }
+                        state=0
                     },
                     text = { Text("Question") }
                 )
                 Tab(
-                    selected = pagerState.currentPage == 1,
+                    selected = state == 1,
                     onClick = {
-                        coroutineScope.launch {
-                            pagerState.animateScrollToPage(1)
-                        }
+                        state=1
                     },
                     text = { Text("Instruction") }
                 )
                 Tab(
-                    selected = pagerState.currentPage == 2,
+                    selected = state == 2,
                     onClick = {
-                        coroutineScope.launch {
-                            pagerState.animateScrollToPage(2)
-                        }
+                       state=2
                     },
                     text = { Text("Topic") }
                 )
 
             }
-            HorizontalPager(
+            Box(
                 modifier = Modifier.padding(top = 8.dp).weight(1f),
                // pageCount = 3,
-                state = pagerState
+
             ) {
-                when (it) {
+                when (state) {
                     0 ->
                         ExamContent(
                             modifier = Modifier,
