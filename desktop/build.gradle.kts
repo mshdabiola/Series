@@ -82,7 +82,7 @@ compose.desktop {
                 shortcut = true
                 menuGroup = packageName
                 //https://wixtoolset.org/documentation/manual/v3/howtos/general/generate_guids.html
-                upgradeUuid = "791AC64E-Y9A7-4CBF-A1C4-AFE5CFFDDDFT"
+                upgradeUuid = "22a6b130-7ad9-4c97-bcc9-ced9b41ba1c5"
             }
 
             macOS {
