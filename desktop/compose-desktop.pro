@@ -75,13 +75,6 @@
 -dontnote kotlinx.serialization.AnnotationsKt # core serialization annotations
 -dontnote kotlinx.serialization.SerializationKt
 
-# Keep Serializers
-
--keep,includedescriptorclasses class work.racka.reluct.**$$serializer { *; }
--keepclassmembers class work.racka.reluct.** {
-    *** Companion;
-}
-
 # kotlinx-serialization-json specific. Add this if you have java.lang.NoClassDefFoundError kotlinx.serialization.json.JsonObjectSerializer
 -keepclassmembers class kotlinx.serialization.json.** {
     *** Companion;
@@ -92,7 +85,7 @@
 
 # Change here com.yourcompany.yourpackage
 -keep,includedescriptorclasses class com.mshdabiola.model.data**$$serializer { *; } # <-- change package name to your app's
--keepclassmembers class com.mshdabiola.network.** { # <-- change package name to your app's
+-keepclassmembers class com.mshdabiola.model.data.** { # <-- change package name to your app's
     *** Companion;
 }
 -keepclasseswithmembers class com.mshdabiola.model.data.** { # <-- change package name to your app's
