@@ -147,3 +147,5 @@
 # Ignore warnings and Don't obfuscate for now
 #-dontobfuscate
 -ignorewarnings
+
+-optimizations !class/unboxing/enum
