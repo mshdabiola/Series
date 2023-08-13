@@ -1,4 +1,4 @@
--keepclasseswithmembers public class work.racka.reluct.MainKt {
+-keepclasseswithmembers public class com.mshdabiola.series.MainAppKt {
     public static void main(java.lang.String[]);
 }
 
@@ -81,16 +81,21 @@
 -keepclassmembers class work.racka.reluct.** {
     *** Companion;
 }
--keepclasseswithmembers class work.racka.reluct.** {
-    kotlinx.serialization.KSerializer serializer(...);
-}
 
-# When kotlinx.serialization.json.JsonObjectSerializer occurs
-
+# kotlinx-serialization-json specific. Add this if you have java.lang.NoClassDefFoundError kotlinx.serialization.json.JsonObjectSerializer
 -keepclassmembers class kotlinx.serialization.json.** {
     *** Companion;
 }
 -keepclasseswithmembers class kotlinx.serialization.json.** {
+    kotlinx.serialization.KSerializer serializer(...);
+}
+
+# Change here com.yourcompany.yourpackage
+-keep,includedescriptorclasses class com.mshdabiola.model.data**$$serializer { *; } # <-- change package name to your app's
+-keepclassmembers class com.mshdabiola.network.** { # <-- change package name to your app's
+    *** Companion;
+}
+-keepclasseswithmembers class com.mshdabiola.model.data.** { # <-- change package name to your app's
     kotlinx.serialization.KSerializer serializer(...);
 }
 
