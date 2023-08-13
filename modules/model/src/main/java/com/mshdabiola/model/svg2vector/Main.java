@@ -1,10 +1,5 @@
-package com.mshdabiola.util.svg2vector;
+package com.mshdabiola.model.svg2vector;
 
-
-import com.mshdabiola.util.svg2vector.Svg2Vector;
-
-import java.io.File;
-import java.io.FileOutputStream;
 
 public class Main {
     public static void main(String[] args) {

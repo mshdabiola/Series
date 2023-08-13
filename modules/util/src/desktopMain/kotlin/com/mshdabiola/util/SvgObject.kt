@@ -1,6 +1,6 @@
 package com.mshdabiola.util
 
-import com.mshdabiola.util.svg2vector.Svg2Vector
+import com.mshdabiola.model.svg2vector.Svg2Vector
 //import com.android.ide.common.vectordrawable.Svg2Vector
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext

@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.mshdabiola.util.svg2vector;
+package com.mshdabiola.model.svg2vector;
 
 import static com.android.SdkConstants.TAG_CLIP_PATH;
-import static com.mshdabiola.util.svg2vector.Svg2Vector.SVG_CLIP_RULE;
-import static com.mshdabiola.util.svg2vector.Svg2Vector.SVG_MASK;
-import static com.mshdabiola.util.svg2vector.VdUtilKt.parseColorValue;
+import static com.mshdabiola.model.svg2vector.Svg2Vector.SVG_CLIP_RULE;
+import static com.mshdabiola.model.svg2vector.Svg2Vector.SVG_MASK;
+import static com.mshdabiola.model.svg2vector.VdUtilKt.parseColorValue;
 
 import com.android.annotations.NonNull;
 import com.android.annotations.Nullable;
@@ -40,30 +40,30 @@ import java.util.Map;
  * {@link #writeXml} by concatenating mChildren's paths. mAffectedNodes contains any group or leaf
  * nodes that are clipped by the path.
  */
-class SvgClipPathNode extends com.mshdabiola.util.svg2vector.SvgGroupNode {
-    private final ArrayList<com.mshdabiola.util.svg2vector.SvgNode> mAffectedNodes = new ArrayList<>();
+class SvgClipPathNode extends SvgGroupNode {
+    private final ArrayList<SvgNode> mAffectedNodes = new ArrayList<>();
 
-    SvgClipPathNode(@NonNull com.mshdabiola.util.svg2vector.SvgTree svgTree, @NonNull Element element, @Nullable String name) {
+    SvgClipPathNode(@NonNull SvgTree svgTree, @NonNull Element element, @Nullable String name) {
         super(svgTree, element, name);
     }
 
     @Override
     @NonNull
-    public com.mshdabiola.util.svg2vector.SvgClipPathNode deepCopy() {
-        com.mshdabiola.util.svg2vector.SvgClipPathNode newInstance = new com.mshdabiola.util.svg2vector.SvgClipPathNode(getTree(), mDocumentElement, mName);
+    public SvgClipPathNode deepCopy() {
+        SvgClipPathNode newInstance = new SvgClipPathNode(getTree(), mDocumentElement, mName);
         newInstance.copyFrom(this);
         return newInstance;
     }
 
-    protected void copyFrom(@NonNull com.mshdabiola.util.svg2vector.SvgClipPathNode from) {
+    protected void copyFrom(@NonNull SvgClipPathNode from) {
         super.copyFrom(from);
-        for (com.mshdabiola.util.svg2vector.SvgNode node : from.mAffectedNodes) {
+        for (SvgNode node : from.mAffectedNodes) {
             addAffectedNode(node);
         }
     }
 
     @Override
-    public void addChild(@NonNull com.mshdabiola.util.svg2vector.SvgNode child) {
+    public void addChild(@NonNull SvgNode child) {
         // Pass the presentation map down to the children, who can override the attributes.
         mChildren.add(child);
         // The child has its own attributes map. But the parents can still fill some attributes
@@ -71,21 +71,21 @@ class SvgClipPathNode extends com.mshdabiola.util.svg2vector.SvgGroupNode {
         child.fillEmptyAttributes(mVdAttributesMap);
     }
 
-    public void addAffectedNode(@NonNull com.mshdabiola.util.svg2vector.SvgNode child) {
+    public void addAffectedNode(@NonNull SvgNode child) {
         mAffectedNodes.add(child);
         child.fillEmptyAttributes(mVdAttributesMap);
     }
 
     @Override
     public void flatten(@NonNull AffineTransform transform) {
-        for (com.mshdabiola.util.svg2vector.SvgNode n : mChildren) {
+        for (SvgNode n : mChildren) {
             mStackedTransform.setTransform(transform);
             mStackedTransform.concatenate(mLocalTransform);
             n.flatten(mStackedTransform);
         }
 
         mStackedTransform.setTransform(transform);
-        for (com.mshdabiola.util.svg2vector.SvgNode n : mAffectedNodes) {
+        for (SvgNode n : mAffectedNodes) {
             n.flatten(mStackedTransform); // mLocalTransform does not apply to mAffectedNodes.
         }
         mStackedTransform.concatenate(mLocalTransform);
@@ -120,7 +120,7 @@ class SvgClipPathNode extends com.mshdabiola.util.svg2vector.SvgGroupNode {
 
     @Override
     public void transformIfNeeded(@NonNull AffineTransform rootTransform) {
-        for (com.mshdabiola.util.svg2vector.SvgNode p : Iterables.concat(mChildren, mAffectedNodes)) {
+        for (SvgNode p : Iterables.concat(mChildren, mAffectedNodes)) {
             p.transformIfNeeded(rootTransform);
         }
     }
@@ -135,8 +135,8 @@ class SvgClipPathNode extends com.mshdabiola.util.svg2vector.SvgGroupNode {
 
         Map<ClipRule, List<String>> clipPaths = new EnumMap<>(ClipRule.class);
         Visitor clipPathCollector = node -> {
-            if (node instanceof com.mshdabiola.util.svg2vector.SvgLeafNode) {
-                String pathData = ((com.mshdabiola.util.svg2vector.SvgLeafNode) node).getPathData();
+            if (node instanceof SvgLeafNode) {
+                String pathData = ((SvgLeafNode) node).getPathData();
                 if (pathData != null && !pathData.isEmpty()) {
                     ClipRule clipRule =
                             "evenOdd".equals(node.mVdAttributesMap.get(SVG_CLIP_RULE))
@@ -149,7 +149,7 @@ class SvgClipPathNode extends com.mshdabiola.util.svg2vector.SvgGroupNode {
             }
             return VisitResult.CONTINUE;
         };
-        for (com.mshdabiola.util.svg2vector.SvgNode node : mChildren) {
+        for (SvgNode node : mChildren) {
             node.accept(clipPathCollector);
         }
 
@@ -184,7 +184,7 @@ class SvgClipPathNode extends com.mshdabiola.util.svg2vector.SvgGroupNode {
             writer.write(System.lineSeparator());
         }
 
-        for (com.mshdabiola.util.svg2vector.SvgNode node : mAffectedNodes) {
+        for (SvgNode node : mAffectedNodes) {
             node.writeXml(writer, incrementedIndent);
         }
         writer.write(indent);
@@ -197,7 +197,7 @@ class SvgClipPathNode extends com.mshdabiola.util.svg2vector.SvgGroupNode {
      * transformed.
      */
     public void setClipPathNodeAttributes() {
-        for (com.mshdabiola.util.svg2vector.SvgNode n : mAffectedNodes) {
+        for (SvgNode n : mAffectedNodes) {
             mLocalTransform.concatenate(n.mLocalTransform);
         }
     }

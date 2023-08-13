@@ -13,15 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.mshdabiola.util.svg2vector;
+package com.mshdabiola.model.svg2vector;
 
 import static com.android.utils.DecimalUtils.trimInsignificantZeros;
-import static com.mshdabiola.util.svg2vector.VdUtilKt.parseColorValue;
+import static com.mshdabiola.model.svg2vector.VdUtilKt.parseColorValue;
 
 import com.android.annotations.NonNull;
 import com.android.annotations.Nullable;
 import com.google.common.collect.ImmutableMap;
-import com.mshdabiola.util.svg2vector.PathParser.ParseMode;
+import com.mshdabiola.model.svg2vector.PathParser.ParseMode;
 
 import org.w3c.dom.Element;
 
@@ -39,17 +39,17 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /** Represents an SVG gradient that is referenced by a SvgLeafNode. */
-class SvgGradientNode extends com.mshdabiola.util.svg2vector.SvgNode {
-    private static final Logger logger = Logger.getLogger(com.mshdabiola.util.svg2vector.SvgGroupNode.class.getSimpleName());
+class SvgGradientNode extends SvgNode {
+    private static final Logger logger = Logger.getLogger(SvgGroupNode.class.getSimpleName());
 
-    private final List<com.mshdabiola.util.svg2vector.GradientStop> mGradientStops = new ArrayList<>();
+    private final List<GradientStop> mGradientStops = new ArrayList<>();
 
-    private com.mshdabiola.util.svg2vector.SvgLeafNode mSvgLeafNode;
+    private SvgLeafNode mSvgLeafNode;
 
     // Bounding box of mSvgLeafNode.
     private Rectangle2D mBoundingBox;
 
-    private com.mshdabiola.util.svg2vector.SvgGradientNode.GradientUsage mGradientUsage;
+    private SvgGradientNode.GradientUsage mGradientUsage;
 
     // Maps the gradient vector's coordinate names to an int for easier array lookup.
     private static final ImmutableMap<String, Integer> vectorCoordinateMap =
@@ -60,14 +60,14 @@ class SvgGradientNode extends com.mshdabiola.util.svg2vector.SvgNode {
                     .put("y2", 3)
                     .build();
 
-    SvgGradientNode(@NonNull com.mshdabiola.util.svg2vector.SvgTree svgTree, @NonNull Element element, @Nullable String nodeName) {
+    SvgGradientNode(@NonNull SvgTree svgTree, @NonNull Element element, @Nullable String nodeName) {
         super(svgTree, element, nodeName);
     }
 
     @Override
     @NonNull
-    public com.mshdabiola.util.svg2vector.SvgGradientNode deepCopy() {
-        com.mshdabiola.util.svg2vector.SvgGradientNode newInstance = new com.mshdabiola.util.svg2vector.SvgGradientNode(getTree(), mDocumentElement, getName());
+    public SvgGradientNode deepCopy() {
+        SvgGradientNode newInstance = new SvgGradientNode(getTree(), mDocumentElement, getName());
         newInstance.copyFrom(this);
         return newInstance;
     }
@@ -84,10 +84,10 @@ class SvgGradientNode extends com.mshdabiola.util.svg2vector.SvgNode {
      * mGradientUsage based on the leaf node's attributes and reference to the gradient being
      * copied.
      */
-    protected void copyFrom(@NonNull com.mshdabiola.util.svg2vector.SvgGradientNode from) {
+    protected void copyFrom(@NonNull SvgGradientNode from) {
         super.copyFrom(from);
         if (mGradientStops.isEmpty()) {
-            for (com.mshdabiola.util.svg2vector.GradientStop g : from.mGradientStops) {
+            for (GradientStop g : from.mGradientStops) {
                 addGradientStop(g.getColor(), g.getOffset(), g.getOpacity());
             }
         }
@@ -99,17 +99,17 @@ class SvgGradientNode extends com.mshdabiola.util.svg2vector.SvgNode {
      * @return true if the reference has been resolved, or false if it cannot be resolved at this
      *     time due to a dependency on an unresolved node
      */
-    public boolean resolveHref(@NonNull com.mshdabiola.util.svg2vector.SvgTree svgTree) {
+    public boolean resolveHref(@NonNull SvgTree svgTree) {
         String id = getHrefId();
-        com.mshdabiola.util.svg2vector.SvgNode referencedNode = id.isEmpty() ? null : svgTree.getSvgNodeFromId(id);
-        if (referencedNode instanceof com.mshdabiola.util.svg2vector.SvgGradientNode) {
+        SvgNode referencedNode = id.isEmpty() ? null : svgTree.getSvgNodeFromId(id);
+        if (referencedNode instanceof SvgGradientNode) {
             //noinspection SuspiciousMethodCalls
             if (svgTree.getPendingUseSet().contains(referencedNode)) {
                 // Cannot process this node, because referencedNode it depends upon
                 // hasn't been processed yet.
                 return false;
             }
-            copyFrom((com.mshdabiola.util.svg2vector.SvgGradientNode) referencedNode);
+            copyFrom((SvgGradientNode) referencedNode);
         } else if (referencedNode == null) {
             if (id.isEmpty() || !svgTree.isIdIgnored(id)) {
                 svgTree.logError("Referenced id not found", mDocumentElement);
@@ -138,14 +138,14 @@ class SvgGradientNode extends com.mshdabiola.util.svg2vector.SvgNode {
     }
 
     /** Parses the gradient coordinate value given as a percentage or a length. Returns a double. */
-    private com.mshdabiola.util.svg2vector.SvgGradientNode.GradientCoordResult getGradientCoordinate(@NonNull String x, double defaultValue) {
+    private SvgGradientNode.GradientCoordResult getGradientCoordinate(@NonNull String x, double defaultValue) {
         if (!mVdAttributesMap.containsKey(x)) {
-            return new com.mshdabiola.util.svg2vector.SvgGradientNode.GradientCoordResult(defaultValue, false);
+            return new SvgGradientNode.GradientCoordResult(defaultValue, false);
         }
         double val = defaultValue;
         String vdValue = mVdAttributesMap.get(x).trim();
         if (x.equals("r") && vdValue.startsWith("-")) {
-            return new com.mshdabiola.util.svg2vector.SvgGradientNode.GradientCoordResult(defaultValue, false);
+            return new SvgGradientNode.GradientCoordResult(defaultValue, false);
         }
 
         boolean isPercentage = false;
@@ -159,7 +159,7 @@ class SvgGradientNode extends com.mshdabiola.util.svg2vector.SvgNode {
         } catch (NumberFormatException e) {
             logError("Unsupported coordinate value");
         }
-        return new com.mshdabiola.util.svg2vector.SvgGradientNode.GradientCoordResult(val, isPercentage);
+        return new SvgGradientNode.GradientCoordResult(val, isPercentage);
     }
 
     @Override
@@ -192,7 +192,7 @@ class SvgGradientNode extends com.mshdabiola.util.svg2vector.SvgNode {
         }
 
         writer.write(indent);
-        if (mGradientUsage == com.mshdabiola.util.svg2vector.SvgGradientNode.GradientUsage.FILL) {
+        if (mGradientUsage == SvgGradientNode.GradientUsage.FILL) {
             writer.write("<aapt:attr name=\"android:fillColor\">");
         } else {
             writer.write("<aapt:attr name=\"android:strokeColor\">");
@@ -260,7 +260,7 @@ class SvgGradientNode extends com.mshdabiola.util.svg2vector.SvgNode {
                 if (index == 2) {
                     defaultValue = 1;
                 }
-                com.mshdabiola.util.svg2vector.SvgGradientNode.GradientCoordResult result = getGradientCoordinate(s, defaultValue);
+                SvgGradientNode.GradientCoordResult result = getGradientCoordinate(s, defaultValue);
 
                 double coordValue = result.getValue();
                 if (!isUserSpaceOnUse || result.isPercentage()) {
@@ -287,17 +287,17 @@ class SvgGradientNode extends com.mshdabiola.util.svg2vector.SvgNode {
         } else {
             gradientBounds = new double[2];
             transformedBounds = new double[2];
-            com.mshdabiola.util.svg2vector.SvgGradientNode.GradientCoordResult cxResult = getGradientCoordinate("cx", .5);
+            SvgGradientNode.GradientCoordResult cxResult = getGradientCoordinate("cx", .5);
             double cx = cxResult.getValue();
             if (!isUserSpaceOnUse || cxResult.isPercentage()) {
                 cx = width * cx + startX;
             }
-            com.mshdabiola.util.svg2vector.SvgGradientNode.GradientCoordResult cyResult = getGradientCoordinate("cy", .5);
+            SvgGradientNode.GradientCoordResult cyResult = getGradientCoordinate("cy", .5);
             double cy = cyResult.getValue();
             if (!isUserSpaceOnUse || cyResult.isPercentage()) {
                 cy = height * cy + startY;
             }
-            com.mshdabiola.util.svg2vector.SvgGradientNode.GradientCoordResult rResult = getGradientCoordinate("r", .5);
+            SvgGradientNode.GradientCoordResult rResult = getGradientCoordinate("r", .5);
             double r = rResult.getValue();
             if (!isUserSpaceOnUse || rResult.isPercentage()) {
                 r *= Math.max(height, width);
@@ -382,7 +382,7 @@ class SvgGradientNode extends com.mshdabiola.util.svg2vector.SvgNode {
 
     private void writeGradientStops(@NonNull OutputStreamWriter writer, @NonNull String indent)
             throws IOException {
-        for (com.mshdabiola.util.svg2vector.GradientStop g : mGradientStops) {
+        for (GradientStop g : mGradientStops) {
             String color = g.getColor();
             float opacity;
             try {
@@ -391,7 +391,7 @@ class SvgGradientNode extends com.mshdabiola.util.svg2vector.SvgNode {
                 logWarning("Unsupported opacity value");
                 opacity = 1;
             }
-            int color1 = com.mshdabiola.util.svg2vector.VdPath.applyAlpha(parseColorValue(color), opacity);
+            int color1 = VdPath.applyAlpha(parseColorValue(color), opacity);
             color = String.format("#%08X", color1);
 
             writer.write(indent);
@@ -417,23 +417,23 @@ class SvgGradientNode extends com.mshdabiola.util.svg2vector.SvgNode {
 
     public void addGradientStop(
             @NonNull String color, @NonNull String offset, @NonNull String opacity) {
-        com.mshdabiola.util.svg2vector.GradientStop stop = new GradientStop(color, offset);
+        GradientStop stop = new GradientStop(color, offset);
         stop.setOpacity(opacity);
         mGradientStops.add(stop);
     }
 
-    public void setGradientUsage(@NonNull com.mshdabiola.util.svg2vector.SvgGradientNode.GradientUsage gradientUsage) {
+    public void setGradientUsage(@NonNull SvgGradientNode.GradientUsage gradientUsage) {
         mGradientUsage = gradientUsage;
     }
 
-    public void setSvgLeafNode(@NonNull com.mshdabiola.util.svg2vector.SvgLeafNode svgLeafNode) {
+    public void setSvgLeafNode(@NonNull SvgLeafNode svgLeafNode) {
         mSvgLeafNode = svgLeafNode;
     }
 
     private void setBoundingBox() {
         Path2D svgPath = new Path2D.Double();
-        com.mshdabiola.util.svg2vector.VdPath.Node[] nodes = PathParser.parsePath(mSvgLeafNode.getPathData(), ParseMode.SVG);
-        com.mshdabiola.util.svg2vector.VdNodeRender.createPath(nodes, svgPath);
+        VdPath.Node[] nodes = PathParser.parsePath(mSvgLeafNode.getPathData(), ParseMode.SVG);
+        VdNodeRender.createPath(nodes, svgPath);
         mBoundingBox = svgPath.getBounds2D();
     }
 

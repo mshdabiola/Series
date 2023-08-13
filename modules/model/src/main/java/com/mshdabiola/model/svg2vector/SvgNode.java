@@ -13,22 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.mshdabiola.util.svg2vector;
-
-import static com.mshdabiola.util.svg2vector.Svg2Vector.SVG_CLIP_RULE;
-import static com.mshdabiola.util.svg2vector.Svg2Vector.SVG_FILL;
-import static com.mshdabiola.util.svg2vector.Svg2Vector.SVG_FILL_RULE;
-import static com.mshdabiola.util.svg2vector.Svg2Vector.SVG_HREF;
-import static com.mshdabiola.util.svg2vector.Svg2Vector.SVG_PAINT_ORDER;
-import static com.mshdabiola.util.svg2vector.Svg2Vector.SVG_STROKE;
-import static com.mshdabiola.util.svg2vector.Svg2Vector.SVG_STROKE_WIDTH;
-import static com.mshdabiola.util.svg2vector.Svg2Vector.SVG_XLINK_HREF;
-import static com.mshdabiola.util.svg2vector.Svg2Vector.presentationMap;
+package com.mshdabiola.model.svg2vector;
 
 import com.android.annotations.NonNull;
 import com.android.annotations.Nullable;
-import com.mshdabiola.util.svg2vector.SvgColor;
-import com.mshdabiola.util.svg2vector.SvgTree;
 
 import java.awt.geom.AffineTransform;
 import java.io.IOException;
@@ -43,7 +31,7 @@ import org.w3c.dom.Node;
 
 /** Parent class for a SVG file's node, can be either group or leaf element. */
 abstract class SvgNode {
-    private static final Logger logger = Logger.getLogger(com.mshdabiola.util.svg2vector.SvgNode.class.getSimpleName());
+    private static final Logger logger = Logger.getLogger(SvgNode.class.getSimpleName());
 
     protected static final String INDENT_UNIT = "  ";
     protected static final String CONTINUATION_INDENT = INDENT_UNIT + INDENT_UNIT;
@@ -58,7 +46,7 @@ abstract class SvgNode {
 
     protected final String mName;
     // Keep a reference to the tree in order to dump the error log.
-    protected final com.mshdabiola.util.svg2vector.SvgTree mSvgTree;
+    protected final SvgTree mSvgTree;
     // Use document element to get the line number for error reporting.
     protected final Element mDocumentElement;
 
@@ -74,7 +62,7 @@ abstract class SvgNode {
     protected AffineTransform mStackedTransform = new AffineTransform();
 
     /** While parsing the translate() rotate() ..., update the {@code mLocalTransform}. */
-    SvgNode(@NonNull com.mshdabiola.util.svg2vector.SvgTree svgTree, @NonNull Element element, @Nullable String name) {
+    SvgNode(@NonNull SvgTree svgTree, @NonNull Element element, @Nullable String name) {
         mName = name;
         mSvgTree = svgTree;
         mDocumentElement = element;
@@ -87,7 +75,7 @@ abstract class SvgNode {
             String nodeName = n.getNodeName();
             String nodeValue = n.getNodeValue();
             // TODO: Handle style here. Refer to Svg2Vector::addStyleToPath().
-            if (presentationMap.containsKey(nodeName)) {
+            if (Svg2Vector.presentationMap.containsKey(nodeName)) {
                 fillPresentationAttributesInternal(nodeName, nodeValue);
             }
 
@@ -179,7 +167,7 @@ abstract class SvgNode {
     }
 
     @NonNull
-    protected com.mshdabiola.util.svg2vector.SvgTree getTree() {
+    protected SvgTree getTree() {
         return mSvgTree;
     }
 
@@ -206,11 +194,11 @@ abstract class SvgNode {
             throws IOException;
 
     /**
-     * Calls the {@linkplain com.mshdabiola.util.svg2vector.SvgNode.Visitor#visit(com.mshdabiola.util.svg2vector.SvgNode)} method for this node and its descendants.
+     * Calls the {@linkplain SvgNode.Visitor#visit(SvgNode)} method for this node and its descendants.
      *
      * @param visitor the visitor to accept
      */
-    public com.mshdabiola.util.svg2vector.SvgNode.VisitResult accept(@NonNull com.mshdabiola.util.svg2vector.SvgNode.Visitor visitor) {
+    public SvgNode.VisitResult accept(@NonNull SvgNode.Visitor visitor) {
         return visitor.visit(this);
     }
 
@@ -222,15 +210,15 @@ abstract class SvgNode {
 
     private void fillPresentationAttributesInternal(@NonNull String name, @NonNull String value) {
         switch (name) {
-            case SVG_PAINT_ORDER:
+            case Svg2Vector.SVG_PAINT_ORDER:
                 String[] order = value.split("\\s+");
-                int strokePos = indexOf(order, SVG_STROKE);
-                int fillPos = indexOf(order, SVG_FILL);
+                int strokePos = indexOf(order, Svg2Vector.SVG_STROKE);
+                int fillPos = indexOf(order, Svg2Vector.SVG_FILL);
                 mStrokeBeforeFill = 0 <= strokePos && strokePos < fillPos;
                 return;
 
-            case SVG_FILL_RULE:
-            case SVG_CLIP_RULE:
+            case Svg2Vector.SVG_FILL_RULE:
+            case Svg2Vector.SVG_CLIP_RULE:
                 if (value.equals("nonzero")) {
                     value = "nonZero";
                 } else if (value.equals("evenodd")) {
@@ -238,16 +226,16 @@ abstract class SvgNode {
                 }
                 break;
 
-            case SVG_STROKE_WIDTH:
+            case Svg2Vector.SVG_STROKE_WIDTH:
                 if (value.equals("0")) {
-                    mVdAttributesMap.remove(SVG_STROKE);
+                    mVdAttributesMap.remove(Svg2Vector.SVG_STROKE);
                 }
                 break;
         }
 
         logger.log(Level.FINE, ">>>> PROP " + name + " = " + value);
         if (value.startsWith("url(")) {
-            if (!name.equals(SVG_FILL) && !name.equals(SVG_STROKE)) {
+            if (!name.equals(Svg2Vector.SVG_FILL) && !name.equals(Svg2Vector.SVG_STROKE)) {
                 logError("Unsupported URL value: " + value);
                 return;
             }
@@ -294,9 +282,9 @@ abstract class SvgNode {
     }
 
     @NonNull
-    public abstract com.mshdabiola.util.svg2vector.SvgNode deepCopy();
+    public abstract SvgNode deepCopy();
 
-    protected <T extends com.mshdabiola.util.svg2vector.SvgNode> void copyFrom(@NonNull T from) {
+    protected <T extends SvgNode> void copyFrom(@NonNull T from) {
         fillEmptyAttributes(from.mVdAttributesMap);
         mLocalTransform = (AffineTransform) from.mLocalTransform.clone();
     }
@@ -327,9 +315,9 @@ abstract class SvgNode {
      */
     @NonNull
     protected String getHrefId() {
-        String value = mDocumentElement.getAttribute(SVG_HREF);
+        String value = mDocumentElement.getAttribute(Svg2Vector.SVG_HREF);
         if (value.isEmpty()) {
-            value = mDocumentElement.getAttribute(SVG_XLINK_HREF);
+            value = mDocumentElement.getAttribute(Svg2Vector.SVG_XLINK_HREF);
         }
         return value.isEmpty() ? "" : value.substring(1);
     }
@@ -344,14 +332,14 @@ abstract class SvgNode {
 
     protected interface Visitor {
         /**
-         * Called by the {@link com.mshdabiola.util.svg2vector.SvgNode#accept(com.mshdabiola.util.svg2vector.SvgNode.Visitor)} method for every visited node.
+         * Called by the {@link SvgNode#accept(SvgNode.Visitor)} method for every visited node.
          *
          * @param node the node being visited
-         * @return {@link com.mshdabiola.util.svg2vector.SvgNode.VisitResult#CONTINUE} to continue visiting children,
-         *         {@link com.mshdabiola.util.svg2vector.SvgNode.VisitResult#SKIP_CHILDREN} to skip children and continue visit with
-         *         the next sibling, {@link com.mshdabiola.util.svg2vector.SvgNode.VisitResult#ABORT} to skip all remaining nodes
+         * @return {@link SvgNode.VisitResult#CONTINUE} to continue visiting children,
+         *         {@link SvgNode.VisitResult#SKIP_CHILDREN} to skip children and continue visit with
+         *         the next sibling, {@link SvgNode.VisitResult#ABORT} to skip all remaining nodes
          */
-        com.mshdabiola.util.svg2vector.SvgNode.VisitResult visit(@NonNull com.mshdabiola.util.svg2vector.SvgNode node);
+        SvgNode.VisitResult visit(@NonNull SvgNode node);
     }
 
     protected enum VisitResult {

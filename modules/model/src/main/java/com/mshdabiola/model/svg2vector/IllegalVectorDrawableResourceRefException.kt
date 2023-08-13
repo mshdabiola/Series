@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.mshdabiola.util.svg2vector
+package com.mshdabiola.model.svg2vector
 
 import com.android.ide.common.blame.SourcePosition
 

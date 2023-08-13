@@ -13,27 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.mshdabiola.util.svg2vector;
+package com.mshdabiola.model.svg2vector;
 
-import static com.mshdabiola.util.svg2vector.Svg2Vector.SVG_FILL;
-import static com.mshdabiola.util.svg2vector.Svg2Vector.SVG_FILL_OPACITY;
-import static com.mshdabiola.util.svg2vector.Svg2Vector.SVG_OPACITY;
-import static com.mshdabiola.util.svg2vector.Svg2Vector.SVG_STROKE;
-import static com.mshdabiola.util.svg2vector.Svg2Vector.SVG_STROKE_OPACITY;
-import static com.mshdabiola.util.svg2vector.Svg2Vector.SVG_STROKE_WIDTH;
-import static com.mshdabiola.util.svg2vector.Svg2Vector.presentationMap;
+import static com.mshdabiola.model.svg2vector.Svg2Vector.SVG_FILL;
+import static com.mshdabiola.model.svg2vector.Svg2Vector.SVG_FILL_OPACITY;
+import static com.mshdabiola.model.svg2vector.Svg2Vector.SVG_OPACITY;
+import static com.mshdabiola.model.svg2vector.Svg2Vector.SVG_STROKE;
+import static com.mshdabiola.model.svg2vector.Svg2Vector.SVG_STROKE_OPACITY;
+import static com.mshdabiola.model.svg2vector.Svg2Vector.SVG_STROKE_WIDTH;
+import static com.mshdabiola.model.svg2vector.Svg2Vector.presentationMap;
 import static com.android.utils.XmlUtils.formatFloatValue;
 import static java.lang.Math.abs;
 import static java.lang.Math.sqrt;
 
 import com.android.annotations.NonNull;
 import com.android.annotations.Nullable;
-import com.mshdabiola.util.svg2vector.PathParser;
-import com.mshdabiola.util.svg2vector.PathParser.ParseMode;
-import com.mshdabiola.util.svg2vector.SvgGradientNode;
-import com.mshdabiola.util.svg2vector.SvgNode;
-import com.mshdabiola.util.svg2vector.SvgTree;
-import com.mshdabiola.util.svg2vector.VdPath;
+import com.mshdabiola.model.svg2vector.PathParser.ParseMode;
 
 import java.awt.geom.AffineTransform;
 import java.io.IOException;
@@ -44,26 +39,26 @@ import java.util.logging.Logger;
 import org.w3c.dom.Element;
 
 /** Represents an SVG file's leaf element. */
-class SvgLeafNode extends com.mshdabiola.util.svg2vector.SvgNode {
-    private static final Logger logger = Logger.getLogger(com.mshdabiola.util.svg2vector.SvgLeafNode.class.getSimpleName());
+class SvgLeafNode extends SvgNode {
+    private static final Logger logger = Logger.getLogger(SvgLeafNode.class.getSimpleName());
 
     @Nullable private String mPathData;
-    @Nullable private com.mshdabiola.util.svg2vector.SvgGradientNode mFillGradientNode;
-    @Nullable private com.mshdabiola.util.svg2vector.SvgGradientNode mStrokeGradientNode;
+    @Nullable private SvgGradientNode mFillGradientNode;
+    @Nullable private SvgGradientNode mStrokeGradientNode;
 
-    SvgLeafNode(@NonNull com.mshdabiola.util.svg2vector.SvgTree svgTree, @NonNull Element element, @Nullable String nodeName) {
+    SvgLeafNode(@NonNull SvgTree svgTree, @NonNull Element element, @Nullable String nodeName) {
         super(svgTree, element, nodeName);
     }
 
     @Override
     @NonNull
-    public com.mshdabiola.util.svg2vector.SvgLeafNode deepCopy() {
-        com.mshdabiola.util.svg2vector.SvgLeafNode newNode = new com.mshdabiola.util.svg2vector.SvgLeafNode(getTree(), mDocumentElement, getName());
+    public SvgLeafNode deepCopy() {
+        SvgLeafNode newNode = new SvgLeafNode(getTree(), mDocumentElement, getName());
         newNode.copyFrom(this);
         return newNode;
     }
 
-    protected void copyFrom(@NonNull com.mshdabiola.util.svg2vector.SvgLeafNode from) {
+    protected void copyFrom(@NonNull SvgLeafNode from) {
         super.copyFrom(from);
         mPathData = from.mPathData;
     }
@@ -86,15 +81,15 @@ class SvgLeafNode extends com.mshdabiola.util.svg2vector.SvgNode {
 
             if (vdValue == null) {
                 if (name.equals(SVG_FILL) || name.equals(SVG_STROKE)) {
-                    com.mshdabiola.util.svg2vector.SvgGradientNode gradientNode = getGradientNode(svgValue);
+                    SvgGradientNode gradientNode = getGradientNode(svgValue);
                     if (gradientNode != null) {
                         gradientNode = gradientNode.deepCopy();
                         gradientNode.setSvgLeafNode(this);
                         if (name.equals(SVG_FILL)) {
-                            gradientNode.setGradientUsage(com.mshdabiola.util.svg2vector.SvgGradientNode.GradientUsage.FILL);
+                            gradientNode.setGradientUsage(SvgGradientNode.GradientUsage.FILL);
                             mFillGradientNode = gradientNode;
                         } else {
-                            gradientNode.setGradientUsage(com.mshdabiola.util.svg2vector.SvgGradientNode.GradientUsage.STROKE);
+                            gradientNode.setGradientUsage(SvgGradientNode.GradientUsage.STROKE);
                             mStrokeGradientNode = gradientNode;
                         }
                         continue;
@@ -118,12 +113,12 @@ class SvgLeafNode extends com.mshdabiola.util.svg2vector.SvgNode {
     }
 
     @Nullable
-    private com.mshdabiola.util.svg2vector.SvgGradientNode getGradientNode(@NonNull String svgValue) {
+    private SvgGradientNode getGradientNode(@NonNull String svgValue) {
         if (svgValue.startsWith("url(#") && svgValue.endsWith(")")) {
             String id = svgValue.substring(5, svgValue.length() - 1);
-            com.mshdabiola.util.svg2vector.SvgNode node = getTree().getSvgNodeFromId(id);
-            if (node instanceof com.mshdabiola.util.svg2vector.SvgGradientNode) {
-                return (com.mshdabiola.util.svg2vector.SvgGradientNode) node;
+            SvgNode node = getTree().getSvgNodeFromId(id);
+            if (node instanceof SvgGradientNode) {
+                return (SvgGradientNode) node;
             }
         }
         return null;
@@ -204,13 +199,13 @@ class SvgLeafNode extends com.mshdabiola.util.svg2vector.SvgNode {
             // Nothing to draw and transform, early return.
             return;
         }
-        com.mshdabiola.util.svg2vector.VdPath.Node[] nodes = PathParser.parsePath(mPathData, ParseMode.SVG);
+        VdPath.Node[] nodes = PathParser.parsePath(mPathData, ParseMode.SVG);
         mStackedTransform.preConcatenate(rootTransform);
-        boolean needsConvertRelativeMoveAfterClose = com.mshdabiola.util.svg2vector.VdPath.Node.hasRelMoveAfterClose(nodes);
+        boolean needsConvertRelativeMoveAfterClose = VdPath.Node.hasRelMoveAfterClose(nodes);
         if (!mStackedTransform.isIdentity() || needsConvertRelativeMoveAfterClose) {
-            com.mshdabiola.util.svg2vector.VdPath.Node.transform(mStackedTransform, nodes);
+            VdPath.Node.transform(mStackedTransform, nodes);
         }
-        mPathData = com.mshdabiola.util.svg2vector.VdPath.Node.nodeListToString(nodes, mSvgTree);
+        mPathData = VdPath.Node.nodeListToString(nodes, mSvgTree);
     }
 
     @Override

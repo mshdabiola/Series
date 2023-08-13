@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.mshdabiola.util.svg2vector;
+package com.mshdabiola.model.svg2vector;
 
-import static com.mshdabiola.util.svg2vector.Svg2Vector.parseFloatOrDefault;
+import static com.mshdabiola.model.svg2vector.Svg2Vector.parseFloatOrDefault;
 
 import com.android.annotations.NonNull;
 import com.android.annotations.Nullable;
@@ -33,26 +33,26 @@ import java.util.logging.Logger;
 /**
  * Represents an SVG file's group element.
  */
-class SvgGroupNode extends com.mshdabiola.util.svg2vector.SvgNode {
-    private static final Logger logger = Logger.getLogger(com.mshdabiola.util.svg2vector.SvgGroupNode.class.getSimpleName());
+class SvgGroupNode extends SvgNode {
+    private static final Logger logger = Logger.getLogger(SvgGroupNode.class.getSimpleName());
 
-    protected final ArrayList<com.mshdabiola.util.svg2vector.SvgNode> mChildren = new ArrayList<>();
+    protected final ArrayList<SvgNode> mChildren = new ArrayList<>();
 
-    SvgGroupNode(@NonNull com.mshdabiola.util.svg2vector.SvgTree svgTree, @NonNull Element docNode, @Nullable String name) {
+    SvgGroupNode(@NonNull SvgTree svgTree, @NonNull Element docNode, @Nullable String name) {
         super(svgTree, docNode, name);
     }
 
     @Override
     @NonNull
-    public com.mshdabiola.util.svg2vector.SvgGroupNode deepCopy() {
-        com.mshdabiola.util.svg2vector.SvgGroupNode newInstance = new com.mshdabiola.util.svg2vector.SvgGroupNode(getTree(), mDocumentElement, getName());
+    public SvgGroupNode deepCopy() {
+        SvgGroupNode newInstance = new SvgGroupNode(getTree(), mDocumentElement, getName());
         newInstance.copyFrom(this);
         return newInstance;
     }
 
-    protected <T extends com.mshdabiola.util.svg2vector.SvgGroupNode> void copyFrom(@NonNull T from) {
+    protected <T extends SvgGroupNode> void copyFrom(@NonNull T from) {
         super.copyFrom(from);
-        for (com.mshdabiola.util.svg2vector.SvgNode child : from.mChildren) {
+        for (SvgNode child : from.mChildren) {
             addChild(child.deepCopy());
         }
     }
@@ -64,9 +64,9 @@ class SvgGroupNode extends com.mshdabiola.util.svg2vector.SvgNode {
      * @return true if the reference has been resolved, or false if it cannot be resolved at this
      *     time due to a dependency on an unresolved node
      */
-    boolean resolveHref(@NonNull com.mshdabiola.util.svg2vector.SvgTree svgTree) {
+    boolean resolveHref(@NonNull SvgTree svgTree) {
         String id = getHrefId();
-        com.mshdabiola.util.svg2vector.SvgNode referencedNode = id.isEmpty() ? null : svgTree.getSvgNodeFromId(id);
+        SvgNode referencedNode = id.isEmpty() ? null : svgTree.getSvgNodeFromId(id);
         if (referencedNode == null) {
             if (id.isEmpty() || !svgTree.isIdIgnored(id)) {
                 svgTree.logError("Referenced id not found", mDocumentElement);
@@ -78,7 +78,7 @@ class SvgGroupNode extends com.mshdabiola.util.svg2vector.SvgNode {
                 // hasn't been processed yet.
                 return false;
             }
-            com.mshdabiola.util.svg2vector.SvgNode copiedNode = referencedNode.deepCopy();
+            SvgNode copiedNode = referencedNode.deepCopy();
             addChild(copiedNode);
             for (Map.Entry<String, String> entry : mVdAttributesMap.entrySet()) {
                 String key = entry.getKey();
@@ -93,7 +93,7 @@ class SvgGroupNode extends com.mshdabiola.util.svg2vector.SvgNode {
         return true;
     }
 
-    public void addChild(@NonNull com.mshdabiola.util.svg2vector.SvgNode child) {
+    public void addChild(@NonNull SvgNode child) {
         // Pass the presentation map down to the children, who can override the attributes.
         mChildren.add(child);
         // The child has its own attributes map. But the parents can still fill some attributes
@@ -107,7 +107,7 @@ class SvgGroupNode extends com.mshdabiola.util.svg2vector.SvgNode {
      * @param oldChild the child node to replace
      * @param newChild the node to replace the existing child node with
      */
-    public void replaceChild(@NonNull com.mshdabiola.util.svg2vector.SvgNode oldChild, @NonNull com.mshdabiola.util.svg2vector.SvgNode newChild) {
+    public void replaceChild(@NonNull SvgNode oldChild, @NonNull SvgNode newChild) {
         int index = mChildren.indexOf(oldChild);
         if (index < 0) {
             throw new IllegalArgumentException(
@@ -123,7 +123,7 @@ class SvgGroupNode extends com.mshdabiola.util.svg2vector.SvgNode {
         logger.log(Level.FINE, indent + "group: " + getName());
 
         // Then print all the children.
-        for (com.mshdabiola.util.svg2vector.SvgNode node : mChildren) {
+        for (SvgNode node : mChildren) {
             node.dumpNode(indent + INDENT_UNIT);
         }
     }
@@ -134,13 +134,13 @@ class SvgGroupNode extends com.mshdabiola.util.svg2vector.SvgNode {
      * @return the parent node, or null if node is not in the tree.
      */
     @Nullable
-    public com.mshdabiola.util.svg2vector.SvgGroupNode findParent(@NonNull com.mshdabiola.util.svg2vector.SvgNode node) {
-        for (com.mshdabiola.util.svg2vector.SvgNode n : mChildren) {
+    public SvgGroupNode findParent(@NonNull SvgNode node) {
+        for (SvgNode n : mChildren) {
             if (n == node) {
                 return this;
             }
             if (n.isGroupNode()) {
-                com.mshdabiola.util.svg2vector.SvgGroupNode parent = ((com.mshdabiola.util.svg2vector.SvgGroupNode) n).findParent(node);
+                SvgGroupNode parent = ((SvgGroupNode) n).findParent(node);
                 if (parent != null) {
                     return parent;
                 }
@@ -156,14 +156,14 @@ class SvgGroupNode extends com.mshdabiola.util.svg2vector.SvgNode {
 
     @Override
     public void transformIfNeeded(@NonNull AffineTransform rootTransform) {
-        for (com.mshdabiola.util.svg2vector.SvgNode p : mChildren) {
+        for (SvgNode p : mChildren) {
             p.transformIfNeeded(rootTransform);
         }
     }
 
     @Override
     public void flatten(@NonNull AffineTransform transform) {
-        for (com.mshdabiola.util.svg2vector.SvgNode node : mChildren) {
+        for (SvgNode node : mChildren) {
             mStackedTransform.setTransform(transform);
             mStackedTransform.concatenate(mLocalTransform);
             node.flatten(mStackedTransform);
@@ -172,7 +172,7 @@ class SvgGroupNode extends com.mshdabiola.util.svg2vector.SvgNode {
 
     @Override
     public void validate() {
-        for (com.mshdabiola.util.svg2vector.SvgNode node : mChildren) {
+        for (SvgNode node : mChildren) {
             node.validate();
         }
     }
@@ -180,7 +180,7 @@ class SvgGroupNode extends com.mshdabiola.util.svg2vector.SvgNode {
     @Override
     public void writeXml(@NonNull OutputStreamWriter writer, @NonNull String indent)
             throws IOException {
-        for (com.mshdabiola.util.svg2vector.SvgNode node : mChildren) {
+        for (SvgNode node : mChildren) {
             node.writeXml(writer, indent);
         }
     }
@@ -189,7 +189,7 @@ class SvgGroupNode extends com.mshdabiola.util.svg2vector.SvgNode {
     public VisitResult accept(@NonNull Visitor visitor) {
         VisitResult result = visitor.visit(this);
         if (result == VisitResult.CONTINUE) {
-            for (com.mshdabiola.util.svg2vector.SvgNode node : mChildren) {
+            for (SvgNode node : mChildren) {
                 if (node.accept(visitor) == VisitResult.ABORT) {
                     return VisitResult.ABORT;
                 }
@@ -202,7 +202,7 @@ class SvgGroupNode extends com.mshdabiola.util.svg2vector.SvgNode {
     @Override
     public void fillPresentationAttributes(@NonNull String name, @NonNull String value) {
         super.fillPresentationAttributes(name, value);
-        for (com.mshdabiola.util.svg2vector.SvgNode n : mChildren) {
+        for (SvgNode n : mChildren) {
             // Group presentation attribute should not override child.
             if (!n.mVdAttributesMap.containsKey(name)) {
                 n.fillPresentationAttributes(name, value);

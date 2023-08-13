@@ -33,8 +33,7 @@ kotlin {
         val desktopMain by getting {
             dependencies {
               //  implementation("com.android.tools:sdk-common:31.1.0")
-                implementation("com.google.guava:guava:31.1-jre")
-                implementation("com.android.tools:common:31.1.0")
+
             }
         }
 

@@ -14,6 +14,8 @@ tasks.test {
 }
 dependencies {
     // Other dependencies.
+    implementation("com.google.guava:guava:31.1-jre")
+    implementation("com.android.tools:common:31.1.0")
     testImplementation(kotlin("test"))
     implementation(libs.kotlinx.serialization.json)
 }

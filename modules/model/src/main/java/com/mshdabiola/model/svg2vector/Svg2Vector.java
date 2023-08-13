@@ -1,4 +1,4 @@
-package com.mshdabiola.util.svg2vector;
+package com.mshdabiola.model.svg2vector;
 /*
  * Copyright (C) 2015 The Android Open Source Project
  *
@@ -16,7 +16,7 @@ package com.mshdabiola.util.svg2vector;
  */
 
 
-import static com.mshdabiola.util.svg2vector.SvgTree.getStartLine;
+import static com.mshdabiola.model.svg2vector.SvgTree.getStartLine;
 
 import com.android.annotations.NonNull;
 import com.android.annotations.Nullable;
@@ -54,7 +54,7 @@ import java.util.regex.Pattern;
  * </ul>
  */
 public class Svg2Vector {
-    private static final Logger logger = Logger.getLogger(com.mshdabiola.util.svg2vector.Svg2Vector.class.getSimpleName());
+    private static final Logger logger = Logger.getLogger(Svg2Vector.class.getSimpleName());
     private static final String SVG_DEFS = "defs";
     private static final String SVG_USE = "use";
     static final String SVG_HREF = "href";
@@ -199,8 +199,8 @@ public class Svg2Vector {
     private static final Pattern SPACE_OR_COMMA = Pattern.compile("[\\s,]+");
 
     @NonNull
-    private static com.mshdabiola.util.svg2vector.SvgTree parse(@NonNull Path file) throws IOException {
-        com.mshdabiola.util.svg2vector.SvgTree svgTree = new com.mshdabiola.util.svg2vector.SvgTree();
+    private static SvgTree parse(@NonNull Path file) throws IOException {
+        SvgTree svgTree = new SvgTree();
         List<String> parseErrors = new ArrayList<>();
         Document doc = svgTree.parse(file, parseErrors);
         for (String error : parseErrors) {
@@ -220,7 +220,7 @@ public class Svg2Vector {
             return svgTree;
         }
 
-        com.mshdabiola.util.svg2vector.SvgGroupNode root = new com.mshdabiola.util.svg2vector.SvgGroupNode(svgTree, rootElement, "root");
+        SvgGroupNode root = new SvgGroupNode(svgTree, rootElement, "root");
         svgTree.setRoot(root);
 
         // Parse all the group and path nodes recursively.
@@ -231,8 +231,8 @@ public class Svg2Vector {
 
         // TODO: Handle clipPath elements that reference another clipPath
         // Add attributes for all the style elements.
-        for (Map.Entry<String, Set<com.mshdabiola.util.svg2vector.SvgNode>> entry : svgTree.getStyleAffectedNodes()) {
-            for (com.mshdabiola.util.svg2vector.SvgNode n : entry.getValue()) {
+        for (Map.Entry<String, Set<SvgNode>> entry : svgTree.getStyleAffectedNodes()) {
+            for (SvgNode n : entry.getValue()) {
                 addStyleToPath(n, svgTree.getStyleClassAttr(entry.getKey()));
             }
         }
@@ -240,7 +240,7 @@ public class Svg2Vector {
         // Replaces elements that reference clipPaths and replaces them with clipPathNodes
         // Note that clip path can be embedded within style, so it has to be called after
         // addStyleToPath.
-        for (Map.Entry<com.mshdabiola.util.svg2vector.SvgNode, Pair<com.mshdabiola.util.svg2vector.SvgGroupNode, String>> entry :
+        for (Map.Entry<SvgNode, Pair<SvgGroupNode, String>> entry :
                 svgTree.getClipPathAffectedNodesSet()) {
             handleClipPath(
                     svgTree,
@@ -257,8 +257,8 @@ public class Svg2Vector {
     }
 
     // Fills in all <use> nodes in the svgTree.
-    private static void resolveUseNodes(com.mshdabiola.util.svg2vector.SvgTree svgTree) {
-        Set<com.mshdabiola.util.svg2vector.SvgGroupNode> nodes = svgTree.getPendingUseSet();
+    private static void resolveUseNodes(SvgTree svgTree) {
+        Set<SvgGroupNode> nodes = svgTree.getPendingUseSet();
         while (!nodes.isEmpty()) {
             if (!nodes.removeIf(node -> node.resolveHref(svgTree))) {
                 // Not able to make progress because of cyclic references.
@@ -269,8 +269,8 @@ public class Svg2Vector {
     }
 
     // Resolves all href references in gradient nodes.
-    private static void resolveGradientReferences(com.mshdabiola.util.svg2vector.SvgTree svgTree) {
-        Set<com.mshdabiola.util.svg2vector.SvgGradientNode> nodes = svgTree.getPendingGradientRefSet();
+    private static void resolveGradientReferences(SvgTree svgTree) {
+        Set<SvgGradientNode> nodes = svgTree.getPendingGradientRefSet();
         while (!nodes.isEmpty()) {
             if (!nodes.removeIf(node -> node.resolveHref(svgTree))) {
                 // Not able to make progress because of cyclic references.
@@ -280,11 +280,11 @@ public class Svg2Vector {
         }
     }
 
-    private static <T extends com.mshdabiola.util.svg2vector.SvgNode> void reportCycles(
-            @NonNull com.mshdabiola.util.svg2vector.SvgTree svgTree, @NonNull Set<T> svgNodes) {
+    private static <T extends SvgNode> void reportCycles(
+            @NonNull SvgTree svgTree, @NonNull Set<T> svgNodes) {
         Map<String, String> edges = new HashMap<>();
         Map<String, Node> nodesById = new HashMap<>();
-        for (com.mshdabiola.util.svg2vector.SvgNode svgNode : svgNodes) {
+        for (SvgNode svgNode : svgNodes) {
             Element element = svgNode.getDocumentElement();
             String id = element.getAttribute("id");
             if (!id.isEmpty()) {
@@ -335,7 +335,7 @@ public class Svg2Vector {
 
     /** Traverse the tree in pre-order. */
     private static void traverseSvgAndExtract(
-            @NonNull com.mshdabiola.util.svg2vector.SvgTree svgTree, @NonNull com.mshdabiola.util.svg2vector.SvgGroupNode currentGroup, @NonNull Element item) {
+            @NonNull SvgTree svgTree, @NonNull SvgGroupNode currentGroup, @NonNull Element item) {
         NodeList childNodes = item.getChildNodes();
 
         for (int i = 0; i < childNodes.getLength(); i++) {
@@ -356,7 +356,7 @@ public class Svg2Vector {
                 case SVG_POLYGON:
                 case SVG_POLYLINE:
                 case SVG_LINE: {
-                    com.mshdabiola.util.svg2vector.SvgLeafNode child = new com.mshdabiola.util.svg2vector.SvgLeafNode(svgTree, childElement, tagName + i);
+                    SvgLeafNode child = new SvgLeafNode(svgTree, childElement, tagName + i);
                     processIdName(svgTree, child);
                     currentGroup.addChild(child);
                     extractAllItemsAs(svgTree, child, childElement, currentGroup);
@@ -365,7 +365,7 @@ public class Svg2Vector {
                 }
 
                 case SVG_GROUP: {
-                    com.mshdabiola.util.svg2vector.SvgGroupNode childGroup = new com.mshdabiola.util.svg2vector.SvgGroupNode(svgTree, childElement, "child" + i);
+                    SvgGroupNode childGroup = new SvgGroupNode(svgTree, childElement, "child" + i);
                     currentGroup.addChild(childGroup);
                     processIdName(svgTree, childGroup);
                     extractGroupNode(svgTree, childGroup, currentGroup);
@@ -374,7 +374,7 @@ public class Svg2Vector {
                 }
 
                 case SVG_USE: {
-                    com.mshdabiola.util.svg2vector.SvgGroupNode childGroup = new com.mshdabiola.util.svg2vector.SvgGroupNode(svgTree, childElement, "child" + i);
+                    SvgGroupNode childGroup = new SvgGroupNode(svgTree, childElement, "child" + i);
                     processIdName(svgTree, childGroup);
                     currentGroup.addChild(childGroup);
                     svgTree.addToPendingUseSet(childGroup);
@@ -382,15 +382,15 @@ public class Svg2Vector {
                 }
 
                 case SVG_DEFS: {
-                    com.mshdabiola.util.svg2vector.SvgGroupNode childGroup = new com.mshdabiola.util.svg2vector.SvgGroupNode(svgTree, childElement, "child" + i);
+                    SvgGroupNode childGroup = new SvgGroupNode(svgTree, childElement, "child" + i);
                     traverseSvgAndExtract(svgTree, childGroup, childElement);
                     break;
                 }
 
                 case SVG_CLIP_PATH_ELEMENT:
                 case SVG_MASK: {
-                    com.mshdabiola.util.svg2vector.SvgClipPathNode clipPath =
-                            new com.mshdabiola.util.svg2vector.SvgClipPathNode(svgTree, childElement, tagName + i);
+                    SvgClipPathNode clipPath =
+                            new SvgClipPathNode(svgTree, childElement, tagName + i);
                     processIdName(svgTree, clipPath);
                     traverseSvgAndExtract(svgTree, clipPath, childElement);
                     break;
@@ -401,8 +401,8 @@ public class Svg2Vector {
                     break;
 
                 case "linearGradient": {
-                    com.mshdabiola.util.svg2vector.SvgGradientNode gradientNode =
-                            new com.mshdabiola.util.svg2vector.SvgGradientNode(svgTree, childElement, tagName + i);
+                    SvgGradientNode gradientNode =
+                            new SvgGradientNode(svgTree, childElement, tagName + i);
                     processIdName(svgTree, gradientNode);
                     extractGradientNode(svgTree, gradientNode);
                     gradientNode.fillPresentationAttributes("gradientType", "linear");
@@ -411,8 +411,8 @@ public class Svg2Vector {
                 }
 
                 case "radialGradient": {
-                    com.mshdabiola.util.svg2vector.SvgGradientNode gradientNode =
-                            new com.mshdabiola.util.svg2vector.SvgGradientNode(svgTree, childElement, tagName + i);
+                    SvgGradientNode gradientNode =
+                            new SvgGradientNode(svgTree, childElement, tagName + i);
                     processIdName(svgTree, gradientNode);
                     extractGradientNode(svgTree, gradientNode);
                     gradientNode.fillPresentationAttributes("gradientType", "radial");
@@ -443,7 +443,7 @@ public class Svg2Vector {
      * SVG gradient node.
      */
     private static void extractGradientNode(
-            @NonNull com.mshdabiola.util.svg2vector.SvgTree svg, @NonNull com.mshdabiola.util.svg2vector.SvgGradientNode gradientNode) {
+            @NonNull SvgTree svg, @NonNull SvgGradientNode gradientNode) {
         Element element = gradientNode.getDocumentElement();
         NamedNodeMap attrs = element.getAttributes();
         if (attrs.getNamedItem(SVG_HREF) != null || attrs.getNamedItem(SVG_XLINK_HREF) != null) {
@@ -546,9 +546,9 @@ public class Svg2Vector {
      * reference in the svgTree to add the information to an SvgNode later.
      */
     private static void extractGroupNode(
-            @NonNull com.mshdabiola.util.svg2vector.SvgTree svgTree,
-            @NonNull com.mshdabiola.util.svg2vector.SvgGroupNode childGroup,
-            @NonNull com.mshdabiola.util.svg2vector.SvgGroupNode currentGroup) {
+            @NonNull SvgTree svgTree,
+            @NonNull SvgGroupNode childGroup,
+            @NonNull SvgGroupNode currentGroup) {
         NamedNodeMap a = childGroup.getDocumentElement().getAttributes();
         int len = a.getLength();
         for (int j = 0; j < len; j++) {
@@ -573,7 +573,7 @@ public class Svg2Vector {
      * attribute. The style attribute will be filled into the tree after the svgTree calls
      * traverseSVGAndExtract().
      */
-    private static void extractStyleNode(@NonNull com.mshdabiola.util.svg2vector.SvgTree svgTree, @NonNull Node currentNode) {
+    private static void extractStyleNode(@NonNull SvgTree svgTree, @NonNull Node currentNode) {
         NodeList a = currentNode.getChildNodes();
         int len = a.getLength();
         String styleData = "";
@@ -616,7 +616,7 @@ public class Svg2Vector {
      * Checks if the id of a node exists and adds the id and SvgNode to the svgTree's idMap if it
      * exists.
      */
-    private static void processIdName(@NonNull com.mshdabiola.util.svg2vector.SvgTree svgTree, @NonNull com.mshdabiola.util.svg2vector.SvgNode node) {
+    private static void processIdName(@NonNull SvgTree svgTree, @NonNull SvgNode node) {
         String id = node.getAttributeValue("id");
         if (!id.isEmpty()) {
             svgTree.addIdToMap(id, node);
@@ -629,9 +629,9 @@ public class Svg2Vector {
      * affected node of the SvgClipPathNode.
      */
     private static void handleClipPath(
-            @NonNull com.mshdabiola.util.svg2vector.SvgTree svg,
-            @NonNull com.mshdabiola.util.svg2vector.SvgNode child,
-            @Nullable com.mshdabiola.util.svg2vector.SvgGroupNode currentGroup,
+            @NonNull SvgTree svg,
+            @NonNull SvgNode child,
+            @Nullable SvgGroupNode currentGroup,
             @Nullable String value) {
         if (currentGroup == null || value == null) {
             return;
@@ -640,11 +640,11 @@ public class Svg2Vector {
         if (clipName == null) {
             return;
         }
-        com.mshdabiola.util.svg2vector.SvgNode clipNode = svg.getSvgNodeFromId(clipName);
+        SvgNode clipNode = svg.getSvgNodeFromId(clipName);
         if (clipNode == null) {
             return;
         }
-        com.mshdabiola.util.svg2vector.SvgClipPathNode clipCopy = ((com.mshdabiola.util.svg2vector.SvgClipPathNode) clipNode).deepCopy();
+        SvgClipPathNode clipCopy = ((SvgClipPathNode) clipNode).deepCopy();
 
         currentGroup.replaceChild(child, clipCopy);
 
@@ -674,10 +674,10 @@ public class Svg2Vector {
 
     /** Reads the content from currentItem and fills into the SvgLeafNode "child". */
     private static void extractAllItemsAs(
-            @NonNull com.mshdabiola.util.svg2vector.SvgTree svg,
-            @NonNull com.mshdabiola.util.svg2vector.SvgLeafNode child,
+            @NonNull SvgTree svg,
+            @NonNull SvgLeafNode child,
             @NonNull Node currentItem,
-            @NonNull com.mshdabiola.util.svg2vector.SvgGroupNode currentGroup) {
+            @NonNull SvgGroupNode currentGroup) {
         Node parentNode = currentItem.getParentNode();
 
         boolean hasNodeAttr = false;
@@ -790,10 +790,10 @@ public class Svg2Vector {
 
     /** Convert polygon element into a path. */
     private static void extractPolyItem(
-            @NonNull com.mshdabiola.util.svg2vector.SvgTree svgTree,
-            @NonNull com.mshdabiola.util.svg2vector.SvgLeafNode child,
+            @NonNull SvgTree svgTree,
+            @NonNull SvgLeafNode child,
             @NonNull Node currentGroupNode,
-            @NonNull com.mshdabiola.util.svg2vector.SvgGroupNode currentGroup) {
+            @NonNull SvgGroupNode currentGroup) {
         logger.log(Level.FINE, "Polyline or Polygon found" + currentGroupNode.getTextContent());
         if (currentGroupNode.getNodeType() == Node.ELEMENT_NODE) {
             NamedNodeMap attributes = currentGroupNode.getAttributes();
@@ -811,7 +811,7 @@ public class Svg2Vector {
                     } else if (name.equals(SVG_CLIP_PATH) || name.equals(SVG_MASK)) {
                         svgTree.addClipPathAffectedNode(child, currentGroup, value);
                     } else if (name.equals(SVG_POINTS)) {
-                        com.mshdabiola.util.svg2vector.PathBuilder builder = new com.mshdabiola.util.svg2vector.PathBuilder();
+                        PathBuilder builder = new PathBuilder();
                         String[] split = SPACE_OR_COMMA.split(value);
                         float baseX = Float.parseFloat(split[0]);
                         float baseY = Float.parseFloat(split[1]);
@@ -841,10 +841,10 @@ public class Svg2Vector {
 
     /** Convert rectangle element into a path. */
     private static void extractRectItem(
-            @NonNull com.mshdabiola.util.svg2vector.SvgTree svg,
-            @NonNull com.mshdabiola.util.svg2vector.SvgLeafNode child,
+            @NonNull SvgTree svg,
+            @NonNull SvgLeafNode child,
             @NonNull Node currentGroupNode,
-            @NonNull com.mshdabiola.util.svg2vector.SvgGroupNode currentGroup) {
+            @NonNull SvgGroupNode currentGroup) {
         logger.log(Level.FINE, "Rect found" + currentGroupNode.getTextContent());
 
         if (currentGroupNode.getNodeType() == Node.ELEMENT_NODE) {
@@ -899,7 +899,7 @@ public class Svg2Vector {
                     && !Double.isNaN(y)
                     && !Double.isNaN(width)
                     && !Double.isNaN(height)) {
-                com.mshdabiola.util.svg2vector.PathBuilder builder = new com.mshdabiola.util.svg2vector.PathBuilder();
+                PathBuilder builder = new PathBuilder();
                 if (rx <= 0 && ry <= 0) {
                     // "M x, y h width v height h -width z"
                     builder.absoluteMoveTo(x, y);
@@ -937,10 +937,10 @@ public class Svg2Vector {
 
     /** Converts circle element into a path. */
     private static void extractCircleItem(
-            @NonNull com.mshdabiola.util.svg2vector.SvgTree svg,
-            @NonNull com.mshdabiola.util.svg2vector.SvgLeafNode child,
+            @NonNull SvgTree svg,
+            @NonNull SvgLeafNode child,
             @NonNull Node currentGroupNode,
-            @NonNull com.mshdabiola.util.svg2vector.SvgGroupNode currentGroup) {
+            @NonNull SvgGroupNode currentGroup) {
         logger.log(Level.FINE, "circle found" + currentGroupNode.getTextContent());
 
         if (currentGroupNode.getNodeType() == Node.ELEMENT_NODE) {
@@ -978,7 +978,7 @@ public class Svg2Vector {
 
             if (!pureTransparent && !Float.isNaN(cx) && !Float.isNaN(cy)) {
                 // "M cx cy m -r, 0 a r,r 0 1,1 (r * 2),0 a r,r 0 1,1 -(r * 2),0"
-                com.mshdabiola.util.svg2vector.PathBuilder builder = new com.mshdabiola.util.svg2vector.PathBuilder();
+                PathBuilder builder = new PathBuilder();
                 builder.absoluteMoveTo(cx, cy);
                 builder.relativeMoveTo(-radius, 0);
                 builder.relativeArcTo(radius, radius, false, true, true, 2 * radius, 0);
@@ -990,10 +990,10 @@ public class Svg2Vector {
 
     /** Convert ellipse element into a path. */
     private static void extractEllipseItem(
-            @NonNull com.mshdabiola.util.svg2vector.SvgTree svg,
-            @NonNull com.mshdabiola.util.svg2vector.SvgLeafNode child,
+            @NonNull SvgTree svg,
+            @NonNull SvgLeafNode child,
             @NonNull Node currentGroupNode,
-            @NonNull com.mshdabiola.util.svg2vector.SvgGroupNode currentGroup) {
+            @NonNull SvgGroupNode currentGroup) {
         logger.log(Level.FINE, "ellipse found" + currentGroupNode.getTextContent());
 
         if (currentGroupNode.getNodeType() == Node.ELEMENT_NODE) {
@@ -1034,7 +1034,7 @@ public class Svg2Vector {
 
             if (!pureTransparent && !Float.isNaN(cx) && !Float.isNaN(cy) && rx > 0 && ry > 0) {
                 // "M cx -rx, cy a rx,ry 0 1,0 (rx * 2),0 a rx,ry 0 1,0 -(rx * 2),0"
-                com.mshdabiola.util.svg2vector.PathBuilder builder = new com.mshdabiola.util.svg2vector.PathBuilder();
+                PathBuilder builder = new PathBuilder();
                 builder.absoluteMoveTo(cx - rx, cy);
                 builder.relativeArcTo(rx, ry, false, true, false, 2 * rx, 0);
                 builder.relativeArcTo(rx, ry, false, true, false, -2 * rx, 0);
@@ -1046,10 +1046,10 @@ public class Svg2Vector {
 
     /** Convert line element into a path. */
     private static void extractLineItem(
-            @NonNull com.mshdabiola.util.svg2vector.SvgTree svg,
-            @NonNull com.mshdabiola.util.svg2vector.SvgLeafNode child,
+            @NonNull SvgTree svg,
+            @NonNull SvgLeafNode child,
             @NonNull Node currentGroupNode,
-            @NonNull com.mshdabiola.util.svg2vector.SvgGroupNode currentGroup) {
+            @NonNull SvgGroupNode currentGroup) {
         logger.log(Level.FINE, "line found" + currentGroupNode.getTextContent());
 
         if (currentGroupNode.getNodeType() == Node.ELEMENT_NODE) {
@@ -1094,7 +1094,7 @@ public class Svg2Vector {
                     && !Float.isNaN(x2)
                     && !Float.isNaN(y2)) {
                 // "M x1, y1 L x2, y2"
-                com.mshdabiola.util.svg2vector.PathBuilder builder = new PathBuilder();
+                PathBuilder builder = new PathBuilder();
                 builder.absoluteMoveTo(x1, y1);
                 builder.absoluteLineTo(x2, y2);
                 child.setPathData(builder.toString());
@@ -1103,10 +1103,10 @@ public class Svg2Vector {
     }
 
     private static void extractPathItem(
-            @NonNull com.mshdabiola.util.svg2vector.SvgTree svg,
-            @NonNull com.mshdabiola.util.svg2vector.SvgLeafNode child,
+            @NonNull SvgTree svg,
+            @NonNull SvgLeafNode child,
             @NonNull Node currentGroupNode,
-            @NonNull com.mshdabiola.util.svg2vector.SvgGroupNode currentGroup) {
+            @NonNull SvgGroupNode currentGroup) {
         logger.log(Level.FINE, "Path found " + currentGroupNode.getTextContent());
 
         if (currentGroupNode.getNodeType() == Node.ELEMENT_NODE) {
@@ -1134,7 +1134,7 @@ public class Svg2Vector {
         }
     }
 
-    private static void addStyleToPath(@NonNull com.mshdabiola.util.svg2vector.SvgNode path, @Nullable String value) {
+    private static void addStyleToPath(@NonNull SvgNode path, @Nullable String value) {
         logger.log(Level.FINE, "Style found is " + value);
         if (value != null) {
             String[] parts = value.split(";");
@@ -1155,7 +1155,7 @@ public class Svg2Vector {
                     // We need to handle a clip-path or a mask within the style in a different way
                     // than other styles. We treat it as an attribute clip-path = "#url(name)".
                     if (attr.equals(SVG_CLIP_PATH) || attr.equals(SVG_MASK)) {
-                        com.mshdabiola.util.svg2vector.SvgGroupNode parentNode = path.getTree().findParent(path);
+                        SvgGroupNode parentNode = path.getTree().findParent(path);
                         if (parentNode != null) {
                             path.getTree().addClipPathAffectedNode(path, parentNode, val);
                         }
@@ -1175,7 +1175,7 @@ public class Svg2Vector {
         return defaultValue;
     }
 
-    private static void writeFile(@NonNull OutputStream outStream, @NonNull com.mshdabiola.util.svg2vector.SvgTree svgTree)
+    private static void writeFile(@NonNull OutputStream outStream, @NonNull SvgTree svgTree)
             throws IOException {
         svgTree.writeXml(outStream);
     }
@@ -1193,7 +1193,7 @@ public class Svg2Vector {
     @NonNull
     public static String parseSvgToXml(@NonNull Path inputSvg, @NonNull OutputStream outStream)
             throws IOException {
-        com.mshdabiola.util.svg2vector.SvgTree svgTree = parse(inputSvg);
+        SvgTree svgTree = parse(inputSvg);
         if (svgTree.getHasLeafNode()) {
             writeFile(outStream, svgTree);
         }

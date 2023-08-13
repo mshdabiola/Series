@@ -13,16 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.mshdabiola.util.svg2vector;
+package com.mshdabiola.model.svg2vector;
 
 import static com.android.utils.XmlUtils.formatFloatValue;
-import static com.mshdabiola.util.svg2vector.VdUtilKt.parseColorValue;
+import static com.mshdabiola.model.svg2vector.VdUtilKt.parseColorValue;
 
 import com.android.SdkConstants;
 import com.android.annotations.NonNull;
 import com.android.utils.PositionXmlParser;
 import com.google.common.collect.ImmutableMap;
-import com.mshdabiola.util.svg2vector.PathParser.ParseMode;
 
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.NodeList;
@@ -47,7 +46,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /** Represents one path element of a vector drawable. */
-class VdPath extends com.mshdabiola.util.svg2vector.VdElement {
+class VdPath extends VdElement {
     private static final String PATH_ID = "android:name";
     private static final String PATH_DESCRIPTION = "android:pathData";
     private static final String PATH_FILL = "android:fillColor";
@@ -100,10 +99,10 @@ class VdPath extends com.mshdabiola.util.svg2vector.VdElement {
                     .build();
 
 
-    private com.mshdabiola.util.svg2vector.VdPath.VdGradient fillGradient;
-    private com.mshdabiola.util.svg2vector.VdPath.VdGradient strokeGradient;
+    private VdPath.VdGradient fillGradient;
+    private VdPath.VdGradient strokeGradient;
 
-    private com.mshdabiola.util.svg2vector.VdPath.Node[] mNodeList;
+    private VdPath.Node[] mNodeList;
     private int mStrokeColor;
     private int mFillColor;
 
@@ -122,7 +121,7 @@ class VdPath extends com.mshdabiola.util.svg2vector.VdElement {
     private void toPath(@NonNull Path2D path) {
         path.reset();
         if (mNodeList != null) {
-            com.mshdabiola.util.svg2vector.VdNodeRender.createPath(mNodeList, path);
+            VdNodeRender.createPath(mNodeList, path);
         }
     }
 
@@ -146,14 +145,14 @@ class VdPath extends com.mshdabiola.util.svg2vector.VdElement {
             this.mParams = params;
         }
 
-        public Node(@NonNull com.mshdabiola.util.svg2vector.VdPath.Node n) {
+        public Node(@NonNull VdPath.Node n) {
             this.mType = n.mType;
             this.mParams = Arrays.copyOf(n.mParams, n.mParams.length);
         }
 
-        public static boolean hasRelMoveAfterClose(@NonNull com.mshdabiola.util.svg2vector.VdPath.Node[] nodes) {
+        public static boolean hasRelMoveAfterClose(@NonNull VdPath.Node[] nodes) {
             char preType = ' ';
-            for (com.mshdabiola.util.svg2vector.VdPath.Node n : nodes) {
+            for (VdPath.Node n : nodes) {
                 if ((preType == 'z' || preType == 'Z') && n.mType == 'm') {
                     return true;
                 }
@@ -163,9 +162,9 @@ class VdPath extends com.mshdabiola.util.svg2vector.VdElement {
         }
 
         @NonNull
-        public static String nodeListToString(@NonNull com.mshdabiola.util.svg2vector.VdPath.Node[] nodes, @NonNull com.mshdabiola.util.svg2vector.SvgTree svgTree) {
+        public static String nodeListToString(@NonNull VdPath.Node[] nodes, @NonNull SvgTree svgTree) {
             StringBuilder result = new StringBuilder();
-            for (com.mshdabiola.util.svg2vector.VdPath.Node node : nodes) {
+            for (VdPath.Node node : nodes) {
                 result.append(node.mType);
                 int len = node.mParams.length;
                 boolean implicitLineTo = false;
@@ -194,11 +193,11 @@ class VdPath extends com.mshdabiola.util.svg2vector.VdElement {
         }
 
         public static void transform(
-                @NonNull AffineTransform totalTransform, @NonNull com.mshdabiola.util.svg2vector.VdPath.Node[] nodes) {
+                @NonNull AffineTransform totalTransform, @NonNull VdPath.Node[] nodes) {
             Point2D.Float currentPoint = new Point2D.Float();
             Point2D.Float currentSegmentStartPoint = new Point2D.Float();
             char previousType = INIT_TYPE;
-            for (com.mshdabiola.util.svg2vector.VdPath.Node n : nodes) {
+            for (VdPath.Node n : nodes) {
                 n.transform(totalTransform, currentPoint, currentSegmentStartPoint, previousType);
                 previousType = n.mType;
             }
@@ -359,7 +358,7 @@ class VdPath extends com.mshdabiola.util.svg2vector.VdElement {
                         // (0:rx 1:ry 2:x-axis-rotation 3:large-arc-flag 4:sweep-flag 5:x 6:y)
                         // [0, 1, 2]
                         if (!isTranslationOnly(totalTransform)) {
-                            com.mshdabiola.util.svg2vector.EllipseSolver ellipseSolver = new com.mshdabiola.util.svg2vector.EllipseSolver(totalTransform,
+                            EllipseSolver ellipseSolver = new EllipseSolver(totalTransform,
                                     currentX, currentY,
                                     mParams[i], mParams[i + 1], mParams[i + 2],
                                     mParams[i + 3], mParams[i + 4],
@@ -387,7 +386,7 @@ class VdPath extends com.mshdabiola.util.svg2vector.VdElement {
                         currentX += mParams[i + 5];
                         currentY += mParams[i + 6];
                         if (!isTranslationOnly(totalTransform)) {
-                            com.mshdabiola.util.svg2vector.EllipseSolver ellipseSolver = new com.mshdabiola.util.svg2vector.EllipseSolver(totalTransform,
+                            EllipseSolver ellipseSolver = new EllipseSolver(totalTransform,
                                     oldCurrentX, oldCurrentY,
                                     mParams[i], mParams[i + 1], mParams[i + 2],
                                     mParams[i + 3], mParams[i + 4],
@@ -470,7 +469,7 @@ class VdPath extends com.mshdabiola.util.svg2vector.VdElement {
         }
 
         if (PATH_DESCRIPTION.equals(name)) {
-            mNodeList = PathParser.parsePath(value, ParseMode.ANDROID);
+            mNodeList = PathParser.parsePath(value, PathParser.ParseMode.ANDROID);
         } else if (PATH_ID.equals(name)) {
             mName = value;
         } else if (PATH_FILL.equals(name)) {
@@ -622,7 +621,7 @@ class VdPath extends com.mshdabiola.util.svg2vector.VdElement {
     protected void addGradientIfExists(@NonNull org.w3c.dom.Node current) {
         // This should be guaranteed to be the gradient given the way we are writing the VD XMLs.
         org.w3c.dom.Node gradientNode = current.getFirstChild();
-        com.mshdabiola.util.svg2vector.VdPath.VdGradient newGradient = new com.mshdabiola.util.svg2vector.VdPath.VdGradient();
+        VdPath.VdGradient newGradient = new VdPath.VdGradient();
         if (gradientNode != null) {
             gradientNode = gradientNode.getNextSibling();
             if (gradientNode != null) {
@@ -677,7 +676,7 @@ class VdPath extends com.mshdabiola.util.svg2vector.VdElement {
                         offset = "0";
                         getLogger().log(Level.WARNING, ">>>>>> No offset for gradient found>>>>>>");
                     }
-                    com.mshdabiola.util.svg2vector.GradientStop gradientStop = new com.mshdabiola.util.svg2vector.GradientStop(color, offset);
+                    GradientStop gradientStop = new GradientStop(color, offset);
                     newGradient.mGradientStops.add(gradientStop);
                 }
             }
@@ -699,7 +698,7 @@ class VdPath extends com.mshdabiola.util.svg2vector.VdElement {
         private String mTileMode = "NO_CYCLE";
         private String mGradientType = "linear";
 
-        private final ArrayList<com.mshdabiola.util.svg2vector.GradientStop> mGradientStops = new ArrayList<>();
+        private final ArrayList<GradientStop> mGradientStops = new ArrayList<>();
 
         VdGradient() {}
 
@@ -841,6 +840,6 @@ class VdPath extends com.mshdabiola.util.svg2vector.VdElement {
 
     @NonNull
     private static Logger getLogger() {
-        return Logger.getLogger(com.mshdabiola.util.svg2vector.VdPath.class.getSimpleName());
+        return Logger.getLogger(VdPath.class.getSimpleName());
     }
 }

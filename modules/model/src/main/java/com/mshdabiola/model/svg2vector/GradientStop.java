@@ -13,28 +13,37 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.mshdabiola.util.svg2vector;
+package com.mshdabiola.model.svg2vector;
 
 import com.android.annotations.NonNull;
 
-/**
- * Indicates that the input vector drawable XML file included references to other Android resources.
- */
-public class ResourcesNotSupportedException extends RuntimeException {
-    private final String name;
-    private final String value;
+/** Represents an SVG gradient stop or Android's GradientColorItem. */
+public class GradientStop {
+    private final String color;
+    private final String offset;
+    private String opacity = "";
 
-    public ResourcesNotSupportedException(@NonNull String name, @NonNull String value) {
-        super(String.format("Cannot process attribute %1$s=\"%2$s\"", name, value));
-        this.name = name;
-        this.value = value;
+    GradientStop(@NonNull String color, @NonNull String offset) {
+        this.color = color;
+        this.offset = offset;
     }
 
-    public String getName() {
-        return name;
+    @NonNull
+    String getColor() {
+        return color;
     }
 
-    public String getValue() {
-        return value;
+    @NonNull
+    String getOffset() {
+        return offset;
+    }
+
+    @NonNull
+    String getOpacity() {
+        return opacity;
+    }
+
+    protected void setOpacity(@NonNull String opacity) {
+        this.opacity = opacity;
     }
 }

@@ -1,4 +1,4 @@
-package com.mshdabiola.util.svg2vector
+package com.mshdabiola.model.svg2vector
 /*
  * Copyright (C) 2017 The Android Open Source Project
  *

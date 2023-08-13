@@ -13,11 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.mshdabiola.util.svg2vector;
+package com.mshdabiola.model.svg2vector;
 
 
 import com.android.annotations.NonNull;
-import com.mshdabiola.util.svg2vector.VdPath;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -52,7 +51,7 @@ public class PathParser {
      * @param result the result of the extraction
      */
     private static void extract(
-            @NonNull String s, int start, boolean flagMode, @NonNull com.mshdabiola.util.svg2vector.PathParser.ExtractFloatResult result) {
+            @NonNull String s, int start, boolean flagMode, @NonNull PathParser.ExtractFloatResult result) {
         boolean foundSeparator = false;
         result.mExplicitSeparator = false;
         boolean secondDot = false;
@@ -104,7 +103,7 @@ public class PathParser {
      * @return array of floats
      */
     @NonNull
-    private static float[] getFloats(@NonNull String s, @NonNull com.mshdabiola.util.svg2vector.PathParser.ParseMode parseMode) {
+    private static float[] getFloats(@NonNull String s, @NonNull PathParser.ParseMode parseMode) {
         char command = s.charAt(0);
         if (command == 'z' || command == 'Z') {
             return EMPTY_FLOAT_ARRAY;
@@ -116,7 +115,7 @@ public class PathParser {
             int startPosition = 1;
             int endPosition;
 
-            com.mshdabiola.util.svg2vector.PathParser.ExtractFloatResult result = new com.mshdabiola.util.svg2vector.PathParser.ExtractFloatResult();
+            PathParser.ExtractFloatResult result = new PathParser.ExtractFloatResult();
             int totalLength = s.length();
 
             // The startPosition should always be the first character of the current number, and
@@ -127,7 +126,7 @@ public class PathParser {
                 // https://www.w3.org/TR/SVG/paths.html#PathDataBNF. In such a case flags may be
                 // represented by "1.0" or "0.0" (b/146520216).
                 boolean flagMode =
-                        parseMode == com.mshdabiola.util.svg2vector.PathParser.ParseMode.SVG
+                        parseMode == PathParser.ParseMode.SVG
                                 && arcCommand
                                 && (count % 7 == 3 || count % 7 == 4);
                 extract(s, startPosition, flagMode, result);
@@ -158,8 +157,8 @@ public class PathParser {
         }
     }
 
-    private static void addNode(@NonNull List<com.mshdabiola.util.svg2vector.VdPath.Node> list, char cmd, @NonNull float[] val) {
-        list.add(new com.mshdabiola.util.svg2vector.VdPath.Node(cmd, val));
+    private static void addNode(@NonNull List<VdPath.Node> list, char cmd, @NonNull float[] val) {
+        list.add(new VdPath.Node(cmd, val));
     }
 
     private static int nextStart(@NonNull String s, int end) {
@@ -177,9 +176,9 @@ public class PathParser {
     }
 
     @NonNull
-    public static com.mshdabiola.util.svg2vector.VdPath.Node[] parsePath(@NonNull String value, @NonNull com.mshdabiola.util.svg2vector.PathParser.ParseMode mode) {
+    public static VdPath.Node[] parsePath(@NonNull String value, @NonNull PathParser.ParseMode mode) {
         value = value.trim();
-        List<com.mshdabiola.util.svg2vector.VdPath.Node> list = new ArrayList<>();
+        List<VdPath.Node> list = new ArrayList<>();
 
         int start = 0;
         int end = 1;
@@ -204,7 +203,7 @@ public class PathParser {
         if (end - start == 1 && start < value.length()) {
             addNode(list, value.charAt(start), EMPTY_FLOAT_ARRAY);
         }
-        return list.toArray(new com.mshdabiola.util.svg2vector.VdPath.Node[0]);
+        return list.toArray(new VdPath.Node[0]);
     }
 
     public enum ParseMode {

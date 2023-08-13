@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.mshdabiola.util.svg2vector;
+package com.mshdabiola.model.svg2vector;
 
 
 import java.awt.geom.Path2D;
@@ -23,18 +23,18 @@ import java.util.logging.Logger;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * Given an array of {@link com.mshdabiola.util.svg2vector.VdPath.Node}, generates a Path2D object.
+ * Given an array of {@link VdPath.Node}, generates a Path2D object.
  * In other words, this is the engine which converts the pathData into
  * a Path2D object, which is able to draw on Swing components.
  * The logic and math here are the same as PathParser.java in framework.
  */
 class VdNodeRender {
-    private static final Logger LOGGER = Logger.getLogger(com.mshdabiola.util.svg2vector.VdNodeRender.class.getSimpleName());
+    private static final Logger LOGGER = Logger.getLogger(VdNodeRender.class.getSimpleName());
 
-    public static void createPath(@NotNull com.mshdabiola.util.svg2vector.VdPath.Node[] nodes, @NotNull Path2D path) {
+    public static void createPath(@NotNull VdPath.Node[] nodes, @NotNull Path2D path) {
         float[] current = new float[6];
         char lastCmd = ' ';
-        for (com.mshdabiola.util.svg2vector.VdPath.Node node : nodes) {
+        for (VdPath.Node node : nodes) {
             addCommand(path, current, node.getType(), lastCmd, node.getParams());
             lastCmd = node.getType();
         }
