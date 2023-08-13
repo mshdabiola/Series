@@ -48,8 +48,6 @@ kotlin {
             }
         }
 
-        val desktopTest by getting
-
 //        val jsMain by getting {
 //            dependencies {
 //

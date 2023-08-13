@@ -31,22 +31,37 @@ class MppLibraryComposeConventionPlugin : Plugin<Project> {
             pluginManager.apply("com.android.library")
             pluginManager.apply("org.jetbrains.compose")
 
+            val libs = extensions.getByType<VersionCatalogsExtension>().named("libs")
+            var composer = extensions.getByType<ComposeExtension>()
 
-            val compose = extensions.getByType<ComposeExtension>()
+
 
             val extension = extensions.getByType<LibraryExtension>()
-            configureAndroidCompose(extension)
+            extension.apply {
+                buildFeatures {
+                    compose = true
+                }
+
+                composeOptions {
+                    kotlinCompilerExtensionVersion =
+                        libs.findVersion("androidxComposeCompiler").get().toString()
+                }
+            }
+         //   configureAndroidCompose(extension)
             extensions.configure<KotlinMultiplatformExtension> {
-                val libs = extensions.getByType<VersionCatalogsExtension>().named("libs")
+
                 with(sourceSets) {
 
                     getByName("commonMain") {
                         this.dependencies {
-                            implementation(compose.dependencies.runtime)
-                            implementation(compose.dependencies.ui)
-                            implementation(compose.dependencies.foundation)
-                            implementation(compose.dependencies.materialIconsExtended)
-                            implementation(compose.dependencies.material3)
+                           // compose.dependencies.preview
+
+                            implementation("org.jetbrains.compose.ui:ui-tooling-preview:1.5.0-dev1147")
+                            implementation("org.jetbrains.compose.runtime:runtime:1.5.0-dev1147")
+                            implementation("org.jetbrains.compose.ui:ui:1.5.0-dev1147")
+                            implementation("org.jetbrains.compose.foundation:foundation:1.5.0-dev1147")
+                            implementation("org.jetbrains.compose.material:material-icons-extended:1.5.0-dev1147")
+                            implementation("org.jetbrains.compose.material3:material3:1.5.0-dev1147")
                             implementation(libs.findLibrary("kotlinx.collection.immutable").get())
                             implementation(libs.findLibrary("kermit.log").get())
                         }

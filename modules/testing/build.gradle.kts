@@ -21,13 +21,6 @@ kotlin {
                 api(libs.koin.test.junit)
             }
         }
-
-        val commonTest by getting {
-            dependencies {
-
-            }
-        }
-
         val androidMain by getting {
             dependencies {
                 //  debugApi(libs.androidx.compose.ui.testManifest)
@@ -39,24 +32,6 @@ kotlin {
                 api(libs.koin.android.test)
             }
         }
-        val androidInstrumentedTest by getting {
 
-
-        }
-
-
-        val desktopMain by getting {
-            dependencies {
-
-            }
-        }
-
-        val desktopTest by getting
-
-//        val jsMain by getting {
-//            dependencies {
-//
-//            }
-//        }
     }
 }

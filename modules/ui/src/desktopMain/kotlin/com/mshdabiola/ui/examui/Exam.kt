@@ -31,10 +31,10 @@ fun ExamUi(
     var showDrop by remember { mutableStateOf(false) }
     ListItem(
         modifier = modifier,
-        headlineText = {
+        headlineContent = {
             Text(examUiState.subject)
         },
-        supportingText = { Text(examUiState.year.toString()) },
+        supportingContent = { Text(examUiState.year.toString()) },
         trailingContent = {
             Box {
                 IconButton(onClick = { showDrop = true }) {

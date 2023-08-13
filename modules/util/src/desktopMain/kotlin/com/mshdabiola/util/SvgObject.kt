@@ -1,6 +1,7 @@
 package com.mshdabiola.util
 
-import com.android.ide.common.vectordrawable.Svg2Vector
+import com.mshdabiola.model.svg2vector.Svg2Vector
+//import com.android.ide.common.vectordrawable.Svg2Vector
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.File
@@ -25,7 +26,9 @@ object SvgObject {
 
             if (imageFile.extension == "svg") {
                 val fileOutputStream = FileOutputStream(newPath)
+//                Svg2Vector.parseSvgToXml(File(path), fileOutputStream)
                 Svg2Vector.parseSvgToXml(Path(path), fileOutputStream)
+
                 fileOutputStream.close()
             } else {
                 imageFile.copyTo(newPath)

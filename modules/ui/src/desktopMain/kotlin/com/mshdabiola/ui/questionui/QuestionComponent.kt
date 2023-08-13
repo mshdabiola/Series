@@ -129,7 +129,7 @@ fun QuestionUi(
                 modifier = Modifier.padding(horizontal = 16.dp)
             )
             ListItem(
-                headlineText = {
+                headlineContent = {
                     ContentView(
                         items = questionUiState.content,
                         generalPath = generalPath

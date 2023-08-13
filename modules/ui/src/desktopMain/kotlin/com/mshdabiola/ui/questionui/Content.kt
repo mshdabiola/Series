@@ -59,7 +59,7 @@ fun ContentView(
             ListItem(
                 modifier = Modifier.fillMaxWidth(),
                 colors = ListItemDefaults.colors(containerColor = color),
-                headlineText = {
+                headlineContent = {
                     val childModifier = Modifier.fillMaxWidth()
 
                     when (item.type) {
@@ -112,7 +112,7 @@ fun Content(
 
             ListItem(
                 modifier = Modifier.fillMaxWidth(),
-                headlineText = {
+                headlineContent = {
                     val childModifier = Modifier.fillMaxWidth()
 
                     when (item.type) {

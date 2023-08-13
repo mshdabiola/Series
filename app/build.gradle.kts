@@ -72,9 +72,7 @@ dependencies {
     implementation(libs.koin.android)
 
     implementation(project(":modules:designsystem"))
-    //implementation(project(":android:screen"))
     implementation(project(":modules:retex"))
-    //implementation(project(":android:worker"))
 
     implementation(project(":modules:navigation"))
     implementation(libs.decompose.core)
@@ -85,13 +83,6 @@ dependencies {
 
 
     androidTestImplementation(project(":modules:testing"))
-
-//
-//
-//    // implementation(platform(libs.firebase.bom))
-//    implementation(libs.firebase.remoteconfig)
-//    implementation(libs.firebase.message)
-//    implementation(libs.firebase.cloud.messaging)
 
 
 }

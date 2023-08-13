@@ -17,32 +17,5 @@ kotlin {
                 implementation(libs.decompose.compose.jetbrains)
             }
         }
-
-        val commonTest by getting {
-            dependencies {
-
-            }
-        }
-
-        val androidMain by getting {
-            dependencies {
-
-            }
-        }
-
-
-        val desktopMain by getting {
-            dependencies {
-
-            }
-        }
-
-        val desktopTest by getting
-
-//        val jsMain by getting {
-//            dependencies {
-//
-//            }
-//        }
     }
 }

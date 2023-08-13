@@ -6,7 +6,7 @@ import com.mshdabiola.data.repository.inter.IExamRepository
 import com.mshdabiola.data.repository.inter.IQuestionRepository
 import com.mshdabiola.data.repository.inter.ISettingRepository
 import com.mshdabiola.data.repository.inter.ISubjectRepository
-import com.mshdabiola.model.CurrentExam
+import com.mshdabiola.model.data.CurrentExam
 import com.mshdabiola.model.data.Subject
 import com.mshdabiola.series.screen.main.MainState
 import com.mshdabiola.ui.state.ExamUiState

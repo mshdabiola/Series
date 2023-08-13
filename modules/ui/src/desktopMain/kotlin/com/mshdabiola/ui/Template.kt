@@ -42,7 +42,7 @@ import kotlinx.coroutines.launch
 )
 @Composable
 fun TemplateUi() {
-    val state = rememberPagerState()
+    val state = rememberPagerState(){4}
 
     val coroutineScope = rememberCoroutineScope()
     val listOfMap = listOf(
@@ -539,7 +539,7 @@ fun TemplateUi() {
             coroutineScope.launch { state.animateScrollToPage(3) }
         }, text = { Text("Symbols") })
     }
-    HorizontalPager(4, state = state) {
+    HorizontalPager(state = state) {
 
 
         if (it == 0) {
