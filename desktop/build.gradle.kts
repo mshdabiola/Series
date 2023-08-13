@@ -54,7 +54,6 @@ compose.desktop {
         buildTypes.release.proguard {
             configurationFiles.from(project.file("compose-desktop.pro"))
             obfuscate.set(true)
-            version.set("7.3.0")
         }
 
         val iconsRoot = project.file("src/main/resources/drawables/launcher")
@@ -82,7 +81,7 @@ compose.desktop {
                 shortcut = true
                 menuGroup = packageName
                 //https://wixtoolset.org/documentation/manual/v3/howtos/general/generate_guids.html
-                upgradeUuid = "22a6b130-7ad9-4c97-bcc9-ced9b41ba1c5"
+                upgradeUuid = "22A6B130-7AD9-4C97-BCC9-CED9B41BA1C5"
             }
 
             macOS {
