@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
@@ -247,6 +248,7 @@ fun MainContent(
                 Text("Add Examination")
                 Box {
                     TextField(
+                        modifier=Modifier.fillMaxWidth(),
                         label = { Text("Subject") },
                         value = examUiState.subject,
                         onValueChange = {},
@@ -271,6 +273,7 @@ fun MainContent(
                     }
                 }
                 TextField(
+                    modifier=Modifier.fillMaxWidth(),
                     label = { Text("Year") },
                     value = if (examUiState.year != -1L) examUiState.year.toString() else "",
                     placeholder = { Text("2012") },
@@ -291,7 +294,7 @@ fun MainContent(
 
                 Text("Add Subject")
                 TextField(
-                    modifier = Modifier.focusRequester(subjectFocus),
+                    modifier = Modifier.fillMaxWidth().focusRequester(subjectFocus),
                     label = { Text("Subject") },
                     placeholder = { Text("Mathematics") },
                     value = subjectUiState.name,
