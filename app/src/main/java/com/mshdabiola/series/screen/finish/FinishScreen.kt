@@ -60,16 +60,11 @@ import timber.log.Timber
 @Composable
 internal fun FinishScreen(onBack: () -> Unit, toQuestion: () -> Unit, viewModel: MainViewModel) {
 
-    val questions = viewModel.allQuestions.collectAsStateWithLifecycle()
     val mainState = viewModel.mainState.collectAsStateWithLifecycle()
-    val isMultiPart = viewModel.isMultiPart.collectAsStateWithLifecycle()
-    val isObjPart = viewModel.isObjPart.collectAsStateWithLifecycle()
+
 
     FinishScreen(
-        questions = questions.value,
         mainState = mainState.value,
-        isObjPart = isObjPart.value,
-        isMultiPart = isMultiPart.value,
         back = {
             onBack()
             viewModel.onFinishBack()
@@ -87,10 +82,7 @@ internal fun FinishScreen(onBack: () -> Unit, toQuestion: () -> Unit, viewModel:
 )
 @Composable
 internal fun FinishScreen(
-    questions: ImmutableList<QuestionUiState>,
     mainState: MainState,
-    isMultiPart: Boolean,
-    isObjPart: Boolean,
     back: () -> Unit = {},
     toQuestion: () -> Unit = {},
     getGeneralPath: (FileManager.ImageType, Long) -> String = { _, _ -> "" },
@@ -106,27 +98,6 @@ internal fun FinishScreen(
     var instructionUiState by remember {
         mutableStateOf<InstructionUiState?>(null)
     }
-    val currentQuestions = remember(currentIndex) {
-        (if (currentIndex == 0)
-            questions
-                .filter { it.isTheory.not() }
-        else
-            questions
-                .filter { it.isTheory })
-            .toImmutableList()
-    }
-
-    LaunchedEffect(isObjPart) {
-        if (isObjPart) {
-            currentIndex = 0
-        } else {
-            currentIndex = 1
-        }
-    }
-
-    LaunchedEffect(key1 = mainState, block = {
-        Timber.e(mainState.toString())
-    })
 
 
     Scaffold(
@@ -202,7 +173,7 @@ internal fun FinishScreen(
 //                        modifier = Modifier.fillMaxWidth()
 //                    )
                 }
-                if (isMultiPart) {
+                if (mainState.questions.size>1) {
                     item {
                         TabRow(selectedTabIndex = currentIndex) {
                             Tab(selected = currentIndex == 0, onClick = {
@@ -225,7 +196,8 @@ internal fun FinishScreen(
                     }
                 }
                 itemsIndexed(
-                    items = currentQuestions,
+                    items = mainState.questions.getOrElse(mainState.currentPaper
+                    ) { emptyList<QuestionUiState>().toImmutableList() },
                     key = { _, item -> item.id }) { index, item ->
                     QuestionUi(
                         number = (index + 1L),
@@ -234,7 +206,7 @@ internal fun FinishScreen(
                         onInstruction = {
                             instructionUiState = item.instructionUiState
                         },
-                        selectedOption = mainState.chooseObj.getOrNull(index) ?: -1,
+                        selectedOption = mainState.choose[mainState.currentPaper].getOrNull(index) ?: -1,
                         onOptionClick = {
                         },
                         showAnswer = true
@@ -411,14 +383,11 @@ fun FinishScreenPreview() {
             )
         ).toImmutableList()
     FinishScreen(
-        questions = questions,
-        isMultiPart = false,
-        isObjPart = true,
+
         mainState = MainState(
             title = "Jade",
             currentExam = null,
             listOfAllExams = emptyList<ExamUiState>().toImmutableList(),
-            chooseObj = emptyList<Int>().toImmutableList()
         )
     )
 }

@@ -58,15 +58,6 @@ class MainViewModel(
     val mainState = _mainState.asStateFlow()
 
 
-    private val _allQuestions = MutableStateFlow(emptyList<QuestionUiState>().toImmutableList())
-    val allQuestions = _allQuestions.asStateFlow()
-
-    private val _isMultiPart = MutableStateFlow(false)
-    val isMultiPart = _isMultiPart.asStateFlow()
-
-    private val _isObjPart = MutableStateFlow(false)
-    val isObjPart = _isObjPart.asStateFlow()
-
 //    private val _theQuestionsList = MutableStateFlow(emptyList<QuestionUiState>().toImmutableList())
 //    val theQuestionsList = _theQuestionsList.asStateFlow()
 
@@ -128,37 +119,33 @@ class MainViewModel(
                 }
             }
 //            "Objective & Theory","Theory","Objective"
+            var examIndex=0
 
-            val allQuestions =
+            val allQuestions = emptyList <List<QuestionUiState>>().toMutableList()
                 when (type) {
                     ExamType.YEAR, ExamType.RANDOM -> {
                         val list = getAllQuestions(exam.id)
                         when (typeIndex) {
                             0 -> {
-                                _isObjPart.update { true }
-                                _isMultiPart.update { true }
-                                list
+
+                                allQuestions.add(list.filter { it.isTheory.not() })
+                                allQuestions.add(list.filter { it.isTheory })
                             }
 
                             1 -> {
-                                _isObjPart.update { true }
-                                _isMultiPart.update { false }
-                                list.filter { it.isTheory.not() }
+
+                                allQuestions.add(list.filter { it.isTheory.not() })
                             }
 
                             else -> {
-                                _isObjPart.update { false }
-                                _isMultiPart.update { false }
-                                list.filter { it.isTheory }
+                                allQuestions.add(list.filter { it.isTheory })
 
                             }
                         }
                     }
 
                     ExamType.FAST_FINGER -> {
-                        _isObjPart.update { true }
-                        _isMultiPart.update { false }
-                        getAllQuestions(null).filter { it.isTheory.not() }
+                        allQuestions.add(getAllQuestions(null).filter { it.isTheory.not() })
                     }
 
                 }
@@ -169,23 +156,24 @@ class MainViewModel(
                 ExamType.FAST_FINGER -> type.secondPerQuestion.toLong()
             }
 
-            val objTime = (allQuestions.filter { it.isTheory.not() }.size) * time
-            val theoryTime = (allQuestions.filter { it.isTheory }.size) * 40L
-            Timber.e("tTime $theoryTime objTime $objTime")
-            val chooseObj = List(allQuestions.filter { it.isTheory.not() }.size) { -1 }
-            val chooseThe =
-                List(allQuestions.filter { it.isTheory }.size) { if (it == 0) 2 else -1 }
+//            val objTime = (allQuestions.filter { it.isTheory.not() }.size) * time
+//            val theoryTime = (allQuestions.filter { it.isTheory }.size) * 40L
+//            Timber.e("tTime $theoryTime objTime $objTime")
+            val choose =allQuestions.map {
+                List(it.size) { -1 }
+            }
 
-            _mainState.update {
-                it.copy(
-                    currentExam = exam.copy(totalTime = objTime + theoryTime, examPart = typeIndex),
-                    chooseObj = chooseObj.toImmutableList(),
-                    chooseThe = chooseThe.toImmutableList()
+            _mainState.update { state ->
+                state.copy(
+                    currentExam = exam.copy(totalTime = 400L, examPart = typeIndex),
+                    questions = allQuestions.map { it.toImmutableList() }.toImmutableList(),
+                    choose = choose.map { it.toImmutableList() }.toImmutableList(),
+                    currentPaper = 0
+
+
                 )
             }
-            _allQuestions.update {
-                allQuestions.toImmutableList()
-            }
+
 
         }
     }
@@ -196,29 +184,24 @@ class MainViewModel(
 
         if (currentExam1 != null) {
 
-            val que =
-                if (currentExam1.isSubmit)
-                    emptyList()
-                else {
+            val allQuestions = emptyList <List<QuestionUiState>>().toMutableList()
+
+            if (!currentExam1.isSubmit){
                     val list = getAllQuestions(currentExam1.id)
                     when (currentExam1.examPart) {
                         0 -> {
-                            _isObjPart.update { true }
-                            _isMultiPart.update { true }
-                            list
+                            allQuestions.add(list.filter { it.isTheory.not() })
+                            allQuestions.add(list.filter { it.isTheory })
+
                         }
 
                         1 -> {
-                            _isObjPart.update { true }
-                            _isMultiPart.update { false }
-                            list.filter { it.isTheory.not() }
+
+                            allQuestions.add(list.filter { it.isTheory.not() })
                         }
 
                         else -> {
-                            _isObjPart.update { false }
-                            _isMultiPart.update { false }
-                            list.filter { it.isTheory }
-
+                            allQuestions.add(list.filter { it.isTheory })
 
                         }
                     }
@@ -230,21 +213,20 @@ class MainViewModel(
                 currentExam1.id == it.id
             }
 
-            _mainState.update {
-                it.copy(
+            _mainState.update { state ->
+                state.copy(
                     currentExam = exam?.copy(
                         examPart = currentExam1.examPart,
                         currentTime = currentExam1.currentTime,
                         totalTime = currentExam1.totalTime,
                         isSubmit = currentExam1.isSubmit
                     ),
-                    chooseObj = currentExam1.chooseObj.toImmutableList(),
-                    chooseThe = currentExam1.chooseThe.toImmutableList()
+                    currentPaper = currentExam1.paperIndex,
+                    choose = currentExam1.choose.map { it.toImmutableList() }.toImmutableList(),
+                    questions = allQuestions.map { it.toImmutableList() }.toImmutableList()
                 )
             }
-            _allQuestions.update {
-                que.toImmutableList()
-            }
+
         }
     }
 
@@ -273,32 +255,33 @@ class MainViewModel(
             .firstOrNull() ?: emptyList()
     }
 
-    fun onOption(index: Int, optionIndex: Int) {
+    fun onOption(paper:Int, questionIndex: Int, optionIndex: Int?) {
 
 //
+        val chooses=mainState.value.choose.toMutableList()
+        val choose = chooses[paper].toMutableList()
+        choose[questionIndex]= optionIndex ?: 2
+        chooses[paper]=choose.toImmutableList()
+
         _mainState.update {
-            val choose = it.chooseObj.toMutableList()
-            choose[index] = if (choose[index] == optionIndex) -1 else optionIndex
-            it.copy(
-                chooseObj = choose.toImmutableList()
-            )
+            it.copy(choose = chooses.toImmutableList())
         }
 
         //add and remove Choose
     }
 
     fun onNextTheory(index: Int) {
-
-        if (isObjPart.value)
-            return
 //
-        _mainState.update {
-            val choose = it.chooseThe.toMutableList()
-            choose[index] = 2
-            it.copy(
-                chooseThe = choose.toImmutableList()
-            )
-        }
+//        if (isObjPart.value)
+//            return
+////
+//        _mainState.update {
+//            val choose = it.chooseThe.toMutableList()
+//            choose[index] = 2
+//            it.copy(
+//                chooseThe = choose.toImmutableList()
+//            )
+//        }
 
         //add and remove Choose
     }
@@ -324,9 +307,8 @@ class MainViewModel(
                     totalTime = id.totalTime,
                     isSubmit = id.isSubmit,
                     examPart = id.examPart,
-                    chooseObj = mainState.value.chooseObj,
-                    chooseThe = mainState.value.chooseThe
-                )
+                    paperIndex = mainState.value.currentPaper,
+                    choose = mainState.value.choose)
             )
 
         }
@@ -365,11 +347,13 @@ class MainViewModel(
     }
 
     fun onFinishBack() {
-        _allQuestions.update {
-            emptyList<QuestionUiState>().toImmutableList()
-        }
+       val question=emptyList <List<QuestionUiState>>().toMutableList()
         _mainState.update {
-            it.copy(currentExam = null)
+            it.copy(
+                currentExam = null,
+                questions = question.map { it.toImmutableList() }.toImmutableList()
+            )
+
         }
         viewModelScope.launch(Dispatchers.IO) {
             if (type.save) {
@@ -383,9 +367,13 @@ class MainViewModel(
     }
 
     fun onRetry() {
-        _allQuestions.update {
-            emptyList<QuestionUiState>().toImmutableList()
+        val question=emptyList <List<QuestionUiState>>().toMutableList()
+        _mainState.update {
+            it.copy(
+                questions = question.map { it.toImmutableList() }.toImmutableList()
+            )
         }
+
         mainState.value.currentExam?.let { examUiState ->
             val index = mainState.value.listOfAllExams.indexOfFirst { it.id == examUiState.id }
             Timber.e("retry index is $index")
@@ -397,12 +385,13 @@ class MainViewModel(
     }
 
     private fun markExam() {
-        val answerIndex = allQuestions.value
+        val answerIndex = mainState.value
+            .questions[0]
             .filter { it.isTheory.not() }
             .map { questionUiState ->
                 questionUiState.options.indexOfFirst { it.isAnswer }
             }
-        val choose = mainState.value.chooseObj
+        val choose = mainState.value.choose[0]
         val size = choose.size
         val corrent = answerIndex
             .mapIndexed { index, i ->
@@ -440,11 +429,17 @@ class MainViewModel(
         return "Waec ${exam?.year} ${if (isTheory) "Theo" else "Obj"} Q$no"
     }
 
-    fun togglePart() {
-        _isObjPart.update {
-            !it
+    fun changeIndex(index: Int) {
+        _mainState.update {
+            it.copy(currentPaper = index)
         }
     }
+
+//    fun togglePart() {
+//        _isObjPart.update {
+//            !it
+//        }
+//    }
 
 
 }

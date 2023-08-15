@@ -3,12 +3,16 @@ package com.mshdabiola.series.screen.question
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -23,14 +27,11 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SuggestionChip
-import androidx.compose.material3.SuggestionChipDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -53,7 +54,6 @@ import com.mshdabiola.ui.com.mshdabiola.ui.AllQuestionBottomSheet
 import com.mshdabiola.ui.com.mshdabiola.ui.InstructionBottomSheet
 import com.mshdabiola.ui.correct
 import com.mshdabiola.ui.onCorrect
-import com.mshdabiola.ui.state.ExamUiState
 import com.mshdabiola.ui.state.InstructionUiState
 import com.mshdabiola.ui.state.ItemUiState
 import com.mshdabiola.ui.state.OptionUiState
@@ -69,28 +69,10 @@ internal fun QuestionScreen(
     onFinish: () -> Unit,
     viewModel: MainViewModel
 ) {
-
-
-    val questions = viewModel.allQuestions.collectAsState()
     val mainState = viewModel.mainState.collectAsStateWithLifecycle()
-    val isMultiPart = viewModel.isMultiPart.collectAsStateWithLifecycle()
-    val isObjPart = viewModel.isObjPart.collectAsStateWithLifecycle()
-
-    val allQuestions = remember(isMultiPart.value, isObjPart.value, questions.value) {
-        when {
-            isMultiPart.value && isObjPart.value -> questions.value.filter { it.isTheory.not() }
-            isMultiPart.value && !isObjPart.value -> questions.value.filter { it.isTheory }
-            else -> questions.value
-        }.toImmutableList()
-    }
-
 
     QuestionScreen(
-        questions = allQuestions,
         mainStat = mainState.value,
-        isMultiPart = isMultiPart.value,
-        isObjPart = isObjPart.value,
-        togglePart = viewModel::togglePart,
         back = onBack,
         onFinish = {
             onFinish()
@@ -99,7 +81,8 @@ internal fun QuestionScreen(
         onNextTheory = viewModel::onNextTheory,
         onOption = viewModel::onOption,
         getGeneralPath = viewModel::getGeneraPath,
-        onTimeChanged = viewModel::onTimeChanged
+        onTimeChanged = viewModel::onTimeChanged,
+        changeIndex = viewModel::changeIndex
     )
 }
 
@@ -109,24 +92,19 @@ internal fun QuestionScreen(
 )
 @Composable
 internal fun QuestionScreen(
-    questions: ImmutableList<QuestionUiState>,
     mainStat: MainState,
-    isMultiPart: Boolean,
-    isObjPart: Boolean,
-    togglePart: () -> Unit = {},
     back: () -> Unit = {},
     onFinish: () -> Unit = {},
     onNextTheory: (Int) -> Unit = {},
-    onOption: (Int, Int) -> Unit = { _, _ -> },
+    onOption: (Int,Int, Int) -> Unit = { _,_, _ -> }, //paper,question,option
     getGeneralPath: (FileManager.ImageType, Long) -> String = { _, _ -> "" },
-    onTimeChanged: (Long) -> Unit = {}
+    onTimeChanged: (Long) -> Unit = {},
+            changeIndex: (Int) -> Unit = {},
 ) {
 
-    val choose = remember(isObjPart, mainStat.chooseThe, mainStat.chooseObj) {
-        if (isObjPart) mainStat.chooseObj else mainStat.chooseThe
-    }
 
-    if (questions.isEmpty()) {
+
+    if (mainStat.questions.isEmpty()) {
         Text(text = "empty")
     } else {
 
@@ -137,23 +115,22 @@ internal fun QuestionScreen(
             mutableStateOf<InstructionUiState?>(null)
         }
         val coroutineScope = rememberCoroutineScope()
-        val state = rememberPagerState {
-            questions.size
-        }
 
-        val finishPercent = remember(mainStat.chooseObj, mainStat.chooseThe) {
-            val allChoose = mainStat.chooseObj + mainStat.chooseThe
+
+        val finishPercent = remember(mainStat.choose) {
+            val allChoose = mainStat
+                .choose
+                .flatten()
+
             ((allChoose.count {
                 it > -1
             } / allChoose.size.toFloat()) * 100).toInt()
+
         }
-        val finishPercentO = remember(mainStat.chooseObj) {
-            mainStat.chooseObj.all { it > -1 }
-        }
-        val finishPercentT = remember(mainStat.chooseThe) {
-            mainStat.chooseThe.all { it > -1 }
-        }
-        val scrollState = rememberScrollState()
+        val states = getState(sizes = mainStat
+            .questions
+            .map { it.size }
+            .toImmutableList())
 
 
         LaunchedEffect(key1 = mainStat.currentExam?.currentTime, block = {
@@ -177,33 +154,6 @@ internal fun QuestionScreen(
                             )
                         }
 
-                        if (isMultiPart) {
-                            if (isObjPart) {
-                                SuggestionChip(
-                                    colors = if (finishPercentO && !finishPercentT)
-                                        SuggestionChipDefaults.suggestionChipColors(
-                                            containerColor = MaterialTheme.colorScheme.primary,
-                                            labelColor = MaterialTheme.colorScheme.onPrimary
-                                        )
-                                    else
-                                        SuggestionChipDefaults.suggestionChipColors(),
-                                    onClick = togglePart,
-                                    label = { Text(text = "Theory Part") })
-
-                            } else {
-                                SuggestionChip(
-                                    colors = if (!finishPercentO && finishPercentT)
-                                        SuggestionChipDefaults.suggestionChipColors(
-                                            containerColor = MaterialTheme.colorScheme.primary,
-                                            labelColor = MaterialTheme.colorScheme.onPrimary
-                                        )
-                                    else
-                                        SuggestionChipDefaults.suggestionChipColors(),
-                                    onClick = togglePart,
-                                    label = { Text(text = "Obj Part") })
-
-                            }
-                        }
                     },
                     floatingActionButton = {
                         ExtendedFloatingActionButton(
@@ -247,74 +197,35 @@ internal fun QuestionScreen(
 
                 Spacer(modifier = Modifier.height(8.dp))
 
-                HorizontalPager(
-                    modifier = Modifier
-                        .weight(1f)
-                        .verticalScroll(state = scrollState),
-                    state = state,
-                    verticalAlignment = Alignment.Top,
-                    userScrollEnabled = false
-                ) { index ->
-                    QuestionUi(
-                        number = (index + 1L),
-                        questionUiState = questions[index],
-                        generalPath = getGeneralPath(
-                            FileManager.ImageType.QUESTION,
-                            questions[index].examId
-                        ),
-
-                        onInstruction = {
-                            instructionUiState = questions[index].instructionUiState!!
-                        },
-                        selectedOption = choose.getOrNull(index) ?: -1,
-                        onOptionClick = {
-                            onOption(index, it)
-                            if (state.canScrollForward) {
-                                coroutineScope
-                                    .launch {
-                                        state.animateScrollToPage(index + 1)
-                                        scrollState.scrollTo(0)
-                                    }
-                            }
-                        }
+                //AnimatedContent(modifier = Modifier.fillMaxSize(), targetState = mainStat.currentPaper, label = "dd") { paperIndex ->
+                    ExamPaper(
+                        questions = mainStat.questions[mainStat.currentPaper],
+                        state = states[mainStat.currentPaper],
+                        choose = mainStat.choose[mainStat.currentPaper],
+                        getGeneralPath = getGeneralPath,
+                        onNextTheory = onNextTheory,
+                        onOption = {quIndex,optinId->onOption(mainStat.currentPaper,quIndex,optinId)},
+                        setInstructionUiState = {instructionUiState=it},
                     )
-                }
+                Row (
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(16.dp,Alignment.CenterHorizontally),
+                    verticalAlignment = Alignment.CenterVertically
+                ){
+                    TextButton(onClick = {show=true}) {
+                        Text("Show all questions")
+                    }
 
-                Spacer(modifier = Modifier.height(8.dp))
-
-                QuestionScroll(
-                    currentQuestion = state.currentPage,
-                    showPrev = state.canScrollBackward,
-                    showNext = state.canScrollForward,
-                    chooses = choose,
-                    onChooseClick = {
-                        onNextTheory(it)
-                        coroutineScope.launch {
-                            state.animateScrollToPage(it)
-                            scrollState.scrollTo(0)
-                        }
-                    },
-
-                    onNext = {
-
-                        coroutineScope.launch {
-                            onNextTheory(state.currentPage + 1)
-                            state.animateScrollToPage(state.currentPage + 1)
-                            scrollState.scrollTo(0)
-                        }
-                    },
-                    onPrev = {
-                        coroutineScope.launch {
-                            state.animateScrollToPage(state.currentPage - 1)
-                            scrollState.scrollTo(0)
+                    mainStat.questions.forEachIndexed { index, _ ->
+                        TextButton(onClick = {changeIndex(index)}) {
+                            Text("Option $index")
                         }
                     }
-                )
-                TextButton(onClick = { show = true }) {
-                    Text("Show all questions")
+
                 }
 
 
+                // }
             }
         }
 
@@ -328,20 +239,120 @@ internal fun QuestionScreen(
         )
         AllQuestionBottomSheet(
             show = show,
-            chooses = choose,
+            chooses = mainStat.choose[mainStat.currentPaper],
             onChooseClick = {
                 show = false
                 onNextTheory(it)
                 coroutineScope
                     .launch {
-                        state.animateScrollToPage(it)
+                        states[mainStat.currentPaper].animateScrollToPage(it)
                     }
             },
-            currentNumber = state.currentPage,
+            currentNumber = states[mainStat.currentPaper].currentPage,
             onDismissRequest = { show = false })
 
 
     }
+}
+
+@OptIn(ExperimentalFoundationApi::class)
+@Composable
+fun ColumnScope.ExamPaper(
+    questions: ImmutableList<QuestionUiState>,
+    state :PagerState,
+    getGeneralPath: (FileManager.ImageType, Long) -> String = { _, _ -> "" },
+    choose :ImmutableList<Int>,
+    onNextTheory: (Int) -> Unit = {},
+    setInstructionUiState: (InstructionUiState?)->Unit={},
+            onOption: (Int, Int) -> Unit = { _, _ -> },
+    ) {
+
+    val coroutineScope= rememberCoroutineScope()
+    val scrollState = rememberScrollState()
+    LaunchedEffect(key1  = state.currentPage){
+        val question=questions[state.currentPage]
+        if (question.isTheory){
+            onOption(state.currentPage,2)
+        }
+    }
+
+
+        HorizontalPager(
+            modifier = Modifier
+                .weight(1f)
+                .verticalScroll(state = scrollState),
+            state = state,
+            verticalAlignment = Alignment.Top,
+            userScrollEnabled = false
+        ) { index ->
+
+            QuestionUi(
+                number = (index + 1L),
+                questionUiState = questions[index],
+                generalPath = getGeneralPath(
+                    FileManager.ImageType.QUESTION,
+                    questions[index].examId
+                ),
+
+                onInstruction = {
+                   setInstructionUiState(questions[index].instructionUiState!!)
+                },
+                selectedOption = choose.getOrNull(index) ?: -1,
+                onOptionClick = {
+                    onOption(index, it)
+                    if (state.canScrollForward) {
+                        coroutineScope
+                            .launch {
+                                state.animateScrollToPage(index + 1)
+                                scrollState.scrollTo(0)
+                            }
+                    }
+                }
+            )
+        }
+
+        Spacer(modifier = Modifier.height(8.dp))
+
+        QuestionScroll(
+            currentQuestion = state.currentPage,
+            showPrev = state.canScrollBackward,
+            showNext = state.canScrollForward,
+            chooses = choose,
+            onChooseClick = {
+                onNextTheory(it)
+                coroutineScope.launch {
+                    state.animateScrollToPage(it)
+                    scrollState.scrollTo(0)
+                }
+            },
+
+            onNext = {
+
+                coroutineScope.launch {
+                    onNextTheory(state.currentPage + 1)
+                    state.animateScrollToPage(state.currentPage + 1)
+                    scrollState.scrollTo(0)
+                }
+            },
+            onPrev = {
+                coroutineScope.launch {
+                    state.animateScrollToPage(state.currentPage - 1)
+                    scrollState.scrollTo(0)
+                }
+            }
+        )
+
+}
+
+@OptIn(ExperimentalFoundationApi::class)
+@Composable
+fun getState(sizes:ImmutableList<Int> ):ImmutableList<PagerState> {
+
+    return sizes.map {
+        rememberPagerState {
+            it
+        }
+    }.toImmutableList()
 }
 
 @Preview
@@ -497,10 +508,10 @@ fun QuestionScreenPreview() {
                 )
             )
         ).toImmutableList()
-    QuestionScreen(
-        questions = questions,
-        isMultiPart = false,
-        isObjPart = true,
-        mainStat = MainState(listOfAllExams = emptyList<ExamUiState>().toImmutableList())
-    )
+//    QuestionScreen(
+//        questions = questions,
+//        isMultiPart = false,
+//        isObjPart = true,
+//        mainStat = MainState(listOfAllExams = emptyList<ExamUiState>().toImmutableList())
+//    )
 }
