@@ -138,9 +138,9 @@ internal fun QuestionScreen(
             .toImmutableList())
 
 
-        LaunchedEffect(key1 = mainStat.currentExam?.currentTime, block = {
+        LaunchedEffect(key1 = mainStat.currentTime, block = {
             mainStat.currentExam?.let {
-                if (it.currentTime == it.totalTime) {
+                if (mainStat.currentTime == mainStat.totalTime) {
                     onFinish()
                 }
             }
@@ -195,8 +195,8 @@ internal fun QuestionScreen(
 
                 TimeCounter(
                     modifier = Modifier.padding(top = 4.dp),
-                    currentTime2 = mainStat.currentExam?.currentTime ?: 0,
-                    total = mainStat.currentExam?.totalTime ?: 8,
+                    currentTime2 = mainStat.currentTime,
+                    total = mainStat.totalTime,
                     onTimeChanged = onTimeChanged
                 )
 

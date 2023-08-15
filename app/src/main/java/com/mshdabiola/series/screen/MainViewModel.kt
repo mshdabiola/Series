@@ -172,11 +172,12 @@ class MainViewModel(
 
             _mainState.update { state ->
                 state.copy(
-                    currentExam = exam.copy(totalTime = 400L, examPart = typeIndex),
+                    currentExam = exam,
                     questions = allQuestions.map { it.toImmutableList() }.toImmutableList(),
                     choose = choose.map { it.toImmutableList() }.toImmutableList(),
                     currentSectionIndex = 0,
-                    sections = section.toImmutableList()
+                    sections = section.toImmutableList(),
+                    totalTime = 400L, examPart = typeIndex
                 )
             }
 
@@ -228,12 +229,11 @@ class MainViewModel(
 
             _mainState.update { state ->
                 state.copy(
-                    currentExam = exam?.copy(
-                        examPart = currentExam1.examPart,
-                        currentTime = currentExam1.currentTime,
-                        totalTime = currentExam1.totalTime,
-                        isSubmit = currentExam1.isSubmit
-                    ),
+                    currentExam = exam,
+                    examPart = currentExam1.examPart,
+                    currentTime = currentExam1.currentTime,
+                    totalTime = currentExam1.totalTime,
+                    isSubmit = currentExam1.isSubmit,
                     currentSectionIndex = currentExam1.paperIndex,
                     choose = chooses,
                     sections = section.toImmutableList(),
@@ -325,13 +325,13 @@ class MainViewModel(
 
     private suspend fun saveCurrentExam() {
 
-        val id = mainState.value.currentExam
+        val id = mainState.value
 
-        if (id != null && type.save) {
+        if (id.currentExam != null && type.save) {
 
             settingRepository.setCurrentExam(
                 CurrentExam(
-                    id = id.id,
+                    id = id.currentExam.id,
                     currentTime = id.currentTime,
                     totalTime = id.totalTime,
                     isSubmit = id.isSubmit,
@@ -349,7 +349,7 @@ class MainViewModel(
     private var saveJob: Job? = null
     fun onTimeChanged(time: Long) {
         _mainState.update {
-            it.copy(currentExam = it.currentExam?.copy(currentTime = time))
+            it.copy(currentTime = time)
         }
         saveJob?.cancel()
         saveJob = viewModelScope.launch {
@@ -362,11 +362,9 @@ class MainViewModel(
         viewModelScope.launch(Dispatchers.IO) {
             _mainState.update {
                 it.copy(
-                    currentExam = it.currentExam?.copy(
-                        isSubmit = true,
-                        currentTime = currentTIme,
-                        totalTime = totalTIme
-                    )
+                    isSubmit = true,
+                    currentTime = currentTIme,
+                    totalTime = totalTIme
                 )
 
             }
@@ -407,7 +405,7 @@ class MainViewModel(
             val index = mainState.value.listOfAllExams.indexOfFirst { it.id == examUiState.id }
             Timber.e("retry index is $index")
 
-            startExam(type, index, examUiState.examPart)
+            startExam(type, index, mainState.value.examPart)
         }
 
 

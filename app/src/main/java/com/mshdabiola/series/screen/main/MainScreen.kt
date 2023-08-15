@@ -137,9 +137,9 @@ internal fun MainScreen(
                 ContinueCard(
                     year = it.year,
                     progress = finishPercent,
-                    enabled = it.isSubmit.not(),
-                    time2 = it.totalTime - it.currentTime,
-                    part = stringArrayResource(id = com.mshdabiola.ui.R.array.exam_part)[it.examPart],
+                    enabled = mainState.isSubmit.not(),
+                    time2 = mainState.totalTime - mainState.currentTime,
+                    part = stringArrayResource(id = com.mshdabiola.ui.R.array.exam_part)[mainState.examPart],
                     onClick = {
                         onQuestion()
                     }
@@ -149,7 +149,7 @@ internal fun MainScreen(
 
             StartCard(
                 exams = mainState.listOfAllExams,
-                isSubmit = mainState.currentExam?.isSubmit ?: true,
+                isSubmit = mainState.isSubmit,
                 onClick = { yearIndex, typeIndex ->
                     onStartExam(ExamType.YEAR, yearIndex, typeIndex)
                     onQuestion()

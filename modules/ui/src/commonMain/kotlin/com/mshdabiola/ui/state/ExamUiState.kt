@@ -6,8 +6,4 @@ data class ExamUiState(
     val year: Long,
     val subject: String,
     val isObjOnly: Boolean,
-    val examPart: Int = 0,
-    val currentTime: Long = 0,
-    val totalTime: Long = 4,
-    val isSubmit: Boolean = false,
 )

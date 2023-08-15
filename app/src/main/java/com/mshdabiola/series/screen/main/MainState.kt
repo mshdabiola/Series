@@ -16,5 +16,9 @@ data class MainState(
     val choose: ImmutableList<ImmutableList<Int>> =
         listOf(emptyList<Int>().toImmutableList()).toImmutableList(),
     val sections:ImmutableList<Section> = emptyList<Section>().toImmutableList(),
-    val score: ScoreUiState? = null
+    val score: ScoreUiState? = null,
+    val examPart: Int = 0,
+    val currentTime: Long = 0,
+    val totalTime: Long = 4,
+    val isSubmit: Boolean = false,
 )
