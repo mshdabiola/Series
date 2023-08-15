@@ -25,7 +25,6 @@ import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -52,10 +51,8 @@ import com.mshdabiola.ui.state.ItemUiState
 import com.mshdabiola.ui.state.OptionUiState
 import com.mshdabiola.ui.state.QuestionUiState
 import com.mshdabiola.util.FileManager
-import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
 @Composable
 internal fun FinishScreen(onBack: () -> Unit, toQuestion: () -> Unit, viewModel: MainViewModel) {
@@ -196,7 +193,7 @@ internal fun FinishScreen(
                     }
                 }
                 itemsIndexed(
-                    items = mainState.questions.getOrElse(mainState.currentPaper
+                    items = mainState.questions.getOrElse(mainState.currentSectionIndex
                     ) { emptyList<QuestionUiState>().toImmutableList() },
                     key = { _, item -> item.id }) { index, item ->
                     QuestionUi(
@@ -206,7 +203,7 @@ internal fun FinishScreen(
                         onInstruction = {
                             instructionUiState = item.instructionUiState
                         },
-                        selectedOption = mainState.choose[mainState.currentPaper].getOrNull(index) ?: -1,
+                        selectedOption = mainState.choose[mainState.currentSectionIndex].getOrNull(index) ?: -1,
                         onOptionClick = {
                         },
                         showAnswer = true

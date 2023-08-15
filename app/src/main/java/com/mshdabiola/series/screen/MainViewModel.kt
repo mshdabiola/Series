@@ -9,6 +9,7 @@ import com.mshdabiola.data.repository.inter.ISubjectRepository
 import com.mshdabiola.model.data.CurrentExam
 import com.mshdabiola.model.data.Subject
 import com.mshdabiola.series.screen.main.MainState
+import com.mshdabiola.series.screen.main.Section
 import com.mshdabiola.ui.state.ExamUiState
 import com.mshdabiola.ui.state.QuestionUiState
 import com.mshdabiola.ui.state.ScoreUiState
@@ -150,6 +151,12 @@ class MainViewModel(
 
                 }
 
+            val section = allQuestions
+                .map {
+                    val isTheory=it.all { it.isTheory }
+                    Section(stringRes = if (isTheory)1 else 0,false)
+                }
+
 
             val time = when (type) {
                 ExamType.RANDOM, ExamType.YEAR -> 20L
@@ -168,9 +175,8 @@ class MainViewModel(
                     currentExam = exam.copy(totalTime = 400L, examPart = typeIndex),
                     questions = allQuestions.map { it.toImmutableList() }.toImmutableList(),
                     choose = choose.map { it.toImmutableList() }.toImmutableList(),
-                    currentPaper = 0
-
-
+                    currentSectionIndex = 0,
+                    sections = section.toImmutableList()
                 )
             }
 
@@ -212,6 +218,13 @@ class MainViewModel(
             val exam = mainState.value.listOfAllExams.find {
                 currentExam1.id == it.id
             }
+            val chooses=currentExam1.choose.map { it.toImmutableList() }.toImmutableList()
+            val section = allQuestions
+                .mapIndexed { index, questionUiStates ->
+                    val isTheory=questionUiStates.all { it.isTheory }
+                    val isFinished=chooses[index].all { it>-1 }
+                    Section(stringRes = if (isTheory)1 else 0,isFinished)
+                }
 
             _mainState.update { state ->
                 state.copy(
@@ -221,8 +234,9 @@ class MainViewModel(
                         totalTime = currentExam1.totalTime,
                         isSubmit = currentExam1.isSubmit
                     ),
-                    currentPaper = currentExam1.paperIndex,
-                    choose = currentExam1.choose.map { it.toImmutableList() }.toImmutableList(),
+                    currentSectionIndex = currentExam1.paperIndex,
+                    choose = chooses,
+                    sections = section.toImmutableList(),
                     questions = allQuestions.map { it.toImmutableList() }.toImmutableList()
                 )
             }
@@ -255,16 +269,31 @@ class MainViewModel(
             .firstOrNull() ?: emptyList()
     }
 
-    fun onOption(paper:Int, questionIndex: Int, optionIndex: Int?) {
+    fun onOption(sectionIndex:Int, questionIndex: Int, optionIndex: Int?) {
 
 //
         val chooses=mainState.value.choose.toMutableList()
-        val choose = chooses[paper].toMutableList()
+        val choose = chooses[sectionIndex].toMutableList()
         choose[questionIndex]= optionIndex ?: 2
-        chooses[paper]=choose.toImmutableList()
+        chooses[sectionIndex]=choose.toImmutableList()
+
+        val isFinished=choose.all { it>-1 }
+        val sections=mainState.value.sections.toMutableList()
+        sections[sectionIndex]=sections[sectionIndex].copy(isFinished = isFinished)
+
+        val currentSection=if (isFinished){
+            val newIndex=sectionIndex+1
+            if (sections.getOrNull(newIndex)==null) sectionIndex else newIndex
+        }else{
+            sectionIndex
+        }
 
         _mainState.update {
-            it.copy(choose = chooses.toImmutableList())
+            it.copy(
+                choose = chooses.toImmutableList(),
+                sections = sections.toImmutableList(),
+                currentSectionIndex = currentSection
+            )
         }
 
         //add and remove Choose
@@ -307,7 +336,7 @@ class MainViewModel(
                     totalTime = id.totalTime,
                     isSubmit = id.isSubmit,
                     examPart = id.examPart,
-                    paperIndex = mainState.value.currentPaper,
+                    paperIndex = mainState.value.currentSectionIndex,
                     choose = mainState.value.choose)
             )
 
@@ -431,7 +460,7 @@ class MainViewModel(
 
     fun changeIndex(index: Int) {
         _mainState.update {
-            it.copy(currentPaper = index)
+            it.copy(currentSectionIndex = index)
         }
     }
 

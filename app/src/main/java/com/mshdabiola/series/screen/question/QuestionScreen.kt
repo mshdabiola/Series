@@ -4,13 +4,14 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
@@ -21,12 +22,15 @@ import androidx.compose.material.icons.filled.ArrowBackIosNew
 import androidx.compose.material.icons.filled.Kitesurfing
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.ElevatedSuggestionChip
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SuggestionChip
+import androidx.compose.material3.SuggestionChipDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.contentColorFor
@@ -40,11 +44,13 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.testTagsAsResourceId
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.mshdabiola.series.R
 import com.mshdabiola.series.screen.MainViewModel
 import com.mshdabiola.series.screen.main.MainState
 import com.mshdabiola.ui.QuestionScroll
@@ -78,7 +84,6 @@ internal fun QuestionScreen(
             onFinish()
             viewModel.onSubmit()
         },
-        onNextTheory = viewModel::onNextTheory,
         onOption = viewModel::onOption,
         getGeneralPath = viewModel::getGeneraPath,
         onTimeChanged = viewModel::onTimeChanged,
@@ -199,28 +204,43 @@ internal fun QuestionScreen(
 
                 //AnimatedContent(modifier = Modifier.fillMaxSize(), targetState = mainStat.currentPaper, label = "dd") { paperIndex ->
                     ExamPaper(
-                        questions = mainStat.questions[mainStat.currentPaper],
-                        state = states[mainStat.currentPaper],
-                        choose = mainStat.choose[mainStat.currentPaper],
+                        questions = mainStat.questions[mainStat.currentSectionIndex],
+                        state = states[mainStat.currentSectionIndex],
+                        choose = mainStat.choose[mainStat.currentSectionIndex],
                         getGeneralPath = getGeneralPath,
                         onNextTheory = onNextTheory,
-                        onOption = {quIndex,optinId->onOption(mainStat.currentPaper,quIndex,optinId)},
+                        onOption = {quIndex,optinId->onOption(mainStat.currentSectionIndex,quIndex,optinId)},
                         setInstructionUiState = {instructionUiState=it},
                     )
-                Row (
+                LazyRow (
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.spacedBy(16.dp,Alignment.CenterHorizontally),
                     verticalAlignment = Alignment.CenterVertically
                 ){
-                    TextButton(onClick = {show=true}) {
-                        Text("Show all questions")
-                    }
-
-                    mainStat.questions.forEachIndexed { index, _ ->
-                        TextButton(onClick = {changeIndex(index)}) {
-                            Text("Option $index")
+                    item {
+                        TextButton(onClick = {show=true}) {
+                            Text("Show all questions")
                         }
                     }
+
+                    if (mainStat.questions.size>1){
+                        itemsIndexed(mainStat.sections){ index, section ->
+                            ElevatedSuggestionChip(
+                                onClick = { changeIndex(index) },
+                                colors = if (section.isFinished)
+                                    SuggestionChipDefaults.elevatedSuggestionChipColors(
+                                        containerColor = MaterialTheme.correct(),
+                                        labelColor = MaterialTheme.onCorrect()
+                                    )
+                                else
+                                    SuggestionChipDefaults.elevatedSuggestionChipColors()
+                                ,
+                                label = {
+                                    Text(stringArrayResource(id = R.array.sections)[section.stringRes]) })
+
+                        }
+                    }
+
 
                 }
 
@@ -239,16 +259,16 @@ internal fun QuestionScreen(
         )
         AllQuestionBottomSheet(
             show = show,
-            chooses = mainStat.choose[mainStat.currentPaper],
+            chooses = mainStat.choose[mainStat.currentSectionIndex],
             onChooseClick = {
                 show = false
                 onNextTheory(it)
                 coroutineScope
                     .launch {
-                        states[mainStat.currentPaper].animateScrollToPage(it)
+                        states[mainStat.currentSectionIndex].animateScrollToPage(it)
                     }
             },
-            currentNumber = states[mainStat.currentPaper].currentPage,
+            currentNumber = states[mainStat.currentSectionIndex].currentPage,
             onDismissRequest = { show = false })
 
 
@@ -270,10 +290,15 @@ fun ColumnScope.ExamPaper(
     val coroutineScope= rememberCoroutineScope()
     val scrollState = rememberScrollState()
     LaunchedEffect(key1  = state.currentPage){
-        val question=questions[state.currentPage]
-        if (question.isTheory){
-            onOption(state.currentPage,2)
+        try {
+            val question=questions[state.currentPage]
+            if (question.isTheory){
+                onOption(state.currentPage,2)
+            }
+        }catch (e:Exception){
+            e.printStackTrace()
         }
+
     }
 
 
