@@ -447,7 +447,8 @@ class MainViewModel(
                     skipped = skipped,
                     grade = grade,
                     correct = corrent
-                )
+                ),
+                currentSectionIndex = 0
             )
         }
     }

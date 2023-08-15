@@ -34,11 +34,13 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.testTagsAsResourceId
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.mshdabiola.series.R
 import com.mshdabiola.series.screen.MainViewModel
 import com.mshdabiola.series.screen.main.MainState
 import com.mshdabiola.ui.FinishCard
@@ -66,6 +68,7 @@ internal fun FinishScreen(onBack: () -> Unit, toQuestion: () -> Unit, viewModel:
             onBack()
             viewModel.onFinishBack()
         },
+        changeIndex = viewModel::changeIndex,
         toQuestion = {
             toQuestion()
             viewModel.onRetry()
@@ -82,12 +85,11 @@ internal fun FinishScreen(
     mainState: MainState,
     back: () -> Unit = {},
     toQuestion: () -> Unit = {},
+    changeIndex:(Int)->Unit={},
     getGeneralPath: (FileManager.ImageType, Long) -> String = { _, _ -> "" },
 ) {
     val lazyState = rememberLazyListState()
-    var currentIndex by remember {
-        mutableIntStateOf(0)
-    }
+    val currentIndex =mainState.currentSectionIndex
     val coroutineScope = rememberCoroutineScope()
     var showAnswer by remember {
         mutableStateOf(false)
@@ -173,22 +175,14 @@ internal fun FinishScreen(
                 if (mainState.questions.size>1) {
                     item {
                         TabRow(selectedTabIndex = currentIndex) {
-                            Tab(selected = currentIndex == 0, onClick = {
-                                currentIndex = 0
-                                coroutineScope.launch {
-                                    lazyState.scrollToItem(3)
-                                }
-                            }, text = { Text(text = "Objective") })
-
-                            Tab(selected = currentIndex == 1, onClick = {
-                                coroutineScope.launch {
-                                    currentIndex = 1
+                            mainState.sections.forEachIndexed { index, section ->
+                                Tab(selected = currentIndex == index, onClick = {
+                                   changeIndex(index)
                                     coroutineScope.launch {
                                         lazyState.scrollToItem(3)
                                     }
-                                }
-                            }, text = { Text(text = "Theory") })
-
+                                }, text = { Text(text = stringArrayResource(id = R.array.sections)[section.stringRes]) })
+                            }
                         }
                     }
                 }
