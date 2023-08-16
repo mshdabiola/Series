@@ -65,4 +65,9 @@ UPDATE examEntity
 SET isObjOnly =?
 WHERE id = ?;
 
+getByIds:
+SELECT *
+FROM examEntity
+WHERE id IN ?;
+
 

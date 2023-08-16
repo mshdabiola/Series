@@ -51,3 +51,8 @@ WHERE id = ?;
 
 deleteAll:
 DELETE FROM optionEntity;
+
+getByIds:
+SELECT *
+FROM optionEntity
+WHERE examId IN ?;

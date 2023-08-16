@@ -38,3 +38,7 @@ WHERE id = ?;
 deleteAll:
 DELETE FROM instructionEntity;
 
+getByIds:
+SELECT *
+FROM instructionEntity
+WHERE id IN ?;

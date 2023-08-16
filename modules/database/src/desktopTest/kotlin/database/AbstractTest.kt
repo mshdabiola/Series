@@ -20,7 +20,7 @@ abstract class AbstractTest : KoinTest {
     @get:Rule
     val koinTestRule = KoinTestRule.create {
         val module = module {
-            single(qualifier = qualifier("temp")) {
+            single(qualifier = qualifier("real")) {
                 val driver = JdbcSqliteDriver(
                     JdbcSqliteDriver.IN_MEMORY,
                     properties = Properties().apply { put("foreign_keys", "true") }
@@ -29,7 +29,8 @@ abstract class AbstractTest : KoinTest {
 
                 SeriesDatabase(
                     driver = driver,
-                    questionEntityAdapter = QuestionEntity.Adapter(listOfValueAdapter),
+                    questionEntityAdapter = QuestionEntity.Adapter(listOfValueAdapter,
+                        listOfValueAdapter),
                     instructionEntityAdapter = InstructionEntity.Adapter(listOfValueAdapter),
                     optionEntityAdapter = OptionEntity.Adapter(listOfValueAdapter)
                 )

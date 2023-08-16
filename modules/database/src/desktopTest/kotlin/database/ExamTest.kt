@@ -16,13 +16,13 @@ class ExamTest : AbstractTest() {
         val examDao by inject<ExamDao>()
 
         examDao.insert(
-            Exam(id = 6100L, subjectID = 2153L, year = 659L)
+            Exam(id = 6100L, subjectID = 2153L, year = 659L, isObjOnly = false)
         )
         examDao.insert(
-            Exam(id = 6100L, subjectID = 232, year = 3)
+            Exam(id = 6100L, subjectID = 232, year = 3, isObjOnly = false)
         )
         examDao.insert(
-            Exam(subjectID = 232, year = 3)
+            Exam(subjectID = 232, year = 3, isObjOnly = false)
         )
 
         examDao.getAll()

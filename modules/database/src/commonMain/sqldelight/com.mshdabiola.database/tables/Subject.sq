@@ -33,3 +33,8 @@ WHERE id = ?;
 
 deleteAll:
 DELETE FROM subjectEntity;
+
+getByIds:
+SELECT *
+FROM subjectEntity
+WHERE id IN ?;
