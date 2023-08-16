@@ -12,14 +12,14 @@ import com.mshdabiola.model.data.QuestionFull
 import com.mshdabiola.model.data.Subject
 import com.mshdabiola.model.data.Topic
 import com.mshdabiola.series.ViewModel
-import com.mshdabiola.ui.state.ExamUiState
+import com.mshdabiola.ui.ExamUiDesktop
 import com.mshdabiola.ui.state.SubjectUiState
 import com.mshdabiola.ui.toExam
 import com.mshdabiola.ui.toSubject
 import com.mshdabiola.ui.toUi
+import com.mshdabiola.ui.toUiDesktop
 import com.mshdabiola.util.ExInPort
 import kotlinx.collections.immutable.toImmutableList
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
@@ -43,7 +43,7 @@ class MainViewModel(
     val currentSubjectId = _currentSubjectId.asStateFlow()
 
 
-    private val _examUiStates = MutableStateFlow(emptyList<ExamUiState>().toImmutableList())
+    private val _examUiStates = MutableStateFlow(emptyList<ExamUiDesktop>().toImmutableList())
     val examUiStates = _examUiStates.asStateFlow()
 
 
@@ -63,12 +63,15 @@ class MainViewModel(
     val subject: State<SubjectUiState> = _subject
 
     private val _exam =
-        mutableStateOf(ExamUiState(subjectID = -1L, year = -1L, subject = "", isObjOnly = false))
-    val exam: State<ExamUiState> = _exam
+        mutableStateOf(ExamUiDesktop(subjectID = -1L, year = -1L, subject = "", isObjOnly = false))
+    val exam: State<ExamUiDesktop> = _exam
 
 
     private val _dateError = mutableStateOf(false)
     val dateError: State<Boolean> = _dateError
+
+    private val _isSelectMode = mutableStateOf(false)
+    val isSelectMode: State<Boolean> = _isSelectMode
 
 
     init {
@@ -81,7 +84,7 @@ class MainViewModel(
                         .collectLatest { list ->
                             _examUiStates.update {
                                 list
-                                    .map { it.toUi() }
+                                    .map { it.toUiDesktop() }
                                     .toImmutableList()
                             }
                         }
@@ -91,7 +94,7 @@ class MainViewModel(
                         .collectLatest { list ->
                             _examUiStates.update {
                                 list
-                                    .map { it.toUi() }
+                                    .map { it.toUiDesktop() }
                                     .toImmutableList()
                             }
                         }
@@ -255,4 +258,68 @@ class MainViewModel(
         }
 
     }
+
+    fun toggleSelectMode() {
+        _isSelectMode.value = !isSelectMode.value
+    }
+
+    fun toggleSelect(index: Long) {
+        val exams = examUiStates.value.toMutableList()
+        val examIndex = exams.indexOfFirst { it.id == index }
+        if (examIndex == -1)
+            return
+        val exam = exams[examIndex]
+        exams[examIndex] = exam.copy(isSelected = !exam.isSelected)
+        if (!isSelectMode.value && !exam.isSelected) {
+            _isSelectMode.value = true
+        }
+
+        _examUiStates.value = exams.toImmutableList()
+    }
+
+    fun deselectAll() {
+        val exams = examUiStates
+            .value
+            .map { it.copy(isSelected = false) }
+            .toImmutableList()
+
+        _examUiStates.value = exams
+        _isSelectMode.value = false
+    }
+
+    fun selectAll() {
+        val exams = examUiStates
+            .value
+            .map { it.copy(isSelected = true) }
+            .toImmutableList()
+
+        _examUiStates.value = exams
+    }
+
+    fun deselectAllSubject() {
+        val exams = examUiStates
+            .value
+            .map {
+                if (it.subjectID == currentSubjectId.value)
+                    it.copy(isSelected = true)
+                else
+                    it.copy(isSelected = false)
+            }
+            .toImmutableList()
+
+        _examUiStates.value = exams
+        _isSelectMode.value = false
+    }
+
+    fun deleteSelected() {
+        val exams = examUiStates
+            .value
+            .filter { it.isSelected }
+            .toImmutableList()
+        exams.forEach {
+            onDeleteExam(it.id)
+        }
+        _isSelectMode.value = false
+    }
 }
+

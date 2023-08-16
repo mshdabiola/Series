@@ -16,12 +16,19 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.CursorDropdownMenu
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Android
 import androidx.compose.material.icons.filled.ArrowDropDown
+import androidx.compose.material.icons.filled.HdrOnSelect
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.SaveAs
+import androidx.compose.material.icons.filled.SelectAll
+import androidx.compose.material.icons.filled.Subject
 import androidx.compose.material.icons.filled.Update
+import androidx.compose.material.icons.rounded.Delete
+import androidx.compose.material.icons.rounded.Deselect
+import androidx.compose.material.icons.rounded.SaveAs
 import androidx.compose.material3.Button
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
@@ -50,6 +57,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.mshdabiola.ui.DirtoryUi
+import com.mshdabiola.ui.ExamUiDesktop
 import com.mshdabiola.ui.examui.ExamUi
 import com.mshdabiola.ui.state.ExamUiState
 import com.mshdabiola.ui.state.SubjectUiState
@@ -87,38 +95,115 @@ fun MainScreen(
                     Box {
                         IconButton(
                             onClick = { showDrop = true },
-                            enabled = currentSubjectIndex > -1
+                            //enabled = currentSubjectIndex > -1
                         ) {
                             Icon(Icons.Default.MoreVert, "more")
                         }
-                        DropdownMenu(expanded = showDrop, onDismissRequest = { showDrop = false }) {
+                        if (viewModel.isSelectMode.value){
+                            DropdownMenu(expanded = showDrop, onDismissRequest = { showDrop = false }) {
 
 
-                            DropdownMenuItem(
-                                leadingIcon = {
-                                    Icon(
-                                        Icons.Default.Update,
-                                        "update"
-                                    )
-                                },
-                                text = { Text("Update") },
-                                onClick = {
-                                    viewModel.updateSubject(currentSubjectIndex)
-                                    showDrop = false
-                                })
-                            DropdownMenuItem(
-                                leadingIcon = {
-                                    Icon(
-                                        Icons.Default.SaveAs,
-                                        "export"
-                                    )
-                                },
-                                text = { Text("Export") },
-                                onClick = {
-                                    // onDelete(examUiState.id)
-                                    show = true
-                                    showDrop = false
-                                })
+                                DropdownMenuItem(
+                                    leadingIcon = {
+                                        Icon(
+                                            Icons.Default.SelectAll,
+                                            "select All"
+                                        )
+                                    },
+                                    text = { Text("Select All") },
+                                    onClick = {
+                                        viewModel.selectAll()
+                                    })
+
+                                if (currentSubjectIndex > -1) {
+
+                                    DropdownMenuItem(
+                                        leadingIcon = {
+                                            Icon(
+                                                Icons.Default.Subject,
+                                                "select all subject"
+                                            )
+                                        },
+                                        text = { Text("Select Current Subject") },
+                                        onClick = {
+                                            viewModel.deselectAllSubject()
+                                        })
+                                }
+                                DropdownMenuItem(
+                                    leadingIcon = {
+                                        Icon(
+                                            Icons.Rounded.Deselect,
+                                            "deselect"
+                                        )
+                                    },
+                                    text = { Text("DeSelect All") },
+                                    onClick = {
+                                        viewModel.deselectAll()
+                                        showDrop = false
+
+                                    })
+
+                                DropdownMenuItem(
+                                    leadingIcon = {
+                                        Icon(
+                                            Icons.Rounded.SaveAs,
+                                            "save"
+                                        )
+                                    },
+                                    text = { Text("Export Selected") },
+                                    onClick = {
+                                        // onDelete(examUiState.id)
+                                        show = true
+                                        showDrop = false
+                                    })
+
+                                DropdownMenuItem(
+                                    leadingIcon = {
+                                        Icon(
+                                            Icons.Rounded.Delete,
+                                            "delete"
+                                        )
+                                    },
+                                    text = { Text("Delete selected") },
+                                    onClick ={
+                                        viewModel.deleteSelected()
+                                        showDrop = false
+
+                                    })
+
+                            }
+
+                        }else{
+
+                            DropdownMenu(expanded = showDrop, onDismissRequest = { showDrop = false }) {
+
+                                if(currentSubjectIndex > -1){
+                                    DropdownMenuItem(
+                                        leadingIcon = {
+                                            Icon(
+                                                Icons.Default.Update,
+                                                "update"
+                                            )
+                                        },
+                                        text = { Text("Update") },
+                                        onClick = {
+                                            viewModel.updateSubject(currentSubjectIndex)
+                                            showDrop = false
+                                        })
+                                }
+
+                                DropdownMenuItem(
+                                    leadingIcon = {
+                                        Icon(
+                                            Icons.Default.HdrOnSelect,
+                                            "select mode"
+                                        )
+                                    },
+                                    text = { Text("Select mode") },
+                                    onClick = {
+                                        viewModel.toggleSelectMode()
+                                        showDrop = false
+                                    })
 
 //                            DropdownMenuItem(
 //                                leadingIcon = {
@@ -133,13 +218,14 @@ fun MainScreen(
 //                                })
 
 
+                            }
+
                         }
                     }
                 }
             )
         }
     ) { paddingValues ->
-
         PermanentNavigationDrawer(
             modifier = Modifier.padding(paddingValues),
             drawerContent = {
@@ -171,10 +257,12 @@ fun MainScreen(
                     examYearError = viewModel.dateError.value,
                     examUiState = viewModel.exam.value,
                     subjectUiState = viewModel.subject.value,
+                    isSelectMode = viewModel.isSelectMode.value,
                     subjects = subjects.value,
                     addExam = viewModel::addExam,
                     addSubject = viewModel::addSubject,
                     onExamClick = onExamClick,
+                    toggleSelect = viewModel::toggleSelect,
                     onSubjectIdChange = viewModel::onSubjectIdChange,
                     onExamNameChange = viewModel::onExamYearContentChange,
                     onSubjectNameChange = viewModel::onSubjectContentChange,
@@ -186,16 +274,18 @@ fun MainScreen(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalSplitPaneApi::class)
+@OptIn(ExperimentalSplitPaneApi::class)
 @Composable
 fun MainContent(
     modifier: Modifier = Modifier,
     subjects: ImmutableList<SubjectUiState> = emptyList<SubjectUiState>().toImmutableList(),
-    exams: ImmutableList<ExamUiState> = emptyList<ExamUiState>().toImmutableList(),
-    examUiState: ExamUiState,
+    exams: ImmutableList<ExamUiDesktop> = emptyList<ExamUiDesktop>().toImmutableList(),
+    examUiState: ExamUiDesktop,
+    isSelectMode:Boolean=false,
     subjectUiState: SubjectUiState,
     examYearError: Boolean = false,
     addSubject: () -> Unit = {},
+    toggleSelect:(Long)->Unit={},
     addExam: () -> Unit = {},
     onExamClick: (Long, Long) -> Unit = { _, _ -> },
     onExamNameChange: (String) -> Unit = {},
@@ -227,11 +317,18 @@ fun MainContent(
                 items(exams, key = { it.id }) {
                     ExamUi(
                         modifier = Modifier.clickable {
-                            onExamClick(it.id, it.subjectID)
+                            if (isSelectMode){
+                                toggleSelect(it.id)
+                            }else{
+                                onExamClick(it.id, it.subjectID)
+                            }
+
                         },
                         examUiState = it,
                         onDelete = onDeleteSubject,
-                        onUpdate = onUpdateSubject
+                        onUpdate = onUpdateSubject,
+                        toggleSelect=toggleSelect,
+                        isSelectMode = isSelectMode
 
                     )
                 }
