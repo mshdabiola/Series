@@ -160,7 +160,7 @@ class DatabaseUtilTest : KoinTest {
         DatabaseUtil.export(
             inputDb,
             listOf(1, 2, 3, 4),
-            "/Users/user/AndroidStudioProjects/Series/subject/${Constant.assetData}test",
+            "/Users/user/AndroidStudioProjects/Series/subject",
             2,
             key = Constant.defaultKey
         )
