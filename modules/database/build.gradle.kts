@@ -1,8 +1,12 @@
 plugins {
     id("mshdabiola.mpp.library")
+    alias(libs.plugins.secrets)
     id("app.cash.sqldelight") version "2.0.0-alpha05"
 }
-
+secrets {
+    propertiesFileName = "secrets.properties"
+    defaultPropertiesFileName = "secrets.defaults.properties"
+}
 sqldelight {
 
     databases {
@@ -18,6 +22,9 @@ sqldelight {
 
 android {
     namespace = "com.mshdabiola.database"
+    buildFeatures {
+        buildConfig = true
+    }
 }
 kotlin {
     sourceSets {

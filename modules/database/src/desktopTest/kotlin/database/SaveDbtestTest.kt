@@ -23,7 +23,6 @@ import kotlin.io.path.outputStream
 
 class SaveDbTest : AbstractTest() {
 
-
     override fun insert() = runTest {
         val questionDao by inject<QuestionDao>()
         val optionDao by inject<OptionDao>()
@@ -31,7 +30,6 @@ class SaveDbTest : AbstractTest() {
         val examDao by inject<ExamDao>()
 
         val inputDb by inject<SeriesDatabase>(qualifier = qualifier(name))
-        val db= DatabaseUtil()
 
         subjDao.insert(Subject(1, "Math"))
         subjDao.insert(Subject(2, "English"))
@@ -105,10 +103,11 @@ class SaveDbTest : AbstractTest() {
             )
         )
 
-        db.export(inputDb,
+        DatabaseUtil.export(inputDb,
             listOf(1,2,3,4),
-            "/Users/user/AndroidStudioProjects/Series/subject/${Constant.databaseName}",
-            10
+            "/Users/user/AndroidStudioProjects/Series/subject/${Constant.assetData}",
+            2,
+            key = Constant.defaultKey
         )
 
 
@@ -116,16 +115,15 @@ class SaveDbTest : AbstractTest() {
     }
         @Test
      fun readIt() = runTest {
-       val savaDatabase=DatabaseUtil()
-            val path= Path("/Users/user/AndroidStudioProjects/Series/subject/${Constant.databaseName}")
-
-            savaDatabase.decode(path.inputStream(),path.outputStream())
+            val path= Path("/Users/user/AndroidStudioProjects/Series/subject/${Constant.assetData}")
+            val output= Path("/Users/user/AndroidStudioProjects/Series/subject/${Constant.databaseName}")
+            DatabaseUtil.decode(path.inputStream(),output.outputStream(), key = Constant.defaultKey)
     }
 
     override fun delete() = runTest {
         val output by inject<SeriesDatabase>(qualifier = qualifier(name))
-        val db= DatabaseUtil()
-        db.import(output, "/Users/user/AndroidStudioProjects/Series/subject/test.db")
+
+        DatabaseUtil.import(output, "/Users/user/AndroidStudioProjects/Series/subject/test.db", key = Constant.defaultKey)
 
         val question=output.questionQueries
             .getAll()

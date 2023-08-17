@@ -20,6 +20,7 @@ import javax.crypto.spec.IvParameterSpec
 import javax.crypto.spec.PBEKeySpec
 import javax.crypto.spec.SecretKeySpec
 import kotlin.io.path.Path
+import kotlin.io.path.deleteIfExists
 import kotlin.io.path.inputStream
 import kotlin.io.path.outputStream
 import kotlin.io.path.pathString
@@ -117,6 +118,7 @@ object DatabaseUtil {
     ){
         withContext(Dispatchers.IO){
              val dbPath = Path(path)
+            dbPath.deleteIfExists()
 
             val driver = JdbcSqliteDriver(
                 "jdbc:sqlite:${dbPath.pathString}",

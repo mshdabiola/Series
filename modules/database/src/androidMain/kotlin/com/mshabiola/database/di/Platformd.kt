@@ -22,7 +22,7 @@ actual val databaseModule: Module
                 factory = SQLiteCopyOpenHelper.Factory(
                     context = get(),
                     delegate = FrameworkSQLiteOpenHelperFactory(),
-                    copyConfig = CopyFromAssetPath(Constant.databaseName)
+                    copyConfig = CopyFromAssetPath(Constant.assetData)
                 ),
 
                 name = Constant.databaseName,

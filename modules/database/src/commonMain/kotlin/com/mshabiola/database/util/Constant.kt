@@ -1,5 +1,7 @@
 package com.mshabiola.database.util
 
 object Constant {
-    val databaseName = "waec_series_database.db"
+    const val defaultKey="Swordfish"
+    const val databaseName = "waec_series_database.db"
+    const val assetData = "data"
 }

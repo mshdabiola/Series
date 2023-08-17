@@ -5,6 +5,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import androidx.sqlite.db.SupportSQLiteOpenHelper
 import com.mshabiola.database.DatabaseUtil
 import com.mshabiola.database.util.Constant
+import com.mshdabiola.database.BuildConfig
 import timber.log.Timber
 import java.io.*
 import java.util.concurrent.Callable
@@ -24,6 +25,11 @@ class SQLiteCopyOpenHelper(
 ) : SupportSQLiteOpenHelper {
 
     private var verified = false
+
+    private val key = if(BuildConfig.DEBUG)
+        Constant.defaultKey
+    else
+        BuildConfig.store_key
 
 
     override fun setWriteAheadLoggingEnabled(enabled: Boolean) {
@@ -81,11 +87,35 @@ class SQLiteCopyOpenHelper(
 
             // A database file is present, check if we need to re-copy it.
             val currentVersion = try {
-                readVersion(context.assets.open(Constant.databaseName))
+                val intermediateFile = File.createTempFile(
+                    "sqlite-copy-version", ".tmp", context.cacheDir
+                )
+                if (intermediateFile.exists().not()||intermediateFile.length()<=4) {
+                    val input = when (copyConfig) {
+                        is CopyFromAssetPath -> {
+                            context.assets.open(copyConfig.path)
+                        }
+                        is CopyFromFile -> {
+                            FileInputStream(copyConfig.file)
+                        }
+                        is CopyFromInputStream -> {
+                            copyConfig.callable.call()
+                        }
+                    }
+                    DatabaseUtil.decode(
+                        input,
+                        FileOutputStream(intermediateFile),
+                        key
+                    )
+                }
+                readVersion(intermediateFile.inputStream())
+
             } catch (e: IOException) {
                 Timber.tag(TAG).w(e, "Unable to read database version.")
                 return
             }
+            Timber.e("current verson is $currentVersion")
+            println("===current verson is $currentVersion")
 
             if (currentVersion == databaseVersion) {
                 return
@@ -102,7 +132,7 @@ class SQLiteCopyOpenHelper(
                 }
             } else {
                 Timber.tag(TAG)
-                    .w("Failed to delete database file ($databaseName) for a copy destructive migration.")
+                    .e("Failed to delete database file ($databaseName) for a copy destructive migration.")
             }
         } finally {
             try {
@@ -137,7 +167,7 @@ class SQLiteCopyOpenHelper(
             val x3= header[62].toInt()
             val x4=header[63].toInt()
             return "$x1$x2$x3$x4".toInt()
-        } catch (e: java.io.IOException) {
+        } catch (e: IOException) {
             throw RuntimeException(e)
         }
     }
@@ -167,7 +197,8 @@ class SQLiteCopyOpenHelper(
 //        input.source().use { a ->
 //            intermediateFile.sink().buffer().use { b -> b.writeAll(a) }
 //        }
-        DatabaseUtil.decode(input, FileOutputStream(intermediateFile),"")
+
+        DatabaseUtil.decode(input, FileOutputStream(intermediateFile),key)
 
         val parent = destinationFile.parentFile
         if (parent != null && !parent.exists() && !parent.mkdirs()) {
