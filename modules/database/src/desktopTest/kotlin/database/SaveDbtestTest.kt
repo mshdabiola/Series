@@ -1,6 +1,6 @@
 package database
 
-import com.mshabiola.database.SaveDatabase
+import com.mshabiola.database.DatabaseUtil
 import com.mshabiola.database.dao.exam.ExamDao
 import com.mshabiola.database.dao.optiondao.OptionDao
 import com.mshabiola.database.dao.questiondao.QuestionDao
@@ -17,6 +17,9 @@ import kotlinx.coroutines.test.runTest
 import org.junit.Test
 import org.koin.core.qualifier.qualifier
 import org.koin.test.inject
+import kotlin.io.path.Path
+import kotlin.io.path.inputStream
+import kotlin.io.path.outputStream
 
 class SaveDbTest : AbstractTest() {
 
@@ -28,7 +31,7 @@ class SaveDbTest : AbstractTest() {
         val examDao by inject<ExamDao>()
 
         val inputDb by inject<SeriesDatabase>(qualifier = qualifier(name))
-        val db= SaveDatabase()
+        val db= DatabaseUtil()
 
         subjDao.insert(Subject(1, "Math"))
         subjDao.insert(Subject(2, "English"))
@@ -104,18 +107,25 @@ class SaveDbTest : AbstractTest() {
 
         db.export(inputDb,
             listOf(1,2,3,4),
-            "/Users/user/AndroidStudioProjects/Series/subject/${Constant.databaseName}")
+            "/Users/user/AndroidStudioProjects/Series/subject/${Constant.databaseName}",
+            10
+        )
 
 
 
     }
+        @Test
+     fun readIt() = runTest {
+       val savaDatabase=DatabaseUtil()
+            val path= Path("/Users/user/AndroidStudioProjects/Series/subject/${Constant.databaseName}")
+
+            savaDatabase.decode(path.inputStream(),path.outputStream())
+    }
 
     override fun delete() = runTest {
         val output by inject<SeriesDatabase>(qualifier = qualifier(name))
-        val db= SaveDatabase()
-        db.import(output,
-            listOf(1,2,3,4),
-            "/Users/user/AndroidStudioProjects/Series/subject/test.db")
+        val db= DatabaseUtil()
+        db.import(output, "/Users/user/AndroidStudioProjects/Series/subject/test.db")
 
         val question=output.questionQueries
             .getAll()

@@ -45,8 +45,6 @@ kotlin {
                 implementation(libs.sqldelight.sqlite.driver)
                 implementation(libs.sqldelight.android.driver)
                 implementation ("androidx.sqlite:sqlite-framework:2.3.1")
-                implementation( "com.squareup.okio:okio:3.3.0")
-
             }
         }
 

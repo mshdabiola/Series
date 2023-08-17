@@ -1,20 +1,13 @@
 package com.mshabiola.database.di
 
 import android.content.Context
-import android.util.Log
 import androidx.sqlite.db.SupportSQLiteDatabase
 import androidx.sqlite.db.SupportSQLiteOpenHelper
-import androidx.sqlite.db.framework.FrameworkSQLiteOpenHelperFactory
+import com.mshabiola.database.DatabaseUtil
 import com.mshabiola.database.util.Constant
-import okio.IOException
-import okio.buffer
-import okio.sink
-import okio.source
 import timber.log.Timber
 import java.io.*
-import java.nio.ByteBuffer
 import java.util.concurrent.Callable
-import kotlin.jvm.Throws
 
 /**
  * An open helper that will copy & open a pre-populated database if it doesn't exist in internal
@@ -168,10 +161,13 @@ class SQLiteCopyOpenHelper(
         val intermediateFile = File.createTempFile(
             "sqlite-copy-helper", ".tmp", context.cacheDir
         )
+
+
         intermediateFile.deleteOnExit()
-        input.source().use { a ->
-            intermediateFile.sink().buffer().use { b -> b.writeAll(a) }
-        }
+//        input.source().use { a ->
+//            intermediateFile.sink().buffer().use { b -> b.writeAll(a) }
+//        }
+        DatabaseUtil.decode(input, FileOutputStream(intermediateFile),"")
 
         val parent = destinationFile.parentFile
         if (parent != null && !parent.exists() && !parent.mkdirs()) {
