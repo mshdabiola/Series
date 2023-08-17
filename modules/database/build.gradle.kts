@@ -58,7 +58,7 @@ kotlin {
 
         val desktopMain by getting {
             dependencies {
-                implementation(libs.sqldelight.sqlite.driver)
+                api(libs.sqldelight.sqlite.driver)
             }
         }
     }

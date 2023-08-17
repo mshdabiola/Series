@@ -17,7 +17,6 @@ import org.junit.Test
 import org.koin.test.inject
 import kotlin.test.assertEquals
 
-@OptIn(ExperimentalCoroutinesApi::class)
 class QuestionTest : AbstractTest() {
     @Test
     fun text() {
