@@ -39,7 +39,6 @@ import com.mshdabiola.ui.state.QuestionUiState
 fun QuestionEditUi(
     modifier: Modifier = Modifier,
     questionUiState: QuestionUiState,
-    generalPath: String,
     addUp: (Int, Int) -> Unit = { _, _ -> },
     addBottom: (Int, Int) -> Unit = { _, _ -> },
     delete: (Int, Int) -> Unit = { _, _ -> },
@@ -53,7 +52,7 @@ fun QuestionEditUi(
     Column(modifier) {
         Content(
             items = questionUiState.content,
-            generalPath = generalPath,
+            examId = questionUiState.examId,
             addUp = { addUp(-1, it) },
             addBottom = { addBottom(-1, it) },
             delete = { delete(-1, it) },
@@ -72,7 +71,7 @@ fun QuestionEditUi(
                     Content(
                         modifier = Modifier.weight(0.5f),
                         items = optionsUiState.content,
-                        generalPath = generalPath,
+                        examId = questionUiState.id,
                         addUp = { addUp(i, it) },
                         addBottom = { addBottom(i, it) },
                         delete = { delete(i, it) },
@@ -92,7 +91,7 @@ fun QuestionEditUi(
             Text("Answer", modifier = Modifier.padding(horizontal = 16.dp))
             Content(
                 items = questionUiState.answer,
-                generalPath = generalPath,
+                examId = questionUiState.id,
                 addUp = { addUp(-2, it) },
                 addBottom = { addBottom(-2, it) },
                 delete = { delete(-2, it) },
@@ -107,12 +106,11 @@ fun QuestionEditUi(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun QuestionUi(
     modifier: Modifier = Modifier,
     questionUiState: QuestionUiState,
-    generalPath: String,
     onUpdate: (Long) -> Unit = {},
     onMoveUp: (Long) -> Unit = {},
     onMoveDown: (Long) -> Unit = {},
@@ -132,7 +130,7 @@ fun QuestionUi(
                 headlineContent = {
                     ContentView(
                         items = questionUiState.content,
-                        generalPath = generalPath
+                        examId = questionUiState.examId
                     )
                 },
                 trailingContent = {
@@ -197,7 +195,7 @@ fun QuestionUi(
                             else ListItemDefaults.containerColor,
 
                             items = optionsUiState.content,
-                            generalPath = generalPath
+                            examId = questionUiState.examId
                         )
 
                     }
@@ -210,7 +208,7 @@ fun QuestionUi(
                 Text("Answer", modifier = Modifier.padding(horizontal = 16.dp))
                 ContentView(
                     items = questionUiState.answer,
-                    generalPath = generalPath,
+                    examId = questionUiState.examId
 
                     )
             }

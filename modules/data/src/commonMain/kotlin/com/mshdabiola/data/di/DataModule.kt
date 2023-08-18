@@ -1,7 +1,6 @@
 package com.mshdabiola.data.di
 
 import com.mshabiola.database.di.databaseModule
-import com.mshdabiola.data.ExInPortRepository
 import com.mshdabiola.data.repository.ExamRepository
 import com.mshdabiola.data.repository.InstructionRepository
 import com.mshdabiola.data.repository.QuestionRepository
@@ -9,7 +8,6 @@ import com.mshdabiola.data.repository.RealModelRepository
 import com.mshdabiola.data.repository.SettingRepository
 import com.mshdabiola.data.repository.SubjectRepository
 import com.mshdabiola.data.repository.TopicRepository
-import com.mshdabiola.data.repository.inter.IExInPortRepository
 import com.mshdabiola.data.repository.inter.IExamRepository
 import com.mshdabiola.data.repository.inter.IInstructionRepository
 import com.mshdabiola.data.repository.inter.IModelRepository
@@ -33,5 +31,4 @@ val dataModule = module {
     singleOf(::InstructionRepository) bind IInstructionRepository::class
     singleOf(::TopicRepository) bind ITopicRepository::class
     singleOf(::ExamRepository) bind IExamRepository::class
-    singleOf(::ExInPortRepository) bind IExInPortRepository::class
 }

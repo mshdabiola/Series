@@ -30,12 +30,10 @@ import com.mshdabiola.ui.questionui.Content
 import com.mshdabiola.ui.questionui.ContentView
 import com.mshdabiola.ui.state.InstructionUiState
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun InstructionEditUi(
     modifier: Modifier = Modifier,
     instructionUiState: InstructionUiState,
-    generalPath: String,
     onTitleChange: (String) -> Unit = {},
     addUp: (Int) -> Unit = { _ -> },
     addBottom: (Int) -> Unit = { _ -> },
@@ -65,7 +63,7 @@ fun InstructionEditUi(
             edit = edit,
             changeType = changeType,
             onTextChange = onTextChange,
-            generalPath = generalPath
+            examId = instructionUiState.examId
         )
 
     }
@@ -79,8 +77,6 @@ fun InstructionUi(
     instructionUiState: InstructionUiState,
     onUpdate: (Long) -> Unit = {},
     onDelete: (Long) -> Unit = {},
-    generalPath: String
-
 ) {
     var showDrop by remember { mutableStateOf(false) }
 
@@ -92,7 +88,10 @@ fun InstructionUi(
                 Text(instructionUiState.title)
         },
         supportingContent = {
-            ContentView(items = instructionUiState.content, generalPath = generalPath)
+            ContentView(
+                items = instructionUiState.content,
+                examId = instructionUiState.examId
+            )
         },
         trailingContent = {
             Box {

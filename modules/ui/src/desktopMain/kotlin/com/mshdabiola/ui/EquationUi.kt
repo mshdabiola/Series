@@ -69,7 +69,7 @@ internal actual fun OptionsUiPreview() {
                 ).toImmutableList(),
                 isAnswer = false,
             )
-        ).toImmutableList(), generalPath = ""
+        ).toImmutableList(), examId = 1
     )
 }
 

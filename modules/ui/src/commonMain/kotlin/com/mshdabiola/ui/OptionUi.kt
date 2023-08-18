@@ -17,20 +17,21 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.mshdabiola.model.ImageUtil.getGeneralDir
 import com.mshdabiola.model.data.Type
 import com.mshdabiola.ui.state.OptionUiState
 import kotlinx.collections.immutable.ImmutableList
+import kotlin.io.path.absolutePathString
 
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun OptionsUi(
     optionUiStates: ImmutableList<OptionUiState>,
-    generalPath: String,
     showAnswer: Boolean = false,
     onClick: (Int) -> Unit = {},
-    selectedOption: Int = -1
-
+    selectedOption: Int = -1,
+    examId:Long
 ) {
 
     val noRow = remember {
@@ -56,10 +57,11 @@ fun OptionsUi(
             OptionUi(
                 modifier = Modifier.padding(2.dp).weight(1f),
                 optionUiState = optionUiState,
-                generalPath = generalPath,
                 showAnswer = showAnswer,
                 isChoose = selectedOption == index,
-                onClick = { onClick(index) })
+                onClick = { onClick(index) },
+                examId=examId
+            )
         }
     }
 
@@ -75,11 +77,10 @@ internal expect fun OptionsUiPreview()
 fun OptionUi(
     modifier: Modifier = Modifier,
     optionUiState: OptionUiState,
-    generalPath: String,
     showAnswer: Boolean = false,
     isChoose: Boolean = false,
-    onClick: () -> Unit = {}
-
+    onClick: () -> Unit = {},
+    examId: Long
 ) {
     val color = when {
         optionUiState.isAnswer && showAnswer -> CardDefaults.cardColors(
@@ -105,7 +106,7 @@ fun OptionUi(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            ItemUi(optionUiState.content, generalPath)
+            ItemUi(optionUiState.content,examId )
         }
     }
 

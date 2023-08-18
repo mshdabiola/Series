@@ -23,7 +23,6 @@ fun QuestionUi(
     modifier: Modifier = Modifier,
     number: Long,
     questionUiState: QuestionUiState,
-    generalPath: String,
     showAnswer: Boolean = false,
     selectedOption: Int = -1,
     onInstruction: () -> Unit = {},
@@ -36,17 +35,17 @@ fun QuestionUi(
         QuestionHeadUi(
             number = number,
             content = questionUiState.content,
-            generalPath = generalPath,
             isInstruction = questionUiState.instructionUiState != null,
             title = questionUiState.title,
-            onInstruction = onInstruction
+            onInstruction = onInstruction,
+            examID = questionUiState.examId
         )
         OptionsUi(
             optionUiStates = questionUiState.options,
-            generalPath = generalPath,
             showAnswer = showAnswer,
             selectedOption = selectedOption,
-            onClick = onOptionClick
+            onClick = onOptionClick,
+            examId = questionUiState.id
         )
 
     }
@@ -60,7 +59,7 @@ fun QuestionHeadUi(
     title: String,
     content: ImmutableList<ItemUiState>,
     isInstruction: Boolean,
-    generalPath: String,
+    examID:Long,
     onInstruction: () -> Unit = {}
 ) {
 
@@ -83,7 +82,7 @@ fun QuestionHeadUi(
                 Text(title, color = textColor, style = MaterialTheme.typography.bodySmall)
             }
 
-            ItemUi(content, generalPath)
+            ItemUi(content, examID = examID)
 
             if (isInstruction) {
                 ElevatedButton(

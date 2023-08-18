@@ -55,7 +55,7 @@ class AndroidApplicationConventionPlugin : Plugin<Project> {
             dependencies {
                 add("implementation", project(":modules:model"))
                 add("implementation", project(":modules:ui"))
-                add("implementation", project(":modules:util"))
+                //add("implementation", project(":modules:util"))
                 add("implementation", project(":modules:data"))
                 add("implementation", libs.findLibrary("koin.core").get())
                 add("implementation", libs.findLibrary("koin.android").get())

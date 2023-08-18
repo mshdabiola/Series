@@ -65,7 +65,6 @@ import com.mshdabiola.ui.state.QuestionUiState
 import com.mshdabiola.ui.state.TopicInputUiState
 import com.mshdabiola.ui.state.TopicUiState
 import com.mshdabiola.ui.topicui.TopicUi
-import com.mshdabiola.util.FileManager
 import kotlinx.collections.immutable.ImmutableList
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.splitpane.ExperimentalSplitPaneApi
@@ -139,7 +138,6 @@ fun ExamScreen(
                             instructIdError = viewModel.instructIdError.value,
                             topicUiStates = topicUiStates.value,
                             examInputUiState = viewModel.examInputUiState.value,
-                            generalPath = viewModel::getGeneraPath,
                             addUp = viewModel::addUP,
                             addBottom = viewModel::addDown,
                             moveUp = viewModel::moveUP,
@@ -169,7 +167,6 @@ fun ExamScreen(
                             instructionUiStates = instructionUiStates.value,
                             instruInputUiState = viewModel.instruInputUiState.value,
                             onTitleChange = viewModel::instructionTitleChange,
-                            generalPath = viewModel::getGeneraPath,
                             addUp = viewModel::addUpInstruction,
                             addBottom = viewModel::addDownInstruction,
                             delete = viewModel::deleteInstruction,
@@ -219,7 +216,6 @@ fun ExamContent(
     questions: ImmutableList<QuestionUiState>,
     topicUiStates: ImmutableList<TopicUiState>,
     examInputUiState: ExamInputUiState,
-    generalPath: (FileManager.ImageType) -> String = { "" },
     addUp: (Int, Int) -> Unit = { _, _ -> },
     addBottom: (Int, Int) -> Unit = { _, _ -> },
     delete: (Int, Int) -> Unit = { _, _ -> },
@@ -263,7 +259,6 @@ fun ExamContent(
                         onMoveDown = onMoveDownQuestion,
                         onMoveUp = onMoveUpQuestion,
                         onAnswer = onAnswer,
-                        generalPath = generalPath(FileManager.ImageType.QUESTION)
                     )
                 }
             }
@@ -330,7 +325,6 @@ fun ExamContent(
                     edit = edit,
                     changeType = changeType,
                     onTextChange = onTextChange,
-                    generalPath = generalPath(FileManager.ImageType.QUESTION)
                 )
                 Row(Modifier.fillMaxSize(), verticalAlignment = Alignment.CenterVertically) {
 
@@ -522,7 +516,6 @@ fun InstructionContent(
     instructionUiState: InstructionUiState,
     instructionUiStates: ImmutableList<InstructionUiState>,
     instruInputUiState: InstruInputUiState,
-    generalPath: (FileManager.ImageType) -> String = { "" },
     onTitleChange: (String) -> Unit = {},
     addUp: (Int) -> Unit = { _ -> },
     addBottom: (Int) -> Unit = { _ -> },
@@ -554,7 +547,6 @@ fun InstructionContent(
                         instructionUiState = it,
                         onUpdate = onUpdateInstruction,
                         onDelete = onDeleteInstruction,
-                        generalPath = generalPath(FileManager.ImageType.INSTRUCTION)
                     )
 
                 }
@@ -576,7 +568,6 @@ fun InstructionContent(
                     edit = edit,
                     changeType = changeType,
                     onTextChange = onTextChange,
-                    generalPath = generalPath(FileManager.ImageType.INSTRUCTION)
                 )
                 Spacer(Modifier.height(4.dp))
                 Row(Modifier.fillMaxWidth()) {

@@ -6,6 +6,7 @@ import com.mshabiola.database.di.databaseModule
 import com.mshabiola.database.di.name
 import com.mshabiola.database.model.listOfValueAdapter
 import com.mshabiola.database.util.Constant
+import com.mshdabiola.data.DatabaseUtil
 import com.mshdabiola.database.SeriesDatabase
 import com.mshdabiola.model.data.Item
 import commshdabioladatabase.tables.ExamEntity

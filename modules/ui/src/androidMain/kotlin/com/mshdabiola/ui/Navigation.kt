@@ -65,7 +65,6 @@ fun AllQuestionBottomSheet(
 @Composable
 fun InstructionBottomSheet(
     instructionUiState: InstructionUiState?,
-    generalPath: String,
     onDismissRequest: () -> Unit = {}
 ) {
     if (instructionUiState != null) {
@@ -80,7 +79,7 @@ fun InstructionBottomSheet(
                 if (instructionUiState.title != null) {
                     Text(text = instructionUiState.title)
                 }
-                ItemUi(items = instructionUiState.content, generalPath = generalPath)
+                ItemUi(items = instructionUiState.content, generalPath = "generalPath")
 
             }
 

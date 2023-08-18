@@ -52,7 +52,6 @@ import com.mshdabiola.ui.state.InstructionUiState
 import com.mshdabiola.ui.state.ItemUiState
 import com.mshdabiola.ui.state.OptionUiState
 import com.mshdabiola.ui.state.QuestionUiState
-import com.mshdabiola.util.FileManager
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.launch
 
@@ -73,7 +72,6 @@ internal fun FinishScreen(onBack: () -> Unit, toQuestion: () -> Unit, viewModel:
             toQuestion()
             viewModel.onRetry()
         },
-        getGeneralPath = viewModel::getGeneraPath
     )
 }
 
@@ -86,7 +84,6 @@ internal fun FinishScreen(
     back: () -> Unit = {},
     toQuestion: () -> Unit = {},
     changeIndex:(Int)->Unit={},
-    getGeneralPath: (FileManager.ImageType, Long) -> String = { _, _ -> "" },
 ) {
     val lazyState = rememberLazyListState()
     val currentIndex =mainState.currentSectionIndex
@@ -193,7 +190,6 @@ internal fun FinishScreen(
                     QuestionUi(
                         number = (index + 1L),
                         questionUiState = item,
-                        generalPath = getGeneralPath(FileManager.ImageType.QUESTION, item.examId),
                         onInstruction = {
                             instructionUiState = item.instructionUiState
                         },
@@ -211,10 +207,7 @@ internal fun FinishScreen(
     }
     InstructionBottomSheet(
         instructionUiState = instructionUiState,
-        generalPath = getGeneralPath(
-            FileManager.ImageType.INSTRUCTION,
-            instructionUiState?.examId ?: 0
-        ),
+
         onDismissRequest = { instructionUiState = null }
     )
 

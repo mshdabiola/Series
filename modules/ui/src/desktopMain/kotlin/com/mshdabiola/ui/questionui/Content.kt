@@ -34,6 +34,7 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.mshdabiola.model.ImageUtil
 import com.mshdabiola.model.data.Type
 import com.mshdabiola.retex.Latex
 import com.mshdabiola.ui.DragAndDropImage
@@ -41,15 +42,15 @@ import com.mshdabiola.ui.ImageUi
 import com.mshdabiola.ui.MarkUpText
 import com.mshdabiola.ui.state.ItemUiState
 import kotlinx.collections.immutable.ImmutableList
+import kotlin.io.path.pathString
 
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ContentView(
     modifier: Modifier = Modifier,
     color: Color = ListItemDefaults.containerColor,
     items: ImmutableList<ItemUiState>,
-    generalPath: String,
+    examId: Long
 ) {
 
 
@@ -73,7 +74,7 @@ fun ContentView(
                             Box(childModifier, contentAlignment = Alignment.Center) {
                                 ImageUi(
                                     Modifier.size(100.dp),
-                                    path = "$generalPath/${item.content}",
+                                    path = ImageUtil.getGeneralDir(item.content, examId).path,
                                     contentDescription = ""
                                 )
                             }
@@ -92,7 +93,7 @@ fun ContentView(
 fun Content(
     modifier: Modifier = Modifier,
     items: ImmutableList<ItemUiState>,
-    generalPath: String,
+    examId : Long,
     addUp: (Int) -> Unit = {},
     addBottom: (Int) -> Unit = {},
     delete: (Int) -> Unit = {},
@@ -127,7 +128,7 @@ fun Content(
                         Type.IMAGE -> ImageContent(
                             childModifier,
                             item,
-                            generalPath = generalPath,
+                            examId=examId,
                             onTextChange = {
                                 onTextChange(index, it)
                             })
@@ -278,14 +279,14 @@ fun EquationContent(
 fun ImageContent(
     modifier: Modifier = Modifier,
     image: ItemUiState,
-    generalPath: String,
+    examId:Long,
     onTextChange: (String) -> Unit = {}
 ) {
     Box(modifier, contentAlignment = Alignment.Center) {
 
         DragAndDropImage(
             modifier = Modifier.size(100.dp),
-            path = "$generalPath/${image.content}",
+            path =  ImageUtil.getGeneralDir(image.content, examId).path,
             onPathChange = onTextChange
         )
     }

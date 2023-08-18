@@ -2,7 +2,6 @@ package com.mshdabiola.series.feature.main
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
-import com.mshdabiola.data.repository.inter.IExInPortRepository
 import com.mshdabiola.data.repository.inter.IExamRepository
 import com.mshdabiola.data.repository.inter.ISettingRepository
 import com.mshdabiola.data.repository.inter.ISubjectRepository
@@ -18,7 +17,6 @@ import com.mshdabiola.ui.toExam
 import com.mshdabiola.ui.toSubject
 import com.mshdabiola.ui.toUi
 import com.mshdabiola.ui.toUiDesktop
-import com.mshdabiola.util.ExInPort
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -34,8 +32,6 @@ class MainViewModel(
     private val iSubjectRepository: ISubjectRepository,
     private val iExamRepository: IExamRepository,
     //private val networkRepository: INetworkRepository,
-    private val iExInPortRepository: IExInPortRepository,
-    private val exInPort: ExInPort
 ) : ViewModel() {
 
 
@@ -199,63 +195,7 @@ class MainViewModel(
     }
 
     fun onExport(path: String) {
-        viewModelScope.launch {
-            iExInPortRepository.export(
-                coroutineScope = this,
-                subjectId = currentSubjectId.value
-            ) { subjects: List<Subject>, exams: List<Exam>, questions: List<QuestionFull>, instructions: List<Instruction>, topics: List<Topic> ->
 
-                viewModelScope.launch {
-                    launch { exInPort.copyImage(path, subjects) }
-                    launch {
-                        exInPort.export(
-                            subjects,
-                            path,
-                            ExInPort.subject
-                        )
-                    }
-
-                }
-                viewModelScope.launch {
-                    exInPort.export(
-                        exams,
-                        path,
-                        ExInPort.exam
-                    )
-                }
-                viewModelScope.launch {
-                    exInPort.export(
-                        questions,
-                        path,
-                        ExInPort.question
-                    )
-                }
-
-                viewModelScope.launch {
-                    exInPort.export(
-                        instructions,
-                        path,
-                        ExInPort.instruction
-                    )
-                }
-                viewModelScope.launch {
-                    exInPort.export(
-                        topics,
-                        path,
-                        ExInPort.topic
-                    )
-                }
-
-//
-//                println(subjects)
-//                println(exams)
-//                println(questions)
-//                println(options)
-//                println(instructions)
-//                println(topics)
-
-            }
-        }
 
     }
 

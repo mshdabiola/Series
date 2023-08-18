@@ -3,7 +3,7 @@ package com.mshabiola.database.di
 import android.content.Context
 import androidx.sqlite.db.SupportSQLiteDatabase
 import androidx.sqlite.db.SupportSQLiteOpenHelper
-import com.mshabiola.database.DatabaseUtil
+import com.mshabiola.database.Security
 import com.mshabiola.database.util.Constant
 import com.mshdabiola.database.BuildConfig
 import timber.log.Timber
@@ -102,7 +102,7 @@ class SQLiteCopyOpenHelper(
                             copyConfig.callable.call()
                         }
                     }
-                    DatabaseUtil.decode(
+                    Security.decode(
                         input,
                         FileOutputStream(intermediateFile),
                         key
@@ -198,7 +198,7 @@ class SQLiteCopyOpenHelper(
 //            intermediateFile.sink().buffer().use { b -> b.writeAll(a) }
 //        }
 
-        DatabaseUtil.decode(input, FileOutputStream(intermediateFile),key)
+        Security.decode(input, FileOutputStream(intermediateFile),key)
 
         val parent = destinationFile.parentFile
         if (parent != null && !parent.exists() && !parent.mkdirs()) {

@@ -15,7 +15,6 @@ import com.mshdabiola.ui.state.QuestionUiState
 import com.mshdabiola.ui.state.ScoreUiState
 import com.mshdabiola.ui.toQuestionUiState
 import com.mshdabiola.ui.toUi
-import com.mshdabiola.util.FileManager
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -316,12 +315,12 @@ class MainViewModel(
     }
 
 
-    fun getGeneraPath(imageType: FileManager.ImageType, examId: Long): String {
-        return when (imageType) {
-            FileManager.ImageType.INSTRUCTION -> "instruction/$examId"
-            FileManager.ImageType.QUESTION -> "question/$examId"
-        }
-    }
+//    fun getGeneraPath(imageType: FileManager.ImageType, examId: Long): String {
+//        return when (imageType) {
+//            FileManager.ImageType.INSTRUCTION -> "instruction/$examId"
+//            FileManager.ImageType.QUESTION -> "question/$examId"
+//        }
+//    }
 
     private suspend fun saveCurrentExam() {
 

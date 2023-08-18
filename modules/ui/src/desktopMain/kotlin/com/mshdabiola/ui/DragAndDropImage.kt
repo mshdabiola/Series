@@ -103,15 +103,15 @@ actual fun DragAndDropImage(
                         ) else BorderStroke(width = 2.dp, color = Color.Black)
                     ) {
                         Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                            if (File(path).exists()) {
+                          //  if (File(path).exists()) {
                                 ImageUi(
                                     modifier.fillMaxSize(),
                                     path = path,
                                     contentDescription = ""
                                 )
-                            } else {
-                                Text(text = "drag image here")
-                            }
+//                            } else {
+//                                Text(text = "drag image here")
+//                            }
                         }
 
 

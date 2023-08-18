@@ -21,6 +21,12 @@ kotlin {
                 implementation(libs.kotlinx.coroutines.core)
             }
         }
+        val desktopMain by getting{
+            dependencies {
+                implementation(project(":modules:svgtovector"))
+
+            }
+        }
 
 
     }

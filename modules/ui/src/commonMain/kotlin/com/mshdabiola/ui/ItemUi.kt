@@ -7,13 +7,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
+import com.mshdabiola.model.ImageUtil.getGeneralDir
 import com.mshdabiola.model.data.Type
 import com.mshdabiola.ui.state.ItemUiState
 import kotlinx.collections.immutable.ImmutableList
+import kotlin.io.path.pathString
 
 
 @Composable
-fun ItemUi(items: ImmutableList<ItemUiState>, generalPath: String) {
+fun ItemUi(items: ImmutableList<ItemUiState>, examID:Long) {
 
     items.forEach { item ->
         when (item.type) {
@@ -28,7 +30,7 @@ fun ItemUi(items: ImmutableList<ItemUiState>, generalPath: String) {
             Type.IMAGE -> {
                 ImageUi(
                     Modifier.fillMaxWidth().heightIn(60.dp, 300.dp),
-                    path = "$generalPath/${item.content}",
+                    path = getGeneralDir(item.content,examID,).path,
                     contentDescription = item.content
                 )
             }

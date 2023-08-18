@@ -27,7 +27,7 @@ dependencies {
     implementation(project(":modules:data"))
     implementation(project(":modules:model"))
     implementation(project(":modules:retex"))
-    implementation(project(":modules:util"))
+    //implementation(project(":modules:util"))
 
     implementation(project(":modules:ui"))
     implementation(libs.kotlinx.coroutines.swing)
