@@ -129,14 +129,14 @@ class ExamViewModel(
             snapshotFlow { question.value }
                 .distinctUntilChanged()
                 .collectLatest {
-                    if (it.id>0) {
+
                         if (it == getEmptyQuestion()) {
                             log("remove")
                             settingRepository.removeQuestion(examId)
                         } else {
                             settingRepository.setCurrentQuestion(it.toQuestionWithOptions(examId))
                         }
-                    }
+
 
                 }
         }
@@ -208,7 +208,20 @@ class ExamViewModel(
         val question = questions
             .value
             .find { it.id == id }
-
+       val oldQuetions= _question.value
+        if (oldQuetions.id<0) {
+            oldQuetions.content
+                .filter { it.type == Type.IMAGE }
+                .forEach {
+                    getGeneralDir(it.content,examId).delete()
+                }
+            oldQuetions.options
+                .flatMap { it.content }
+                .filter { it.type == Type.IMAGE }
+                .forEach {
+                    getGeneralDir(it.content,examId).delete()
+                }
+        }
         question?.let {
             _question.value = it
         }
@@ -856,6 +869,14 @@ class ExamViewModel(
     }
 
     fun onUpdateInstruction(id: Long) {
+        val oldInstructionUiState=_instructionUiState.value
+        if (oldInstructionUiState.id<0){
+            oldInstructionUiState.content
+                .filter { it.type == Type.IMAGE }
+                .forEach {
+                    getGeneralDir(it.content,examId).delete()
+                }
+        }
         instructions.value.find { it.id == id }?.let { uiState ->
             _instructionUiState.value = uiState.copy(
                 content = uiState.content

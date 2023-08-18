@@ -71,7 +71,7 @@ fun QuestionEditUi(
                     Content(
                         modifier = Modifier.weight(0.5f),
                         items = optionsUiState.content,
-                        examId = questionUiState.id,
+                        examId = questionUiState.examId,
                         addUp = { addUp(i, it) },
                         addBottom = { addBottom(i, it) },
                         delete = { delete(i, it) },

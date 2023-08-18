@@ -141,7 +141,6 @@ internal class MultiplatformSettingsImpl(
         }
     }
 
-    @OptIn(ExperimentalSerializationApi::class)
     override fun getCurrentQuestion(examId: Long): QuestionFull? {
         return getQuestionList()
             .find { it.examId == examId }
