@@ -87,28 +87,7 @@ class SQLiteCopyOpenHelper(
 
             // A database file is present, check if we need to re-copy it.
             val currentVersion = try {
-                val intermediateFile = File.createTempFile(
-                    "sqlite-copy-version", ".tmp", context.cacheDir
-                )
-                if (intermediateFile.exists().not()||intermediateFile.length()<=4) {
-                    val input = when (copyConfig) {
-                        is CopyFromAssetPath -> {
-                            context.assets.open(copyConfig.path)
-                        }
-                        is CopyFromFile -> {
-                            FileInputStream(copyConfig.file)
-                        }
-                        is CopyFromInputStream -> {
-                            copyConfig.callable.call()
-                        }
-                    }
-                    Security.decode(
-                        input,
-                        FileOutputStream(intermediateFile),
-                        key
-                    )
-                }
-                readVersion(intermediateFile.inputStream())
+                readVersion()
 
             } catch (e: IOException) {
                 Timber.tag(TAG).w(e, "Unable to read database version.")
@@ -153,20 +132,14 @@ class SQLiteCopyOpenHelper(
      * Number</a>.
      */
     @Throws(IOException::class)
-    private fun readVersion(inputStream: InputStream): Int {
+    private fun readVersion(): Int {
         try {
-
-            val header = ByteArray(100)
-            inputStream.read(header)
-            inputStream.close()
-
-
-            // The user version is stored at offset 60.
-            val x1=header[60].toInt()
-            val x2= header[61].toInt()
-            val x3= header[62].toInt()
-            val x4=header[63].toInt()
-            return "$x1$x2$x3$x4".toInt()
+            return  context
+                .assets.open("version.txt")
+                .reader()
+                .readText()
+                .toInt()
+                //.toIntOrNull() ?: 1
         } catch (e: IOException) {
             throw RuntimeException(e)
         }

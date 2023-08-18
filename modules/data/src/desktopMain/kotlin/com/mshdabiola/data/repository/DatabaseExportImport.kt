@@ -42,6 +42,7 @@ actual class DatabaseExportImport actual constructor(val database: SeriesDatabas
             launch {
 
                 val dbPath = File(path, name)
+                dbPath.delete()
 
                 val driver = JdbcSqliteDriver(
                     "jdbc:sqlite:${dbPath.path}",
@@ -113,7 +114,14 @@ actual class DatabaseExportImport actual constructor(val database: SeriesDatabas
 
             }
             launch {
-                copyImage(File(path, "image"), examsId)
+                val imagePath=File(path, "image")
+                imagePath.deleteOnExit()
+                copyImage(imagePath, examsId)
+            }
+            launch {
+                val versionFile=File(dir,"version.txt")
+                versionFile.deleteOnExit()
+                versionFile.writeText("$version")
             }
 
         }
