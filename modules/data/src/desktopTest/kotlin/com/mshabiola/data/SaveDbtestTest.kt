@@ -6,7 +6,6 @@ import com.mshabiola.database.di.databaseModule
 import com.mshabiola.database.di.name
 import com.mshabiola.database.model.listOfValueAdapter
 import com.mshabiola.database.util.Constant
-import com.mshdabiola.data.DatabaseUtil
 import com.mshdabiola.database.SeriesDatabase
 import com.mshdabiola.model.data.Item
 import commshdabioladatabase.tables.ExamEntity
@@ -158,13 +157,13 @@ class DatabaseUtilTest : KoinTest {
             inputDb.optionQueries.insert(it)
         }
 
-        DatabaseUtil.export(
-            inputDb,
-            listOf(1, 2, 3, 4),
-            "/Users/user/AndroidStudioProjects/Series/subject",
-            2,
-            key = Constant.defaultKey
-        )
+//        DatabaseUtil.export(
+//            inputDb,
+//            listOf(1, 2, 3, 4),
+//            "/Users/user/AndroidStudioProjects/Series/subject",
+//            2,
+//            key = Constant.defaultKey
+//        )
 
 
     }

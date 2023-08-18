@@ -7,6 +7,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
@@ -16,13 +17,12 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.CursorDropdownMenu
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Android
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.HdrOnSelect
+import androidx.compose.material.icons.filled.MoreHoriz
 import androidx.compose.material.icons.filled.MoreVert
-import androidx.compose.material.icons.filled.SaveAs
 import androidx.compose.material.icons.filled.SelectAll
 import androidx.compose.material.icons.filled.Subject
 import androidx.compose.material.icons.filled.Update
@@ -30,6 +30,7 @@ import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.material.icons.rounded.Deselect
 import androidx.compose.material.icons.rounded.SaveAs
 import androidx.compose.material3.Button
+import androidx.compose.material3.Card
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -40,6 +41,7 @@ import androidx.compose.material3.NavigationDrawerItem
 import androidx.compose.material3.PermanentNavigationDrawer
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
@@ -56,10 +58,11 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import com.mshdabiola.ui.DirtoryUi
+import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
+import com.mshdabiola.designsystem.theme.SeriesAppTheme
 import com.mshdabiola.ui.ExamUiDesktop
 import com.mshdabiola.ui.examui.ExamUi
-import com.mshdabiola.ui.state.ExamUiState
 import com.mshdabiola.ui.state.SubjectUiState
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
@@ -68,6 +71,8 @@ import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.splitpane.ExperimentalSplitPaneApi
 import org.jetbrains.compose.splitpane.HorizontalSplitPane
 import org.jetbrains.compose.splitpane.rememberSplitPaneState
+import java.io.File
+import javax.swing.JFileChooser
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -76,17 +81,21 @@ fun MainScreen(
     viewModel: MainViewModel,
     onExamClick: (Long, Long) -> Unit = { _, _ -> }
 ) {
-    var show by remember { mutableStateOf(false) }
+    // var show by remember { mutableStateOf(false) }
 
     var showDrop by remember { mutableStateOf(false) }
     val subjects = viewModel.subjects.collectAsState()
     val currentSubjectIndex = viewModel.currentSubjectId.collectAsState().value
-    DirtoryUi(show, onDismiss = { show = false }, {
-        it?.let {
-            viewModel.onExport(it.path)
-        }
+    var showDialog by remember {
+        mutableStateOf(false)
     }
-    )
+    MainDialog(showDialog, viewModel::onExport) { showDialog = false }
+//    DirtoryUi(show, onDismiss = { show = false }, {
+//        it?.let {
+//            viewModel.onExport(it.path)
+//        }
+//    }
+    //)
     Scaffold(
         topBar = {
             TopAppBar(
@@ -99,8 +108,10 @@ fun MainScreen(
                         ) {
                             Icon(Icons.Default.MoreVert, "more")
                         }
-                        if (viewModel.isSelectMode.value){
-                            DropdownMenu(expanded = showDrop, onDismissRequest = { showDrop = false }) {
+                        if (viewModel.isSelectMode.value) {
+                            DropdownMenu(
+                                expanded = showDrop,
+                                onDismissRequest = { showDrop = false }) {
 
 
                                 DropdownMenuItem(
@@ -153,7 +164,7 @@ fun MainScreen(
                                     text = { Text("Export Selected") },
                                     onClick = {
                                         // onDelete(examUiState.id)
-                                        show = true
+                                        showDialog = true
                                         showDrop = false
                                     })
 
@@ -165,7 +176,7 @@ fun MainScreen(
                                         )
                                     },
                                     text = { Text("Delete selected") },
-                                    onClick ={
+                                    onClick = {
                                         viewModel.deleteSelected()
                                         showDrop = false
 
@@ -173,11 +184,13 @@ fun MainScreen(
 
                             }
 
-                        }else{
+                        } else {
 
-                            DropdownMenu(expanded = showDrop, onDismissRequest = { showDrop = false }) {
+                            DropdownMenu(
+                                expanded = showDrop,
+                                onDismissRequest = { showDrop = false }) {
 
-                                if(currentSubjectIndex > -1){
+                                if (currentSubjectIndex > -1) {
                                     DropdownMenuItem(
                                         leadingIcon = {
                                             Icon(
@@ -281,11 +294,11 @@ fun MainContent(
     subjects: ImmutableList<SubjectUiState> = emptyList<SubjectUiState>().toImmutableList(),
     exams: ImmutableList<ExamUiDesktop> = emptyList<ExamUiDesktop>().toImmutableList(),
     examUiState: ExamUiDesktop,
-    isSelectMode:Boolean=false,
+    isSelectMode: Boolean = false,
     subjectUiState: SubjectUiState,
     examYearError: Boolean = false,
     addSubject: () -> Unit = {},
-    toggleSelect:(Long)->Unit={},
+    toggleSelect: (Long) -> Unit = {},
     addExam: () -> Unit = {},
     onExamClick: (Long, Long) -> Unit = { _, _ -> },
     onExamNameChange: (String) -> Unit = {},
@@ -317,9 +330,9 @@ fun MainContent(
                 items(exams, key = { it.id }) {
                     ExamUi(
                         modifier = Modifier.clickable {
-                            if (isSelectMode){
+                            if (isSelectMode) {
                                 toggleSelect(it.id)
-                            }else{
+                            } else {
                                 onExamClick(it.id, it.subjectID)
                             }
 
@@ -327,7 +340,7 @@ fun MainContent(
                         examUiState = it,
                         onDelete = onDeleteSubject,
                         onUpdate = onUpdateSubject,
-                        toggleSelect=toggleSelect,
+                        toggleSelect = toggleSelect,
                         isSelectMode = isSelectMode
 
                     )
@@ -345,7 +358,7 @@ fun MainContent(
                 Text("Add Examination")
                 Box {
                     TextField(
-                        modifier=Modifier.fillMaxWidth(),
+                        modifier = Modifier.fillMaxWidth(),
                         label = { Text("Subject") },
                         value = examUiState.subject,
                         onValueChange = {},
@@ -370,7 +383,7 @@ fun MainContent(
                     }
                 }
                 TextField(
-                    modifier=Modifier.fillMaxWidth(),
+                    modifier = Modifier.fillMaxWidth(),
                     label = { Text("Year") },
                     value = if (examUiState.year != -1L) examUiState.year.toString() else "",
                     placeholder = { Text("2012") },
@@ -459,6 +472,150 @@ fun id() {
         }
 
 
+    }
+
+}
+
+@Composable
+fun MainDialog(
+    show: Boolean,
+    export: (String, String, String, Int) -> Unit = { _, _, _, _ -> },
+    onClose: () -> Unit = {}
+) {
+    var showDir by remember {
+        mutableStateOf(false)
+    }
+    var path by remember {
+        mutableStateOf("")
+    }
+    var name by remember {
+        mutableStateOf("")
+    }
+    var key by remember {
+        mutableStateOf("")
+    }
+    var version by remember {
+        mutableStateOf("")
+    }
+    if (show) {
+        Dialog(onDismissRequest = onClose, properties = DialogProperties()) {
+            Card {
+                Column(
+                    modifier = Modifier.padding(16.dp),
+                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    Text(
+                        modifier = Modifier.align(Alignment.CenterHorizontally),
+                        text = "Export Examination",
+                        style = MaterialTheme.typography.titleMedium
+                    )
+                    Row(modifier = Modifier.fillMaxWidth()) {
+                        Text(modifier = Modifier.weight(0.3f), text = "Directory")
+                        Text(modifier = Modifier.weight(0.6f), text = path)
+                        IconButton(onClick = { showDir = true }) {
+                            Icon(
+                                modifier = Modifier.weight(0.1f),
+                                imageVector = Icons.Default.MoreHoriz,
+                                contentDescription = "select"
+                            )
+                        }
+
+                    }
+
+                    TextField(
+                        modifier = Modifier.fillMaxWidth(),
+                        value = name,
+                        label = { Text("Name") },
+                        placeholder = { Text("data") },
+                        onValueChange = { name = it })
+                    TextField(
+                        modifier = Modifier.fillMaxWidth(),
+                        value = key,
+                        label = { Text("Key") },
+                        placeholder = { Text("SwordFish") },
+                        onValueChange = { key = it })
+                    TextField(
+                        modifier = Modifier.fillMaxWidth(),
+                        value = version,
+                        placeholder = { Text("1") },
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                        label = { Text("Data version") },
+                        onValueChange = { version = it })
+
+                    Row(
+                        modifier = Modifier.align(Alignment.End),
+                        horizontalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        TextButton(onClick = onClose) {
+                            Text("Cancel")
+                        }
+
+                        Button(
+                            onClick = {
+                                export(
+                                    path,
+                                    name.ifBlank { "data" },
+                                    key.ifBlank { "SwordFish" },
+                                    version.toIntOrNull() ?: 0
+                                )
+                                path = ""
+                                version = ""
+                                key = ""
+                                name = ""
+                                onClose()
+
+                            },
+                            enabled = path.isNotBlank()
+                        ) {
+                            Text("Export")
+                        }
+                    }
+
+
+                }
+            }
+
+
+        }
+    }
+    DirtoryUi(showDir, onDismiss = { showDir = false }) {
+        it?.let {
+            path = it.path
+        }
+    }
+}
+
+@Preview
+@Composable
+fun MainDialogPreveiw() {
+    SeriesAppTheme(true) {
+        MainDialog(true)
+    }
+
+
+}
+
+
+@Composable
+fun DirtoryUi(
+    show: Boolean,
+    onDismiss: () -> Unit = {},
+    onFile: (File?) -> Unit = {}
+) {
+
+    LaunchedEffect(show) {
+        if (show) {
+            val jFileChooser = JFileChooser()
+            jFileChooser.dragEnabled = true
+            jFileChooser.fileSelectionMode = JFileChooser.DIRECTORIES_ONLY
+            val ret = jFileChooser.showSaveDialog(null)
+            if (ret == JFileChooser.APPROVE_OPTION) {
+                val file = jFileChooser.selectedFile
+                onFile(file)
+            }
+            onDismiss()
+
+        }
     }
 
 }

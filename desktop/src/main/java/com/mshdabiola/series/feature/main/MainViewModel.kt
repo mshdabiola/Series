@@ -5,11 +5,6 @@ import androidx.compose.runtime.mutableStateOf
 import com.mshdabiola.data.repository.inter.IExamRepository
 import com.mshdabiola.data.repository.inter.ISettingRepository
 import com.mshdabiola.data.repository.inter.ISubjectRepository
-import com.mshdabiola.model.data.Exam
-import com.mshdabiola.model.data.Instruction
-import com.mshdabiola.model.data.QuestionFull
-import com.mshdabiola.model.data.Subject
-import com.mshdabiola.model.data.Topic
 import com.mshdabiola.series.ViewModel
 import com.mshdabiola.ui.ExamUiDesktop
 import com.mshdabiola.ui.state.SubjectUiState
@@ -31,7 +26,6 @@ class MainViewModel(
     private val settingRepository: ISettingRepository,
     private val iSubjectRepository: ISubjectRepository,
     private val iExamRepository: IExamRepository,
-    //private val networkRepository: INetworkRepository,
 ) : ViewModel() {
 
 
@@ -194,8 +188,15 @@ class MainViewModel(
         }
     }
 
-    fun onExport(path: String) {
-
+    fun onExport(path: String,name:String,key:String,version:Int) {
+        viewModelScope.launch {
+            val ids=examUiStates
+                .value
+                .filter { it.isSelected }
+                .map { it.id }
+            iExamRepository.export(ids,path,name ,version, key)
+            deselectAll()
+        }
 
     }
 

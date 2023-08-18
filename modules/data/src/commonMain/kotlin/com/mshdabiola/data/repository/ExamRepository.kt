@@ -3,13 +3,14 @@ package com.mshdabiola.data.repository
 import com.mshabiola.database.dao.exam.IExamDao
 import com.mshabiola.database.dao.subjectdao.ISubjectDao
 import com.mshdabiola.data.repository.inter.IExamRepository
+import com.mshdabiola.database.SeriesDatabase
 import com.mshdabiola.model.data.Exam
 import com.mshdabiola.model.data.ExamWithSub
 import kotlinx.coroutines.flow.Flow
 
 internal class ExamRepository(
     private val iExamDao: IExamDao,
-    private val iSubjectDao: ISubjectDao
+    private val database: SeriesDatabase
 ) : IExamRepository {
 
 
@@ -29,6 +30,18 @@ internal class ExamRepository(
 
     override suspend fun updateType(id: Long, isOnlyObj: Boolean) {
         iExamDao.updateType(id, isOnlyObj)
+    }
+
+    override suspend fun export(examsId: List<Long>, path: String, name:String,version: Int, key: String) {
+       val importEx=DatabaseExportImport(database)
+
+        importEx.export(examsId, path, name,version, key)
+    }
+
+    override suspend fun import(path: String, key: String) {
+        val importEx=DatabaseExportImport(database)
+
+        importEx.import(path, key)
     }
 
     override suspend fun insertAll(exams: List<Exam>) {
@@ -54,5 +67,7 @@ internal class ExamRepository(
     override fun getExamBySubjectId(subId: Long): Flow<List<ExamWithSub>> {
         return iExamDao.getAllBySubjectIdWithSub(subId)
     }
+
+
 
 }

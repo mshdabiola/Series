@@ -17,6 +17,7 @@ import com.mshdabiola.data.repository.inter.ISubjectRepository
 import com.mshdabiola.data.repository.inter.ITopicRepository
 import com.mshdabiola.setting.di.settingModule
 import org.koin.core.module.dsl.singleOf
+import org.koin.core.qualifier.qualifier
 import org.koin.dsl.bind
 import org.koin.dsl.module
 
@@ -30,5 +31,5 @@ val dataModule = module {
     singleOf(::QuestionRepository) bind IQuestionRepository::class
     singleOf(::InstructionRepository) bind IInstructionRepository::class
     singleOf(::TopicRepository) bind ITopicRepository::class
-    singleOf(::ExamRepository) bind IExamRepository::class
+    single{ExamRepository(iExamDao = get(), database = get(qualifier = qualifier("real")))} bind IExamRepository::class
 }
