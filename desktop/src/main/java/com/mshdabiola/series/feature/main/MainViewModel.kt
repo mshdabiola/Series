@@ -237,7 +237,7 @@ class MainViewModel(
         _examUiStates.value = exams
     }
 
-    fun deselectAllSubject() {
+    fun selectAllSubject() {
         val exams = examUiStates
             .value
             .map {
@@ -249,7 +249,6 @@ class MainViewModel(
             .toImmutableList()
 
         _examUiStates.value = exams
-        _isSelectMode.value = false
     }
 
     fun deleteSelected() {

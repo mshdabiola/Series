@@ -79,7 +79,7 @@ fun InstructionBottomSheet(
                 if (instructionUiState.title != null) {
                     Text(text = instructionUiState.title)
                 }
-                ItemUi(items = instructionUiState.content, generalPath = "generalPath")
+                ItemUi(items = instructionUiState.content, examID = instructionUiState.examId)
 
             }
 

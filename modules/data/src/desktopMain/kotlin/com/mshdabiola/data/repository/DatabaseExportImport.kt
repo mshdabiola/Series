@@ -113,7 +113,7 @@ actual class DatabaseExportImport actual constructor(val database: SeriesDatabas
 
             }
             launch {
-                copyImage(Path(path, "image"), examsId)
+                copyImage(File(path, "image"), examsId)
             }
 
         }
@@ -192,16 +192,15 @@ actual class DatabaseExportImport actual constructor(val database: SeriesDatabas
     }
 
 
-    @OptIn(ExperimentalPathApi::class)
-    suspend fun copyImage(dir: Path, examsId: List<Long>) {
+    suspend fun copyImage(dir: File, examsId: List<Long>) {
         withContext(Dispatchers.IO) {
             try {
                 examsId.forEach {
-                    val from = Path(generalPath,"$it")
-                    val to = Path(dir.absolutePathString(), "$it")
-                    to.createParentDirectories()
+                    val from = File(generalPath,"$it")
+                    val to = File(dir.path, "$it")
+                    //to.createParentDirectories()
 
-                    from.copyToRecursively(to, overwrite = true, followLinks = true)
+                    from.copyRecursively(to, overwrite = true)
                 }
             } catch (e: Exception) {
                 e.printStackTrace()

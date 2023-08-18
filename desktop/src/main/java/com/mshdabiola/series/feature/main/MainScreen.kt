@@ -137,7 +137,7 @@ fun MainScreen(
                                         },
                                         text = { Text("Select Current Subject") },
                                         onClick = {
-                                            viewModel.deselectAllSubject()
+                                            viewModel.selectAllSubject()
                                         })
                                 }
                                 DropdownMenuItem(

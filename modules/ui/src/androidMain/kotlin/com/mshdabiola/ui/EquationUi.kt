@@ -246,7 +246,7 @@ internal actual fun OptionsUiPreview() {
                 ).toImmutableList(),
                 isAnswer = false
             )
-        ).toImmutableList(), generalPath = ""
+        ).toImmutableList(), examId =4
     )
 }
 
@@ -258,6 +258,6 @@ internal actual fun QuestionHeadUiPreview() {
         title = "Waec 1993 Q2",
         content = listOf(ItemUiState("What is you name")).toImmutableList(),
         isInstruction = true,
-        generalPath = ""
+        examID = 4
     )
 }
