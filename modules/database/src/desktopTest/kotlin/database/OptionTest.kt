@@ -1,5 +1,6 @@
 package database
 
+import com.mshdabiola.database.SeriesDatabase
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 
@@ -8,6 +9,7 @@ class OptionTest : AbstractTest() {
 
     override fun insert() = runTest {
 
+        println(SeriesDatabase.Schema.version)
 
     }
 

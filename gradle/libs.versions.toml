@@ -59,7 +59,7 @@ koinCompose = "3.4.5"
 
 multiplatform_settings = "1.0.0"
 
-sqlDelight = "2.0.0-alpha05"
+sqlDelight = "2.0.0"
 
 ktor = "2.3.0"
 androidx-baselineprofile = "1.2.0-beta02"

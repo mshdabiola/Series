@@ -1,7 +1,7 @@
 plugins {
     id("mshdabiola.mpp.library")
     alias(libs.plugins.secrets)
-    id("app.cash.sqldelight") version "2.0.0-alpha05"
+    id("app.cash.sqldelight") version "2.0.0"
 }
 secrets {
     propertiesFileName = "secrets.properties"
