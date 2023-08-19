@@ -97,7 +97,8 @@ fun ExamWithSub.toUi() = ExamUiState(
     subjectID = subjectID,
     year = year,
     subject = subject,
-    isObjOnly = isObjOnly
+    isObjOnly = isObjOnly,
+    examTime = examTime
 )
 
-fun ExamUiState.toExam() = Exam(id, subjectID, isObjOnly, year)
+fun ExamUiState.toExam() = Exam(id, subjectID, isObjOnly, year,examTime)

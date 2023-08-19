@@ -9,7 +9,8 @@ data class ExamUiDesktop(
     val year: Long,
     val subject: String,
     val isObjOnly: Boolean,
-    val isSelected :Boolean=false
+    val isSelected :Boolean=false,
+    val examTime:Long
 )
 
 
@@ -18,7 +19,8 @@ fun ExamWithSub.toUiDesktop() = ExamUiDesktop(
     subjectID = subjectID,
     year = year,
     subject = subject,
-    isObjOnly = isObjOnly
+    isObjOnly = isObjOnly,
+    examTime = examTime
 )
 
-fun ExamUiDesktop.toExam() = Exam(id, subjectID, isObjOnly, year)
+fun ExamUiDesktop.toExam() = Exam(id, subjectID, isObjOnly, year,examTime)

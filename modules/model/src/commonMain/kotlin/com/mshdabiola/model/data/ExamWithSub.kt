@@ -5,5 +5,6 @@ data class ExamWithSub(
     val subjectID: Long,
     val year: Long,
     val isObjOnly: Boolean,
-    val subject: String
+    val subject: String,
+    val examTime:Long
 )

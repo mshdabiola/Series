@@ -53,7 +53,7 @@ class MainViewModel(
     val subject: State<SubjectUiState> = _subject
 
     private val _exam =
-        mutableStateOf(ExamUiDesktop(subjectID = -1L, year = -1L, subject = "", isObjOnly = false))
+        mutableStateOf(ExamUiDesktop(subjectID = -1L, year = -1L, subject = "", isObjOnly = false, examTime = 400))
     val exam: State<ExamUiDesktop> = _exam
 
 

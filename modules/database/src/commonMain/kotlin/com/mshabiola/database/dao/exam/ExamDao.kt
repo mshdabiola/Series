@@ -29,7 +29,7 @@ internal class ExamDao(
 
     override suspend fun update(exam: Exam) {
         withContext(coroutineDispatcher) {
-            examQueries.update(exam.subjectID, exam.year, exam.id)
+            examQueries.update(subjectId = exam.subjectID, year = exam.year, examTime = exam.examTime,id = exam.id)
         }
     }
 
@@ -48,7 +48,14 @@ internal class ExamDao(
             .mapToList(coroutineDispatcher)
             .map { getAllWithSubjects ->
                 getAllWithSubjects.map {
-                    ExamWithSub(it.id, it.subjectId, it.year, it.isObjOnly == 0L, it.name)
+                    ExamWithSub(
+                        id = it.id,
+                        subjectID = it.subjectId,
+                        year = it.year,
+                        isObjOnly = it.isObjOnly == 0L,
+                        subject = it.name,
+                        examTime = it.examTime
+                    )
                 }
             }
 
@@ -61,7 +68,14 @@ internal class ExamDao(
             .mapToList(coroutineDispatcher)
             .map { getAllBySubjectIdWithSubjects ->
                 getAllBySubjectIdWithSubjects.map {
-                    ExamWithSub(it.id, it.subjectId, it.year, it.isObjOnly == 0L, it.name)
+                    ExamWithSub(
+                        id = it.id,
+                        subjectID = it.subjectId,
+                        year = it.year,
+                        isObjOnly = it.isObjOnly == 0L,
+                        subject = it.name,
+                        examTime = it.examTime
+                    )
                 }
             }
 

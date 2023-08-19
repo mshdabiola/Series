@@ -3,6 +3,7 @@ CREATE TABLE IF NOT EXISTS examEntity(
     subjectId INTEGER NOT NULL,
     year INTEGER NOT NULL,
     isObjOnly INTEGER DEFAULT 0,
+    examTime INTEGER NOT NULL DEFAULT 400,
    FOREIGN KEY (subjectId) REFERENCES subjectEntity(id)
    ON DELETE CASCADE
 );
@@ -28,11 +29,11 @@ SELECT *
 FROM  examEntity;
 
 insert:
-INSERT INTO examEntity(subjectId,year,isObjOnly)
+INSERT INTO examEntity(subjectId,year,isObjOnly,examTime)
 VALUES ?;
 
 insertOrReplace:
-INSERT OR REPLACE INTO examEntity(id,subjectId,year,isObjOnly)
+INSERT OR REPLACE INTO examEntity(id,subjectId,year,isObjOnly,examTime)
 VALUES ?;
 
 deleteByID:
@@ -41,7 +42,7 @@ WHERE id = ?;
 
 update:
 UPDATE examEntity
-SET subjectId = ?, year=?
+SET subjectId = ?, year=?,examTime=?
 WHERE id = ?;
 
 getAllWithSubject:
