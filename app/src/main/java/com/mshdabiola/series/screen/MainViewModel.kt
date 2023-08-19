@@ -176,7 +176,8 @@ class MainViewModel(
                     choose = choose.map { it.toImmutableList() }.toImmutableList(),
                     currentSectionIndex = 0,
                     sections = section.toImmutableList(),
-                    totalTime = 400L, examPart = typeIndex
+                    totalTime = 400L, currentTime = 0, examPart = typeIndex,
+                    isSubmit = false
                 )
             }
 
@@ -192,7 +193,7 @@ class MainViewModel(
 
             val allQuestions = emptyList <List<QuestionUiState>>().toMutableList()
 
-            if (!currentExam1.isSubmit){
+
                     val list = getAllQuestions(currentExam1.id)
                     when (currentExam1.examPart) {
                         0 -> {
@@ -212,7 +213,7 @@ class MainViewModel(
                         }
                     }
 
-                }
+
 
 
             val exam = mainState.value.listOfAllExams.find {
@@ -238,6 +239,10 @@ class MainViewModel(
                     sections = section.toImmutableList(),
                     questions = allQuestions.map { it.toImmutableList() }.toImmutableList()
                 )
+            }
+
+            if (currentExam1.isSubmit){
+            markExam()
             }
 
         }
@@ -373,23 +378,23 @@ class MainViewModel(
     }
 
     fun onFinishBack() {
-       val question=emptyList <List<QuestionUiState>>().toMutableList()
-        _mainState.update {
-            it.copy(
-                currentExam = null,
-                questions = question.map { it.toImmutableList() }.toImmutableList()
-            )
-
-        }
-        viewModelScope.launch(Dispatchers.IO) {
-            if (type.save) {
-                settingRepository.setCurrentExam(null)
-            } else {
-                onContinueExam()
-            }
-
-
-        }
+//       val question=emptyList <List<QuestionUiState>>().toMutableList()
+//        _mainState.update {
+//            it.copy(
+//                currentExam = null,
+//                questions = question.map { it.toImmutableList() }.toImmutableList()
+//            )
+//
+//        }
+//        viewModelScope.launch(Dispatchers.IO) {
+//            if (type.save) {
+//                settingRepository.setCurrentExam(null)
+//            } else {
+//                onContinueExam()
+//            }
+//
+//
+//        }
     }
 
     fun onRetry() {
