@@ -93,10 +93,24 @@ class SQLiteCopyOpenHelper(
                 Timber.tag(TAG).w(e, "Unable to read database version.")
                 return
             }
-            Timber.e("current verson is $currentVersion")
-            println("===current verson is $currentVersion")
+            val oldVersion=
+                try {
+                    File(databaseFile.parent,"version.txt")
+                        .inputStream()
+                        .reader()
+                        .readText()
+                        .toInt()
 
-            if (currentVersion == databaseVersion) {
+                } catch (e: IOException) {
+                    Timber.tag(TAG).w(e, "Unable to read database version.")
+                    0
+                }
+
+            Timber.e("current verson is $currentVersion")
+            Timber.e("old verson is $oldVersion")
+
+
+            if (currentVersion == oldVersion) {
                 return
             }
 
@@ -158,6 +172,7 @@ class SQLiteCopyOpenHelper(
                 copyConfig.callable.call()
             }
         }
+        val versionOutput=File(destinationFile.parent,"version.txt").outputStream()
 
         // An intermediate file is used so that we never end up with a half-copied database file
         // in the internal directory.
@@ -170,8 +185,13 @@ class SQLiteCopyOpenHelper(
 //        input.source().use { a ->
 //            intermediateFile.sink().buffer().use { b -> b.writeAll(a) }
 //        }
-
+        versionOutput.use {  out->
+            context.assets.open("version.txt").use {
+                out.write(it.readBytes())
+            }
+        }
         Security.decode(input, FileOutputStream(intermediateFile),key)
+
 
         val parent = destinationFile.parentFile
         if (parent != null && !parent.exists() && !parent.mkdirs()) {

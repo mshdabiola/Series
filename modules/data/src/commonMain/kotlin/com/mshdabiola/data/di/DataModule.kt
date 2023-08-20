@@ -1,6 +1,7 @@
 package com.mshdabiola.data.di
 
 import com.mshabiola.database.di.databaseModule
+import com.mshabiola.database.di.name
 import com.mshdabiola.data.repository.ExamRepository
 import com.mshdabiola.data.repository.InstructionRepository
 import com.mshdabiola.data.repository.QuestionRepository
@@ -31,5 +32,5 @@ val dataModule = module {
     singleOf(::QuestionRepository) bind IQuestionRepository::class
     singleOf(::InstructionRepository) bind IInstructionRepository::class
     singleOf(::TopicRepository) bind ITopicRepository::class
-    single{ExamRepository(iExamDao = get(), database = get(qualifier = qualifier("real")))} bind IExamRepository::class
+    single{ExamRepository(iExamDao = get(), database = get(qualifier = qualifier(name)))} bind IExamRepository::class
 }

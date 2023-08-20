@@ -12,10 +12,11 @@ import commshdabioladatabase.tables.QuestionEntity
 import org.koin.core.module.Module
 import org.koin.core.qualifier.qualifier
 import org.koin.dsl.module
+import timber.log.Timber
 
 actual val databaseModule: Module
     get() = module {
-        single(qualifier = qualifier("real")) {
+        single(qualifier = qualifier(name)) {
             val driver = AndroidSqliteDriver(
                 schema = SeriesDatabase.Schema,
                 context = get(),
@@ -36,6 +37,7 @@ actual val databaseModule: Module
                         oldVersion: Int,
                         newVersion: Int
                     ) {
+                        Timber.e("upgrade $oldVersion, to $newVersion")
 
                     }
 
@@ -44,6 +46,7 @@ actual val databaseModule: Module
                         oldVersion: Int,
                         newVersion: Int
                     ) {
+                        Timber.e("downgrade $oldVersion, to $newVersion")
 
                     }
                 }

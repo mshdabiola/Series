@@ -190,7 +190,8 @@ fun MainScreenPreview() {
                     subjectID = 7692L,
                     year = 6756L,
                     subject = "Taya",
-                    isObjOnly = false
+                    isObjOnly = false,
+                    examTime = 400
                 )
             ).toImmutableList()
         )
