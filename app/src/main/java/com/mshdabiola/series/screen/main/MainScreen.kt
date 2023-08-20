@@ -139,7 +139,7 @@ internal fun MainScreen(
                     progress = finishPercent,
                     enabled = mainState.isSubmit.not(),
                     time2 = mainState.totalTime - mainState.currentTime,
-                    part = stringArrayResource(id = com.mshdabiola.ui.R.array.exam_part)[mainState.examPart],
+                    part = stringArrayResource(id = com.mshdabiola.uiquestion.R.array.exam_part)[mainState.examPart],
                     onClick = {
                         onQuestion()
                     }

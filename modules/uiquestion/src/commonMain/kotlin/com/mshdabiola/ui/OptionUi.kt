@@ -17,11 +17,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.mshdabiola.model.ImageUtil.getGeneralDir
 import com.mshdabiola.model.data.Type
 import com.mshdabiola.ui.state.OptionUiState
 import kotlinx.collections.immutable.ImmutableList
-import kotlin.io.path.absolutePathString
 
 
 @OptIn(ExperimentalLayoutApi::class)
@@ -84,8 +82,8 @@ fun OptionUi(
 ) {
     val color = when {
         optionUiState.isAnswer && showAnswer -> CardDefaults.cardColors(
-            containerColor = MaterialTheme.correctContainer(),
-            contentColor = MaterialTheme.onCorrectContainer()
+            containerColor = correctContainer(),
+            contentColor = onCorrectContainer()
         )
 
         isChoose && showAnswer -> CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.errorContainer)

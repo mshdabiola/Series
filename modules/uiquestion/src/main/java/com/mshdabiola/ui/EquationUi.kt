@@ -138,14 +138,6 @@ fun BitmapImage(
     }
 }
 
-@Composable
-actual fun DragAndDropImage(
-    modifier: Modifier,
-    path: String,
-    onPathChange: (String) -> Unit
-) {
-}
-
 @Preview
 @Composable
 internal actual fun QuestionUiPreview() {

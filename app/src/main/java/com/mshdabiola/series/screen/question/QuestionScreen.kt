@@ -27,9 +27,7 @@ import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SuggestionChip
 import androidx.compose.material3.SuggestionChipDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -161,11 +159,11 @@ internal fun QuestionScreen(
                         ExtendedFloatingActionButton(
                             onClick = onFinish,
                             containerColor = if (finishPercent == 100)
-                                MaterialTheme.correct()
+                                correct()
                             else
                                 FloatingActionButtonDefaults.containerColor,
                             contentColor = if (finishPercent == 100)
-                                MaterialTheme.onCorrect()
+                                onCorrect()
                             else
                                 contentColorFor(backgroundColor = FloatingActionButtonDefaults.containerColor)
                         ) {
@@ -225,8 +223,8 @@ internal fun QuestionScreen(
                                 onClick = { changeIndex(index) },
                                 colors = if (section.isFinished)
                                     SuggestionChipDefaults.elevatedSuggestionChipColors(
-                                        containerColor = MaterialTheme.correct(),
-                                        labelColor = MaterialTheme.onCorrect()
+                                        containerColor = correct(),
+                                        labelColor = onCorrect()
                                     )
                                 else
                                     SuggestionChipDefaults.elevatedSuggestionChipColors()

@@ -9,6 +9,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.mshdabiola.ui.com.mshdabiola.ui.LargeDropdownMenu
 import com.mshdabiola.ui.com.mshdabiola.ui.LargeDropdownMenuItem
 import com.mshdabiola.ui.state.ExamUiState
+import com.mshdabiola.uiquestion.R
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 

@@ -11,7 +11,6 @@ import com.mshdabiola.model.ImageUtil.getGeneralDir
 import com.mshdabiola.model.data.Type
 import com.mshdabiola.ui.state.ItemUiState
 import kotlinx.collections.immutable.ImmutableList
-import kotlin.io.path.pathString
 
 
 @Composable
@@ -45,14 +44,6 @@ fun ItemUi(items: ImmutableList<ItemUiState>, examID:Long) {
 internal expect fun EquationUi(
     modifier: Modifier = Modifier,
     equation: ItemUiState
-)
-
-
-@Composable
-expect fun DragAndDropImage(
-    modifier: Modifier,
-    path: String,
-    onPathChange: (String) -> Unit = {}
 )
 
 @Composable

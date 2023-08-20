@@ -42,7 +42,6 @@ import com.mshdabiola.ui.ImageUi
 import com.mshdabiola.ui.MarkUpText
 import com.mshdabiola.ui.state.ItemUiState
 import kotlinx.collections.immutable.ImmutableList
-import kotlin.io.path.pathString
 
 
 @Composable

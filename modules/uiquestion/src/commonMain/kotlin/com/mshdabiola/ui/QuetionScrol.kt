@@ -30,7 +30,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import kotlinx.collections.immutable.ImmutableList
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun QuestionScroll(
     currentQuestion: Int,
