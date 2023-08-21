@@ -61,8 +61,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.mshdabiola.designsystem.theme.SeriesAppTheme
-import com.mshdabiola.ui.ExamUiDesktop
 import com.mshdabiola.ui.examui.ExamUi
+import com.mshdabiola.ui.state.ExamUiState
 import com.mshdabiola.ui.state.SubjectUiState
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
@@ -292,8 +292,8 @@ fun MainScreen(
 fun MainContent(
     modifier: Modifier = Modifier,
     subjects: ImmutableList<SubjectUiState> = emptyList<SubjectUiState>().toImmutableList(),
-    exams: ImmutableList<ExamUiDesktop> = emptyList<ExamUiDesktop>().toImmutableList(),
-    examUiState: ExamUiDesktop,
+    exams: ImmutableList<ExamUiState> = emptyList<ExamUiState>().toImmutableList(),
+    examUiState: ExamUiState,
     isSelectMode: Boolean = false,
     subjectUiState: SubjectUiState,
     examYearError: Boolean = false,

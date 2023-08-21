@@ -6,5 +6,6 @@ data class ExamUiState(
     val year: Long,
     val subject: String,
     val isObjOnly: Boolean,
+    val isSelected :Boolean=false,
     val examTime:Long
 )

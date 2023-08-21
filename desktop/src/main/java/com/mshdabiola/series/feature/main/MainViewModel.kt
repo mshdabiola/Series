@@ -6,12 +6,11 @@ import com.mshdabiola.data.repository.inter.IExamRepository
 import com.mshdabiola.data.repository.inter.ISettingRepository
 import com.mshdabiola.data.repository.inter.ISubjectRepository
 import com.mshdabiola.series.ViewModel
-import com.mshdabiola.ui.ExamUiDesktop
+import com.mshdabiola.ui.state.ExamUiState
 import com.mshdabiola.ui.state.SubjectUiState
 import com.mshdabiola.ui.toExam
 import com.mshdabiola.ui.toSubject
 import com.mshdabiola.ui.toUi
-import com.mshdabiola.ui.toUiDesktop
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -33,7 +32,7 @@ class MainViewModel(
     val currentSubjectId = _currentSubjectId.asStateFlow()
 
 
-    private val _examUiStates = MutableStateFlow(emptyList<ExamUiDesktop>().toImmutableList())
+    private val _examUiStates = MutableStateFlow(emptyList<ExamUiState>().toImmutableList())
     val examUiStates = _examUiStates.asStateFlow()
 
 
@@ -53,8 +52,8 @@ class MainViewModel(
     val subject: State<SubjectUiState> = _subject
 
     private val _exam =
-        mutableStateOf(ExamUiDesktop(subjectID = -1L, year = -1L, subject = "", isObjOnly = false, examTime = 400))
-    val exam: State<ExamUiDesktop> = _exam
+        mutableStateOf(ExamUiState(subjectID = -1L, year = -1L, subject = "", isObjOnly = false, examTime = 400))
+    val exam: State<ExamUiState> = _exam
 
 
     private val _dateError = mutableStateOf(false)
@@ -74,7 +73,7 @@ class MainViewModel(
                         .collectLatest { list ->
                             _examUiStates.update {
                                 list
-                                    .map { it.toUiDesktop() }
+                                    .map { it.toUi() }
                                     .toImmutableList()
                             }
                         }
@@ -84,7 +83,7 @@ class MainViewModel(
                         .collectLatest { list ->
                             _examUiStates.update {
                                 list
-                                    .map { it.toUiDesktop() }
+                                    .map { it.toUi() }
                                     .toImmutableList()
                             }
                         }
