@@ -19,7 +19,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import com.mshdabiola.ui.state.TopicUiState
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TopicUi(
     topicUiState: TopicUiState,
@@ -29,7 +28,7 @@ fun TopicUi(
     var showDrop by remember { mutableStateOf(false) }
     ListItem(
         headlineContent = {
-            Text(topicUiState.name)
+            Text("${topicUiState.id} - ${topicUiState.name}")
         },
         trailingContent = {
             Box {

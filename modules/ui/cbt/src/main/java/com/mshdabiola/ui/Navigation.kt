@@ -74,11 +74,7 @@ fun InstructionBottomSheet(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                Text(text = "Instructions")
 
-                if (instructionUiState.title != null) {
-                    Text(text = instructionUiState.title)
-                }
                 ItemUi(items = instructionUiState.content, examID = instructionUiState.examId)
 
             }

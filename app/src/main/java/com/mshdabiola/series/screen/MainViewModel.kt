@@ -369,7 +369,7 @@ class MainViewModel(
             _mainState.update {
                 it.copy(
                     isSubmit = true,
-                    currentTime = currentTIme,
+                    currentTime = totalTIme,
                     totalTime = totalTIme
                 )
 

@@ -18,6 +18,10 @@ insert:
 INSERT INTO subjectEntity(name)
 VALUES ?;
 
+insertOrReplace:
+INSERT OR REPLACE INTO subjectEntity(id,name)
+VALUES ?;
+
 deleteByID:
 DELETE FROM subjectEntity
 WHERE id = ?;

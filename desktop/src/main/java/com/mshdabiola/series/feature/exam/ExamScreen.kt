@@ -291,7 +291,7 @@ fun ExamContent(
                             maxLines = 1,
                             value = questionUiState.topicUiState?.name ?: "",
                             onValueChange = {},
-                            label = { Text("Topic") },
+                            label = { Text("Topic id") },
                             trailingIcon = {
                                 IconButton(onClick = { showTopiDropdown = true }) {
                                     Icon(Icons.Default.ArrowDropDown, "drop")

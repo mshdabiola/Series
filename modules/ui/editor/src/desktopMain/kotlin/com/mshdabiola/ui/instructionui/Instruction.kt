@@ -82,7 +82,7 @@ fun InstructionUi(
 
     ListItem(
         modifier = modifier,
-        overlineContent = { Text("Id is ${instructionUiState.id}") },
+        overlineContent = { Text("Id - ${instructionUiState.id}") },
         headlineContent = {
             if (instructionUiState.title != null)
                 Text(instructionUiState.title)

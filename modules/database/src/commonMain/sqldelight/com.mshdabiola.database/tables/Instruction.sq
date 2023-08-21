@@ -26,6 +26,12 @@ insert:
 INSERT INTO instructionEntity(examId,title,content)
 VALUES ?;
 
+
+insertOrReplace:
+INSERT OR REPLACE INTO instructionEntity(id,examId,title,content)
+VALUES ?;
+
+
 deleteByID:
 DELETE FROM instructionEntity
 WHERE id = ?;

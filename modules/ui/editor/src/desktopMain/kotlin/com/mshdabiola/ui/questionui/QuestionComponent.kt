@@ -1,10 +1,12 @@
 package com.mshdabiola.ui.questionui
 
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.onClick
@@ -122,10 +124,21 @@ fun QuestionUi(
     }
     OutlinedCard(modifier) {
         Column {
-            Text(
-                "${if (questionUiState.isTheory) "Theory" else "Objective"} Number ${questionUiState.nos}",
-                modifier = Modifier.padding(horizontal = 16.dp)
-            )
+
+            Row (modifier=Modifier.padding(horizontal = 16.dp).fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)){
+                Text(
+                    if (questionUiState.isTheory) "Theory" else "Objective",
+                )
+                Text("Number - ${questionUiState.nos}")
+                questionUiState.instructionUiState?.let {
+                    Text("Instruction id - ${it.id}")
+                }
+
+                questionUiState.topicUiState?.let {
+                    Text("Topic id - ${it.id}")
+                }
+            }
+
             ListItem(
                 headlineContent = {
                     ContentView(
