@@ -11,7 +11,7 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation(libs.kotlinx.datetime)
+                //implementation(libs.kotlinx.datetime)
                 implementation(project(":modules:retex"))
                 implementation(project(":modules:model"))
             }

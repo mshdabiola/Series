@@ -37,7 +37,7 @@ internal actual fun ContinueCardPreview() {
     ContinueCard(
         year = 2015,
         progress = 0.5f,
-        time2 = 23,
+        timeRemain = 23,
         enabled = false,
         part = "Objective and Theory"
     )

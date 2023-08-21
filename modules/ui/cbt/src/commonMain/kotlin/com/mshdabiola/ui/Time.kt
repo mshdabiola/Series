@@ -20,9 +20,6 @@ import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
-import kotlinx.datetime.Instant
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.toLocalDateTime
 
 @Composable
 fun TimeCounter(
@@ -32,10 +29,10 @@ fun TimeCounter(
     onTimeChanged: (Long) -> Unit = {}
 ) {
 
-    val time = remember(currentTime2) {
-        val instant = Instant.fromEpochSeconds(total - currentTime2)
-        val time = instant.toLocalDateTime(TimeZone.UTC).time
-        String.format("%02d : %02d", time.minute, time.second)
+    val time = remember(total,currentTime2) {
+        val remain = total - currentTime2
+
+        String.format("%02d : %02d", remain.toMinute(), remain.toSecond())
     }
     val fraction = remember(currentTime2) {
         (currentTime2.toFloat() / total) * 360f
@@ -79,5 +76,8 @@ fun TimeCounter(
     }
 }
 
+
+fun Long.toMinute() = this.div(60)
+fun Long.toSecond() = this.mod(60)
 @Composable
 internal expect fun TimeCounterPreview()

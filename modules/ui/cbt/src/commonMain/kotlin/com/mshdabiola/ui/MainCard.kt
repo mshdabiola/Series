@@ -36,25 +36,21 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.unit.dp
 import com.mshdabiola.ui.state.ExamUiState
 import kotlinx.collections.immutable.ImmutableList
-import kotlinx.datetime.Instant
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.toLocalDateTime
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun ContinueCard(
     onClick: () -> Unit = {},
     year: Long,
-    time2: Long,
+    timeRemain: Long,
     progress: Float,
     part: String,
     enabled: Boolean,
 ) {
     val color = LocalTextStyle.current.color.copy(alpha = 0.7f)
-    val timeString = remember(time2) {
-        val instant = Instant.fromEpochSeconds(time2)
-        val time = instant.toLocalDateTime(TimeZone.UTC).time
-        String.format("%02d : %02d", time.minute, time.second)
+    val timeString = remember(timeRemain) {
+
+        String.format("%02d : %02d", timeRemain.toMinute(), timeRemain.toSecond())
     }
     Card() {
         Column(
