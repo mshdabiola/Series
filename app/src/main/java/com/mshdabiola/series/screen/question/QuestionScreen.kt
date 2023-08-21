@@ -136,6 +136,7 @@ internal fun QuestionScreen(
         LaunchedEffect(key1 = mainStat.currentTime, block = {
             mainStat.currentExam?.let {
                 if (mainStat.currentTime == mainStat.totalTime) {
+                    onTimeChanged(mainStat.totalTime)
                     onFinish()
                 }
             }

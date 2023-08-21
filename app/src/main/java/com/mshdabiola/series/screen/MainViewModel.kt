@@ -157,9 +157,11 @@ class MainViewModel(
                 }
 
 
+
+            Timber.e("time ${exam.examTime}")
             val time = when (type) {
-                ExamType.RANDOM, ExamType.YEAR -> 20L
-                ExamType.FAST_FINGER -> type.secondPerQuestion.toLong()
+                ExamType.RANDOM, ExamType.YEAR -> exam.examTime *60L
+                ExamType.FAST_FINGER -> allQuestions.size * 30L
             }
 
 //            val objTime = (allQuestions.filter { it.isTheory.not() }.size) * time
@@ -176,7 +178,7 @@ class MainViewModel(
                     choose = choose.map { it.toImmutableList() }.toImmutableList(),
                     currentSectionIndex = 0,
                     sections = section.toImmutableList(),
-                    totalTime = 400L, currentTime = 0, examPart = typeIndex,
+                    totalTime = time, currentTime = 0, examPart = typeIndex,
                     isSubmit = false
                 )
             }

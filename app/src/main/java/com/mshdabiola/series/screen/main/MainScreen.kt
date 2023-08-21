@@ -192,8 +192,16 @@ fun MainScreenPreview() {
                     subject = "Taya",
                     isObjOnly = false,
                     examTime = 400
-                )
-            ).toImmutableList()
+                ),
+            ).toImmutableList(),
+            currentExam = ExamUiState(
+                id = 0L,
+                subjectID = 0L,
+                year = 1556L,
+                subject = "Math",
+                isObjOnly = false,
+                examTime = 0L
+            )
         )
     )
 }
