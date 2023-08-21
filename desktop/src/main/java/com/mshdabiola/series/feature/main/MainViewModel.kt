@@ -52,7 +52,7 @@ class MainViewModel(
     val subject: State<SubjectUiState> = _subject
 
     private val _exam =
-        mutableStateOf(ExamUiState(subjectID = -1L, year = -1L, subject = "", isObjOnly = false, examTime = 400))
+        mutableStateOf(ExamUiState(subjectID = -1L, year = -1L, subject = "", isObjOnly = true, examTime = 15))
     val exam: State<ExamUiState> = _exam
 
 
@@ -156,6 +156,14 @@ class MainViewModel(
             _exam.value = exam.value.copy(year = text.toLong())
         } catch (e: Exception) {
             _dateError.value = true
+        }
+
+    }
+    fun onExamDurationContentChange(text: String) {
+        try {
+
+            _exam.value = exam.value.copy(examTime = text.toLongOrNull()?:-1)
+        } catch (e: Exception) {
         }
 
     }

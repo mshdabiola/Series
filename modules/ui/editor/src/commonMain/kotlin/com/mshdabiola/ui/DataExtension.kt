@@ -101,4 +101,4 @@ fun ExamWithSub.toUi() = ExamUiState(
     examTime = examTime
 )
 
-fun ExamUiState.toExam() = Exam(id, subjectID, isObjOnly, year,examTime)
+fun ExamUiState.toExam() = Exam(id, subjectID, isObjOnly, year,if (examTime==(-1L)) 15 else examTime)

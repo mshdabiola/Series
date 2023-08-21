@@ -45,7 +45,7 @@ fun ExamUi(
         else
             ListItemDefaults.colors(),
         headlineContent = {
-            Text(examUiState.subject.uppercase())
+            Text(examUiState.subject)
         },
         supportingContent = {
             Row(
@@ -56,7 +56,7 @@ fun ExamUi(
 
                 Text(examUiState.year.toString())
                 Text("✦")
-                Text("${examUiState.examTime} second")
+                Text("${examUiState.examTime} Minutes")
                 Text("✦")
                 Text(if(examUiState.isObjOnly) "Objective" else "Objective and Theory")
             }

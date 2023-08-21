@@ -56,6 +56,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
@@ -277,7 +278,8 @@ fun MainScreen(
                     onExamClick = onExamClick,
                     toggleSelect = viewModel::toggleSelect,
                     onSubjectIdChange = viewModel::onSubjectIdChange,
-                    onExamNameChange = viewModel::onExamYearContentChange,
+                    onExamYearChange = viewModel::onExamYearContentChange,
+                    onExamDurationChange = viewModel::onExamDurationContentChange,
                     onSubjectNameChange = viewModel::onSubjectContentChange,
                     onDeleteSubject = viewModel::onDeleteExam,
                     onUpdateSubject = viewModel::onUpdateExam,
@@ -301,7 +303,8 @@ fun MainContent(
     toggleSelect: (Long) -> Unit = {},
     addExam: () -> Unit = {},
     onExamClick: (Long, Long) -> Unit = { _, _ -> },
-    onExamNameChange: (String) -> Unit = {},
+    onExamYearChange: (String) -> Unit = {},
+    onExamDurationChange: (String) -> Unit = {},
     onSubjectIdChange: (Long) -> Unit = {},
     onSubjectNameChange: (String) -> Unit = {},
     onUpdateSubject: (Long) -> Unit = {},
@@ -382,16 +385,34 @@ fun MainContent(
                         }
                     }
                 }
-                TextField(
+                Row (
                     modifier = Modifier.fillMaxWidth(),
-                    label = { Text("Year") },
-                    value = if (examUiState.year != -1L) examUiState.year.toString() else "",
-                    placeholder = { Text("2012") },
-                    isError = examYearError,
-                    onValueChange = { onExamNameChange(it) },
-                    maxLines = 1,
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
-                )
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ){
+                    TextField(
+                        modifier = Modifier.weight(0.5f),
+                        label = { Text("Year") },
+                        value = if (examUiState.year != -1L) examUiState.year.toString() else "",
+                        placeholder = { Text("2012") },
+                        isError = examYearError,
+                        onValueChange = { onExamYearChange(it) },
+                        maxLines = 1,
+
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
+                    )
+
+                    TextField(
+                        modifier = Modifier.weight(0.5f),
+                        label = { Text("Duration") },
+                        value = if (examUiState.examTime != -1L) examUiState.examTime.toString() else "",
+                        placeholder = { Text("15") },
+                        suffix = { Text("Min") },
+                        onValueChange = { onExamDurationChange(it) },
+                        maxLines = 1,
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
+                    )
+                }
+
                 Button(
                     modifier = Modifier.align(Alignment.End),
                     enabled = examUiState.subject.isNotBlank() && examUiState.year != -1L,
@@ -411,6 +432,7 @@ fun MainContent(
                     onValueChange = {
                         onSubjectNameChange(it)
                     },
+                    keyboardOptions = KeyboardOptions(capitalization = KeyboardCapitalization.Sentences,autoCorrect = true),
                     maxLines = 1,
                 )
                 Button(
