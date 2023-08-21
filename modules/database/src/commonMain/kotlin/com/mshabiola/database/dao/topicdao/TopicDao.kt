@@ -20,8 +20,14 @@ internal class TopicDao(
         withContext(coroutineDispatcher) {
             if (topic.id == -1L)
                 topicQueries.insert(topic.toEntity())
-            else
-                topicQueries.insertOrReplace(topic.toEntity())
+            else {
+                val entity = topic.toEntity()
+                topicQueries.update(
+                    name = entity.name,
+                    subjectId = entity.subjectId,
+                    id = entity.id
+                )
+            }
         }
     }
 

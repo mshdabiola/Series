@@ -17,11 +17,12 @@ internal class SubjectDao(
     private val coroutineDispatcher: CoroutineDispatcher
 ) : ISubjectDao {
     override suspend fun insert(subject: Subject) {
+        println("insert subject $subject")
         withContext(coroutineDispatcher) {
             if (subject.id == -1L)
                 subjectQueries.insert(subject.toEntity())
             else
-                subjectQueries.insertOrReplace(subject.toEntity())
+                subjectQueries.update(subject.name,subject.id)
         }
     }
 

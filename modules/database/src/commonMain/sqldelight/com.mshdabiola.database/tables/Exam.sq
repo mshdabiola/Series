@@ -32,9 +32,6 @@ insert:
 INSERT INTO examEntity(subjectId,year,isObjOnly,examTime)
 VALUES ?;
 
-insertOrReplace:
-INSERT OR REPLACE INTO examEntity(id,subjectId,year,isObjOnly,examTime)
-VALUES ?;
 
 deleteByID:
 DELETE FROM examEntity

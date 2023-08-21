@@ -22,10 +22,6 @@ insert:
 INSERT INTO topicEntity(subjectId,name)
 VALUES ?;
 
-insertOrReplace:
-INSERT OR REPLACE INTO topicEntity(id,subjectId,name)
-VALUES ?;
-
 deleteByID:
 DELETE FROM topicEntity
 WHERE id = ?;

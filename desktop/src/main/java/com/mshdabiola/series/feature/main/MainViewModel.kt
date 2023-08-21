@@ -134,7 +134,7 @@ class MainViewModel(
             iExamRepository.insertExam(
                 exam.value.toExam()
             )
-            _exam.value = exam.value.copy(id = -1, year = -1)
+            _exam.value = exam.value.copy(id = -1, year = -1, subject = "")
         }
     }
 

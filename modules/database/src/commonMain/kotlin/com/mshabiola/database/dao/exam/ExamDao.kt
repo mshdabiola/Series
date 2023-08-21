@@ -21,15 +21,28 @@ internal class ExamDao(
         withContext(coroutineDispatcher) {
             if (exam.id == -1L)
                 examQueries.insert(exam.toEntity())
-            else
-                examQueries.insertOrReplace(exam.toEntity())
+            else {
+                val entity = exam.toEntity()
+                examQueries.update(
+                    subjectId = entity.subjectId,
+                    year = entity.year,
+                    examTime = entity.examTime,
+                    id = entity.id
+                )
+
+            }
 
         }
     }
 
     override suspend fun update(exam: Exam) {
         withContext(coroutineDispatcher) {
-            examQueries.update(subjectId = exam.subjectID, year = exam.year, examTime = exam.examTime,id = exam.id)
+            examQueries.update(
+                subjectId = exam.subjectID,
+                year = exam.year,
+                examTime = exam.examTime,
+                id = exam.id
+            )
         }
     }
 

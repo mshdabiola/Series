@@ -20,8 +20,16 @@ internal class InstructionDao(
         withContext(coroutineDispatcher) {
             if (instruction.id == -1L)
                 instructionQueries.insert(instruction.toEntity())
-            else
-                instructionQueries.insertOrReplace(instruction.toEntity())
+            else {
+                val entity = instruction.toEntity()
+                instructionQueries.update(
+                    title = entity.title,
+                    content = entity.content,
+                    examId = entity.examId,
+                    id = entity.id
+                )
+            }
+
         }
     }
 
