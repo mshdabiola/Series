@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "com.mshdabiola.data"
+    namespace = "com.mshdabiola.data.cbt"
 }
 
 kotlin {
@@ -17,7 +17,7 @@ kotlin {
                 implementation(libs.koin.core)
                 implementation(project(":modules:model"))
                 implementation(project(":modules:database"))
-                implementation(project(":modules:setting"))
+                implementation(project(":modules:setting:editor"))
                 implementation(libs.kotlinx.coroutines.core)
             }
         }

@@ -73,9 +73,9 @@ dependencies {
 
     implementation(project(":modules:designsystem"))
     implementation(project(":modules:retex"))
-    implementation(project(":modules:dataquestion"))
-    implementation(project(":modules:navigation"))
-    implementation(project(":modules:uiquestion"))
+    implementation(project(":modules:data:cbt"))
+    implementation(project(":modules:navigation:cbt"))
+    implementation(project(":modules:ui:cbt"))
     implementation(libs.decompose.core)
     implementation(libs.decompose.compose.jetbrains)
 

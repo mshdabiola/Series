@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "com.mshdabiola.navigation"
+    namespace = "com.mshdabiola.navigation.editor"
 }
 
 kotlin {

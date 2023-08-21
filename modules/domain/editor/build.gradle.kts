@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.mshdabiola.domain"
+    namespace = "com.mshdabiola.domain.editor"
 }
 
 //kotlin {

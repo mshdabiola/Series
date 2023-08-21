@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "com.mshdabiola.navigationquestion"
+    namespace = "com.mshdabiola.navigation.cbt"
 }
 
 kotlin {

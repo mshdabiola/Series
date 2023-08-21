@@ -24,12 +24,12 @@ dependencies {
 
     implementation(compose.desktop.currentOs)
     implementation(project(":modules:designsystem"))
-    implementation(project(":modules:data"))
+    implementation(project(":modules:data:editor"))
     implementation(project(":modules:model"))
     implementation(project(":modules:retex"))
     //implementation(project(":modules:util"))
 
-    implementation(project(":modules:ui"))
+    implementation(project(":modules:ui:editor"))
     implementation(libs.kotlinx.coroutines.swing)
     testImplementation(kotlin("test"))
     testImplementation(project(":modules:testing"))

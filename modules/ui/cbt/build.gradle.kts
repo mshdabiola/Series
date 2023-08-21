@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "com.mshdabiola.ui"
+    namespace = "com.mshdabiola.ui.cbt"
 }
 kotlin {
     sourceSets {

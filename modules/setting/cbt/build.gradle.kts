@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "com.mshdabiola.settingquestion"
+    namespace = "com.mshdabiola.setting.cbt"
     //proguard here
 }
 

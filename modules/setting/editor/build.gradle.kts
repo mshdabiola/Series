@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "com.mshdabiola.setting"
+    namespace = "com.mshdabiola.setting.editor"
     //proguard here
 }
 

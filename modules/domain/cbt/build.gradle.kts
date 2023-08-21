@@ -4,5 +4,5 @@ plugins {
 }
 
 android {
-    namespace = "com.mshdabiola.domainquestion"
+    namespace = "com.mshdabiola.domain.cbt"
 }
