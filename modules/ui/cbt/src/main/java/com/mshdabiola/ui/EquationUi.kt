@@ -250,6 +250,7 @@ internal actual fun QuestionHeadUiPreview() {
         title = "Waec 1993 Q2",
         content = listOf(ItemUiState("What is you name")).toImmutableList(),
         isInstruction = true,
-        examID = 4
+        examID = 4,
+        instructionTitle = "Passage"
     )
 }

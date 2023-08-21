@@ -38,7 +38,8 @@ fun QuestionUi(
             isInstruction = questionUiState.instructionUiState != null,
             title = questionUiState.title,
             onInstruction = onInstruction,
-            examID = questionUiState.examId
+            examID = questionUiState.examId,
+            instructionTitle = questionUiState.instructionUiState?.title
         )
         OptionsUi(
             optionUiStates = questionUiState.options,
@@ -59,6 +60,7 @@ fun QuestionHeadUi(
     title: String,
     content: ImmutableList<ItemUiState>,
     isInstruction: Boolean,
+    instructionTitle:String?,
     examID:Long,
     onInstruction: () -> Unit = {}
 ) {
@@ -89,7 +91,7 @@ fun QuestionHeadUi(
                     modifier = Modifier.align(Alignment.End),
                     onClick = onInstruction
                 ) {
-                    Text("Read Instruction")
+                    Text(instructionTitle?:"Read Instruction")
                 }
             }
         }
