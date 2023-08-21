@@ -35,6 +35,10 @@ insert:
 INSERT INTO optionEntity(nos,questionId,examId,content,isAnswer)
 VALUES ?;
 
+insertOrReplace:
+INSERT OR REPLACE INTO optionEntity(id,nos,questionId,examId,content,isAnswer)
+VALUES ?;
+
 deleteByID:
 DELETE FROM optionEntity
 WHERE id = ?;

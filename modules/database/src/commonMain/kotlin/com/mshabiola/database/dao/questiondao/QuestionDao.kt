@@ -31,17 +31,17 @@ internal class QuestionDao(
             if (question.id == -1L)
                 questionQueries.insert(question.toEntity())
             else {
-                val entity = question.toEntity()
-                questionQueries.update(
-                    examId = entity.examId,
-                    isTheory = entity.isTheory,
-                    content = entity.content,
-                    answer = entity.answer,
-                    instructionId = entity.instructionId,
-                    topicId = entity.topicId,
-                    id = entity.id
-                )
-                //questionQueries.insertReplace()
+//                val entity = question.toEntity()
+//                questionQueries.update(
+//                    examId = entity.examId,
+//                    isTheory = entity.isTheory,
+//                    content = entity.content,
+//                    answer = entity.answer,
+//                    instructionId = entity.instructionId,
+//                    topicId = entity.topicId,
+//                    id = entity.id
+//                )
+                questionQueries.insertReplace(question.toEntity())
             }
 
         }

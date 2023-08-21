@@ -3,7 +3,7 @@ CREATE TABLE IF NOT EXISTS examEntity(
     subjectId INTEGER NOT NULL,
     year INTEGER NOT NULL,
     isObjOnly INTEGER DEFAULT 0,
-    examTime INTEGER NOT NULL DEFAULT 400,
+    examTime INTEGER NOT NULL DEFAULT 15,
    FOREIGN KEY (subjectId) REFERENCES subjectEntity(id)
    ON DELETE CASCADE
 );

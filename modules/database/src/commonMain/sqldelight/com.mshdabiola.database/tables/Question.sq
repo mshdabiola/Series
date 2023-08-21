@@ -34,6 +34,10 @@ insert:
 INSERT INTO questionEntity(nos,examId,content,isTheory,answer,instructionId,topicId)
 VALUES ?;
 
+insertReplace:
+INSERT OR REPLACE INTO questionEntity(id,nos,examId,content,isTheory,answer,instructionId,topicId)
+VALUES ?;
+
 deleteByID:
 DELETE FROM questionEntity
 WHERE id = ?;

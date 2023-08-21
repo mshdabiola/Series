@@ -21,14 +21,7 @@ internal class OptionDao(
             if (option.id == -1L)
                 optionQueries.insert(option.toEntity())
             else {
-                val entity=option.toEntity()
-                optionQueries.update(
-                    nos = entity.nos,
-                    questionId = entity.questionId,
-                    content = entity.content,
-                    isAnswer = entity.isAnswer,
-                    id = entity.id
-                )
+                optionQueries.insertOrReplace(option.toEntity())
             }
         }
     }
