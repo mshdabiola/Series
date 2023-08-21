@@ -1,8 +1,12 @@
 plugins {
     id("mshdabiola.mpp.library")
-    id("app.cash.sqldelight") version "2.0.0-alpha05"
+    alias(libs.plugins.secrets)
+    id("app.cash.sqldelight") version "2.0.0"
 }
-
+secrets {
+    propertiesFileName = "secrets.properties"
+    defaultPropertiesFileName = "secrets.defaults.properties"
+}
 sqldelight {
 
     databases {
@@ -18,6 +22,9 @@ sqldelight {
 
 android {
     namespace = "com.mshdabiola.database"
+    buildFeatures {
+        buildConfig = true
+    }
 }
 kotlin {
     sourceSets {
@@ -44,13 +51,14 @@ kotlin {
                 //implementation(libs.androidx.compose.ui)
                 implementation(libs.sqldelight.sqlite.driver)
                 implementation(libs.sqldelight.android.driver)
+                implementation ("androidx.sqlite:sqlite-framework:2.3.1")
             }
         }
 
 
         val desktopMain by getting {
             dependencies {
-                implementation(libs.sqldelight.sqlite.driver)
+                api(libs.sqldelight.sqlite.driver)
             }
         }
     }

@@ -2,24 +2,16 @@ package com.mshdabiola.series.feature.main
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
-import com.mshdabiola.data.repository.inter.IExInPortRepository
 import com.mshdabiola.data.repository.inter.IExamRepository
 import com.mshdabiola.data.repository.inter.ISettingRepository
 import com.mshdabiola.data.repository.inter.ISubjectRepository
-import com.mshdabiola.model.data.Exam
-import com.mshdabiola.model.data.Instruction
-import com.mshdabiola.model.data.QuestionFull
-import com.mshdabiola.model.data.Subject
-import com.mshdabiola.model.data.Topic
 import com.mshdabiola.series.ViewModel
 import com.mshdabiola.ui.state.ExamUiState
 import com.mshdabiola.ui.state.SubjectUiState
 import com.mshdabiola.ui.toExam
 import com.mshdabiola.ui.toSubject
 import com.mshdabiola.ui.toUi
-import com.mshdabiola.util.ExInPort
 import kotlinx.collections.immutable.toImmutableList
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
@@ -33,9 +25,6 @@ class MainViewModel(
     private val settingRepository: ISettingRepository,
     private val iSubjectRepository: ISubjectRepository,
     private val iExamRepository: IExamRepository,
-    //private val networkRepository: INetworkRepository,
-    private val iExInPortRepository: IExInPortRepository,
-    private val exInPort: ExInPort
 ) : ViewModel() {
 
 
@@ -63,12 +52,15 @@ class MainViewModel(
     val subject: State<SubjectUiState> = _subject
 
     private val _exam =
-        mutableStateOf(ExamUiState(subjectID = -1L, year = -1L, subject = "", isObjOnly = false))
+        mutableStateOf(ExamUiState(subjectID = -1L, year = -1L, subject = "", isObjOnly = true, examTime = 15))
     val exam: State<ExamUiState> = _exam
 
 
     private val _dateError = mutableStateOf(false)
     val dateError: State<Boolean> = _dateError
+
+    private val _isSelectMode = mutableStateOf(false)
+    val isSelectMode: State<Boolean> = _isSelectMode
 
 
     init {
@@ -142,7 +134,7 @@ class MainViewModel(
             iExamRepository.insertExam(
                 exam.value.toExam()
             )
-            _exam.value = exam.value.copy(id = -1, year = -1)
+            _exam.value = exam.value.copy(id = -1, year = -1, subject = "")
         }
     }
 
@@ -164,6 +156,14 @@ class MainViewModel(
             _exam.value = exam.value.copy(year = text.toLong())
         } catch (e: Exception) {
             _dateError.value = true
+        }
+
+    }
+    fun onExamDurationContentChange(text: String) {
+        try {
+
+            _exam.value = exam.value.copy(examTime = text.toLongOrNull()?:-1)
+        } catch (e: Exception) {
         }
 
     }
@@ -195,64 +195,78 @@ class MainViewModel(
         }
     }
 
-    fun onExport(path: String) {
+    fun onExport(path: String,name:String,key:String,version:Int) {
         viewModelScope.launch {
-            iExInPortRepository.export(
-                coroutineScope = this,
-                subjectId = currentSubjectId.value
-            ) { subjects: List<Subject>, exams: List<Exam>, questions: List<QuestionFull>, instructions: List<Instruction>, topics: List<Topic> ->
-
-                viewModelScope.launch {
-                    launch { exInPort.copyImage(path, subjects) }
-                    launch {
-                        exInPort.export(
-                            subjects,
-                            path,
-                            ExInPort.subject
-                        )
-                    }
-
-                }
-                viewModelScope.launch {
-                    exInPort.export(
-                        exams,
-                        path,
-                        ExInPort.exam
-                    )
-                }
-                viewModelScope.launch {
-                    exInPort.export(
-                        questions,
-                        path,
-                        ExInPort.question
-                    )
-                }
-
-                viewModelScope.launch {
-                    exInPort.export(
-                        instructions,
-                        path,
-                        ExInPort.instruction
-                    )
-                }
-                viewModelScope.launch {
-                    exInPort.export(
-                        topics,
-                        path,
-                        ExInPort.topic
-                    )
-                }
-
-//
-//                println(subjects)
-//                println(exams)
-//                println(questions)
-//                println(options)
-//                println(instructions)
-//                println(topics)
-
-            }
+            val ids=examUiStates
+                .value
+                .filter { it.isSelected }
+                .map { it.id }
+            iExamRepository.export(ids,path,name ,version, key)
+            deselectAll()
         }
 
     }
+
+    fun toggleSelectMode() {
+        _isSelectMode.value = !isSelectMode.value
+    }
+
+    fun toggleSelect(index: Long) {
+        val exams = examUiStates.value.toMutableList()
+        val examIndex = exams.indexOfFirst { it.id == index }
+        if (examIndex == -1)
+            return
+        val exam = exams[examIndex]
+        exams[examIndex] = exam.copy(isSelected = !exam.isSelected)
+        if (!isSelectMode.value && !exam.isSelected) {
+            _isSelectMode.value = true
+        }
+
+        _examUiStates.value = exams.toImmutableList()
+    }
+
+    fun deselectAll() {
+        val exams = examUiStates
+            .value
+            .map { it.copy(isSelected = false) }
+            .toImmutableList()
+
+        _examUiStates.value = exams
+        _isSelectMode.value = false
+    }
+
+    fun selectAll() {
+        val exams = examUiStates
+            .value
+            .map { it.copy(isSelected = true) }
+            .toImmutableList()
+
+        _examUiStates.value = exams
+    }
+
+    fun selectAllSubject() {
+        val exams = examUiStates
+            .value
+            .map {
+                if (it.subjectID == currentSubjectId.value)
+                    it.copy(isSelected = true)
+                else
+                    it.copy(isSelected = false)
+            }
+            .toImmutableList()
+
+        _examUiStates.value = exams
+    }
+
+    fun deleteSelected() {
+        val exams = examUiStates
+            .value
+            .filter { it.isSelected }
+            .toImmutableList()
+        exams.forEach {
+            onDeleteExam(it.id)
+        }
+        _isSelectMode.value = false
+    }
 }
+

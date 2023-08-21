@@ -5,7 +5,6 @@ import com.mshdabiola.data.di.dataModule
 import com.mshdabiola.series.feature.exam.ExamViewModel
 import com.mshdabiola.series.feature.main.MainViewModel
 import com.mshdabiola.series.feature.splash.SplashViewModel
-import com.mshdabiola.util.commonModule
 import org.koin.core.module.dsl.factoryOf
 import org.koin.dsl.module
 
@@ -21,7 +20,6 @@ val desktopModule = module {
             questionRepository = get(),
             instructionRepository = get(),
             topicRepository = get(),
-            converter = get(),
             settingRepository = get(),
             examRepository = get()
             //fileManager = get()
@@ -29,6 +27,6 @@ val desktopModule = module {
         )
     }
 
-    includes(dataModule, commonModule)
+    includes(dataModule)
     //singleOf(::MainScreenComponent)
 }

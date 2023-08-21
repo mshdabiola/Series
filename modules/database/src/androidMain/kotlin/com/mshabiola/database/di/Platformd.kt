@@ -1,5 +1,7 @@
 package com.mshabiola.database.di
 
+import androidx.sqlite.db.SupportSQLiteDatabase
+import androidx.sqlite.db.framework.FrameworkSQLiteOpenHelperFactory
 import app.cash.sqldelight.driver.android.AndroidSqliteDriver
 import com.mshabiola.database.model.listOfValueAdapter
 import com.mshabiola.database.util.Constant
@@ -10,20 +12,44 @@ import commshdabioladatabase.tables.QuestionEntity
 import org.koin.core.module.Module
 import org.koin.core.qualifier.qualifier
 import org.koin.dsl.module
+import timber.log.Timber
 
 actual val databaseModule: Module
     get() = module {
-        single(qualifier = qualifier("real")) {
+        single(qualifier = qualifier(name)) {
             val driver = AndroidSqliteDriver(
                 schema = SeriesDatabase.Schema,
                 context = get(),
+                factory = SQLiteCopyOpenHelper.Factory(
+                    context = get(),
+                    delegate = FrameworkSQLiteOpenHelperFactory(),
+                    copyConfig = CopyFromAssetPath(Constant.assetData)
+                ),
+
                 name = Constant.databaseName,
-//                callback = object : AndroidSqliteDriver.Callback(SeriesDatabase.Schema) {
+                callback = object : AndroidSqliteDriver.Callback(SeriesDatabase.Schema) {
 //                    override fun onOpen(db: SupportSQLiteDatabase) {
 //                        super.onOpen(db)
 //                        db.setForeignKeyConstraintsEnabled(true)
 //                    }
-//                }
+                    override fun onUpgrade(
+                        db: SupportSQLiteDatabase,
+                        oldVersion: Int,
+                        newVersion: Int
+                    ) {
+                        Timber.e("upgrade $oldVersion, to $newVersion")
+
+                    }
+
+                    override fun onDowngrade(
+                        db: SupportSQLiteDatabase,
+                        oldVersion: Int,
+                        newVersion: Int
+                    ) {
+                        Timber.e("downgrade $oldVersion, to $newVersion")
+
+                    }
+                }
             )
 
 

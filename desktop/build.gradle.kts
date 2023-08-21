@@ -24,12 +24,12 @@ dependencies {
 
     implementation(compose.desktop.currentOs)
     implementation(project(":modules:designsystem"))
-    implementation(project(":modules:data"))
+    implementation(project(":modules:data:editor"))
     implementation(project(":modules:model"))
     implementation(project(":modules:retex"))
-    implementation(project(":modules:util"))
+    //implementation(project(":modules:util"))
 
-    implementation(project(":modules:ui"))
+    implementation(project(":modules:ui:editor"))
     implementation(libs.kotlinx.coroutines.swing)
     testImplementation(kotlin("test"))
     testImplementation(project(":modules:testing"))
@@ -59,12 +59,12 @@ compose.desktop {
         val iconsRoot = project.file("src/main/resources/drawables/launcher")
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
-            packageVersion = "1.0.0"
+            packageVersion = "1.0.1"
             packageName = "Series"
             description = "For setting question"
             copyright = "© 2022 Mshdabiola. All rights reserved."
             vendor = "Mshdabiola App"
-            version = "1.0.0"
+            version = "1.0.1"
             licenseFile.set(rootProject.file("LICENSE"))
 
             modules("java.net.http", "java.sql")

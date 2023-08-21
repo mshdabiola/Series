@@ -69,9 +69,10 @@ internal fun MainScreen(
     }
 
 
-    val finishPercent = remember(mainState.chooseObj, mainState.chooseThe) {
-        var choose = mainState.chooseObj.toMutableList()
-        choose.addAll(mainState.chooseThe)
+    val finishPercent = remember(mainState.choose) {
+        var choose = mainState
+        .choose
+        .flatten()
         choose.count {
             it > -1
         } / choose.size.toFloat()
@@ -136,9 +137,9 @@ internal fun MainScreen(
                 ContinueCard(
                     year = it.year,
                     progress = finishPercent,
-                    enabled = it.isSubmit.not(),
-                    time2 = it.totalTime - it.currentTime,
-                    part = stringArrayResource(id = com.mshdabiola.ui.R.array.exam_part)[it.examPart],
+                    enabled = mainState.isSubmit.not(),
+                    timeRemain = mainState.totalTime - mainState.currentTime,
+                    part = stringArrayResource(id = com.mshdabiola.ui.cbt.R.array.exam_part)[mainState.examPart],
                     onClick = {
                         onQuestion()
                     }
@@ -148,7 +149,7 @@ internal fun MainScreen(
 
             StartCard(
                 exams = mainState.listOfAllExams,
-                isSubmit = mainState.currentExam?.isSubmit ?: true,
+                isSubmit = mainState.isSubmit,
                 onClick = { yearIndex, typeIndex ->
                     onStartExam(ExamType.YEAR, yearIndex, typeIndex)
                     onQuestion()
@@ -159,7 +160,7 @@ internal fun MainScreen(
                     painter = painterResource(id = R.drawable.layer__1),
                     onClick = {
 
-                        onStartExam(ExamType.RANDOM, -1, 2)
+                        onStartExam(ExamType.RANDOM, -1, 1)
                         onQuestion()
                     }
                 )
@@ -167,7 +168,7 @@ internal fun MainScreen(
                     title = "Fast finger",
                     painter = painterResource(id = R.drawable.layer_1),
                     onClick = {
-                        onStartExam(ExamType.FAST_FINGER, -1, 2)
+                        onStartExam(ExamType.FAST_FINGER, -1, 1)
                         onQuestion()
                     }
                 )
@@ -189,9 +190,18 @@ fun MainScreenPreview() {
                     subjectID = 7692L,
                     year = 6756L,
                     subject = "Taya",
-                    isObjOnly = false
-                )
-            ).toImmutableList()
+                    isObjOnly = false,
+                    examTime = 400
+                ),
+            ).toImmutableList(),
+            currentExam = ExamUiState(
+                id = 0L,
+                subjectID = 0L,
+                year = 1556L,
+                subject = "Math",
+                isObjOnly = false,
+                examTime = 0L
+            )
         )
     )
 }

@@ -59,3 +59,8 @@ ORDER BY RANDOM() LIMIT ?;
 getMaxId:
 SELECT max(id)
 FROM questionEntity;
+
+getByIds:
+SELECT *
+FROM questionEntity
+WHERE examId IN ?;

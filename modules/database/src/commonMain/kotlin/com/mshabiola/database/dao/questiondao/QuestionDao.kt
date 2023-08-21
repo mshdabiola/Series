@@ -30,8 +30,20 @@ internal class QuestionDao(
         withContext(coroutineDispatcher) {
             if (question.id == -1L)
                 questionQueries.insert(question.toEntity())
-            else
+            else {
+//                val entity = question.toEntity()
+//                questionQueries.update(
+//                    examId = entity.examId,
+//                    isTheory = entity.isTheory,
+//                    content = entity.content,
+//                    answer = entity.answer,
+//                    instructionId = entity.instructionId,
+//                    topicId = entity.topicId,
+//                    id = entity.id
+//                )
                 questionQueries.insertReplace(question.toEntity())
+            }
+
         }
     }
 

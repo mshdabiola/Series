@@ -37,3 +37,8 @@ WHERE id = ?;
 
 deleteAll:
 DELETE FROM topicEntity;
+
+getByIds:
+SELECT *
+FROM topicEntity
+WHERE id IN ?;

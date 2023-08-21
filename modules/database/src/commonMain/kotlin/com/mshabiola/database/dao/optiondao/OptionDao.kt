@@ -20,8 +20,9 @@ internal class OptionDao(
         withContext(coroutineDispatcher) {
             if (option.id == -1L)
                 optionQueries.insert(option.toEntity())
-            else
+            else {
                 optionQueries.insertOrReplace(option.toEntity())
+            }
         }
     }
 

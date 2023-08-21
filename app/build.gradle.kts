@@ -73,12 +73,13 @@ dependencies {
 
     implementation(project(":modules:designsystem"))
     implementation(project(":modules:retex"))
-
-    implementation(project(":modules:navigation"))
+    implementation(project(":modules:data:cbt"))
+    implementation(project(":modules:navigation:cbt"))
+    implementation(project(":modules:ui:cbt"))
     implementation(libs.decompose.core)
     implementation(libs.decompose.compose.jetbrains)
 
-    implementation(libs.androidx.work.ktx)
+   // implementation(libs.androidx.work.ktx)
 
 
 
