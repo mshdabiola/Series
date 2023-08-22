@@ -18,9 +18,12 @@ package com.mshdabiola.svgtovector;
 import com.android.annotations.NonNull;
 import com.android.annotations.Nullable;
 import com.google.common.collect.ImmutableMap;
+
 import java.util.Locale;
 
-/** Methods for converting SVG color values to vector drawable format. */
+/**
+ * Methods for converting SVG color values to vector drawable format.
+ */
 public class SvgColor {
     /**
      * Color table from <a href="https://www.w3.org/TR/SVG11/types.html#ColorKeywords">Recognized
@@ -178,8 +181,11 @@ public class SvgColor {
                     .put("yellowgreen", "#9acd32")
                     .build();
 
-    /** Do not instantiate. All methods are static. */
-    private SvgColor() {}
+    /**
+     * Do not instantiate. All methods are static.
+     */
+    private SvgColor() {
+    }
 
     /**
      * Converts an SVG color value to "#RRGGBB" or "#AARRGGBB" format used by vector drawables.
@@ -191,7 +197,7 @@ public class SvgColor {
      * @param svgColorValue the SVG color value to convert
      * @return the converted value, or null if the given value cannot be interpreted as color
      * @throws IllegalArgumentException if the supplied SVG color value has invalid or unsupported
-     *     format
+     *                                  format
      */
     @Nullable
     protected static String colorSvg2Vd(@NonNull String svgColorValue) {

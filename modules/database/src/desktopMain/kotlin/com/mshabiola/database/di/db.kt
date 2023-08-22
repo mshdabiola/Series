@@ -19,8 +19,8 @@ private const val versionPragma = "user_version"
 
 fun migrateIfNeeded(driver: JdbcSqliteDriver) {
     val oldVersion =
-        driver .executeQuery(null, "PRAGMA $versionPragma", parameters = 0, mapper = { cursor ->
-            val res=  if (cursor.next().value) {
+        driver.executeQuery(null, "PRAGMA $versionPragma", parameters = 0, mapper = { cursor ->
+            val res = if (cursor.next().value) {
                 cursor.getLong(0)
             } else {
                 null

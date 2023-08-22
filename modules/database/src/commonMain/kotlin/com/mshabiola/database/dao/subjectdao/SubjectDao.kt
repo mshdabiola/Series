@@ -22,7 +22,7 @@ internal class SubjectDao(
             if (subject.id == -1L)
                 subjectQueries.insert(subject.toEntity())
             else
-                subjectQueries.update(subject.name,subject.id)
+                subjectQueries.update(subject.name, subject.id)
         }
     }
 

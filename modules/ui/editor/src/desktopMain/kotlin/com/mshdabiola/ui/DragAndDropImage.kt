@@ -4,7 +4,6 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Card
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -103,12 +102,12 @@ actual fun DragAndDropImage(
                         ) else BorderStroke(width = 2.dp, color = Color.Black)
                     ) {
                         Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                          //  if (File(path).exists()) {
-                                ImageUi(
-                                    modifier.fillMaxSize(),
-                                    path = path,
-                                    contentDescription = ""
-                                )
+                            //  if (File(path).exists()) {
+                            ImageUi(
+                                modifier.fillMaxSize(),
+                                path = path,
+                                contentDescription = ""
+                            )
 //                            } else {
 //                                Text(text = "drag image here")
 //                            }

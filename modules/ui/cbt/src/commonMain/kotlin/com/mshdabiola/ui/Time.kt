@@ -29,7 +29,7 @@ fun TimeCounter(
     onTimeChanged: (Long) -> Unit = {}
 ) {
 
-    val time = remember(total,currentTime2) {
+    val time = remember(total, currentTime2) {
         val remain = total - currentTime2
 
         String.format("%02d : %02d", remain.toMinute(), remain.toSecond())
@@ -79,5 +79,6 @@ fun TimeCounter(
 
 fun Long.toMinute() = this.div(60)
 fun Long.toSecond() = this.mod(60)
+
 @Composable
 internal expect fun TimeCounterPreview()

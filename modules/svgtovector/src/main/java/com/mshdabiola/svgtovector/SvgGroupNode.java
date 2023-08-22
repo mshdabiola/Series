@@ -62,7 +62,7 @@ class SvgGroupNode extends SvgNode {
      * Propagates any attributes of the 'use' group node to its children.
      *
      * @return true if the reference has been resolved, or false if it cannot be resolved at this
-     *     time due to a dependency on an unresolved node
+     * time due to a dependency on an unresolved node
      */
     boolean resolveHref(@NonNull SvgTree svgTree) {
         String id = getHrefId();

@@ -42,7 +42,7 @@ import kotlinx.coroutines.launch
 )
 @Composable
 fun TemplateUi() {
-    val state = rememberPagerState(){4}
+    val state = rememberPagerState() { 4 }
 
     val coroutineScope = rememberCoroutineScope()
     val listOfMap = listOf(

@@ -1,6 +1,5 @@
 package com.mshdabiola.data.repository.inter
 
-import com.mshdabiola.model.data.Exam
 import com.mshdabiola.model.data.ExamWithSub
 import kotlinx.coroutines.flow.Flow
 

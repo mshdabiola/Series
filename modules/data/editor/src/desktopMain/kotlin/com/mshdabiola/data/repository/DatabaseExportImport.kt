@@ -3,7 +3,6 @@ package com.mshdabiola.data.repository
 import app.cash.sqldelight.driver.jdbc.sqlite.JdbcSqliteDriver
 import com.mshabiola.database.Security
 import com.mshabiola.database.model.listOfValueAdapter
-import com.mshabiola.database.util.Constant
 import com.mshdabiola.database.SeriesDatabase
 import com.mshdabiola.model.generalPath
 import commshdabioladatabase.tables.InstructionEntity
@@ -13,30 +12,23 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
-import java.nio.file.Path
 import java.util.Properties
-import kotlin.io.path.ExperimentalPathApi
 import kotlin.io.path.Path
-import kotlin.io.path.absolutePathString
-import kotlin.io.path.copyToRecursively
-import kotlin.io.path.createParentDirectories
-import kotlin.io.path.deleteIfExists
 import kotlin.io.path.inputStream
 import kotlin.io.path.outputStream
 import kotlin.io.path.pathString
-import kotlin.io.path.readBytes
 
 actual class DatabaseExportImport actual constructor(val database: SeriesDatabase) {
     actual suspend fun export(
         examsId: List<Long>,
         path: String,
-        name:String,
+        name: String,
         version: Int,
         key: String
     ) {
         withContext(Dispatchers.IO) {
-            val dir=File(path)
-            if (dir.exists().not()){
+            val dir = File(path)
+            if (dir.exists().not()) {
                 dir.mkdirs()
             }
             launch {
@@ -114,12 +106,12 @@ actual class DatabaseExportImport actual constructor(val database: SeriesDatabas
 
             }
             launch {
-                val imagePath=File(path, "image")
+                val imagePath = File(path, "image")
                 imagePath.deleteOnExit()
                 copyImage(imagePath, examsId)
             }
             launch {
-                val versionFile=File(dir,"version.txt")
+                val versionFile = File(dir, "version.txt")
                 versionFile.deleteOnExit()
                 versionFile.writeText("$version")
             }
@@ -204,7 +196,7 @@ actual class DatabaseExportImport actual constructor(val database: SeriesDatabas
         withContext(Dispatchers.IO) {
             try {
                 examsId.forEach {
-                    val from = File(generalPath,"$it")
+                    val from = File(generalPath, "$it")
                     val to = File(dir.path, "$it")
                     //to.createParentDirectories()
 

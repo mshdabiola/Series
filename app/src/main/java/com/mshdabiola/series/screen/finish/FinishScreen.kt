@@ -26,7 +26,6 @@ import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -83,10 +82,10 @@ internal fun FinishScreen(
     mainState: MainState,
     back: () -> Unit = {},
     toQuestion: () -> Unit = {},
-    changeIndex:(Int)->Unit={},
+    changeIndex: (Int) -> Unit = {},
 ) {
     val lazyState = rememberLazyListState()
-    val currentIndex =mainState.currentSectionIndex
+    val currentIndex = mainState.currentSectionIndex
     val coroutineScope = rememberCoroutineScope()
     var showAnswer by remember {
         mutableStateOf(false)
@@ -169,22 +168,26 @@ internal fun FinishScreen(
 //                        modifier = Modifier.fillMaxWidth()
 //                    )
                 }
-                if (mainState.questions.size>1) {
+                if (mainState.questions.size > 1) {
                     item {
                         TabRow(selectedTabIndex = currentIndex) {
                             mainState.sections.forEachIndexed { index, section ->
-                                Tab(selected = currentIndex == index, onClick = {
-                                   changeIndex(index)
-                                    coroutineScope.launch {
-                                        lazyState.scrollToItem(3)
-                                    }
-                                }, text = { Text(text = stringArrayResource(id = R.array.sections)[section.stringRes]) })
+                                Tab(
+                                    selected = currentIndex == index,
+                                    onClick = {
+                                        changeIndex(index)
+                                        coroutineScope.launch {
+                                            lazyState.scrollToItem(3)
+                                        }
+                                    },
+                                    text = { Text(text = stringArrayResource(id = R.array.sections)[section.stringRes]) })
                             }
                         }
                     }
                 }
                 itemsIndexed(
-                    items = mainState.questions.getOrElse(mainState.currentSectionIndex
+                    items = mainState.questions.getOrElse(
+                        mainState.currentSectionIndex
                     ) { emptyList<QuestionUiState>().toImmutableList() },
                     key = { _, item -> item.id }) { index, item ->
                     QuestionUi(
@@ -193,7 +196,9 @@ internal fun FinishScreen(
                         onInstruction = {
                             instructionUiState = item.instructionUiState
                         },
-                        selectedOption = mainState.choose[mainState.currentSectionIndex].getOrNull(index) ?: -1,
+                        selectedOption = mainState.choose[mainState.currentSectionIndex].getOrNull(
+                            index
+                        ) ?: -1,
                         onOptionClick = {
                         },
                         showAnswer = true

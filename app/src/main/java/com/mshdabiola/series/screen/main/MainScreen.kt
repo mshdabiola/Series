@@ -71,8 +71,8 @@ internal fun MainScreen(
 
     val finishPercent = remember(mainState.choose) {
         var choose = mainState
-        .choose
-        .flatten()
+            .choose
+            .flatten()
         choose.count {
             it > -1
         } / choose.size.toFloat()

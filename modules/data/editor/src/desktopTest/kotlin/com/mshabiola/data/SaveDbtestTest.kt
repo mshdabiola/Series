@@ -170,7 +170,8 @@ class DatabaseUtilTest : KoinTest {
 
     @Test
     fun readIt() = runTest {
-        val path = Path("/Users/user/AndroidStudioProjects/Series/subject/${Constant.assetData}test")
+        val path =
+            Path("/Users/user/AndroidStudioProjects/Series/subject/${Constant.assetData}test")
         val output =
             Path("/Users/user/AndroidStudioProjects/Series/subject/${Constant.databaseName}")
         Security.decode(path.inputStream(), output.outputStream(), key = Constant.defaultKey)

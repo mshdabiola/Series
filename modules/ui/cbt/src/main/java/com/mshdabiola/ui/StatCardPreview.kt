@@ -6,10 +6,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.tooling.preview.Preview
+import com.mshdabiola.ui.cbt.R
 import com.mshdabiola.ui.com.mshdabiola.ui.LargeDropdownMenu
 import com.mshdabiola.ui.com.mshdabiola.ui.LargeDropdownMenuItem
 import com.mshdabiola.ui.state.ExamUiState
-import com.mshdabiola.ui.cbt.R
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 

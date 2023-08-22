@@ -1,6 +1,5 @@
 package com.mshdabiola.ui
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -66,11 +65,12 @@ fun QuestionScroll(
             horizontalArrangement = Arrangement.spacedBy(4.dp, Alignment.CenterHorizontally)
         ) {
 
-                IconButton(
-                    enabled = showPrev,
-                    onClick = onPrev) {
-                    Icon(Icons.Default.KeyboardArrowLeft, "prev")
-                }
+            IconButton(
+                enabled = showPrev,
+                onClick = onPrev
+            ) {
+                Icon(Icons.Default.KeyboardArrowLeft, "prev")
+            }
 
             LazyRow(
                 state = state,
@@ -86,11 +86,12 @@ fun QuestionScroll(
                     ) { onChooseClick(it) }
                 }
             }
-                IconButton(
-                     enabled = showNext,
-                    onClick = onNext) {
-                    Icon(Icons.Default.KeyboardArrowRight, "next")
-                }
+            IconButton(
+                enabled = showNext,
+                onClick = onNext
+            ) {
+                Icon(Icons.Default.KeyboardArrowRight, "next")
+            }
 
         }
 
@@ -119,7 +120,7 @@ fun QuestionNumberButton(
         MaterialTheme.colorScheme.primaryContainer
     else
         MaterialTheme.colorScheme.surface
-    val border=isCurrent||!isChoose
+    val border = isCurrent || !isChoose
 
 
 

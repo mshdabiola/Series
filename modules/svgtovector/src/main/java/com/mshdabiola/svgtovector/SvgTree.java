@@ -56,103 +56,70 @@ import javax.xml.parsers.ParserConfigurationException;
  * Represents the SVG file in an internal data structure as a tree.
  */
 class SvgTree {
-    private static final Logger logger = Logger.getLogger(SvgTree.class.getSimpleName());
-
-    private static final String HEAD =
-            "<vector xmlns:android=\"http://schemas.android.com/apk/res/android\"";
-    private static final String AAPT_BOUND = "xmlns:aapt=\"http://schemas.android.com/aapt\"";
-
     public static final String SVG_WIDTH = "width";
     public static final String SVG_HEIGHT = "height";
     public static final String SVG_VIEW_BOX = "viewBox";
-
-    private float w = -1;
-    private float h = -1;
+    private static final Logger logger = Logger.getLogger(SvgTree.class.getSimpleName());
+    private static final String HEAD =
+            "<vector xmlns:android=\"http://schemas.android.com/apk/res/android\"";
+    private static final String AAPT_BOUND = "xmlns:aapt=\"http://schemas.android.com/aapt\"";
     private final AffineTransform mRootTransform = new AffineTransform();
-    private float[] viewBox;
-
-    private SvgGroupNode mRoot;
-    private String mFileName;
-
     private final List<SvgTree.LogMessage> mLogMessages = new ArrayList<>();
-
-    private boolean mHasLeafNode;
-
-    private boolean mHasGradient;
-
-    /** Map of SvgNode's id to the SvgNode. */
+    /**
+     * Map of SvgNode's id to the SvgNode.
+     */
     private final Map<String, SvgNode> mIdMap = new HashMap<>();
-
-    /** IDs of ignored SVG nodes. */
+    /**
+     * IDs of ignored SVG nodes.
+     */
     private final Set<String> mIgnoredIds = new HashSet<>();
-
-    /** Set of SvgGroupNodes that contain "use" elements. */
+    /**
+     * Set of SvgGroupNodes that contain "use" elements.
+     */
     private final Set<SvgGroupNode> mPendingUseGroupSet = new HashSet<>();
-
-    /** Set of SvgGradientNodes that contain "href"" elements. */
+    /**
+     * Set of SvgGradientNodes that contain "href"" elements.
+     */
     private final Set<SvgGradientNode> mPendingGradientRefSet = new HashSet<>();
-
     /**
      * Key is SvgNode that references a clipPath. Value is SvgGroupNode that is the parent of that
      * SvgNode.
      */
     private final Map<SvgNode, Pair<SvgGroupNode, String>> mClipPathAffectedNodes =
             new LinkedHashMap<>();
-
     /**
      * Key is String that is the id of a style class. Value is set of SvgNodes referencing that
      * class.
      */
     private final Map<String, Set<SvgNode>> mStyleAffectedNodes = new HashMap<>();
-
     /**
      * Key is String that is the id of a style class. Value is a String that contains attribute
      * information of that style class.
      */
     private final Map<String, String> mStyleClassAttributeMap = new HashMap<>();
+    private float w = -1;
+    private float h = -1;
+    private float[] viewBox;
+    private SvgGroupNode mRoot;
+    private String mFileName;
+    private boolean mHasLeafNode;
+    private boolean mHasGradient;
+    @Nullable
+    private NumberFormat mCoordinateFormat;
 
-    @Nullable private NumberFormat mCoordinateFormat;
-
-    enum SvgLogLevel {
-        ERROR,
-        WARNING
+    /**
+     * Returns the 1-based start line number of the given node.
+     */
+    public static int getStartLine(@NonNull Node node) {
+        return getPosition(node).getStartLine() + 1;
     }
 
-    private static class LogMessage implements Comparable<SvgTree.LogMessage> {
-        final SvgTree.SvgLogLevel level;
-        final int line;
-        final String message;
-
-        /**
-         * Initializes a log message.
-         *
-         * @param level the severity level
-         * @param line the line number of the SVG file the message applies to,
-         *     or zero if the message applies to the whole file
-         * @param message the text of the message
-         */
-        LogMessage(@NonNull SvgTree.SvgLogLevel level, int line, @NonNull String message) {
-            this.level = level;
-            this.line = line;
-            this.message = message;
-        }
-
-        @NonNull
-        String getFormattedMessage() {
-            return level.name() + (line == 0 ? "" : " @ line " + line) + ": " + message;
-        }
-
-        @Override
-        public int compareTo(@NonNull SvgTree.LogMessage other) {
-            int cmp = level.compareTo(other.level);
-            if (cmp != 0) {
-                return cmp;
-            }
-            cmp = Integer.compare(line, other.line);
-            if (cmp != 0) {
-                return cmp;
-            }
-            return message.compareTo(other.message);
+    private static double parseCoordinateOrLength(@NonNull String value, double percentageBase) {
+        if (value.endsWith("%")) {
+            return Double.parseDouble(value.substring(0, value.length() - 1)) / 100
+                    * percentageBase;
+        } else {
+            return Double.parseDouble(value);
         }
     }
 
@@ -168,24 +135,20 @@ class SvgTree {
         return 1;
     }
 
-    public void setHasLeafNode(boolean hasLeafNode) {
-        mHasLeafNode = hasLeafNode;
-    }
-
-    public void setHasGradient(boolean hasGradient) {
-        mHasGradient = hasGradient;
-    }
-
     public float[] getViewBox() {
         return viewBox;
     }
 
-    /** From the root, top down, pass the transformation (TODO: attributes) down the children. */
+    /**
+     * From the root, top down, pass the transformation (TODO: attributes) down the children.
+     */
     public void flatten() {
         mRoot.flatten(new AffineTransform());
     }
 
-    /** Validates all nodes and logs any encountered issues. */
+    /**
+     * Validates all nodes and logs any encountered issues.
+     */
     public void validate() {
         mRoot.validate();
         if (mLogMessages.isEmpty() && !getHasLeafNode()) {
@@ -223,13 +186,13 @@ class SvgTree {
         mRoot.dumpNode("");
     }
 
-    public void setRoot(@NonNull SvgGroupNode root) {
-        mRoot = root;
-    }
-
     @Nullable
     public SvgGroupNode getRoot() {
         return mRoot;
+    }
+
+    public void setRoot(@NonNull SvgGroupNode root) {
+        mRoot = root;
     }
 
     public void logError(@NonNull String s, @Nullable Node node) {
@@ -266,18 +229,23 @@ class SvgTree {
         return result.toString();
     }
 
-    /** Returns true when there is at least one valid child. */
+    /**
+     * Returns true when there is at least one valid child.
+     */
     public boolean getHasLeafNode() {
         return mHasLeafNode;
+    }
+
+    public void setHasLeafNode(boolean hasLeafNode) {
+        mHasLeafNode = hasLeafNode;
     }
 
     public boolean getHasGradient() {
         return mHasGradient;
     }
 
-    /** Returns the 1-based start line number of the given node. */
-    public static int getStartLine(@NonNull Node node) {
-        return getPosition(node).getStartLine() + 1;
+    public void setHasGradient(boolean hasGradient) {
+        mHasGradient = hasGradient;
     }
 
     public float getViewportWidth() {
@@ -286,11 +254,6 @@ class SvgTree {
 
     public float getViewportHeight() {
         return viewBox == null ? -1 : viewBox[3];
-    }
-
-    private enum SizeType {
-        PIXEL,
-        PERCENTAGE
     }
 
     public void parseDimension(@NonNull Node nNode) {
@@ -353,7 +316,7 @@ class SvgTree {
      * @param value the value to parse
      * @return the parsed value
      * @throws IllegalArgumentException if the value is not a valid floating point number or
-     *     percentage
+     *                                  percentage
      */
     public double parseXValue(@NonNull String value) {
         return parseCoordinateOrLength(value, getViewportWidth());
@@ -366,19 +329,10 @@ class SvgTree {
      * @param value the value to parse
      * @return the parsed value
      * @throws IllegalArgumentException if the value is not a valid floating point number or
-     *     percentage
+     *                                  percentage
      */
     public double parseYValue(@NonNull String value) {
         return parseCoordinateOrLength(value, getViewportHeight());
-    }
-
-    private static double parseCoordinateOrLength(@NonNull String value, double percentageBase) {
-        if (value.endsWith("%")) {
-            return Double.parseDouble(value.substring(0, value.length() - 1)) / 100
-                    * percentageBase;
-        } else {
-            return Double.parseDouble(value);
-        }
     }
 
     public void addIdToMap(@NonNull String id, @NonNull SvgNode svgNode) {
@@ -428,7 +382,9 @@ class SvgTree {
         return mClipPathAffectedNodes.entrySet();
     }
 
-    /** Adds child to set of SvgNodes that reference the style class with id className. */
+    /**
+     * Adds child to set of SvgNodes that reference the style class with id className.
+     */
     public void addAffectedNodeToStyleClass(@NonNull String className, @NonNull SvgNode child) {
         if (mStyleAffectedNodes.containsKey(className)) {
             mStyleAffectedNodes.get(className).add(child);
@@ -463,7 +419,9 @@ class SvgTree {
         return mRoot.findParent(node);
     }
 
-    /** Formats and returns the given coordinate with an appropriate precision. */
+    /**
+     * Formats and returns the given coordinate with an appropriate precision.
+     */
     @NonNull
     public String formatCoordinate(double coordinate) {
         return trimInsignificantZeros(getCoordinateFormat().format(coordinate));
@@ -525,5 +483,53 @@ class SvgTree {
         writer.write(System.lineSeparator());
 
         writer.close();
+    }
+
+    enum SvgLogLevel {
+        ERROR,
+        WARNING
+    }
+
+    private enum SizeType {
+        PIXEL,
+        PERCENTAGE
+    }
+
+    private static class LogMessage implements Comparable<SvgTree.LogMessage> {
+        final SvgTree.SvgLogLevel level;
+        final int line;
+        final String message;
+
+        /**
+         * Initializes a log message.
+         *
+         * @param level   the severity level
+         * @param line    the line number of the SVG file the message applies to,
+         *                or zero if the message applies to the whole file
+         * @param message the text of the message
+         */
+        LogMessage(@NonNull SvgTree.SvgLogLevel level, int line, @NonNull String message) {
+            this.level = level;
+            this.line = line;
+            this.message = message;
+        }
+
+        @NonNull
+        String getFormattedMessage() {
+            return level.name() + (line == 0 ? "" : " @ line " + line) + ": " + message;
+        }
+
+        @Override
+        public int compareTo(@NonNull SvgTree.LogMessage other) {
+            int cmp = level.compareTo(other.level);
+            if (cmp != 0) {
+                return cmp;
+            }
+            cmp = Integer.compare(line, other.line);
+            if (cmp != 0) {
+                return cmp;
+            }
+            return message.compareTo(other.message);
+        }
     }
 }

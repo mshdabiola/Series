@@ -13,21 +13,22 @@ import javax.crypto.spec.SecretKeySpec
 
 object Security {
 
-    fun encode(byteArray: ByteArray, output: OutputStream, key:String) {
+    fun encode(byteArray: ByteArray, output: OutputStream, key: String) {
 
         ObjectOutputStream(output).use {
-            it.writeObject(encrypt(byteArray,key))
+            it.writeObject(encrypt(byteArray, key))
         }
 
     }
 
-    fun decode(input: InputStream, output: OutputStream, key:String){
+    fun decode(input: InputStream, output: OutputStream, key: String) {
 
 
         ObjectInputStream(input).use { objectInputStream ->
-            val map: HashMap<String, ByteArray>? = objectInputStream.readObject() as? HashMap<String, ByteArray>
+            val map: HashMap<String, ByteArray>? =
+                objectInputStream.readObject() as? HashMap<String, ByteArray>
 
-            val byte=  map?.let { it1 -> decrypt(it1,key) }
+            val byte = map?.let { it1 -> decrypt(it1, key) }
 
             output.use {
                 if (byte != null) {
@@ -38,7 +39,7 @@ object Security {
 
     }
 
-    private fun decrypt(map: HashMap<String, ByteArray>,key:String): ByteArray? {
+    private fun decrypt(map: HashMap<String, ByteArray>, key: String): ByteArray? {
         var decrypted: ByteArray? = null
         try {
             val salt = map["salt"]
@@ -64,7 +65,7 @@ object Security {
         return decrypted
     }
 
-    private fun encrypt(plainTextBytes: ByteArray,key:String): HashMap<String, ByteArray> {
+    private fun encrypt(plainTextBytes: ByteArray, key: String): HashMap<String, ByteArray> {
         val map = HashMap<String, ByteArray>()
 
         try {

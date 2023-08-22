@@ -40,8 +40,10 @@ fun ExamUi(
     ListItem(
         modifier = modifier,
         colors = if (examUiState.isSelected)
-            ListItemDefaults.colors(containerColor =
-            MaterialTheme.colorScheme.primaryContainer)
+            ListItemDefaults.colors(
+                containerColor =
+                MaterialTheme.colorScheme.primaryContainer
+            )
         else
             ListItemDefaults.colors(),
         headlineContent = {
@@ -52,18 +54,17 @@ fun ExamUi(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
-            ){
+            ) {
 
                 Text(examUiState.year.toString())
                 Text("✦")
                 Text("${examUiState.examTime} Minutes")
                 Text("✦")
-                Text(if(examUiState.isObjOnly) "Objective" else "Objective and Theory")
+                Text(if (examUiState.isObjOnly) "Objective" else "Objective and Theory")
             }
 
 
-
-                            },
+        },
         trailingContent = {
             if (!isSelectMode) {
                 Box {

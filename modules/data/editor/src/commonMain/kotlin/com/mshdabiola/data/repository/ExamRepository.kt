@@ -1,7 +1,6 @@
 package com.mshdabiola.data.repository
 
 import com.mshabiola.database.dao.exam.IExamDao
-import com.mshabiola.database.dao.subjectdao.ISubjectDao
 import com.mshdabiola.data.repository.inter.IExamRepository
 import com.mshdabiola.database.SeriesDatabase
 import com.mshdabiola.model.data.Exam
@@ -32,14 +31,20 @@ internal class ExamRepository(
         iExamDao.updateType(id, isOnlyObj)
     }
 
-    override suspend fun export(examsId: List<Long>, path: String, name:String,version: Int, key: String) {
-       val importEx=DatabaseExportImport(database)
+    override suspend fun export(
+        examsId: List<Long>,
+        path: String,
+        name: String,
+        version: Int,
+        key: String
+    ) {
+        val importEx = DatabaseExportImport(database)
 
-        importEx.export(examsId, path, name,version, key)
+        importEx.export(examsId, path, name, version, key)
     }
 
     override suspend fun import(path: String, key: String) {
-        val importEx=DatabaseExportImport(database)
+        val importEx = DatabaseExportImport(database)
 
         importEx.import(path, key)
     }
@@ -67,7 +72,6 @@ internal class ExamRepository(
     override fun getExamBySubjectId(subId: Long): Flow<List<ExamWithSub>> {
         return iExamDao.getAllBySubjectIdWithSub(subId)
     }
-
 
 
 }

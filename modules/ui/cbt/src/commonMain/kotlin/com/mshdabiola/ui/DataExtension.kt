@@ -31,6 +31,7 @@ fun QuestionFull.toQuestionUiState(isEdit: Boolean = false) = QuestionUiState(
     instructionUiState = instruction?.toInstructionUiState(),
     topicUiState = topic?.toUi()
 )
+
 fun Option.toOptionUi(isEdit: Boolean = false) =
     OptionUiState(
         id = id,

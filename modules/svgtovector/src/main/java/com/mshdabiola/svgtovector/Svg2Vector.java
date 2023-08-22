@@ -54,12 +54,6 @@ import java.util.regex.Pattern;
  * </ul>
  */
 public class Svg2Vector {
-    private static final Logger logger = Logger.getLogger(Svg2Vector.class.getSimpleName());
-    private static final String SVG_DEFS = "defs";
-    private static final String SVG_USE = "use";
-    static final String SVG_HREF = "href";
-    static final String SVG_XLINK_HREF = "xlink:href";
-
     public static final String SVG_POLYGON = "polygon";
     public static final String SVG_POLYLINE = "polyline";
     public static final String SVG_RECT = "rect";
@@ -71,7 +65,6 @@ public class Svg2Vector {
     public static final String SVG_STYLE = "style";
     public static final String SVG_DISPLAY = "display";
     public static final String SVG_CLIP_PATH_ELEMENT = "clipPath";
-
     public static final String SVG_D = "d";
     public static final String SVG_CLIP = "clip";
     public static final String SVG_CLIP_PATH = "clip-path";
@@ -88,7 +81,6 @@ public class Svg2Vector {
     public static final String SVG_STROKE_WIDTH = "stroke-width";
     public static final String SVG_MASK = "mask";
     public static final String SVG_POINTS = "points";
-
     public static final ImmutableMap<String, String> presentationMap =
             ImmutableMap.<String, String>builder()
                     .put(SVG_CLIP, "android:clip")
@@ -104,7 +96,6 @@ public class Svg2Vector {
                     .put(SVG_STROKE_OPACITY, "android:strokeAlpha")
                     .put(SVG_STROKE_WIDTH, "android:strokeWidth")
                     .build();
-
     public static final ImmutableMap<String, String> gradientMap =
             ImmutableMap.<String, String>builder()
                     .put("x1", "android:startX")
@@ -119,7 +110,11 @@ public class Svg2Vector {
                     .put("gradientTransform", "")
                     .put("gradientType", "android:type")
                     .build();
-
+    static final String SVG_HREF = "href";
+    static final String SVG_XLINK_HREF = "xlink:href";
+    private static final Logger logger = Logger.getLogger(Svg2Vector.class.getSimpleName());
+    private static final String SVG_DEFS = "defs";
+    private static final String SVG_USE = "use";
     // Set of all SVG nodes that we don't support. Categorized by the types.
     private static final Set<String> unsupportedSvgNodes = ImmutableSet.of(
             // Animation elements.
@@ -333,7 +328,9 @@ public class Svg2Vector {
         return buf.toString();
     }
 
-    /** Traverse the tree in pre-order. */
+    /**
+     * Traverse the tree in pre-order.
+     */
     private static void traverseSvgAndExtract(
             @NonNull SvgTree svgTree, @NonNull SvgGroupNode currentGroup, @NonNull Element item) {
         NodeList childNodes = item.getChildNodes();
@@ -497,8 +494,7 @@ public class Svg2Vector {
                                     if (splitAttribute.length == 2) {
                                         if (attr.startsWith("stop-color")) {
                                             color = splitAttribute[1];
-                                        }
-                                        else if (attr.startsWith("stop-opacity")) {
+                                        } else if (attr.startsWith("stop-opacity")) {
                                             opacity = splitAttribute[1];
                                         }
                                     }
@@ -525,7 +521,7 @@ public class Svg2Vector {
      * Finds the gradient offset value given a String containing the value and greatest previous
      * offset value.
      *
-     * @param offset an absolute floating point value or a percentage
+     * @param offset         an absolute floating point value or a percentage
      * @param greatestOffset is the greatest offset value seen in the gradient so far
      * @return the new greatest offset value
      */
@@ -657,7 +653,7 @@ public class Svg2Vector {
      * name, which is "clip-path" here.
      *
      * @return the name of the clip path or null if the given string does not contain a proper clip
-     *     path name.
+     * path name.
      */
     @Nullable
     private static String getClipPathName(@Nullable String s) {
@@ -672,7 +668,9 @@ public class Svg2Vector {
         return s.substring(startPos + 1, endPos).trim();
     }
 
-    /** Reads the content from currentItem and fills into the SvgLeafNode "child". */
+    /**
+     * Reads the content from currentItem and fills into the SvgLeafNode "child".
+     */
     private static void extractAllItemsAs(
             @NonNull SvgTree svg,
             @NonNull SvgLeafNode child,
@@ -788,7 +786,9 @@ public class Svg2Vector {
         }
     }
 
-    /** Convert polygon element into a path. */
+    /**
+     * Convert polygon element into a path.
+     */
     private static void extractPolyItem(
             @NonNull SvgTree svgTree,
             @NonNull SvgLeafNode child,
@@ -839,7 +839,9 @@ public class Svg2Vector {
         }
     }
 
-    /** Convert rectangle element into a path. */
+    /**
+     * Convert rectangle element into a path.
+     */
     private static void extractRectItem(
             @NonNull SvgTree svg,
             @NonNull SvgLeafNode child,
@@ -923,10 +925,10 @@ public class Svg2Vector {
                     builder.absoluteLineTo(x + width, y + height - ry);
 
                     builder.absoluteArcTo(rx, ry, false, false, true, x + width - rx, y + height);
-                    builder.absoluteLineTo(x + rx,  y + height);
+                    builder.absoluteLineTo(x + rx, y + height);
 
                     builder.absoluteArcTo(rx, ry, false, false, true, x, y + height - ry);
-                    builder.absoluteLineTo(x,  y + ry);
+                    builder.absoluteLineTo(x, y + ry);
                     builder.absoluteArcTo(rx, ry, false, false, true, x + rx, y);
                 }
                 builder.relativeClose();
@@ -935,7 +937,9 @@ public class Svg2Vector {
         }
     }
 
-    /** Converts circle element into a path. */
+    /**
+     * Converts circle element into a path.
+     */
     private static void extractCircleItem(
             @NonNull SvgTree svg,
             @NonNull SvgLeafNode child,
@@ -988,7 +992,9 @@ public class Svg2Vector {
         }
     }
 
-    /** Convert ellipse element into a path. */
+    /**
+     * Convert ellipse element into a path.
+     */
     private static void extractEllipseItem(
             @NonNull SvgTree svg,
             @NonNull SvgLeafNode child,
@@ -1044,7 +1050,9 @@ public class Svg2Vector {
         }
     }
 
-    /** Convert line element into a path. */
+    /**
+     * Convert line element into a path.
+     */
     private static void extractLineItem(
             @NonNull SvgTree svg,
             @NonNull SvgLeafNode child,
@@ -1183,11 +1191,11 @@ public class Svg2Vector {
     /**
      * Converts an SVG file into VectorDrawable's XML content, if no error is found.
      *
-     * @param inputSvg the input SVG file
+     * @param inputSvg  the input SVG file
      * @param outStream the converted VectorDrawable's content. This can be empty if there is any
-     *     error found during parsing
+     *                  error found during parsing
      * @return the error message that combines all logged errors and warnings, or an empty string if
-     *     there were no errors
+     * there were no errors
      */
     @Slow
     @NonNull

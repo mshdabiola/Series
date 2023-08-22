@@ -31,24 +31,18 @@ import java.util.List;
 public class PathParser {
     private static final float[] EMPTY_FLOAT_ARRAY = new float[0];
 
-    private static class ExtractFloatResult {
-        /** The end position of the parameter. */
-        private int mEndPosition;
-        /** Whether there is an explicit separator after the end position or not. */
-        private boolean mExplicitSeparator;
-    }
-
     // Do not instantiate.
-    private PathParser() {}
+    private PathParser() {
+    }
 
     /**
      * Determines the end position of a command parameter.
      *
-     * @param s the string to search
-     * @param start the position to start searching
+     * @param s        the string to search
+     * @param start    the position to start searching
      * @param flagMode indicates Boolean flag syntax; a Boolean flag is either "0" or "1" and
-     *     doesn't have to be followed by a separator
-     * @param result the result of the extraction
+     *                 doesn't have to be followed by a separator
+     * @param result   the result of the extraction
      */
     private static void extract(
             @NonNull String s, int start, boolean flagMode, @NonNull PathParser.ExtractFloatResult result) {
@@ -98,7 +92,7 @@ public class PathParser {
     /**
      * Parses the floats in the string this is an optimized version of parseFloat(s.split(",|\\s"));
      *
-     * @param s the string containing a command and list of floats
+     * @param s         the string containing a command and list of floats
      * @param parseMode indicated whether the path belongs to an either SVG or a vector drawable
      * @return array of floats
      */
@@ -209,5 +203,16 @@ public class PathParser {
     public enum ParseMode {
         SVG,
         ANDROID
+    }
+
+    private static class ExtractFloatResult {
+        /**
+         * The end position of the parameter.
+         */
+        private int mEndPosition;
+        /**
+         * Whether there is an explicit separator after the end position or not.
+         */
+        private boolean mExplicitSeparator;
     }
 }

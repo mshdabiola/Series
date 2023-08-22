@@ -52,7 +52,15 @@ class MainViewModel(
     val subject: State<SubjectUiState> = _subject
 
     private val _exam =
-        mutableStateOf(ExamUiState(subjectID = -1L, year = -1L, subject = "", isObjOnly = true, examTime = 15))
+        mutableStateOf(
+            ExamUiState(
+                subjectID = -1L,
+                year = -1L,
+                subject = "",
+                isObjOnly = true,
+                examTime = 15
+            )
+        )
     val exam: State<ExamUiState> = _exam
 
 
@@ -159,10 +167,11 @@ class MainViewModel(
         }
 
     }
+
     fun onExamDurationContentChange(text: String) {
         try {
 
-            _exam.value = exam.value.copy(examTime = text.toLongOrNull()?:-1)
+            _exam.value = exam.value.copy(examTime = text.toLongOrNull() ?: -1)
         } catch (e: Exception) {
         }
 
@@ -195,13 +204,13 @@ class MainViewModel(
         }
     }
 
-    fun onExport(path: String,name:String,key:String,version:Int) {
+    fun onExport(path: String, name: String, key: String, version: Int) {
         viewModelScope.launch {
-            val ids=examUiStates
+            val ids = examUiStates
                 .value
                 .filter { it.isSelected }
                 .map { it.id }
-            iExamRepository.export(ids,path,name ,version, key)
+            iExamRepository.export(ids, path, name, version, key)
             deselectAll()
         }
 

@@ -385,10 +385,10 @@ fun MainContent(
                         }
                     }
                 }
-                Row (
+                Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.spacedBy(8.dp)
-                ){
+                ) {
                     TextField(
                         modifier = Modifier.weight(0.5f),
                         label = { Text("Year") },
@@ -432,7 +432,10 @@ fun MainContent(
                     onValueChange = {
                         onSubjectNameChange(it)
                     },
-                    keyboardOptions = KeyboardOptions(capitalization = KeyboardCapitalization.Sentences,autoCorrect = true),
+                    keyboardOptions = KeyboardOptions(
+                        capitalization = KeyboardCapitalization.Sentences,
+                        autoCorrect = true
+                    ),
                     maxLines = 1,
                 )
                 Button(

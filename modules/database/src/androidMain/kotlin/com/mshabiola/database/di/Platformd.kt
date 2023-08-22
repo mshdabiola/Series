@@ -28,7 +28,7 @@ actual val databaseModule: Module
 
                 name = Constant.databaseName,
                 callback = object : AndroidSqliteDriver.Callback(SeriesDatabase.Schema) {
-//                    override fun onOpen(db: SupportSQLiteDatabase) {
+                    //                    override fun onOpen(db: SupportSQLiteDatabase) {
 //                        super.onOpen(db)
 //                        db.setForeignKeyConstraintsEnabled(true)
 //                    }
