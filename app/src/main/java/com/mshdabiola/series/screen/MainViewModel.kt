@@ -40,17 +40,15 @@ class MainViewModel(
 
 
     private var type: ExamType = ExamType.YEAR
-    private val subject = iSubjectRepository
-        .getAll()
-        .stateIn(
-            viewModelScope,
-            SharingStarted.WhileSubscribed(5000),
-            listOf(Subject(2, name = "English"))
-        )
+//    private val subject = iSubjectRepository
+//        .getAll()
+//        .stateIn(
+//            viewModelScope,
+//            SharingStarted.WhileSubscribed(5000),
+//            listOf(Subject(2, name = "English"))
+//        )
 
 
-    private val totalTIme = 100L
-    private val currentTIme = 0L
 
 
     private val _mainState =
@@ -63,18 +61,18 @@ class MainViewModel(
 
     init {
 
-        viewModelScope.launch(Dispatchers.IO) {
-            subject
-                .distinctUntilChanged { old, new -> old == new }
-                .collectLatest { subjects ->
-                    val sub = subjects.firstOrNull()
-                    _mainState.update {
-                        it.copy(title = sub?.name ?: "Subject")
-                    }
-
-
-                }
-        }
+//        viewModelScope.launch(Dispatchers.IO) {
+//            subject
+//                .distinctUntilChanged { old, new -> old == new }
+//                .collectLatest { subjects ->
+//                    val sub = subjects.firstOrNull()
+//                    _mainState.update {
+//                        it.copy(title = sub?.name ?: "Subject")
+//                    }
+//
+//
+//                }
+//        }
 
         viewModelScope.launch(Dispatchers.IO) {
             iExamRepository
@@ -368,8 +366,7 @@ class MainViewModel(
             _mainState.update {
                 it.copy(
                     isSubmit = true,
-                    currentTime = totalTIme,
-                    totalTime = totalTIme
+                    currentTime = it.totalTime
                 )
 
             }
