@@ -161,7 +161,7 @@ class MainViewModel(
             Timber.e("time ${exam.examTime}")
             val time = when (type) {
                 ExamType.RANDOM, ExamType.YEAR -> exam.examTime *60L
-                ExamType.FAST_FINGER -> allQuestions.size * 30L
+                ExamType.FAST_FINGER -> allQuestions[0].size * 30L
             }
 
 //            val objTime = (allQuestions.filter { it.isTheory.not() }.size) * time
