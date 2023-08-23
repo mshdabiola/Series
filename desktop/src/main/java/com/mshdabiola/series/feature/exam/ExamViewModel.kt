@@ -240,7 +240,7 @@ class ExamViewModel(
             questionRepository.insert(question2.toQuestionWithOptions(examId = examId))
             updateExamType(isObjOnly = allIsObj)
         }
-        _question.value = getEmptyQuestion()
+        _question.value = getEmptyQuestion(question2.options.size,question2.isTheory)
     }
 
     fun onAnswerClick(questionId: Long, optionId: Long) {
@@ -274,7 +274,7 @@ class ExamViewModel(
                         OptionUiState(
                             nos = (question.options.size + 1).toLong(),
                             content = listOf(
-                                ItemUiState(isEditMode = true)
+                                ItemUiState(isEditMode = true, focus = true)
                             ).toImmutableList(),
                             isAnswer = false
                         )
@@ -306,7 +306,7 @@ class ExamViewModel(
         question = if (isT) {
             question.copy(
                 answer = listOf(
-                    ItemUiState(isEditMode = true, focus = true)
+                    ItemUiState(isEditMode = true, focus = false)
                 ).toImmutableList(),
                 options = emptyList<OptionUiState>().toImmutableList()
             )
@@ -319,42 +319,29 @@ class ExamViewModel(
 
     }
 
-    private fun getEmptyQuestion(): QuestionUiState {
+    private fun getEmptyQuestion(optionNo:Int=4,isTheory:Boolean=false): QuestionUiState {
+
+        val opNumb= if(isTheory)0 else optionNo
         return QuestionUiState(
             nos = -1,
             examId = examId,
             content = listOf(
                 ItemUiState(isEditMode = true, focus = true)
             ).toImmutableList(),
-            options = listOf(
-                OptionUiState(
-                    nos = 1,
-                    content = listOf(
-                        ItemUiState(isEditMode = true)
-                    ).toImmutableList(),
-                    isAnswer = false
-                ),
-                OptionUiState(
-                    nos = 2,
-                    content = listOf(
-                        ItemUiState(isEditMode = true)
-                    ).toImmutableList(),
-                    isAnswer = false
-                ),
-                OptionUiState(
-                    nos = 3, content = listOf(
-                        ItemUiState(isEditMode = true)
-                    ).toImmutableList(),
-                    isAnswer = false
-                ),
-                OptionUiState(
-                    nos = 4,
-                    content = listOf(
-                        ItemUiState(isEditMode = true)
-                    ).toImmutableList(),
-                    isAnswer = false
-                )
-            ).toImmutableList(),
+            options = (1..opNumb)
+                .map {
+                    OptionUiState(
+                        nos = it.toLong(),
+                        content = listOf(
+                            ItemUiState(isEditMode = true)
+                        ).toImmutableList(),
+                        isAnswer = false
+                    )
+                }.toImmutableList(),
+            isTheory = isTheory,
+            answer = if (isTheory) listOf(
+                ItemUiState(isEditMode = true)
+            ).toImmutableList() else null
         )
     }
 
