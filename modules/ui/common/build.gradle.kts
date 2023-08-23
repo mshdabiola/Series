@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "com.mshdabiola.ui.editor"
+    namespace = "com.mshdabiola.ui.common"
 }
 kotlin {
     sourceSets {
@@ -14,7 +14,6 @@ kotlin {
                 //implementation(libs.kotlinx.datetime)
                 implementation(project(":modules:retex"))
                 implementation(project(":modules:model"))
-                implementation(project(":modules:ui:common"))
             }
         }
 
