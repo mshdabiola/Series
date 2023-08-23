@@ -311,7 +311,7 @@ fun TextContent(
         TextField(
             modifier = modifier.focusRequester(focusRequester).fillMaxWidth(),
             value = text.content,
-            label = { Text("Content") },
+            label = { Text("Text Content") },
             maxLines = 1,
             onValueChange = onTextChange
         )

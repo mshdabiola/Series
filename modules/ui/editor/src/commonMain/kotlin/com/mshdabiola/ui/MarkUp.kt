@@ -12,6 +12,7 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.BaselineShift
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
@@ -39,6 +40,8 @@ fun MarkUpText(
 ) {
     Text(
         text = buildAnnotatedString {
+
+           // pushStyle(SpanStyle(baselineShift = BaselineShift.Subscript))
             if (MarkUpEngine.containStyle(text)) {
                 text
                     .split("*")
@@ -85,6 +88,7 @@ object MarkUpEngine {
     private var style: FontStyle? = null
     private var background = Color.Unspecified
     private var decoration = TextDecoration.None
+    private var baselineShift = BaselineShift.None
     val list = mapOf(
         "cb" to { color = Color.Blue },
         "cr" to { color = Color.Red },
@@ -102,6 +106,8 @@ object MarkUpEngine {
         "i" to { style = FontStyle.Italic },
         "u" to { decoration = TextDecoration.Underline },
         "l" to { decoration = TextDecoration.LineThrough },
+        "sb" to { baselineShift=BaselineShift.Subscript },
+        "sp" to { baselineShift= BaselineShift.Superscript}
 
         )
 
@@ -121,6 +127,7 @@ object MarkUpEngine {
         style = null
         background = Color.Unspecified
         decoration = TextDecoration.None
+        baselineShift=BaselineShift.None
 
 
         val styleList = sty.split(",")
@@ -129,6 +136,7 @@ object MarkUpEngine {
         }
 
         return SpanStyle(
+            baselineShift = baselineShift,
             color = color,
             fontSize = TextUnit.Unspecified,
             fontWeight = weight,
