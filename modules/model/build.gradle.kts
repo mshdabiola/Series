@@ -15,7 +15,7 @@ kotlin {
                 implementation(libs.kotlinx.serialization.json)
             }
         }
-        val desktopMain by getting{
+        val desktopMain by getting {
             dependencies {
 
             }

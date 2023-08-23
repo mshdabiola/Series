@@ -16,5 +16,5 @@ expect fun ImageUi(
     modifier: Modifier,
     path: String,
     contentDescription: String,
-    contentScale: ContentScale= ContentScale.Fit
+    contentScale: ContentScale = ContentScale.Fit
 )

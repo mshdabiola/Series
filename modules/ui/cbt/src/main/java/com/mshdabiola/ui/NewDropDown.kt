@@ -68,6 +68,7 @@ fun <T> LargeDropdownMenu(
                 val icon = if (expanded) Icons.Filled.ArrowDropUp else Icons.Filled.ArrowDropDown
                 Icon(imageVector = icon, "")
             },
+            shape = RoundedCornerShape(6.dp),
             onValueChange = { },
             readOnly = true,
             maxLines = 1,

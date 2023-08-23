@@ -16,11 +16,11 @@
 package com.mshdabiola.svgtovector;
 
 
+import org.jetbrains.annotations.NotNull;
+
 import java.awt.geom.Path2D;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import org.jetbrains.annotations.NotNull;
 
 /**
  * Given an array of {@link VdPath.Node}, generates a Path2D object.
@@ -349,13 +349,13 @@ class VdNodeRender {
     /**
      * Converts an arc to cubic Bezier segments and records them in p.
      *
-     * @param p The target for the cubic Bezier segments
-     * @param cx The x coordinate center of the ellipse
-     * @param cy The y coordinate center of the ellipse
-     * @param a The radius of the ellipse in the horizontal direction
-     * @param b The radius of the ellipse in the vertical direction
-     * @param e1x E(eta1) x coordinate of the starting point of the arc
-     * @param e1y E(eta2) y coordinate of the starting point of the arc
+     * @param p     The target for the cubic Bezier segments
+     * @param cx    The x coordinate center of the ellipse
+     * @param cy    The y coordinate center of the ellipse
+     * @param a     The radius of the ellipse in the horizontal direction
+     * @param b     The radius of the ellipse in the vertical direction
+     * @param e1x   E(eta1) x coordinate of the starting point of the arc
+     * @param e1y   E(eta2) y coordinate of the starting point of the arc
      * @param theta The angle that the ellipse bounding rectangle makes with the horizontal plane
      * @param start The start angle of the arc on the ellipse
      * @param sweep The angle (positive or negative) of the sweep of the arc on the ellipse

@@ -60,7 +60,7 @@ fun ContinueCard(
         ) {
             Text(
                 text = "You are soon closed to end, finish your quiz and find out your scores",
-                style = MaterialTheme.typography.bodySmall,
+                style = MaterialTheme.typography.bodyMedium,
                 color = color
             )
             FlowRow(

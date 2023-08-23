@@ -26,7 +26,7 @@ class SQLiteCopyOpenHelper(
 
     private var verified = false
 
-    private val key = if(BuildConfig.DEBUG)
+    private val key = if (BuildConfig.DEBUG)
         Constant.defaultKey
     else
         BuildConfig.store_key
@@ -93,9 +93,9 @@ class SQLiteCopyOpenHelper(
                 Timber.tag(TAG).w(e, "Unable to read database version.")
                 return
             }
-            val oldVersion=
+            val oldVersion =
                 try {
-                    File(databaseFile.parent,"version.txt")
+                    File(databaseFile.parent, "version.txt")
                         .inputStream()
                         .reader()
                         .readText()
@@ -130,7 +130,8 @@ class SQLiteCopyOpenHelper(
         } finally {
             try {
                 lockChannel.close()
-            } catch (ignored: IOException) {}
+            } catch (ignored: IOException) {
+            }
         }
     }
 
@@ -148,12 +149,12 @@ class SQLiteCopyOpenHelper(
     @Throws(IOException::class)
     private fun readVersion(): Int {
         try {
-            return  context
+            return context
                 .assets.open("version.txt")
                 .reader()
                 .readText()
                 .toInt()
-                //.toIntOrNull() ?: 1
+            //.toIntOrNull() ?: 1
         } catch (e: IOException) {
             throw RuntimeException(e)
         }
@@ -165,14 +166,16 @@ class SQLiteCopyOpenHelper(
             is CopyFromAssetPath -> {
                 context.assets.open(copyConfig.path)
             }
+
             is CopyFromFile -> {
                 FileInputStream(copyConfig.file)
             }
+
             is CopyFromInputStream -> {
                 copyConfig.callable.call()
             }
         }
-        val versionOutput=File(destinationFile.parent,"version.txt").outputStream()
+        val versionOutput = File(destinationFile.parent, "version.txt").outputStream()
 
         // An intermediate file is used so that we never end up with a half-copied database file
         // in the internal directory.
@@ -185,12 +188,12 @@ class SQLiteCopyOpenHelper(
 //        input.source().use { a ->
 //            intermediateFile.sink().buffer().use { b -> b.writeAll(a) }
 //        }
-        versionOutput.use {  out->
+        versionOutput.use { out ->
             context.assets.open("version.txt").use {
                 out.write(it.readBytes())
             }
         }
-        Security.decode(input, FileOutputStream(intermediateFile),key)
+        Security.decode(input, FileOutputStream(intermediateFile), key)
 
 
         val parent = destinationFile.parentFile
@@ -228,7 +231,7 @@ class SQLiteCopyOpenHelper(
 }
 
 sealed class CopyConfig
-data class CopyFromAssetPath(val path: String): CopyConfig()
-data class CopyFromFile(val file: File): CopyConfig()
-data class CopyFromInputStream(val callable: Callable<InputStream>): CopyConfig()
+data class CopyFromAssetPath(val path: String) : CopyConfig()
+data class CopyFromFile(val file: File) : CopyConfig()
+data class CopyFromInputStream(val callable: Callable<InputStream>) : CopyConfig()
 

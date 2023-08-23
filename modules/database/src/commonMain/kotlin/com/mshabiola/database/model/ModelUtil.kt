@@ -82,5 +82,5 @@ fun ExamEntity.toModel() = Exam(
     subjectID = subjectId,
     isObjOnly = isObjOnly == 0L,
     year = year,
-    examTime=examTime
+    examTime = examTime
 )

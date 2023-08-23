@@ -10,7 +10,6 @@ import com.mshdabiola.model.data.Item
 import com.mshdabiola.model.data.Option
 import com.mshdabiola.model.data.Question
 import com.mshdabiola.model.data.Subject
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
@@ -55,7 +54,7 @@ class QuestionTest : AbstractTest() {
 
         subjDao.insert(Subject(1, "Math"))
 
-        examDao.insert(Exam(9, 1, false,2012))
+        examDao.insert(Exam(9, 1, false, 2012))
 
         questionDao.insert(
             Question(
@@ -124,7 +123,7 @@ class QuestionTest : AbstractTest() {
 
         subjDao.insert(Subject(1, "Math"))
 
-        examDao.insert(Exam(9, 1, false,2012))
+        examDao.insert(Exam(9, 1, false, 2012))
 
         questionDao.insert(
             Question(

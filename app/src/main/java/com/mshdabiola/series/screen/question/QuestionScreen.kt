@@ -97,11 +97,10 @@ internal fun QuestionScreen(
     back: () -> Unit = {},
     onFinish: () -> Unit = {},
     onNextTheory: (Int) -> Unit = {},
-    onOption: (Int,Int, Int) -> Unit = { _,_, _ -> }, //paper,question,option
+    onOption: (Int, Int, Int) -> Unit = { _, _, _ -> }, //paper,question,option
     onTimeChanged: (Long) -> Unit = {},
-            changeIndex: (Int) -> Unit = {},
+    changeIndex: (Int) -> Unit = {},
 ) {
-
 
 
     if (mainStat.questions.isEmpty()) {
@@ -199,27 +198,36 @@ internal fun QuestionScreen(
                 Spacer(modifier = Modifier.height(8.dp))
 
                 //AnimatedContent(modifier = Modifier.fillMaxSize(), targetState = mainStat.currentPaper, label = "dd") { paperIndex ->
-                    ExamPaper(
-                        questions = mainStat.questions[mainStat.currentSectionIndex],
-                        state = states[mainStat.currentSectionIndex],
-                        choose = mainStat.choose[mainStat.currentSectionIndex],
-                        onNextTheory = onNextTheory,
-                        onOption = {quIndex,optinId->onOption(mainStat.currentSectionIndex,quIndex,optinId)},
-                        setInstructionUiState = {instructionUiState=it},
-                    )
-                LazyRow (
+                ExamPaper(
+                    questions = mainStat.questions[mainStat.currentSectionIndex],
+                    state = states[mainStat.currentSectionIndex],
+                    choose = mainStat.choose[mainStat.currentSectionIndex],
+                    onNextTheory = onNextTheory,
+                    onOption = { quIndex, optinId ->
+                        onOption(
+                            mainStat.currentSectionIndex,
+                            quIndex,
+                            optinId
+                        )
+                    },
+                    setInstructionUiState = { instructionUiState = it },
+                )
+                LazyRow(
                     modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(16.dp,Alignment.CenterHorizontally),
+                    horizontalArrangement = Arrangement.spacedBy(
+                        16.dp,
+                        Alignment.CenterHorizontally
+                    ),
                     verticalAlignment = Alignment.CenterVertically
-                ){
+                ) {
                     item {
-                        TextButton(onClick = {show=true}) {
+                        TextButton(onClick = { show = true }) {
                             Text("Show all questions")
                         }
                     }
 
-                    if (mainStat.questions.size>1){
-                        itemsIndexed(mainStat.sections){ index, section ->
+                    if (mainStat.questions.size > 1) {
+                        itemsIndexed(mainStat.sections) { index, section ->
                             ElevatedSuggestionChip(
                                 onClick = { changeIndex(index) },
                                 colors = if (section.isFinished)
@@ -228,10 +236,10 @@ internal fun QuestionScreen(
                                         labelColor = onCorrect()
                                     )
                                 else
-                                    SuggestionChipDefaults.elevatedSuggestionChipColors()
-                                ,
+                                    SuggestionChipDefaults.elevatedSuggestionChipColors(),
                                 label = {
-                                    Text(stringArrayResource(id = R.array.sections)[section.stringRes]) })
+                                    Text(stringArrayResource(id = R.array.sections)[section.stringRes])
+                                })
 
                         }
                     }
@@ -270,94 +278,94 @@ internal fun QuestionScreen(
 @Composable
 fun ColumnScope.ExamPaper(
     questions: ImmutableList<QuestionUiState>,
-    state :PagerState,
-    choose :ImmutableList<Int>,
+    state: PagerState,
+    choose: ImmutableList<Int>,
     onNextTheory: (Int) -> Unit = {},
-    setInstructionUiState: (InstructionUiState?)->Unit={},
-            onOption: (Int, Int) -> Unit = { _, _ -> },
-    ) {
+    setInstructionUiState: (InstructionUiState?) -> Unit = {},
+    onOption: (Int, Int) -> Unit = { _, _ -> },
+) {
 
-    val coroutineScope= rememberCoroutineScope()
+    val coroutineScope = rememberCoroutineScope()
     val scrollState = rememberScrollState()
-    LaunchedEffect(key1  = state.currentPage){
+    LaunchedEffect(key1 = state.currentPage) {
         try {
-            val question=questions[state.currentPage]
-            if (question.isTheory){
-                onOption(state.currentPage,2)
+            val question = questions[state.currentPage]
+            if (question.isTheory) {
+                onOption(state.currentPage, 2)
             }
-        }catch (e:Exception){
+        } catch (e: Exception) {
             e.printStackTrace()
         }
 
     }
 
 
-        HorizontalPager(
-            modifier = Modifier
-                .weight(1f)
-                .verticalScroll(state = scrollState),
-            state = state,
-            verticalAlignment = Alignment.Top,
-            userScrollEnabled = false
-        ) { index ->
+    HorizontalPager(
+        modifier = Modifier
+            .weight(1f)
+            .verticalScroll(state = scrollState),
+        state = state,
+        verticalAlignment = Alignment.Top,
+        userScrollEnabled = false
+    ) { index ->
 
-            QuestionUi(
-                number = (index + 1L),
-                questionUiState = questions[index],
+        QuestionUi(
+            number = (index + 1L),
+            questionUiState = questions[index],
 
-                onInstruction = {
-                   setInstructionUiState(questions[index].instructionUiState!!)
-                },
-                selectedOption = choose.getOrNull(index) ?: -1,
-                onOptionClick = {
-                    onOption(index, it)
-                    if (state.canScrollForward) {
-                        coroutineScope
-                            .launch {
-                                state.animateScrollToPage(index + 1)
-                                scrollState.scrollTo(0)
-                            }
-                    }
-                }
-            )
-        }
-
-        Spacer(modifier = Modifier.height(8.dp))
-
-        QuestionScroll(
-            currentQuestion = state.currentPage,
-            showPrev = state.canScrollBackward,
-            showNext = state.canScrollForward,
-            chooses = choose,
-            onChooseClick = {
-                onNextTheory(it)
-                coroutineScope.launch {
-                    state.animateScrollToPage(it)
-                    scrollState.scrollTo(0)
-                }
+            onInstruction = {
+                setInstructionUiState(questions[index].instructionUiState!!)
             },
-
-            onNext = {
-
-                coroutineScope.launch {
-                    onNextTheory(state.currentPage + 1)
-                    state.animateScrollToPage(state.currentPage + 1)
-                    scrollState.scrollTo(0)
-                }
-            },
-            onPrev = {
-                coroutineScope.launch {
-                    state.animateScrollToPage(state.currentPage - 1)
-                    scrollState.scrollTo(0)
+            selectedOption = choose.getOrNull(index) ?: -1,
+            onOptionClick = {
+                onOption(index, it)
+                if (state.canScrollForward) {
+                    coroutineScope
+                        .launch {
+                            state.animateScrollToPage(index + 1)
+                            scrollState.scrollTo(0)
+                        }
                 }
             }
         )
+    }
+
+    Spacer(modifier = Modifier.height(8.dp))
+
+    QuestionScroll(
+        currentQuestion = state.currentPage,
+        showPrev = state.canScrollBackward,
+        showNext = state.canScrollForward,
+        chooses = choose,
+        onChooseClick = {
+            onNextTheory(it)
+            coroutineScope.launch {
+                state.animateScrollToPage(it)
+                scrollState.scrollTo(0)
+            }
+        },
+
+        onNext = {
+
+            coroutineScope.launch {
+                onNextTheory(state.currentPage + 1)
+                state.animateScrollToPage(state.currentPage + 1)
+                scrollState.scrollTo(0)
+            }
+        },
+        onPrev = {
+            coroutineScope.launch {
+                state.animateScrollToPage(state.currentPage - 1)
+                scrollState.scrollTo(0)
+            }
+        }
+    )
 
 }
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun getState(sizes:ImmutableList<Int> ):ImmutableList<PagerState> {
+fun getState(sizes: ImmutableList<Int>): ImmutableList<PagerState> {
 
     return sizes.map {
         rememberPagerState {

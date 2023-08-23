@@ -104,21 +104,21 @@ fun ExamScreen(
                 Tab(
                     selected = state == 0,
                     onClick = {
-                        state=0
+                        state = 0
                     },
                     text = { Text("Question") }
                 )
                 Tab(
                     selected = state == 1,
                     onClick = {
-                        state=1
+                        state = 1
                     },
                     text = { Text("Instruction") }
                 )
                 Tab(
                     selected = state == 2,
                     onClick = {
-                       state=2
+                        state = 2
                     },
                     text = { Text("Topic") }
                 )
@@ -126,7 +126,7 @@ fun ExamScreen(
             }
             Box(
                 modifier = Modifier.padding(top = 8.dp).weight(1f),
-               // pageCount = 3,
+                // pageCount = 3,
 
             ) {
                 when (state) {

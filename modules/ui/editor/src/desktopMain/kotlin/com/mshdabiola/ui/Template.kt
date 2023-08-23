@@ -37,14 +37,14 @@ import kotlinx.coroutines.launch
 
 
 @OptIn(
-    ExperimentalFoundationApi::class, ExperimentalLayoutApi::class,
-    ExperimentalMaterial3Api::class
+    ExperimentalLayoutApi::class
 )
 @Composable
 fun TemplateUi() {
-    val state = rememberPagerState(){4}
+    var state by remember {
+        mutableStateOf(0)
+    }
 
-    val coroutineScope = rememberCoroutineScope()
     val listOfMap = listOf(
         mapOf(
             "Overhead" to listOf(
@@ -164,7 +164,8 @@ fun TemplateUi() {
                 " \\mathbb{A}",
                 " \\mathfrak{A}",
                 " \\mathsf{A}",
-                " \\mathbf{A}"
+                " \\mathbf{A}",
+                "\\text{ a text }"
             ),
             "Greek" to listOf(
                 "\\alpha", "\\beta", "\\gamma", "\\delta", "\\epsilon",
@@ -525,24 +526,24 @@ fun TemplateUi() {
 
 //    "surd"
     val clipboard = LocalClipboardManager.current
-    TabRow(selectedTabIndex = state.currentPage) {
+    TabRow(selectedTabIndex = state) {
         Tab(selected = false, onClick = {
-            coroutineScope.launch { state.animateScrollToPage(0) }
+            state=0
         }, text = { Text("Mark up") })
         Tab(selected = false, onClick = {
-            coroutineScope.launch { state.animateScrollToPage(1) }
+           state=1
         }, text = { Text("Equation") })
         Tab(selected = false, onClick = {
-            coroutineScope.launch { state.animateScrollToPage(2) }
+            state=2
         }, text = { Text("Letters") })
         Tab(selected = false, onClick = {
-            coroutineScope.launch { state.animateScrollToPage(3) }
+           state=3
         }, text = { Text("Symbols") })
     }
-    HorizontalPager(state = state) {
+   // HorizontalPager(state = state, userScrollEnabled = false) {
 
 
-        if (it == 0) {
+        if (state == 0) {
             FlowRow(
                 Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(4.dp)
@@ -561,11 +562,11 @@ fun TemplateUi() {
                 }
             }
         } else {
-            TemptRow(listOfMap[it - 1])
+            TemptRow(listOfMap[state - 1])
         }
 
 
-    }
+   // }
 }
 
 @Composable
@@ -582,7 +583,7 @@ fun TemptRow(
 
 
 @OptIn(
-    ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class,
+    ExperimentalLayoutApi::class,
     ExperimentalFoundationApi::class
 )
 @Composable

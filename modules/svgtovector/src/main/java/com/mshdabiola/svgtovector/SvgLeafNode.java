@@ -15,6 +15,7 @@
  */
 package com.mshdabiola.svgtovector;
 
+import static com.android.utils.XmlUtils.formatFloatValue;
 import static com.mshdabiola.svgtovector.Svg2Vector.SVG_FILL;
 import static com.mshdabiola.svgtovector.Svg2Vector.SVG_FILL_OPACITY;
 import static com.mshdabiola.svgtovector.Svg2Vector.SVG_OPACITY;
@@ -22,7 +23,6 @@ import static com.mshdabiola.svgtovector.Svg2Vector.SVG_STROKE;
 import static com.mshdabiola.svgtovector.Svg2Vector.SVG_STROKE_OPACITY;
 import static com.mshdabiola.svgtovector.Svg2Vector.SVG_STROKE_WIDTH;
 import static com.mshdabiola.svgtovector.Svg2Vector.presentationMap;
-import static com.android.utils.XmlUtils.formatFloatValue;
 import static java.lang.Math.abs;
 import static java.lang.Math.sqrt;
 
@@ -30,21 +30,27 @@ import com.android.annotations.NonNull;
 import com.android.annotations.Nullable;
 import com.mshdabiola.svgtovector.PathParser.ParseMode;
 
+import org.w3c.dom.Element;
+
 import java.awt.geom.AffineTransform;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.w3c.dom.Element;
 
-/** Represents an SVG file's leaf element. */
+/**
+ * Represents an SVG file's leaf element.
+ */
 class SvgLeafNode extends SvgNode {
     private static final Logger logger = Logger.getLogger(SvgLeafNode.class.getSimpleName());
 
-    @Nullable private String mPathData;
-    @Nullable private SvgGradientNode mFillGradientNode;
-    @Nullable private SvgGradientNode mStrokeGradientNode;
+    @Nullable
+    private String mPathData;
+    @Nullable
+    private SvgGradientNode mFillGradientNode;
+    @Nullable
+    private SvgGradientNode mStrokeGradientNode;
 
     SvgLeafNode(@NonNull SvgTree svgTree, @NonNull Element element, @Nullable String nodeName) {
         super(svgTree, element, nodeName);
@@ -63,8 +69,10 @@ class SvgLeafNode extends SvgNode {
         mPathData = from.mPathData;
     }
 
-    /** Writes attributes of this node. */
-    private void writeAttributeValues(@NonNull OutputStreamWriter writer,  @NonNull String indent)
+    /**
+     * Writes attributes of this node.
+     */
+    private void writeAttributeValues(@NonNull OutputStreamWriter writer, @NonNull String indent)
             throws IOException {
         // There could be some redundant opacity information in the attributes' map,
         // like opacity vs fill-opacity / stroke-opacity.
@@ -175,13 +183,13 @@ class SvgLeafNode extends SvgNode {
                 (mName != null ? mName : " null name "));
     }
 
-    public void setPathData(@NonNull String pathData) {
-        mPathData = pathData;
-    }
-
     @Nullable
     public String getPathData() {
         return mPathData;
+    }
+
+    public void setPathData(@NonNull String pathData) {
+        mPathData = pathData;
     }
 
     @Override

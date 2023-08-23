@@ -26,11 +26,16 @@ import org.koin.dsl.module
 val dataModule = module {
     includes(settingModule, databaseModule)
     singleOf(::SettingRepository) bind ISettingRepository::class
-   // singleOf(::RealINetworkRepository) bind INetworkRepository::class
+    // singleOf(::RealINetworkRepository) bind INetworkRepository::class
     singleOf(::RealModelRepository) bind IModelRepository::class
     singleOf(::SubjectRepository) bind ISubjectRepository::class
     singleOf(::QuestionRepository) bind IQuestionRepository::class
     singleOf(::InstructionRepository) bind IInstructionRepository::class
     singleOf(::TopicRepository) bind ITopicRepository::class
-    single{ExamRepository(iExamDao = get(), database = get(qualifier = qualifier(name)))} bind IExamRepository::class
+    single {
+        ExamRepository(
+            iExamDao = get(),
+            database = get(qualifier = qualifier(name))
+        )
+    } bind IExamRepository::class
 }

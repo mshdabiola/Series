@@ -17,7 +17,9 @@ package com.mshdabiola.svgtovector;
 
 import static com.android.utils.XmlUtils.formatFloatValue;
 
-/** Builds a string for SVG file's path data. */
+/**
+ * Builds a string for SVG file's path data.
+ */
 public class PathBuilder {
     private final StringBuilder mPathData = new StringBuilder();
 
@@ -225,7 +227,9 @@ public class PathBuilder {
         return this;
     }
 
-    /** Returns true if the PathBuilder doesn't contain any data. */
+    /**
+     * Returns true if the PathBuilder doesn't contain any data.
+     */
     public boolean isEmpty() {
         return mPathData.length() == 0;
     }

@@ -15,11 +15,14 @@
  */
 package com.mshdabiola.svgtovector;
 
-import java.awt.Graphics2D;
-import java.awt.geom.AffineTransform;
 import org.w3c.dom.NamedNodeMap;
 
-/** Used to represent one VectorDrawable's element, can be a group or path. */
+import java.awt.Graphics2D;
+import java.awt.geom.AffineTransform;
+
+/**
+ * Used to represent one VectorDrawable's element, can be a group or path.
+ */
 abstract class VdElement {
     String mName;
 

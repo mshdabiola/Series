@@ -1,23 +1,14 @@
 package com.mshdabiola.data
 
+//import com.android.ide.common.vectordrawable.Svg2Vector
 import com.mshdabiola.model.ImageUtil.getGeneralDir
 import com.mshdabiola.model.ImageUtil.newPath
 import com.mshdabiola.svgtovector.Svg2Vector
-//import com.android.ide.common.vectordrawable.Svg2Vector
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.File
 import java.io.FileOutputStream
 import kotlin.io.path.Path
-import kotlin.io.path.absolutePathString
-import kotlin.io.path.copyTo
-import kotlin.io.path.createFile
-import kotlin.io.path.createParentDirectories
-import kotlin.io.path.deleteExisting
-import kotlin.io.path.deleteIfExists
-import kotlin.io.path.extension
-import kotlin.io.path.name
-import kotlin.io.path.outputStream
 
 object SvgObject {
     suspend fun saveImage(
@@ -31,7 +22,7 @@ object SvgObject {
             println("oldPath ${oldPath.path}")
             oldPath.delete()
             val imageFile = File(fileString)
-            val newPath = newPath(imageFile.extension,examId)
+            val newPath = newPath(imageFile.extension, examId)
 
 
 

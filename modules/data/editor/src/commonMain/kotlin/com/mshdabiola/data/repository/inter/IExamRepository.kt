@@ -25,14 +25,15 @@ interface IExamRepository {
     suspend fun updateType(id: Long, isOnlyObj: Boolean)
 
     suspend fun export(
-        examsId : List<Long>,
-        path :String,
-        name:String,
-        version:Int,
-        key:String
+        examsId: List<Long>,
+        path: String,
+        name: String,
+        version: Int,
+        key: String
     )
+
     suspend fun import(
-        path :String,
-        key:String
+        path: String,
+        key: String
     )
 }

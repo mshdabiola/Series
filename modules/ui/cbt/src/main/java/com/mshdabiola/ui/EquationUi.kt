@@ -238,7 +238,7 @@ internal actual fun OptionsUiPreview() {
                 ).toImmutableList(),
                 isAnswer = false
             )
-        ).toImmutableList(), examId =4
+        ).toImmutableList(), examId = 4
     )
 }
 

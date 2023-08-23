@@ -29,8 +29,10 @@ abstract class AbstractTest : KoinTest {
 
                 SeriesDatabase(
                     driver = driver,
-                    questionEntityAdapter = QuestionEntity.Adapter(listOfValueAdapter,
-                        listOfValueAdapter),
+                    questionEntityAdapter = QuestionEntity.Adapter(
+                        listOfValueAdapter,
+                        listOfValueAdapter
+                    ),
                     instructionEntityAdapter = InstructionEntity.Adapter(listOfValueAdapter),
                     optionEntityAdapter = OptionEntity.Adapter(listOfValueAdapter)
                 )

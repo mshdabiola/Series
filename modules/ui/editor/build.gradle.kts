@@ -14,6 +14,7 @@ kotlin {
                 //implementation(libs.kotlinx.datetime)
                 implementation(project(":modules:retex"))
                 implementation(project(":modules:model"))
+                implementation(project(":modules:ui:common"))
             }
         }
 

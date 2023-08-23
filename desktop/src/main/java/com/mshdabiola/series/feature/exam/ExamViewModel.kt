@@ -47,7 +47,7 @@ class ExamViewModel(
     private val settingRepository: ISettingRepository,
 
     ) : ViewModel() {
-        val converter=Converter()
+    val converter = Converter()
 
 
     private var _question =
@@ -130,12 +130,12 @@ class ExamViewModel(
                 .distinctUntilChanged()
                 .collectLatest {
 
-                        if (it == getEmptyQuestion()) {
-                            log("remove")
-                            settingRepository.removeQuestion(examId)
-                        } else {
-                            settingRepository.setCurrentQuestion(it.toQuestionWithOptions(examId))
-                        }
+                    if (it == getEmptyQuestion()) {
+                        log("remove")
+                        settingRepository.removeQuestion(examId)
+                    } else {
+                        settingRepository.setCurrentQuestion(it.toQuestionWithOptions(examId))
+                    }
 
 
                 }
@@ -208,18 +208,18 @@ class ExamViewModel(
         val question = questions
             .value
             .find { it.id == id }
-       val oldQuetions= _question.value
-        if (oldQuetions.id<0) {
+        val oldQuetions = _question.value
+        if (oldQuetions.id < 0) {
             oldQuetions.content
                 .filter { it.type == Type.IMAGE }
                 .forEach {
-                    getGeneralDir(it.content,examId).delete()
+                    getGeneralDir(it.content, examId).delete()
                 }
             oldQuetions.options
                 .flatMap { it.content }
                 .filter { it.type == Type.IMAGE }
                 .forEach {
-                    getGeneralDir(it.content,examId).delete()
+                    getGeneralDir(it.content, examId).delete()
                 }
         }
         question?.let {
@@ -240,7 +240,7 @@ class ExamViewModel(
             questionRepository.insert(question2.toQuestionWithOptions(examId = examId))
             updateExamType(isObjOnly = allIsObj)
         }
-        _question.value = getEmptyQuestion()
+        _question.value = getEmptyQuestion(question2.options.size,question2.isTheory)
     }
 
     fun onAnswerClick(questionId: Long, optionId: Long) {
@@ -274,7 +274,7 @@ class ExamViewModel(
                         OptionUiState(
                             nos = (question.options.size + 1).toLong(),
                             content = listOf(
-                                ItemUiState(isEditMode = true)
+                                ItemUiState(isEditMode = true, focus = true)
                             ).toImmutableList(),
                             isAnswer = false
                         )
@@ -306,7 +306,7 @@ class ExamViewModel(
         question = if (isT) {
             question.copy(
                 answer = listOf(
-                    ItemUiState(isEditMode = true, focus = true)
+                    ItemUiState(isEditMode = true, focus = false)
                 ).toImmutableList(),
                 options = emptyList<OptionUiState>().toImmutableList()
             )
@@ -319,42 +319,29 @@ class ExamViewModel(
 
     }
 
-    private fun getEmptyQuestion(): QuestionUiState {
+    private fun getEmptyQuestion(optionNo:Int=4,isTheory:Boolean=false): QuestionUiState {
+
+        val opNumb= if(isTheory)0 else optionNo
         return QuestionUiState(
             nos = -1,
             examId = examId,
             content = listOf(
                 ItemUiState(isEditMode = true, focus = true)
             ).toImmutableList(),
-            options = listOf(
-                OptionUiState(
-                    nos = 1,
-                    content = listOf(
-                        ItemUiState(isEditMode = true)
-                    ).toImmutableList(),
-                    isAnswer = false
-                ),
-                OptionUiState(
-                    nos = 2,
-                    content = listOf(
-                        ItemUiState(isEditMode = true)
-                    ).toImmutableList(),
-                    isAnswer = false
-                ),
-                OptionUiState(
-                    nos = 3, content = listOf(
-                        ItemUiState(isEditMode = true)
-                    ).toImmutableList(),
-                    isAnswer = false
-                ),
-                OptionUiState(
-                    nos = 4,
-                    content = listOf(
-                        ItemUiState(isEditMode = true)
-                    ).toImmutableList(),
-                    isAnswer = false
-                )
-            ).toImmutableList(),
+            options = (1..opNumb)
+                .map {
+                    OptionUiState(
+                        nos = it.toLong(),
+                        content = listOf(
+                            ItemUiState(isEditMode = true)
+                        ).toImmutableList(),
+                        isAnswer = false
+                    )
+                }.toImmutableList(),
+            isTheory = isTheory,
+            answer = if (isTheory) listOf(
+                ItemUiState(isEditMode = true)
+            ).toImmutableList() else null
         )
     }
 
@@ -442,7 +429,7 @@ class ExamViewModel(
         editContent(questionIndex) {
             val oldItem = it[index]
             if (oldItem.type == Type.IMAGE) {
-                getGeneralDir(oldItem.content,examId).deleteOnExit()
+                getGeneralDir(oldItem.content, examId).deleteOnExit()
 
 //                FileManager.delete(
 //                    oldItem.content,
@@ -488,7 +475,7 @@ class ExamViewModel(
         editContent(questionIndex) {
             val oldItem = it[index]
             if (oldItem.type == Type.IMAGE) {
-                getGeneralDir(oldItem.content,examId).deleteOnExit()
+                getGeneralDir(oldItem.content, examId).deleteOnExit()
             }
             it[index] = ItemUiState(isEditMode = true, type = type)
             index
@@ -800,7 +787,7 @@ class ExamViewModel(
         editContentInstruction() {
             val oldItem = it[index]
             if (oldItem.type == Type.IMAGE) {
-                getGeneralDir(oldItem.content,examId).deleteOnExit()
+                getGeneralDir(oldItem.content, examId).deleteOnExit()
             }
             it.removeAt(index)
             null
@@ -813,7 +800,7 @@ class ExamViewModel(
         editContentInstruction() {
             val oldItem = it[index]
             if (oldItem.type == Type.IMAGE) {
-                getGeneralDir(oldItem.content,examId).deleteOnExit()
+                getGeneralDir(oldItem.content, examId).deleteOnExit()
             }
             it[index] = ItemUiState(isEditMode = true, type = type)
             index
@@ -869,12 +856,12 @@ class ExamViewModel(
     }
 
     fun onUpdateInstruction(id: Long) {
-        val oldInstructionUiState=_instructionUiState.value
-        if (oldInstructionUiState.id<0){
+        val oldInstructionUiState = _instructionUiState.value
+        if (oldInstructionUiState.id < 0) {
             oldInstructionUiState.content
                 .filter { it.type == Type.IMAGE }
                 .forEach {
-                    getGeneralDir(it.content,examId).delete()
+                    getGeneralDir(it.content, examId).delete()
                 }
         }
         instructions.value.find { it.id == id }?.let { uiState ->
@@ -913,7 +900,6 @@ class ExamViewModel(
             _topicUiState.value = it.copy(focus = true)
         }
     }
-
 
 
     private fun log(msg: String) {

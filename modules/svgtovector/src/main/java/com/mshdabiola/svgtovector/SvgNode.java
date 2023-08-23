@@ -18,6 +18,10 @@ package com.mshdabiola.svgtovector;
 import com.android.annotations.NonNull;
 import com.android.annotations.Nullable;
 
+import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
+
 import java.awt.geom.AffineTransform;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
@@ -25,16 +29,14 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.w3c.dom.Element;
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.Node;
 
-/** Parent class for a SVG file's node, can be either group or leaf element. */
+/**
+ * Parent class for a SVG file's node, can be either group or leaf element.
+ */
 abstract class SvgNode {
-    private static final Logger logger = Logger.getLogger(SvgNode.class.getSimpleName());
-
     protected static final String INDENT_UNIT = "  ";
     protected static final String CONTINUATION_INDENT = INDENT_UNIT + INDENT_UNIT;
+    private static final Logger logger = Logger.getLogger(SvgNode.class.getSimpleName());
     private static final String TRANSFORM_TAG = "transform";
 
     private static final String MATRIX_ATTRIBUTE = "matrix";
@@ -52,7 +54,9 @@ abstract class SvgNode {
 
     // Key is the attributes for vector drawable, and the value is the converted from SVG.
     protected final Map<String, String> mVdAttributesMap = new HashMap<>();
-    /** Stroke is applied before fill as a result of "paint-order:stroke fill" style. */
+    /**
+     * Stroke is applied before fill as a result of "paint-order:stroke fill" style.
+     */
     protected boolean mStrokeBeforeFill;
     // If mLocalTransform is identity, it is the same as not having any transformation.
     protected AffineTransform mLocalTransform = new AffineTransform();
@@ -61,7 +65,9 @@ abstract class SvgNode {
     // This is the stacked transformation. And this will be used for the path data transform().
     protected AffineTransform mStackedTransform = new AffineTransform();
 
-    /** While parsing the translate() rotate() ..., update the {@code mLocalTransform}. */
+    /**
+     * While parsing the translate() rotate() ..., update the {@code mLocalTransform}.
+     */
     SvgNode(@NonNull SvgTree svgTree, @NonNull Element element, @Nullable String name) {
         mName = name;
         mSvgTree = svgTree;
@@ -82,20 +88,6 @@ abstract class SvgNode {
             if (TRANSFORM_TAG.equals(nodeName)) {
                 logger.log(Level.FINE, nodeName + " " + nodeValue);
                 parseLocalTransform(nodeValue);
-            }
-        }
-    }
-
-    protected void parseLocalTransform(@NonNull String nodeValue) {
-        // We separate the string into multiple parts and look like this:
-        // "translate" "30" "rotate" "4.5e1  5e1  50"
-        nodeValue = nodeValue.replaceAll(",", " ");
-        String[] matrices = nodeValue.split("[()]");
-        AffineTransform parsedTransform;
-        for (int i = 0; i < matrices.length - 1; i += 2) {
-            parsedTransform = parseOneTransform(matrices[i].trim(), matrices[i + 1].trim());
-            if (parsedTransform != null) {
-                mLocalTransform.concatenate(parsedTransform);
             }
         }
     }
@@ -166,6 +158,20 @@ abstract class SvgNode {
         return results;
     }
 
+    protected void parseLocalTransform(@NonNull String nodeValue) {
+        // We separate the string into multiple parts and look like this:
+        // "translate" "30" "rotate" "4.5e1  5e1  50"
+        nodeValue = nodeValue.replaceAll(",", " ");
+        String[] matrices = nodeValue.split("[()]");
+        AffineTransform parsedTransform;
+        for (int i = 0; i < matrices.length - 1; i += 2) {
+            parsedTransform = parseOneTransform(matrices[i].trim(), matrices[i + 1].trim());
+            if (parsedTransform != null) {
+                mLocalTransform.concatenate(parsedTransform);
+            }
+        }
+    }
+
     @NonNull
     protected SvgTree getTree() {
         return mSvgTree;
@@ -181,7 +187,9 @@ abstract class SvgNode {
         return mDocumentElement;
     }
 
-    /** Dumps the current node's debug info. */
+    /**
+     * Dumps the current node's debug info.
+     */
     public abstract void dumpNode(@NonNull String indent);
 
     /**
@@ -202,10 +210,14 @@ abstract class SvgNode {
         return visitor.visit(this);
     }
 
-    /** Returns true the node is a group node. */
+    /**
+     * Returns true the node is a group node.
+     */
     public abstract boolean isGroupNode();
 
-    /** Transforms the current Node with the transformation matrix. */
+    /**
+     * Transforms the current Node with the transformation matrix.
+     */
     public abstract void transformIfNeeded(@NonNull AffineTransform finalTransform);
 
     private void fillPresentationAttributesInternal(@NonNull String name, @NonNull String value) {
@@ -271,7 +283,8 @@ abstract class SvgNode {
     /**
      * Checks validity of the node and logs any issues associated with it. Subclasses may override.
      */
-    public void validate() {}
+    public void validate() {
+    }
 
     /**
      * Returns a string containing the value of the given attribute. Returns an empty string if
@@ -294,9 +307,9 @@ abstract class SvgNode {
      * color value can be "none" and RGB value, e.g. "rgb(255, 0, 0)", or a color name defined in
      * https://www.w3.org/TR/SVG11/types.html#ColorKeywords.
      *
-     * @param svgColor the SVG color value to convert
+     * @param svgColor           the SVG color value to convert
      * @param errorFallbackColor the value returned if the supplied SVG color value has invalid or
-     *     unsupported format
+     *                           unsupported format
      * @return the converted value, or null if the given value cannot be interpreted as color
      */
     @Nullable
@@ -330,18 +343,6 @@ abstract class SvgNode {
         mSvgTree.logWarning(s, mDocumentElement);
     }
 
-    protected interface Visitor {
-        /**
-         * Called by the {@link SvgNode#accept(SvgNode.Visitor)} method for every visited node.
-         *
-         * @param node the node being visited
-         * @return {@link SvgNode.VisitResult#CONTINUE} to continue visiting children,
-         *         {@link SvgNode.VisitResult#SKIP_CHILDREN} to skip children and continue visit with
-         *         the next sibling, {@link SvgNode.VisitResult#ABORT} to skip all remaining nodes
-         */
-        SvgNode.VisitResult visit(@NonNull SvgNode node);
-    }
-
     protected enum VisitResult {
         CONTINUE,
         SKIP_CHILDREN,
@@ -351,5 +352,17 @@ abstract class SvgNode {
     protected enum ClipRule {
         NON_ZERO,
         EVEN_ODD
+    }
+
+    protected interface Visitor {
+        /**
+         * Called by the {@link SvgNode#accept(SvgNode.Visitor)} method for every visited node.
+         *
+         * @param node the node being visited
+         * @return {@link SvgNode.VisitResult#CONTINUE} to continue visiting children,
+         * {@link SvgNode.VisitResult#SKIP_CHILDREN} to skip children and continue visit with
+         * the next sibling, {@link SvgNode.VisitResult#ABORT} to skip all remaining nodes
+         */
+        SvgNode.VisitResult visit(@NonNull SvgNode node);
     }
 }

@@ -14,7 +14,7 @@ import kotlinx.collections.immutable.ImmutableList
 
 
 @Composable
-fun ItemUi(items: ImmutableList<ItemUiState>, examID:Long) {
+fun ItemUi(items: ImmutableList<ItemUiState>, examID: Long) {
 
     items.forEach { item ->
         when (item.type) {
@@ -29,7 +29,7 @@ fun ItemUi(items: ImmutableList<ItemUiState>, examID:Long) {
             Type.IMAGE -> {
                 ImageUi(
                     Modifier.fillMaxWidth().heightIn(60.dp, 300.dp),
-                    path = getGeneralDir(item.content,examID,).path,
+                    path = getGeneralDir(item.content, examID).path,
                     contentDescription = item.content
                 )
             }

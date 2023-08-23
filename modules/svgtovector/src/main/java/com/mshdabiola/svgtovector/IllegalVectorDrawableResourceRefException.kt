@@ -23,5 +23,5 @@ import com.android.ide.common.blame.SourcePosition
  * causing PNG generation to fail.
  */
 class IllegalVectorDrawableResourceRefException(
-    val value: String, val sourcePosition: SourcePosition, message: String?)
-    : RuntimeException(message)
+    val value: String, val sourcePosition: SourcePosition, message: String?
+) : RuntimeException(message)

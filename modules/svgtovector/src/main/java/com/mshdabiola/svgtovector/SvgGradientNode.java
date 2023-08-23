@@ -38,19 +38,11 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/** Represents an SVG gradient that is referenced by a SvgLeafNode. */
+/**
+ * Represents an SVG gradient that is referenced by a SvgLeafNode.
+ */
 class SvgGradientNode extends SvgNode {
     private static final Logger logger = Logger.getLogger(SvgGroupNode.class.getSimpleName());
-
-    private final List<GradientStop> mGradientStops = new ArrayList<>();
-
-    private SvgLeafNode mSvgLeafNode;
-
-    // Bounding box of mSvgLeafNode.
-    private Rectangle2D mBoundingBox;
-
-    private SvgGradientNode.GradientUsage mGradientUsage;
-
     // Maps the gradient vector's coordinate names to an int for easier array lookup.
     private static final ImmutableMap<String, Integer> vectorCoordinateMap =
             ImmutableMap.<String, Integer>builder()
@@ -59,6 +51,11 @@ class SvgGradientNode extends SvgNode {
                     .put("x2", 2)
                     .put("y2", 3)
                     .build();
+    private final List<GradientStop> mGradientStops = new ArrayList<>();
+    private SvgLeafNode mSvgLeafNode;
+    // Bounding box of mSvgLeafNode.
+    private Rectangle2D mBoundingBox;
+    private SvgGradientNode.GradientUsage mGradientUsage;
 
     SvgGradientNode(@NonNull SvgTree svgTree, @NonNull Element element, @Nullable String nodeName) {
         super(svgTree, element, nodeName);
@@ -97,7 +94,7 @@ class SvgGradientNode extends SvgNode {
      * Resolves the 'href' reference to a template gradient element.
      *
      * @return true if the reference has been resolved, or false if it cannot be resolved at this
-     *     time due to a dependency on an unresolved node
+     * time due to a dependency on an unresolved node
      */
     public boolean resolveHref(@NonNull SvgTree svgTree) {
         String id = getHrefId();
@@ -137,7 +134,9 @@ class SvgGradientNode extends SvgNode {
         mStackedTransform.concatenate(mLocalTransform);
     }
 
-    /** Parses the gradient coordinate value given as a percentage or a length. Returns a double. */
+    /**
+     * Parses the gradient coordinate value given as a percentage or a length. Returns a double.
+     */
     private SvgGradientNode.GradientCoordResult getGradientCoordinate(@NonNull String x, double defaultValue) {
         if (!mVdAttributesMap.containsKey(x)) {
             return new SvgGradientNode.GradientCoordResult(defaultValue, false);
@@ -437,6 +436,11 @@ class SvgGradientNode extends SvgNode {
         mBoundingBox = svgPath.getBounds2D();
     }
 
+    protected enum GradientUsage {
+        FILL,
+        STROKE
+    }
+
     private static class GradientCoordResult {
         private final double mValue;
         // When the gradientUnits is set to "userSpaceOnUse", we usually use the coordinate values
@@ -457,10 +461,5 @@ class SvgGradientNode extends SvgNode {
         boolean isPercentage() {
             return mIsPercentage;
         }
-    }
-
-    protected enum GradientUsage {
-        FILL,
-        STROKE
     }
 }

@@ -28,22 +28,22 @@ import kotlin.math.log10
  * values given the maximum viewport dimension.
  */
 fun getCoordinateFormat(maxViewportSize: Float): NumberFormat {
-  val exponent = floor(log10(maxViewportSize.toDouble())).toInt()
-  var fractionalDigits = 4 - exponent
-  val formatBuilder = StringBuilder("#")
-  if (fractionalDigits > 0) {
-    // Build a string with decimal places for "#.##...", and cap at 6 digits.
-    if (fractionalDigits > 6) {
-      fractionalDigits = 6
+    val exponent = floor(log10(maxViewportSize.toDouble())).toInt()
+    var fractionalDigits = 4 - exponent
+    val formatBuilder = StringBuilder("#")
+    if (fractionalDigits > 0) {
+        // Build a string with decimal places for "#.##...", and cap at 6 digits.
+        if (fractionalDigits > 6) {
+            fractionalDigits = 6
+        }
+        formatBuilder.append('.')
+        for (i in 0 until fractionalDigits) {
+            formatBuilder.append('#')
+        }
     }
-    formatBuilder.append('.')
-    for (i in 0 until fractionalDigits) {
-      formatBuilder.append('#')
+    return DecimalFormat(formatBuilder.toString(), DecimalFormatSymbols(Locale.ROOT)).apply {
+        roundingMode = RoundingMode.HALF_UP
     }
-  }
-  return DecimalFormat(formatBuilder.toString(), DecimalFormatSymbols(Locale.ROOT)).apply {
-    roundingMode = RoundingMode.HALF_UP
-  }
 }
 
 private const val ALPHA_MASK = 0xFF shl 24
@@ -55,28 +55,32 @@ private const val ALPHA_MASK = 0xFF shl 24
  * @return the integer color value
  */
 fun parseColorValue(color: String): Int {
-  require(color.startsWith("#")) { "Invalid color value $color" }
+    require(color.startsWith("#")) { "Invalid color value $color" }
 
-  return when (color.length) {
-    7 -> {
-      // #RRGGBB
-      Integer.parseUnsignedInt(color.substring(1), 16) or ALPHA_MASK
+    return when (color.length) {
+        7 -> {
+            // #RRGGBB
+            Integer.parseUnsignedInt(color.substring(1), 16) or ALPHA_MASK
+        }
+
+        9 -> {
+            // #AARRGGBB
+            Integer.parseUnsignedInt(color.substring(1), 16)
+        }
+
+        4 -> {
+            // #RGB
+            val v = Integer.parseUnsignedInt(color.substring(1), 16)
+            (v shr 8 and 0xF) * 0x110000 or (v shr 4 and 0xF) * 0x1100 or (v and 0xF) * 0x11 or ALPHA_MASK
+        }
+
+        5 -> {
+            // #ARGB
+            val v = Integer.parseUnsignedInt(color.substring(1), 16)
+            (v shr 12 and 0xF) * 0x11000000 or (v shr 8 and 0xF) * 0x110000 or
+                    (v shr 4 and 0xF) * 0x1100 or (v and 0xF) * 0x11
+        }
+
+        else -> ALPHA_MASK
     }
-    9 -> {
-      // #AARRGGBB
-      Integer.parseUnsignedInt(color.substring(1), 16)
-    }
-    4 -> {
-      // #RGB
-      val v = Integer.parseUnsignedInt(color.substring(1), 16)
-      (v shr 8 and 0xF) * 0x110000 or (v shr 4 and 0xF) * 0x1100 or (v and 0xF) * 0x11 or ALPHA_MASK
-    }
-    5 -> {
-      // #ARGB
-      val v = Integer.parseUnsignedInt(color.substring(1), 16)
-      (v shr 12 and 0xF) * 0x11000000 or (v shr 8 and 0xF) * 0x110000 or
-              (v shr 4 and 0xF) * 0x1100 or (v and 0xF) * 0x11
-    }
-    else -> ALPHA_MASK
-  }
 }

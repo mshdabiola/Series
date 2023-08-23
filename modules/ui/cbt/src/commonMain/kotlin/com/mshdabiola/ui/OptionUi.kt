@@ -29,7 +29,7 @@ fun OptionsUi(
     showAnswer: Boolean = false,
     onClick: (Int) -> Unit = {},
     selectedOption: Int = -1,
-    examId:Long
+    examId: Long
 ) {
 
     val noRow = remember {
@@ -58,7 +58,7 @@ fun OptionsUi(
                 showAnswer = showAnswer,
                 isChoose = selectedOption == index,
                 onClick = { onClick(index) },
-                examId=examId
+                examId = examId
             )
         }
     }
@@ -104,7 +104,7 @@ fun OptionUi(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            ItemUi(optionUiState.content,examId )
+            ItemUi(optionUiState.content, examId)
         }
     }
 

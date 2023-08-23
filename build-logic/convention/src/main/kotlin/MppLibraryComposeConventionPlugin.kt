@@ -15,7 +15,6 @@
  */
 
 import com.android.build.gradle.LibraryExtension
-import com.mshdabiola.app.configureAndroidCompose
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.artifacts.VersionCatalogsExtension
@@ -35,7 +34,6 @@ class MppLibraryComposeConventionPlugin : Plugin<Project> {
             var composer = extensions.getByType<ComposeExtension>()
 
 
-
             val extension = extensions.getByType<LibraryExtension>()
             extension.apply {
                 buildFeatures {
@@ -47,14 +45,14 @@ class MppLibraryComposeConventionPlugin : Plugin<Project> {
                         libs.findVersion("androidxComposeCompiler").get().toString()
                 }
             }
-         //   configureAndroidCompose(extension)
+            //   configureAndroidCompose(extension)
             extensions.configure<KotlinMultiplatformExtension> {
 
                 with(sourceSets) {
 
                     getByName("commonMain") {
                         this.dependencies {
-                           // compose.dependencies.preview
+                            // compose.dependencies.preview
 
                             implementation("org.jetbrains.compose.ui:ui-tooling-preview:1.5.0-dev1147")
                             implementation("org.jetbrains.compose.runtime:runtime:1.5.0-dev1147")

@@ -2,12 +2,11 @@ package com.mshdabiola.data.repository
 
 import com.mshdabiola.database.SeriesDatabase
 
-actual class DatabaseExportImport actual constructor(private val database: SeriesDatabase)
-{
+actual class DatabaseExportImport actual constructor(private val database: SeriesDatabase) {
     actual suspend fun export(
         examsId: List<Long>,
         path: String,
-        name:String,
+        name: String,
         version: Int,
         key: String
     ) {

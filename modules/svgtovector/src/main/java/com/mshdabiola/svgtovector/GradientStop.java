@@ -17,7 +17,9 @@ package com.mshdabiola.svgtovector;
 
 import com.android.annotations.NonNull;
 
-/** Represents an SVG gradient stop or Android's GradientColorItem. */
+/**
+ * Represents an SVG gradient stop or Android's GradientColorItem.
+ */
 public class GradientStop {
     private final String color;
     private final String offset;

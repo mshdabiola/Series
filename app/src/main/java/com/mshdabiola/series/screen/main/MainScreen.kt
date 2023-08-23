@@ -30,10 +30,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringArrayResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.testTagsAsResourceId
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewLightDark
+import androidx.compose.ui.tooling.preview.PreviewScreenSizes
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.mshdabiola.series.R
@@ -71,8 +74,8 @@ internal fun MainScreen(
 
     val finishPercent = remember(mainState.choose) {
         var choose = mainState
-        .choose
-        .flatten()
+            .choose
+            .flatten()
         choose.count {
             it > -1
         } / choose.size.toFloat()
@@ -89,8 +92,8 @@ internal fun MainScreen(
             CenterAlignedTopAppBar(
                 title = {
                     Column(verticalArrangement = Arrangement.Center) {
-                        Text(text = mainState.title)
-                        Text(text = "Waec series", style = MaterialTheme.typography.labelMedium)
+                        Text(text = stringResource(id = R.string.subject))
+                        Text(text = stringResource(id = R.string.type), style = MaterialTheme.typography.labelMedium)
                     }
 
                 },

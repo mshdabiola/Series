@@ -14,7 +14,7 @@ object SvgObject {
         path: String,
         examId: Long,
 
-    ): String {
+        ): String {
         return withContext(Dispatchers.IO) {
 
             val oldPath = FileManager.path(oldName, subjectId, examId, imageType)

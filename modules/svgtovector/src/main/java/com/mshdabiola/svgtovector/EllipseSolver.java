@@ -72,7 +72,7 @@ class EllipseSolver {
         double middleR = rx * ry / Math.hypot(ry * cos(middleRadians), rx * sin(middleRadians));
 
         Point2D.Double middlePoint =
-                new Point2D.Double(middleR * cos(middleRadians),middleR * sin(middleRadians));
+                new Point2D.Double(middleR * cos(middleRadians), middleR * sin(middleRadians));
         middlePoint = rotatePoint2D(middlePoint, xAxisRotation);
         middlePoint.x += originalCenter.x;
         middlePoint.y += originalCenter.y;
@@ -115,7 +115,7 @@ class EllipseSolver {
     /**
      * After a random transformation, the controls points may change its direction, left handed <->
      * right handed. In this case, we better flip the flag for the ArcTo command.
-     *
+     * <p>
      * Here, we use the cross product to figure out the direction of the 3 control points for the
      * src and dst ellipse.
      */
@@ -140,6 +140,53 @@ class EllipseSolver {
         double minorMinusMiddleY = minorAxisPoint.y - middlePoint.y;
 
         return majorMinusMiddleX * minorMinusMiddleY - majorMinusMiddleY * minorMinusMiddleX;
+    }
+
+    private static Point2D.Double computeOriginalCenter(float x1, float y1, float rx, float ry,
+                                                        float phi, boolean largeArc, boolean sweep, float x2, float y2) {
+        double cosPhi = cos(phi);
+        double sinPhi = sin(phi);
+        double xDelta = (x1 - x2) / 2;
+        double yDelta = (y1 - y2) / 2;
+        double tempX1 = cosPhi * xDelta + sinPhi * yDelta;
+        double tempY1 = -sinPhi * xDelta + cosPhi * yDelta;
+
+        double rxSq = rx * rx;
+        double rySq = ry * ry;
+        double tempX1Sq = tempX1 * tempX1;
+        double tempY1Sq = tempY1 * tempY1;
+
+        double tempCenterFactor = rxSq * rySq - rxSq * tempY1Sq - rySq * tempX1Sq;
+        tempCenterFactor /= rxSq * tempY1Sq + rySq * tempX1Sq;
+        if (tempCenterFactor < 0) {
+            tempCenterFactor = 0;
+        }
+        tempCenterFactor = sqrt(tempCenterFactor);
+        if (largeArc == sweep) {
+            tempCenterFactor = -tempCenterFactor;
+        }
+        double tempCx = tempCenterFactor * rx * tempY1 / ry;
+        double tempCy = -tempCenterFactor * ry * tempX1 / rx;
+
+        double xCenter = (x1 + x2) / 2;
+        double yCenter = (y1 + y2) / 2;
+
+        return new Point2D.Double(cosPhi * tempCx - sinPhi * tempCy + xCenter,
+                sinPhi * tempCx + cosPhi * tempCy + yCenter);
+    }
+
+    /**
+     * Rotates a point by the given angle.
+     *
+     * @param inPoint the point to rotate
+     * @param radians the rotation angle in radians
+     * @return the rotated point
+     */
+    private static Point2D.Double rotatePoint2D(Point2D.Double inPoint, double radians) {
+        double cos = cos(radians);
+        double sin = sin(radians);
+        return new Point2D.Double(inPoint.x * cos - inPoint.y * sin,
+                inPoint.x * sin + inPoint.y * cos);
     }
 
     /**
@@ -211,39 +258,6 @@ class EllipseSolver {
         return false;
     }
 
-    private static Point2D.Double computeOriginalCenter(float x1, float y1, float rx, float ry,
-                                                        float phi, boolean largeArc, boolean sweep, float x2, float y2) {
-        double cosPhi = cos(phi);
-        double sinPhi = sin(phi);
-        double xDelta = (x1 - x2) / 2;
-        double yDelta = (y1 - y2) / 2;
-        double tempX1 = cosPhi * xDelta + sinPhi * yDelta;
-        double tempY1 = -sinPhi * xDelta + cosPhi * yDelta;
-
-        double rxSq = rx * rx;
-        double rySq = ry * ry;
-        double tempX1Sq = tempX1 * tempX1;
-        double tempY1Sq = tempY1 * tempY1;
-
-        double tempCenterFactor = rxSq * rySq - rxSq * tempY1Sq - rySq * tempX1Sq;
-        tempCenterFactor /= rxSq * tempY1Sq + rySq * tempX1Sq;
-        if (tempCenterFactor < 0) {
-            tempCenterFactor = 0;
-        }
-        tempCenterFactor = sqrt(tempCenterFactor);
-        if (largeArc == sweep) {
-            tempCenterFactor = -tempCenterFactor;
-        }
-        double tempCx = tempCenterFactor * rx * tempY1 / ry;
-        double tempCy = -tempCenterFactor * ry * tempX1 / rx;
-
-        double xCenter = (x1 + x2) / 2;
-        double yCenter = (y1 + y2) / 2;
-
-        return new Point2D.Double(cosPhi * tempCx - sinPhi * tempCy + xCenter,
-                sinPhi * tempCx + cosPhi * tempCy + yCenter);
-    }
-
     public float getMajorAxis() {
         return mMajorAxis;
     }
@@ -258,19 +272,5 @@ class EllipseSolver {
 
     public boolean getDirectionChanged() {
         return mDirectionChanged;
-    }
-
-    /**
-     * Rotates a point by the given angle.
-     *
-     * @param inPoint the point to rotate
-     * @param radians the rotation angle in radians
-     * @return the rotated point
-     */
-    private static Point2D.Double rotatePoint2D(Point2D.Double inPoint, double radians) {
-        double cos = cos(radians);
-        double sin = sin(radians);
-        return new Point2D.Double(inPoint.x * cos - inPoint.y * sin,
-                inPoint.x * sin + inPoint.y * cos);
     }
 }

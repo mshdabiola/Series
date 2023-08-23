@@ -1,6 +1,5 @@
 package com.mshdabiola.ui
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -65,11 +64,14 @@ fun QuestionScroll(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(4.dp, Alignment.CenterHorizontally)
         ) {
-            if (showPrev) {
-                IconButton(onClick = onPrev) {
-                    Icon(Icons.Default.KeyboardArrowLeft, "prev")
-                }
+
+            IconButton(
+                enabled = showPrev,
+                onClick = onPrev
+            ) {
+                Icon(Icons.Default.KeyboardArrowLeft, "prev")
             }
+
             LazyRow(
                 state = state,
                 modifier = Modifier.weight(1f),
@@ -84,11 +86,13 @@ fun QuestionScroll(
                     ) { onChooseClick(it) }
                 }
             }
-            if (showNext) {
-                IconButton(onClick = onNext) {
-                    Icon(Icons.Default.KeyboardArrowRight, "next")
-                }
+            IconButton(
+                enabled = showNext,
+                onClick = onNext
+            ) {
+                Icon(Icons.Default.KeyboardArrowRight, "next")
             }
+
         }
 
 
@@ -116,13 +120,15 @@ fun QuestionNumberButton(
         MaterialTheme.colorScheme.primaryContainer
     else
         MaterialTheme.colorScheme.surface
+    val border = isCurrent || !isChoose
+
 
 
     OutlinedCard(
         modifier = Modifier.requiredSize(48.dp),
         shape = CircleShape,
         colors = CardDefaults.outlinedCardColors(containerColor = color),
-        border = CardDefaults.outlinedCardBorder(isCurrent.not()),
+        border = CardDefaults.outlinedCardBorder(border),
         onClick = onClick
     ) {
         Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
