@@ -101,32 +101,6 @@ class MainViewModel(
             }
         }
 
-        viewModelScope.launch {
-//            multiplatformSettings.name.collectLatest {
-//                print(it)
-//            }
-        }
-        viewModelScope.launch {
-//            settingRepository.setName("Ademola")
-        }
-//        viewModelScope.launch(Dispatchers.IO) {
-//            try {
-//                networkRepository.gotoGoogle()
-//            } catch (e: Exception) {
-//                //   e.printStackTrace()
-//            }
-//
-//
-//            settingRepository.dummy
-//                .collectLatest {
-//                    println(it)
-//                }
-//
-//        }
-
-//        viewModelScope.launch(Dispatchers.IO) {
-//            settingRepository.setDummy(DummySetting("abiola", "female"))
-//        }female
     }
 
 

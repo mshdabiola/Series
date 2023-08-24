@@ -29,13 +29,18 @@ import com.mshdabiola.ui.toTopic
 import com.mshdabiola.ui.toUi
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class ExamViewModel(
     private val examId: Long,
@@ -58,33 +63,17 @@ class ExamViewModel(
     private val _instructIdError = mutableStateOf(false)
     val instructIdError: State<Boolean> = _instructIdError
 
-    val questions = questionRepository.getAllWithExamId(examId)
-        .map {
-            log(it.joinToString(separator = "\n"))
-            it
-                .map { it.toQuestionUiState() }
-                .sortedBy { it.isTheory }
-                .toImmutableList()
-        }
-        .stateIn(
-            viewModelScope,
-            SharingStarted.WhileSubscribed(5000),
-            emptyList<QuestionUiState>().toImmutableList()
-        )
+    val questions = mutableStateOf(emptyList<QuestionUiState>().toImmutableList())
 
     //instruction
-    val instructions = instructionRepository
-        .getAll(examId)
-        .map { instructionList ->
-            instructionList.map {
-                it.toInstructionUiState()
-            }.toImmutableList()
-        }
-        .stateIn(
-            viewModelScope,
-            SharingStarted.WhileSubscribed(5000),
-            emptyList<InstructionUiState>().toImmutableList()
-        )
+
+    //topic
+
+    val topicUiStates = mutableStateOf(emptyList<TopicUiState>().toImmutableList())
+    private val _topicUiState = mutableStateOf(TopicUiState(subjectId = subjectId, name = ""))
+    val topicUiState: State<TopicUiState> = _topicUiState
+
+    val instructions = mutableStateOf(emptyList<InstructionUiState>().toImmutableList())
 
     private val defaultInstruction = InstructionUiState(
         examId = examId,
@@ -140,6 +129,51 @@ class ExamViewModel(
 
                 }
         }
+        viewModelScope.launch (Dispatchers.IO){
+
+        }
+        viewModelScope.launch (Dispatchers.IO){
+            questionRepository.getAllWithExamId(examId)
+                .map {
+                    it
+                        .map { it.toQuestionUiState() }
+                        .sortedBy { it.isTheory }
+                        .toImmutableList()
+                }
+                .collectLatest {
+
+                    withContext(Dispatchers.Main.immediate){
+                        questions.value=it
+                    }
+
+                }
+        }
+        viewModelScope.launch (Dispatchers.IO){
+            instructionRepository
+                .getAll(examId)
+                .map { instructionList ->
+                    instructionList.map {
+                        it.toInstructionUiState()
+                    }.toImmutableList()
+                }
+                .collectLatest {
+                    withContext(Dispatchers.Main.immediate){
+                        instructions.value=it
+                    }
+                }
+        }
+
+        viewModelScope.launch (Dispatchers.IO){
+            topicRepository
+                .getAllBySubject(subjectId)
+                .map { it.map { it.toUi() }.toImmutableList() }
+                .collectLatest {
+                    withContext(Dispatchers.Main.immediate) {
+                    topicUiStates.value=it
+                    }
+
+                }
+        }
     }
 
     //exam
@@ -154,18 +188,7 @@ class ExamViewModel(
 
     }
 
-    //topic
 
-    val topicUiStates = topicRepository
-        .getAllBySubject(subjectId)
-        .map { it.map { it.toUi() }.toImmutableList() }
-        .stateIn(
-            viewModelScope,
-            SharingStarted.WhileSubscribed(5000),
-            emptyList<TopicUiState>().toImmutableList()
-        )
-    private val _topicUiState = mutableStateOf(TopicUiState(subjectId = subjectId, name = ""))
-    val topicUiState: State<TopicUiState> = _topicUiState
 
 
     //question logic
@@ -243,9 +266,13 @@ class ExamViewModel(
         _question.value = getEmptyQuestion(question2.options.size,question2.isTheory)
     }
 
+    var answerJob:Job?=null
     fun onAnswerClick(questionId: Long, optionId: Long) {
 
-        rearrangeAndSave { questionUiStates ->
+        if (answerJob!=null)
+            return
+        answerJob=viewModelScope.launch(Dispatchers.IO) {
+            val questionUiStates= questions.value
             val questionIndex = questionUiStates.indexOfFirst { it.id == questionId }
             var question = questionUiStates[questionIndex]
             var options = question
@@ -257,7 +284,8 @@ class ExamViewModel(
             question = question.copy(
                 options = options.toImmutableList()
             )
-            questionUiStates[questionIndex] = question
+            questionRepository.insert(question.toQuestionWithOptions(examId))
+            answerJob=null
         }
 
     }
@@ -345,8 +373,12 @@ class ExamViewModel(
         )
     }
 
+    private var job : Job?=null
     private fun rearrangeAndSave(onEdit: suspend (MutableList<QuestionUiState>) -> Unit) {
-        viewModelScope.launch {
+       if (job!=null)
+           return
+
+        job=viewModelScope.launch {
             var list = questions.value.toMutableList()
             onEdit(list)
             var theory = 0L
@@ -364,6 +396,7 @@ class ExamViewModel(
 
             //save
             questionRepository.insertMany(list.map { it.toQuestionWithOptions(examId) })
+            job=null
         }
 
     }

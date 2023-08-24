@@ -90,9 +90,9 @@ fun ExamScreen(
         }
     ) { paddingValues ->
 
-        val questions = viewModel.questions.collectAsState()
-        val instructionUiStates = viewModel.instructions.collectAsState()
-        val topicUiStates = viewModel.topicUiStates.collectAsState()
+        val questions = viewModel.questions
+        val instructionUiStates = viewModel.instructions
+        val topicUiStates = viewModel.topicUiStates
         var state by remember {
             mutableStateOf(0)
         }
@@ -369,7 +369,7 @@ fun ExamContent(
                 ) {
                     Text("Convert text to exams")
                     IconButton(modifier = Modifier, onClick = { showConvert = !showConvert }) {
-                        androidx.compose.material.Icon(
+                       Icon(
                             if (!showConvert) Icons.Default.KeyboardArrowDown else Icons.Default.KeyboardArrowUp,
                             "down"
                         )
@@ -474,7 +474,7 @@ fun TopicContent(
                 ) {
                     Text("Convert text to exams")
                     IconButton(modifier = Modifier, onClick = { showConvert = !showConvert }) {
-                        androidx.compose.material.Icon(
+                        Icon(
                             if (!showConvert) Icons.Default.KeyboardArrowDown else Icons.Default.KeyboardArrowUp,
                             "down"
                         )
@@ -588,7 +588,7 @@ fun InstructionContent(
                 ) {
                     Text("Convert text to exams")
                     IconButton(modifier = Modifier, onClick = { showConvert = !showConvert }) {
-                        androidx.compose.material.Icon(
+                       Icon(
                             if (!showConvert) Icons.Default.KeyboardArrowDown else Icons.Default.KeyboardArrowUp,
                             "down"
                         )
