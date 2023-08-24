@@ -17,6 +17,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.TextUnit
+import androidx.compose.ui.unit.TextUnitType
 
 
 @Composable
@@ -89,6 +90,7 @@ object MarkUpEngine {
     private var background = Color.Unspecified
     private var decoration = TextDecoration.None
     private var baselineShift = BaselineShift.None
+    private var fontSize =TextUnit.Unspecified
     val list = mapOf(
         "cb" to { color = Color.Blue },
         "cr" to { color = Color.Red },
@@ -106,8 +108,14 @@ object MarkUpEngine {
         "i" to { style = FontStyle.Italic },
         "u" to { decoration = TextDecoration.Underline },
         "l" to { decoration = TextDecoration.LineThrough },
-        "sb" to { baselineShift=BaselineShift.Subscript },
-        "sp" to { baselineShift= BaselineShift.Superscript}
+        "sb" to {
+            baselineShift=BaselineShift.Subscript
+            fontSize= TextUnit(0.899f, TextUnitType.Em)
+                },
+        "sp" to {
+            baselineShift= BaselineShift.Superscript
+            fontSize= TextUnit(0.899f, TextUnitType.Em)
+        }
 
         )
 
@@ -128,6 +136,8 @@ object MarkUpEngine {
         background = Color.Unspecified
         decoration = TextDecoration.None
         baselineShift=BaselineShift.None
+        fontSize= TextUnit.Unspecified
+
 
 
         val styleList = sty.split(",")
@@ -138,7 +148,7 @@ object MarkUpEngine {
         return SpanStyle(
             baselineShift = baselineShift,
             color = color,
-            fontSize = TextUnit.Unspecified,
+            fontSize = fontSize,
             fontWeight = weight,
             fontStyle = style,
             background = background,
