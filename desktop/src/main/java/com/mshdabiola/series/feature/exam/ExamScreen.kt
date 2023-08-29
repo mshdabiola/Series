@@ -205,8 +205,8 @@ fun ExamScreen(
 }
 
 @OptIn(
-    ExperimentalSplitPaneApi::class, ExperimentalResourceApi::class,
-    ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class
+    ExperimentalSplitPaneApi::class,
+    ExperimentalFoundationApi::class
 )
 @Composable
 fun ExamContent(
@@ -385,12 +385,18 @@ fun ExamContent(
                             modifier = Modifier.fillMaxWidth().height(300.dp)
                         )
                         Spacer(Modifier.height(4.dp))
-                        Button(
-                            modifier = Modifier.align(Alignment.End),
-                            onClick = onAddExamInUiState
-                        ) {
-                            Text("Convert to Exam")
+                        Row (Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically){
+                            Text("*q* question *o* option *t* type 0or1 *a* answer")
+                            Button(
+                                modifier = Modifier,
+                                onClick = onAddExamInUiState
+                            ) {
+                                Text("Convert to Exam")
+                            }
                         }
+
                     }
                 }
                 Spacer(Modifier.height(16.dp))
@@ -490,12 +496,18 @@ fun TopicContent(
                             modifier = Modifier.fillMaxWidth().height(300.dp)
                         )
                         Spacer(Modifier.height(4.dp))
-                        Button(
-                            modifier = Modifier.align(Alignment.End),
-                            onClick = onAddTopicInputUiState
-                        ) {
-                            Text("Convert to topic")
+                        Row (Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically){
+                            Text("* topic title")
+                            Button(
+                                modifier = Modifier,
+                                onClick = onAddTopicInputUiState
+                            ) {
+                                Text("Convert to topic")
+                            }
                         }
+
                     }
                 }
 
@@ -507,8 +519,8 @@ fun TopicContent(
 }
 
 @OptIn(
-    ExperimentalSplitPaneApi::class, ExperimentalResourceApi::class,
-    ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class
+    ExperimentalSplitPaneApi::class,
+    ExperimentalFoundationApi::class
 )
 @Composable
 fun InstructionContent(
@@ -604,12 +616,18 @@ fun InstructionContent(
                             modifier = Modifier.fillMaxWidth().height(300.dp)
                         )
                         Spacer(Modifier.height(4.dp))
-                        Button(
-                            modifier = Modifier.align(Alignment.End),
-                            onClick = onAddInstruInputUiState
-                        ) {
-                            Text("Convert to Instruction")
+                        Row (Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically){
+                            Text("* instruction title")
+                            Button(
+                                modifier = Modifier,
+                                onClick = onAddInstruInputUiState
+                            ) {
+                                Text("Convert to Instruction")
+                            }
                         }
+
                     }
                 }
 

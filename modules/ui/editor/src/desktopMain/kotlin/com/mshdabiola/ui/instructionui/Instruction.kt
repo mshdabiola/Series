@@ -70,7 +70,6 @@ fun InstructionEditUi(
 
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun InstructionUi(
     modifier: Modifier = Modifier,
@@ -103,7 +102,7 @@ fun InstructionUi(
 
                     DropdownMenuItem(
                         leadingIcon = { Icon(Icons.Default.Update, "update") },
-                        text = { androidx.compose.material3.Text("Update") },
+                        text = { Text("Update") },
                         onClick = {
                             onUpdate(instructionUiState.id)
                             showDrop = false
@@ -111,7 +110,7 @@ fun InstructionUi(
 
                     DropdownMenuItem(
                         leadingIcon = { Icon(Icons.Default.Delete, "Delete") },
-                        text = { androidx.compose.material3.Text("Delete") },
+                        text = { Text("Delete") },
                         onClick = {
                             onDelete(instructionUiState.id)
                             showDrop = false

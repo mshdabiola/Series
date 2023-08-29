@@ -173,7 +173,7 @@ class Converter {
             examId = examId,
             content = listOf(itemise(content)),
             options = opti,
-            isTheory = false,
+            isTheory = opti.isEmpty(),
             answer = null,
             instruction = null,
             topic = null

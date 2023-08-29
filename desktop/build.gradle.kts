@@ -3,7 +3,7 @@ import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 plugins {
     kotlin("jvm")
 //    kotlin("kapt")
-    id("org.jetbrains.compose") version "1.5.0-dev1147"
+    id("org.jetbrains.compose") version "1.5.0"
 
 
 }
@@ -59,12 +59,12 @@ compose.desktop {
         val iconsRoot = project.file("src/main/resources/drawables/launcher")
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
-            packageVersion = "1.0.4"
+            packageVersion = "1.0.5"
             packageName = "Series"
             description = "For setting question"
             copyright = "© 2022 Mshdabiola. All rights reserved."
             vendor = "Mshdabiola App"
-            version = "1.0.4"
+            version = "1.0.5"
             licenseFile.set(rootProject.file("LICENSE"))
 
             modules("java.net.http", "java.sql")
