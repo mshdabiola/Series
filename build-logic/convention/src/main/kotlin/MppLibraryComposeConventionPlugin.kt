@@ -54,12 +54,12 @@ class MppLibraryComposeConventionPlugin : Plugin<Project> {
                         this.dependencies {
                             // compose.dependencies.preview
 
-                            implementation("org.jetbrains.compose.ui:ui-tooling-preview:1.5.0-dev1147")
-                            implementation("org.jetbrains.compose.runtime:runtime:1.5.0-dev1147")
+                            implementation("org.jetbrains.compose.ui:ui-tooling-preview:1.5.0")
+                            implementation("org.jetbrains.compose.runtime:runtime:1.5.0")
                             implementation("org.jetbrains.compose.ui:ui:1.5.0-dev1147")
-                            implementation("org.jetbrains.compose.foundation:foundation:1.5.0-dev1147")
-                            implementation("org.jetbrains.compose.material:material-icons-extended:1.5.0-dev1147")
-                            implementation("org.jetbrains.compose.material3:material3:1.5.0-dev1147")
+                            implementation("org.jetbrains.compose.foundation:foundation:1.5.0")
+                            implementation("org.jetbrains.compose.material:material-icons-extended:1.5.0")
+                            implementation("org.jetbrains.compose.material3:material3:1.5.0")
                             implementation(libs.findLibrary("kotlinx.collection.immutable").get())
                             implementation(libs.findLibrary("kermit.log").get())
                         }
