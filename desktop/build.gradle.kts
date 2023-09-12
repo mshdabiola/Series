@@ -59,12 +59,12 @@ compose.desktop {
         val iconsRoot = project.file("src/main/resources/drawables/launcher")
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
-            packageVersion = "1.0.5"
+            packageVersion = "1.0.6"
             packageName = "Series"
             description = "For setting question"
             copyright = "© 2022 Mshdabiola. All rights reserved."
             vendor = "Mshdabiola App"
-            version = "1.0.5"
+            version = "1.0.6"
             licenseFile.set(rootProject.file("LICENSE"))
 
             modules("java.net.http", "java.sql")
