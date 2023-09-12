@@ -4,6 +4,7 @@ import app.cash.sqldelight.driver.jdbc.sqlite.JdbcSqliteDriver
 import com.mshabiola.database.model.listOfValueAdapter
 import com.mshabiola.database.util.Constant
 import com.mshdabiola.database.SeriesDatabase
+import com.mshdabiola.model.generalPath
 import commshdabioladatabase.tables.InstructionEntity
 import commshdabioladatabase.tables.OptionEntity
 import commshdabioladatabase.tables.QuestionEntity
@@ -16,7 +17,14 @@ import java.util.Properties
 actual val databaseModule: Module
     get() = module {
         single(qualifier = qualifier("real")) {
-            val dbPath = File(System.getProperty("java.io.tmpdir"), Constant.databaseName)
+            val dir =File(generalPath)
+            if (dir.exists().not()){
+                dir.mkdirs()
+            }
+            val dbPath = File(generalPath, Constant.databaseName)
+//            val os= System.getProperty("os.name")
+//            println("os $os")
+//            println("path ${System.getProperty("user.home")}")
 
             val driver = withDatabase(dbPath.path)
 //
