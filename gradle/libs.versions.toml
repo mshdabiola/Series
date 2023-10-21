@@ -10,7 +10,7 @@ androidxComposeRuntimeTracing = "1.0.0-alpha04"
 androidxConstraintLayout = "1.1.0-alpha13"
 androidxCore = "1.12.0"
 androidxCoreSplashscreen = "1.0.1"
-androidxDataStore = "1.1.0-alpha01"
+androidxDataStore = "1.1.0-alpha04"
 androidxEspresso = "3.5.1"
 androidxLifecycle = "2.6.2"
 androidxMacroBenchmark = "1.2.0-rc02"
@@ -31,7 +31,7 @@ junit4 = "4.13.2"
 kotlin = "1.9.10"
 kotlinxCollectionImmutable = "0.3.5"
 kotlinxCoroutines = "1.7.3"
-kotlinxSerializationJson = "1.5.0"
+kotlinxSerializationJson = "1.6.0"
 littleVersion = "0.7.0"
 maneVersion = "0.44.0"
 turbine = "0.8.0"
@@ -48,9 +48,10 @@ androidxWork = "2.9.0-beta01"
 androidxStartup = "1.1.1"
 
 
-playGame = "17.0.0"
+playGame = "19.0.0"
 playReview = "2.0.1"
-playCoroutine = "1.7.2"
+playUpdate = "2.1.0"
+playCoroutine = "1.7.3"
 
 koin = "3.4.2"
 koinTest = "3.4.1"
@@ -61,12 +62,15 @@ multiplatform_settings = "1.0.0"
 
 sqlDelight = "2.0.0"
 
-ktor = "2.3.0"
+ktor = "2.3.3"
 androidx-baselineprofile = "1.2.0-rc02"
 
 kermit = "2.0.0-RC5"
 
 secrets = "2.0.1"
+
+windowSizeClass = "0.3.1"
+
 
 
 
@@ -84,7 +88,7 @@ androidx-constraintlayout = { module = "androidx.constraintlayout:constraintlayo
 androidx-compose-ui-test = { module = "androidx.compose.ui:ui-test-junit4", version.ref = "androidxCompose" }
 
 androidx-compose-material3 = { module = "androidx.compose.material3:material3", version.ref = "androidxComposeMaterial3" }
-androidx-compose-material3-windowSizeClass = { module = "androidx.compose.material3:material3-window-size-class", version.ref = "androidxComposeMaterial3" }
+androidx-compose-material3-windowSizeClass = { module = "dev.chrisbanes.material3:material3-window-size-class-multiplatform", version.ref = "windowSizeClass" }
 androidx-lifecycle-runtimeCompose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "androidxLifecycle" }
 androidx-compose-ui-testManifest = { module = "androidx.compose.ui:ui-test-manifest", version.ref = "androidxCompose" }
 androidx-compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "androidxCompose" }
@@ -98,8 +102,9 @@ androidx-compose-ui-util = { module = "androidx.compose.ui:ui-util", version.ref
 androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "androidxCore" }
 androidx-core-splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "androidxCoreSplashscreen" }
 #androidx-customview-poolingcontainer = { module = "androidx.customview:customview-poolingcontainer", version.ref = "androidxCustomView" }
-androidx-dataStore-core = { module = "androidx.datastore:datastore", version.ref = "androidxDataStore" }
-androidx-dataStore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "androidxDataStore" }
+
+androidx-dataStore-core = { module = "androidx.datastore:datastore-preferences-core", version.ref = "androidxDataStore" }
+
 androidx-lifecycle-livedata-ktx = { module = "androidx.lifecycle:lifecycle-livedata-ktx", version.ref = "androidxLifecycle" }
 androidx-metrics = { module = "androidx.metrics:metrics-performance", version.ref = "androidxMetrics" }
 androidx-profileinstaller = { module = "androidx.profileinstaller:profileinstaller", version.ref = "androidxProfileinstaller" }
@@ -139,8 +144,8 @@ firebase-performance-gradle = { group = "com.google.firebase", name = "perf-plug
 play-game = { module = "com.google.android.gms:play-services-games-v2", version.ref = "playGame" }
 play-review = { module = "com.google.android.play:review", version.ref = "playReview" }
 play-review-kts = { module = "com.google.android.play:review-ktx", version.ref = "playReview" }
-play-update = { module = "com.google.android.play:app-update", version.ref = "playReview" }
-play-update-kts = { module = "com.google.android.play:app-update-ktx", version.ref = "playReview" }
+play-update = { module = "com.google.android.play:app-update", version.ref = "playUpdate" }
+play-update-kts = { module = "com.google.android.play:app-update-ktx", version.ref = "playUpdate" }
 play-coroutine = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-play-services", version.ref = "playCoroutine" }
 
 junit4 = { module = "junit:junit", version.ref = "junit4" }
@@ -209,4 +214,6 @@ manes = { id = "com.github.ben-manes.versions", version.ref = "maneVersion" }
 gms = { id = "com.google.gms.google-services", version.ref = "gmsPlugin" }
 androidx-baselineprofile = { id = "androidx.baselineprofile", version.ref = "androidx-baselineprofile" }
 secrets = { id = "com.google.android.libraries.mapsplatform.secrets-gradle-plugin", version.ref = "secrets" }
+kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+compose-gradlePlugin = { id = "org.jetbrains.compose", version.ref = "composePlugin" }
 

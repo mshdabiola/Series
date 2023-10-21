@@ -1,50 +1,8 @@
 plugins {
-    kotlin("multiplatform")
-    id("com.android.library")
-    id("org.jetbrains.compose") version libs.versions.composePlugin
+    id("mshdabiola.mpp.feature")
 }
 
 android {
-    compileSdk = 34
-    namespace = "com.mshdabiola.designsystem"
-    kotlin {
-        jvmToolchain(17)
-    }
+    namespace = "com.mshdabiola.ui.designsystem"
 
-}
-
-kotlin {
-    androidTarget()
-    jvm("desktop")
-    sourceSets {
-        val commonMain by getting {
-            dependencies {
-                implementation(compose.runtime)
-                implementation(compose.foundation)
-                implementation(compose.material3)
-                implementation(compose.materialIconsExtended) // TODO not working on iOS for now
-                @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
-                implementation(compose.components.resources)
-                implementation(compose.preview)
-            }
-        }
-        val androidMain by getting {
-            dependencies {
-
-            }
-        }
-        val desktopMain by getting {
-            dependencies {
-                implementation(compose.preview)
-
-            }
-        }
-
-    }
-}
-
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
-    kotlinOptions {
-        jvmTarget = "17"
-    }
 }
