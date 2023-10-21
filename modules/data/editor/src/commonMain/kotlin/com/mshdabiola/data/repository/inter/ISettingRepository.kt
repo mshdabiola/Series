@@ -8,18 +8,16 @@ import kotlinx.coroutines.flow.StateFlow
 
 interface ISettingRepository {
 
-    val dummy: StateFlow<DummySetting>
-    suspend fun setDummy(dummy: DummySetting)
     suspend fun setCurrentInstruction(instruction: Instruction)
 
-    fun getCurrentInstruction(examId: Long): Instruction?
+    suspend fun getCurrentInstruction(examId: Long): Instruction?
 
     suspend fun removeInstruction(examId: Long)
 
 
     suspend fun setCurrentQuestion(question: QuestionFull)
 
-    fun getCurrentQuestion(examId: Long): QuestionFull?
+    suspend fun getCurrentQuestion(examId: Long): QuestionFull?
 
     suspend fun removeQuestion(examId: Long)
 

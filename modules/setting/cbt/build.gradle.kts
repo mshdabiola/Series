@@ -14,39 +14,32 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 implementation(project(":modules:model"))
-
-
-                //   implementation(libs.kermit.log)
-
                 implementation(libs.kotlinx.serialization.json)
                 implementation(libs.kotlinx.coroutines.core)
-                implementation(libs.multiplatform.settings.core)
-                implementation(libs.multiplatform.settings.noArg)
-                implementation(libs.multiplatform.settings.serializtion)
-                implementation(libs.multiplatform.settings.coroutines)
+                implementation(libs.androidx.dataStore.core)
             }
         }
-
-        val commonTest by getting {
-            dependencies {
-                implementation(libs.multiplatform.settings.test)
-            }
-        }
-
-        val androidMain by getting {
-            dependencies {
-                implementation(libs.multiplatform.settings.datastore)
-
-                implementation(libs.androidx.dataStore.preferences)
-            }
-        }
-
-
-        val desktopMain by getting {
-            dependencies {
-
-            }
-        }
+//
+//        val commonTest by getting {
+//            dependencies {
+//                implementation(libs.multiplatform.settings.test)
+//            }
+//        }
+//
+//        val androidMain by getting {
+//            dependencies {
+//                implementation(libs.multiplatform.settings.datastore)
+//
+//                implementation(libs.androidx.dataStore.preferences)
+//            }
+//        }
+//
+//
+//        val desktopMain by getting {
+//            dependencies {
+//
+//            }
+//        }
 
 //        val jsMain by getting {
 //            dependencies {

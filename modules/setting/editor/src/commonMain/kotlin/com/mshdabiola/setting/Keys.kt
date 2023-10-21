@@ -1,15 +1,18 @@
 package com.mshdabiola.setting
 
-import com.mshdabiola.setting.model.Dummy
-
-object Keys {
-    const val questionKey = "questionList"
-    const val setting = "dummy"
-    const val instructionKey = "instructionlist"
-    const val currentExamKey = "currentExam"
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.PreferenceDataStoreFactory
+import androidx.datastore.preferences.core.Preferences
+import okio.Path.Companion.toPath
 
 
-    object Defaults {
-        val defaultDummy = Dummy("abiola", "male")
-    }
-}
+internal const val dataStoreFileName = "meetings.preferences_pb"
+
+
+fun createDataStore(
+    producePath: () -> String,
+): DataStore<Preferences> = PreferenceDataStoreFactory.createWithPath(
+    corruptionHandler = null,
+    migrations = emptyList(),
+    produceFile = { producePath().toPath() },
+)
