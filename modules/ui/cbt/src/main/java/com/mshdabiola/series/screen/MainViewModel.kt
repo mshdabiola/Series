@@ -7,9 +7,10 @@ import com.mshdabiola.data.repository.inter.IQuestionRepository
 import com.mshdabiola.data.repository.inter.ISettingRepository
 import com.mshdabiola.data.repository.inter.ISubjectRepository
 import com.mshdabiola.model.data.CurrentExam
-import com.mshdabiola.model.data.Subject
 import com.mshdabiola.series.screen.main.MainState
 import com.mshdabiola.series.screen.main.Section
+//import com.mshdabiola.ui.screen.ExamType
+//import com.mshdabiola.ui.screen.main.Section
 import com.mshdabiola.ui.state.ExamUiState
 import com.mshdabiola.ui.state.QuestionUiState
 import com.mshdabiola.ui.state.ScoreUiState
@@ -19,13 +20,10 @@ import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import timber.log.Timber

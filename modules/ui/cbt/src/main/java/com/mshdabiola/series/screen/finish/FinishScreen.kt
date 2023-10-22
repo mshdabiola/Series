@@ -39,12 +39,12 @@ import androidx.compose.ui.semantics.testTagsAsResourceId
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.mshdabiola.series.R
 import com.mshdabiola.series.screen.MainViewModel
 import com.mshdabiola.series.screen.main.MainState
 import com.mshdabiola.ui.FinishCard
 import com.mshdabiola.ui.QuestionUi
 import com.mshdabiola.ui.ScoreCard
+import com.mshdabiola.ui.cbt.R
 import com.mshdabiola.ui.com.mshdabiola.ui.InstructionBottomSheet
 import com.mshdabiola.ui.state.ExamUiState
 import com.mshdabiola.ui.state.InstructionUiState

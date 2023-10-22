@@ -12,7 +12,6 @@ import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.remoteconfig.ktx.remoteConfig
 import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
 import com.mshdabiola.navigation.RootComponent
-import com.mshdabiola.series.ui.PhysicsApp
 import timber.log.Timber
 
 class MainActivity : ComponentActivity() {
