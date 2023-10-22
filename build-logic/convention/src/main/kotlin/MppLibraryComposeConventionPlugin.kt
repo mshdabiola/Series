@@ -15,6 +15,7 @@
  */
 
 import com.android.build.gradle.LibraryExtension
+import com.mshdabiola.app.configureAndroidCompose
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.artifacts.VersionCatalogsExtension
@@ -35,17 +36,8 @@ class MppLibraryComposeConventionPlugin : Plugin<Project> {
             val composeExtension = extensions.getByType<ComposeExtension>()
 
             val extension = extensions.getByType<LibraryExtension>()
-//            configureAndroidCompose(extension)
-            extension.apply {
-                buildFeatures {
-                    compose = true
-                }
+            configureAndroidCompose(extension)
 
-                composeOptions {
-                    kotlinCompilerExtensionVersion =
-                        libs.findVersion("androidxComposeCompiler").get().toString()
-                }
-            }
             extensions.configure<KotlinMultiplatformExtension> {
                 with(sourceSets) {
 
