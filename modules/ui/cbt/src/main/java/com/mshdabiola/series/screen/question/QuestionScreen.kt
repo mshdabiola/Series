@@ -103,7 +103,7 @@ internal fun QuestionScreen(
 ) {
 
 
-    if (mainStat.questions.isEmpty()) {
+    if (mainStat.questions.flatten().isEmpty()) {
         Text(text = "empty")
     } else {
 

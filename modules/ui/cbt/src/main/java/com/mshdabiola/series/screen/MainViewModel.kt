@@ -5,7 +5,6 @@ import androidx.lifecycle.viewModelScope
 import com.mshdabiola.data.repository.inter.IExamRepository
 import com.mshdabiola.data.repository.inter.IQuestionRepository
 import com.mshdabiola.data.repository.inter.ISettingRepository
-import com.mshdabiola.data.repository.inter.ISubjectRepository
 import com.mshdabiola.model.data.CurrentExam
 import com.mshdabiola.series.screen.main.MainState
 import com.mshdabiola.series.screen.main.Section
@@ -31,47 +30,18 @@ import timber.log.Timber
 class MainViewModel(
     private val settingRepository: ISettingRepository,
     private val questionRepository: IQuestionRepository,
-    private val iSubjectRepository: ISubjectRepository,
     iExamRepository: IExamRepository,
 
     ) : ViewModel() {
 
 
     private var type: ExamType = ExamType.YEAR
-//    private val subject = iSubjectRepository
-//        .getAll()
-//        .stateIn(
-//            viewModelScope,
-//            SharingStarted.WhileSubscribed(5000),
-//            listOf(Subject(2, name = "English"))
-//        )
-
-
-
 
     private val _mainState =
         MutableStateFlow(MainState(listOfAllExams = emptyList<ExamUiState>().toImmutableList()))
     val mainState = _mainState.asStateFlow()
 
-
-//    private val _theQuestionsList = MutableStateFlow(emptyList<QuestionUiState>().toImmutableList())
-//    val theQuestionsList = _theQuestionsList.asStateFlow()
-
     init {
-
-//        viewModelScope.launch(Dispatchers.IO) {
-//            subject
-//                .distinctUntilChanged { old, new -> old == new }
-//                .collectLatest { subjects ->
-//                    val sub = subjects.firstOrNull()
-//                    _mainState.update {
-//                        it.copy(title = sub?.name ?: "Subject")
-//                    }
-//
-//
-//                }
-//        }
-
         viewModelScope.launch(Dispatchers.IO) {
             iExamRepository
                 .getAllWithSub()
@@ -114,8 +84,6 @@ class MainViewModel(
                     mainState.value.listOfAllExams.filter { it.isObjOnly }.random()
                 }
             }
-//            "Objective & Theory","Theory","Objective"
-            var examIndex = 0
 
             val allQuestions = emptyList<List<QuestionUiState>>().toMutableList()
             when (type) {
@@ -147,8 +115,8 @@ class MainViewModel(
             }
 
             val section = allQuestions
-                .map {
-                    val isTheory = it.all { it.isTheory }
+                .map { questionUiStates ->
+                    val isTheory = questionUiStates.all { it.isTheory }
                     Section(stringRes = if (isTheory) 1 else 0, false)
                 }
 
@@ -185,7 +153,7 @@ class MainViewModel(
 
     private suspend fun onContinueExam() {
         val currentExam1 = settingRepository.getCurrentExam()
-        Timber.e("seeting exam $currentExam1")
+        Timber.e("setting exam $currentExam1")
 
         if (currentExam1 != null) {
 
@@ -299,29 +267,6 @@ class MainViewModel(
         //add and remove Choose
     }
 
-    fun onNextTheory(index: Int) {
-//
-//        if (isObjPart.value)
-//            return
-////
-//        _mainState.update {
-//            val choose = it.chooseThe.toMutableList()
-//            choose[index] = 2
-//            it.copy(
-//                chooseThe = choose.toImmutableList()
-//            )
-//        }
-
-        //add and remove Choose
-    }
-
-
-//    fun getGeneraPath(imageType: FileManager.ImageType, examId: Long): String {
-//        return when (imageType) {
-//            FileManager.ImageType.INSTRUCTION -> "instruction/$examId"
-//            FileManager.ImageType.QUESTION -> "question/$examId"
-//        }
-//    }
 
     private suspend fun saveCurrentExam() {
 
@@ -364,7 +309,7 @@ class MainViewModel(
             _mainState.update {
                 it.copy(
                     isSubmit = true,
-                    currentTime = it.totalTime
+                    currentTime = 0
                 )
 
             }
@@ -373,30 +318,10 @@ class MainViewModel(
         }
     }
 
-    fun onFinishBack() {
-//       val question=emptyList <List<QuestionUiState>>().toMutableList()
-//        _mainState.update {
-//            it.copy(
-//                currentExam = null,
-//                questions = question.map { it.toImmutableList() }.toImmutableList()
-//            )
-//
-//        }
-//        viewModelScope.launch(Dispatchers.IO) {
-//            if (type.save) {
-//                settingRepository.setCurrentExam(null)
-//            } else {
-//                onContinueExam()
-//            }
-//
-//
-//        }
-    }
-
     fun onRetry() {
         val question = emptyList<List<QuestionUiState>>().toMutableList()
-        _mainState.update {
-            it.copy(
+        _mainState.update { state ->
+            state.copy(
                 questions = question.map { it.toImmutableList() }.toImmutableList()
             )
         }
@@ -420,17 +345,17 @@ class MainViewModel(
             }
         val choose = mainState.value.choose[0]
         val size = choose.size
-        val corrent = answerIndex
+        val correct = answerIndex
             .mapIndexed { index, i ->
                 choose[index] == i
             }
             .count { it }
-        val inCorrect = answerIndex.size - corrent
+        val inCorrect = answerIndex.size - correct
 
         val complete = choose.count { it > -1 }
         val skipped = size - complete
         val compPercent = ((complete / size.toFloat()) * 100).toInt()
-        val grade = when (((corrent / size.toFloat()) * 100).toInt()) {
+        val grade = when (((correct / size.toFloat()) * 100).toInt()) {
             in 0..40 -> 'D'
             in 41..50 -> 'C'
             in 51..60 -> 'B'
@@ -444,7 +369,7 @@ class MainViewModel(
                     inCorrect = inCorrect,
                     skipped = skipped,
                     grade = grade,
-                    correct = corrent
+                    correct = correct
                 ),
                 currentSectionIndex = 0
             )
@@ -463,11 +388,6 @@ class MainViewModel(
         }
     }
 
-//    fun togglePart() {
-//        _isObjPart.update {
-//            !it
-//        }
-//    }
 
 
 }

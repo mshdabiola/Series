@@ -12,10 +12,13 @@ import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.remoteconfig.ktx.remoteConfig
 import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
 import com.mshdabiola.navigation.RootComponent
+import org.koin.androidx.compose.KoinAndroidContext
+import org.koin.core.annotation.KoinExperimentalAPI
 import timber.log.Timber
 
 class MainActivity : ComponentActivity() {
 
+    @OptIn(KoinExperimentalAPI::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val remoteConfig = Firebase.remoteConfig
@@ -80,7 +83,10 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             WindowCompat.setDecorFitsSystemWindows(window, false)
-            PhysicsApp(iRootComponent = root)
+            KoinAndroidContext(){
+                PhysicsApp(iRootComponent = root)
+
+            }
 
         }
     }

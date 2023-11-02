@@ -5,7 +5,7 @@ import com.mshdabiola.model.data.CurrentExam
 import com.mshdabiola.setting.MultiplatformSettings
 
 internal class SettingRepository(private val settings: MultiplatformSettings) : ISettingRepository {
-    override suspend fun setCurrentExam(currentExam: CurrentExam?) {
+    override suspend fun setCurrentExam(currentExam: CurrentExam) {
         settings.setCurrentExam(currentExam)
     }
 

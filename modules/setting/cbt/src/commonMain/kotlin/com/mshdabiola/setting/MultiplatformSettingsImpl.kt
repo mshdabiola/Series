@@ -18,12 +18,11 @@ internal class MultiplatformSettingsImpl(
     private val settings: DataStore<Preferences>,
     private val coroutineDispatcher: CoroutineDispatcher
 ) : MultiplatformSettings {
-    val currentExamKey= stringPreferencesKey("currentKey")
-    override suspend fun setCurrentExam(currentExam: CurrentExam?) {
+    private val currentExamKey= stringPreferencesKey("currentKey")
+    override suspend fun setCurrentExam(currentExam: CurrentExam) {
         withContext(Dispatchers.IO) {
             settings.edit {
-                val crString=Json.encodeToString(ListSerializer(CurrentExam.serializer()),
-                    if (currentExam == null) emptyList() else listOf(currentExam))
+                val crString=Json.encodeToString(CurrentExam.serializer(),currentExam)
                 it[currentExamKey]=crString
             }
 
@@ -37,11 +36,11 @@ internal class MultiplatformSettingsImpl(
             if (crString==null)
                 null
             else
-            Json.decodeFromString(ListSerializer(CurrentExam.serializer()),crString)
+            Json.decodeFromString(CurrentExam.serializer(),crString)
         }
 //        val list = settings
 //            .toBlockingSettings()
 //            .decodeValueOrNull(ListSerializer(CurrentExam.serializer()), Keys.currentExamKey)
-        return list.firstOrNull()?.firstOrNull()
+        return list.firstOrNull()
     }
 }

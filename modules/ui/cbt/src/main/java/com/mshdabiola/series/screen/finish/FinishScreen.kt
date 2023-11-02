@@ -64,7 +64,6 @@ internal fun FinishScreen(onBack: () -> Unit, toQuestion: () -> Unit, viewModel:
         mainState = mainState.value,
         back = {
             onBack()
-            viewModel.onFinishBack()
         },
         changeIndex = viewModel::changeIndex,
         toQuestion = {
