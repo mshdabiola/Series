@@ -22,7 +22,7 @@ jobs:
         # ID used to access action output
         id: sign_physics_app
         with:
-          releaseDirectory: app/build/outputs/bundle/physicsFreeRelease
+          releaseDirectory: app/build/outputs/bundle/PhysicsFreeRelease
           signingKeyBase64: ${{ secrets.SIGNING_KEY }}
           alias: ${{ secrets.ALIAS }}
           keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
@@ -36,7 +36,7 @@ jobs:
       - uses: actions/upload-artifact@v3
         with:
           name: free_mapping
-          path: app/build/outputs/mapping/physicsFreeRelease/mapping.txt
+          path: app/build/outputs/mapping/PhysicsFreeRelease/mapping.txt
 
       - uses: actions/upload-artifact@v3
         with:
