@@ -42,7 +42,7 @@ fun MarkUpText(
     Text(
         text = buildAnnotatedString {
 
-           // pushStyle(SpanStyle(baselineShift = BaselineShift.Subscript))
+            // pushStyle(SpanStyle(baselineShift = BaselineShift.Subscript))
             if (MarkUpEngine.containStyle(text)) {
                 text
                     .split("*")
@@ -90,7 +90,7 @@ object MarkUpEngine {
     private var background = Color.Unspecified
     private var decoration = TextDecoration.None
     private var baselineShift = BaselineShift.None
-    private var fontSize =TextUnit.Unspecified
+    private var fontSize = TextUnit.Unspecified
     val list = mapOf(
         "cb" to { color = Color.Blue },
         "cr" to { color = Color.Red },
@@ -109,15 +109,15 @@ object MarkUpEngine {
         "u" to { decoration = TextDecoration.Underline },
         "l" to { decoration = TextDecoration.LineThrough },
         "sb" to {
-            baselineShift=BaselineShift.Subscript
-            fontSize= TextUnit(0.899f, TextUnitType.Em)
-                },
+            baselineShift = BaselineShift.Subscript
+            fontSize = TextUnit(0.899f, TextUnitType.Em)
+        },
         "sp" to {
-            baselineShift= BaselineShift.Superscript
-            fontSize= TextUnit(0.899f, TextUnitType.Em)
+            baselineShift = BaselineShift.Superscript
+            fontSize = TextUnit(0.899f, TextUnitType.Em)
         }
 
-        )
+    )
 
     fun containStyle(text: String): Boolean {
         return text.contains(Regex("\\*[\\w\\W\\s]+\\*[\\w\\W\\s]*\\*e\\*"))
@@ -135,9 +135,8 @@ object MarkUpEngine {
         style = null
         background = Color.Unspecified
         decoration = TextDecoration.None
-        baselineShift=BaselineShift.None
-        fontSize= TextUnit.Unspecified
-
+        baselineShift = BaselineShift.None
+        fontSize = TextUnit.Unspecified
 
 
         val styleList = sty.split(",")

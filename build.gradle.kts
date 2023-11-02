@@ -8,7 +8,7 @@ plugins {
     alias(libs.plugins.gms) apply false
 //    alias(libs.plugins.secrets) apply false
     alias(libs.plugins.kotlin.multiplatform) apply false
-    alias (libs.plugins.compose.gradlePlugin)
+    alias(libs.plugins.compose.gradlePlugin)
     alias(libs.plugins.manes)
     alias(libs.plugins.little)
 

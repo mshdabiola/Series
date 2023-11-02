@@ -15,6 +15,7 @@
  */
 
 import com.android.build.gradle.LibraryExtension
+import com.mshdabiola.app.configureAndroidCompose
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.artifacts.VersionCatalogsExtension
@@ -35,30 +36,23 @@ class MppLibraryComposeConventionPlugin : Plugin<Project> {
             val composeExtension = extensions.getByType<ComposeExtension>()
 
             val extension = extensions.getByType<LibraryExtension>()
-//            configureAndroidCompose(extension)
-            extension.apply {
-                buildFeatures {
-                    compose = true
-                }
+            configureAndroidCompose(extension)
 
-                composeOptions {
-                    kotlinCompilerExtensionVersion =
-                        libs.findVersion("androidxComposeCompiler").get().toString()
-                }
-            }
             extensions.configure<KotlinMultiplatformExtension> {
                 with(sourceSets) {
 
                     getByName("commonMain") {
                         this.dependencies {
                             implementation(composeExtension.dependencies.runtime)
-                            implementation(composeExtension.dependencies.foundation)
+                            api(composeExtension.dependencies.foundation)
                             implementation(composeExtension.dependencies.material3)
                             implementation(composeExtension.dependencies.materialIconsExtended) // TODO not working on iOS for now
                             @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
                             implementation(composeExtension.dependencies.components.resources)
                             implementation(composeExtension.dependencies.preview)
-                            implementation(libs.findLibrary("androidx.compose.material3.windowSizeClass").get())
+                            implementation(
+                                libs.findLibrary("androidx.compose.material3.windowSizeClass").get()
+                            )
 //
 
 

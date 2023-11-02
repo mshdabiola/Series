@@ -49,9 +49,9 @@ kotlin {
         val androidMain by getting {
             dependencies {
                 //implementation(libs.androidx.compose.ui)
-                implementation(libs.sqldelight.sqlite.driver)
+                //0oooo0 implementation(libs.sqldelight.sqlite.driver)
                 implementation(libs.sqldelight.android.driver)
-                implementation("androidx.sqlite:sqlite-framework:2.3.1")
+                implementation("androidx.sqlite:sqlite-framework:2.4.0")
             }
         }
 

@@ -1,4 +1,4 @@
-package com.mshdabiola.series.ui
+package com.mshdabiola.series
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxSize
