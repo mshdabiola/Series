@@ -36,35 +36,6 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:43349711997:android:68309f843ca84f736fe514",
-        "android_client_info": {
-          "package_name": "com.mshdabiola.series.physics.paid"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "43349711997-as8khu3lq8qaaf51p3e1hlhiq2ra1102.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyCsHpI_OSvuTz9KPYkvsZoIt5FAj7f4yDQ"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "43349711997-as8khu3lq8qaaf51p3e1hlhiq2ra1102.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
         "mobilesdk_app_id": "1:43349711997:android:d153e6e121afe7d96fe514",
         "android_client_info": {
           "package_name": "com.mshdabiola.series.physics.free"
@@ -94,9 +65,96 @@
     },
     {
       "client_info": {
+        "mobilesdk_app_id": "1:43349711997:android:d153e6e121afe7d96fe514",
+        "android_client_info": {
+          "package_name": "com.mshdabiola.series.physics.free.benchmark"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "43349711997-as8khu3lq8qaaf51p3e1hlhiq2ra1102.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCsHpI_OSvuTz9KPYkvsZoIt5FAj7f4yDQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "43349711997-as8khu3lq8qaaf51p3e1hlhiq2ra1102.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:43349711997:android:68309f843ca84f736fe514",
         "android_client_info": {
-          "package_name": "com.mshdabiola.series.math.paid"
+          "package_name": "com.mshdabiola.series.physics.paid"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "43349711997-as8khu3lq8qaaf51p3e1hlhiq2ra1102.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCsHpI_OSvuTz9KPYkvsZoIt5FAj7f4yDQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "43349711997-as8khu3lq8qaaf51p3e1hlhiq2ra1102.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:43349711997:android:68309f843ca84f736fe514",
+        "android_client_info": {
+          "package_name": "com.mshdabiola.series.physics.paid.benchmark"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "43349711997-as8khu3lq8qaaf51p3e1hlhiq2ra1102.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCsHpI_OSvuTz9KPYkvsZoIt5FAj7f4yDQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "43349711997-as8khu3lq8qaaf51p3e1hlhiq2ra1102.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:43349711997:android:68309f843ca84f736fe514",
+        "android_client_info": {
+          "package_name": "com.mshdabiola.series.physics.paid.debug"
         }
       },
       "oauth_client": [
@@ -121,6 +179,7 @@
         }
       }
     }
+
   ],
   "configuration_version": "1"
 }
