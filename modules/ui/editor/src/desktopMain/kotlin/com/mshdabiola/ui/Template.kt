@@ -9,12 +9,9 @@ import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.onClick
-import androidx.compose.foundation.pager.HorizontalPager
-import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.SuggestionChip
@@ -25,7 +22,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -33,7 +29,6 @@ import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.unit.dp
 import com.mshdabiola.retex.Latex
-import kotlinx.coroutines.launch
 
 
 @OptIn(
@@ -528,45 +523,45 @@ fun TemplateUi() {
     val clipboard = LocalClipboardManager.current
     TabRow(selectedTabIndex = state) {
         Tab(selected = false, onClick = {
-            state=0
+            state = 0
         }, text = { Text("Mark up") })
         Tab(selected = false, onClick = {
-           state=1
+            state = 1
         }, text = { Text("Equation") })
         Tab(selected = false, onClick = {
-            state=2
+            state = 2
         }, text = { Text("Letters") })
         Tab(selected = false, onClick = {
-           state=3
+            state = 3
         }, text = { Text("Symbols") })
     }
-   // HorizontalPager(state = state, userScrollEnabled = false) {
+    // HorizontalPager(state = state, userScrollEnabled = false) {
 
 
-        if (state == 0) {
-            FlowRow(
-                Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(4.dp)
-            ) {
-                MarkUpEngine.list.keys.toList().forEach {
-                    SuggestionChip(onClick = {
-                        clipboard.setText(
-                            buildAnnotatedString {
-                                append("*")
-                                append(it)
-                                append("*content*e*")
-                            }
-                        )
-                    }, label = { MarkUpText("*$it*key-$it*e*") })
+    if (state == 0) {
+        FlowRow(
+            Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(4.dp)
+        ) {
+            MarkUpEngine.list.keys.toList().forEach {
+                SuggestionChip(onClick = {
+                    clipboard.setText(
+                        buildAnnotatedString {
+                            append("*")
+                            append(it)
+                            append("*content*e*")
+                        }
+                    )
+                }, label = { MarkUpText("*$it*key-$it*e*") })
 
-                }
             }
-        } else {
-            TemptRow(listOfMap[state - 1])
         }
+    } else {
+        TemptRow(listOfMap[state - 1])
+    }
 
 
-   // }
+    // }
 }
 
 @Composable

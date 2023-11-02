@@ -1,12 +1,8 @@
 plugins {
-    //kotlin("multiplatform")
-    id("mshdabiola.mpp.library")
-    id("mshdabiola.mpp.library.compose")
+    id("mshdabiola.mpp.feature")
 }
 
 android {
-    namespace = "com.mshdabiola.designsystem"
+    namespace = "com.mshdabiola.ui.designsystem"
+
 }
-
-
-

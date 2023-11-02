@@ -21,7 +21,8 @@ enum class Flavor(
     val versionNameSuffix: String? = null
 ) {
     Physics(FlavorDimension.subjectType, applicationIdSuffix = ".physics", "-physics"),
-    Math(FlavorDimension.subjectType, applicationIdSuffix = ".math", "-math"),
+
+    // Math(FlavorDimension.subjectType, applicationIdSuffix = ".math", "-math"),
     Free(FlavorDimension.premiumType, applicationIdSuffix = ".free", "-free"),
     Paid(FlavorDimension.premiumType, applicationIdSuffix = ".paid", "-paid")
 }

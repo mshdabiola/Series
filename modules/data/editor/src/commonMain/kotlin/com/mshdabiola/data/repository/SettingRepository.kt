@@ -1,27 +1,19 @@
 package com.mshdabiola.data.repository
 
 import com.mshdabiola.data.repository.inter.ISettingRepository
-import com.mshdabiola.model.DummySetting
 import com.mshdabiola.model.data.CurrentExam
 import com.mshdabiola.model.data.Instruction
 import com.mshdabiola.model.data.QuestionFull
 import com.mshdabiola.setting.MultiplatformSettings
-import kotlinx.coroutines.flow.StateFlow
 
 internal class SettingRepository(private val settings: MultiplatformSettings) : ISettingRepository {
-    override val dummy: StateFlow<DummySetting>
-        get() = settings.dummy
 
-
-    override suspend fun setDummy(dummy: DummySetting) {
-        settings.setDummy(dummy)
-    }
 
     override suspend fun setCurrentInstruction(instruction: Instruction) {
         settings.setCurrentInstruction(instruction)
     }
 
-    override fun getCurrentInstruction(examId: Long): Instruction? {
+    override suspend fun getCurrentInstruction(examId: Long): Instruction? {
         return settings.getCurrentInstruction(examId)
     }
 
@@ -33,7 +25,7 @@ internal class SettingRepository(private val settings: MultiplatformSettings) : 
         settings.setCurrentQuestion(question)
     }
 
-    override fun getCurrentQuestion(examId: Long): QuestionFull? {
+    override suspend fun getCurrentQuestion(examId: Long): QuestionFull? {
         return settings.getCurrentQuestion(examId)
     }
 

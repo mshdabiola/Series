@@ -4,7 +4,6 @@ import android.content.Context
 import androidx.sqlite.db.SupportSQLiteDatabase
 import androidx.sqlite.db.SupportSQLiteOpenHelper
 import com.mshabiola.database.Security
-import com.mshabiola.database.util.Constant
 import com.mshdabiola.database.BuildConfig
 import timber.log.Timber
 import java.io.*
@@ -27,7 +26,7 @@ class SQLiteCopyOpenHelper(
     private var verified = false
 
     private val key = if (BuildConfig.DEBUG)
-        Constant.defaultKey
+        BuildConfig.store_key
     else
         BuildConfig.store_key
 

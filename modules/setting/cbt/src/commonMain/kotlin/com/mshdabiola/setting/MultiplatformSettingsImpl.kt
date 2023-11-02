@@ -1,40 +1,44 @@
 package com.mshdabiola.setting
 
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.stringPreferencesKey
 import com.mshdabiola.model.data.CurrentExam
-import com.russhwolf.settings.ExperimentalSettingsApi
-import com.russhwolf.settings.coroutines.FlowSettings
-import com.russhwolf.settings.coroutines.toBlockingSettings
-import com.russhwolf.settings.serialization.decodeValueOrNull
-import com.russhwolf.settings.serialization.encodeValue
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
-import kotlinx.serialization.ExperimentalSerializationApi
-import kotlinx.serialization.builtins.ListSerializer
+import kotlinx.serialization.json.Json
 
-@OptIn(ExperimentalSettingsApi::class)
 internal class MultiplatformSettingsImpl(
-    private val settings: FlowSettings,
+    private val settings: DataStore<Preferences>,
     private val coroutineDispatcher: CoroutineDispatcher
 ) : MultiplatformSettings {
-    @OptIn(ExperimentalSerializationApi::class)
-    override suspend fun setCurrentExam(currentExam: CurrentExam?) {
+    private val currentExamKey = stringPreferencesKey("currentKey")
+    override suspend fun setCurrentExam(currentExam: CurrentExam) {
         withContext(Dispatchers.IO) {
-            settings
-                .toBlockingSettings()
-                .encodeValue(
-                    ListSerializer(CurrentExam.serializer()), Keys.currentExamKey,
-                    if (currentExam == null) emptyList() else listOf(currentExam)
-                )
+            settings.edit {
+                val crString = Json.encodeToString(CurrentExam.serializer(), currentExam)
+                it[currentExamKey] = crString
+            }
+
         }
     }
 
-    @OptIn(ExperimentalSerializationApi::class)
     override suspend fun getCurrentExam(): CurrentExam? {
 
-        val list = settings
-            .toBlockingSettings()
-            .decodeValueOrNull(ListSerializer(CurrentExam.serializer()), Keys.currentExamKey)
-        return list?.firstOrNull()
+        val list = settings.data.map {
+            val crString = it[currentExamKey]
+            if (crString == null)
+                null
+            else
+                Json.decodeFromString(CurrentExam.serializer(), crString)
+        }
+//        val list = settings
+//            .toBlockingSettings()
+//            .decodeValueOrNull(ListSerializer(CurrentExam.serializer()), Keys.currentExamKey)
+        return list.firstOrNull()
     }
 }

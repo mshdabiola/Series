@@ -1,22 +1,24 @@
 plugins {
-    //kotlin("multiplatform")
-    id("mshdabiola.mpp.library")
-    id("mshdabiola.mpp.library.compose")
+    id("mshdabiola.mpp.feature")
 }
 
 android {
     namespace = "com.mshdabiola.ui.editor"
+
 }
+
 kotlin {
+    androidTarget()
+    jvm("desktop")
     sourceSets {
         val commonMain by getting {
             dependencies {
-                //implementation(libs.kotlinx.datetime)
                 implementation(project(":modules:retex"))
-                implementation(project(":modules:model"))
                 implementation(project(":modules:ui:common"))
             }
         }
 
+
     }
 }
+

@@ -42,7 +42,7 @@ android {
             initWith(release)
             matchingFallbacks.add("release")
             // Debug key signing is available to everyone.
-            signingConfig = signingConfigs.getByName("debug")
+//            signingConfig = signingConfigs.getByName("debug")
             // Only use benchmark proguard rules
             proguardFiles("benchmark-rules.pro")
             //  FIXME enabling minification breaks access to demo backend.
@@ -72,14 +72,9 @@ dependencies {
     implementation(libs.koin.android)
 
     implementation(project(":modules:designsystem"))
-    implementation(project(":modules:retex"))
-    implementation(project(":modules:data:cbt"))
     implementation(project(":modules:navigation:cbt"))
     implementation(project(":modules:ui:cbt"))
     implementation(libs.decompose.core)
-    implementation(libs.decompose.compose.jetbrains)
-
-    // implementation(libs.androidx.work.ktx)
 
 
     androidTestImplementation(project(":modules:testing"))

@@ -15,6 +15,7 @@
  */
 
 import com.android.build.gradle.LibraryExtension
+import com.mshdabiola.app.configureAndroidCompose
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.artifacts.VersionCatalogsExtension
@@ -27,76 +28,38 @@ class MppLibraryComposeConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
             pluginManager.apply("kotlin-multiplatform")
-            pluginManager.apply("com.android.library")
+//            pluginManager.apply("mshdabiola.mpp.library")
             pluginManager.apply("org.jetbrains.compose")
-
+//
             val libs = extensions.getByType<VersionCatalogsExtension>().named("libs")
-            var composer = extensions.getByType<ComposeExtension>()
 
+            val composeExtension = extensions.getByType<ComposeExtension>()
 
             val extension = extensions.getByType<LibraryExtension>()
-            extension.apply {
-                buildFeatures {
-                    compose = true
-                }
+            configureAndroidCompose(extension)
 
-                composeOptions {
-                    kotlinCompilerExtensionVersion =
-                        libs.findVersion("androidxComposeCompiler").get().toString()
-                }
-            }
-            //   configureAndroidCompose(extension)
             extensions.configure<KotlinMultiplatformExtension> {
-
                 with(sourceSets) {
 
                     getByName("commonMain") {
                         this.dependencies {
-                            // compose.dependencies.preview
-
-                            implementation("org.jetbrains.compose.ui:ui-tooling-preview:1.5.0")
-                            implementation("org.jetbrains.compose.runtime:runtime:1.5.0")
-                            implementation("org.jetbrains.compose.ui:ui:1.5.0-dev1147")
-                            implementation("org.jetbrains.compose.foundation:foundation:1.5.0")
-                            implementation("org.jetbrains.compose.material:material-icons-extended:1.5.0")
-                            implementation("org.jetbrains.compose.material3:material3:1.5.0")
-                            implementation(libs.findLibrary("kotlinx.collection.immutable").get())
-                            implementation(libs.findLibrary("kermit.log").get())
-                        }
-
-                    }
-                    getByName("commonTest") {
-                        this.dependencies {
-
-                        }
-
-                    }
-                    getByName("androidMain") {
-                        this.dependencies {
+                            implementation(composeExtension.dependencies.runtime)
+                            api(composeExtension.dependencies.foundation)
+                            implementation(composeExtension.dependencies.material3)
+                            implementation(composeExtension.dependencies.materialIconsExtended) // TODO not working on iOS for now
+                            @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
+                            implementation(composeExtension.dependencies.components.resources)
+                            implementation(composeExtension.dependencies.preview)
+                            implementation(
+                                libs.findLibrary("androidx.compose.material3.windowSizeClass").get()
+                            )
+//
 
 
                         }
 
                     }
-                    getByName("androidInstrumentedTest") {
-                        this.dependencies {
-
-                        }
-
-                    }
-                    getByName("desktopMain") {
-                        this.dependencies {
-
-                        }
-
-                    }
-                    getByName("desktopTest") {
-                        this.dependencies {
-                            // implementation(libs.findLibrary("koin.core").get())
-
-                        }
-
-                    }
+//
                 }
 
             }

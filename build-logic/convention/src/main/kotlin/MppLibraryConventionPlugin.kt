@@ -71,7 +71,7 @@ class MppLibraryConventionPlugin : Plugin<Project> {
                     }
                     getByName("androidInstrumentedTest") {
                         this.dependencies {
-                            implementation(kotlin("test"))
+//                            implementation(kotlin("test"))
                             //  implementation(project(":core:testing"))
                         }
 

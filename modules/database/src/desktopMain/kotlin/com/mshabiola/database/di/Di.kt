@@ -17,8 +17,8 @@ import java.util.Properties
 actual val databaseModule: Module
     get() = module {
         single(qualifier = qualifier("real")) {
-            val dir =File(generalPath)
-            if (dir.exists().not()){
+            val dir = File(generalPath)
+            if (dir.exists().not()) {
                 dir.mkdirs()
             }
             val dbPath = File(generalPath, Constant.databaseName)

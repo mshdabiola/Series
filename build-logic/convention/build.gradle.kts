@@ -72,6 +72,10 @@ gradlePlugin {
             id = "mshdabiola.mpp.library.compose"
             implementationClass = "MppLibraryComposeConventionPlugin"
         }
+        register("mppFeature") {
+            id = "mshdabiola.mpp.feature"
+            implementationClass = "MppFeatureConventionPlugin"
+        }
     }
 }
 

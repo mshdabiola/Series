@@ -35,16 +35,14 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.testTagsAsResourceId
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.tooling.preview.PreviewLightDark
-import androidx.compose.ui.tooling.preview.PreviewScreenSizes
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.mshdabiola.series.R
 import com.mshdabiola.series.screen.ExamType
 import com.mshdabiola.series.screen.MainViewModel
 import com.mshdabiola.ui.ContinueCard
 import com.mshdabiola.ui.OtherCard
 import com.mshdabiola.ui.StartCard
+import com.mshdabiola.ui.cbt.R
 import com.mshdabiola.ui.state.ExamUiState
 import kotlinx.collections.immutable.toImmutableList
 import org.koin.androidx.compose.koinViewModel
@@ -93,7 +91,10 @@ internal fun MainScreen(
                 title = {
                     Column(verticalArrangement = Arrangement.Center) {
                         Text(text = stringResource(id = R.string.subject))
-                        Text(text = stringResource(id = R.string.type), style = MaterialTheme.typography.labelMedium)
+                        Text(
+                            text = stringResource(id = R.string.type),
+                            style = MaterialTheme.typography.labelMedium
+                        )
                     }
 
                 },
