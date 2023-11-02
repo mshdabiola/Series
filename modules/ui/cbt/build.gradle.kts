@@ -18,8 +18,8 @@ kotlin {
                 implementation(project(":modules:ui:common"))
             }
         }
-        val androidMain by getting{
-            dependencies{
+        val androidMain by getting {
+            dependencies {
                 implementation(project(":modules:data:cbt"))
 
                 implementation(project(":modules:navigation:cbt"))

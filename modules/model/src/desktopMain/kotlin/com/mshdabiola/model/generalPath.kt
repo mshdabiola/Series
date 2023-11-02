@@ -1,8 +1,9 @@
 package com.mshdabiola.model
 
-private val testingPath ="/Users/user/AndroidStudioProjects/Series/subject"
-private val defaultPath= System.getProperty("java.io.tmpdir")
-val dataPath ="${System.getProperty("user.home")}/AppData/Local/Series"
+private val testingPath = "/Users/user/AndroidStudioProjects/Series/subject"
+private val defaultPath = System.getProperty("java.io.tmpdir")
+val dataPath = "${System.getProperty("user.home")}/AppData/Local/Series"
+
 //    get() {
 //        val homePath=System.getProperty("user.home")
 //        return "${System.getProperty("user.home")}/AppData/Local"

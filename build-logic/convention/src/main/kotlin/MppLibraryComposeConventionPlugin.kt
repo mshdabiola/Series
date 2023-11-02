@@ -44,13 +44,15 @@ class MppLibraryComposeConventionPlugin : Plugin<Project> {
                     getByName("commonMain") {
                         this.dependencies {
                             implementation(composeExtension.dependencies.runtime)
-                            implementation(composeExtension.dependencies.foundation)
+                            api(composeExtension.dependencies.foundation)
                             implementation(composeExtension.dependencies.material3)
                             implementation(composeExtension.dependencies.materialIconsExtended) // TODO not working on iOS for now
                             @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
                             implementation(composeExtension.dependencies.components.resources)
                             implementation(composeExtension.dependencies.preview)
-                            implementation(libs.findLibrary("androidx.compose.material3.windowSizeClass").get())
+                            implementation(
+                                libs.findLibrary("androidx.compose.material3.windowSizeClass").get()
+                            )
 //
 
 

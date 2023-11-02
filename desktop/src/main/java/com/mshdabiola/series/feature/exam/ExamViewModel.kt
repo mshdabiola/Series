@@ -30,15 +30,10 @@ import com.mshdabiola.ui.toUi
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -129,10 +124,10 @@ class ExamViewModel(
 
                 }
         }
-        viewModelScope.launch (Dispatchers.IO){
+        viewModelScope.launch(Dispatchers.IO) {
 
         }
-        viewModelScope.launch (Dispatchers.IO){
+        viewModelScope.launch(Dispatchers.IO) {
             questionRepository.getAllWithExamId(examId)
                 .map {
                     it
@@ -142,13 +137,13 @@ class ExamViewModel(
                 }
                 .collectLatest {
 
-                    withContext(Dispatchers.Main.immediate){
-                        questions.value=it
+                    withContext(Dispatchers.Main.immediate) {
+                        questions.value = it
                     }
 
                 }
         }
-        viewModelScope.launch (Dispatchers.IO){
+        viewModelScope.launch(Dispatchers.IO) {
             instructionRepository
                 .getAll(examId)
                 .map { instructionList ->
@@ -157,19 +152,19 @@ class ExamViewModel(
                     }.toImmutableList()
                 }
                 .collectLatest {
-                    withContext(Dispatchers.Main.immediate){
-                        instructions.value=it
+                    withContext(Dispatchers.Main.immediate) {
+                        instructions.value = it
                     }
                 }
         }
 
-        viewModelScope.launch (Dispatchers.IO){
+        viewModelScope.launch(Dispatchers.IO) {
             topicRepository
                 .getAllBySubject(subjectId)
                 .map { it.map { it.toUi() }.toImmutableList() }
                 .collectLatest {
                     withContext(Dispatchers.Main.immediate) {
-                    topicUiStates.value=it
+                        topicUiStates.value = it
                     }
 
                 }
@@ -187,8 +182,6 @@ class ExamViewModel(
         }
 
     }
-
-
 
 
     //question logic
@@ -263,16 +256,16 @@ class ExamViewModel(
             questionRepository.insert(question2.toQuestionWithOptions(examId = examId))
             updateExamType(isObjOnly = allIsObj)
         }
-        _question.value = getEmptyQuestion(question2.options.size,question2.isTheory)
+        _question.value = getEmptyQuestion(question2.options.size, question2.isTheory)
     }
 
-    var answerJob:Job?=null
+    var answerJob: Job? = null
     fun onAnswerClick(questionId: Long, optionId: Long) {
 
-        if (answerJob!=null)
+        if (answerJob != null)
             return
-        answerJob=viewModelScope.launch(Dispatchers.IO) {
-            val questionUiStates= questions.value
+        answerJob = viewModelScope.launch(Dispatchers.IO) {
+            val questionUiStates = questions.value
             val questionIndex = questionUiStates.indexOfFirst { it.id == questionId }
             var question = questionUiStates[questionIndex]
             var options = question
@@ -285,7 +278,7 @@ class ExamViewModel(
                 options = options.toImmutableList()
             )
             questionRepository.insert(question.toQuestionWithOptions(examId))
-            answerJob=null
+            answerJob = null
         }
 
     }
@@ -347,9 +340,9 @@ class ExamViewModel(
 
     }
 
-    private fun getEmptyQuestion(optionNo:Int=4,isTheory:Boolean=false): QuestionUiState {
+    private fun getEmptyQuestion(optionNo: Int = 4, isTheory: Boolean = false): QuestionUiState {
 
-        val opNumb= if(isTheory)0 else optionNo
+        val opNumb = if (isTheory) 0 else optionNo
         return QuestionUiState(
             nos = -1,
             examId = examId,
@@ -373,12 +366,12 @@ class ExamViewModel(
         )
     }
 
-    private var job : Job?=null
+    private var job: Job? = null
     private fun rearrangeAndSave(onEdit: suspend (MutableList<QuestionUiState>) -> Unit) {
-       if (job!=null)
-           return
+        if (job != null)
+            return
 
-        job=viewModelScope.launch {
+        job = viewModelScope.launch {
             var list = questions.value.toMutableList()
             onEdit(list)
             var theory = 0L
@@ -396,7 +389,7 @@ class ExamViewModel(
 
             //save
             questionRepository.insertMany(list.map { it.toQuestionWithOptions(examId) })
-            job=null
+            job = null
         }
 
     }

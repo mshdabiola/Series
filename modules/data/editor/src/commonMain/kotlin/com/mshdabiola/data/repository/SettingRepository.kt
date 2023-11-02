@@ -1,12 +1,10 @@
 package com.mshdabiola.data.repository
 
 import com.mshdabiola.data.repository.inter.ISettingRepository
-import com.mshdabiola.model.DummySetting
 import com.mshdabiola.model.data.CurrentExam
 import com.mshdabiola.model.data.Instruction
 import com.mshdabiola.model.data.QuestionFull
 import com.mshdabiola.setting.MultiplatformSettings
-import kotlinx.coroutines.flow.StateFlow
 
 internal class SettingRepository(private val settings: MultiplatformSettings) : ISettingRepository {
 

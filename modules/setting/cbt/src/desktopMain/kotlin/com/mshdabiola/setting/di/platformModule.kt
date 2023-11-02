@@ -7,7 +7,7 @@ import org.koin.core.module.Module
 import org.koin.dsl.module
 
 actual val settingModule: Module
-    get()= module {
+    get() = module {
         includes(commonModule)
         single {
             createDataStore { "$generalPath/$dataStoreFileName" }

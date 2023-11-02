@@ -46,8 +46,8 @@ internal class MultiplatformSettingsImpl(
             }
 
             settings.edit {
-                val crString=Json.encodeToString(ListSerializer(Instruction.serializer()),list)
-                it[instructionKey]=crString
+                val crString = Json.encodeToString(ListSerializer(Instruction.serializer()), list)
+                it[instructionKey] = crString
             }
 //            settings
 //                .toBlockingSettings()
@@ -74,8 +74,8 @@ internal class MultiplatformSettingsImpl(
                 println("remove")
             }
             settings.edit {
-                val crString=Json.encodeToString(ListSerializer(Instruction.serializer()),list)
-                it[instructionKey]=crString
+                val crString = Json.encodeToString(ListSerializer(Instruction.serializer()), list)
+                it[instructionKey] = crString
             }
 //            settings
 //                .toBlockingSettings()
@@ -109,8 +109,8 @@ internal class MultiplatformSettingsImpl(
                 list[index] = question
             }
             settings.edit {
-                val crString=Json.encodeToString(ListSerializer(QuestionFull.serializer()),list)
-                it[questionKey]=crString
+                val crString = Json.encodeToString(ListSerializer(QuestionFull.serializer()), list)
+                it[questionKey] = crString
             }
 //            settings
 //                .toBlockingSettings()
@@ -137,8 +137,8 @@ internal class MultiplatformSettingsImpl(
                 println("remove")
             }
             settings.edit {
-                val crString=Json.encodeToString(ListSerializer(QuestionFull.serializer()),list)
-                it[questionKey]=crString
+                val crString = Json.encodeToString(ListSerializer(QuestionFull.serializer()), list)
+                it[questionKey] = crString
             }
 //            settings
 //                .toBlockingSettings()
@@ -150,9 +150,11 @@ internal class MultiplatformSettingsImpl(
     override suspend fun setCurrentExam(currentExam: CurrentExam?) {
         withContext(Dispatchers.IO) {
             settings.edit {
-                val crString=Json.encodeToString(ListSerializer(CurrentExam.serializer()),
-                    if (currentExam == null) emptyList() else listOf(currentExam))
-                it[currentExamKey]=crString
+                val crString = Json.encodeToString(
+                    ListSerializer(CurrentExam.serializer()),
+                    if (currentExam == null) emptyList() else listOf(currentExam)
+                )
+                it[currentExamKey] = crString
             }
 //            settings
 //                .toBlockingSettings()

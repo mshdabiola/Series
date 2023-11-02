@@ -83,7 +83,7 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             WindowCompat.setDecorFitsSystemWindows(window, false)
-            KoinAndroidContext(){
+            KoinAndroidContext() {
                 PhysicsApp(iRootComponent = root)
 
             }

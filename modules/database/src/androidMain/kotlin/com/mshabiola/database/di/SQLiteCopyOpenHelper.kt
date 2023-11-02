@@ -4,7 +4,6 @@ import android.content.Context
 import androidx.sqlite.db.SupportSQLiteDatabase
 import androidx.sqlite.db.SupportSQLiteOpenHelper
 import com.mshabiola.database.Security
-import com.mshabiola.database.util.Constant
 import com.mshdabiola.database.BuildConfig
 import timber.log.Timber
 import java.io.*

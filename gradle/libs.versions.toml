@@ -87,21 +87,14 @@ androidx-compose-material-iconsExtended = { module = "androidx.compose.material:
 androidx-constraintlayout = { module = "androidx.constraintlayout:constraintlayout-compose", version.ref = "androidxConstraintLayout" }
 androidx-compose-ui-test = { module = "androidx.compose.ui:ui-test-junit4", version.ref = "androidxCompose" }
 
-androidx-compose-material3 = { module = "androidx.compose.material3:material3", version.ref = "androidxComposeMaterial3" }
 androidx-compose-material3-windowSizeClass = { module = "dev.chrisbanes.material3:material3-window-size-class-multiplatform", version.ref = "windowSizeClass" }
 androidx-lifecycle-runtimeCompose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "androidxLifecycle" }
+
 androidx-compose-ui-testManifest = { module = "androidx.compose.ui:ui-test-manifest", version.ref = "androidxCompose" }
 androidx-compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "androidxCompose" }
-androidx-compose-ui = { module = "androidx.compose.ui:ui", version.ref = "androidxCompose" }
 
-androidx-compose-foundation-layout = { module = "androidx.compose.foundation:foundation-layout", version.ref = "androidx-compose-foundation" }
-androidx-compose-runtime = { module = "androidx.compose.runtime:runtime", version.ref = "androidxCompose" }
-androidx-compose-runtime-tracing = { module = "androidx.compose.runtime:runtime-tracing", version.ref = "androidxComposeRuntimeTracing" }
-androidx-compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "androidxCompose" }
-androidx-compose-ui-util = { module = "androidx.compose.ui:ui-util", version.ref = "androidxCompose" }
 androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "androidxCore" }
 androidx-core-splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "androidxCoreSplashscreen" }
-#androidx-customview-poolingcontainer = { module = "androidx.customview:customview-poolingcontainer", version.ref = "androidxCustomView" }
 
 androidx-dataStore-core = { module = "androidx.datastore:datastore-preferences-core", version.ref = "androidxDataStore" }
 
@@ -117,11 +110,6 @@ androidx-test-runner = { module = "androidx.test:runner", version.ref = "android
 androidx-test-uiautomator = { module = "androidx.test.uiautomator:uiautomator", version.ref = "androidxUiAutomator" }
 androidx-tracing-ktx = { module = "androidx.tracing:tracing-ktx", version.ref = "androidxTracing" }
 androidx-window-manager = { module = "androidx.window:window", version.ref = "androidxWindowManager" }
-
-koin_android_workmanager = { module = "io.insert-koin:koin-androidx-workmanager", version.ref = "koin" }
-androidx-startup = { module = "androidx.startup:startup-runtime", version.ref = "androidxStartup" }
-androidx-work-ktx = { module = "androidx.work:work-runtime-ktx", version.ref = "androidxWork" }
-androidx-work-testing = { module = "androidx.work:work-testing", version.ref = "androidxWork" }
 
 decompose-core = { module = "com.arkivanov.decompose:decompose", version.ref = "decomposeVersion" }
 decompose-android = { module = "com.arkivanov.decompose:extensions-android", version.ref = "decomposeVersion" }

@@ -91,7 +91,10 @@ internal fun MainScreen(
                 title = {
                     Column(verticalArrangement = Arrangement.Center) {
                         Text(text = stringResource(id = R.string.subject))
-                        Text(text = stringResource(id = R.string.type), style = MaterialTheme.typography.labelMedium)
+                        Text(
+                            text = stringResource(id = R.string.type),
+                            style = MaterialTheme.typography.labelMedium
+                        )
                     }
 
                 },

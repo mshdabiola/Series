@@ -15,7 +15,7 @@ android {
     namespace = "com.mshdabiola.testing"
 }
 
-kotlin{
+kotlin {
     androidTarget()
     jvm("desktop")
     sourceSets {
@@ -50,11 +50,10 @@ kotlin{
                 api(libs.koin.android.test)
             }
         }
-        val androidInstrumentedTest by getting{
+        val androidInstrumentedTest by getting {
 
 
         }
-
 
 
         val desktopMain by getting {

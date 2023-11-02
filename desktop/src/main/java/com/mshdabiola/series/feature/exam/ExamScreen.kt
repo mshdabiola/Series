@@ -41,7 +41,6 @@ import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -369,7 +368,7 @@ fun ExamContent(
                 ) {
                     Text("Convert text to exams")
                     IconButton(modifier = Modifier, onClick = { showConvert = !showConvert }) {
-                       Icon(
+                        Icon(
                             if (!showConvert) Icons.Default.KeyboardArrowDown else Icons.Default.KeyboardArrowUp,
                             "down"
                         )
@@ -385,9 +384,11 @@ fun ExamContent(
                             modifier = Modifier.fillMaxWidth().height(300.dp)
                         )
                         Spacer(Modifier.height(4.dp))
-                        Row (Modifier.fillMaxWidth(),
+                        Row(
+                            Modifier.fillMaxWidth(),
                             horizontalArrangement = Arrangement.SpaceBetween,
-                            verticalAlignment = Alignment.CenterVertically){
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
                             Text("*q* question *o* option *t* type 0or1 *a* answer")
                             Button(
                                 modifier = Modifier,
@@ -496,9 +497,11 @@ fun TopicContent(
                             modifier = Modifier.fillMaxWidth().height(300.dp)
                         )
                         Spacer(Modifier.height(4.dp))
-                        Row (Modifier.fillMaxWidth(),
+                        Row(
+                            Modifier.fillMaxWidth(),
                             horizontalArrangement = Arrangement.SpaceBetween,
-                            verticalAlignment = Alignment.CenterVertically){
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
                             Text("* topic title")
                             Button(
                                 modifier = Modifier,
@@ -600,7 +603,7 @@ fun InstructionContent(
                 ) {
                     Text("Convert text to exams")
                     IconButton(modifier = Modifier, onClick = { showConvert = !showConvert }) {
-                       Icon(
+                        Icon(
                             if (!showConvert) Icons.Default.KeyboardArrowDown else Icons.Default.KeyboardArrowUp,
                             "down"
                         )
@@ -616,9 +619,11 @@ fun InstructionContent(
                             modifier = Modifier.fillMaxWidth().height(300.dp)
                         )
                         Spacer(Modifier.height(4.dp))
-                        Row (Modifier.fillMaxWidth(),
+                        Row(
+                            Modifier.fillMaxWidth(),
                             horizontalArrangement = Arrangement.SpaceBetween,
-                            verticalAlignment = Alignment.CenterVertically){
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
                             Text("* instruction title")
                             Button(
                                 modifier = Modifier,
