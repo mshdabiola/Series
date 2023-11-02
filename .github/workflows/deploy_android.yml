@@ -20,7 +20,7 @@ jobs:
       - name: Sign Physics Bundle
         uses: r0adkll/sign-android-release@v1
         # ID used to access action output
-        id: sign_physics_app
+        id: sign_physics_free_app
         with:
           releaseDirectory: app/build/outputs/bundle/PhysicsFreeRelease
           signingKeyBase64: ${{ secrets.SIGNING_KEY }}
@@ -30,12 +30,12 @@ jobs:
 
       - uses: actions/upload-artifact@v3
         with:
-          name: physics_release_bundle
-          path: ${{steps.sign_physics_app.outputs.signedReleaseFile}}
+          name: physics_free_release_bundle
+          path: ${{steps.sign_physics_free_app.outputs.signedReleaseFile}}
 
       - uses: actions/upload-artifact@v3
         with:
-          name: free_mapping
+          name: physics_free_mapping
           path: app/build/outputs/mapping/PhysicsFreeRelease/mapping.txt
 
       - uses: actions/upload-artifact@v3
@@ -50,13 +50,13 @@ jobs:
       # 1
       - uses: actions/download-artifact@v3
         with:
-          name: physics_release_bundle
+          name: physics_free_release_bundle
       - name: 'Echo download path'
         run: echo ${{steps.download.outputs.download-path}}
 
       - uses: actions/download-artifact@v3
         with:
-          name: physics_mapping
+          name: physics_free_mapping
       - name: 'Echo download path'
         run: echo ${{steps.download.outputs.download-path}}
 
