@@ -5,6 +5,7 @@ plugins {
     id("mshdabiola.android.application")
     id("mshdabiola.android.application.compose")
     id("mshdabiola.android.application.firebase")
+    alias(libs.plugins.androidx.baselineprofile)
 
 
 }
@@ -78,6 +79,7 @@ dependencies {
 
 
     androidTestImplementation(project(":modules:testing"))
+    "baselineProfile"(project(":app:baselineprofile"))
 
 
 }
