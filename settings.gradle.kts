@@ -40,4 +40,6 @@ include(":modules:retex")
 include(":modules:jretex")
 include(":modules:svgtovector")
 include(":modules:ui:common")
+include(":modules:mvvn")
+
 include(":app:baselineprofile")
