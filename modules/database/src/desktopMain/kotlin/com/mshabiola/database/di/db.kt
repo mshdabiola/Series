@@ -3,6 +3,7 @@ package com.mshabiola.database.di
 import app.cash.sqldelight.db.QueryResult
 import app.cash.sqldelight.driver.jdbc.sqlite.JdbcSqliteDriver
 import com.mshdabiola.database.SeriesDatabase
+import com.mshdabiola.model.Security
 import java.util.Properties
 
 fun withDatabase(path: String): JdbcSqliteDriver {
@@ -36,7 +37,7 @@ fun migrateIfNeeded(driver: JdbcSqliteDriver) {
         println("Creating DB version $newVersion!")
         SeriesDatabase.Schema.create(driver)
         driver.execute(null, "PRAGMA $versionPragma=$newVersion", 0)
-    } else if (oldVersion < newVersion) {
+    } else if (oldVersion < newVersion && Security.canMigrate) {
         println("Migrating DB from version $oldVersion to $newVersion!")
         SeriesDatabase.Schema.migrate(driver, oldVersion, newVersion)
         driver.execute(null, "PRAGMA $versionPragma=$newVersion", 0)

@@ -1,5 +1,8 @@
-package com.mshabiola.database
+package com.mshdabiola.model
 
+import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
 import java.io.InputStream
 import java.io.ObjectInputStream
 import java.io.ObjectOutputStream
@@ -12,6 +15,10 @@ import javax.crypto.spec.PBEKeySpec
 import javax.crypto.spec.SecretKeySpec
 
 object Security {
+    const val defaultKey = "SwordFish"
+     var databaseName = "waec_series_database.db"
+    var canMigrate=true
+    const val assetData = "data"
 
     fun encode(byteArray: ByteArray, output: OutputStream, key: String) {
 
@@ -39,6 +46,37 @@ object Security {
 
     }
 
+    fun copy(destinationFile: File, version:InputStream, data:InputStream,key: String){
+        val versionOutput = File(destinationFile.parent, "version.txt").outputStream()
+
+        // An intermediate file is used so that we never end up with a half-copied database file
+        // in the internal directory.
+        val intermediateFile = File.createTempFile(
+            "sqlite-copy-helper", ".tmp"
+        )
+
+
+        intermediateFile.deleteOnExit()
+//        input.source().use { a ->
+//            intermediateFile.sink().buffer().use { b -> b.writeAll(a) }
+//        }
+        versionOutput.use { out ->
+            version.use {
+                out.write(it.readBytes())
+            }
+        }
+        decode(data, FileOutputStream(intermediateFile), key)
+
+
+        val parent = destinationFile.parentFile
+        if (parent != null && !parent.exists() && !parent.mkdirs()) {
+            throw IOException("Failed to create directories for ${destinationFile.absolutePath}")
+        }
+
+        if (!intermediateFile.renameTo(destinationFile)) {
+            throw IOException("Failed to move intermediate file (${intermediateFile.absolutePath}) to destination (${destinationFile.absolutePath}).")
+        }
+    }
     private fun decrypt(map: HashMap<String, ByteArray>, key: String): ByteArray? {
         var decrypted: ByteArray? = null
         try {
@@ -114,5 +152,7 @@ object Security {
         }
         return map
     }
+
+
 
 }

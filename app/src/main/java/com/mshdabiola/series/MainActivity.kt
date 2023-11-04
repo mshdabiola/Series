@@ -3,6 +3,7 @@ package com.mshdabiola.series
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
 import com.arkivanov.decompose.defaultComponentContext
@@ -11,7 +12,7 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.remoteconfig.ktx.remoteConfig
 import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
-import com.mshdabiola.navigation.RootComponent
+import com.mshdabiola.series.screen.SeriesApp
 import org.koin.androidx.compose.KoinAndroidContext
 import org.koin.core.annotation.KoinExperimentalAPI
 import timber.log.Timber
@@ -76,15 +77,14 @@ class MainActivity : ComponentActivity() {
         installSplashScreen()
 
 
-        val root =
-            RootComponent(
-                componentContext = defaultComponentContext()
-            )
+        val root =defaultComponentContext()
+
 
         setContent {
             WindowCompat.setDecorFitsSystemWindows(window, false)
             KoinAndroidContext() {
-                PhysicsApp(iRootComponent = root)
+                SeriesApp(context = root, isDarkMode = isSystemInDarkTheme())
+               // PhysicsApp(iRootComponent = root)
 
             }
 

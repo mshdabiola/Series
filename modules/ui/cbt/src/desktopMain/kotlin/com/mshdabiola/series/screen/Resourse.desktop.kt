@@ -26,19 +26,19 @@ actual fun getExamPart(): Array<String> {
 @OptIn(ExperimentalResourceApi::class)
 @Composable
 actual fun getIconLayer2(): Painter {
-    return painterResource("")
+    return painterResource("layer_2.xml")
 }
 
 @OptIn(ExperimentalResourceApi::class)
 @Composable
 actual fun getIconLayer1(): Painter {
-    return painterResource("")
+    return painterResource("layer_1.xml")
 }
 
 @OptIn(ExperimentalResourceApi::class)
 @Composable
 actual fun getIconLayer3(): Painter {
-    return painterResource("")
+    return painterResource("layer__1.xml")
 }
 
 @Composable
@@ -46,15 +46,3 @@ actual fun getSection(): Array<String> {
    return arrayOf("Objective", "Theory")
 }
 
-actual fun Modifier.semantics(
-    mergeDescendants: Boolean,
-    properties: SemanticsPropertyReceiver.() -> Unit
-) {
-}
-
-actual fun Modifier.semantics(
-    mergeDescendants: Boolean,
-    properties: SemanticsPropertyReceiver.() -> Unit
-): Modifier {
-    TODO("Not yet implemented")
-}

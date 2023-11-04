@@ -10,7 +10,7 @@ import com.arkivanov.decompose.router.pages.select
 import com.arkivanov.decompose.value.Value
 import com.arkivanov.decompose.value.operator.map
 import com.arkivanov.essenty.parcelable.Parcelable
-import kotlinx.parcelize.Parcelize
+import com.arkivanov.essenty.parcelable.Parcelize
 
 class PagerComponent(componentContext: ComponentContext) : IPagerComponent,
     ComponentContext by componentContext {

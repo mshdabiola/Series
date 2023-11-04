@@ -3,8 +3,8 @@ package com.mshabiola.database.di
 import android.content.Context
 import androidx.sqlite.db.SupportSQLiteDatabase
 import androidx.sqlite.db.SupportSQLiteOpenHelper
-import com.mshabiola.database.Security
 import com.mshdabiola.database.BuildConfig
+import com.mshdabiola.model.Security
 import timber.log.Timber
 import java.io.*
 import java.util.concurrent.Callable
@@ -174,35 +174,36 @@ class SQLiteCopyOpenHelper(
                 copyConfig.callable.call()
             }
         }
-        val versionOutput = File(destinationFile.parent, "version.txt").outputStream()
-
-        // An intermediate file is used so that we never end up with a half-copied database file
-        // in the internal directory.
-        val intermediateFile = File.createTempFile(
-            "sqlite-copy-helper", ".tmp", context.cacheDir
-        )
-
-
-        intermediateFile.deleteOnExit()
-//        input.source().use { a ->
-//            intermediateFile.sink().buffer().use { b -> b.writeAll(a) }
+        Security.copy(destinationFile,context.assets.open("version.txt"),input,key)
+//        val versionOutput = File(destinationFile.parent, "version.txt").outputStream()
+//
+//        // An intermediate file is used so that we never end up with a half-copied database file
+//        // in the internal directory.
+//        val intermediateFile = File.createTempFile(
+//            "sqlite-copy-helper", ".tmp", context.cacheDir
+//        )
+//
+//
+//        intermediateFile.deleteOnExit()
+////        input.source().use { a ->
+////            intermediateFile.sink().buffer().use { b -> b.writeAll(a) }
+////        }
+//        versionOutput.use { out ->
+//            context.assets.open("version.txt").use {
+//                out.write(it.readBytes())
+//            }
 //        }
-        versionOutput.use { out ->
-            context.assets.open("version.txt").use {
-                out.write(it.readBytes())
-            }
-        }
-        Security.decode(input, FileOutputStream(intermediateFile), key)
-
-
-        val parent = destinationFile.parentFile
-        if (parent != null && !parent.exists() && !parent.mkdirs()) {
-            throw IOException("Failed to create directories for ${destinationFile.absolutePath}")
-        }
-
-        if (!intermediateFile.renameTo(destinationFile)) {
-            throw IOException("Failed to move intermediate file (${intermediateFile.absolutePath}) to destination (${destinationFile.absolutePath}).")
-        }
+//        Security.decode(input, FileOutputStream(intermediateFile), key)
+//
+//
+//        val parent = destinationFile.parentFile
+//        if (parent != null && !parent.exists() && !parent.mkdirs()) {
+//            throw IOException("Failed to create directories for ${destinationFile.absolutePath}")
+//        }
+//
+//        if (!intermediateFile.renameTo(destinationFile)) {
+//            throw IOException("Failed to move intermediate file (${intermediateFile.absolutePath}) to destination (${destinationFile.absolutePath}).")
+//        }
     }
 
     /**

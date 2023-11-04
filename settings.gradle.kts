@@ -32,6 +32,8 @@ include(":modules:testing")
 include(":modules:ui:cbt")
 include(":modules:ui:editor")
 include(":desktop")
+include(":cbtDesktop")
+
 include(":modules:setting:cbt")
 include(":modules:setting:editor")
 include(":modules:navigation:cbt")

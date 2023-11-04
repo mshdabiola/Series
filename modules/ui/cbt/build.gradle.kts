@@ -18,6 +18,7 @@ kotlin {
                 implementation(project(":modules:ui:common"))
                 implementation(project(":modules:mvvn"))
                 implementation(project(":modules:data:cbt"))
+                implementation(project(":modules:designsystem"))
 
                 implementation(project(":modules:navigation:cbt"))
                 implementation(project(":modules:retex"))
