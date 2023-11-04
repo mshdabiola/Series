@@ -1,8 +1,8 @@
 package com.mshdabiola.series.screen.finish
 
 import androidx.compose.runtime.Composable
+import com.mshdabiola.mvvn.KoinCommonViewModel
 import com.mshdabiola.series.screen.MainViewModel
-import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun FinishScreenNav(
@@ -10,7 +10,7 @@ fun FinishScreenNav(
     toQuestion: () -> Unit
 ) {
 
-    val viewModel: MainViewModel = koinViewModel()
+    val viewModel: MainViewModel = KoinCommonViewModel()
     FinishScreen(
         onBack = onBack,
         viewModel = viewModel,

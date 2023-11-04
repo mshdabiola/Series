@@ -33,19 +33,16 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.semantics.semantics
-import androidx.compose.ui.semantics.testTagsAsResourceId
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.mshdabiola.mvvn.collectAsStateWithLifecycleCommon
 import com.mshdabiola.series.screen.MainViewModel
+import com.mshdabiola.series.screen.getSection
 import com.mshdabiola.series.screen.main.MainState
 import com.mshdabiola.ui.FinishCard
 import com.mshdabiola.ui.QuestionUi
 import com.mshdabiola.ui.ScoreCard
-import com.mshdabiola.ui.cbt.R
-import com.mshdabiola.ui.com.mshdabiola.ui.InstructionBottomSheet
+import com.mshdabiola.ui.InstructionBottomSheet
 import com.mshdabiola.ui.state.ExamUiState
 import com.mshdabiola.ui.state.InstructionUiState
 import com.mshdabiola.ui.state.ItemUiState
@@ -57,7 +54,7 @@ import kotlinx.coroutines.launch
 @Composable
 internal fun FinishScreen(onBack: () -> Unit, toQuestion: () -> Unit, viewModel: MainViewModel) {
 
-    val mainState = viewModel.mainState.collectAsStateWithLifecycle()
+    val mainState = viewModel.mainState.collectAsStateWithLifecycleCommon()
 
 
     FinishScreen(
@@ -95,7 +92,7 @@ internal fun FinishScreen(
 
 
     Scaffold(
-        modifier = Modifier.semantics { this.testTagsAsResourceId = true },
+        modifier = Modifier,//.semantics { this.testTagsAsResourceId = true },
         bottomBar = {
             BottomAppBar(
                 actions = {
@@ -179,7 +176,7 @@ internal fun FinishScreen(
                                             lazyState.scrollToItem(3)
                                         }
                                     },
-                                    text = { Text(text = stringArrayResource(id = R.array.sections)[section.stringRes]) })
+                                    text = { Text(text = getSection()[section.stringRes]) })
                             }
                         }
                     }
@@ -217,165 +214,5 @@ internal fun FinishScreen(
 
 }
 
-@Preview
 @Composable
-fun FinishScreenPreview() {
-    val questions =
-        listOf(
-            QuestionUiState(
-                id = 1,
-                nos = 1,
-                examId = 0,
-                content = listOf(
-                    ItemUiState(content = "What is your name")
-                )
-                    .toImmutableList(),
-                options = listOf(
-                    OptionUiState(
-                        id = 1, nos = 1, content = listOf(
-                            ItemUiState(
-                                content = "Isabelle"
-                            )
-                        ).toImmutableList(),
-                        isAnswer = false
-                    ),
-                    OptionUiState(
-                        id = 2, nos = 2, content = listOf(
-                            ItemUiState(
-                                content = "Isabelle"
-                            )
-                        ).toImmutableList(),
-                        isAnswer = false
-                    ),
-                    OptionUiState(
-                        id = 3, nos = 3, content = listOf(
-                            ItemUiState(
-                                content = "Isabelle"
-                            )
-                        ).toImmutableList(),
-                        isAnswer = false
-                    ),
-                    OptionUiState(
-                        id = 4, nos = 4, content = listOf(
-                            ItemUiState(
-                                content = "Isabelle",
-                            )
-                        ).toImmutableList(),
-                        isAnswer = false
-                    )
-                ).toImmutableList(),
-                instructionUiState = InstructionUiState(
-                    id = 1,
-                    examId = 3,
-                    title = "What",
-                    content = listOf(ItemUiState()).toImmutableList()
-                )
-            ),
-            QuestionUiState(
-                id = 1,
-                nos = 1,
-                examId = 0,
-                content = listOf(
-                    ItemUiState(content = "What is your name")
-                )
-                    .toImmutableList(),
-                options = listOf(
-                    OptionUiState(
-                        id = 1, nos = 1, content = listOf(
-                            ItemUiState(
-                                content = "Isabelle"
-                            )
-                        ).toImmutableList(),
-                        isAnswer = false
-                    ),
-                    OptionUiState(
-                        id = 2, nos = 2, content = listOf(
-                            ItemUiState(
-                                content = "Isabelle"
-                            )
-                        ).toImmutableList(),
-                        isAnswer = false
-                    ),
-                    OptionUiState(
-                        id = 3, nos = 3, content = listOf(
-                            ItemUiState(
-                                content = "Isabelle"
-                            )
-                        ).toImmutableList(),
-                        isAnswer = false
-                    ),
-                    OptionUiState(
-                        id = 4, nos = 4, content = listOf(
-                            ItemUiState(
-                                content = "Isabelle",
-                            )
-                        ).toImmutableList(),
-                        isAnswer = false
-                    )
-                ).toImmutableList(),
-                instructionUiState = InstructionUiState(
-                    id = 1,
-                    examId = 3,
-                    title = "What",
-                    content = listOf(ItemUiState()).toImmutableList()
-                )
-            ),
-            QuestionUiState(
-                id = 1,
-                nos = 1,
-                examId = 0,
-                content = listOf(
-                    ItemUiState(content = "What is your name")
-                )
-                    .toImmutableList(),
-                options = listOf(
-                    OptionUiState(
-                        id = 1, nos = 1, content = listOf(
-                            ItemUiState(
-                                content = "Isabelle"
-                            )
-                        ).toImmutableList(),
-                        isAnswer = false
-                    ),
-                    OptionUiState(
-                        id = 2, nos = 2, content = listOf(
-                            ItemUiState(
-                                content = "Isabelle"
-                            )
-                        ).toImmutableList(),
-                        isAnswer = false
-                    ),
-                    OptionUiState(
-                        id = 3, nos = 3, content = listOf(
-                            ItemUiState(
-                                content = "Isabelle"
-                            )
-                        ).toImmutableList(),
-                        isAnswer = false
-                    ),
-                    OptionUiState(
-                        id = 4, nos = 4, content = listOf(
-                            ItemUiState(
-                                content = "Isabelle",
-                            )
-                        ).toImmutableList(),
-                        isAnswer = false
-                    )
-                ).toImmutableList(),
-                instructionUiState = InstructionUiState(
-                    id = 1,
-                    examId = 3,
-                    title = "What",
-                    content = listOf(ItemUiState()).toImmutableList()
-                )
-            )
-        ).toImmutableList()
-    FinishScreen(
-
-        mainState = MainState(
-            title = "Jade",
-            currentExam = null,
-            listOfAllExams = emptyList<ExamUiState>().toImmutableList(),
-        )
-    )
-}
+expect fun FinishScreenPreview()

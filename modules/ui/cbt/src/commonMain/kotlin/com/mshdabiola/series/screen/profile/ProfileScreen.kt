@@ -13,16 +13,14 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.semantics.semantics
-import androidx.compose.ui.semantics.testTagsAsResourceId
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.mshdabiola.mvvn.KoinCommonViewModel
 import com.mshdabiola.retex.Latex
 import com.mshdabiola.series.screen.MainViewModel
-import org.koin.androidx.compose.koinViewModel
 
 @Composable
 internal fun ProfileScreen() {
-    val viewModel: MainViewModel = koinViewModel()
+    val viewModel: MainViewModel = KoinCommonViewModel()
 
     ProfileScreen(
         profileState = ProfileState()
@@ -35,7 +33,7 @@ internal fun ProfileScreen(
     profileState: ProfileState
 ) {
     Scaffold(
-        modifier = Modifier.semantics { this.testTagsAsResourceId = true },
+        modifier = Modifier,//.semantics { this.testTagsAsResourceId = true },
         topBar = {
             TopAppBar(
                 title = { Text(text = "Profile") },
@@ -72,10 +70,6 @@ internal fun ProfileScreen(
 
 }
 
-@Preview
+
 @Composable
-fun ProfileScreenPreview() {
-    ProfileScreen(
-        profileState = ProfileState()
-    )
-}
+expect fun ProfileScreenPreview()

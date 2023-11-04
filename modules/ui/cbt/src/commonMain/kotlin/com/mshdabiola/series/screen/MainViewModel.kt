@@ -1,7 +1,5 @@
 package com.mshdabiola.series.screen
 
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.mshdabiola.data.repository.inter.IExamRepository
 import com.mshdabiola.data.repository.inter.IQuestionRepository
 import com.mshdabiola.data.repository.inter.ISettingRepository
@@ -25,7 +23,9 @@ import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import timber.log.Timber
+import com.mshdabiola.mvvn.ViewModel
+
+//import timber.log.Timber
 
 class MainViewModel(
     private val settingRepository: ISettingRepository,
@@ -122,7 +122,7 @@ class MainViewModel(
 
 
 
-            Timber.e("time ${exam.examTime}")
+            //Timber.e("time ${exam.examTime}")
             val time = when (type) {
                 ExamType.RANDOM, ExamType.YEAR -> exam.examTime * 60L
                 ExamType.FAST_FINGER -> allQuestions[0].size * 30L
@@ -153,7 +153,7 @@ class MainViewModel(
 
     private suspend fun onContinueExam() {
         val currentExam1 = settingRepository.getCurrentExam()
-        Timber.e("setting exam $currentExam1")
+     //   Timber.e("setting exam $currentExam1")
 
         if (currentExam1 != null) {
 
@@ -328,7 +328,7 @@ class MainViewModel(
 
         mainState.value.currentExam?.let { examUiState ->
             val index = mainState.value.listOfAllExams.indexOfFirst { it.id == examUiState.id }
-            Timber.e("retry index is $index")
+         //   Timber.e("retry index is $index")
 
             startExam(type, index, mainState.value.examPart)
         }

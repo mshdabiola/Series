@@ -10,15 +10,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.semantics
-import androidx.compose.ui.semantics.testTagsAsResourceId
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.mshdabiola.mvvn.KoinCommonViewModel
 import com.mshdabiola.series.screen.MainViewModel
-import org.koin.androidx.compose.koinViewModel
 
 @Composable
 internal fun StatScreen() {
-    val viewModel: MainViewModel = koinViewModel()
+    val viewModel: MainViewModel = KoinCommonViewModel()
 
     StatScreen(
         statState = StatState()
@@ -31,7 +29,7 @@ internal fun StatScreen(
     statState: StatState
 ) {
     Scaffold(
-        modifier = Modifier.semantics { this.testTagsAsResourceId = true },
+        modifier = Modifier,//.semantics { this.testTagsAsResourceId = true },
         topBar = {
             TopAppBar(
                 title = { Text(text = "Stat") },
@@ -50,10 +48,5 @@ internal fun StatScreen(
 
 }
 
-@Preview
 @Composable
-fun StatScreenPreview() {
-    StatScreen(
-        statState = StatState()
-    )
-}
+expect fun StatScreenPreview()

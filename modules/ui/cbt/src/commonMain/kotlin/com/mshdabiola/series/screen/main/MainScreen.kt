@@ -29,28 +29,28 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringArrayResource
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.semantics.semantics
-import androidx.compose.ui.semantics.testTagsAsResourceId
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.mshdabiola.mvvn.KoinCommonViewModel
+import com.mshdabiola.mvvn.collectAsStateWithLifecycleCommon
 import com.mshdabiola.series.screen.ExamType
 import com.mshdabiola.series.screen.MainViewModel
+import com.mshdabiola.series.screen.getExamPart
+import com.mshdabiola.series.screen.getIconLayer1
+import com.mshdabiola.series.screen.getIconLayer2
+import com.mshdabiola.series.screen.getIconLayer3
+import com.mshdabiola.series.screen.getStringSubject
+import com.mshdabiola.series.screen.getStringType
 import com.mshdabiola.ui.ContinueCard
 import com.mshdabiola.ui.OtherCard
 import com.mshdabiola.ui.StartCard
-import com.mshdabiola.ui.cbt.R
 import com.mshdabiola.ui.state.ExamUiState
 import kotlinx.collections.immutable.toImmutableList
-import org.koin.androidx.compose.koinViewModel
 
 @Composable
 internal fun MainScreen(onQuestion: () -> Unit) {
-    val viewModel: MainViewModel = koinViewModel()
-    val mainState = viewModel.mainState.collectAsStateWithLifecycle()
+    val viewModel: MainViewModel = KoinCommonViewModel()
+    val mainState = viewModel.mainState.collectAsStateWithLifecycleCommon()
     MainScreen(
         mainState = mainState.value,
         onQuestion = onQuestion,
@@ -84,15 +84,15 @@ internal fun MainScreen(
 //    NotifySnacker(snackHostState = snackbarHostState, notifys = mainState.messages)
     Scaffold(
         modifier = Modifier
-            .nestedScroll(scrollBehavior.nestedScrollConnection)
-            .semantics { this.testTagsAsResourceId = true },
+            .nestedScroll(scrollBehavior.nestedScrollConnection),
+          //  .semantics { this.testTagsAsResourceId = true },
         topBar = {
             CenterAlignedTopAppBar(
                 title = {
                     Column(verticalArrangement = Arrangement.Center) {
-                        Text(text = stringResource(id = R.string.subject))
+                        Text(text = getStringSubject())
                         Text(
-                            text = stringResource(id = R.string.type),
+                            text = getStringType(),
                             style = MaterialTheme.typography.labelMedium
                         )
                     }
@@ -133,7 +133,7 @@ internal fun MainScreen(
                     )
 
                 }
-                Image(painter = painterResource(id = R.drawable.layer_2), contentDescription = "")
+                Image(painter = getIconLayer2(), contentDescription = "")
 
             }
             mainState.currentExam?.let {
@@ -143,7 +143,7 @@ internal fun MainScreen(
                     progress = finishPercent,
                     enabled = mainState.isSubmit.not(),
                     timeRemain = mainState.totalTime - mainState.currentTime,
-                    part = stringArrayResource(id = com.mshdabiola.ui.cbt.R.array.exam_part)[mainState.examPart],
+                    part = getExamPart()[mainState.examPart],
                     onClick = {
                         onQuestion()
                     }
@@ -161,7 +161,7 @@ internal fun MainScreen(
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
                 OtherCard(
                     title = "Random exam",
-                    painter = painterResource(id = R.drawable.layer__1),
+                    painter = getIconLayer1(),
                     onClick = {
 
                         onStartExam(ExamType.RANDOM, -1, 1)
@@ -170,7 +170,7 @@ internal fun MainScreen(
                 )
                 OtherCard(
                     title = "Fast finger",
-                    painter = painterResource(id = R.drawable.layer_1),
+                    painter = getIconLayer3(),
                     onClick = {
                         onStartExam(ExamType.FAST_FINGER, -1, 1)
                         onQuestion()
@@ -182,30 +182,5 @@ internal fun MainScreen(
         }
     }
 }
-
-@Preview
 @Composable
-fun MainScreenPreview() {
-    MainScreen(
-        mainState = MainState(
-            listOfAllExams = listOf(
-                ExamUiState(
-                    id = 7353L,
-                    subjectID = 7692L,
-                    year = 6756L,
-                    subject = "Taya",
-                    isObjOnly = false,
-                    examTime = 400
-                ),
-            ).toImmutableList(),
-            currentExam = ExamUiState(
-                id = 0L,
-                subjectID = 0L,
-                year = 1556L,
-                subject = "Math",
-                isObjOnly = false,
-                examTime = 0L
-            )
-        )
-    )
-}
+expect fun MainScreenPreview()
