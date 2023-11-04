@@ -29,22 +29,3 @@ internal actual fun ContinueCardPreview() {
 @Composable
 internal actual fun OtherCardPreview() {
 }
-
-@Composable
-internal actual fun YearExposed(
-    modifier: Modifier,
-    exams: ImmutableList<ExamUiState>,
-    selectedOptionText: Int,
-    label: String,
-    onChange: (Int) -> Unit
-) {
-}
-
-@Composable
-internal actual fun ExamType(
-    modifier: Modifier,
-    enabled: Boolean,
-    selectedOption: Int,
-    onChange: (Int) -> Unit
-) {
-}
