@@ -8,9 +8,11 @@ import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.arkivanov.decompose.ExperimentalDecomposeApi
+import com.arkivanov.decompose.extensions.compose.jetbrains.pages.Pages
 import com.arkivanov.decompose.extensions.compose.jetbrains.pages.PagesScrollAnimation
 import com.arkivanov.decompose.extensions.compose.jetbrains.stack.Children
 import com.arkivanov.decompose.extensions.compose.jetbrains.stack.animation.slide
@@ -26,9 +28,10 @@ import com.mshdabiola.series.screen.stat.StatScreenNav
 
 
 @Composable
-fun AppNavHost(iRootComponent: IRootComponent, modifier: Modifier) {
+fun AppNavHost(iRootComponent: IRootComponent, modifier: Modifier, windowSizeClass: WindowSizeClass) {
 
     Children(
+        modifier=modifier,
         stack = iRootComponent.stack,
         animation = stackAnimation(slide())
     ) {
@@ -70,7 +73,7 @@ fun PagerCom(
     iPagerComponent: IPagerComponent,
     onQuestion: () -> Unit = {}
 ) {
-    var current = iPagerComponent.current.subscribeAsState().value
+    val current = iPagerComponent.current.subscribeAsState().value
 
     Column {
         Pages(
