@@ -34,6 +34,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.unit.dp
+import com.mshdabiola.series.screen.getExamPart
 import com.mshdabiola.ui.state.ExamUiState
 import kotlinx.collections.immutable.ImmutableList
 
@@ -222,20 +223,54 @@ fun OtherCard(
 @Composable
 internal expect fun OtherCardPreview()
 
+
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal expect fun YearExposed(
-    modifier: Modifier = Modifier,
+internal  fun YearExposed(
+    modifier: Modifier,
     exams: ImmutableList<ExamUiState>,
     selectedOptionText: Int,
-    label: String = "",
-    onChange: (Int) -> Unit = {}
-)
+    label: String,
+    onChange: (Int) -> Unit
+) {
+    LargeDropdownMenu(
+        modifier = modifier,
+        label = label,
+        notSetLabel = "Select Exam Year",
+        items = exams,
+        selectedIndex = selectedOptionText,
+        selectedItemToString = { it.year.toString() },
+        onItemSelected = { index: Int, _: ExamUiState -> onChange(index) },
+        drawItem = { item, selected, itemEnabled, onClick ->
+            LargeDropdownMenuItem(
+                text = item.year.toString(),
+                selected = selected,
+                enabled = itemEnabled,
+                onClick = onClick,
+            )
+        }
+    )
+// We want to react on tap/press on TextField to show menu
+
+}
 
 @Composable
-internal expect fun ExamType(
-    modifier: Modifier = Modifier,
+internal  fun ExamType(
+    modifier: Modifier,
     enabled: Boolean,
     selectedOption: Int,
-    onChange: (Int) -> Unit = {}
-)
+    onChange: (Int) -> Unit
+) {
+    val types = getExamPart()
 
+    LargeDropdownMenu(
+        modifier = modifier,
+        enabled = enabled,
+        label = "Exam Type",
+        notSetLabel = "Select Exam Type",
+        items = types.toList(),
+        selectedIndex = selectedOption,
+        selectedItemToString = { it },
+        onItemSelected = { index: Int, _: String -> onChange(index) })
+
+}

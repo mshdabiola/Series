@@ -5,6 +5,7 @@ plugins {
     id("mshdabiola.android.application")
     id("mshdabiola.android.application.compose")
     id("mshdabiola.android.application.firebase")
+    alias(libs.plugins.androidx.baselineprofile)
 
 
 }
@@ -71,13 +72,14 @@ dependencies {
     implementation(libs.koin.core)
     implementation(libs.koin.android)
 
-    implementation(project(":modules:designsystem"))
-    implementation(project(":modules:navigation:cbt"))
+    //implementation(project(":modules:designsystem"))
+    //implementation(project(":modules:navigation:cbt"))
     implementation(project(":modules:ui:cbt"))
     implementation(libs.decompose.core)
 
 
     androidTestImplementation(project(":modules:testing"))
+    "baselineProfile"(project(":app:baselineprofile"))
 
 
 }

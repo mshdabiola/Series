@@ -4,8 +4,8 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import androidx.sqlite.db.framework.FrameworkSQLiteOpenHelperFactory
 import app.cash.sqldelight.driver.android.AndroidSqliteDriver
 import com.mshabiola.database.model.listOfValueAdapter
-import com.mshabiola.database.util.Constant
 import com.mshdabiola.database.SeriesDatabase
+import com.mshdabiola.model.Security
 import commshdabioladatabase.tables.InstructionEntity
 import commshdabioladatabase.tables.OptionEntity
 import commshdabioladatabase.tables.QuestionEntity
@@ -23,10 +23,10 @@ actual val databaseModule: Module
                 factory = SQLiteCopyOpenHelper.Factory(
                     context = get(),
                     delegate = FrameworkSQLiteOpenHelperFactory(),
-                    copyConfig = CopyFromAssetPath(Constant.assetData)
+                    copyConfig = CopyFromAssetPath(Security.assetData)
                 ),
 
-                name = Constant.databaseName,
+                name = Security.databaseName,
                 callback = object : AndroidSqliteDriver.Callback(SeriesDatabase.Schema) {
                     //                    override fun onOpen(db: SupportSQLiteDatabase) {
 //                        super.onOpen(db)

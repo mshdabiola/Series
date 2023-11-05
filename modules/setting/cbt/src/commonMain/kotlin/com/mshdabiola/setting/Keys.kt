@@ -6,7 +6,7 @@ import androidx.datastore.preferences.core.Preferences
 import okio.Path.Companion.toPath
 
 
-internal const val dataStoreFileName = "meetings.preferences_pb"
+internal const val dataStoreFileName = "cbt.preferences_pb"
 
 
 fun createDataStore(
