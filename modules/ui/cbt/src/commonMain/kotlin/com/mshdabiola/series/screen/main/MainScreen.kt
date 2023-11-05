@@ -33,6 +33,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.mshdabiola.mvvn.KoinCommonViewModel
 import com.mshdabiola.mvvn.collectAsStateWithLifecycleCommon
+import com.mshdabiola.mvvn.semanticsCommon
 import com.mshdabiola.series.screen.ExamType
 import com.mshdabiola.series.screen.MainViewModel
 import com.mshdabiola.series.screen.getExamPart
@@ -58,7 +59,7 @@ internal fun MainScreen(onQuestion: () -> Unit) {
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun MainScreen(
     mainState: MainState,
@@ -84,8 +85,8 @@ internal fun MainScreen(
 //    NotifySnacker(snackHostState = snackbarHostState, notifys = mainState.messages)
     Scaffold(
         modifier = Modifier
-            .nestedScroll(scrollBehavior.nestedScrollConnection),
-          //  .semantics { this.testTagsAsResourceId = true },
+            .nestedScroll(scrollBehavior.nestedScrollConnection)
+            .semanticsCommon{},
         topBar = {
             CenterAlignedTopAppBar(
                 title = {

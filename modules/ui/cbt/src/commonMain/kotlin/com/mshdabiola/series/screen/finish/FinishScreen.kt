@@ -36,6 +36,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import com.mshdabiola.mvvn.collectAsStateWithLifecycleCommon
+import com.mshdabiola.mvvn.semanticsCommon
 import com.mshdabiola.series.screen.MainViewModel
 import com.mshdabiola.series.screen.getSection
 import com.mshdabiola.series.screen.main.MainState
@@ -70,9 +71,6 @@ internal fun FinishScreen(onBack: () -> Unit, toQuestion: () -> Unit, viewModel:
     )
 }
 
-@OptIn(
-    ExperimentalComposeUiApi::class
-)
 @Composable
 internal fun FinishScreen(
     mainState: MainState,
@@ -92,7 +90,7 @@ internal fun FinishScreen(
 
 
     Scaffold(
-        modifier = Modifier,//.semantics { this.testTagsAsResourceId = true },
+        modifier = Modifier.semanticsCommon{},
         bottomBar = {
             BottomAppBar(
                 actions = {

@@ -44,6 +44,7 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.mshdabiola.mvvn.collectAsStateWithLifecycleCommon
+import com.mshdabiola.mvvn.semanticsCommon
 import com.mshdabiola.series.screen.MainViewModel
 import com.mshdabiola.series.screen.getSection
 import com.mshdabiola.series.screen.main.MainState
@@ -84,7 +85,6 @@ internal fun QuestionScreen(
 }
 
 @OptIn(
-    ExperimentalComposeUiApi::class,
     ExperimentalFoundationApi::class
 )
 @Composable
@@ -139,7 +139,7 @@ internal fun QuestionScreen(
         })
 
         Scaffold(
-            modifier = Modifier,//.semantics { this.testTagsAsResourceId = true },
+            modifier = Modifier.semanticsCommon{},
             bottomBar = {
                 BottomAppBar(
                     actions = {

@@ -15,6 +15,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import com.mshdabiola.mvvn.KoinCommonViewModel
+import com.mshdabiola.mvvn.semanticsCommon
 import com.mshdabiola.retex.Latex
 import com.mshdabiola.series.screen.MainViewModel
 
@@ -27,13 +28,13 @@ internal fun ProfileScreen() {
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun ProfileScreen(
     profileState: ProfileState
 ) {
     Scaffold(
-        modifier = Modifier,//.semantics { this.testTagsAsResourceId = true },
+        modifier = Modifier.semanticsCommon{},
         topBar = {
             TopAppBar(
                 title = { Text(text = "Profile") },

@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import com.mshdabiola.mvvn.KoinCommonViewModel
+import com.mshdabiola.mvvn.semanticsCommon
 import com.mshdabiola.series.screen.MainViewModel
 
 @Composable
@@ -23,13 +24,13 @@ internal fun StatScreen() {
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun StatScreen(
     statState: StatState
 ) {
     Scaffold(
-        modifier = Modifier,//.semantics { this.testTagsAsResourceId = true },
+        modifier = Modifier.semanticsCommon{},
         topBar = {
             TopAppBar(
                 title = { Text(text = "Stat") },
