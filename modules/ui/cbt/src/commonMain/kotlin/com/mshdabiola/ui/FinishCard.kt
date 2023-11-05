@@ -97,9 +97,8 @@ fun ScoreItem(
     heading: String,
     content: String
 ) {
-    val headingColor = LocalTextStyle.current.color.copy(alpha = 0.7f)
     Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
-        Text(heading, style = MaterialTheme.typography.bodyMedium, color = headingColor)
-        Text(content, style = MaterialTheme.typography.bodyLarge)
+        Text(heading, style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.secondary)
+        Text(content, style = MaterialTheme.typography.bodyLarge, color = MaterialTheme.colorScheme.primary)
     }
 }
