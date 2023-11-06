@@ -37,12 +37,13 @@ kotlin {
                 implementation(libs.koin.android)
                 implementation(libs.koin.android.compose)
 
-             //   implementation(libs.androidx.core.ktx)
+                implementation(libs.play.update.kts)
+                implementation(libs.play.update)
+
+                implementation(libs.play.review.kts)
+                implementation(libs.play.review)
 
 
-
-
-//                implementation(libs.androidx.lifecycle.runtimeCompose)
 
 
             }

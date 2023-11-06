@@ -37,7 +37,6 @@ class MainActivity : ComponentActivity() {
     var achievement: AchievementsClient? = null
     var analytics: FirebaseAnalytics? = null
     var remoteConfig: FirebaseRemoteConfig? = null
-    private var appData by mutableStateOf(AppData(updateApp = null))
 
 
     @OptIn(KoinExperimentalAPI::class)
@@ -112,57 +111,4 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        appUpdateInfoManager
-            .appUpdateInfo
-            .addOnSuccessListener { appUpdateInfo ->
-                if (appUpdateInfo.installStatus() == InstallStatus.DOWNLOADED) {
-                    appData = appData.copy(updateApp = { appUpdateInfoManager.completeUpdate() })
-
-                }
-                if (appUpdateInfo.installStatus() == InstallStatus.INSTALLED) {
-                    listener?.let { appUpdateInfoManager.unregisterListener(it) }
-                }
-            }
-
-    }
-
-    override fun onStart() {
-        super.onStart()
-
-        val appUpdateInfoTask = appUpdateInfoManager.appUpdateInfo
-        appUpdateInfoTask.addOnSuccessListener { appUpdateInfo ->
-            if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE &&
-                appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.FLEXIBLE)
-            ) {
-
-                listener = InstallStateUpdatedListener { state ->
-
-//                    if (state.installStatus() == InstallStatus.DOWNLOADING) {
-//                        val bytesDownloaded = state.bytesDownloaded()
-//                        val totalBytesToDownload = state.totalBytesToDownload()
-//                        // Show update progress bar.
-//                    }
-                    if (state.installStatus() == InstallStatus.DOWNLOADED) {
-                       // show = true
-                    }
-                }
-
-                listener?.let { appUpdateInfoManager.registerListener(it) }
-
-                appUpdateInfoManager.startUpdateFlowForResult(
-                    appUpdateInfo,
-                    AppUpdateType.FLEXIBLE,
-                    this,
-                    343
-                )
-
-            }
-            //  log("update ${appUpdateInfo.packageName()} ${appUpdateInfo.availableVersionCode()}",)
-        }.addOnFailureListener {
-            it.printStackTrace()
-        }
-
-    }
 }
