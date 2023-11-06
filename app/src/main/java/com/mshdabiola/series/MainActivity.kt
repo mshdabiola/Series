@@ -4,20 +4,42 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
 import com.arkivanov.decompose.defaultComponentContext
+import com.google.android.gms.games.AchievementsClient
 import com.google.android.gms.tasks.OnCompleteListener
+import com.google.android.play.core.appupdate.AppUpdateManagerFactory
+import com.google.android.play.core.install.InstallStateUpdatedListener
+import com.google.android.play.core.install.model.AppUpdateType
+import com.google.android.play.core.install.model.InstallStatus
+import com.google.android.play.core.install.model.UpdateAvailability
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.FirebaseMessaging
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.ktx.remoteConfig
 import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
 import com.mshdabiola.series.screen.SeriesApp
+import com.mshdabiola.setting.MultiplatformSettings
+import com.mshdabiola.ui.state.AppData
+import org.koin.android.ext.android.inject
 import org.koin.androidx.compose.KoinAndroidContext
 import org.koin.core.annotation.KoinExperimentalAPI
 import timber.log.Timber
 
 class MainActivity : ComponentActivity() {
+
+    private val appUpdateInfoManager by lazy { AppUpdateManagerFactory.create(this) }
+    private var listener: InstallStateUpdatedListener? = null
+    var achievement: AchievementsClient? = null
+    var analytics: FirebaseAnalytics? = null
+    var remoteConfig: FirebaseRemoteConfig? = null
+    private var appData by mutableStateOf(AppData(updateApp = null))
+
 
     @OptIn(KoinExperimentalAPI::class)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -89,5 +111,59 @@ class MainActivity : ComponentActivity() {
             }
 
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        appUpdateInfoManager
+            .appUpdateInfo
+            .addOnSuccessListener { appUpdateInfo ->
+                if (appUpdateInfo.installStatus() == InstallStatus.DOWNLOADED) {
+                    appData = appData.copy(updateApp = { appUpdateInfoManager.completeUpdate() })
+
+                }
+                if (appUpdateInfo.installStatus() == InstallStatus.INSTALLED) {
+                    listener?.let { appUpdateInfoManager.unregisterListener(it) }
+                }
+            }
+
+    }
+
+    override fun onStart() {
+        super.onStart()
+
+        val appUpdateInfoTask = appUpdateInfoManager.appUpdateInfo
+        appUpdateInfoTask.addOnSuccessListener { appUpdateInfo ->
+            if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE &&
+                appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.FLEXIBLE)
+            ) {
+
+                listener = InstallStateUpdatedListener { state ->
+
+//                    if (state.installStatus() == InstallStatus.DOWNLOADING) {
+//                        val bytesDownloaded = state.bytesDownloaded()
+//                        val totalBytesToDownload = state.totalBytesToDownload()
+//                        // Show update progress bar.
+//                    }
+                    if (state.installStatus() == InstallStatus.DOWNLOADED) {
+                       // show = true
+                    }
+                }
+
+                listener?.let { appUpdateInfoManager.registerListener(it) }
+
+                appUpdateInfoManager.startUpdateFlowForResult(
+                    appUpdateInfo,
+                    AppUpdateType.FLEXIBLE,
+                    this,
+                    343
+                )
+
+            }
+            //  log("update ${appUpdateInfo.packageName()} ${appUpdateInfo.availableVersionCode()}",)
+        }.addOnFailureListener {
+            it.printStackTrace()
+        }
+
     }
 }
