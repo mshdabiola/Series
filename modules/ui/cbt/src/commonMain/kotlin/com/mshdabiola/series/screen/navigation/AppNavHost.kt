@@ -25,6 +25,7 @@ import com.mshdabiola.series.screen.main.MainScreenNav
 import com.mshdabiola.series.screen.profile.ProfileScreenNav
 import com.mshdabiola.series.screen.question.QuestionScreenNav
 import com.mshdabiola.series.screen.stat.StatScreenNav
+import com.mshdabiola.ui.UpdateAppUi
 
 
 @Composable
@@ -98,6 +99,7 @@ fun PagerCom(
 
 
         }
+        UpdateAppUi()
         NavigationBar {
             NavigationBarItem(selected = current == 0,
                 onClick = {
