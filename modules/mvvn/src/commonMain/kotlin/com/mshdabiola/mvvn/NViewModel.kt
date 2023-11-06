@@ -2,7 +2,7 @@ package com.mshdabiola.mvvn
 
 import kotlinx.coroutines.CoroutineScope
 
-expect open class ViewModel() {
+expect abstract class ViewModel() {
     val viewModelScope: CoroutineScope
 
     protected open fun onCleared()
