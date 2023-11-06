@@ -15,15 +15,15 @@ kotlin {
 
 //                implementation(libs.koin.core)
                 implementation(libs.koin.android)
-               // implementation(libs.koin.android.compose)
+                implementation(libs.koin.android.compose)
 
                // implementation(libs.androidx.core.ktx)
 
 
 
                 implementation(libs.androidx.lifecycle.runtimeCompose)
-                implementation(libs.viewmodel.core)
-                implementation(libs.viewmodel.compose)
+//                implementation(libs.viewmodel.core)
+//                implementation(libs.viewmodel.compose)
             }
         }
     }

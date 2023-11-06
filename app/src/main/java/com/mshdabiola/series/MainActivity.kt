@@ -24,7 +24,6 @@ import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.ktx.remoteConfig
 import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
 import com.mshdabiola.series.screen.SeriesApp
-import com.mshdabiola.setting.MultiplatformSettings
 import com.mshdabiola.ui.state.AppData
 import org.koin.android.ext.android.inject
 import org.koin.androidx.compose.KoinAndroidContext
