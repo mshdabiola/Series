@@ -1,13 +1,14 @@
 package com.mshdabiola.series.screen
 
+//import com.mshdabiola.ui.screen.ExamType
+//import com.mshdabiola.ui.screen.main.Section
 import com.mshdabiola.data.repository.inter.IExamRepository
 import com.mshdabiola.data.repository.inter.IQuestionRepository
 import com.mshdabiola.data.repository.inter.ISettingRepository
 import com.mshdabiola.model.data.CurrentExam
+import com.mshdabiola.mvvn.ViewModel
 import com.mshdabiola.series.screen.main.MainState
 import com.mshdabiola.series.screen.main.Section
-//import com.mshdabiola.ui.screen.ExamType
-//import com.mshdabiola.ui.screen.main.Section
 import com.mshdabiola.ui.state.ExamUiState
 import com.mshdabiola.ui.state.QuestionUiState
 import com.mshdabiola.ui.state.ScoreUiState
@@ -23,7 +24,6 @@ import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import com.mshdabiola.mvvn.ViewModel
 
 //import timber.log.Timber
 
@@ -69,91 +69,98 @@ class MainViewModel(
     fun startExam(examType: ExamType, yearIndex: Int, typeIndex: Int) {
         viewModelScope.launch(Dispatchers.IO) {
 
-            type = examType
+            try {
 
-            val exam = when (type) {
-                ExamType.YEAR -> {
-                    mainState.value.listOfAllExams[yearIndex]
-                }
+                type = examType
 
-                ExamType.FAST_FINGER -> {
-                    mainState.value.listOfAllExams[0]
-                }
+                val exam = when (type) {
+                    ExamType.YEAR -> {
+                        mainState.value.listOfAllExams[yearIndex]
+                    }
 
-                ExamType.RANDOM -> {
-                    mainState.value.listOfAllExams.filter { it.isObjOnly }.random()
-                }
-            }
+                    ExamType.FAST_FINGER -> {
+                        mainState.value.listOfAllExams[0]
+                    }
 
-            val allQuestions = emptyList<List<QuestionUiState>>().toMutableList()
-            when (type) {
-                ExamType.YEAR, ExamType.RANDOM -> {
-                    val list = getAllQuestions(exam.id)
-                    when (typeIndex) {
-                        0 -> {
-
-                            allQuestions.add(list.filter { it.isTheory.not() })
-                            allQuestions.add(list.filter { it.isTheory })
-                        }
-
-                        1 -> {
-
-                            allQuestions.add(list.filter { it.isTheory.not() })
-                        }
-
-                        else -> {
-                            allQuestions.add(list.filter { it.isTheory })
-
-                        }
+                    ExamType.RANDOM -> {
+                        mainState.value.listOfAllExams.filter { it.isObjOnly }.random()
                     }
                 }
 
-                ExamType.FAST_FINGER -> {
-                    allQuestions.add(getAllQuestions(null).filter { it.isTheory.not() })
+                val allQuestions = emptyList<List<QuestionUiState>>().toMutableList()
+                when (type) {
+                    ExamType.YEAR, ExamType.RANDOM -> {
+                        val list = getAllQuestions(exam.id)
+                        when (typeIndex) {
+                            0 -> {
+
+                                allQuestions.add(list.filter { it.isTheory.not() })
+                                allQuestions.add(list.filter { it.isTheory })
+                            }
+
+                            1 -> {
+
+                                allQuestions.add(list.filter { it.isTheory.not() })
+                            }
+
+                            else -> {
+                                allQuestions.add(list.filter { it.isTheory })
+
+                            }
+                        }
+                    }
+
+                    ExamType.FAST_FINGER -> {
+                        allQuestions.add(getAllQuestions(null).filter { it.isTheory.not() })
+                    }
+
                 }
 
-            }
+                val section = allQuestions
+                    .map { questionUiStates ->
+                        val isTheory = questionUiStates.all { it.isTheory }
+                        Section(stringRes = if (isTheory) 1 else 0, false)
+                    }
 
-            val section = allQuestions
-                .map { questionUiStates ->
-                    val isTheory = questionUiStates.all { it.isTheory }
-                    Section(stringRes = if (isTheory) 1 else 0, false)
+
+                //Timber.e("time ${exam.examTime}")
+                val time = when (type) {
+                    ExamType.RANDOM, ExamType.YEAR -> exam.examTime * 60L
+                    ExamType.FAST_FINGER -> allQuestions[0].size * 30L
                 }
-
-
-
-            //Timber.e("time ${exam.examTime}")
-            val time = when (type) {
-                ExamType.RANDOM, ExamType.YEAR -> exam.examTime * 60L
-                ExamType.FAST_FINGER -> allQuestions[0].size * 30L
-            }
 
 //            val objTime = (allQuestions.filter { it.isTheory.not() }.size) * time
 //            val theoryTime = (allQuestions.filter { it.isTheory }.size) * 40L
 //            Timber.e("tTime $theoryTime objTime $objTime")
-            val choose = allQuestions.map {
-                List(it.size) { -1 }
+                val choose = allQuestions.map {
+                    List(it.size) { -1 }
+                }
+
+                _mainState.update { state ->
+                    state.copy(
+                        currentExam = exam,
+                        questions = allQuestions.map { it.toImmutableList() }.toImmutableList(),
+                        choose = choose.map { it.toImmutableList() }.toImmutableList(),
+                        currentSectionIndex = 0,
+                        sections = section.toImmutableList(),
+                        totalTime = time, currentTime = 0, examPart = typeIndex,
+                        isSubmit = false
+                    )
+                }
+
             }
+            catch (e: Exception) {
+                e.printStackTrace()
 
-            _mainState.update { state ->
-                state.copy(
-                    currentExam = exam,
-                    questions = allQuestions.map { it.toImmutableList() }.toImmutableList(),
-                    choose = choose.map { it.toImmutableList() }.toImmutableList(),
-                    currentSectionIndex = 0,
-                    sections = section.toImmutableList(),
-                    totalTime = time, currentTime = 0, examPart = typeIndex,
-                    isSubmit = false
-                )
             }
-
-
         }
+
+
     }
 
     private suspend fun onContinueExam() {
         val currentExam1 = settingRepository.getCurrentExam()
-     //   Timber.e("setting exam $currentExam1")
+        //   Timber.e("setting exam $currentExam1")
 
         if (currentExam1 != null) {
 
@@ -328,7 +335,7 @@ class MainViewModel(
 
         mainState.value.currentExam?.let { examUiState ->
             val index = mainState.value.listOfAllExams.indexOfFirst { it.id == examUiState.id }
-         //   Timber.e("retry index is $index")
+            //   Timber.e("retry index is $index")
 
             startExam(type, index, mainState.value.examPart)
         }
