@@ -33,7 +33,7 @@ actual fun UpdateAppUi(modifier: Modifier) {
         AppUpdateManagerFactory.create(activity)
 
     }
-    var installStateUpdatedListener: InstallStateUpdatedListener?
+    var installStateUpdatedListener: InstallStateUpdatedListener?=null
 
     val defaultLifecycleObserver = object : DefaultLifecycleObserver {
         override fun onCreate(owner: LifecycleOwner) {
@@ -83,6 +83,16 @@ actual fun UpdateAppUi(modifier: Modifier) {
 
         override fun onResume(owner: LifecycleOwner) {
             super.onResume(owner)
+            appUpdateInfoManager
+                .appUpdateInfo
+                .addOnSuccessListener { appUpdateInfo ->
+                    if (appUpdateInfo.installStatus() == InstallStatus.DOWNLOADED) {
+                        show = true
+                    }
+                    if (appUpdateInfo.installStatus() == InstallStatus.INSTALLED) {
+                        installStateUpdatedListener?.let { appUpdateInfoManager.unregisterListener(it) }
+                    }
+                }
         }
     }
 
