@@ -51,7 +51,7 @@ internal fun StatScreen(
         modifier = Modifier.semanticsCommon {},
         topBar = {
             TopAppBar(
-                title = { Text(text = "Stat") },
+                title = { Text(text = "Ranks") },
 
                 )
         },

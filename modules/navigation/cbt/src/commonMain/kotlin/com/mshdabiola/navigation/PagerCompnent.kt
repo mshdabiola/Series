@@ -23,7 +23,8 @@ class PagerComponent(componentContext: ComponentContext) : IPagerComponent,
         source = navigation,
         initialPages = {
             Pages(
-                items = listOf(Config2.Main, Config2.Statistic, Config2.Profile),
+                items = listOf(Config2.Main, Config2.Statistic//, Config2.Profile
+                ),
                 selectedIndex = 0
             )
         }
@@ -36,11 +37,11 @@ class PagerComponent(componentContext: ComponentContext) : IPagerComponent,
                 )
             )
 
-            is Config2.Profile -> IPagerComponent.PScreen.ProfileRootScreen(
-                ProfileComponent(
-                    componentContext
-                )
-            )
+//            is Config2.Profile -> IPagerComponent.PScreen.ProfileRootScreen(
+//                ProfileComponent(
+//                    componentContext
+//                )
+//            )
         }
     }
 
@@ -55,13 +56,19 @@ class PagerComponent(componentContext: ComponentContext) : IPagerComponent,
     private sealed interface Config2 : Parcelable {
 
         @Parcelize
-        object Main : Config2
+        data object Main : Config2 {
+            private fun readResolve(): Any = Main
+        }
 
         @Parcelize
-        object Statistic : Config2
+        data object Statistic : Config2 {
+            private fun readResolve(): Any = Statistic
+        }
 
-        @Parcelize
-        object Profile : Config2
+//        @Parcelize
+//        data object Profile : Config2 {
+//            private fun readResolve(): Any = Profile
+//        }
 
 
     }
