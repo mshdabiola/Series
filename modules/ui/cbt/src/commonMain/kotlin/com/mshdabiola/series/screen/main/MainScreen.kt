@@ -25,10 +25,8 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.mshdabiola.mvvn.KoinCommonViewModel
@@ -44,9 +42,8 @@ import com.mshdabiola.series.screen.getStringSubject
 import com.mshdabiola.series.screen.getStringType
 import com.mshdabiola.ui.ContinueCard
 import com.mshdabiola.ui.OtherCard
+import com.mshdabiola.ui.PlayLogin
 import com.mshdabiola.ui.StartCard
-import com.mshdabiola.ui.state.ExamUiState
-import kotlinx.collections.immutable.toImmutableList
 
 @Composable
 internal fun MainScreen(onQuestion: () -> Unit) {
@@ -69,7 +66,6 @@ internal fun MainScreen(
     val snackbarHostState = remember {
         SnackbarHostState()
     }
-
 
     val finishPercent = remember(mainState.choose) {
         var choose = mainState
@@ -123,7 +119,7 @@ internal fun MainScreen(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Column(Modifier.weight(1f)) {
-                    Text(text = "Hello Abiola", style = MaterialTheme.typography.titleMedium)
+                    PlayLogin()
                     Spacer(modifier = Modifier.height(8.dp))
                     Text(
                         text = "Step right up and test your skills. " +

@@ -44,6 +44,10 @@ kotlin {
                 implementation(libs.play.review)
 
 
+                implementation(libs.play.game)
+                implementation(libs.play.coroutine)
+
+
 
 
             }

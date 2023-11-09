@@ -6,7 +6,7 @@ import androidx.compose.runtime.Composable
 @Preview
 @Composable
 actual fun StatScreenPreview() {
-    StatScreen(
-        statState = StatState()
-    )
+//    StatScreen(
+//        statState = StatState()
+//    )
 }

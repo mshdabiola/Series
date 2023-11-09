@@ -10,6 +10,7 @@ import androidx.compose.runtime.setValue
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
 import com.arkivanov.decompose.defaultComponentContext
+import com.google.android.gms.games.PlayGamesSdk
 import com.google.android.gms.games.AchievementsClient
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory
@@ -42,6 +43,10 @@ class MainActivity : ComponentActivity() {
     @OptIn(KoinExperimentalAPI::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        PlayGamesSdk.initialize(this);
+
+
         val remoteConfig = Firebase.remoteConfig
         remoteConfig.setConfigSettingsAsync(remoteConfigSettings {
             minimumFetchIntervalInSeconds = 3600
@@ -110,5 +115,4 @@ class MainActivity : ComponentActivity() {
 
         }
     }
-
 }
