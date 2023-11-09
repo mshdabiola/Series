@@ -3,5 +3,5 @@ package com.mshdabiola.ui
 import androidx.compose.runtime.Composable
 
 @Composable
-actual fun ReviewApp(show: Boolean) {
+actual fun PlayLogin() {
 }

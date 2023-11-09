@@ -22,7 +22,6 @@ import com.mshdabiola.navigation.IPagerComponent
 import com.mshdabiola.navigation.IRootComponent
 import com.mshdabiola.series.screen.finish.FinishScreenNav
 import com.mshdabiola.series.screen.main.MainScreenNav
-import com.mshdabiola.series.screen.profile.ProfileScreenNav
 import com.mshdabiola.series.screen.question.QuestionScreenNav
 import com.mshdabiola.series.screen.stat.StatScreenNav
 import com.mshdabiola.ui.UpdateAppUi
@@ -88,9 +87,9 @@ fun PagerCom(
                     MainScreenNav(onQuestion = onQuestion)
                 }
 
-                is IPagerComponent.PScreen.ProfileRootScreen -> {
-                    ProfileScreenNav()
-                }
+//                is IPagerComponent.PScreen.ProfileRootScreen -> {
+//                    ProfileScreenNav()
+//                }
 
                 is IPagerComponent.PScreen.StatisticsRootScreen -> {
                     StatScreenNav()
@@ -112,11 +111,11 @@ fun PagerCom(
                     iPagerComponent.selectedPage(1)
                 },
                 icon = { Icon(imageVector = Icons.Default.Star, contentDescription = "home") })
-            NavigationBarItem(selected = current == 2,
-                onClick = {
-                    iPagerComponent.selectedPage(2)
-                },
-                icon = { Icon(imageVector = Icons.Default.Home, contentDescription = "home") })
+//            NavigationBarItem(selected = current == 2,
+//                onClick = {
+//                    iPagerComponent.selectedPage(2)
+//                },
+//                icon = { Icon(imageVector = Icons.Default.Home, contentDescription = "home") })
         }
     }
 
