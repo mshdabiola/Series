@@ -1,4 +1,6 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="type">Waec Series</string>
     <string name="subject">Physics</string>
+    <string name="leaderboard_ranks" translatable="false" tools:ignore="ExtraTranslation">CgkI_8Pjz6gXEAIQAg</string>
+
 </resources>
