@@ -12,7 +12,7 @@ import com.mshdabiola.data.repository.inter.ISettingRepository
 import com.mshdabiola.data.repository.inter.ITopicRepository
 import com.mshdabiola.model.ImageUtil.getGeneralDir
 import com.mshdabiola.model.data.Type
-import com.mshdabiola.series.ViewModel
+import com.mshdabiola.mvvn.ViewModel
 import com.mshdabiola.ui.state.ExamInputUiState
 import com.mshdabiola.ui.state.InstruInputUiState
 import com.mshdabiola.ui.state.InstructionUiState
@@ -36,6 +36,7 @@ import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+
 
 class ExamViewModel(
     private val examId: Long,

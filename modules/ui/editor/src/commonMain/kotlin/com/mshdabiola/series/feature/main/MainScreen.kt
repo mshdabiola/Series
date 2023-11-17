@@ -1,15 +1,12 @@
 package com.mshdabiola.series.feature.main
 
 import androidx.compose.desktop.ui.tooling.preview.Preview
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -18,7 +15,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Android
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.HdrOnSelect
 import androidx.compose.material.icons.filled.MoreHoriz
@@ -55,23 +51,18 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.mshdabiola.designsystem.theme.SeriesAppTheme
+import com.mshdabiola.series.CommonScreen
 import com.mshdabiola.ui.examui.ExamUi
 import com.mshdabiola.ui.state.ExamUiState
 import com.mshdabiola.ui.state.SubjectUiState
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
-import org.jetbrains.compose.resources.ExperimentalResourceApi
-import org.jetbrains.compose.resources.painterResource
-import org.jetbrains.compose.splitpane.ExperimentalSplitPaneApi
-import org.jetbrains.compose.splitpane.HorizontalSplitPane
-import org.jetbrains.compose.splitpane.rememberSplitPaneState
 import java.io.File
 import javax.swing.JFileChooser
 
@@ -289,7 +280,6 @@ fun MainScreen(
     }
 }
 
-@OptIn(ExperimentalSplitPaneApi::class)
 @Composable
 fun MainContent(
     modifier: Modifier = Modifier,
@@ -310,7 +300,6 @@ fun MainContent(
     onUpdateSubject: (Long) -> Unit = {},
     onDeleteSubject: (Long) -> Unit = {},
 ) {
-    val state = rememberSplitPaneState(0.7f, true)
     var showmenu by remember {
         mutableStateOf(false)
     }
@@ -323,135 +312,128 @@ fun MainContent(
         }
     }
 
-
-    HorizontalSplitPane(
-        modifier = modifier,
-        splitPaneState = state
-    ) {
-        first {
-            LazyColumn(Modifier.fillMaxSize()) {
-                items(exams, key = { it.id }) {
-                    ExamUi(
-                        modifier = Modifier.clickable {
-                            if (isSelectMode) {
-                                toggleSelect(it.id)
-                            } else {
-                                onExamClick(it.id, it.subjectID)
-                            }
-
-                        },
-                        examUiState = it,
-                        onDelete = onDeleteSubject,
-                        onUpdate = onUpdateSubject,
-                        toggleSelect = toggleSelect,
-                        isSelectMode = isSelectMode
-
-                    )
-                }
-            }
-
-
-        }
-        second {
-            Column(
-                Modifier
-                    .fillMaxSize(),
-                verticalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
-                Text("Add Examination")
-                Box {
-                    TextField(
-                        modifier = Modifier.fillMaxWidth(),
-                        label = { Text("Subject") },
-                        value = examUiState.subject,
-                        onValueChange = {},
-                        trailingIcon = {
-                            IconButton(onClick = {
-                                showmenu = !showmenu
-                            }) { Icon(imageVector = Icons.Default.ArrowDropDown, "down") }
-                        },
-                        readOnly = true
-
-                    )
-                    DropdownMenu(
-                        expanded = showmenu,
-                        onDismissRequest = { showmenu = false }) {
-                        subjects.forEach { subj ->
-                            DropdownMenuItem(text = { Text(subj.name) },
-                                onClick = {
-                                    onSubjectIdChange(subj.id)
-                                    showmenu = false
-                                })
+    CommonScreen(firstScreen = {
+        LazyColumn(Modifier.fillMaxSize()) {
+            items(exams, key = { it.id }) {
+                ExamUi(
+                    modifier = Modifier.clickable {
+                        if (isSelectMode) {
+                            toggleSelect(it.id)
+                        } else {
+                            onExamClick(it.id, it.subjectID)
                         }
+
+                    },
+                    examUiState = it,
+                    onDelete = onDeleteSubject,
+                    onUpdate = onUpdateSubject,
+                    toggleSelect = toggleSelect,
+                    isSelectMode = isSelectMode
+
+                )
+            }
+        }
+
+
+    }, secondScreen = {
+        Column(
+            Modifier
+                .fillMaxSize(),
+            verticalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            Text("Add Examination")
+            Box {
+                TextField(
+                    modifier = Modifier.fillMaxWidth(),
+                    label = { Text("Subject") },
+                    value = examUiState.subject,
+                    onValueChange = {},
+                    trailingIcon = {
+                        IconButton(onClick = {
+                            showmenu = !showmenu
+                        }) { Icon(imageVector = Icons.Default.ArrowDropDown, "down") }
+                    },
+                    readOnly = true
+
+                )
+                DropdownMenu(
+                    expanded = showmenu,
+                    onDismissRequest = { showmenu = false }) {
+                    subjects.forEach { subj ->
+                        DropdownMenuItem(text = { Text(subj.name) },
+                            onClick = {
+                                onSubjectIdChange(subj.id)
+                                showmenu = false
+                            })
                     }
                 }
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
-                    TextField(
-                        modifier = Modifier.weight(0.5f),
-                        label = { Text("Year") },
-                        value = if (examUiState.year != -1L) examUiState.year.toString() else "",
-                        placeholder = { Text("2012") },
-                        isError = examYearError,
-                        onValueChange = { onExamYearChange(it) },
-                        maxLines = 1,
-
-                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
-                    )
-
-                    TextField(
-                        modifier = Modifier.weight(0.5f),
-                        label = { Text("Duration") },
-                        value = if (examUiState.examTime != -1L) examUiState.examTime.toString() else "",
-                        placeholder = { Text("15") },
-                        suffix = { Text("Min") },
-                        onValueChange = { onExamDurationChange(it) },
-                        maxLines = 1,
-                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
-                    )
-                }
-
-                Button(
-                    modifier = Modifier.align(Alignment.End),
-                    enabled = examUiState.subject.isNotBlank() && examUiState.year != -1L,
-                    onClick = {
-                        addExam()
-                    }) {
-                    Text("Add Exam")
-                }
-                Spacer(Modifier.width(16.dp))
-
-                Text("Add Subject")
+            }
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
                 TextField(
-                    modifier = Modifier.fillMaxWidth().focusRequester(subjectFocus),
-                    label = { Text("Subject") },
-                    placeholder = { Text("Mathematics") },
-                    value = subjectUiState.name,
-                    onValueChange = {
-                        onSubjectNameChange(it)
-                    },
-                    keyboardOptions = KeyboardOptions(
-                        capitalization = KeyboardCapitalization.Sentences,
-                        autoCorrect = true
-                    ),
+                    modifier = Modifier.weight(0.5f),
+                    label = { Text("Year") },
+                    value = if (examUiState.year != -1L) examUiState.year.toString() else "",
+                    placeholder = { Text("2012") },
+                    isError = examYearError,
+                    onValueChange = { onExamYearChange(it) },
                     maxLines = 1,
+
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
                 )
-                Button(
-                    modifier = Modifier.align(Alignment.End),
-                    enabled = subjectUiState.name.isNotBlank(),
-                    onClick = {
-                        addSubject()
-                    }) {
-                    Text("Add Subject")
-                }
 
-
+                TextField(
+                    modifier = Modifier.weight(0.5f),
+                    label = { Text("Duration") },
+                    value = if (examUiState.examTime != -1L) examUiState.examTime.toString() else "",
+                    placeholder = { Text("15") },
+                    suffix = { Text("Min") },
+                    onValueChange = { onExamDurationChange(it) },
+                    maxLines = 1,
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
+                )
             }
 
+            Button(
+                modifier = Modifier.align(Alignment.End),
+                enabled = examUiState.subject.isNotBlank() && examUiState.year != -1L,
+                onClick = {
+                    addExam()
+                }) {
+                Text("Add Exam")
+            }
+            Spacer(Modifier.width(16.dp))
+
+            Text("Add Subject")
+            TextField(
+                modifier = Modifier.fillMaxWidth().focusRequester(subjectFocus),
+                label = { Text("Subject") },
+                placeholder = { Text("Mathematics") },
+                value = subjectUiState.name,
+                onValueChange = {
+                    onSubjectNameChange(it)
+                },
+                keyboardOptions = KeyboardOptions(
+                    capitalization = KeyboardCapitalization.Sentences,
+                    autoCorrect = true
+                ),
+                maxLines = 1,
+            )
+            Button(
+                modifier = Modifier.align(Alignment.End),
+                enabled = subjectUiState.name.isNotBlank(),
+                onClick = {
+                    addSubject()
+                }) {
+                Text("Add Subject")
+            }
+
+
         }
-    }
+    })
+
 
 }
 
@@ -463,43 +445,43 @@ fun ContentPreview() {
 
     }
 }
-
-@OptIn(ExperimentalSplitPaneApi::class, ExperimentalResourceApi::class)
-@Preview
-@Composable
-fun id() {
-    MaterialTheme {
-
-        val state = rememberSplitPaneState(0.5f, true)
-        HorizontalSplitPane(splitPaneState = state) {
-            splitter {
-                this.visiblePart {
-                    Box(Modifier.background(Color.Yellow).width(10.dp).fillMaxHeight())
-                }
-                handle {
-                    Box(Modifier.background(Color.Blue).width(20.dp).fillMaxHeight().markAsHandle())
-                }
-            }
-            first {
-
-                Image(painter = painterResource("drawables/logo.png"), "")
-
-
-
-                Text("Abiola")
-            }
-            second {
-                Button(onClick = {}, content = {
-                    Text("Click")
-                    Icon(Icons.Default.Android, contentDescription = null)
-                })
-            }
-        }
-
-
-    }
-
-}
+//
+//@OptIn(ExperimentalSplitPaneApi::class, ExperimentalResourceApi::class)
+//@Preview
+//@Composable
+//fun id() {
+//    MaterialTheme {
+//
+//        val state = rememberSplitPaneState(0.5f, true)
+//        HorizontalSplitPane(splitPaneState = state) {
+//            splitter {
+//                this.visiblePart {
+//                    Box(Modifier.background(Color.Yellow).width(10.dp).fillMaxHeight())
+//                }
+//                handle {
+//                    Box(Modifier.background(Color.Blue).width(20.dp).fillMaxHeight().markAsHandle())
+//                }
+//            }
+//            first {
+//
+//                Image(painter = painterResource("drawables/logo.png"), "")
+//
+//
+//
+//                Text("Abiola")
+//            }
+//            second {
+//                Button(onClick = {}, content = {
+//                    Text("Click")
+//                    Icon(Icons.Default.Android, contentDescription = null)
+//                })
+//            }
+//        }
+//
+//
+//    }
+//
+//}
 
 @Composable
 fun MainDialog(

@@ -1,9 +1,9 @@
 package com.mshdabiola.data.repository
 
 import app.cash.sqldelight.driver.jdbc.sqlite.JdbcSqliteDriver
-import com.mshabiola.database.Security
 import com.mshabiola.database.model.listOfValueAdapter
 import com.mshdabiola.database.SeriesDatabase
+import com.mshdabiola.model.Security
 import com.mshdabiola.model.generalPath
 import commshdabioladatabase.tables.InstructionEntity
 import commshdabioladatabase.tables.OptionEntity

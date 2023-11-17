@@ -62,12 +62,12 @@ fun main() = singleWindowApplication {
 }
 
 @Composable
-fun <T> AsyncImage(
+actual fun <T> AsyncImage(
     load: () -> T,
     painterFor: @Composable (T) -> Painter,
     contentDescription: String,
-    modifier: Modifier = Modifier,
-    contentScale: ContentScale = ContentScale.Fit,
+    modifier: Modifier ,
+    contentScale: ContentScale
 ) {
 
     var image by remember { mutableStateOf<T?>(null) }

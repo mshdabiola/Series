@@ -1,19 +1,19 @@
-package com.mshdabiola.series.di
+package com.mshdabiola.series
 
 
 import com.mshdabiola.data.di.dataModule
+import com.mshdabiola.mvvn.commonViewModel
 import com.mshdabiola.series.feature.exam.ExamViewModel
 import com.mshdabiola.series.feature.main.MainViewModel
-import com.mshdabiola.series.feature.splash.SplashViewModel
-import org.koin.core.module.dsl.factoryOf
 import org.koin.dsl.module
 
 
-val desktopModule = module {
+val desktopModul = module {
 
-    factoryOf(::SplashViewModel)
-    factoryOf(::MainViewModel)
-    factory {
+//    commonViewModel(::SplashViewModel)
+    commonViewModel{MainViewModel(get(),get(),get())}
+//    factoryOf(::MainViewModel)
+    commonViewModel {
         ExamViewModel(
             examId = it[0],
             subjectId = it[1],

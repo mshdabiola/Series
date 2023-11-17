@@ -5,7 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import com.mshdabiola.data.repository.inter.IExamRepository
 import com.mshdabiola.data.repository.inter.ISettingRepository
 import com.mshdabiola.data.repository.inter.ISubjectRepository
-import com.mshdabiola.series.ViewModel
+import com.mshdabiola.mvvn.ViewModel
 import com.mshdabiola.ui.state.ExamUiState
 import com.mshdabiola.ui.state.SubjectUiState
 import com.mshdabiola.ui.toExam
