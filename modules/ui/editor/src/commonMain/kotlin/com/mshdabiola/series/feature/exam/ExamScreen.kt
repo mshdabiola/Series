@@ -39,6 +39,7 @@ import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -71,7 +72,8 @@ import kotlinx.collections.immutable.ImmutableList
 @Composable
 fun ExamScreen(
     viewModel: ExamViewModel,
-    onBack: () -> Unit = {}
+    onBack: () -> Unit = {},
+    windowSizeClass: WindowSizeClass
 ) {
     Scaffold(
         topBar = {
@@ -134,6 +136,7 @@ fun ExamScreen(
                             instructIdError = viewModel.instructIdError.value,
                             topicUiStates = topicUiStates.value,
                             examInputUiState = viewModel.examInputUiState.value,
+                            windowSizeClass = windowSizeClass,
                             addUp = viewModel::addUP,
                             addBottom = viewModel::addDown,
                             moveUp = viewModel::moveUP,
@@ -162,6 +165,7 @@ fun ExamScreen(
                             instructionUiState = viewModel.instructionUiState.value,
                             instructionUiStates = instructionUiStates.value,
                             instruInputUiState = viewModel.instruInputUiState.value,
+                            windowSizeClass = windowSizeClass,
                             onTitleChange = viewModel::instructionTitleChange,
                             addUp = viewModel::addUpInstruction,
                             addBottom = viewModel::addDownInstruction,
@@ -183,6 +187,7 @@ fun ExamScreen(
                             topicUiState = viewModel.topicUiState.value,
                             topicUiStates = topicUiStates.value,
                             topicInputUiState = viewModel.topicInputUiState.value,
+                            windowSizeClass = windowSizeClass,
                             onAddTopic = viewModel::onAddTopic,
                             onTopicChange = viewModel::onTopicChange,
                             onDelete = viewModel::onDeleteTopic,
@@ -211,6 +216,7 @@ fun ExamContent(
     questions: ImmutableList<QuestionUiState>,
     topicUiStates: ImmutableList<TopicUiState>,
     examInputUiState: ExamInputUiState,
+    windowSizeClass: WindowSizeClass,
     addUp: (Int, Int) -> Unit = { _, _ -> },
     addBottom: (Int, Int) -> Unit = { _, _ -> },
     delete: (Int, Int) -> Unit = { _, _ -> },
@@ -237,6 +243,7 @@ fun ExamContent(
     var showConvert by remember { mutableStateOf(false) }
 
     CommonScreen(
+        windowSizeClass,
         firstScreen = {
             LazyColumn(
                 Modifier.padding(8.dp).fillMaxSize(),
@@ -412,6 +419,7 @@ fun TopicContent(
     topicUiState: TopicUiState,
     topicInputUiState: TopicInputUiState,
     topicUiStates: ImmutableList<TopicUiState>,
+    windowSizeClass: WindowSizeClass,
     onTopicChange: (String) -> Unit = {},
     onAddTopic: () -> Unit = {},
     onDelete: (Long) -> Unit = {},
@@ -422,6 +430,7 @@ fun TopicContent(
     var showConvert by remember { mutableStateOf(false) }
 
     CommonScreen(
+        windowSizeClass,
         firstScreen = {
             LazyColumn(Modifier.fillMaxSize()) {
                 items(items = topicUiStates, key = { it.id }) {
@@ -518,6 +527,7 @@ fun InstructionContent(
     instructionUiState: InstructionUiState,
     instructionUiStates: ImmutableList<InstructionUiState>,
     instruInputUiState: InstruInputUiState,
+    windowSizeClass: WindowSizeClass,
     onTitleChange: (String) -> Unit = {},
     addUp: (Int) -> Unit = { _ -> },
     addBottom: (Int) -> Unit = { _ -> },
@@ -536,6 +546,7 @@ fun InstructionContent(
     var showConvert by remember { mutableStateOf(false) }
 
    CommonScreen(
+       windowSizeClass,
        firstScreen = {
            LazyColumn(Modifier.fillMaxSize()) {
                items(

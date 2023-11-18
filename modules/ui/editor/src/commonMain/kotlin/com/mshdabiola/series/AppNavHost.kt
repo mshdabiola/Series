@@ -25,12 +25,14 @@ fun AppNavHost(iRootComponent: IRootComponent, modifier: Modifier, windowSizeCla
 
             is IRootComponent.RootScreen.MainRootScreen -> {
                 MainScreenNav(
+                    windowSizeClass,
                    onExamClick = iRootComponent::navigateToExam
                 )
             }
 
             is IRootComponent.RootScreen.QuestionRootScreen -> {
                 ExamScreenNav(
+                    windowSizeClass,
                     subjectId =instance.subjectId,
                     examId = instance.examId,
                     onBack = iRootComponent::pop,

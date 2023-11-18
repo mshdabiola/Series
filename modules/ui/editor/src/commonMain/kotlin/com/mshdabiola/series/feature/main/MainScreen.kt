@@ -33,6 +33,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.NavigationDrawerItem
 import androidx.compose.material3.PermanentNavigationDrawer
 import androidx.compose.material3.Scaffold
@@ -40,6 +41,8 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.windowsizeclass.WindowSizeClass
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -70,6 +73,7 @@ import javax.swing.JFileChooser
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen(
+    windowSizeClass: WindowSizeClass,
     viewModel: MainViewModel,
     onExamClick: (Long, Long) -> Unit = { _, _ -> }
 ) {
@@ -231,51 +235,102 @@ fun MainScreen(
             )
         }
     ) { paddingValues ->
-        PermanentNavigationDrawer(
-            modifier = Modifier.padding(paddingValues),
-            drawerContent = {
-                LazyColumn(modifier = Modifier.width(200.dp)) {
-                    item {
-                        NavigationDrawerItem(
-                            label = { Text("All Examination") },
-                            onClick = { viewModel.onSubject(-1) },
-                            selected = currentSubjectIndex == -1L
-                        )
+        if (windowSizeClass.widthSizeClass== WindowWidthSizeClass.Compact){
+            ModalNavigationDrawer(
+                modifier = Modifier.padding(paddingValues),
+                drawerContent = {
+                    LazyColumn(modifier = Modifier.width(200.dp)) {
+                        item {
+                            NavigationDrawerItem(
+                                label = { Text("All Examination") },
+                                onClick = { viewModel.onSubject(-1) },
+                                selected = currentSubjectIndex == -1L
+                            )
+                        }
+                        items(subjects.value, key = { it.id }) {
+                            NavigationDrawerItem(
+                                label = { Text(it.name) },
+                                onClick = { viewModel.onSubject(it.id) },
+                                selected = currentSubjectIndex == it.id
+                            )
+                        }
+
                     }
-                    items(subjects.value, key = { it.id }) {
-                        NavigationDrawerItem(
-                            label = { Text(it.name) },
-                            onClick = { viewModel.onSubject(it.id) },
-                            selected = currentSubjectIndex == it.id
+                },
+                content = {
+
+                    MainContent(
+                        modifier = Modifier
+                            .padding(horizontal = 16.dp),
+                        exams = viewModel.examUiStates.collectAsState().value,
+                        examYearError = viewModel.dateError.value,
+                        examUiState = viewModel.exam.value,
+                        subjectUiState = viewModel.subject.value,
+                        isSelectMode = viewModel.isSelectMode.value,
+                        windowSizeClass = windowSizeClass,
+                        subjects = subjects.value,
+                        addExam = viewModel::addExam,
+                        addSubject = viewModel::addSubject,
+                        onExamClick = onExamClick,
+                        toggleSelect = viewModel::toggleSelect,
+                        onSubjectIdChange = viewModel::onSubjectIdChange,
+                        onExamYearChange = viewModel::onExamYearContentChange,
+                        onExamDurationChange = viewModel::onExamDurationContentChange,
+                        onSubjectNameChange = viewModel::onSubjectContentChange,
+                        onDeleteSubject = viewModel::onDeleteExam,
+                        onUpdateSubject = viewModel::onUpdateExam,
+
                         )
+                })
+        }else{
+            PermanentNavigationDrawer(
+                modifier = Modifier.padding(paddingValues),
+                drawerContent = {
+                    LazyColumn(modifier = Modifier.width(200.dp)) {
+                        item {
+                            NavigationDrawerItem(
+                                label = { Text("All Examination") },
+                                onClick = { viewModel.onSubject(-1) },
+                                selected = currentSubjectIndex == -1L
+                            )
+                        }
+                        items(subjects.value, key = { it.id }) {
+                            NavigationDrawerItem(
+                                label = { Text(it.name) },
+                                onClick = { viewModel.onSubject(it.id) },
+                                selected = currentSubjectIndex == it.id
+                            )
+                        }
+
                     }
+                },
+                content = {
 
-                }
-            },
-            content = {
+                    MainContent(
+                        modifier = Modifier
+                            .padding(horizontal = 16.dp),
+                        exams = viewModel.examUiStates.collectAsState().value,
+                        examYearError = viewModel.dateError.value,
+                        examUiState = viewModel.exam.value,
+                        subjectUiState = viewModel.subject.value,
+                        isSelectMode = viewModel.isSelectMode.value,
+                        windowSizeClass = windowSizeClass,
+                        subjects = subjects.value,
+                        addExam = viewModel::addExam,
+                        addSubject = viewModel::addSubject,
+                        onExamClick = onExamClick,
+                        toggleSelect = viewModel::toggleSelect,
+                        onSubjectIdChange = viewModel::onSubjectIdChange,
+                        onExamYearChange = viewModel::onExamYearContentChange,
+                        onExamDurationChange = viewModel::onExamDurationContentChange,
+                        onSubjectNameChange = viewModel::onSubjectContentChange,
+                        onDeleteSubject = viewModel::onDeleteExam,
+                        onUpdateSubject = viewModel::onUpdateExam,
 
-                MainContent(
-                    modifier = Modifier
+                        )
+                })
+        }
 
-                        .padding(horizontal = 16.dp),
-                    exams = viewModel.examUiStates.collectAsState().value,
-                    examYearError = viewModel.dateError.value,
-                    examUiState = viewModel.exam.value,
-                    subjectUiState = viewModel.subject.value,
-                    isSelectMode = viewModel.isSelectMode.value,
-                    subjects = subjects.value,
-                    addExam = viewModel::addExam,
-                    addSubject = viewModel::addSubject,
-                    onExamClick = onExamClick,
-                    toggleSelect = viewModel::toggleSelect,
-                    onSubjectIdChange = viewModel::onSubjectIdChange,
-                    onExamYearChange = viewModel::onExamYearContentChange,
-                    onExamDurationChange = viewModel::onExamDurationContentChange,
-                    onSubjectNameChange = viewModel::onSubjectContentChange,
-                    onDeleteSubject = viewModel::onDeleteExam,
-                    onUpdateSubject = viewModel::onUpdateExam,
-                )
-            })
 
     }
 }
@@ -289,6 +344,7 @@ fun MainContent(
     isSelectMode: Boolean = false,
     subjectUiState: SubjectUiState,
     examYearError: Boolean = false,
+    windowSizeClass: WindowSizeClass,
     addSubject: () -> Unit = {},
     toggleSelect: (Long) -> Unit = {},
     addExam: () -> Unit = {},
@@ -312,7 +368,9 @@ fun MainContent(
         }
     }
 
-    CommonScreen(firstScreen = {
+    CommonScreen(
+        windowSizeClass,
+        firstScreen = {
         LazyColumn(Modifier.fillMaxSize()) {
             items(exams, key = { it.id }) {
                 ExamUi(
