@@ -1,6 +1,7 @@
 package com.mshdabiola.ui.questionui
 
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -9,7 +10,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.onClick
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDownward
 import androidx.compose.material.icons.filled.ArrowUpward
@@ -47,7 +47,7 @@ fun QuestionEditUi(
     moveDown: (Int, Int) -> Unit = { _, _ -> },
     edit: (Int, Int) -> Unit = { _, _ -> },
     changeType: (Int, Int, Type) -> Unit = { _, _, _ -> },
-    onTextChange: (Int, Int, String) -> Unit = { _, _, _ -> }
+    onTextChange: (Int, Int, String) -> Unit = { _, _, _ -> },
 ) {
 
     Column(modifier) {
@@ -116,7 +116,7 @@ fun QuestionUi(
     onMoveUp: (Long) -> Unit = {},
     onMoveDown: (Long) -> Unit = {},
     onDelete: (Long) -> Unit = {},
-    onAnswer: (Long, Long) -> Unit = { _, _ -> }
+    onAnswer: (Long, Long) -> Unit = { _, _ -> },
 ) {
     var showDrop by remember {
         mutableStateOf(false)
@@ -202,9 +202,12 @@ fun QuestionUi(
                         ContentView(
                             modifier = Modifier
                                 .weight(0.5f)
-                                .onClick {
-                                    onAnswer(questionUiState.id, optionsUiState.id)
-                                },
+                                .clickable(onClick = {
+                                    onAnswer(
+                                        questionUiState.id,
+                                        optionsUiState.id
+                                    )
+                                }),
                             color = if (optionsUiState.isAnswer)
                                 Color.Green.copy(alpha = 0.5f)
                             else ListItemDefaults.containerColor,

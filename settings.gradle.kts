@@ -45,3 +45,4 @@ include(":modules:ui:common")
 include(":modules:mvvn")
 
 include(":app:baselineprofile")
+include(":androidEditor")

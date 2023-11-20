@@ -8,7 +8,7 @@ import com.mshdabiola.series.feature.main.MainViewModel
 import org.koin.dsl.module
 
 
-val desktopModul = module {
+val appModules = module {
 
 //    commonViewModel(::SplashViewModel)
     commonViewModel{MainViewModel(get(),get(),get())}

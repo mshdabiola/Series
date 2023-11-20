@@ -1,6 +1,6 @@
 package com.mshdabiola.series.feature.main
 
-import androidx.compose.desktop.ui.tooling.preview.Preview
+//import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -496,7 +496,7 @@ fun MainContent(
 }
 
 
-@Preview
+//@Preview
 @Composable
 fun ContentPreview() {
     MaterialTheme {
@@ -650,7 +650,7 @@ fun MainDialog(
     }
 }
 
-@Preview
+//@Preview
 @Composable
 fun MainDialogPreveiw() {
     SeriesAppTheme(true) {

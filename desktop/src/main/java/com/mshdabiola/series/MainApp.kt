@@ -100,7 +100,7 @@ fun mainApp(appArgs: AppArgs) {
 fun main() {
 
     startKoin {
-        modules(desktopModul)
+        modules(appModules)
     }
 
     val appArgs = AppArgs(
