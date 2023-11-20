@@ -30,10 +30,10 @@ fun CommonScreen(
 
     }else{
         Row(modifier = Modifier.fillMaxSize()) {
-            Column (Modifier.weight(0.7f)){
+            Column (Modifier.weight(0.55f)){
                 firstScreen()
             }
-            Column (Modifier.weight(0.3f)){
+            Column (Modifier.weight(0.45f)){
                 secondScreen()
             }
         }

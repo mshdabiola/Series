@@ -5,6 +5,8 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -36,6 +38,7 @@ import com.mshdabiola.model.data.Type
 import com.mshdabiola.ui.state.QuestionUiState
 
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun QuestionEditUi(
     modifier: Modifier = Modifier,
@@ -48,6 +51,7 @@ fun QuestionEditUi(
     edit: (Int, Int) -> Unit = { _, _ -> },
     changeType: (Int, Int, Type) -> Unit = { _, _, _ -> },
     onTextChange: (Int, Int, String) -> Unit = { _, _, _ -> },
+    fillIt : Boolean=false
 ) {
 
     Column(modifier) {
@@ -65,25 +69,47 @@ fun QuestionEditUi(
 
         )
 
-        questionUiState.options.chunked(2).forEachIndexed { index1, optionsUiStates ->
-            Row {
-                optionsUiStates.forEachIndexed { index2, optionsUiState ->
-                    val i = index2 + (index1 * 2)
-                    Content(
-                        modifier = Modifier.weight(0.5f),
-                        items = optionsUiState.content,
-                        examId = questionUiState.examId,
-                        addUp = { addUp(i, it) },
-                        addBottom = { addBottom(i, it) },
-                        delete = { delete(i, it) },
-                        moveUp = { moveUp(i, it) },
-                        moveDown = { moveDown(i, it) },
-                        edit = { edit(i, it) },
-                        changeType = { ii, t -> changeType(i, ii, t) },
-                        onTextChange = { idn, s -> onTextChange(i, idn, s) }
+//        questionUiState.options.chunked(2).forEachIndexed { index1, optionsUiStates ->
+//            Row {
+//                optionsUiStates.forEachIndexed { index2, optionsUiState ->
+//                    val i = index2 + (index1 * 2)
+//                    Content(
+//                        modifier = Modifier.weight(0.5f),
+//                        items = optionsUiState.content,
+//                        examId = questionUiState.examId,
+//                        addUp = { addUp(i, it) },
+//                        addBottom = { addBottom(i, it) },
+//                        delete = { delete(i, it) },
+//                        moveUp = { moveUp(i, it) },
+//                        moveDown = { moveDown(i, it) },
+//                        edit = { edit(i, it) },
+//                        changeType = { ii, t -> changeType(i, ii, t) },
+//                        onTextChange = { idn, s -> onTextChange(i, idn, s) }
+//
+//                    )
+//                }
+//            }
+//        }
 
-                    )
-                }
+        FlowRow (maxItemsInEachRow = 2){
+            questionUiState.options.forEachIndexed { i, optionUiState ->
+
+
+                Content(
+                    modifier = Modifier.fillMaxWidth(if (fillIt)1f else 0.5f)//.weight(0.5f)
+                    ,
+                    items = optionUiState.content,
+                    examId = questionUiState.examId,
+                    addUp = { addUp(i, it) },
+                    addBottom = { addBottom(i, it) },
+                    delete = { delete(i, it) },
+                    moveUp = { moveUp(i, it) },
+                    moveDown = { moveDown(i, it) },
+                    edit = { edit(i, it) },
+                    changeType = { ii, t -> changeType(i, ii, t) },
+                    onTextChange = { idn, s -> onTextChange(i, idn, s) }
+
+                )
             }
         }
 

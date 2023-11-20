@@ -6,6 +6,8 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -40,12 +42,14 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -73,8 +77,11 @@ import kotlinx.collections.immutable.ImmutableList
 fun ExamScreen(
     viewModel: ExamViewModel,
     onBack: () -> Unit = {},
-    windowSizeClass: WindowSizeClass
+    windowSizeClass: WindowSizeClass,
 ) {
+
+
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -206,7 +213,7 @@ fun ExamScreen(
 }
 
 @OptIn(
-    ExperimentalFoundationApi::class
+    ExperimentalFoundationApi::class, ExperimentalLayoutApi::class
 )
 @Composable
 fun ExamContent(
@@ -237,10 +244,13 @@ fun ExamContent(
     instructionIdChange: (String) -> Unit = {},
     onTopicSelect: (Long) -> Unit = {},
     onAddExamInUiState: () -> Unit = {},
-    onExamInputChange: (String) -> Unit = {}
+    onExamInputChange: (String) -> Unit = {},
 ) {
     var showTopiDropdown by remember { mutableStateOf(false) }
     var showConvert by remember { mutableStateOf(false) }
+
+    var fillIt  = rememberUpdatedState(windowSizeClass.widthSizeClass != WindowWidthSizeClass.Expanded)
+
 
     CommonScreen(
         windowSizeClass,
@@ -323,15 +333,19 @@ fun ExamContent(
                     edit = edit,
                     changeType = changeType,
                     onTextChange = onTextChange,
+                    fillIt = fillIt.value
                 )
-                Row(Modifier.fillMaxSize(), verticalAlignment = Alignment.CenterVertically) {
+                FlowRow(
+                    Modifier.fillMaxSize(),
+                    verticalArrangement = Arrangement.spacedBy(4.dp, Alignment.CenterVertically),
+                    horizontalArrangement = Arrangement.SpaceEvenly,
+                    maxItemsInEachRow = 2
+                ) {
 
                     SuggestionChip(
                         onClick = onAddOption,
                         label = { Text("Add Option") }
                     )
-                    Spacer(Modifier.width(4.dp))
-
 
                     SuggestionChip(
                         onClick = { onAddAnswer(questionUiState.answer == null) },
@@ -341,16 +355,19 @@ fun ExamContent(
                             )
                         }
                     )
-                    Spacer(Modifier.width(4.dp))
-                    Text("Is Theory")
-                    Switch(
-                        checked = questionUiState.isTheory,
-                        onCheckedChange = { isTheory(it) },
-                        enabled = questionUiState.id < 0
-                    )
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Text("Is Theory")
+                        Spacer(Modifier.width(2.dp))
+                        Switch(
+                            checked = questionUiState.isTheory,
+                            onCheckedChange = { isTheory(it) },
+                            enabled = questionUiState.id < 0
+                        )
+                    }
 
 
-                    Spacer(Modifier.weight(1f))
+
+
                     Button(modifier = Modifier, onClick = onAddQuestion) {
                         Icon(Icons.Default.Add, "add")
                         Spacer(Modifier.width(ButtonDefaults.IconSpacing))
@@ -360,7 +377,7 @@ fun ExamContent(
                 Spacer(Modifier.height(16.dp))
                 Row(
                     Modifier
-                        .clickable(onClick = {showConvert = !showConvert})
+                        .clickable(onClick = { showConvert = !showConvert })
                         .fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
@@ -425,7 +442,7 @@ fun TopicContent(
     onDelete: (Long) -> Unit = {},
     onUpdate: (Long) -> Unit = {},
     onAddTopicInputUiState: () -> Unit = {},
-    onTopicInputChange: (String) -> Unit = {}
+    onTopicInputChange: (String) -> Unit = {},
 ) {
     var showConvert by remember { mutableStateOf(false) }
 
@@ -469,7 +486,7 @@ fun TopicContent(
                 Spacer(Modifier.height(16.dp))
                 Row(
                     Modifier
-                        .clickable(onClick = {showConvert = !showConvert})
+                        .clickable(onClick = { showConvert = !showConvert })
                         .fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
@@ -541,99 +558,99 @@ fun InstructionContent(
     onDeleteInstruction: (Long) -> Unit = {},
     onUpdateInstruction: (Long) -> Unit = {},
     onAddInstruInputUiState: () -> Unit = {},
-    onInstruInputChange: (String) -> Unit = {}
+    onInstruInputChange: (String) -> Unit = {},
 ) {
     var showConvert by remember { mutableStateOf(false) }
 
-   CommonScreen(
-       windowSizeClass,
-       firstScreen = {
-           LazyColumn(Modifier.fillMaxSize()) {
-               items(
-                   items = instructionUiStates,
-                   key = { it.id }
-               ) {
-                   InstructionUi(
-                       instructionUiState = it,
-                       onUpdate = onUpdateInstruction,
-                       onDelete = onDeleteInstruction,
-                   )
+    CommonScreen(
+        windowSizeClass,
+        firstScreen = {
+            LazyColumn(Modifier.fillMaxSize()) {
+                items(
+                    items = instructionUiStates,
+                    key = { it.id }
+                ) {
+                    InstructionUi(
+                        instructionUiState = it,
+                        onUpdate = onUpdateInstruction,
+                        onDelete = onDeleteInstruction,
+                    )
 
-               }
-           }
+                }
+            }
 
-       },
-       secondScreen = {
-           Column(modifier = Modifier.fillMaxWidth().verticalScroll(rememberScrollState())) {
+        },
+        secondScreen = {
+            Column(modifier = Modifier.fillMaxWidth().verticalScroll(rememberScrollState())) {
 
-               InstructionEditUi(
-                   modifier = Modifier.fillMaxWidth(),
-                   instructionUiState = instructionUiState,
-                   onTitleChange = onTitleChange,
-                   addUp = addUp,
-                   addBottom = addBottom,
-                   delete = delete,
-                   moveUp = moveUp,
-                   moveDown = moveDown,
-                   edit = edit,
-                   changeType = changeType,
-                   onTextChange = onTextChange,
-               )
-               Spacer(Modifier.height(4.dp))
-               Row(Modifier.fillMaxWidth()) {
-                   Button(
-                       onClick = onAddInstruction,
-                       enabled = instructionUiState.content.first().content.isNotBlank()
-                   ) {
-                       Text("Add Instruction")
-                   }
-               }
-               Spacer(Modifier.height(16.dp))
-               Row(
-                   Modifier
-                       .clickable(onClick = {showConvert = !showConvert})
-                       .fillMaxWidth(),
-                   horizontalArrangement = Arrangement.SpaceBetween,
-                   verticalAlignment = Alignment.CenterVertically
-               ) {
-                   Text("Convert text to exams")
-                   IconButton(modifier = Modifier, onClick = { showConvert = !showConvert }) {
-                       Icon(
-                           if (!showConvert) Icons.Default.KeyboardArrowDown else Icons.Default.KeyboardArrowUp,
-                           "down"
-                       )
-                   }
-               }
+                InstructionEditUi(
+                    modifier = Modifier.fillMaxWidth(),
+                    instructionUiState = instructionUiState,
+                    onTitleChange = onTitleChange,
+                    addUp = addUp,
+                    addBottom = addBottom,
+                    delete = delete,
+                    moveUp = moveUp,
+                    moveDown = moveDown,
+                    edit = edit,
+                    changeType = changeType,
+                    onTextChange = onTextChange,
+                )
+                Spacer(Modifier.height(4.dp))
+                Row(Modifier.fillMaxWidth()) {
+                    Button(
+                        onClick = onAddInstruction,
+                        enabled = instructionUiState.content.first().content.isNotBlank()
+                    ) {
+                        Text("Add Instruction")
+                    }
+                }
+                Spacer(Modifier.height(16.dp))
+                Row(
+                    Modifier
+                        .clickable(onClick = { showConvert = !showConvert })
+                        .fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text("Convert text to exams")
+                    IconButton(modifier = Modifier, onClick = { showConvert = !showConvert }) {
+                        Icon(
+                            if (!showConvert) Icons.Default.KeyboardArrowDown else Icons.Default.KeyboardArrowUp,
+                            "down"
+                        )
+                    }
+                }
 
-               if (showConvert) {
-                   Column {
-                       OutlinedTextField(
-                           value = instruInputUiState.content,
-                           onValueChange = onInstruInputChange,
-                           isError = instruInputUiState.isError,
-                           modifier = Modifier.fillMaxWidth().height(300.dp)
-                       )
-                       Spacer(Modifier.height(4.dp))
-                       Row(
-                           Modifier.fillMaxWidth(),
-                           horizontalArrangement = Arrangement.SpaceBetween,
-                           verticalAlignment = Alignment.CenterVertically
-                       ) {
-                           Text("* instruction title")
-                           Button(
-                               modifier = Modifier,
-                               onClick = onAddInstruInputUiState
-                           ) {
-                               Text("Convert to Instruction")
-                           }
-                       }
+                if (showConvert) {
+                    Column {
+                        OutlinedTextField(
+                            value = instruInputUiState.content,
+                            onValueChange = onInstruInputChange,
+                            isError = instruInputUiState.isError,
+                            modifier = Modifier.fillMaxWidth().height(300.dp)
+                        )
+                        Spacer(Modifier.height(4.dp))
+                        Row(
+                            Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Text("* instruction title")
+                            Button(
+                                modifier = Modifier,
+                                onClick = onAddInstruInputUiState
+                            ) {
+                                Text("Convert to Instruction")
+                            }
+                        }
 
-                   }
-               }
+                    }
+                }
 
-           }
+            }
 
-       }
-   )
+        }
+    )
 
 }

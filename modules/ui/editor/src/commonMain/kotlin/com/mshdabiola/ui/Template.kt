@@ -1,5 +1,6 @@
 package com.mshdabiola.ui
 
+//import androidx.compose.foundation.onClick
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
@@ -9,15 +10,14 @@ import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-//import androidx.compose.foundation.onClick
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.ScrollableTabRow
 import androidx.compose.material3.SuggestionChip
 import androidx.compose.material3.Tab
-import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -522,7 +522,7 @@ fun TemplateUi() {
 
 //    "surd"
     val clipboard = LocalClipboardManager.current
-    TabRow(selectedTabIndex = state) {
+    ScrollableTabRow(selectedTabIndex = state) {
         Tab(selected = false, onClick = {
             state = 0
         }, text = { Text("Mark up") })
