@@ -6,6 +6,7 @@ import com.mshdabiola.model.ImageUtil.newPath
 import com.mshdabiola.svgtovector.Svg2Vector
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
 import kotlin.io.path.Path
@@ -33,11 +34,22 @@ object SvgObject {
 
                 fileOutputStream.close()
             } else {
+                println("from ${imageFile.path} to ${newPath.path}")
                 imageFile.copyTo(newPath)
             }
 
 
             newPath.name
         }
+    }
+
+    fun getXml(
+        fileString: String, //new image
+    ): ByteArrayOutputStream {
+
+        val fileOutputStream = ByteArrayOutputStream()
+        Svg2Vector.parseSvgToXml(Path(fileString), fileOutputStream)
+        return fileOutputStream
+
     }
 }

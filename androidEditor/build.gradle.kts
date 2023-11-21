@@ -63,7 +63,7 @@ dependencies {
     implementation(libs.koin.android)
     implementation(libs.koin.android.compose)
 
-    //implementation(project(":modules:designsystem"))
+    implementation(project(":modules:model"))
     //implementation(project(":modules:navigation:cbt"))
     implementation(project(":modules:ui:editor"))
     implementation(libs.decompose.core)
