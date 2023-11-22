@@ -1,4 +1,5 @@
 import com.mshdabiola.app.BuildType
+import com.mshdabiola.app.configureFlavors
 
 @Suppress("DSL_SCOPE_VIOLATION")
 plugins {
@@ -16,7 +17,10 @@ android {
     defaultConfig {
         applicationId = "com.mshdabiola.series"
         testInstrumentationRunner = "com.mshdabiola.testing.InstrumentationTestRunner"
+        versionName = "08.11.2023"
+        versionCode = 13
     }
+    configureFlavors(this)
 
     buildTypes {
         val debug by getting {

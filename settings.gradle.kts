@@ -46,3 +46,5 @@ include(":modules:mvvn")
 
 include(":app:baselineprofile")
 include(":androidEditor")
+include(":androidEditor:baselineprofile")
+
