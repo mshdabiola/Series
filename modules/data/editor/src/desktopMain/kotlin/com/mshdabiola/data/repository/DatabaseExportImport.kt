@@ -1,5 +1,6 @@
 package com.mshdabiola.data.repository
 
+import app.cash.sqldelight.db.SqlDriver
 import app.cash.sqldelight.driver.jdbc.sqlite.JdbcSqliteDriver
 import com.mshabiola.database.model.listOfValueAdapter
 import com.mshdabiola.database.SeriesDatabase
@@ -18,7 +19,7 @@ import kotlin.io.path.inputStream
 import kotlin.io.path.outputStream
 import kotlin.io.path.pathString
 
-actual class DatabaseExportImport actual constructor(val database: SeriesDatabase) {
+actual class DatabaseExportImport actual constructor(val database: SeriesDatabase,private val driver : SqlDriver) {
     actual suspend fun export(
         examsId: List<Long>,
         path: String,

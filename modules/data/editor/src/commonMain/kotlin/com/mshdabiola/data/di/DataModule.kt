@@ -17,6 +17,7 @@ import com.mshdabiola.data.repository.inter.ISettingRepository
 import com.mshdabiola.data.repository.inter.ISubjectRepository
 import com.mshdabiola.data.repository.inter.ITopicRepository
 import com.mshdabiola.setting.di.settingModule
+import org.koin.core.module.Module
 import org.koin.core.module.dsl.singleOf
 import org.koin.core.qualifier.qualifier
 import org.koin.dsl.bind
@@ -24,7 +25,7 @@ import org.koin.dsl.module
 
 
 val dataModule = module {
-    includes(settingModule, databaseModule)
+    includes(settingModule, databaseModule,newModule)
     singleOf(::SettingRepository) bind ISettingRepository::class
     // singleOf(::RealINetworkRepository) bind INetworkRepository::class
     singleOf(::RealModelRepository) bind IModelRepository::class
@@ -35,7 +36,10 @@ val dataModule = module {
     single {
         ExamRepository(
             iExamDao = get(),
-            database = get(qualifier = qualifier(name))
+            database = get(qualifier = qualifier(name)),
+            driver = get()
         )
     } bind IExamRepository::class
 }
+
+expect val newModule : Module
