@@ -17,7 +17,7 @@ import java.io.IOException
 
 @Composable
  fun <T> AsyncImage(
-    load: () -> T,
+    load: () -> T?,
     painterFor: @Composable (T) -> Painter,
     contentDescription: String,
     modifier: Modifier = Modifier,

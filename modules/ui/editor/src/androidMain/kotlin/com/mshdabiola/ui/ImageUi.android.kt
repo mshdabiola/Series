@@ -19,10 +19,15 @@ actual fun loadSvgPainter(file: File, density: Density): Painter {
     TODO("Not yet implemented")
 }
 
-actual fun loadImageBitmap(file: File): ImageBitmap {
-    return BitmapFactory
-        .decodeStream(FileInputStream(file))
-        .asImageBitmap()
+actual fun loadImageBitmap(file: File): ImageBitmap? {
+    return try {
+        BitmapFactory
+            .decodeStream(FileInputStream(file))
+            .asImageBitmap()
+    } catch (e:Exception){
+     e.printStackTrace()
+     null
+    }
 }
 
 actual fun loadXmlImageVector(

@@ -6,10 +6,13 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -17,6 +20,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.HdrOnSelect
+import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.MoreHoriz
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.SelectAll
@@ -27,6 +31,8 @@ import androidx.compose.material.icons.rounded.Deselect
 import androidx.compose.material.icons.rounded.SaveAs
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -36,11 +42,11 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.NavigationDrawerItem
 import androidx.compose.material3.PermanentNavigationDrawer
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.rememberDrawerState
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
@@ -49,11 +55,13 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
@@ -66,6 +74,7 @@ import com.mshdabiola.ui.state.ExamUiState
 import com.mshdabiola.ui.state.SubjectUiState
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
+import kotlinx.coroutines.launch
 import java.io.File
 
 
@@ -74,7 +83,7 @@ import java.io.File
 fun MainScreen(
     windowSizeClass: WindowSizeClass,
     viewModel: MainViewModel,
-    onExamClick: (Long, Long) -> Unit = { _, _ -> }
+    onExamClick: (Long, Long) -> Unit = { _, _ -> },
 ) {
     // var show by remember { mutableStateOf(false) }
 
@@ -91,127 +100,127 @@ fun MainScreen(
 //        }
 //    }
     //)
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = { Text("Main Screen") },
-                actions = {
-                    Box {
-                        IconButton(
-                            onClick = { showDrop = true },
-                            //enabled = currentSubjectIndex > -1
-                        ) {
-                            Icon(Icons.Default.MoreVert, "more")
-                        }
-                        if (viewModel.isSelectMode.value) {
-                            DropdownMenu(
-                                expanded = showDrop,
-                                onDismissRequest = { showDrop = false }) {
+    val drawerState = rememberDrawerState(DrawerValue.Closed)
+    val coroutineScope = rememberCoroutineScope()
+    val action: @Composable RowScope.() -> Unit = {
+        Box {
+
+            IconButton(
+                onClick = { showDrop = true },
+                //enabled = currentSubjectIndex > -1
+            ) {
+                Icon(Icons.Default.MoreVert, "more")
+            }
+
+            if (viewModel.isSelectMode.value) {
+                DropdownMenu(
+                    expanded = showDrop,
+                    onDismissRequest = { showDrop = false }) {
 
 
-                                DropdownMenuItem(
-                                    leadingIcon = {
-                                        Icon(
-                                            Icons.Default.SelectAll,
-                                            "select All"
-                                        )
-                                    },
-                                    text = { Text("Select All") },
-                                    onClick = {
-                                        viewModel.selectAll()
-                                    })
+                    DropdownMenuItem(
+                        leadingIcon = {
+                            Icon(
+                                Icons.Default.SelectAll,
+                                "select All"
+                            )
+                        },
+                        text = { Text("Select All") },
+                        onClick = {
+                            viewModel.selectAll()
+                        })
 
-                                if (currentSubjectIndex > -1) {
+                    if (currentSubjectIndex > -1) {
 
-                                    DropdownMenuItem(
-                                        leadingIcon = {
-                                            Icon(
-                                                Icons.Default.Subject,
-                                                "select all subject"
-                                            )
-                                        },
-                                        text = { Text("Select Current Subject") },
-                                        onClick = {
-                                            viewModel.selectAllSubject()
-                                        })
-                                }
-                                DropdownMenuItem(
-                                    leadingIcon = {
-                                        Icon(
-                                            Icons.Rounded.Deselect,
-                                            "deselect"
-                                        )
-                                    },
-                                    text = { Text("DeSelect All") },
-                                    onClick = {
-                                        viewModel.deselectAll()
-                                        showDrop = false
+                        DropdownMenuItem(
+                            leadingIcon = {
+                                Icon(
+                                    Icons.Default.Subject,
+                                    "select all subject"
+                                )
+                            },
+                            text = { Text("Select Current Subject") },
+                            onClick = {
+                                viewModel.selectAllSubject()
+                            })
+                    }
+                    DropdownMenuItem(
+                        leadingIcon = {
+                            Icon(
+                                Icons.Rounded.Deselect,
+                                "deselect"
+                            )
+                        },
+                        text = { Text("DeSelect All") },
+                        onClick = {
+                            viewModel.deselectAll()
+                            showDrop = false
 
-                                    })
+                        })
 
-                                DropdownMenuItem(
-                                    leadingIcon = {
-                                        Icon(
-                                            Icons.Rounded.SaveAs,
-                                            "save"
-                                        )
-                                    },
-                                    text = { Text("Export Selected") },
-                                    onClick = {
-                                        // onDelete(examUiState.id)
-                                        showDialog = true
-                                        showDrop = false
-                                    })
+                    DropdownMenuItem(
+                        leadingIcon = {
+                            Icon(
+                                Icons.Rounded.SaveAs,
+                                "save"
+                            )
+                        },
+                        text = { Text("Export Selected") },
+                        onClick = {
+                            // onDelete(examUiState.id)
+                            showDialog = true
+                            showDrop = false
+                        })
 
-                                DropdownMenuItem(
-                                    leadingIcon = {
-                                        Icon(
-                                            Icons.Rounded.Delete,
-                                            "delete"
-                                        )
-                                    },
-                                    text = { Text("Delete selected") },
-                                    onClick = {
-                                        viewModel.deleteSelected()
-                                        showDrop = false
+                    DropdownMenuItem(
+                        leadingIcon = {
+                            Icon(
+                                Icons.Rounded.Delete,
+                                "delete"
+                            )
+                        },
+                        text = { Text("Delete selected") },
+                        onClick = {
+                            viewModel.deleteSelected()
+                            showDrop = false
 
-                                    })
+                        })
 
-                            }
+                }
 
-                        } else {
+            } else {
 
-                            DropdownMenu(
-                                expanded = showDrop,
-                                onDismissRequest = { showDrop = false }) {
+                DropdownMenu(
+                    expanded = showDrop,
+                    onDismissRequest = { showDrop = false }) {
 
-                                if (currentSubjectIndex > -1) {
-                                    DropdownMenuItem(
-                                        leadingIcon = {
-                                            Icon(
-                                                Icons.Default.Update,
-                                                "update"
-                                            )
-                                        },
-                                        text = { Text("Update") },
-                                        onClick = {
-                                            viewModel.updateSubject(currentSubjectIndex)
-                                            showDrop = false
-                                        })
-                                }
+                    if (currentSubjectIndex > -1) {
+                        DropdownMenuItem(
+                            leadingIcon = {
+                                Icon(
+                                    Icons.Default.Update,
+                                    "update"
+                                )
+                            },
+                            text = { Text("Update") },
+                            onClick = {
+                                viewModel.updateSubject(currentSubjectIndex)
+                                showDrop = false
+                            })
+                    }
 
-                                DropdownMenuItem(
-                                    leadingIcon = {
-                                        Icon(
-                                            Icons.Default.HdrOnSelect,
-                                            "select mode"
-                                        )
-                                    },
-                                    text = { Text("Select mode") },
-                                    onClick = {
-                                        viewModel.toggleSelectMode()
-                                        showDrop = false
-                                    })
+                    DropdownMenuItem(
+                        leadingIcon = {
+                            Icon(
+                                Icons.Default.HdrOnSelect,
+                                "select mode"
+                            )
+                        },
+                        text = { Text("Select mode") },
+                        onClick = {
+                            viewModel.toggleSelectMode()
+                            showDrop = false
+                        })
 
 //                            DropdownMenuItem(
 //                                leadingIcon = {
@@ -226,19 +235,118 @@ fun MainScreen(
 //                                })
 
 
-                            }
+                }
 
+            }
+        }
+    }
+    val topbar: @Composable () -> Unit = {
+        //  if (windowSizeClass.widthSizeClass== WindowWidthSizeClass.Expanded) {
+        TopAppBar(
+            title = { Text("Main Screen") },
+            actions = action,
+//            navigationIcon = {
+//
+//                IconButton(onClick = {
+//                    coroutineScope.launch {
+//                        if (drawerState.isOpen) {
+//                            drawerState.close()
+//                        } else {
+//                            drawerState.open()
+//                        }
+//                    }
+//                }) {
+//                    Icon(Icons.Default.Menu, "menu")
+//                }
+//
+//            },
+        )
+        //}
+    }
+
+    if (windowSizeClass.widthSizeClass == WindowWidthSizeClass.Compact) {
+        ModalNavigationDrawer(
+            modifier = Modifier,
+            drawerState = drawerState,
+            drawerContent = {
+                Card(
+                    modifier = Modifier.fillMaxHeight().width(300.dp),
+                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.background),
+                    elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+                ) {
+                    LazyColumn(
+                        modifier = Modifier.fillMaxHeight().width(200.dp).systemBarsPadding()
+                    ) {
+                        item {
+                            NavigationDrawerItem(
+                                label = { Text("All Examination") },
+                                onClick = { viewModel.onSubject(-1) },
+                                selected = currentSubjectIndex == -1L
+                            )
                         }
+                        items(subjects.value, key = { it.id }) {
+                            NavigationDrawerItem(
+                                label = { Text(it.name) },
+                                onClick = { viewModel.onSubject(it.id) },
+                                selected = currentSubjectIndex == it.id
+                            )
+                        }
+
                     }
                 }
-            )
-        }
-    ) { paddingValues ->
-        if (windowSizeClass.widthSizeClass== WindowWidthSizeClass.Compact){
-            ModalNavigationDrawer(
-                modifier = Modifier.padding(paddingValues),
-                drawerContent = {
-                    LazyColumn(modifier = Modifier.width(200.dp)) {
+
+            },
+            content = {
+
+                MainContent(
+                    modifier = Modifier
+                        .padding(horizontal = 16.dp),
+                    exams = viewModel.examUiStates.collectAsState().value,
+                    examYearError = viewModel.dateError.value,
+                    examUiState = viewModel.exam.value,
+                    subjectUiState = viewModel.subject.value,
+                    isSelectMode = viewModel.isSelectMode.value,
+                    windowSizeClass = windowSizeClass,
+                    subjects = subjects.value,
+                    addExam = viewModel::addExam,
+                    addSubject = viewModel::addSubject,
+                    onExamClick = onExamClick,
+                    toggleSelect = viewModel::toggleSelect,
+                    onSubjectIdChange = viewModel::onSubjectIdChange,
+                    onExamYearChange = viewModel::onExamYearContentChange,
+                    onExamDurationChange = viewModel::onExamDurationContentChange,
+                    onSubjectNameChange = viewModel::onSubjectContentChange,
+                    onDeleteSubject = viewModel::onDeleteExam,
+                    onUpdateSubject = viewModel::onUpdateExam,
+                    action = {
+                        IconButton(onClick = {
+                            coroutineScope.launch {
+                                if (drawerState.isOpen) {
+                                    drawerState.close()
+                                } else {
+                                    drawerState.open()
+                                }
+                            }
+                        }) {
+                            Icon(Icons.Default.Menu, "menu")
+                        }
+                        action()
+                    }
+                )
+            })
+    } else {
+        PermanentNavigationDrawer(
+            modifier = Modifier,
+            drawerContent = {
+                Card(
+                    modifier = Modifier.fillMaxHeight().width(300.dp),
+                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.background),
+                    shape = RectangleShape
+//                    elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+                ) {
+                    LazyColumn(
+                        modifier = Modifier.fillMaxHeight().width(200.dp).systemBarsPadding()
+                    ) {
                         item {
                             NavigationDrawerItem(
                                 label = { Text("All Examination") },
@@ -255,83 +363,39 @@ fun MainScreen(
                         }
 
                     }
-                },
-                content = {
+                }
+            },
+            content = {
 
-                    MainContent(
-                        modifier = Modifier
-                            .padding(horizontal = 16.dp),
-                        exams = viewModel.examUiStates.collectAsState().value,
-                        examYearError = viewModel.dateError.value,
-                        examUiState = viewModel.exam.value,
-                        subjectUiState = viewModel.subject.value,
-                        isSelectMode = viewModel.isSelectMode.value,
-                        windowSizeClass = windowSizeClass,
-                        subjects = subjects.value,
-                        addExam = viewModel::addExam,
-                        addSubject = viewModel::addSubject,
-                        onExamClick = onExamClick,
-                        toggleSelect = viewModel::toggleSelect,
-                        onSubjectIdChange = viewModel::onSubjectIdChange,
-                        onExamYearChange = viewModel::onExamYearContentChange,
-                        onExamDurationChange = viewModel::onExamDurationContentChange,
-                        onSubjectNameChange = viewModel::onSubjectContentChange,
-                        onDeleteSubject = viewModel::onDeleteExam,
-                        onUpdateSubject = viewModel::onUpdateExam,
-
-                        )
-                })
-        }else{
-            PermanentNavigationDrawer(
-                modifier = Modifier.padding(paddingValues),
-                drawerContent = {
-                    LazyColumn(modifier = Modifier.width(200.dp)) {
-                        item {
-                            NavigationDrawerItem(
-                                label = { Text("All Examination") },
-                                onClick = { viewModel.onSubject(-1) },
-                                selected = currentSubjectIndex == -1L
-                            )
-                        }
-                        items(subjects.value, key = { it.id }) {
-                            NavigationDrawerItem(
-                                label = { Text(it.name) },
-                                onClick = { viewModel.onSubject(it.id) },
-                                selected = currentSubjectIndex == it.id
-                            )
-                        }
-
-                    }
-                },
-                content = {
-
-                    MainContent(
-                        modifier = Modifier
-                            .padding(horizontal = 16.dp),
-                        exams = viewModel.examUiStates.collectAsState().value,
-                        examYearError = viewModel.dateError.value,
-                        examUiState = viewModel.exam.value,
-                        subjectUiState = viewModel.subject.value,
-                        isSelectMode = viewModel.isSelectMode.value,
-                        windowSizeClass = windowSizeClass,
-                        subjects = subjects.value,
-                        addExam = viewModel::addExam,
-                        addSubject = viewModel::addSubject,
-                        onExamClick = onExamClick,
-                        toggleSelect = viewModel::toggleSelect,
-                        onSubjectIdChange = viewModel::onSubjectIdChange,
-                        onExamYearChange = viewModel::onExamYearContentChange,
-                        onExamDurationChange = viewModel::onExamDurationContentChange,
-                        onSubjectNameChange = viewModel::onSubjectContentChange,
-                        onDeleteSubject = viewModel::onDeleteExam,
-                        onUpdateSubject = viewModel::onUpdateExam,
-
-                        )
-                })
-        }
+                MainContent(
+                    modifier = Modifier
+                        .padding(horizontal = 16.dp),
+                    exams = viewModel.examUiStates.collectAsState().value,
+                    examYearError = viewModel.dateError.value,
+                    examUiState = viewModel.exam.value,
+                    subjectUiState = viewModel.subject.value,
+                    isSelectMode = viewModel.isSelectMode.value,
+                    windowSizeClass = windowSizeClass,
+                    subjects = subjects.value,
+                    addExam = viewModel::addExam,
+                    addSubject = viewModel::addSubject,
+                    onExamClick = onExamClick,
+                    toggleSelect = viewModel::toggleSelect,
+                    onSubjectIdChange = viewModel::onSubjectIdChange,
+                    onExamYearChange = viewModel::onExamYearContentChange,
+                    onExamDurationChange = viewModel::onExamDurationContentChange,
+                    onSubjectNameChange = viewModel::onSubjectContentChange,
+                    onDeleteSubject = viewModel::onDeleteExam,
+                    onUpdateSubject = viewModel::onUpdateExam,
+                    action = action,
+                    topbar = topbar
 
 
+                )
+            })
     }
+
+
 }
 
 @Composable
@@ -354,7 +418,10 @@ fun MainContent(
     onSubjectNameChange: (String) -> Unit = {},
     onUpdateSubject: (Long) -> Unit = {},
     onDeleteSubject: (Long) -> Unit = {},
-) {
+    action: @Composable RowScope.() -> Unit = {},
+    topbar: @Composable () -> Unit = {},
+
+    ) {
     var showmenu by remember {
         mutableStateOf(false)
     }
@@ -370,126 +437,130 @@ fun MainContent(
     CommonScreen(
         windowSizeClass,
         firstScreen = {
-        LazyColumn(Modifier.fillMaxSize()) {
-            items(exams, key = { it.id }) {
-                ExamUi(
-                    modifier = Modifier.clickable {
-                        if (isSelectMode) {
-                            toggleSelect(it.id)
-                        } else {
-                            onExamClick(it.id, it.subjectID)
-                        }
+            LazyColumn(it.fillMaxSize()) {
+                items(exams, key = { it.id }) {
+                    ExamUi(
+                        modifier = Modifier.clickable {
+                            if (isSelectMode) {
+                                toggleSelect(it.id)
+                            } else {
+                                onExamClick(it.id, it.subjectID)
+                            }
 
-                    },
-                    examUiState = it,
-                    onDelete = onDeleteSubject,
-                    onUpdate = onUpdateSubject,
-                    toggleSelect = toggleSelect,
-                    isSelectMode = isSelectMode
+                        },
+                        examUiState = it,
+                        onDelete = onDeleteSubject,
+                        onUpdate = onUpdateSubject,
+                        toggleSelect = toggleSelect,
+                        isSelectMode = isSelectMode
 
-                )
-            }
-        }
-
-
-    }, secondScreen = {
-        Column(
-            Modifier
-                .fillMaxSize(),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
-            Text("Add Examination")
-            Box {
-                TextField(
-                    modifier = Modifier.fillMaxWidth(),
-                    label = { Text("Subject") },
-                    value = examUiState.subject,
-                    onValueChange = {},
-                    trailingIcon = {
-                        IconButton(onClick = {
-                            showmenu = !showmenu
-                        }) { Icon(imageVector = Icons.Default.ArrowDropDown, "down") }
-                    },
-                    readOnly = true
-
-                )
-                DropdownMenu(
-                    expanded = showmenu,
-                    onDismissRequest = { showmenu = false }) {
-                    subjects.forEach { subj ->
-                        DropdownMenuItem(text = { Text(subj.name) },
-                            onClick = {
-                                onSubjectIdChange(subj.id)
-                                showmenu = false
-                            })
-                    }
+                    )
                 }
             }
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
+
+
+        },
+        secondScreen = {
+            Column(
+                Modifier
+                    .fillMaxSize(),
+                verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                TextField(
-                    modifier = Modifier.weight(0.5f),
-                    label = { Text("Year") },
-                    value = if (examUiState.year != -1L) examUiState.year.toString() else "",
-                    placeholder = { Text("2012") },
-                    isError = examYearError,
-                    onValueChange = { onExamYearChange(it) },
-                    maxLines = 1,
+                Text("Add Examination")
+                Box {
+                    TextField(
+                        modifier = Modifier.fillMaxWidth(),
+                        label = { Text("Subject") },
+                        value = examUiState.subject,
+                        onValueChange = {},
+                        trailingIcon = {
+                            IconButton(onClick = {
+                                showmenu = !showmenu
+                            }) { Icon(imageVector = Icons.Default.ArrowDropDown, "down") }
+                        },
+                        readOnly = true
 
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
-                )
+                    )
+                    DropdownMenu(
+                        expanded = showmenu,
+                        onDismissRequest = { showmenu = false }) {
+                        subjects.forEach { subj ->
+                            DropdownMenuItem(text = { Text(subj.name) },
+                                onClick = {
+                                    onSubjectIdChange(subj.id)
+                                    showmenu = false
+                                })
+                        }
+                    }
+                }
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    TextField(
+                        modifier = Modifier.weight(0.5f),
+                        label = { Text("Year") },
+                        value = if (examUiState.year != -1L) examUiState.year.toString() else "",
+                        placeholder = { Text("2012") },
+                        isError = examYearError,
+                        onValueChange = { onExamYearChange(it) },
+                        maxLines = 1,
 
-                TextField(
-                    modifier = Modifier.weight(0.5f),
-                    label = { Text("Duration") },
-                    value = if (examUiState.examTime != -1L) examUiState.examTime.toString() else "",
-                    placeholder = { Text("15") },
-                    suffix = { Text("Min") },
-                    onValueChange = { onExamDurationChange(it) },
-                    maxLines = 1,
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
-                )
-            }
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
+                    )
 
-            Button(
-                modifier = Modifier.align(Alignment.End),
-                enabled = examUiState.subject.isNotBlank() && examUiState.year != -1L,
-                onClick = {
-                    addExam()
-                }) {
-                Text("Add Exam")
-            }
-            Spacer(Modifier.width(16.dp))
+                    TextField(
+                        modifier = Modifier.weight(0.5f),
+                        label = { Text("Duration") },
+                        value = if (examUiState.examTime != -1L) examUiState.examTime.toString() else "",
+                        placeholder = { Text("15") },
+                        suffix = { Text("Min") },
+                        onValueChange = { onExamDurationChange(it) },
+                        maxLines = 1,
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
+                    )
+                }
 
-            Text("Add Subject")
-            TextField(
-                modifier = Modifier.fillMaxWidth().focusRequester(subjectFocus),
-                label = { Text("Subject") },
-                placeholder = { Text("Mathematics") },
-                value = subjectUiState.name,
-                onValueChange = {
-                    onSubjectNameChange(it)
-                },
-                keyboardOptions = KeyboardOptions(
-                    capitalization = KeyboardCapitalization.Sentences,
-                    autoCorrect = true
-                ),
-                maxLines = 1,
-            )
-            Button(
-                modifier = Modifier.align(Alignment.End),
-                enabled = subjectUiState.name.isNotBlank(),
-                onClick = {
-                    addSubject()
-                }) {
+                Button(
+                    modifier = Modifier.align(Alignment.End),
+                    enabled = examUiState.subject.isNotBlank() && examUiState.year != -1L,
+                    onClick = {
+                        addExam()
+                    }) {
+                    Text("Add Exam")
+                }
+                Spacer(Modifier.width(16.dp))
+
                 Text("Add Subject")
+                TextField(
+                    modifier = Modifier.fillMaxWidth().focusRequester(subjectFocus),
+                    label = { Text("Subject") },
+                    placeholder = { Text("Mathematics") },
+                    value = subjectUiState.name,
+                    onValueChange = {
+                        onSubjectNameChange(it)
+                    },
+                    keyboardOptions = KeyboardOptions(
+                        capitalization = KeyboardCapitalization.Sentences,
+                        autoCorrect = true
+                    ),
+                    maxLines = 1,
+                )
+                Button(
+                    modifier = Modifier.align(Alignment.End),
+                    enabled = subjectUiState.name.isNotBlank(),
+                    onClick = {
+                        addSubject()
+                    }) {
+                    Text("Add Subject")
+                }
+
+
             }
-
-
-        }
-    })
+        },
+        action = action,
+        topbar = topbar
+    )
 
 
 }
@@ -544,7 +615,7 @@ fun ContentPreview() {
 fun MainDialog(
     show: Boolean,
     export: (String, String, String, Int) -> Unit = { _, _, _, _ -> },
-    onClose: () -> Unit = {}
+    onClose: () -> Unit = {},
 ) {
     var showDir by remember {
         mutableStateOf(false)
@@ -664,5 +735,5 @@ fun MainDialogPreveiw() {
 expect fun DirtoryUi(
     show: Boolean,
     onDismiss: () -> Unit = {},
-    onFile: (File?) -> Unit = {}
+    onFile: (File?) -> Unit = {},
 )

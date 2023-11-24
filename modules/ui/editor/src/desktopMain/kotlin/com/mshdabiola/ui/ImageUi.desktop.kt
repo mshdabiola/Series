@@ -12,7 +12,7 @@ import java.io.File
 import java.net.URL
 
 
-actual fun loadImageBitmap(file: File): ImageBitmap =
+actual fun loadImageBitmap(file: File): ImageBitmap? =
     file.inputStream().buffered().use(::loadImageBitmap)
 
 actual fun loadSvgPainter(file: File, density: Density): Painter =

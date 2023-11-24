@@ -9,10 +9,12 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
@@ -25,11 +27,13 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
+import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
@@ -57,7 +61,7 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.unit.dp
 import com.mshdabiola.model.data.Type
-import com.mshdabiola.series.CommonScreen
+import com.mshdabiola.series.CommonScreen2
 import com.mshdabiola.ui.TemplateUi
 import com.mshdabiola.ui.instructionui.InstructionEditUi
 import com.mshdabiola.ui.instructionui.InstructionUi
@@ -80,19 +84,45 @@ fun ExamScreen(
     windowSizeClass: WindowSizeClass,
 ) {
 
+    val action: @Composable RowScope.() -> Unit = {
+        IconButton(onClick = onBack) {
+            Icon(Icons.Default.ArrowBack, "back")
+        }
+    }
+    var show by remember { mutableStateOf(false) }
+    val onDismiss = { show = false }
 
 
     Scaffold(
         topBar = {
-            TopAppBar(
-                navigationIcon = {
-                    IconButton(onClick = onBack) {
-                        Icon(Icons.Default.ArrowBack, "back")
-                    }
-                },
+            if (windowSizeClass.widthSizeClass == WindowWidthSizeClass.Expanded) {
 
-                title = { Text("Exam Screen") })
-        }
+                TopAppBar(
+                    navigationIcon = {
+                        IconButton(onClick = onBack) {
+                            Icon(Icons.Default.ArrowBack, "back")
+                        }
+                    },
+
+                    title = { Text("Exam Screen") })
+
+            }
+
+        },
+        bottomBar = {
+            if (windowSizeClass.widthSizeClass != WindowWidthSizeClass.Expanded) {
+                BottomAppBar(floatingActionButton = {
+                    ExtendedFloatingActionButton(onClick = {
+                        show = true
+
+                    }) {
+                        Icon(Icons.Default.Add, "add")
+                        Spacer(Modifier.width(8.dp))
+                        Text("Add")
+                    }
+                }, actions = action)
+            }
+        },
     ) { paddingValues ->
 
         val questions = viewModel.questions
@@ -102,9 +132,10 @@ fun ExamScreen(
             mutableStateOf(0)
         }
         val coroutineScope = rememberCoroutineScope()
-        Column(Modifier.fillMaxSize().padding(paddingValues).padding(horizontal = 16.dp)) {
+        Column(Modifier.padding(paddingValues).fillMaxSize()) {
             TabRow(
                 selectedTabIndex = state,
+                modifier = Modifier
             ) {
                 Tab(
                     selected = state == 0,
@@ -164,7 +195,9 @@ fun ExamScreen(
                             instructionIdChange = viewModel::onInstructionIdChange,
                             onTopicSelect = viewModel::onTopicSelect,
                             onAddExamInUiState = viewModel::onAddExamFromInput,
-                            onExamInputChange = viewModel::onExamInputChanged
+                            onExamInputChange = viewModel::onExamInputChanged,
+                            show = show,
+                            onDismiss = onDismiss
                         )
 
                     1 ->
@@ -186,7 +219,9 @@ fun ExamScreen(
                             onDeleteInstruction = viewModel::onDeleteInstruction,
                             onUpdateInstruction = viewModel::onUpdateInstruction,
                             onAddInstruInputUiState = viewModel::onAddInstruTopicFromInput,
-                            onInstruInputChange = viewModel::onInstuInputChanged
+                            onInstruInputChange = viewModel::onInstuInputChanged,
+                            show = show,
+                            onDismiss = onDismiss
                         )
 
                     else ->
@@ -200,7 +235,9 @@ fun ExamScreen(
                             onDelete = viewModel::onDeleteTopic,
                             onUpdate = viewModel::onUpdateTopic,
                             onAddTopicInputUiState = viewModel::onAddTopicFromInput,
-                            onTopicInputChange = viewModel::onTopicInputChanged
+                            onTopicInputChange = viewModel::onTopicInputChanged,
+                            show = show,
+                            onDismiss = onDismiss
                         )
                 }
 
@@ -224,6 +261,7 @@ fun ExamContent(
     topicUiStates: ImmutableList<TopicUiState>,
     examInputUiState: ExamInputUiState,
     windowSizeClass: WindowSizeClass,
+    show: Boolean = false,
     addUp: (Int, Int) -> Unit = { _, _ -> },
     addBottom: (Int, Int) -> Unit = { _, _ -> },
     delete: (Int, Int) -> Unit = { _, _ -> },
@@ -245,18 +283,21 @@ fun ExamContent(
     onTopicSelect: (Long) -> Unit = {},
     onAddExamInUiState: () -> Unit = {},
     onExamInputChange: (String) -> Unit = {},
-) {
+    onDismiss: () -> Unit = {},
+
+    ) {
     var showTopiDropdown by remember { mutableStateOf(false) }
     var showConvert by remember { mutableStateOf(false) }
 
-    var fillIt  = rememberUpdatedState(windowSizeClass.widthSizeClass != WindowWidthSizeClass.Expanded)
+    var fillIt =
+        rememberUpdatedState(windowSizeClass.widthSizeClass != WindowWidthSizeClass.Expanded)
 
 
-    CommonScreen(
+    CommonScreen2(
         windowSizeClass,
         firstScreen = {
             LazyColumn(
-                Modifier.padding(8.dp).fillMaxSize(),
+                it.padding(8.dp).fillMaxSize(),
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
 
@@ -421,7 +462,8 @@ fun ExamContent(
 
 
             }
-        }
+        },
+        show, onDismiss
     )
 
 
@@ -437,19 +479,21 @@ fun TopicContent(
     topicInputUiState: TopicInputUiState,
     topicUiStates: ImmutableList<TopicUiState>,
     windowSizeClass: WindowSizeClass,
+    show: Boolean = false,
     onTopicChange: (String) -> Unit = {},
     onAddTopic: () -> Unit = {},
     onDelete: (Long) -> Unit = {},
     onUpdate: (Long) -> Unit = {},
     onAddTopicInputUiState: () -> Unit = {},
     onTopicInputChange: (String) -> Unit = {},
+    onDismiss: () -> Unit = {},
 ) {
     var showConvert by remember { mutableStateOf(false) }
 
-    CommonScreen(
+    CommonScreen2(
         windowSizeClass,
         firstScreen = {
-            LazyColumn(Modifier.fillMaxSize()) {
+            LazyColumn(it.fillMaxSize()) {
                 items(items = topicUiStates, key = { it.id }) {
                     TopicUi(
                         topicUiState = it,
@@ -460,7 +504,10 @@ fun TopicContent(
             }
         },
         secondScreen = {
-            Column(modifier = Modifier.fillMaxWidth().verticalScroll(rememberScrollState())) {
+            Column(
+                modifier = Modifier.fillMaxWidth().imePadding()
+                    .verticalScroll(rememberScrollState())
+            ) {
 
                 val focusRequester = remember {
                     FocusRequester()
@@ -529,7 +576,8 @@ fun TopicContent(
 
             }
 
-        }
+        },
+        show, onDismiss
     )
 
 
@@ -545,6 +593,7 @@ fun InstructionContent(
     instructionUiStates: ImmutableList<InstructionUiState>,
     instruInputUiState: InstruInputUiState,
     windowSizeClass: WindowSizeClass,
+    show: Boolean = false,
     onTitleChange: (String) -> Unit = {},
     addUp: (Int) -> Unit = { _ -> },
     addBottom: (Int) -> Unit = { _ -> },
@@ -559,13 +608,14 @@ fun InstructionContent(
     onUpdateInstruction: (Long) -> Unit = {},
     onAddInstruInputUiState: () -> Unit = {},
     onInstruInputChange: (String) -> Unit = {},
+    onDismiss: () -> Unit = {},
 ) {
     var showConvert by remember { mutableStateOf(false) }
 
-    CommonScreen(
+    CommonScreen2(
         windowSizeClass,
         firstScreen = {
-            LazyColumn(Modifier.fillMaxSize()) {
+            LazyColumn(it.fillMaxSize()) {
                 items(
                     items = instructionUiStates,
                     key = { it.id }
@@ -650,7 +700,8 @@ fun InstructionContent(
 
             }
 
-        }
+        },
+        show, onDismiss
     )
 
 }

@@ -1,5 +1,9 @@
 package com.mshdabiola.ui
 
+import android.content.ContentResolver
+import android.content.Context
+import android.net.Uri
+import android.webkit.MimeTypeMap
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
@@ -18,8 +22,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import timber.log.Timber
+import java.io.BufferedReader
 import java.io.File
 import java.io.FileOutputStream
+import java.io.InputStreamReader
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -39,7 +46,9 @@ actual fun DragAndDropImage(
         onResult = { uri ->
             uri?.path?.let {
                 val time = System.currentTimeMillis()
-                val path2= File.createTempFile("abiola","ima.jpg")
+                val extension = getFileMimeType(uri, context)
+                Timber.e("extention $extension")
+                val path2= File.createTempFile("abiola","ima.${extension?:"jpg"}")
                 val outputStream = FileOutputStream(path2)
 
                 context.contentResolver.openInputStream(uri).use {
@@ -86,3 +95,24 @@ actual fun DragAndDropImage(
 
 
 }
+
+fun getExtension(context: Context, uri: Uri): String? {
+    val contentResolver = context.contentResolver
+    val inputStream = contentResolver.openInputStream(uri)
+    val bufferedReader = BufferedReader(InputStreamReader(inputStream))
+    val line = bufferedReader.readLine()
+    bufferedReader.close()
+    inputStream?.close()
+    return line?.substring(line.lastIndexOf(".") + 1)
+}
+
+ fun getFileMimeType(uri: Uri,context: Context): String? {
+    return if (uri.scheme == ContentResolver.SCHEME_CONTENT) {
+        val mime = MimeTypeMap.getSingleton()
+        mime.getExtensionFromMimeType(context.contentResolver.getType(uri))
+    } else {
+        MimeTypeMap.getFileExtensionFromUrl(Uri.fromFile(File(uri.path)).toString())
+    }
+}
+
+

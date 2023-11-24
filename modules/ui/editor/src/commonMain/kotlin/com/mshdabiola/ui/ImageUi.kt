@@ -65,4 +65,4 @@ fun loadSvgPainter2(file : File, density: Density) : ImageVector {
 }
 
 expect fun loadXmlImageVector(file : File, density: Density): ImageVector
-expect fun loadImageBitmap(file : File): ImageBitmap
+expect fun loadImageBitmap(file : File): ImageBitmap?
