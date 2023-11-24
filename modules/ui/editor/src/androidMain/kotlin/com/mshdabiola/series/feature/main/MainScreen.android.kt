@@ -1,5 +1,6 @@
 package com.mshdabiola.series.feature.main
 
+import android.os.Environment
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.platform.LocalContext
@@ -14,11 +15,12 @@ actual fun DirtoryUi(
     val context = LocalContext.current
 
     LaunchedEffect(key1 = show) {
-        if (show){
-           val file=context.getExternalFilesDir(null)
+      //  if (show){
+
+           val file= context.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS)
             onDismiss()
             onFile(file)
-        }
+       // }
 
     }
 }

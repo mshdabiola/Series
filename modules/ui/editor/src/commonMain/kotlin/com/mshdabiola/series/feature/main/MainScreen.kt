@@ -1,6 +1,8 @@
 package com.mshdabiola.series.feature.main
 
 //import androidx.compose.desktop.ui.tooling.preview.Preview
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -611,6 +613,7 @@ fun ContentPreview() {
 //
 //}
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun MainDialog(
     show: Boolean,
@@ -646,7 +649,7 @@ fun MainDialog(
                     )
                     Row(modifier = Modifier.fillMaxWidth()) {
                         Text(modifier = Modifier.weight(0.3f), text = "Directory")
-                        Text(modifier = Modifier.weight(0.6f), text = path)
+                        Text(modifier = Modifier.weight(0.6f).basicMarquee(), text = path, maxLines = 1)
                         IconButton(onClick = { showDir = true }) {
                             Icon(
                                 modifier = Modifier.weight(0.1f),
