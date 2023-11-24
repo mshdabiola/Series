@@ -21,6 +21,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.HdrOnSelect
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.MoreHoriz
@@ -31,12 +32,14 @@ import androidx.compose.material.icons.filled.Update
 import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.material.icons.rounded.Deselect
 import androidx.compose.material.icons.rounded.SaveAs
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -92,6 +95,7 @@ fun MainScreen(
     var showDrop by remember { mutableStateOf(false) }
     val subjects = viewModel.subjects.collectAsState()
     val currentSubjectIndex = viewModel.currentSubjectId.collectAsState().value
+    var deleteId by remember { mutableStateOf<Long?>(null) }
     var showDialog by remember {
         mutableStateOf(false)
     }
@@ -183,7 +187,7 @@ fun MainScreen(
                         },
                         text = { Text("Delete selected") },
                         onClick = {
-                            viewModel.deleteSelected()
+                            deleteId = -1
                             showDrop = false
 
                         })
@@ -266,7 +270,8 @@ fun MainScreen(
         //}
     }
 
-    if (windowSizeClass.widthSizeClass == WindowWidthSizeClass.Compact) {
+    if (windowSizeClass.widthSizeClass == WindowWidthSizeClass.Compact)
+    {
         ModalNavigationDrawer(
             modifier = Modifier,
             drawerState = drawerState,
@@ -318,7 +323,7 @@ fun MainScreen(
                     onExamYearChange = viewModel::onExamYearContentChange,
                     onExamDurationChange = viewModel::onExamDurationContentChange,
                     onSubjectNameChange = viewModel::onSubjectContentChange,
-                    onDeleteSubject = viewModel::onDeleteExam,
+                    onDeleteSubject = { deleteId = it },
                     onUpdateSubject = viewModel::onUpdateExam,
                     action = {
                         IconButton(onClick = {
@@ -336,7 +341,8 @@ fun MainScreen(
                     }
                 )
             })
-    } else {
+    }
+    else {
         PermanentNavigationDrawer(
             modifier = Modifier,
             drawerContent = {
@@ -387,7 +393,7 @@ fun MainScreen(
                     onExamYearChange = viewModel::onExamYearContentChange,
                     onExamDurationChange = viewModel::onExamDurationContentChange,
                     onSubjectNameChange = viewModel::onSubjectContentChange,
-                    onDeleteSubject = viewModel::onDeleteExam,
+                    onDeleteSubject = { deleteId = it },
                     onUpdateSubject = viewModel::onUpdateExam,
                     action = action,
                     topbar = topbar
@@ -395,6 +401,33 @@ fun MainScreen(
 
                 )
             })
+    }
+    if (deleteId != null) {
+        AlertDialog(
+            onDismissRequest = { deleteId = null },
+            dismissButton = {
+                TextButton(onClick = { deleteId = null }) {
+                    Text("Cancel")
+                }
+            },
+            confirmButton = {
+                ElevatedButton(onClick = {
+                    if (deleteId == -1L) {
+                        viewModel.deleteSelected()
+                    } else {
+                        viewModel.onDeleteExam(deleteId!!)
+                    }
+                    deleteId = null
+                }) {
+                    Text("Delete exam")
+                }
+            },
+            icon = { Icon(Icons.Default.Delete, "delete") },
+            title = { Text(text = "Delete Subject") },
+            text = {
+                Text("Are you sure you want to delete this examination?")
+            }
+        )
     }
 
 
@@ -649,7 +682,11 @@ fun MainDialog(
                     )
                     Row(modifier = Modifier.fillMaxWidth()) {
                         Text(modifier = Modifier.weight(0.3f), text = "Directory")
-                        Text(modifier = Modifier.weight(0.6f).basicMarquee(), text = path, maxLines = 1)
+                        Text(
+                            modifier = Modifier.weight(0.6f).basicMarquee(),
+                            text = path,
+                            maxLines = 1
+                        )
                         IconButton(onClick = { showDir = true }) {
                             Icon(
                                 modifier = Modifier.weight(0.1f),
@@ -740,3 +777,4 @@ expect fun DirtoryUi(
     onDismiss: () -> Unit = {},
     onFile: (File?) -> Unit = {},
 )
+
