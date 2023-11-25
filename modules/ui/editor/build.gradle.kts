@@ -34,7 +34,7 @@ kotlin {
 
                 implementation(libs.androidx.activity.compose)
 
-
+                implementation(libs.android.svg.arr)
                 implementation(libs.koin.android)
                 implementation(libs.koin.android.compose)
 

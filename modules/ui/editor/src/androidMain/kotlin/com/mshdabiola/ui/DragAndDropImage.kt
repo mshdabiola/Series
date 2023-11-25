@@ -5,7 +5,6 @@ import android.content.Context
 import android.net.Uri
 import android.webkit.MimeTypeMap
 import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Box
@@ -41,8 +40,27 @@ actual fun DragAndDropImage(
     val isover by remember { mutableStateOf(false) }
 
 //    val activityResultLauncher=ActivityResultLauncher?
+//    val imageLauncher = rememberLauncherForActivityResult(
+//        contract = ActivityResultContracts.PickVisualMedia(),
+//        onResult = { uri ->
+//            uri?.path?.let {
+//                val time = System.currentTimeMillis()
+//                val extension = getFileMimeType(uri, context)
+//                Timber.e("extention $extension")
+//                val path2= File.createTempFile("abiola","ima.${extension?:"jpg"}")
+//                val outputStream = FileOutputStream(path2)
+//
+//                context.contentResolver.openInputStream(uri).use {
+//                    it?.copyTo(outputStream)
+//                    outputStream.close()
+//                }
+//                onPathChange(path2.path)
+//                //saveImage(it, time)
+//            }
+//        },
+//    )
     val imageLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.PickVisualMedia(),
+        contract = ActivityResultContracts.OpenDocument(),
         onResult = { uri ->
             uri?.path?.let {
                 val time = System.currentTimeMillis()
@@ -66,9 +84,7 @@ actual fun DragAndDropImage(
     Card(
         onClick = {
             imageLauncher.launch(
-                PickVisualMediaRequest(
-                    mediaType = ActivityResultContracts.PickVisualMedia.ImageOnly,
-                ),
+               arrayOf("image/*")
             )
         },
         Modifier.size(100.dp),

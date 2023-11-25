@@ -5,9 +5,7 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.loadImageBitmap
 import androidx.compose.ui.unit.Density
-import com.mshdabiola.data.SvgObject
 import org.xml.sax.InputSource
-import java.io.ByteArrayInputStream
 import java.io.File
 import java.net.URL
 
@@ -45,12 +43,6 @@ fun loadXmlImageVector(url: String, density: Density): ImageVector =
 actual fun loadSvgPainter1(
     file: File,
     density: Density,
-): ImageVector {
-    val instream = ByteArrayInputStream(SvgObject.getXml(file.path).toByteArray())
-    return instream.buffered().use {
-        androidx.compose.ui.res.loadXmlImageVector(
-            InputSource(it),
-            density
-        )
-    }
+): ImageBitmap? {
+    return null
 }

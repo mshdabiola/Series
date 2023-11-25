@@ -40,7 +40,7 @@ include(":modules:navigation:cbt")
 include(":modules:navigation:editor")
 include(":modules:retex")
 include(":modules:jretex")
-include(":modules:svgtovector")
+//include(":modules:svgtovector")
 include(":modules:ui:common")
 include(":modules:mvvn")
 

@@ -18,7 +18,7 @@ kotlin {
                 implementation(project(":modules:database"))
                 implementation(project(":modules:setting:editor"))
                 implementation(libs.kotlinx.coroutines.core)
-                implementation(project(":modules:svgtovector"))
+               // implementation(project(":modules:svgtovector"))
             }
         }
         val desktopMain by getting {
