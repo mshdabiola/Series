@@ -35,7 +35,7 @@ actual val databaseModule: Module
                     override fun onUpgrade(
                         db: SupportSQLiteDatabase,
                         oldVersion: Int,
-                        newVersion: Int
+                        newVersion: Int,
                     ) {
                         Timber.e("upgrade $oldVersion, to $newVersion")
 
@@ -44,7 +44,7 @@ actual val databaseModule: Module
                     override fun onDowngrade(
                         db: SupportSQLiteDatabase,
                         oldVersion: Int,
-                        newVersion: Int
+                        newVersion: Int,
                     ) {
                         Timber.e("downgrade $oldVersion, to $newVersion")
 

@@ -14,7 +14,7 @@ import kotlinx.coroutines.withContext
 
 internal class SubjectDao(
     private val subjectQueries: SubjectQueries,
-    private val coroutineDispatcher: CoroutineDispatcher
+    private val coroutineDispatcher: CoroutineDispatcher,
 ) : ISubjectDao {
     override suspend fun insert(subject: Subject) {
         println("insert subject $subject")

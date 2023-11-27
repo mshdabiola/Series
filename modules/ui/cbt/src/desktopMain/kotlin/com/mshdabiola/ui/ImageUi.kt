@@ -17,7 +17,7 @@ actual fun ImageUi(
     modifier: Modifier,
     path: String,
     contentDescription: String,
-    contentScale: ContentScale
+    contentScale: ContentScale,
 ) {
     val density = LocalDensity.current
     val filePath = File(path)

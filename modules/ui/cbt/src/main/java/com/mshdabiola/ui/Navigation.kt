@@ -26,7 +26,7 @@ fun AllQuestionBottomSheet(
     chooses: ImmutableList<Int>,
     currentNumber: Int,
     onChooseClick: (Int) -> Unit = {},
-    onDismissRequest: () -> Unit = {}
+    onDismissRequest: () -> Unit = {},
 ) {
     if (show) {
         ModalBottomSheet(onDismissRequest = onDismissRequest) {
@@ -65,7 +65,7 @@ fun AllQuestionBottomSheet(
 @Composable
 fun InstructionBottomSheet(
     instructionUiState: InstructionUiState?,
-    onDismissRequest: () -> Unit = {}
+    onDismissRequest: () -> Unit = {},
 ) {
     if (instructionUiState != null) {
         ModalBottomSheet(onDismissRequest = onDismissRequest) {

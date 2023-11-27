@@ -11,5 +11,5 @@ data class Question(
     val isTheory: Boolean,
     val answer: List<Item>?,
     val instructionId: Long?,
-    val topicId: Long?
+    val topicId: Long?,
 )

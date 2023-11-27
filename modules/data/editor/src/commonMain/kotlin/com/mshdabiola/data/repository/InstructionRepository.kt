@@ -6,7 +6,7 @@ import com.mshdabiola.model.data.Instruction
 import kotlinx.coroutines.flow.Flow
 
 internal class InstructionRepository(
-    private val instructionDao: IInstructionDao
+    private val instructionDao: IInstructionDao,
 ) : IInstructionRepository {
     override suspend fun insert(instruction: Instruction) {
         instructionDao.insert(instruction)

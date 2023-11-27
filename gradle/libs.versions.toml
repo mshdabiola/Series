@@ -71,6 +71,8 @@ secrets = "2.0.1"
 
 windowSizeClass = "0.3.1"
 
+androidSvg = "1.4"
+
 
 
 
@@ -188,6 +190,8 @@ kermit-log = { module = "co.touchlab:kermit", version.ref = "kermit" }
 # Dependencies of the included build-logic
 
 compose-gradlePlugin = { group = "org.jetbrains.compose", name = "compose-gradle-plugin", version.ref = "composePlugin" }
+
+android-svg-arr = { module = "com.caverock:androidsvg-aar", version.ref = "androidSvg" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }

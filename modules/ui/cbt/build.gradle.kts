@@ -1,9 +1,12 @@
+import com.mshdabiola.app.configureFlavors
+
 plugins {
     id("mshdabiola.mpp.feature")
 }
 
 android {
     namespace = "com.mshdabiola.ui.cbt"
+    configureFlavors(this)
 
 }
 
@@ -32,7 +35,6 @@ kotlin {
             dependencies {
 
 
-
 //
                 implementation(libs.koin.android)
                 implementation(libs.koin.android.compose)
@@ -46,8 +48,6 @@ kotlin {
 
                 implementation(libs.play.game)
                 implementation(libs.play.coroutine)
-
-
 
 
             }

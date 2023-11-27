@@ -12,15 +12,15 @@ data class QuestionFull(
     val isTheory: Boolean,
     val answer: List<Item>?,
     val instruction: Instruction? = null,
-    val topic: Topic?
+    val topic: Topic?,
 )
 
 fun Question.toQuestionWithOptions(
     list: List<Option>,
     instruction: Instruction?,
-    topic: Topic?
+    topic: Topic?,
 
-) =
+    ) =
     QuestionFull(
         id, nos, examId, content, list, isTheory, answer, instruction, topic
     )

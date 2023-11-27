@@ -67,10 +67,10 @@ class DatabaseUtilTest : KoinTest {
         )
 
         val exams = listOf(
-            ExamEntity(1, 1, 2012, 0,4),
-            ExamEntity(2, 1, 2014, 1,3),
-            ExamEntity(3, 1, 2016, 1,4),
-            ExamEntity(4, 1, 2017, 0,5),
+            ExamEntity(1, 1, 2012, 0, 4),
+            ExamEntity(2, 1, 2014, 1, 3),
+            ExamEntity(3, 1, 2016, 1, 4),
+            ExamEntity(4, 1, 2017, 0, 5),
         )
         val quetions = listOf(
             QuestionEntity(

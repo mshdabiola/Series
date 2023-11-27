@@ -20,7 +20,7 @@ class SQLiteCopyOpenHelper(
     private val context: Context,
     private val copyConfig: CopyConfig,
     private val databaseVersion: Int,
-    private val delegate: SupportSQLiteOpenHelper
+    private val delegate: SupportSQLiteOpenHelper,
 ) : SupportSQLiteOpenHelper {
 
     private var verified = false
@@ -174,7 +174,7 @@ class SQLiteCopyOpenHelper(
                 copyConfig.callable.call()
             }
         }
-        Security.copy(destinationFile,context.assets.open("version.txt"),input,key)
+        Security.copy(destinationFile, context.assets.open("version.txt"), input, key)
 //        val versionOutput = File(destinationFile.parent, "version.txt").outputStream()
 //
 //        // An intermediate file is used so that we never end up with a half-copied database file
@@ -213,7 +213,7 @@ class SQLiteCopyOpenHelper(
     class Factory(
         private val context: Context,
         private val copyConfig: CopyConfig,
-        private val delegate: SupportSQLiteOpenHelper.Factory
+        private val delegate: SupportSQLiteOpenHelper.Factory,
     ) : SupportSQLiteOpenHelper.Factory {
         override fun create(config: SupportSQLiteOpenHelper.Configuration): SupportSQLiteOpenHelper {
             return SQLiteCopyOpenHelper(

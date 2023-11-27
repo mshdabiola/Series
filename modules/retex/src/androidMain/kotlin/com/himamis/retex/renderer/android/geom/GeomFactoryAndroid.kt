@@ -19,7 +19,7 @@ class GeomFactoryAndroid : GeomFactory() {
 
     override fun createRoundRectangle2D(
         x: Double, y: Double,
-        w: Double, h: Double, arcw: Double, arch: Double
+        w: Double, h: Double, arcw: Double, arch: Double,
     ): RoundRectangle2D {
         return RoundRectangle2DA(x, y, w, h, arcw, arch)
     }

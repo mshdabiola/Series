@@ -15,7 +15,7 @@ import kotlinx.coroutines.withContext
 
 internal class ExamDao(
     private val examQueries: ExamQueries,
-    private val coroutineDispatcher: CoroutineDispatcher
+    private val coroutineDispatcher: CoroutineDispatcher,
 ) : IExamDao {
     override suspend fun insert(exam: Exam) {
         withContext(coroutineDispatcher) {

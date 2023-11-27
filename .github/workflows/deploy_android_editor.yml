@@ -1,0 +1,91 @@
+name: Deploy to Play Store
+
+on:
+  push:
+    tags:
+      - 'ad[0-9]+.[0-9]+.[0-9]+'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v2
+
+      - name: set up JDK
+        uses: actions/setup-java@v3
+        with:
+          java-version: 17
+          distribution: zulu
+          cache: gradle
+
+      - name: Generate Release Bundle
+        run: ./gradlew :androidEditor:bundleRelease
+
+      - name: Sign Physics Bundle
+        uses: r0adkll/sign-android-release@v1
+        # ID used to access action output
+        id: sign_physics_free_app
+        with:
+          releaseDirectory: app/build/outputs/bundle/PhysicsFreeRelease
+          signingKeyBase64: ${{ secrets.SIGNING_KEY }}
+          alias: ${{ secrets.ALIAS }}
+          keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
+          keyPassword: ${{ secrets.KEY_PASSWORD }}
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: physics_free_release_bundle
+          path: ${{steps.sign_physics_free_app.outputs.signedReleaseFile}}
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: physics_free_mapping
+          path: app/build/outputs/mapping/PhysicsFreeRelease/mapping.txt
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: distribution
+          path: distribution
+
+  deploy-free-play-store:
+    needs: [ build ]
+    runs-on: ubuntu-latest
+    steps:
+      # 1
+      - uses: actions/download-artifact@v3
+        with:
+          name: physics_free_release_bundle
+      - name: 'Echo download path'
+        run: echo ${{steps.download.outputs.download-path}}
+
+      - uses: actions/download-artifact@v3
+        with:
+          name: physics_free_mapping
+      - name: 'Echo download path'
+        run: echo ${{steps.download.outputs.download-path}}
+
+      - uses: actions/download-artifact@v3
+        with:
+          name: distribution
+      - name: Display structure of downloaded files
+        run: ls -R
+      - name: 'Echo download path'
+        run: echo ${{steps.download.outputs.download-path}}
+      # 2
+      - name: Publish to Play Store internal test track
+        uses: r0adkll/upload-google-play@v1.1.1
+        with:
+          serviceAccountJsonPlainText: ${{ secrets.SERVICE_ACCOUNT_JSON }}
+          # 3
+          packageName: com.mshdabiola.series.physics.free
+          releaseFiles: app-Physics-Free-release.aab
+          track: internal
+          status: completed
+          inAppUpdatePriority: 2
+          mappingFile: mapping.txt
+          whatsNewDirectory: whatsnew
+
+

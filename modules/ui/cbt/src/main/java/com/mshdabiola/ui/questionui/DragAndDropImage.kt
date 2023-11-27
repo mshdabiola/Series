@@ -8,7 +8,7 @@ import androidx.compose.ui.layout.ContentScale
 fun DragAndDropImage(
     modifier: Modifier,
     path: String,
-    onPathChange: (String) -> Unit
+    onPathChange: (String) -> Unit,
 ) {
 }
 
@@ -17,6 +17,6 @@ fun DesktopImage(
     modifier: Modifier,
     path: String,
     contentDescription: String,
-    contentScale: ContentScale
+    contentScale: ContentScale,
 ) {
 }

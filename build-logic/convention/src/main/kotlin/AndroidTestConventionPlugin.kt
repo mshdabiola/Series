@@ -15,7 +15,6 @@
  */
 
 import com.android.build.gradle.TestExtension
-import com.mshdabiola.app.configureFlavors
 import com.mshdabiola.app.configureGradleManagedDevices
 import com.mshdabiola.app.configureKotlinAndroid
 import org.gradle.api.Plugin
@@ -32,7 +31,7 @@ class AndroidTestConventionPlugin : Plugin<Project> {
 
             extensions.configure<TestExtension> {
                 configureKotlinAndroid(this)
-                configureFlavors(this)
+//                configureFlavors(this)
                 defaultConfig.targetSdk = 34
                 configureGradleManagedDevices(this)
             }

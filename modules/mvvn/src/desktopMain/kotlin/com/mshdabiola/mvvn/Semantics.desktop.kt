@@ -6,7 +6,7 @@ import androidx.compose.ui.semantics.semantics
 
 actual fun Modifier.semanticsCommon(
     mergeDescendants: Boolean,
-    properties: SemanticsPropertyReceiver.() -> Unit
+    properties: SemanticsPropertyReceiver.() -> Unit,
 ): Modifier {
     return this.semantics(mergeDescendants, properties)
 }

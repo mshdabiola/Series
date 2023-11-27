@@ -29,7 +29,7 @@ fun OptionsUi(
     showAnswer: Boolean = false,
     onClick: (Int) -> Unit = {},
     selectedOption: Int = -1,
-    examId: Long
+    examId: Long,
 ) {
 
     val noRow = remember {
@@ -78,7 +78,7 @@ fun OptionUi(
     showAnswer: Boolean = false,
     isChoose: Boolean = false,
     onClick: () -> Unit = {},
-    examId: Long
+    examId: Long,
 ) {
     val color = when {
         optionUiState.isAnswer && showAnswer -> CardDefaults.cardColors(

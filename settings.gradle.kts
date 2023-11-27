@@ -20,7 +20,7 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "Series"
-include(":app")
+include(":androidCbt")
 include(":modules:database")
 include(":modules:designsystem")
 include(":modules:model")
@@ -31,8 +31,8 @@ include(":modules:domain:editor")
 include(":modules:testing")
 include(":modules:ui:cbt")
 include(":modules:ui:editor")
-include(":desktop")
-include(":cbtDesktop")
+include(":desktopEditor")
+include(":desktopCbt")
 
 include(":modules:setting:cbt")
 include(":modules:setting:editor")
@@ -40,8 +40,11 @@ include(":modules:navigation:cbt")
 include(":modules:navigation:editor")
 include(":modules:retex")
 include(":modules:jretex")
-include(":modules:svgtovector")
+//include(":modules:svgtovector")
 include(":modules:ui:common")
 include(":modules:mvvn")
 
-include(":app:baselineprofile")
+include(":androidCbt:baselineprofile")
+include(":androidEditor")
+include(":androidEditor:baselineprofile")
+

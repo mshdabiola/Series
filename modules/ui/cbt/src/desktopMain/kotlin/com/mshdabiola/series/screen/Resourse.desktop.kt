@@ -1,10 +1,7 @@
 package com.mshdabiola.series.screen
 
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.semantics.SemanticsPropertyReceiver
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
 
@@ -20,7 +17,7 @@ actual fun getStringType(): String {
 
 @Composable
 actual fun getExamPart(): Array<String> {
-   return arrayOf("Obj & Theory", "Objective", "Theory")
+    return arrayOf("Obj & Theory", "Objective", "Theory")
 }
 
 @OptIn(ExperimentalResourceApi::class)
@@ -43,6 +40,6 @@ actual fun getIconLayer3(): Painter {
 
 @Composable
 actual fun getSection(): Array<String> {
-   return arrayOf("Objective", "Theory")
+    return arrayOf("Objective", "Theory")
 }
 

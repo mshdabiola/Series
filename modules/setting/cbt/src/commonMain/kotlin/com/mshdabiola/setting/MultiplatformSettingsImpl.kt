@@ -14,7 +14,7 @@ import kotlinx.serialization.json.Json
 
 internal class MultiplatformSettingsImpl(
     private val settings: DataStore<Preferences>,
-    private val coroutineDispatcher: CoroutineDispatcher
+    private val coroutineDispatcher: CoroutineDispatcher,
 ) : MultiplatformSettings {
     private val currentExamKey = stringPreferencesKey("currentKey")
     override suspend fun setCurrentExam(currentExam: CurrentExam) {

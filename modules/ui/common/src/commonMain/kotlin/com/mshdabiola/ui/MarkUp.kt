@@ -37,7 +37,7 @@ fun MarkUpText(
     softWrap: Boolean = true,
     maxLines: Int = Int.MAX_VALUE,
     style: TextStyle = LocalTextStyle.current,
-    onTextLayout: (TextLayoutResult) -> Unit = {}
+    onTextLayout: (TextLayoutResult) -> Unit = {},
 ) {
     Text(
         text = buildAnnotatedString {

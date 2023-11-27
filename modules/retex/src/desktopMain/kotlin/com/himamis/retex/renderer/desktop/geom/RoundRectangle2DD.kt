@@ -47,7 +47,7 @@ import java.awt.geom.RoundRectangle2D
 
 class RoundRectangle2DD(
     x: kotlin.Double, y: kotlin.Double, w: kotlin.Double, h: kotlin.Double,
-    arcw: kotlin.Double, arch: kotlin.Double
+    arcw: kotlin.Double, arch: kotlin.Double,
 ) : RoundRectangle2D.Double(), com.himamis.retex.renderer.share.platform.geom.RoundRectangle2D {
     init {
         setRoundRect(x, y, w, h, arcw, arch)
@@ -66,7 +66,7 @@ class RoundRectangle2DD(
 
     override fun setRoundRectangle(
         x: kotlin.Double, y: kotlin.Double, w: kotlin.Double, h: kotlin.Double,
-        arcw: kotlin.Double, arch: kotlin.Double
+        arcw: kotlin.Double, arch: kotlin.Double,
     ) {
         setRoundRect(x, y, w, h, arcw, arch)
     }

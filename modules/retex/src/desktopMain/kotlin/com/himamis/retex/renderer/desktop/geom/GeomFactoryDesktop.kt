@@ -59,14 +59,14 @@ class GeomFactoryDesktop : GeomFactory() {
 
     override fun createRectangle2D(
         x: Double, y: Double, width: Double,
-        height: Double
+        height: Double,
     ): Rectangle2D {
         return Rectangle2DD(x, y, width, height)
     }
 
     override fun createRoundRectangle2D(
         x: Double, y: Double, w: Double,
-        h: Double, arcw: Double, arch: Double
+        h: Double, arcw: Double, arch: Double,
     ): RoundRectangle2D {
         return RoundRectangle2DD(x, y, w, h, arcw, arch)
     }

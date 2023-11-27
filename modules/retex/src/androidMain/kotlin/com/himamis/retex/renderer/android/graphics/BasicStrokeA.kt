@@ -8,7 +8,7 @@ class BasicStrokeA @JvmOverloads constructor(
     val miterLimit: Double,
     val cap: Int,
     val join: Int,
-    val dashes: DoubleArray? = null
+    val dashes: DoubleArray? = null,
 ) : BasicStroke {
 
     constructor(width: Double, miterLimit: Double, cap: Paint.Cap, join: Paint.Join) : this(

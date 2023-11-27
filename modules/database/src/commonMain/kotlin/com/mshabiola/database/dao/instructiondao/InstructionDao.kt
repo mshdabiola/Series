@@ -14,7 +14,7 @@ import kotlinx.coroutines.withContext
 
 internal class InstructionDao(
     private val instructionQueries: InstructionQueries,
-    private val coroutineDispatcher: CoroutineDispatcher
+    private val coroutineDispatcher: CoroutineDispatcher,
 ) : IInstructionDao {
     override suspend fun insert(instruction: Instruction) {
         withContext(coroutineDispatcher) {

@@ -1,4 +1,6 @@
 package com.mshdabiola.model
 
 actual val generalPath: String
-    get() = "image"
+    get() = "$parentPath/image"
+
+var parentPath = ""

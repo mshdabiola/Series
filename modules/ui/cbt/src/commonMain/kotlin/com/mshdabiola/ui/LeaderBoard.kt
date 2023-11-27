@@ -6,9 +6,10 @@ import com.mshdabiola.ui.state.UserRank
 import kotlinx.collections.immutable.ImmutableList
 
 @Composable
-expect fun Leaderboard(getRank : (ImmutableList<UserRank>)->Unit)
+expect fun Leaderboard(getRank: (ImmutableList<UserRank>) -> Unit)
+
 @Composable
 expect fun UserRankUiState(userRank: UserRank)
 
 @Composable
-expect fun MoreRankButton(modifier: Modifier=Modifier)
+expect fun MoreRankButton(modifier: Modifier = Modifier)

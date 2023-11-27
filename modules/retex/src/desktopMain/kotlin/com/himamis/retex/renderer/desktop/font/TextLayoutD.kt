@@ -53,7 +53,7 @@ import java.awt.font.FontRenderContext
 
 class TextLayoutD(
     string: String?, font: Font?,
-    fontRenderContext: FontRenderContext?
+    fontRenderContext: FontRenderContext?,
 ) : TextLayout {
     private val layout: java.awt.font.TextLayout
 

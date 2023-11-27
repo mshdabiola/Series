@@ -65,7 +65,7 @@ class ColorD(r: Int, g: Int, b: Int, a: Int) : Color(r, g, b, a),
     companion object {
         private const val serialVersionUID = 1L
         operator fun get(
-            bgColor: Color?
+            bgColor: Color?,
         ): com.himamis.retex.renderer.share.platform.graphics.Color? {
             return bgColor?.let { ColorD(it) }
         }

@@ -23,7 +23,8 @@ class PagerComponent(componentContext: ComponentContext) : IPagerComponent,
         source = navigation,
         initialPages = {
             Pages(
-                items = listOf(Config2.Main, Config2.Statistic//, Config2.Profile
+                items = listOf(
+                    Config2.Main, Config2.Statistic//, Config2.Profile
                 ),
                 selectedIndex = 0
             )

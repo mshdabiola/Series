@@ -6,5 +6,5 @@ import org.koin.core.qualifier.Qualifier
 
 expect inline fun <reified T : ViewModel> org.koin.core.module.Module.commonViewModel(
     qualifier: Qualifier? = null,
-    noinline definition: Definition<T>
+    noinline definition: Definition<T>,
 ): KoinDefinition<T>

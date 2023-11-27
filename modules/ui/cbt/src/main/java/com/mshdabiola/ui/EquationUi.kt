@@ -17,7 +17,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.tooling.preview.Preview
 import com.mshdabiola.retex.Latex
-import com.mshdabiola.ui.com.mshdabiola.ui.loadXmlImageVector
 import com.mshdabiola.ui.state.InstructionUiState
 import com.mshdabiola.ui.state.ItemUiState
 import com.mshdabiola.ui.state.OptionUiState
@@ -30,7 +29,7 @@ import java.io.File
 @Composable
 actual fun EquationUi(
     modifier: Modifier,
-    equation: ItemUiState
+    equation: ItemUiState,
 ) {
     Latex(modifier = modifier, equation.content)
 }
@@ -40,7 +39,7 @@ actual fun ImageUi(
     modifier: Modifier,
     path: String,
     contentDescription: String,
-    contentScale: ContentScale
+    contentScale: ContentScale,
 ) {
 
     val file = remember(path) {
@@ -71,7 +70,7 @@ fun VectorImage(
     modifier: Modifier,
     path: String,
     contentDescription: String,
-    contentScale: ContentScale
+    contentScale: ContentScale,
 ) {
     val context = LocalContext.current
     val density = LocalDensity.current
@@ -84,7 +83,12 @@ fun VectorImage(
 
 
             val instream = context.assets.open(path)
-            image = instream.buffered().use { loadXmlImageVector(InputSource(it), density) }
+            image = instream.buffered().use {
+                com.mshdabiola.ui.loadXmlImageVector(
+                    InputSource(it),
+                    density
+                )
+            }
 
         } catch (e: Exception) {
             Timber.e(e)
@@ -108,7 +112,7 @@ fun BitmapImage(
     modifier: Modifier,
     path: String,
     contentDescription: String,
-    contentScale: ContentScale
+    contentScale: ContentScale,
 ) {
     val context = LocalContext.current
     var image by remember {

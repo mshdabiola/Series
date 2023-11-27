@@ -9,5 +9,5 @@ data class Option(
     val questionId: Long,
     val examId: Long,
     val content: List<Item>,
-    val isAnswer: Boolean
+    val isAnswer: Boolean,
 )

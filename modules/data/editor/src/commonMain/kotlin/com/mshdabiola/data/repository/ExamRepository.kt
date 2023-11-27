@@ -1,5 +1,6 @@
 package com.mshdabiola.data.repository
 
+import app.cash.sqldelight.db.SqlDriver
 import com.mshabiola.database.dao.exam.IExamDao
 import com.mshdabiola.data.repository.inter.IExamRepository
 import com.mshdabiola.database.SeriesDatabase
@@ -9,7 +10,8 @@ import kotlinx.coroutines.flow.Flow
 
 internal class ExamRepository(
     private val iExamDao: IExamDao,
-    private val database: SeriesDatabase
+    private val database: SeriesDatabase,
+    private val driver: SqlDriver,
 ) : IExamRepository {
 
 
@@ -36,15 +38,15 @@ internal class ExamRepository(
         path: String,
         name: String,
         version: Int,
-        key: String
+        key: String,
     ) {
-        val importEx = DatabaseExportImport(database)
+        val importEx = DatabaseExportImport(database, driver)
 
         importEx.export(examsId, path, name, version, key)
     }
 
     override suspend fun import(path: String, key: String) {
-        val importEx = DatabaseExportImport(database)
+        val importEx = DatabaseExportImport(database, driver)
 
         importEx.import(path, key)
     }

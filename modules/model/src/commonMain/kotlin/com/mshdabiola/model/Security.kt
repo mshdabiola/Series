@@ -16,8 +16,8 @@ import javax.crypto.spec.SecretKeySpec
 
 object Security {
     const val defaultKey = "SwordFish"
-     var databaseName = "waec_series_database.db"
-    var canMigrate=true
+    var databaseName = "waec_series_database.db"
+    var canMigrate = true
     const val assetData = "data"
 
     fun encode(byteArray: ByteArray, output: OutputStream, key: String) {
@@ -46,7 +46,7 @@ object Security {
 
     }
 
-    fun copy(destinationFile: File, version:InputStream, data:InputStream,key: String){
+    fun copy(destinationFile: File, version: InputStream, data: InputStream, key: String) {
         val versionOutput = File(destinationFile.parent, "version.txt").outputStream()
 
         // An intermediate file is used so that we never end up with a half-copied database file
@@ -77,6 +77,7 @@ object Security {
             throw IOException("Failed to move intermediate file (${intermediateFile.absolutePath}) to destination (${destinationFile.absolutePath}).")
         }
     }
+
     private fun decrypt(map: HashMap<String, ByteArray>, key: String): ByteArray? {
         var decrypted: ByteArray? = null
         try {
@@ -152,7 +153,6 @@ object Security {
         }
         return map
     }
-
 
 
 }

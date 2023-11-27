@@ -37,7 +37,7 @@ fun QuestionScroll(
     chooses: ImmutableList<Int>,
     onChooseClick: (Int) -> Unit = {},
     onNext: () -> Unit = {},
-    onPrev: () -> Unit = {}
+    onPrev: () -> Unit = {},
 ) {
 
     val state = rememberLazyListState()
@@ -114,7 +114,7 @@ fun QuestionNumberButton(
     number: Int,
     isChoose: Boolean,
     isCurrent: Boolean = false,
-    onClick: () -> Unit = {}
+    onClick: () -> Unit = {},
 ) {
     val color = if (isChoose)
         MaterialTheme.colorScheme.primaryContainer

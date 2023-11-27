@@ -32,7 +32,7 @@ actual fun Latex(
     foregroundColor: Color,
     backgroundColor: Color,
     style: LatexStyle,
-    type: LatexType
+    type: LatexType,
 ) {
     var image by remember { mutableStateOf<ImageBitmap?>(null) }
 

@@ -35,7 +35,7 @@ actual fun Latex(
     foregroundColor: Color,
     backgroundColor: Color,
     style: LatexStyle,
-    type: LatexType
+    type: LatexType,
 ) {
     val style2 = LocalTextStyle.current
     val color = LocalContentColor.current

@@ -57,7 +57,7 @@ class FontFactoryDesktop : FontFactory() {
 
     override fun createTextLayout(
         string: String, font: Font,
-        fontRenderContext: FontRenderContext
+        fontRenderContext: FontRenderContext,
     ): TextLayout {
         return TextLayoutD(
             string, (font as FontD).font,

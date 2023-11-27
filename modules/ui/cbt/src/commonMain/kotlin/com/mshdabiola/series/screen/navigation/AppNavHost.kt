@@ -28,10 +28,14 @@ import com.mshdabiola.ui.UpdateAppUi
 
 
 @Composable
-fun AppNavHost(iRootComponent: IRootComponent, modifier: Modifier, windowSizeClass: WindowSizeClass) {
+fun AppNavHost(
+    iRootComponent: IRootComponent,
+    modifier: Modifier,
+    windowSizeClass: WindowSizeClass,
+) {
 
     Children(
-        modifier=modifier,
+        modifier = modifier,
         stack = iRootComponent.stack,
         animation = stackAnimation(slide())
     ) {
@@ -71,7 +75,7 @@ fun AppNavHost(iRootComponent: IRootComponent, modifier: Modifier, windowSizeCla
 @Composable
 fun PagerCom(
     iPagerComponent: IPagerComponent,
-    onQuestion: () -> Unit = {}
+    onQuestion: () -> Unit = {},
 ) {
     val current = iPagerComponent.current.subscribeAsState().value
 

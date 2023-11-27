@@ -10,7 +10,7 @@ data class CurrentExam(
     val isSubmit: Boolean = false,
     val paperIndex: Int = 0,
     val examPart: Int = 0,
-    val choose: List<List<Int>>
+    val choose: List<List<Int>>,
 )
 
 

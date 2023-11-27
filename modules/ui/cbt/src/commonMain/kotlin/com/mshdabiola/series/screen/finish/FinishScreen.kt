@@ -31,9 +31,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import com.mshdabiola.mvvn.collectAsStateWithLifecycleCommon
 import com.mshdabiola.mvvn.semanticsCommon
@@ -41,13 +39,10 @@ import com.mshdabiola.series.screen.MainViewModel
 import com.mshdabiola.series.screen.getSection
 import com.mshdabiola.series.screen.main.MainState
 import com.mshdabiola.ui.FinishCard
+import com.mshdabiola.ui.InstructionBottomSheet
 import com.mshdabiola.ui.QuestionUi
 import com.mshdabiola.ui.ScoreCard
-import com.mshdabiola.ui.InstructionBottomSheet
-import com.mshdabiola.ui.state.ExamUiState
 import com.mshdabiola.ui.state.InstructionUiState
-import com.mshdabiola.ui.state.ItemUiState
-import com.mshdabiola.ui.state.OptionUiState
 import com.mshdabiola.ui.state.QuestionUiState
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.launch
@@ -90,7 +85,7 @@ internal fun FinishScreen(
 
 
     Scaffold(
-        modifier = Modifier.semanticsCommon{},
+        modifier = Modifier.semanticsCommon {},
         bottomBar = {
             BottomAppBar(
                 actions = {

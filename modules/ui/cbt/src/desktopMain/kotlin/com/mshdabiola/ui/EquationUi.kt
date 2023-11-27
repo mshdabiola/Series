@@ -17,7 +17,7 @@ import kotlinx.collections.immutable.toImmutableList
 @Composable
 internal actual fun EquationUi(
     modifier: Modifier,
-    equation: ItemUiState
+    equation: ItemUiState,
 ) {
     // LatexText(modifier = Modifier, equation.content) { Font(it) }
     Latex(modifier = modifier, text = equation.content)

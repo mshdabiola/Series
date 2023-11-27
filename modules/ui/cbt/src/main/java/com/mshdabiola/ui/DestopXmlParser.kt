@@ -242,7 +242,7 @@ private fun Element.attributeOrNull(namespace: String, name: String): String? {
  */
 private fun Element.apptAttr(
     namespace: String,
-    name: String
+    name: String,
 ): Element? {
     val prefix = lookupPrefix(namespace) ?: return null
     return childrenSequence

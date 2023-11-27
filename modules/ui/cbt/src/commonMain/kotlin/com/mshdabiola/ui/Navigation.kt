@@ -13,8 +13,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.mshdabiola.ui.ItemUi
-import com.mshdabiola.ui.QuestionNumberButton
 import com.mshdabiola.ui.state.InstructionUiState
 import kotlinx.collections.immutable.ImmutableList
 
@@ -26,7 +24,7 @@ fun AllQuestionBottomSheet(
     chooses: ImmutableList<Int>,
     currentNumber: Int,
     onChooseClick: (Int) -> Unit = {},
-    onDismissRequest: () -> Unit = {}
+    onDismissRequest: () -> Unit = {},
 ) {
     if (show) {
         ModalBottomSheet(onDismissRequest = onDismissRequest) {
@@ -65,7 +63,7 @@ fun AllQuestionBottomSheet(
 @Composable
 fun InstructionBottomSheet(
     instructionUiState: InstructionUiState?,
-    onDismissRequest: () -> Unit = {}
+    onDismissRequest: () -> Unit = {},
 ) {
     if (instructionUiState != null) {
         ModalBottomSheet(onDismissRequest = onDismissRequest) {

@@ -4,23 +4,23 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.painter.Painter
 
 @Composable
-expect fun getStringSubject() : String
+expect fun getStringSubject(): String
 
 @Composable
-expect fun getStringType() :String
+expect fun getStringType(): String
 
 @Composable
-expect fun getExamPart() :Array<String>
+expect fun getExamPart(): Array<String>
 
 
 @Composable
-expect fun getSection() :Array<String>
+expect fun getSection(): Array<String>
 
 @Composable
-expect fun getIconLayer2():Painter
+expect fun getIconLayer2(): Painter
 
 @Composable
-expect fun getIconLayer1():Painter
+expect fun getIconLayer1(): Painter
 
 @Composable
-expect fun getIconLayer3():Painter
+expect fun getIconLayer3(): Painter

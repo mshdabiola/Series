@@ -6,7 +6,7 @@ import com.mshdabiola.model.data.Topic
 import kotlinx.coroutines.flow.Flow
 
 internal class TopicRepository(
-    private val iTopicDao: ITopicDao
+    private val iTopicDao: ITopicDao,
 ) : ITopicRepository {
     override suspend fun insert(topic: Topic) {
         iTopicDao.insert(topic)

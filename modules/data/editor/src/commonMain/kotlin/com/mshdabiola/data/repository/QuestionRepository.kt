@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.Flow
 
 internal class QuestionRepository(
     private val iQuestionDao: IQuestionDao,
-    private val iOptionDao: IOptionDao
+    private val iOptionDao: IOptionDao,
 ) : IQuestionRepository {
 
     override suspend fun insert(questionFull: QuestionFull) {

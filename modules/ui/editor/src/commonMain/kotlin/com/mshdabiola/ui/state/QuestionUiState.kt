@@ -12,6 +12,6 @@ data class QuestionUiState(
     val answer: ImmutableList<ItemUiState>? = null,
     val title: String = "",
     val instructionUiState: InstructionUiState? = null,
-    val topicUiState: TopicUiState? = null
+    val topicUiState: TopicUiState? = null,
 
-)
+    )
