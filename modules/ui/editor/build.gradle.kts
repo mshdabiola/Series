@@ -15,8 +15,40 @@ kotlin {
             dependencies {
                 implementation(project(":modules:retex"))
                 implementation(project(":modules:ui:common"))
+
+                implementation(project(":modules:model"))
+                implementation(project(":modules:mvvn"))
+                implementation(project(":modules:data:editor"))
+                implementation(project(":modules:designsystem"))
+
+                implementation(project(":modules:navigation:editor"))
+                implementation(libs.koin.core)
+
+                implementation(libs.decompose.core)
+                implementation(libs.decompose.compose.jetbrains)
             }
         }
+
+        val androidMain by getting {
+            dependencies {
+
+                implementation(libs.androidx.activity.compose)
+
+                implementation(libs.android.svg.arr)
+                implementation(libs.koin.android)
+                implementation(libs.koin.android.compose)
+
+            }
+        }
+//
+//        val desktopMain by getting{
+//            dependencies {
+//
+//                @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
+//                implementation(compose.desktop.components.splitPane)
+//            }
+//
+//        }
 
 
     }

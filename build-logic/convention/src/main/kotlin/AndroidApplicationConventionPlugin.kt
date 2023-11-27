@@ -1,6 +1,6 @@
+
 import com.android.build.api.dsl.ApplicationExtension
 import com.android.build.api.variant.ApplicationAndroidComponentsExtension
-import com.mshdabiola.app.configureFlavors
 import com.mshdabiola.app.configureGradleManagedDevices
 import com.mshdabiola.app.configureKotlinAndroid
 import com.mshdabiola.app.configurePrintApksTask
@@ -29,15 +29,14 @@ class AndroidApplicationConventionPlugin : Plugin<Project> {
 //                compileSdkPreview = "UpsideDownCake"
                 defaultConfig.targetSdk = 34
                 defaultConfig.minSdk = 24
-                defaultConfig.versionName = "08.11.2023"
-                defaultConfig.versionCode = 13
+
 
                 defaultConfig.testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
                 defaultConfig.vectorDrawables {
                     useSupportLibrary = true
                 }
                 // defaultConfig.resourceConfigurations+= listOf("en")
-                configureFlavors(this)
+               // configureFlavors(this)
                 configureGradleManagedDevices(this)
 
             }

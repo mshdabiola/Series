@@ -18,11 +18,12 @@ kotlin {
                 implementation(project(":modules:database"))
                 implementation(project(":modules:setting:editor"))
                 implementation(libs.kotlinx.coroutines.core)
+               // implementation(project(":modules:svgtovector"))
             }
         }
         val desktopMain by getting {
             dependencies {
-                implementation(project(":modules:svgtovector"))
+
 
             }
         }

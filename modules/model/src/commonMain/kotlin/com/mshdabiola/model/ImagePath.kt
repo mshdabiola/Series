@@ -8,7 +8,7 @@ object ImageUtil {
     fun newPath(extension: String, examId: Long): File {
 
         val time = System.currentTimeMillis()
-        val extension = if (extension == "svg") "xml" else extension
+       // val extension = if (extension == "svg") "svg" else extension
         return (getGeneralDir("$time.$extension", examId))
     }
 

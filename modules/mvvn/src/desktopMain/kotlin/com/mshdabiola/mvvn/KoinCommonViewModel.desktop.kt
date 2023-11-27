@@ -9,5 +9,5 @@ actual inline fun <reified T : ViewModel> org.koin.core.module.Module.commonView
     qualifier: Qualifier?,
     noinline definition: Definition<T>
 ): KoinDefinition<T> {
-    return single(qualifier = qualifier, definition = definition)
+    return factory (qualifier = qualifier, definition = definition)
 }

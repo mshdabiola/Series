@@ -17,7 +17,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.tooling.preview.Preview
 import com.mshdabiola.retex.Latex
-import com.mshdabiola.ui.com.mshdabiola.ui.loadXmlImageVector
 import com.mshdabiola.ui.state.InstructionUiState
 import com.mshdabiola.ui.state.ItemUiState
 import com.mshdabiola.ui.state.OptionUiState
@@ -84,7 +83,12 @@ fun VectorImage(
 
 
             val instream = context.assets.open(path)
-            image = instream.buffered().use { loadXmlImageVector(InputSource(it), density) }
+            image = instream.buffered().use {
+                com.mshdabiola.ui.loadXmlImageVector(
+                    InputSource(it),
+                    density
+                )
+            }
 
         } catch (e: Exception) {
             Timber.e(e)
