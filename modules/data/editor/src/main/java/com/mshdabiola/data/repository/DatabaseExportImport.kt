@@ -12,6 +12,7 @@ import commshdabioladatabase.tables.QuestionEntity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 import java.io.File
 import kotlin.io.path.Path
 import kotlin.io.path.inputStream
@@ -29,6 +30,11 @@ actual class DatabaseExportImport actual constructor(
         key: String,
     ) {
         withContext(Dispatchers.IO) {
+            val pathNew =File(path,name)
+            if (pathNew.exists().not()){
+                pathNew.mkdirs()
+            }
+
             val dbParent=File(parentPath) .parent
             val dbPath=File(dbParent,"databases/data.db")
 
@@ -39,7 +45,7 @@ actual class DatabaseExportImport actual constructor(
 //            }
             launch {
 
-                val dbOutput = File(path, name)
+                val dbOutput = File(pathNew, name)
                 dbPath.delete()
 
 //                Android
@@ -112,12 +118,12 @@ actual class DatabaseExportImport actual constructor(
 
             }
             launch {
-                val imagePath = File(generalPath)
+                val imagePath = File(pathNew,"image")
                 imagePath.deleteOnExit()
                 copyImage(imagePath, examsId)
             }
             launch {
-                val versionFile = File(path, "version.txt")
+                val versionFile = File(pathNew, "version.txt")
                 versionFile.deleteOnExit()
                 versionFile.writeText("$version")
             }
@@ -200,6 +206,8 @@ actual class DatabaseExportImport actual constructor(
                 examsId.forEach {
                     val from = File(generalPath, "$it")
                     val to = File(dir.path, "$it")
+
+                    Timber.e("From ${from.path} to ${to.path}")
                     //to.createParentDirectories()
 
                     from.copyRecursively(to, overwrite = true)

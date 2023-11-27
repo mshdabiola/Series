@@ -83,7 +83,7 @@ dependencies {
 
 
     androidTestImplementation(project(":modules:testing"))
-    "baselineProfile"(project(":app:baselineprofile"))
+    "baselineProfile"(project(":androidCbt:baselineprofile"))
 
 
 }

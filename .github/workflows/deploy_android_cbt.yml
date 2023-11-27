@@ -3,7 +3,7 @@ name: Deploy to Play Store
 on:
   push:
     tags:
-      - 'a[0-9]+.[0-9]+.[0-9]+'
+      - 'ac[0-9]+.[0-9]+.[0-9]+'
 
 jobs:
   build:
@@ -22,7 +22,7 @@ jobs:
           cache: gradle
 
       - name: Generate Release Bundle
-        run: ./gradlew bundleRelease
+        run: ./gradlew :androidCbt:bundleRelease
 
       - name: Sign Physics Bundle
         uses: r0adkll/sign-android-release@v1

@@ -42,7 +42,7 @@ dependencies {
 
 compose.desktop {
     application {
-        mainClass = "com.mshdabiola.series.MainAppKt"
+        mainClass = "com.mshdabiola.series.MainCbtAppKt"
         /*
         * Its unreliable. Don't run release tasks for now.
         * Wait until fixed: https://github.com/JetBrains/compose-jb/issues/2393
@@ -77,8 +77,9 @@ compose.desktop {
                 iconFile.set(iconsRoot.resolve("windows.ico"))
                 shortcut = true
                 menuGroup = packageName
+//                https://www.guidgen.com/   generate uuid
                 //https://wixtoolset.org/documentation/manual/v3/howtos/general/generate_guids.html
-                upgradeUuid = "22A6B130-7AD9-4C97-BCC9-CED9B41BA1C5"
+                upgradeUuid = "9ed621bd-5cd6-49d9-90d8-d3ff766709ab"
             }
 
             macOS {

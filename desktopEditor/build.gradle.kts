@@ -45,7 +45,7 @@ dependencies {
 
 compose.desktop {
     application {
-        mainClass = "com.mshdabiola.series.MainAppKt"
+        mainClass = "com.mshdabiola.series.MainEditorAppKt"
         /*
         * Its unreliable. Don't run release tasks for now.
         * Wait until fixed: https://github.com/JetBrains/compose-jb/issues/2393

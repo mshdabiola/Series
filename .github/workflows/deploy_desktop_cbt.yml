@@ -3,7 +3,7 @@ name: Deploy Desktop
 on:
   push:
     tags:
-      - 'd[0-9]+.[0-9]+.[0-9]+'
+      - 'dc[0-9]+.[0-9]+.[0-9]+'
 #v[0-9]+.[0-9]+.[0-9]+
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -19,15 +19,15 @@ jobs:
           - runtime: linux-x64
             arch: x64
             os: ubuntu-latest
-            build: packageReleaseUberJarForCurrentOS packageDeb
+            build: :desktopCbt:packageReleaseUberJarForCurrentOS :desktopCbt:packageDeb
 
           - runtime: osx-x64
             os: macOS-latest
-            build: packageUberJarForCurrentOS packageDmg
+            build: :desktopCbt:packageUberJarForCurrentOS :desktopCbt:packageDmg
 
           - runtime: win-x64
             os: windows-latest
-            build: packageReleaseUberJarForCurrentOS packageReleaseMsi
+            build: :desktopCbt:packageReleaseUberJarForCurrentOS :desktopCbt:packageReleaseMsi
 
     runs-on: ${{ matrix.os }}
     timeout-minutes: 60

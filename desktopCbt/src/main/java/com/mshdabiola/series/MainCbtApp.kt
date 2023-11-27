@@ -24,9 +24,7 @@ import com.mshdabiola.model.generalPath
 import com.mshdabiola.series.di.appModule
 import com.mshdabiola.series.screen.SeriesApp
 import org.jetbrains.compose.resources.ExperimentalResourceApi
-import org.jetbrains.compose.resources.resource
 import org.koin.core.context.GlobalContext.startKoin
-import java.io.ByteArrayInputStream
 import java.io.File
 import java.util.prefs.Preferences
 
