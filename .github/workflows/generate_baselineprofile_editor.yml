@@ -24,7 +24,7 @@ jobs:
       - name: Generate baseline profile
         run: |
           ./gradlew :androidEditor:cleanManagedDevices --unused-only
-          ./gradlew :androidEditor:generatePhysicsFreeReleaseBaselineProfile -Pandroid.testoptions.manageddevices.emulator.gpu="swiftshader_indirect" -Pandroid.testInstrumentationRunnerArguments.androidx.benchmark.enabledRules=BaselineProfile
+          ./gradlew :androidEditor:generateReleaseBaselineProfile -Pandroid.testoptions.manageddevices.emulator.gpu="swiftshader_indirect" -Pandroid.testInstrumentationRunnerArguments.androidx.benchmark.enabledRules=BaselineProfile
       #          mv benchmark/build/outputs/managed_device_android_test_additional_output/pixel2Api31/BaselineProfileGenerator_generate-baseline-prof.txt app/src/main/baseline-prof.txt
 
       - name: Create pull request

@@ -35,7 +35,7 @@ class BaselineProfileGenerator {
 
     @Test
     fun generate() {
-        rule.collect("com.mshdabiola.series.physics.free") {
+        rule.collect("com.mshdabiola.series.editor") {
             // This block defines the app's critical user journey. Here we are interested in
             // optimizing for app startup. But you can also navigate and scroll
             // through your most important UI.
