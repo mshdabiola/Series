@@ -16,13 +16,13 @@ import java.io.IOException
 
 
 @Composable
- fun <T> AsyncImage(
+fun <T> AsyncImage(
     load: () -> T?,
     painterFor: @Composable (T) -> Painter,
     contentDescription: String,
     modifier: Modifier = Modifier,
     contentScale: ContentScale = ContentScale.Fit,
-){
+) {
 
     var image by remember { mutableStateOf<T?>(null) }
 
@@ -47,4 +47,4 @@ import java.io.IOException
             modifier = modifier
         )
     }
- }
+}

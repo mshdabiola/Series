@@ -6,5 +6,5 @@ import androidx.compose.ui.semantics.SemanticsPropertyReceiver
 
 expect fun Modifier.semanticsCommon(
     mergeDescendants: Boolean = false,
-    properties: (SemanticsPropertyReceiver.() -> Unit)
+    properties: (SemanticsPropertyReceiver.() -> Unit),
 ): Modifier

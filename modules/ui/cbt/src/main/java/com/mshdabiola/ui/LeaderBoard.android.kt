@@ -9,13 +9,11 @@ import android.net.Uri
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.Button
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -28,11 +26,8 @@ import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.ImageBitmapConfig
 import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.DefaultLifecycleObserver
-import androidx.lifecycle.LifecycleOwner
 import com.google.android.gms.common.images.ImageManager
 import com.google.android.gms.games.PlayGames
 import com.google.android.gms.games.leaderboard.LeaderboardVariant
@@ -48,18 +43,23 @@ import kotlin.coroutines.suspendCoroutine
 actual fun Leaderboard(getRank: (ImmutableList<UserRank>) -> Unit) {
     val activity = LocalContext.current as Activity
     val leaderboardsClient = PlayGames.getLeaderboardsClient(activity)
-    val id= stringResource(id = R.string.leaderboard_ranks)
+    val id = stringResource(id = R.string.leaderboard_ranks)
 
     LaunchedEffect(key1 = Unit) {
 
-        leaderboardsClient.loadTopScores(id,LeaderboardVariant.TIME_SPAN_ALL_TIME,LeaderboardVariant.COLLECTION_PUBLIC,25)
+        leaderboardsClient.loadTopScores(
+            id,
+            LeaderboardVariant.TIME_SPAN_ALL_TIME,
+            LeaderboardVariant.COLLECTION_PUBLIC,
+            25
+        )
             .addOnCompleteListener { annotatedDataTask ->
-                val data= annotatedDataTask.result?.let { annotatedData ->
+                val data = annotatedDataTask.result?.let { annotatedData ->
                     annotatedData.get()?.scores
                         ?.mapNotNull {
-                            if (it==null)
+                            if (it == null)
                                 null
-                            else{
+                            else {
 
                                 UserRank(
                                     imageUrl = it.scoreHolderIconImageUri.toString(),
@@ -70,7 +70,7 @@ actual fun Leaderboard(getRank: (ImmutableList<UserRank>) -> Unit) {
                             }
                         }
                 }
-                if (data!=null){
+                if (data != null) {
                     getRank(data.toImmutableList())
                 }
 
@@ -84,16 +84,21 @@ actual fun UserRankUiState(userRank: UserRank) {
     var imageBitmap by remember {
         mutableStateOf<ImageBitmap?>(null)
     }
-    val context= LocalContext.current
+    val context = LocalContext.current
     LaunchedEffect(key1 = userRank) {
-       imageBitmap= loadImage(context,userRank.imageUrl)
+        imageBitmap = loadImage(context, userRank.imageUrl)
     }
     ListItem(
         headlineContent = { Text(text = userRank.name) },
-        supportingContent = { Text(text = "Score : ${userRank.score}")},
-        trailingContent = { Text(text = userRank.position.toString(), style = MaterialTheme.typography.bodyLarge)},
+        supportingContent = { Text(text = "Score : ${userRank.score}") },
+        trailingContent = {
+            Text(
+                text = userRank.position.toString(),
+                style = MaterialTheme.typography.bodyLarge
+            )
+        },
         leadingContent = {
-            if (imageBitmap!=null) {
+            if (imageBitmap != null) {
                 Image(
                     modifier = Modifier
                         .size(50.dp)
@@ -107,7 +112,7 @@ actual fun UserRankUiState(userRank: UserRank) {
 
 suspend fun loadImage(context: Context, path: String?) = suspendCoroutine {
 
-    if (path == null){
+    if (path == null) {
         Timber.e("load image path is null")
         it.resume(null)
 
@@ -134,7 +139,7 @@ suspend fun loadImage(context: Context, path: String?) = suspendCoroutine {
 actual fun MoreRankButton(modifier: Modifier) {
     val activity = LocalContext.current as Activity
     val leaderboardsClient = PlayGames.getLeaderboardsClient(activity)
-    val id= stringResource(id = R.string.leaderboard_ranks)
+    val id = stringResource(id = R.string.leaderboard_ranks)
 
     TextButton(onClick = {
         try {
@@ -154,7 +159,7 @@ actual fun MoreRankButton(modifier: Modifier) {
         }
         //leaderboardsClient.getLeaderboardIntent(id,LeaderboardVariant.TIME_SPAN_ALL_TIME,LeaderboardVariant.COLLECTION_PUBLIC)
     }) {
-        Text(modifier=modifier,text = "More")
+        Text(modifier = modifier, text = "More")
     }
 
 }

@@ -6,5 +6,5 @@ import kotlinx.serialization.Serializable
 data class Topic(
     val id: Long = -1,
     val subjectId: Long,
-    val name: String
+    val name: String,
 )

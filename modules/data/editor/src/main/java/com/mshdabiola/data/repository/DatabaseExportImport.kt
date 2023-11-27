@@ -30,13 +30,13 @@ actual class DatabaseExportImport actual constructor(
         key: String,
     ) {
         withContext(Dispatchers.IO) {
-            val pathNew =File(path,name)
-            if (pathNew.exists().not()){
+            val pathNew = File(path, name)
+            if (pathNew.exists().not()) {
                 pathNew.mkdirs()
             }
 
-            val dbParent=File(parentPath) .parent
-            val dbPath=File(dbParent,"databases/data.db")
+            val dbParent = File(parentPath).parent
+            val dbPath = File(dbParent, "databases/data.db")
 
 
 //            val dir = File(dbDir)
@@ -118,7 +118,7 @@ actual class DatabaseExportImport actual constructor(
 
             }
             launch {
-                val imagePath = File(pathNew,"image")
+                val imagePath = File(pathNew, "image")
                 imagePath.deleteOnExit()
                 copyImage(imagePath, examsId)
             }

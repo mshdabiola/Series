@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.Flow
 internal class ExamRepository(
     private val iExamDao: IExamDao,
     private val database: SeriesDatabase,
-    private val driver : SqlDriver
+    private val driver: SqlDriver,
 ) : IExamRepository {
 
 
@@ -38,15 +38,15 @@ internal class ExamRepository(
         path: String,
         name: String,
         version: Int,
-        key: String
+        key: String,
     ) {
-        val importEx = DatabaseExportImport(database,driver)
+        val importEx = DatabaseExportImport(database, driver)
 
         importEx.export(examsId, path, name, version, key)
     }
 
     override suspend fun import(path: String, key: String) {
-        val importEx = DatabaseExportImport(database,driver)
+        val importEx = DatabaseExportImport(database, driver)
 
         importEx.import(path, key)
     }

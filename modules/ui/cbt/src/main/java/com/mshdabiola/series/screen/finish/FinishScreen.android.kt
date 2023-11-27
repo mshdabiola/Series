@@ -9,7 +9,6 @@ import com.mshdabiola.ui.state.ItemUiState
 import com.mshdabiola.ui.state.OptionUiState
 import com.mshdabiola.ui.state.QuestionUiState
 import kotlinx.collections.immutable.toImmutableList
-import androidx.compose.ui.semantics.testTagsAsResourceId
 
 
 @Preview

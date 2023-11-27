@@ -54,7 +54,7 @@ class RoundRectangle2DA(x: Double, y: Double, w: Double, h: Double, arcw: Double
         w: Double,
         h: Double,
         arcw: Double,
-        arch: Double
+        arch: Double,
     ) {
         setRectangle(x, y, w, h)
         mArcw = arcw

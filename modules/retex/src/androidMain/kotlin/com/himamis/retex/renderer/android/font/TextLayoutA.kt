@@ -11,7 +11,7 @@ import com.himamis.retex.renderer.share.platform.graphics.Graphics2DInterface
 class TextLayoutA(
     private val mString: String,
     private val mFont: FontA,
-    fontRenderContext: FontRenderContextA
+    fontRenderContext: FontRenderContextA,
 ) : TextLayout {
     private val mPaint: Paint?
 

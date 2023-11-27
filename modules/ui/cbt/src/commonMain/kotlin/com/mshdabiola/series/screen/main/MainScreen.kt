@@ -82,7 +82,7 @@ internal fun MainScreen(
     Scaffold(
         modifier = Modifier
             .nestedScroll(scrollBehavior.nestedScrollConnection)
-            .semanticsCommon{},
+            .semanticsCommon {},
         topBar = {
             CenterAlignedTopAppBar(
                 title = {
@@ -179,5 +179,6 @@ internal fun MainScreen(
         }
     }
 }
+
 @Composable
 expect fun MainScreenPreview()

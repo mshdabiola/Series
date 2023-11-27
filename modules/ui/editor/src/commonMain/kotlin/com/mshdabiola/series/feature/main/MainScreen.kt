@@ -270,8 +270,7 @@ fun MainScreen(
         //}
     }
 
-    if (windowSizeClass.widthSizeClass == WindowWidthSizeClass.Compact)
-    {
+    if (windowSizeClass.widthSizeClass == WindowWidthSizeClass.Compact) {
         ModalNavigationDrawer(
             modifier = Modifier,
             drawerState = drawerState,
@@ -341,8 +340,7 @@ fun MainScreen(
                     }
                 )
             })
-    }
-    else {
+    } else {
         PermanentNavigationDrawer(
             modifier = Modifier,
             drawerContent = {

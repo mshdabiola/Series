@@ -11,7 +11,7 @@ import org.koin.dsl.module
 val appModules = module {
 
 //    commonViewModel(::SplashViewModel)
-    commonViewModel{MainViewModel(get(),get(),get())}
+    commonViewModel { MainViewModel(get(), get(), get()) }
 //    factoryOf(::MainViewModel)
     commonViewModel {
         ExamViewModel(

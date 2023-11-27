@@ -35,7 +35,6 @@ kotlin {
             dependencies {
 
 
-
 //
                 implementation(libs.koin.android)
                 implementation(libs.koin.android.compose)
@@ -49,8 +48,6 @@ kotlin {
 
                 implementation(libs.play.game)
                 implementation(libs.play.coroutine)
-
-
 
 
             }

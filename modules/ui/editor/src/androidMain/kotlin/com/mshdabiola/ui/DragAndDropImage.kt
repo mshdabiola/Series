@@ -35,7 +35,7 @@ actual fun DragAndDropImage(
     onPathChange: (String) -> Unit,
 ) {
 
-    val context= LocalContext.current
+    val context = LocalContext.current
 
     val isover by remember { mutableStateOf(false) }
 
@@ -66,7 +66,7 @@ actual fun DragAndDropImage(
                 val time = System.currentTimeMillis()
                 val extension = getFileMimeType(uri, context)
                 Timber.e("extention $extension")
-                val path2= File.createTempFile("abiola","ima.${extension?:"jpg"}")
+                val path2 = File.createTempFile("abiola", "ima.${extension ?: "jpg"}")
                 val outputStream = FileOutputStream(path2)
 
                 context.contentResolver.openInputStream(uri).use {
@@ -84,7 +84,7 @@ actual fun DragAndDropImage(
     Card(
         onClick = {
             imageLauncher.launch(
-               arrayOf("image/*")
+                arrayOf("image/*")
             )
         },
         Modifier.size(100.dp),
@@ -104,7 +104,7 @@ actual fun DragAndDropImage(
 //                            } else {
 //                                Text(text = "drag image here")
 //                            }
-       }
+        }
 
 
     }
@@ -122,7 +122,7 @@ fun getExtension(context: Context, uri: Uri): String? {
     return line?.substring(line.lastIndexOf(".") + 1)
 }
 
- fun getFileMimeType(uri: Uri,context: Context): String? {
+fun getFileMimeType(uri: Uri, context: Context): String? {
     return if (uri.scheme == ContentResolver.SCHEME_CONTENT) {
         val mime = MimeTypeMap.getSingleton()
         mime.getExtensionFromMimeType(context.contentResolver.getType(uri))

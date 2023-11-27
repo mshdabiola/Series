@@ -22,7 +22,7 @@ import javax.xml.parsers.DocumentBuilderFactory
  */
 fun loadXmlImageVector(
     inputSource: InputSource,
-    density: Density
+    density: Density,
 ): ImageVector = DocumentBuilderFactory
     .newInstance().apply {
         isNamespaceAware = true

@@ -12,156 +12,157 @@ import kotlinx.collections.immutable.toImmutableList
 
 @Preview
 @Composable
-actual fun FinishScreenPreview() {val questions =
-    listOf(
-        QuestionUiState(
-            id = 1,
-            nos = 1,
-            examId = 0,
-            content = listOf(
-                ItemUiState(content = "What is your name")
-            )
-                .toImmutableList(),
-            options = listOf(
-                OptionUiState(
-                    id = 1, nos = 1, content = listOf(
-                        ItemUiState(
-                            content = "Isabelle"
-                        )
-                    ).toImmutableList(),
-                    isAnswer = false
-                ),
-                OptionUiState(
-                    id = 2, nos = 2, content = listOf(
-                        ItemUiState(
-                            content = "Isabelle"
-                        )
-                    ).toImmutableList(),
-                    isAnswer = false
-                ),
-                OptionUiState(
-                    id = 3, nos = 3, content = listOf(
-                        ItemUiState(
-                            content = "Isabelle"
-                        )
-                    ).toImmutableList(),
-                    isAnswer = false
-                ),
-                OptionUiState(
-                    id = 4, nos = 4, content = listOf(
-                        ItemUiState(
-                            content = "Isabelle",
-                        )
-                    ).toImmutableList(),
-                    isAnswer = false
-                )
-            ).toImmutableList(),
-            instructionUiState = InstructionUiState(
+actual fun FinishScreenPreview() {
+    val questions =
+        listOf(
+            QuestionUiState(
                 id = 1,
-                examId = 3,
-                title = "What",
-                content = listOf(ItemUiState()).toImmutableList()
-            )
-        ),
-        QuestionUiState(
-            id = 1,
-            nos = 1,
-            examId = 0,
-            content = listOf(
-                ItemUiState(content = "What is your name")
-            )
-                .toImmutableList(),
-            options = listOf(
-                OptionUiState(
-                    id = 1, nos = 1, content = listOf(
-                        ItemUiState(
-                            content = "Isabelle"
-                        )
-                    ).toImmutableList(),
-                    isAnswer = false
-                ),
-                OptionUiState(
-                    id = 2, nos = 2, content = listOf(
-                        ItemUiState(
-                            content = "Isabelle"
-                        )
-                    ).toImmutableList(),
-                    isAnswer = false
-                ),
-                OptionUiState(
-                    id = 3, nos = 3, content = listOf(
-                        ItemUiState(
-                            content = "Isabelle"
-                        )
-                    ).toImmutableList(),
-                    isAnswer = false
-                ),
-                OptionUiState(
-                    id = 4, nos = 4, content = listOf(
-                        ItemUiState(
-                            content = "Isabelle",
-                        )
-                    ).toImmutableList(),
-                    isAnswer = false
+                nos = 1,
+                examId = 0,
+                content = listOf(
+                    ItemUiState(content = "What is your name")
                 )
-            ).toImmutableList(),
-            instructionUiState = InstructionUiState(
-                id = 1,
-                examId = 3,
-                title = "What",
-                content = listOf(ItemUiState()).toImmutableList()
-            )
-        ),
-        QuestionUiState(
-            id = 1,
-            nos = 1,
-            examId = 0,
-            content = listOf(
-                ItemUiState(content = "What is your name")
-            )
-                .toImmutableList(),
-            options = listOf(
-                OptionUiState(
-                    id = 1, nos = 1, content = listOf(
-                        ItemUiState(
-                            content = "Isabelle"
-                        )
-                    ).toImmutableList(),
-                    isAnswer = false
-                ),
-                OptionUiState(
-                    id = 2, nos = 2, content = listOf(
-                        ItemUiState(
-                            content = "Isabelle"
-                        )
-                    ).toImmutableList(),
-                    isAnswer = false
-                ),
-                OptionUiState(
-                    id = 3, nos = 3, content = listOf(
-                        ItemUiState(
-                            content = "Isabelle"
-                        )
-                    ).toImmutableList(),
-                    isAnswer = false
-                ),
-                OptionUiState(
-                    id = 4, nos = 4, content = listOf(
-                        ItemUiState(
-                            content = "Isabelle",
-                        )
-                    ).toImmutableList(),
-                    isAnswer = false
+                    .toImmutableList(),
+                options = listOf(
+                    OptionUiState(
+                        id = 1, nos = 1, content = listOf(
+                            ItemUiState(
+                                content = "Isabelle"
+                            )
+                        ).toImmutableList(),
+                        isAnswer = false
+                    ),
+                    OptionUiState(
+                        id = 2, nos = 2, content = listOf(
+                            ItemUiState(
+                                content = "Isabelle"
+                            )
+                        ).toImmutableList(),
+                        isAnswer = false
+                    ),
+                    OptionUiState(
+                        id = 3, nos = 3, content = listOf(
+                            ItemUiState(
+                                content = "Isabelle"
+                            )
+                        ).toImmutableList(),
+                        isAnswer = false
+                    ),
+                    OptionUiState(
+                        id = 4, nos = 4, content = listOf(
+                            ItemUiState(
+                                content = "Isabelle",
+                            )
+                        ).toImmutableList(),
+                        isAnswer = false
+                    )
+                ).toImmutableList(),
+                instructionUiState = InstructionUiState(
+                    id = 1,
+                    examId = 3,
+                    title = "What",
+                    content = listOf(ItemUiState()).toImmutableList()
                 )
-            ).toImmutableList(),
-            instructionUiState = InstructionUiState(
+            ),
+            QuestionUiState(
                 id = 1,
-                examId = 3,
-                title = "What",
-                content = listOf(ItemUiState()).toImmutableList()
+                nos = 1,
+                examId = 0,
+                content = listOf(
+                    ItemUiState(content = "What is your name")
+                )
+                    .toImmutableList(),
+                options = listOf(
+                    OptionUiState(
+                        id = 1, nos = 1, content = listOf(
+                            ItemUiState(
+                                content = "Isabelle"
+                            )
+                        ).toImmutableList(),
+                        isAnswer = false
+                    ),
+                    OptionUiState(
+                        id = 2, nos = 2, content = listOf(
+                            ItemUiState(
+                                content = "Isabelle"
+                            )
+                        ).toImmutableList(),
+                        isAnswer = false
+                    ),
+                    OptionUiState(
+                        id = 3, nos = 3, content = listOf(
+                            ItemUiState(
+                                content = "Isabelle"
+                            )
+                        ).toImmutableList(),
+                        isAnswer = false
+                    ),
+                    OptionUiState(
+                        id = 4, nos = 4, content = listOf(
+                            ItemUiState(
+                                content = "Isabelle",
+                            )
+                        ).toImmutableList(),
+                        isAnswer = false
+                    )
+                ).toImmutableList(),
+                instructionUiState = InstructionUiState(
+                    id = 1,
+                    examId = 3,
+                    title = "What",
+                    content = listOf(ItemUiState()).toImmutableList()
+                )
+            ),
+            QuestionUiState(
+                id = 1,
+                nos = 1,
+                examId = 0,
+                content = listOf(
+                    ItemUiState(content = "What is your name")
+                )
+                    .toImmutableList(),
+                options = listOf(
+                    OptionUiState(
+                        id = 1, nos = 1, content = listOf(
+                            ItemUiState(
+                                content = "Isabelle"
+                            )
+                        ).toImmutableList(),
+                        isAnswer = false
+                    ),
+                    OptionUiState(
+                        id = 2, nos = 2, content = listOf(
+                            ItemUiState(
+                                content = "Isabelle"
+                            )
+                        ).toImmutableList(),
+                        isAnswer = false
+                    ),
+                    OptionUiState(
+                        id = 3, nos = 3, content = listOf(
+                            ItemUiState(
+                                content = "Isabelle"
+                            )
+                        ).toImmutableList(),
+                        isAnswer = false
+                    ),
+                    OptionUiState(
+                        id = 4, nos = 4, content = listOf(
+                            ItemUiState(
+                                content = "Isabelle",
+                            )
+                        ).toImmutableList(),
+                        isAnswer = false
+                    )
+                ).toImmutableList(),
+                instructionUiState = InstructionUiState(
+                    id = 1,
+                    examId = 3,
+                    title = "What",
+                    content = listOf(ItemUiState()).toImmutableList()
+                )
             )
-        )
-    ).toImmutableList()
+        ).toImmutableList()
     FinishScreen(
 
         mainState = MainState(

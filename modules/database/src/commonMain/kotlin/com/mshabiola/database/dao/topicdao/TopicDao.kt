@@ -14,7 +14,7 @@ import kotlinx.coroutines.withContext
 
 internal class TopicDao(
     private val topicQueries: TopicQueries,
-    private val coroutineDispatcher: CoroutineDispatcher
+    private val coroutineDispatcher: CoroutineDispatcher,
 ) : ITopicDao {
     override suspend fun insert(topic: Topic) {
         withContext(coroutineDispatcher) {

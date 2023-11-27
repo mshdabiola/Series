@@ -9,6 +9,6 @@ import org.koin.dsl.module
 actual val newModule: Module
     get() = module {
         single<SqlDriver> {
-            AndroidSqliteDriver(schema = SeriesDatabase.Schema, context = get(),"data.db")
+            AndroidSqliteDriver(schema = SeriesDatabase.Schema, context = get(), "data.db")
         }
     }

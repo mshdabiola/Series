@@ -41,7 +41,7 @@ fun InstructionEditUi(
     moveDown: (Int) -> Unit = { _ -> },
     edit: (Int) -> Unit = { _ -> },
     changeType: (Int, Type) -> Unit = { _, _ -> },
-    onTextChange: (Int, String) -> Unit = { _, _ -> }
+    onTextChange: (Int, String) -> Unit = { _, _ -> },
 ) {
     Column(modifier) {
         TextField(

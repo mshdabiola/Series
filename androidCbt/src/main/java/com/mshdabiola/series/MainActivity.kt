@@ -4,20 +4,14 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
 import com.arkivanov.decompose.defaultComponentContext
-import com.google.android.gms.games.PlayGamesSdk
 import com.google.android.gms.games.AchievementsClient
+import com.google.android.gms.games.PlayGamesSdk
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory
 import com.google.android.play.core.install.InstallStateUpdatedListener
-import com.google.android.play.core.install.model.AppUpdateType
-import com.google.android.play.core.install.model.InstallStatus
-import com.google.android.play.core.install.model.UpdateAvailability
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.FirebaseMessaging
@@ -25,8 +19,6 @@ import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.ktx.remoteConfig
 import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
 import com.mshdabiola.series.screen.SeriesApp
-import com.mshdabiola.ui.state.AppData
-import org.koin.android.ext.android.inject
 import org.koin.androidx.compose.KoinAndroidContext
 import org.koin.core.annotation.KoinExperimentalAPI
 import timber.log.Timber
@@ -102,14 +94,14 @@ class MainActivity : ComponentActivity() {
         installSplashScreen()
 
 
-        val root =defaultComponentContext()
+        val root = defaultComponentContext()
 
 
         setContent {
             WindowCompat.setDecorFitsSystemWindows(window, false)
             KoinAndroidContext() {
                 SeriesApp(context = root, isDarkMode = isSystemInDarkTheme())
-               // PhysicsApp(iRootComponent = root)
+                // PhysicsApp(iRootComponent = root)
 
             }
 

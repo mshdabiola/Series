@@ -54,7 +54,7 @@ class QuestionTest : AbstractTest() {
 
         subjDao.insert(Subject(1, "Math"))
 
-        examDao.insert(Exam(9, 1, false, 2012,8))
+        examDao.insert(Exam(9, 1, false, 2012, 8))
 
         questionDao.insert(
             Question(

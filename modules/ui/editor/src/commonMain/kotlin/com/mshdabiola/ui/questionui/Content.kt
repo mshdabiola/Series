@@ -49,7 +49,7 @@ fun ContentView(
     modifier: Modifier = Modifier,
     color: Color = ListItemDefaults.containerColor,
     items: ImmutableList<ItemUiState>,
-    examId: Long
+    examId: Long,
 ) {
 
 
@@ -248,7 +248,7 @@ fun Content(
 fun EquationContent(
     modifier: Modifier = Modifier,
     equation: ItemUiState,
-    onTextChange: (String) -> Unit = {}
+    onTextChange: (String) -> Unit = {},
 ) {
     val focusRequester = remember {
         FocusRequester()
@@ -279,7 +279,7 @@ fun ImageContent(
     modifier: Modifier = Modifier,
     image: ItemUiState,
     examId: Long,
-    onTextChange: (String) -> Unit = {}
+    onTextChange: (String) -> Unit = {},
 ) {
     Box(modifier, contentAlignment = Alignment.Center) {
 
@@ -297,7 +297,7 @@ fun ImageContent(
 fun TextContent(
     modifier: Modifier = Modifier,
     text: ItemUiState,
-    onTextChange: (String) -> Unit = {}
+    onTextChange: (String) -> Unit = {},
 ) {
     val focusRequester = remember {
         FocusRequester()

@@ -44,7 +44,7 @@ class RootComponent(
 
 
         @Parcelize
-        data class Exam(val examId:Long, val subjectId:Long) : Config
+        data class Exam(val examId: Long, val subjectId: Long) : Config
 
         @Parcelize
         data object Main : Config
@@ -53,7 +53,7 @@ class RootComponent(
 
     private fun factory(
         config: Config,
-        componentContext: ComponentContext
+        componentContext: ComponentContext,
     ): IRootComponent.RootScreen {
         return when (config) {
 

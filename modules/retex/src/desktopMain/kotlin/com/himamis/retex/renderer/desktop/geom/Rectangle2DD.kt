@@ -62,7 +62,7 @@ class Rectangle2DD : Rectangle2D.Double,
         x: kotlin.Double,
         y: kotlin.Double,
         width: kotlin.Double,
-        height: kotlin.Double
+        height: kotlin.Double,
     ) {
         setRect(x, y, width, height)
     }

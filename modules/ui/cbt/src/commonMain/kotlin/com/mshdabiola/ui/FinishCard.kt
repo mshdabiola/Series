@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
-import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
@@ -26,7 +25,7 @@ fun FinishCard(
     imageVector: ImageVector,
     grade: Char,
     isHide: Boolean = true,
-    onShowAnswers: () -> Unit = {}
+    onShowAnswers: () -> Unit = {},
 ) {
     Card(modifier = modifier) {
         Column(
@@ -95,10 +94,18 @@ internal expect fun ScoreCardPreview()
 @Composable
 fun ScoreItem(
     heading: String,
-    content: String
+    content: String,
 ) {
     Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
-        Text(heading, style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.secondary)
-        Text(content, style = MaterialTheme.typography.bodyLarge, color = MaterialTheme.colorScheme.primary)
+        Text(
+            heading,
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.secondary
+        )
+        Text(
+            content,
+            style = MaterialTheme.typography.bodyLarge,
+            color = MaterialTheme.colorScheme.primary
+        )
     }
 }

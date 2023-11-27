@@ -29,11 +29,11 @@ interface IExamRepository {
         path: String,
         name: String,
         version: Int,
-        key: String
+        key: String,
     )
 
     suspend fun import(
         path: String,
-        key: String
+        key: String,
     )
 }

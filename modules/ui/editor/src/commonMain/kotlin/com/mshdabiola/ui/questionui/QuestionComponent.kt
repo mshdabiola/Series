@@ -51,7 +51,7 @@ fun QuestionEditUi(
     edit: (Int, Int) -> Unit = { _, _ -> },
     changeType: (Int, Int, Type) -> Unit = { _, _, _ -> },
     onTextChange: (Int, Int, String) -> Unit = { _, _, _ -> },
-    fillIt : Boolean=false
+    fillIt: Boolean = false,
 ) {
 
     Column(modifier) {
@@ -91,12 +91,12 @@ fun QuestionEditUi(
 //            }
 //        }
 
-        FlowRow (maxItemsInEachRow = 2){
+        FlowRow(maxItemsInEachRow = 2) {
             questionUiState.options.forEachIndexed { i, optionUiState ->
 
 
                 Content(
-                    modifier = Modifier.fillMaxWidth(if (fillIt)1f else 0.5f)//.weight(0.5f)
+                    modifier = Modifier.fillMaxWidth(if (fillIt) 1f else 0.5f)//.weight(0.5f)
                     ,
                     items = optionUiState.content,
                     examId = questionUiState.examId,

@@ -22,7 +22,7 @@ import com.mshdabiola.ui.state.TopicUiState
 fun TopicUi(
     topicUiState: TopicUiState,
     onDelete: (Long) -> Unit = {},
-    onUpdate: (Long) -> Unit = {}
+    onUpdate: (Long) -> Unit = {},
 ) {
     var showDrop by remember { mutableStateOf(false) }
     ListItem(

@@ -119,7 +119,7 @@ class Graphics2DD(val impl: Graphics2D) : Graphics2DInterface {
 
     override fun bezierCurveTo(
         x: Double, y: Double, x1: Double, y1: Double,
-        x2: Double, y2: Double
+        x2: Double, y2: Double,
     ) {
         path!!.curveTo(x, y, x1, y1, x2, y2)
     }
@@ -146,14 +146,14 @@ class Graphics2DD(val impl: Graphics2D) : Graphics2DInterface {
 
     override fun drawArc(
         x: Int, y: Int, width: Int, height: Int, startAngle: Int,
-        arcAngle: Int
+        arcAngle: Int,
     ) {
         impl.drawArc(x, y, width, height, startAngle, arcAngle)
     }
 
     override fun fillArc(
         x: Int, y: Int, width: Int, height: Int, startAngle: Int,
-        arcAngle: Int
+        arcAngle: Int,
     ) {
         impl.fillArc(x, y, width, height, startAngle, arcAngle)
     }

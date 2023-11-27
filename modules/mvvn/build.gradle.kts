@@ -17,8 +17,7 @@ kotlin {
                 implementation(libs.koin.android)
                 implementation(libs.koin.android.compose)
 
-               // implementation(libs.androidx.core.ktx)
-
+                // implementation(libs.androidx.core.ktx)
 
 
                 implementation(libs.androidx.lifecycle.runtimeCompose)

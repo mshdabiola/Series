@@ -19,7 +19,7 @@ actual fun getStringType(): String {
 
 @Composable
 actual fun getExamPart(): Array<String> {
-   return stringArrayResource(id = R.array.exam_part)
+    return stringArrayResource(id = R.array.exam_part)
 }
 
 @Composable
@@ -34,7 +34,8 @@ actual fun getIconLayer1(): Painter {
 
 @Composable
 actual fun getIconLayer3(): Painter {
-    return painterResource(id = R.drawable.layer__1)}
+    return painterResource(id = R.drawable.layer__1)
+}
 
 @Composable
 actual fun getSection(): Array<String> {

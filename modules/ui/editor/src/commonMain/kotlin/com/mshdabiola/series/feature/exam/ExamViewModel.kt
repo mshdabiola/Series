@@ -537,7 +537,7 @@ class ExamViewModel(
     }
 
     private fun editContent(
-        questionIndex: Int, items: suspend (MutableList<ItemUiState>) -> Int?
+        questionIndex: Int, items: suspend (MutableList<ItemUiState>) -> Int?,
     ) {
         viewModelScope.launch {
 
@@ -856,7 +856,7 @@ class ExamViewModel(
     }
 
     private fun editContentInstruction(
-        onItems: suspend (MutableList<ItemUiState>) -> Int?
+        onItems: suspend (MutableList<ItemUiState>) -> Int?,
     ) {
         viewModelScope.launch {
             var items = instructionUiState.value.content.toMutableList()

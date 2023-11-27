@@ -37,7 +37,7 @@ internal fun StatScreen() {
 
     StatScreen(
         statState = StatState(),
-        userRankList=userRankList
+        userRankList = userRankList
     )
 }
 
@@ -45,7 +45,7 @@ internal fun StatScreen() {
 @Composable
 internal fun StatScreen(
     statState: StatState,
-    userRankList: ImmutableList<UserRank>
+    userRankList: ImmutableList<UserRank>,
 ) {
     Scaffold(
         modifier = Modifier.semanticsCommon {},

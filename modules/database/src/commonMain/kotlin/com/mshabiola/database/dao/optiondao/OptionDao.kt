@@ -14,7 +14,7 @@ import kotlinx.coroutines.withContext
 
 internal class OptionDao(
     private val optionQueries: OptionQueries,
-    private val coroutineDispatcher: CoroutineDispatcher
+    private val coroutineDispatcher: CoroutineDispatcher,
 ) : IOptionDao {
     override suspend fun insert(option: Option) {
         withContext(coroutineDispatcher) {

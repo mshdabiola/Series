@@ -26,7 +26,7 @@ fun QuestionUi(
     showAnswer: Boolean = false,
     selectedOption: Int = -1,
     onInstruction: () -> Unit = {},
-    onOptionClick: (Int) -> Unit = {}
+    onOptionClick: (Int) -> Unit = {},
 ) {
     Column(
         modifier = modifier,
@@ -62,7 +62,7 @@ fun QuestionHeadUi(
     isInstruction: Boolean,
     instructionTitle: String?,
     examID: Long,
-    onInstruction: () -> Unit = {}
+    onInstruction: () -> Unit = {},
 ) {
 
     val textColor = LocalTextStyle.current.color.copy(alpha = 0.5f)

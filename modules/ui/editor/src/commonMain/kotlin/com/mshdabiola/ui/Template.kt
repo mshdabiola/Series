@@ -567,7 +567,7 @@ fun TemplateUi() {
 
 @Composable
 fun TemptRow(
-    listMap: Map<String, List<String>>
+    listMap: Map<String, List<String>>,
 ) {
     Column {
         listMap.forEach { (t, u) ->
@@ -596,7 +596,7 @@ internal fun TemplateContent(name: String, list: List<String>) {
     ) {
         Row(
             Modifier
-                .clickable(onClick = {showAll = !showAll})
+                .clickable(onClick = { showAll = !showAll })
                 .fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically

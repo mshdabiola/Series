@@ -12,28 +12,32 @@ import com.mshdabiola.series.feature.main.MainScreenNav
 
 
 @Composable
-fun AppNavHost(iRootComponent: IRootComponent, modifier: Modifier, windowSizeClass: WindowSizeClass) {
+fun AppNavHost(
+    iRootComponent: IRootComponent,
+    modifier: Modifier,
+    windowSizeClass: WindowSizeClass,
+) {
 
     Children(
-        modifier=modifier,
+        modifier = modifier,
         stack = iRootComponent.stack,
         animation = stackAnimation(slide())
     ) {
 
-        when (val instance=it.instance) {
+        when (val instance = it.instance) {
 
 
             is IRootComponent.RootScreen.MainRootScreen -> {
                 MainScreenNav(
                     windowSizeClass,
-                   onExamClick = iRootComponent::navigateToExam
+                    onExamClick = iRootComponent::navigateToExam
                 )
             }
 
             is IRootComponent.RootScreen.QuestionRootScreen -> {
                 ExamScreenNav(
                     windowSizeClass,
-                    subjectId =instance.subjectId,
+                    subjectId = instance.subjectId,
                     examId = instance.examId,
                     onBack = iRootComponent::pop,
                 )

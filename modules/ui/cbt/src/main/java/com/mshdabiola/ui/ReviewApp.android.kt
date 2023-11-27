@@ -23,7 +23,7 @@ actual fun ReviewApp(show: Boolean) {
             }
     }
     LaunchedEffect(key1 = show) {
-        if(show){
+        if (show) {
             review()
         }
     }

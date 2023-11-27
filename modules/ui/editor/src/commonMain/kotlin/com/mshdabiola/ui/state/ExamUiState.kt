@@ -7,5 +7,5 @@ data class ExamUiState(
     val subject: String,
     val isObjOnly: Boolean,
     val isSelected: Boolean = false,
-    val examTime: Long
+    val examTime: Long,
 )

@@ -4,6 +4,7 @@ import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.runtime.Composable
 import com.mshdabiola.ui.state.ExamUiState
 import kotlinx.collections.immutable.toImmutableList
+
 @Preview
 @Composable
 actual fun MainScreenPreview() {

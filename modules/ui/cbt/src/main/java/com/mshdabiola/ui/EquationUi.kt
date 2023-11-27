@@ -29,7 +29,7 @@ import java.io.File
 @Composable
 actual fun EquationUi(
     modifier: Modifier,
-    equation: ItemUiState
+    equation: ItemUiState,
 ) {
     Latex(modifier = modifier, equation.content)
 }
@@ -39,7 +39,7 @@ actual fun ImageUi(
     modifier: Modifier,
     path: String,
     contentDescription: String,
-    contentScale: ContentScale
+    contentScale: ContentScale,
 ) {
 
     val file = remember(path) {
@@ -70,7 +70,7 @@ fun VectorImage(
     modifier: Modifier,
     path: String,
     contentDescription: String,
-    contentScale: ContentScale
+    contentScale: ContentScale,
 ) {
     val context = LocalContext.current
     val density = LocalDensity.current
@@ -112,7 +112,7 @@ fun BitmapImage(
     modifier: Modifier,
     path: String,
     contentDescription: String,
-    contentScale: ContentScale
+    contentScale: ContentScale,
 ) {
     val context = LocalContext.current
     var image by remember {

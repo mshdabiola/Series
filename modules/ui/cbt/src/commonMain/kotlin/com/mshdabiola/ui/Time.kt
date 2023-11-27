@@ -26,7 +26,7 @@ fun TimeCounter(
     modifier: Modifier = Modifier,
     currentTime2: Long,
     total: Long,
-    onTimeChanged: (Long) -> Unit = {}
+    onTimeChanged: (Long) -> Unit = {},
 ) {
 
     val time = remember(total, currentTime2) {

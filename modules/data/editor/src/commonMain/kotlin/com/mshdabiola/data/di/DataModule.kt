@@ -25,7 +25,7 @@ import org.koin.dsl.module
 
 
 val dataModule = module {
-    includes(settingModule, databaseModule,newModule)
+    includes(settingModule, databaseModule, newModule)
     singleOf(::SettingRepository) bind ISettingRepository::class
     // singleOf(::RealINetworkRepository) bind INetworkRepository::class
     singleOf(::RealModelRepository) bind IModelRepository::class
@@ -42,4 +42,4 @@ val dataModule = module {
     } bind IExamRepository::class
 }
 
-expect val newModule : Module
+expect val newModule: Module

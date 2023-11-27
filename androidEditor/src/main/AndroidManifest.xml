@@ -18,9 +18,9 @@
             android:shell="true"
             tools:targetApi="33" />
 
-<!--        <meta-data-->
-<!--            android:name="com.google.android.gms.games.APP_ID"-->
-<!--            android:value="@string/app_id" />-->
+        <!--        <meta-data-->
+        <!--            android:name="com.google.android.gms.games.APP_ID"-->
+        <!--            android:value="@string/app_id" />-->
 
         <meta-data
             android:name="google_analytics_automatics_screen_reporting_enabled"

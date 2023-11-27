@@ -15,12 +15,12 @@ actual fun DirtoryUi(
     val context = LocalContext.current
 
     LaunchedEffect(key1 = show) {
-      //  if (show){
+        //  if (show){
 
-           val file= context.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS)
-            onDismiss()
-            onFile(file)
-       // }
+        val file = context.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS)
+        onDismiss()
+        onFile(file)
+        // }
 
     }
 }

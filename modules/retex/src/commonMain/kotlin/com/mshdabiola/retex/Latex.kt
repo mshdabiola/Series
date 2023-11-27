@@ -12,5 +12,5 @@ expect fun Latex(
     foregroundColor: Color = Color.Unspecified,
     backgroundColor: Color = Color.Transparent,
     style: LatexStyle = LatexStyle.DISPLAY,
-    type: LatexType = LatexType.SERIF
+    type: LatexType = LatexType.SERIF,
 )

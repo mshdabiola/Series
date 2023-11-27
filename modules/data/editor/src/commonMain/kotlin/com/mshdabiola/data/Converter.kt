@@ -13,7 +13,7 @@ class Converter {
 
     suspend fun textToTopic(
         path: String,
-        subjectId: Long
+        subjectId: Long,
     ): List<Topic> {
         return withContext(Dispatchers.IO) {
             path
@@ -53,7 +53,7 @@ class Converter {
         path: String,
         examId: Long,
         nextObjNumber: Long,
-        nextTheoryNumber: Long
+        nextTheoryNumber: Long,
     ): List<QuestionFull> {
         return withContext(Dispatchers.IO) {
 
@@ -155,7 +155,7 @@ class Converter {
         questionNos: Long,
         content: String,
         examId: Long,
-        options: List<String>
+        options: List<String>,
     ): QuestionFull {
         val opti = options
             .mapIndexed { index, s ->
@@ -185,7 +185,7 @@ class Converter {
         theoryNo: Long,
         content: String,
         examId: Long,
-        answer: String
+        answer: String,
     ): QuestionFull {
 
         return QuestionFull(

@@ -16,7 +16,7 @@ class SeriesApplication : Application() {
             androidContext(this@SeriesApplication)
             modules(appModules)
         }
-       parentPath= this.applicationContext.filesDir.path
+        parentPath = this.applicationContext.filesDir.path
 
         if (packageName.contains("debug")) {
             Timber.plant(Timber.DebugTree())

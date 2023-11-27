@@ -5,5 +5,5 @@ data class ScoreUiState(
     val completed: Int,
     val inCorrect: Int,
     val skipped: Int,
-    val grade: Char
+    val grade: Char,
 )

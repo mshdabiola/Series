@@ -4,5 +4,5 @@ data class TopicUiState(
     val id: Long = -1,
     val subjectId: Long,
     val name: String,
-    val focus: Boolean = false
+    val focus: Boolean = false,
 )

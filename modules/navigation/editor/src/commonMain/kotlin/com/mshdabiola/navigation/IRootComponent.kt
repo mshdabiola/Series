@@ -7,15 +7,19 @@ interface IRootComponent {
     val stack: Value<ChildStack<*, RootScreen>>
 
 
-
     fun navigateToFinish()
-    fun navigateToExam(examId: Long,subjectId: Long)
+    fun navigateToExam(examId: Long, subjectId: Long)
 
 
     fun pop()
     sealed class RootScreen {
 
-        class QuestionRootScreen(val examId: Long, val subjectId: Long, val component: QuestionComponent) : RootScreen()
+        class QuestionRootScreen(
+            val examId: Long,
+            val subjectId: Long,
+            val component: QuestionComponent,
+        ) : RootScreen()
+
         class MainRootScreen(val component: MainComponent) : RootScreen()
 
     }

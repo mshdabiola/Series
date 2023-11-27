@@ -27,7 +27,7 @@ import java.io.File
 actual fun DragAndDropImage(
     modifier: Modifier,
     path: String,
-    onPathChange: (String) -> Unit
+    onPathChange: (String) -> Unit,
 ) {
 
 

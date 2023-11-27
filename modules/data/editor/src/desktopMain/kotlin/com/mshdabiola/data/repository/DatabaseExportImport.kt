@@ -19,13 +19,16 @@ import kotlin.io.path.inputStream
 import kotlin.io.path.outputStream
 import kotlin.io.path.pathString
 
-actual class DatabaseExportImport actual constructor(val database: SeriesDatabase,private val driver : SqlDriver) {
+actual class DatabaseExportImport actual constructor(
+    val database: SeriesDatabase,
+    private val driver: SqlDriver,
+) {
     actual suspend fun export(
         examsId: List<Long>,
         path: String,
         name: String,
         version: Int,
-        key: String
+        key: String,
     ) {
         withContext(Dispatchers.IO) {
             val dir = File(path)

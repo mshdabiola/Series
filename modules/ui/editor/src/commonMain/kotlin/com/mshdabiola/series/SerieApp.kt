@@ -15,16 +15,15 @@ import com.mshdabiola.navigation.RootComponent
 fun SeriesApp(context: DefaultComponentContext, isDarkMode: Boolean) {
 
     val rootComp = remember { RootComponent(context) }
-    val windowSizeClass =   calculateWindowSizeClass()
+    val windowSizeClass = calculateWindowSizeClass()
 
     SeriesAppTheme(isDarkMode = isDarkMode) {
         AppNavHost(
             iRootComponent = rootComp,
             modifier = Modifier.fillMaxSize(),
-            windowSizeClass=windowSizeClass
+            windowSizeClass = windowSizeClass
         )
     }
-
 
 
 }

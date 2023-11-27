@@ -26,7 +26,6 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
 
-
         val remoteConfig = Firebase.remoteConfig
         remoteConfig.setConfigSettingsAsync(remoteConfigSettings {
             minimumFetchIntervalInSeconds = 3600
@@ -82,7 +81,7 @@ class MainActivity : ComponentActivity() {
         installSplashScreen()
 
 
-        val root =defaultComponentContext()
+        val root = defaultComponentContext()
 
 
         setContent {

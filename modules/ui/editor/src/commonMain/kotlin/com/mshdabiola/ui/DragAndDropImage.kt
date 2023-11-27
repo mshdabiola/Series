@@ -7,5 +7,5 @@ import androidx.compose.ui.Modifier
 expect fun DragAndDropImage(
     modifier: Modifier,
     path: String,
-    onPathChange: (String) -> Unit
+    onPathChange: (String) -> Unit,
 )

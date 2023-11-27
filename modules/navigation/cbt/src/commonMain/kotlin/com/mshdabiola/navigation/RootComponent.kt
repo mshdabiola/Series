@@ -62,7 +62,7 @@ class RootComponent(
 
     private fun factory(
         config: Config,
-        componentContext: ComponentContext
+        componentContext: ComponentContext,
     ): IRootComponent.RootScreen {
         return when (config) {
             is Config.Pager -> IRootComponent.RootScreen.PagerScreen(PagerComponent(componentContext))

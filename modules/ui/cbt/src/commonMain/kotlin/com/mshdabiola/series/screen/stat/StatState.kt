@@ -11,7 +11,7 @@ import com.mshdabiola.model.Model
 //}
 
 data class StatState(
-    val name: String = "abiola"
+    val name: String = "abiola",
 )
 
 data class ModelUiState(val id: Long?, val name: String)

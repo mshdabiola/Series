@@ -27,13 +27,13 @@ actual fun UpdateAppUi(modifier: Modifier) {
     var show by remember {
         mutableStateOf(false)
     }
-    val activity =LocalContext.current as Activity
+    val activity = LocalContext.current as Activity
 
     val appUpdateInfoManager = remember {
         AppUpdateManagerFactory.create(activity)
 
     }
-    var installStateUpdatedListener: InstallStateUpdatedListener?=null
+    var installStateUpdatedListener: InstallStateUpdatedListener? = null
 
     val defaultLifecycleObserver = object : DefaultLifecycleObserver {
         override fun onCreate(owner: LifecycleOwner) {
@@ -90,7 +90,11 @@ actual fun UpdateAppUi(modifier: Modifier) {
                         show = true
                     }
                     if (appUpdateInfo.installStatus() == InstallStatus.INSTALLED) {
-                        installStateUpdatedListener?.let { appUpdateInfoManager.unregisterListener(it) }
+                        installStateUpdatedListener?.let {
+                            appUpdateInfoManager.unregisterListener(
+                                it
+                            )
+                        }
                     }
                 }
         }
@@ -103,7 +107,7 @@ actual fun UpdateAppUi(modifier: Modifier) {
         lifecycleOwner.lifecycle.addObserver(defaultLifecycleObserver)
 
         onDispose {
-            installStateUpdatedListener=null
+            installStateUpdatedListener = null
             lifecycleOwner.lifecycle.removeObserver(defaultLifecycleObserver)
         }
 

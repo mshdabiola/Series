@@ -47,7 +47,7 @@ class StartupBenchmarks {
 
     private fun benchmark(compilationMode: CompilationMode) {
         rule.measureRepeated(
-            packageName ="com.mshdabiola.series.physics.free",
+            packageName = "com.mshdabiola.series.physics.free",
             metrics = listOf(StartupTimingMetric()),
             compilationMode = compilationMode,
             startupMode = StartupMode.COLD,

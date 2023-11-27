@@ -24,7 +24,7 @@ internal class QuestionDao(
     private val optionQueries: OptionQueries,
     private val instructionQueries: InstructionQueries,
     private val topicQueries: TopicQueries,
-    private val coroutineDispatcher: CoroutineDispatcher
+    private val coroutineDispatcher: CoroutineDispatcher,
 ) : IQuestionDao {
     override suspend fun insert(question: Question) {
         withContext(coroutineDispatcher) {

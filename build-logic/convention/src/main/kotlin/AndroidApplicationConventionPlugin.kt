@@ -1,4 +1,3 @@
-
 import com.android.build.api.dsl.ApplicationExtension
 import com.android.build.api.variant.ApplicationAndroidComponentsExtension
 import com.mshdabiola.app.configureGradleManagedDevices
@@ -36,7 +35,7 @@ class AndroidApplicationConventionPlugin : Plugin<Project> {
                     useSupportLibrary = true
                 }
                 // defaultConfig.resourceConfigurations+= listOf("en")
-               // configureFlavors(this)
+                // configureFlavors(this)
                 configureGradleManagedDevices(this)
 
             }

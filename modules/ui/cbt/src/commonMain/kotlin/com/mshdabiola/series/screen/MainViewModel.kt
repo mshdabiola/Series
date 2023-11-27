@@ -148,8 +148,7 @@ class MainViewModel(
                     )
                 }
 
-            }
-            catch (e: Exception) {
+            } catch (e: Exception) {
                 e.printStackTrace()
 
             }

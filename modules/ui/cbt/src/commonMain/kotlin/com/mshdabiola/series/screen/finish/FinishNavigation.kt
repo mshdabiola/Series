@@ -7,7 +7,7 @@ import com.mshdabiola.series.screen.MainViewModel
 @Composable
 fun FinishScreenNav(
     onBack: () -> Unit,
-    toQuestion: () -> Unit
+    toQuestion: () -> Unit,
 ) {
 
     val viewModel: MainViewModel = KoinCommonViewModel()

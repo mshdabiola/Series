@@ -54,17 +54,13 @@ object SvgObject {
             val newPath = newPath(imageFile.extension, examId)
 
 
-
-
 //            if (imageFile.extension == "svg") {
 //                imageFile.copyTo(newPath)
 //
 //            } else {
-                println("from ${imageFile.path} to ${newPath.path}")
-                imageFile.copyTo(newPath)
+            println("from ${imageFile.path} to ${newPath.path}")
+            imageFile.copyTo(newPath)
 //            }
-
-
 
 
             newPath.name

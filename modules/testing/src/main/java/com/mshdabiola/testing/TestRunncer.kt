@@ -22,14 +22,14 @@ class InstrumentationTestRunner : AndroidJUnitRunner() {
     override fun newApplication(
         classLoader: ClassLoader?,
         className: String?,
-        context: Context?
+        context: Context?,
     ): Application {
         return super.newApplication(classLoader, TestRunner::class.java.name, context)
     }
 }
 
 class KoinTestRule(
-    private val modules: List<Module>
+    private val modules: List<Module>,
 ) : TestWatcher() {
     override fun starting(description: Description) {
         startKoin {

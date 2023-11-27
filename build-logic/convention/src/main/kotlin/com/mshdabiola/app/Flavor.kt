@@ -18,7 +18,7 @@ enum class FlavorDimension {
 enum class Flavor(
     val dimension: FlavorDimension,
     val applicationIdSuffix: String? = null,
-    val versionNameSuffix: String? = null
+    val versionNameSuffix: String? = null,
 ) {
     Physics(FlavorDimension.subjectType, applicationIdSuffix = ".physics", "-physics"),
 
@@ -29,7 +29,7 @@ enum class Flavor(
 
 fun Project.configureFlavors(
     commonExtension: CommonExtension<*, *, *, *, *>,
-    flavorConfigurationBlock: ProductFlavor.(flavor: Flavor) -> Unit = {}
+    flavorConfigurationBlock: ProductFlavor.(flavor: Flavor) -> Unit = {},
 ) {
     commonExtension.apply {
         flavorDimensions += FlavorDimension.subjectType.name

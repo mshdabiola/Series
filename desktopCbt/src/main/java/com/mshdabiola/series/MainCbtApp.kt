@@ -23,7 +23,6 @@ import com.mshdabiola.model.Security
 import com.mshdabiola.model.generalPath
 import com.mshdabiola.series.di.appModule
 import com.mshdabiola.series.screen.SeriesApp
-import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.koin.core.context.GlobalContext.startKoin
 import java.io.File
 import java.util.prefs.Preferences
@@ -92,7 +91,7 @@ fun mainApp(appArgs: AppArgs) {
                 }
             }
 
-                // Igniting navigation
+            // Igniting navigation
             SeriesApp(context = rootComp, isDarkMode = !isLight)
 
         }
@@ -100,14 +99,13 @@ fun mainApp(appArgs: AppArgs) {
     }
 }
 
-@OptIn(ExperimentalResourceApi::class)
 fun main() {
 
     startKoin {
         modules(appModule)
     }
-    Security.databaseName= "series.db"
-    Security.canMigrate= false
+    Security.databaseName = "series.db"
+    Security.canMigrate = false
     val dir = File(generalPath)
     if (dir.exists().not()) {
         dir.mkdirs()
@@ -118,8 +116,8 @@ fun main() {
         val classLoader = Thread.currentThread().contextClassLoader
         val data = classLoader.getResourceAsStream("main/data")
         val version = classLoader.getResourceAsStream("main/version.txt")
-        val key="mshdabiola20"
-        Security.copy(destinationFile,version!!,data!!,key)
+        val key = "mshdabiola20"
+        Security.copy(destinationFile, version!!, data!!, key)
 
     }
 

@@ -192,7 +192,7 @@ fun OtherCard(
     title: String,
     painter: Painter,
     contentDesc: String = "",
-    onClick: () -> Unit = {}
+    onClick: () -> Unit = {},
 ) {
     OutlinedCard(onClick = onClick) {
         Column(
@@ -226,12 +226,12 @@ internal expect fun OtherCardPreview()
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal  fun YearExposed(
+internal fun YearExposed(
     modifier: Modifier,
     exams: ImmutableList<ExamUiState>,
     selectedOptionText: Int,
     label: String,
-    onChange: (Int) -> Unit
+    onChange: (Int) -> Unit,
 ) {
     LargeDropdownMenu(
         modifier = modifier,
@@ -255,11 +255,11 @@ internal  fun YearExposed(
 }
 
 @Composable
-internal  fun ExamType(
+internal fun ExamType(
     modifier: Modifier,
     enabled: Boolean,
     selectedOption: Int,
-    onChange: (Int) -> Unit
+    onChange: (Int) -> Unit,
 ) {
     val types = getExamPart()
 

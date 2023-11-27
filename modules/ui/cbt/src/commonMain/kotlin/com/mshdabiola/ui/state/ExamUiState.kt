@@ -6,5 +6,5 @@ data class ExamUiState(
     val year: Long,
     val subject: String,
     val isObjOnly: Boolean,
-    val examTime: Long
+    val examTime: Long,
 )

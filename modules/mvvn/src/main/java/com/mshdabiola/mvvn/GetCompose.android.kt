@@ -8,7 +8,7 @@ import org.koin.core.qualifier.Qualifier
 actual inline fun <reified T : ViewModel> KoinCommonViewModel(
     key: String?,
     qualifier: Qualifier?,
-    noinline parameters: ParametersDefinition?
+    noinline parameters: ParametersDefinition?,
 ): T {
     return getCommonViewModel(
         key = key, qualifier = qualifier, parameters = parameters

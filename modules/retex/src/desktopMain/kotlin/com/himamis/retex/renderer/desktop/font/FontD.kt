@@ -105,7 +105,7 @@ class FontD : Font {
     companion object {
         private val helper: MutableMap<java.awt.font.TextAttribute?, Any?> = HashMap()
         private fun convertMap(
-            map: Map<TextAttribute, Any>
+            map: Map<TextAttribute, Any>,
         ): Map<java.awt.font.TextAttribute?, Any?> {
             helper.clear()
             for (key in map.keys) {

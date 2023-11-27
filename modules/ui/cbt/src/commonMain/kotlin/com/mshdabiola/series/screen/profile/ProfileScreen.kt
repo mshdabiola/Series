@@ -29,10 +29,10 @@ internal fun ProfileScreen() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun ProfileScreen(
-    profileState: ProfileState
+    profileState: ProfileState,
 ) {
     Scaffold(
-        modifier = Modifier.semanticsCommon{},
+        modifier = Modifier.semanticsCommon {},
         topBar = {
             TopAppBar(
                 title = { Text(text = "Profile") },

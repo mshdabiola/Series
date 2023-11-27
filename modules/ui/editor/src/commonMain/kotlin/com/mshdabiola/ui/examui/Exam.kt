@@ -34,7 +34,7 @@ fun ExamUi(
     onDelete: (Long) -> Unit = {},
     onUpdate: (Long) -> Unit = {},
     toggleSelect: (Long) -> Unit = {},
-    isSelectMode: Boolean = false
+    isSelectMode: Boolean = false,
 ) {
     var showDrop by remember { mutableStateOf(false) }
     ListItem(

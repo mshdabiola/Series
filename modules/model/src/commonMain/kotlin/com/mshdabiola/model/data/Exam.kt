@@ -8,5 +8,5 @@ data class Exam(
     val subjectID: Long,
     val isObjOnly: Boolean,
     val year: Long,
-    val examTime: Long
+    val examTime: Long,
 )

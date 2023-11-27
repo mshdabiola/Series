@@ -43,7 +43,7 @@ fun ItemUi(items: ImmutableList<ItemUiState>, examID: Long) {
 @Composable
 internal expect fun EquationUi(
     modifier: Modifier = Modifier,
-    equation: ItemUiState
+    equation: ItemUiState,
 )
 
 @Composable
@@ -51,5 +51,5 @@ expect fun ImageUi(
     modifier: Modifier = Modifier,
     path: String,
     contentDescription: String,
-    contentScale: ContentScale = ContentScale.Fit
+    contentScale: ContentScale = ContentScale.Fit,
 )
