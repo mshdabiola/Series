@@ -56,12 +56,12 @@ compose.desktop {
         val iconsRoot = project.file("src/main/resources/drawables/launcher")
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
-            packageVersion = "1.0.1"
+            packageVersion = "1.0.0"
             packageName = "Series"
             description = "For setting question"
             copyright = "© 2022 Mshdabiola. All rights reserved."
             vendor = "Mshdabiola App"
-            version = "1.0.7"
+            version = "1.0.0"
             licenseFile.set(rootProject.file("LICENSE"))
 
             modules("java.net.http", "java.sql")
@@ -84,7 +84,7 @@ compose.desktop {
 
             macOS {
                 iconFile.set(iconsRoot.resolve("macos.icns"))
-                bundleID = "com.mshdabiola.series"
+                bundleID = "com.mshdabiola.series.editor"
                 appCategory = "public.app-category.productivity"
                 signing {
                     sign.set(false)

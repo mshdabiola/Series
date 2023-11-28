@@ -1,4 +1,4 @@
-name: Deploy Desktop
+name: Deploy Desktop Series Editor
 
 on:
   push:
@@ -52,10 +52,10 @@ jobs:
         with:
           name: runner-package-${{ matrix.runtime }}
           path: |
-            desktop/build/compose/binaries/main/*/
-            desktop/build/compose/binaries/main-release/*/
-            desktop/build/compose/jars/
-            !desktop/build/compose/binaries/main/app/
+            desktopEditor/build/compose/binaries/main/*/
+            desktopEditor/build/compose/binaries/main-release/*/
+            desktopEditor/build/compose/jars/
+            !desktopEditor/build/compose/binaries/main/app/
             ${{ env.SIGNED_RELEASE_FILE }}
 
         # Upload runner errors

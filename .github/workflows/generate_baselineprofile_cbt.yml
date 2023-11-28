@@ -1,4 +1,4 @@
-name: Generate Baseline Profiles
+name: Generate Baseline Profiles Cbt
 
 on:
   push:
