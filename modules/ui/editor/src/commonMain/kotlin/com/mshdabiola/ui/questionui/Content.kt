@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ChangeCircle
@@ -33,6 +34,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import com.mshdabiola.model.ImageUtil
 import com.mshdabiola.model.data.Type
@@ -142,55 +144,51 @@ fun Content(
 
                         DropdownMenu(
                             expanded = showContext,
-                            onDismissRequest = { showContext = false }) {
-                            DropdownMenuItem(
-                                leadingIcon = { Icon(Icons.Default.Add, "delete") },
-                                text = { Text("Add Top") },
-                                onClick = {
-                                    addUp(index)
-                                    showContext = false
-                                })
-                            DropdownMenuItem(
-                                leadingIcon = { Icon(Icons.Default.Add, "delete") },
-                                text = { Text("Add Down") },
-                                onClick = {
-                                    addBottom(index)
-                                    showContext = false
-                                })
-                            DropdownMenuItem(
-                                leadingIcon = { Icon(Icons.Default.Delete, "delete") },
-                                text = { Text("Delete") },
-                                onClick = {
-                                    delete(index)
-                                    showContext = false
-                                })
-                            DropdownMenuItem(
-                                leadingIcon = { Icon(Icons.Default.MoveUp, "delete") },
-                                text = { Text("Move up") },
-                                onClick = {
-                                    moveUp(index)
-                                    showContext = false
-                                })
-                            DropdownMenuItem(
-                                leadingIcon = { Icon(Icons.Default.MoveDown, "delete") },
-                                text = { Text("Move down") },
-                                onClick = {
-                                    moveDown(index)
-                                    showContext = false
-                                })
-                            DropdownMenuItem(
-                                leadingIcon = {
-                                    if (!item.isEditMode) Icon(
-                                        Icons.Default.Edit,
-                                        "edit"
-                                    ) else Icon(Icons.Default.ViewAgenda, "view")
-                                },
-                                text = { Text(if (!item.isEditMode) "Edit" else "View") },
-                                onClick = {
-                                    edit(index)
-                                    showContext = false
-                                })
-                            Box {
+                            onDismissRequest = {
+                                showContext = false
+                                showChange = false
+                            }) {
+                            if (showChange){
+                                if (item.type != Type.IMAGE) {
+                                    DropdownMenuItem(text = { Text("Image") }, onClick = {
+                                        changeType(index, Type.IMAGE)
+                                        showChange = false
+                                        showContext = false
+                                    })
+                                }
+
+                                if (item.type != Type.EQUATION) {
+                                    DropdownMenuItem(
+                                        text = { Text("Equation") },
+                                        onClick = {
+                                            changeType(index, Type.EQUATION)
+                                            showChange = false
+                                            showContext = false
+                                        })
+                                }
+
+                                if (item.type != Type.TEXT) {
+                                    DropdownMenuItem(text = { Text("Text") }, onClick = {
+
+                                        changeType(index, Type.TEXT)
+                                        showChange = false
+                                        showContext = false
+                                    })
+                                }
+
+                            }else{
+                                DropdownMenuItem(
+                                    leadingIcon = {
+                                        if (!item.isEditMode) Icon(
+                                            Icons.Default.Edit,
+                                            "edit"
+                                        ) else Icon(Icons.Default.ViewAgenda, "view")
+                                    },
+                                    text = { Text(if (!item.isEditMode) "Edit" else "View") },
+                                    onClick = {
+                                        edit(index)
+                                        showContext = false
+                                    })
                                 DropdownMenuItem(
                                     leadingIcon = {
                                         Icon(Icons.Default.ChangeCircle, "change")
@@ -199,38 +197,45 @@ fun Content(
                                     onClick = {
                                         showChange = true
                                     })
-                                DropdownMenu(
-                                    expanded = showChange,
-                                    onDismissRequest = { showChange = false }) {
-                                    if (item.type != Type.IMAGE) {
-                                        DropdownMenuItem(text = { Text("Image") }, onClick = {
-                                            changeType(index, Type.IMAGE)
-                                            showChange = false
-                                            showContext = false
-                                        })
-                                    }
 
-                                    if (item.type != Type.EQUATION) {
-                                        DropdownMenuItem(
-                                            text = { Text("Equation") },
-                                            onClick = {
-                                                changeType(index, Type.EQUATION)
-                                                showChange = false
-                                                showContext = false
-                                            })
-                                    }
-
-                                    if (item.type != Type.TEXT) {
-                                        DropdownMenuItem(text = { Text("Text") }, onClick = {
-
-                                            changeType(index, Type.TEXT)
-                                            showChange = false
-                                            showContext = false
-                                        })
-                                    }
-
-                                }
+                                DropdownMenuItem(
+                                    leadingIcon = { Icon(Icons.Default.Add, "delete") },
+                                    text = { Text("Add Top") },
+                                    onClick = {
+                                        addUp(index)
+                                        showContext = false
+                                    })
+                                DropdownMenuItem(
+                                    leadingIcon = { Icon(Icons.Default.Add, "delete") },
+                                    text = { Text("Add Down") },
+                                    onClick = {
+                                        addBottom(index)
+                                        showContext = false
+                                    })
+                                DropdownMenuItem(
+                                    leadingIcon = { Icon(Icons.Default.Delete, "delete") },
+                                    text = { Text("Delete") },
+                                    onClick = {
+                                        delete(index)
+                                        showContext = false
+                                    })
+                                DropdownMenuItem(
+                                    leadingIcon = { Icon(Icons.Default.MoveUp, "delete") },
+                                    text = { Text("Move up") },
+                                    onClick = {
+                                        moveUp(index)
+                                        showContext = false
+                                    })
+                                DropdownMenuItem(
+                                    leadingIcon = { Icon(Icons.Default.MoveDown, "delete") },
+                                    text = { Text("Move down") },
+                                    onClick = {
+                                        moveDown(index)
+                                        showContext = false
+                                    })
                             }
+
+
                         }
                     }
 
@@ -267,7 +272,8 @@ fun EquationContent(
                 label = { Text("Equation") },
                 maxLines = 1,
                 value = equation.content,
-                onValueChange = onTextChange
+                onValueChange = onTextChange,
+               keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next)
             )
         else
             Latex(modifier = Modifier, equation.content)
@@ -313,7 +319,8 @@ fun TextContent(
             value = text.content,
             label = { Text("Text Content") },
             maxLines = 1,
-            onValueChange = onTextChange
+            onValueChange = onTextChange,
+            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next)
         )
     else
         MarkUpText(modifier = modifier, text = text.content)

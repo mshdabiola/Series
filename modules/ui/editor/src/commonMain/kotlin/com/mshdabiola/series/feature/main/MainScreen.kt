@@ -67,6 +67,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
@@ -286,14 +287,21 @@ fun MainScreen(
                         item {
                             NavigationDrawerItem(
                                 label = { Text("All Examination") },
-                                onClick = { viewModel.onSubject(-1) },
+                                onClick = {
+                                    viewModel.onSubject(-1)
+
+                                    coroutineScope.launch { drawerState.close() }
+                                },
                                 selected = currentSubjectIndex == -1L
                             )
                         }
                         items(subjects.value, key = { it.id }) {
                             NavigationDrawerItem(
                                 label = { Text(it.name) },
-                                onClick = { viewModel.onSubject(it.id) },
+                                onClick = {
+                                    viewModel.onSubject(it.id)
+                                    coroutineScope.launch { drawerState.close() }
+                                },
                                 selected = currentSubjectIndex == it.id
                             )
                         }
@@ -683,7 +691,7 @@ fun MainDialog(
                         Text(
                             modifier = Modifier.weight(0.6f).basicMarquee(),
                             text = path,
-                            maxLines = 1
+                            maxLines = 1,
                         )
                         IconButton(onClick = { showDir = true }) {
                             Icon(
@@ -700,20 +708,32 @@ fun MainDialog(
                         value = name,
                         label = { Text("Name") },
                         placeholder = { Text("data") },
-                        onValueChange = { name = it })
+                        onValueChange = { name = it },
+                        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
+                        maxLines = 1
+
+                    )
                     TextField(
                         modifier = Modifier.fillMaxWidth(),
                         value = key,
                         label = { Text("Key") },
                         placeholder = { Text("SwordFish") },
-                        onValueChange = { key = it })
+                        onValueChange = { key = it },
+                        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
+                        maxLines = 1
+                    )
                     TextField(
                         modifier = Modifier.fillMaxWidth(),
                         value = version,
                         placeholder = { Text("1") },
-                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                         label = { Text("Data version") },
-                        onValueChange = { version = it })
+                        onValueChange = { version = it },
+                        keyboardOptions = KeyboardOptions(
+                            imeAction = ImeAction.Next,
+                            keyboardType = KeyboardType.Number
+                        ),
+                        maxLines = 1
+                    )
 
                     Row(
                         modifier = Modifier.align(Alignment.End),

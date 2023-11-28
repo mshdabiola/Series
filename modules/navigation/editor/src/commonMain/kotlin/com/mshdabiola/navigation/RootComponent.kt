@@ -7,8 +7,7 @@ import com.arkivanov.decompose.router.stack.childStack
 import com.arkivanov.decompose.router.stack.pop
 import com.arkivanov.decompose.router.stack.push
 import com.arkivanov.decompose.value.Value
-import com.arkivanov.essenty.parcelable.Parcelable
-import com.arkivanov.essenty.parcelable.Parcelize
+import kotlinx.serialization.Serializable
 
 class RootComponent(
     componentContext: ComponentContext,
@@ -34,19 +33,21 @@ class RootComponent(
 
     private val _stack = childStack(
         source = navigation,
+        serializer = Config.serializer(),
         initialConfiguration = Config.Main,
         handleBackButton = true,
         childFactory = ::factory
     )
 
 
-    private sealed interface Config : Parcelable {
+    @Serializable
+    private sealed interface Config{
 
 
-        @Parcelize
+        @Serializable
         data class Exam(val examId: Long, val subjectId: Long) : Config
 
-        @Parcelize
+        @Serializable
         data object Main : Config
 
     }
