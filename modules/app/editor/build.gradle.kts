@@ -19,6 +19,8 @@ kotlin {
 
                 implementation(project(":modules:mvvn"))
                 implementation(project(":modules:navigation:editor"))
+                implementation(project(":modules:ui:editor"))
+                implementation(project(":modules:retex"))
 
                 implementation(project(":modules:designsystem"))
                 implementation(project(":modules:analytics"))
