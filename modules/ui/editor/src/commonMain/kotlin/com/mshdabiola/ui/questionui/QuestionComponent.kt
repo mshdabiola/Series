@@ -1,6 +1,7 @@
 package com.mshdabiola.ui.questionui
 
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -91,12 +92,13 @@ fun QuestionEditUi(
 //            }
 //        }
 
-        FlowRow(maxItemsInEachRow = 2) {
+        FlowRow(modifier=Modifier.fillMaxWidth(),maxItemsInEachRow = 2) {
             questionUiState.options.forEachIndexed { i, optionUiState ->
 
+//                Box(modifier=Modifier.height(20.dp).fillMaxWidth(0.49f).background(if(i%2==0)Color.Blue else Color.Black))
 
                 Content(
-                    modifier = Modifier.fillMaxWidth(if (fillIt) 1f else 0.5f)//.weight(0.5f)
+                    modifier = Modifier.fillMaxWidth(if (fillIt) 1f else 0.499999f)//.weight(0.5f)
                     ,
                     items = optionUiState.content,
                     examId = questionUiState.examId,
