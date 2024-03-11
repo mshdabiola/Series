@@ -1,12 +1,13 @@
 import com.mshdabiola.app.configureFlavors
 
 plugins {
-    id("mshdabiola.mpp.feature")
+    id("mshdabiola.android.library")
+    id("mshdabiola.android.library.compose")
 }
 
 android {
     namespace = "com.mshdabiola.ui.cbt"
-    configureFlavors(this)
+//    configureFlavors(this)
 
 }
 

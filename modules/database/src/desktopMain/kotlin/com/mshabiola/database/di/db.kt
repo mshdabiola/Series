@@ -39,7 +39,7 @@ fun migrateIfNeeded(driver: JdbcSqliteDriver) {
         driver.execute(null, "PRAGMA $versionPragma=$newVersion", 0)
     } else if (oldVersion < newVersion && Security.canMigrate) {
         println("Migrating DB from version $oldVersion to $newVersion!")
-        SeriesDatabase.Schema.migrate(driver, oldVersion, newVersion)
+        SeriesDatabase.Schema.migrate(driver, oldVersion.toInt(), newVersion)
         driver.execute(null, "PRAGMA $versionPragma=$newVersion", 0)
     }
 }

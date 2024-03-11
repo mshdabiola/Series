@@ -1,5 +1,6 @@
 plugins {
-    id("mshdabiola.mpp.feature")
+    id("mshdabiola.android.library")
+    id("mshdabiola.android.library.compose")
 }
 
 android {
@@ -14,7 +15,7 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 implementation(project(":modules:jretex"))
-
+                implementation(project(":modules:designsystem"))
             }
         }
 

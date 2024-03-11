@@ -15,7 +15,7 @@ interface IPagerComponent {
     sealed class PScreen {
         class MainRootScreen(val component1: MainComponent) : PScreen()
         class StatisticsRootScreen(val component1: StatisticComponent) : PScreen()
-//        class ProfileRootScreen(val component1: ProfileComponent) : PScreen()
+        class ProfileRootScreen(val component1: ProfileComponent) : PScreen()
     }
 
 }

@@ -9,8 +9,7 @@ import com.arkivanov.decompose.router.pages.childPages
 import com.arkivanov.decompose.router.pages.select
 import com.arkivanov.decompose.value.Value
 import com.arkivanov.decompose.value.operator.map
-import com.arkivanov.essenty.parcelable.Parcelable
-import com.arkivanov.essenty.parcelable.Parcelize
+import kotlinx.serialization.Serializable
 
 class PagerComponent(componentContext: ComponentContext) : IPagerComponent,
     ComponentContext by componentContext {
@@ -21,10 +20,11 @@ class PagerComponent(componentContext: ComponentContext) : IPagerComponent,
     @OptIn(ExperimentalDecomposeApi::class)
     override val pages: Value<ChildPages<*, IPagerComponent.PScreen>> = childPages(
         source = navigation,
+        serializer = Config2.serializer(),
         initialPages = {
             Pages(
                 items = listOf(
-                    Config2.Main, Config2.Statistic//, Config2.Profile
+                    Config2.Main, Config2.Statistic, Config2.Profile
                 ),
                 selectedIndex = 0
             )
@@ -38,11 +38,11 @@ class PagerComponent(componentContext: ComponentContext) : IPagerComponent,
                 )
             )
 
-//            is Config2.Profile -> IPagerComponent.PScreen.ProfileRootScreen(
-//                ProfileComponent(
-//                    componentContext
-//                )
-//            )
+            is Config2.Profile -> IPagerComponent.PScreen.ProfileRootScreen(
+                ProfileComponent(
+                    componentContext
+                )
+            )
         }
     }
 
@@ -54,24 +54,18 @@ class PagerComponent(componentContext: ComponentContext) : IPagerComponent,
         navigation.select(int)
     }
 
-    private sealed interface Config2 : Parcelable {
 
-        @Parcelize
-        data object Main : Config2 {
-            private fun readResolve(): Any = Main
-        }
+    @Serializable
+    private sealed interface Config2 {
 
-        @Parcelize
-        data object Statistic : Config2 {
-            private fun readResolve(): Any = Statistic
-        }
+        @Serializable
+        data object Main : Config2
 
-//        @Parcelize
-//        data object Profile : Config2 {
-//            private fun readResolve(): Any = Profile
-//        }
+        @Serializable
+        data object Statistic : Config2
 
-
+        @Serializable
+        data object Profile : Config2
     }
 
 }

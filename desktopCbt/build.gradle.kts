@@ -3,7 +3,7 @@ import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 plugins {
     kotlin("jvm")
 //    kotlin("kapt")
-    id("org.jetbrains.compose") version libs.versions.composePlugin
+    id("org.jetbrains.compose") version "1.6.0"
 
 
 }
@@ -35,7 +35,7 @@ dependencies {
     implementation(libs.decompose.core)
     implementation(libs.decompose.compose.jetbrains)
     implementation(libs.koin.core)
-    implementation(libs.kermit.log)
+//    implementation(libs.kermit.log)
 
 
 }
