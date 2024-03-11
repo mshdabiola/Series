@@ -15,10 +15,6 @@ import javax.crypto.spec.PBEKeySpec
 import javax.crypto.spec.SecretKeySpec
 
 object Security {
-    const val defaultKey = "SwordFish"
-    var databaseName = "waec_series_database.db"
-    var canMigrate = true
-    const val assetData = "data"
 
     fun encode(byteArray: ByteArray, output: OutputStream, key: String) {
 

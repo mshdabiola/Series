@@ -19,6 +19,8 @@ import com.arkivanov.decompose.ExperimentalDecomposeApi
 import com.arkivanov.decompose.extensions.compose.lifecycle.LifecycleController
 import com.arkivanov.essenty.lifecycle.LifecycleRegistry
 import com.mshdabiola.model.Security
+import com.mshdabiola.model.canMigrate
+import com.mshdabiola.model.databaseName
 import com.mshdabiola.model.generalPath
 import com.mshdabiola.series.di.appModule
 import com.mshdabiola.series.screen.SeriesApp
@@ -87,13 +89,13 @@ fun main() {
         modules(appModule)
     }
 
-    Security.databaseName = "series.db"
-    Security.canMigrate = false
+    databaseName = "series.db"
+    canMigrate = false
     val dir = File(generalPath)
     if (dir.exists().not()) {
         dir.mkdirs()
     }
-    val destinationFile = File(generalPath, Security.databaseName)
+    val destinationFile = File(generalPath, databaseName)
     println(destinationFile.toPath())
 
     if (destinationFile.exists().not()) {

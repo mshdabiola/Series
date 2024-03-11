@@ -3,7 +3,7 @@ package com.mshabiola.database.di
 import app.cash.sqldelight.driver.jdbc.sqlite.JdbcSqliteDriver
 import com.mshabiola.database.model.listOfValueAdapter
 import com.mshdabiola.database.SeriesDatabase
-import com.mshdabiola.model.Security
+import com.mshdabiola.model.databaseName
 import com.mshdabiola.model.generalPath
 import commshdabioladatabase.tables.InstructionEntity
 import commshdabioladatabase.tables.OptionEntity
@@ -21,7 +21,7 @@ actual val databaseModule: Module
             if (dir.exists().not()) {
                 dir.mkdirs()
             }
-            val dbPath = File(generalPath, Security.databaseName)
+            val dbPath = File(generalPath, databaseName)
 //            val os= System.getProperty("os.name")
 //            println("os $os")
 //            println("path ${System.getProperty("user.home")}")
