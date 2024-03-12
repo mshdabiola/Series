@@ -1,4 +1,4 @@
-package com.mshdabiola.series.feature.main
+package com.mshdabiola.series.screen.main
 
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.runtime.Composable

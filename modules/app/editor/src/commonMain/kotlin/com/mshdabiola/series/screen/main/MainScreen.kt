@@ -1,4 +1,4 @@
-package com.mshdabiola.series.feature.main
+package com.mshdabiola.series.screen.main
 
 //import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.ExperimentalFoundationApi

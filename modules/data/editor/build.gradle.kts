@@ -15,6 +15,8 @@ kotlin {
 
                 implementation(libs.koin.core)
                 implementation(project(":modules:model"))
+                implementation(project(":modules:analytics"))
+
                 implementation(project(":modules:database"))
                 implementation(project(":modules:setting:editor"))
                 implementation(libs.kotlinx.coroutines.core)

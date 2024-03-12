@@ -4,16 +4,25 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
+import com.mshdabiola.model.Contrast
+import com.mshdabiola.model.DarkThemeConfig
+import com.mshdabiola.model.ThemeBrand
+import com.mshdabiola.model.UserData
 import com.mshdabiola.model.data.CurrentExam
 import com.mshdabiola.model.data.Instruction
 import com.mshdabiola.model.data.QuestionFull
+import com.mshdabiola.setting.model.UserDataSer
+import com.mshdabiola.setting.model.toData
+import com.mshdabiola.setting.model.toSer
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.builtins.ListSerializer
+import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
 internal class MultiplatformSettingsImpl(
@@ -25,8 +34,24 @@ internal class MultiplatformSettingsImpl(
     val instructionKey = stringPreferencesKey("instruction")
     val questionKey = stringPreferencesKey("question")
     val currentExamKey = stringPreferencesKey("currentExam")
+    private val userDataKey = stringPreferencesKey("UserData")
 
-    override val name = settings.data.map { it[nameKey] ?: "name" }
+    override val name: Flow<String> = settings.data.map { it[nameKey] ?: "nothing" }
+    override val userData: Flow<UserData>
+        get() = settings.data.map {
+            val userData = it[userDataKey]
+            if (userData != null) {
+                Json.decodeFromString<UserDataSer>(userData).toData()
+            } else {
+                UserData(
+                    themeBrand = ThemeBrand.DEFAULT,
+                    darkThemeConfig = DarkThemeConfig.LIGHT,
+                    useDynamicColor = false,
+                    shouldHideOnboarding = false,
+                    contrast = Contrast.Normal,
+                )
+            }
+        }
 
 
     override suspend fun setName(name: String) {
@@ -197,6 +222,36 @@ internal class MultiplatformSettingsImpl(
 //            key = Keys.questionKey,
 //            emptyList()
 //        )
+    }
+
+    override suspend fun setThemeBrand(themeBrand: ThemeBrand) {
+        val userData = userData.first().copy(themeBrand = themeBrand)
+        val userDataStr = Json.encodeToString(userData.toSer())
+        settings.edit { it[userDataKey] = userDataStr }
+    }
+
+    override suspend fun setThemeContrast(contrast: Contrast) {
+        val userData = userData.first().copy(contrast = contrast)
+        val userDataStr = Json.encodeToString(userData.toSer())
+        settings.edit { it[userDataKey] = userDataStr }
+    }
+
+    override suspend fun setDynamicColorPreference(useDynamicColor: Boolean) {
+        val userData = userData.first().copy(useDynamicColor = useDynamicColor)
+        val userDataStr = Json.encodeToString(userData.toSer())
+        settings.edit { it[userDataKey] = userDataStr }
+    }
+
+    override suspend fun setDarkThemeConfig(darkThemeConfig: DarkThemeConfig) {
+        val userData = userData.first().copy(darkThemeConfig = darkThemeConfig)
+        val userDataStr = Json.encodeToString(userData.toSer())
+        settings.edit { it[userDataKey] = userDataStr }
+    }
+
+    override suspend fun setShouldHideOnboarding(shouldHideOnboarding: Boolean) {
+        val userData = userData.first().copy(shouldHideOnboarding = shouldHideOnboarding)
+        val userDataStr = Json.encodeToString(userData.toSer())
+        settings.edit { it[userDataKey] = userDataStr }
     }
 
 }

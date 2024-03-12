@@ -1,4 +1,4 @@
-package com.mshdabiola.series.screen.navigation
+package com.mshdabiola.series.navigation
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Column
@@ -8,13 +8,14 @@ import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
-import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.arkivanov.decompose.ExperimentalDecomposeApi
 import com.arkivanov.decompose.extensions.compose.pages.Pages
 import com.arkivanov.decompose.extensions.compose.pages.PagesScrollAnimation
 import com.arkivanov.decompose.extensions.compose.stack.Children
+import com.arkivanov.decompose.extensions.compose.stack.animation.fade
+import com.arkivanov.decompose.extensions.compose.stack.animation.plus
 import com.arkivanov.decompose.extensions.compose.stack.animation.slide
 import com.arkivanov.decompose.extensions.compose.stack.animation.stackAnimation
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
@@ -27,49 +28,41 @@ import com.mshdabiola.series.screen.question.QuestionScreenNav
 import com.mshdabiola.series.screen.stat.StatScreenNav
 import com.mshdabiola.ui.UpdateAppUi
 
-
 @Composable
-fun AppNavHost(
-    iRootComponent: IRootComponent,
-    modifier: Modifier,
-    windowSizeClass: WindowSizeClass,
-) {
-
+fun SkeletonAppNavHost(appState: SkAppState) {
     Children(
-        modifier = modifier,
-        stack = iRootComponent.stack,
-        animation = stackAnimation(slide())
+        stack = appState.navController.stack,
+        modifier = Modifier,
+        animation = stackAnimation(fade() + slide()),
     ) {
-
         when (it.instance) {
             is IRootComponent.RootScreen.PagerScreen -> {
                 PagerCom(
                     (it.instance as IRootComponent.RootScreen.PagerScreen).component,
-                    onQuestion = iRootComponent::navigateToQuestion
+                    onQuestion = appState.navController::navigateToQuestion
 
                 )
             }
 
             is IRootComponent.RootScreen.QuestionRootScreen -> {
                 QuestionScreenNav(
-                    onBack = iRootComponent::pop,
-                    onFinish = iRootComponent::navigateToFinish
+                    onBack = appState.navController::pop,
+                    onFinish = appState.navController::navigateToFinish
                 )
             }
 
             is IRootComponent.RootScreen.FinishRootScreen -> {
                 FinishScreenNav(
-                    onBack = iRootComponent::pop,
-                    toQuestion = iRootComponent::navigateToQuestion
+                    onBack = appState.navController::pop,
+                    toQuestion = appState.navController::navigateToQuestion
                 )
             }
 
         }
 
     }
-
-
 }
+
 
 
 @OptIn(ExperimentalDecomposeApi::class, ExperimentalFoundationApi::class)

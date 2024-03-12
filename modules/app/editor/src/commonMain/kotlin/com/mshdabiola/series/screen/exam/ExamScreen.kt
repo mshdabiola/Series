@@ -1,4 +1,4 @@
-package com.mshdabiola.series.feature.exam
+package com.mshdabiola.series.screen.exam
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.basicMarquee

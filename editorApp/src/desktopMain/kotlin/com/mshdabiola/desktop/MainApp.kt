@@ -14,20 +14,16 @@ import androidx.compose.ui.window.WindowPlacement
 import androidx.compose.ui.window.WindowPosition
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
-import appModule
 import com.arkivanov.decompose.DefaultComponentContext
 import com.arkivanov.decompose.ExperimentalDecomposeApi
 import com.arkivanov.decompose.extensions.compose.lifecycle.LifecycleController
 import com.arkivanov.essenty.lifecycle.LifecycleRegistry
-import com.mshdabiola.model.Security
-import com.mshdabiola.model.generalPath
-import com.mshdabiola.series.SeriesApp
-import com.mshdabiola.series.appModules
+import com.mshdabiola.series.di.appModules
+import com.mshdabiola.series.navigation.SkeletonApp
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
 import org.koin.core.context.GlobalContext.startKoin
-import java.io.File
 import java.util.prefs.Preferences
 
 // import com.toxicbakery.logging.Arbor
@@ -37,8 +33,6 @@ import java.util.prefs.Preferences
     ExperimentalResourceApi::class
 )
 fun mainApp(appArgs: AppArgs) {
-    val preference = Preferences.userRoot() // .node("main")
-    val isLightKey = "isLight"
 
     val life = LifecycleRegistry()
     application {
@@ -49,7 +43,6 @@ fun mainApp(appArgs: AppArgs) {
             position = WindowPosition.Aligned(Alignment.Center),
         )
         LifecycleController(life, windowState)
-        var isLight by remember { mutableStateOf(preference.getBoolean(isLightKey, false)) }
 
         Window(
             onCloseRequest = ::exitApplication,
@@ -57,27 +50,9 @@ fun mainApp(appArgs: AppArgs) {
             icon = painterResource(DrawableResource("drawable/launcher/system.png")),
             state = windowState,
         ) {
-            MenuBar {
-                Menu("Theme", 'T') {
-                    if (!isLight) {
-                        Item("Light Theme") {
-                            isLight = true
-                            preference.putBoolean(isLightKey, true)
-                            preference.flush()
-                        }
-                    }
-                    if (isLight) {
-                        Item("Dark Theme") {
-                            isLight = false
-                            preference.putBoolean(isLightKey, false)
-                            preference.flush()
-                        }
-                    }
-                }
-            }
 
-            SeriesApp(
-                context = defaultComponentContext,true
+            SkeletonApp(
+                context = defaultComponentContext
             )
         }
     }

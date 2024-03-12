@@ -1,19 +1,22 @@
-package com.mshdabiola.series.feature.main
+package com.mshdabiola.series.screen.exam
 //
 //import androidx.compose.runtime.Composable
 //import androidx.compose.runtime.rememberCoroutineScope
 //import com.arkivanov.decompose.ComponentContext
 //import com.arkivanov.essenty.lifecycle.doOnDestroy
-//import com.mshdabiola.series.nav.MainComp
+//import com.mshdabiola.series.nav.ExamComp
 //import org.koin.core.component.KoinComponent
 //import org.koin.core.component.inject
+//import org.koin.core.parameter.parametersOf
 //
-//class MainScreenComponent(
+//class ExamScreenComponent(
+//    private val examId: Long,
+//    private val subjectID: Long,
 //    private val componentContext: ComponentContext,
-//    private val onExamClick: (Long, Long) -> Unit = { _, _ -> }
-//) : MainComp, ComponentContext by componentContext, KoinComponent {
+//    private val onBack: () -> Unit = {}
+//) : ExamComp, ComponentContext by componentContext, KoinComponent {
 //
-//    private val viewModel by inject<MainViewModel>()
+//    private val viewModel by inject<ExamViewModel>(parameters = { parametersOf(examId, subjectID) })
 //
 //    init {
 //
@@ -32,7 +35,8 @@ package com.mshdabiola.series.feature.main
 ////        LaunchedEffect(viewModel) {
 ////            viewModel.init(scope)
 ////        }
+//        ExamScreen(viewModel, onBack = onBack)
 //
-//        MainScreen(viewModel, onExamClick = onExamClick)
+//
 //    }
 //}

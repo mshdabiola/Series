@@ -26,8 +26,8 @@ import com.google.firebase.Firebase
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.remoteconfig.remoteConfig
 import com.google.firebase.remoteconfig.remoteConfigSettings
-import com.mshdabiola.skeletonapp.navigation.SkeletonApp
-import com.mshdabiola.skeletonapp.navigation.shouldUseDarkTheme
+import com.mshdabiola.series.navigation.SkeletonApp
+import com.mshdabiola.series.navigation.shouldUseDarkTheme
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch

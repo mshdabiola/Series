@@ -17,6 +17,7 @@ kotlin {
                 implementation(project(":modules:database"))
                 implementation(project(":modules:setting:cbt"))
                 implementation(libs.kotlinx.coroutines.core)
+                implementation(project(":modules:analytics"))
             }
         }
 

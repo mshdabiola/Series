@@ -15,6 +15,7 @@ kotlin {
             dependencies {
                 implementation(project(":modules:retex"))
                 implementation(project(":modules:designsystem"))
+                implementation(project(":modules:analytics"))
 
             }
         }

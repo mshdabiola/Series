@@ -1,4 +1,4 @@
-package com.mshdabiola.series.feature.main
+package com.mshdabiola.series.screen.main
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
