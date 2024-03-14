@@ -2,7 +2,7 @@
  *abiola 2024
  */
 
-package com.mshdabiola.skeletonapp
+package com.mshdabiola.series.editor
 
 // import androidx.work.Worker
 // import androidx.work.WorkerParameters

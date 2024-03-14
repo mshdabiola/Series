@@ -2,11 +2,11 @@
  *abiola 2024
  */
 
-package com.mshdabiola.skeletonapp
+package com.mshdabiola.series.editor
 
 import android.app.Application
-import com.mshdabiola.skeletonapp.di.appModule
-import com.mshdabiola.skeletonapp.di.jankStatsModule
+import com.mshdabiola.series.di.appModules
+import com.mshdabiola.series.editor.di.jankStatsModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 import timber.log.Timber
@@ -18,7 +18,7 @@ class SkeletonApplication : Application() {
 
         startKoin {
             androidContext(this@SkeletonApplication)
-            modules(appModule, jankStatsModule)
+            modules(appModules, jankStatsModule)
         }
 
         if (packageName.contains("debug")) {

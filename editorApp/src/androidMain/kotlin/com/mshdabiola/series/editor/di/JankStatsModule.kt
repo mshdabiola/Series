@@ -2,7 +2,7 @@
  *abiola 2022
  */
 
-package com.mshdabiola.skeletonapp.di
+package com.mshdabiola.series.editor.di
 
 import android.app.Activity
 import android.content.Context

@@ -124,10 +124,10 @@ android {
     sourceSets["main"].res.srcDirs("src/androidMain/res")
     sourceSets["main"].resources.srcDirs("src/commonMain/composeResources")
 
-    namespace = "com.mshdabiola.skeletonapp"
+    namespace = "com.mshdabiola.series.editor"
 
     defaultConfig {
-        applicationId = "com.mshdabiola.skeletonapp"
+        applicationId = "com.mshdabiola.series.editor"
         versionCode = 1
         versionName = "0.0.1" // X.Y.Z; X = Major, Y = minor, Z = Patch level
 
