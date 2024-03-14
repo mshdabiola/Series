@@ -54,7 +54,7 @@ dependencies{
     androidTestImplementation(project(":modules:testing"))
     androidTestImplementation(libs.accompanist.testharness)
     debugImplementation (libs.androidx.monitor)
-//    baselineProfile(project(":benchmarks"))
+    baselineProfile(project(":benchmark:cbt"))
 }
 
 kotlin {
@@ -124,10 +124,10 @@ android {
     sourceSets["main"].res.srcDirs("src/androidMain/res")
     sourceSets["main"].resources.srcDirs("src/commonMain/composeResources")
 
-    namespace = "com.mshdabiola.skeletonapp"
+    namespace = "com.mshdabiola.series"
 
     defaultConfig {
-        applicationId = "com.mshdabiola.skeletonapp"
+        applicationId = "com.mshdabiola.series"
         versionCode = 1
         versionName = "0.0.1" // X.Y.Z; X = Major, Y = minor, Z = Patch level
 

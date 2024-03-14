@@ -25,10 +25,11 @@ class SQLiteCopyOpenHelper(
 
     private var verified = false
 
-    private val key = if (BuildConfig.DEBUG)
-        BuildConfig.store_key
-    else
-        BuildConfig.store_key
+    private val key = BuildConfig.store_key
+//        if (BuildConfig.DEBUG)
+//        BuildConfig.store_key
+//    else
+//        BuildConfig.store_key
 
 
     override fun setWriteAheadLoggingEnabled(enabled: Boolean) {

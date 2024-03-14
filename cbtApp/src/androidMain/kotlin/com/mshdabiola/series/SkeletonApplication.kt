@@ -2,11 +2,11 @@
  *abiola 2024
  */
 
-package com.mshdabiola.skeletonapp
+package com.mshdabiola.series
 
 import android.app.Application
-import com.mshdabiola.skeletonapp.di.appModule
-import com.mshdabiola.skeletonapp.di.jankStatsModule
+import com.mshdabiola.series.di.appModule
+import com.mshdabiola.series.di.jankStatsModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 import timber.log.Timber

@@ -31,9 +31,9 @@ internal fun StatScreen() {
     var userRankList by remember {
         mutableStateOf(emptyList<UserRank>().toImmutableList())
     }
-    Leaderboard {
-        userRankList = it
-    }
+//    Leaderboard {
+//        userRankList = it
+//    }
 
     StatScreen(
         statState = StatState(),

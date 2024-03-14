@@ -2,7 +2,7 @@
  *abiola 2024
  */
 
-package com.mshdabiola.skeletonapp
+package com.mshdabiola.series
 
 import android.graphics.Color
 import android.os.Bundle
@@ -26,13 +26,14 @@ import com.google.firebase.Firebase
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.remoteconfig.remoteConfig
 import com.google.firebase.remoteconfig.remoteConfigSettings
-import com.mshdabiola.skeletonapp.navigation.SkeletonApp
-import com.mshdabiola.skeletonapp.navigation.shouldUseDarkTheme
+import com.mshdabiola.series.navigation.MainActivityUiState
+import com.mshdabiola.series.navigation.MainAppViewModel
+import com.mshdabiola.series.navigation.SkeletonApp
+import com.mshdabiola.series.navigation.shouldUseDarkTheme
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
-import org.koin.androidx.compose.viewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import timber.log.Timber
 
