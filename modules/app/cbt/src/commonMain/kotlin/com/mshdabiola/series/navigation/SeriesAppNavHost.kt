@@ -29,7 +29,7 @@ import com.mshdabiola.series.screen.stat.StatScreenNav
 import com.mshdabiola.ui.UpdateAppUi
 
 @Composable
-fun SkeletonAppNavHost(appState: SkAppState) {
+fun SeriesAppNavHost(appState: SeriesAppState) {
     Children(
         stack = appState.navController.stack,
         modifier = Modifier,

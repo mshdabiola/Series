@@ -28,7 +28,7 @@ import com.google.firebase.remoteconfig.remoteConfig
 import com.google.firebase.remoteconfig.remoteConfigSettings
 import com.mshdabiola.series.navigation.MainActivityUiState
 import com.mshdabiola.series.navigation.MainAppViewModel
-import com.mshdabiola.series.navigation.SkeletonApp
+import com.mshdabiola.series.navigation.SeriesApp
 import com.mshdabiola.series.navigation.shouldUseDarkTheme
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
@@ -147,7 +147,7 @@ class MainActivity : ComponentActivity() {
                 defaultComponentContext()
             }
 
-            SkeletonApp(
+            SeriesApp(
                 context = context,
             )
         }

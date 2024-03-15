@@ -29,11 +29,11 @@ import androidx.compose.ui.graphics.Color
 import com.arkivanov.decompose.DefaultComponentContext
 import com.mshdabiola.analytics.AnalyticsHelper
 import com.mshdabiola.analytics.LocalAnalyticsHelper
-import com.mshdabiola.designsystem.component.SkBackground
+import com.mshdabiola.designsystem.component.SeriesBackground
 import com.mshdabiola.designsystem.component.SkGradientBackground
 import com.mshdabiola.designsystem.theme.GradientColors
 import com.mshdabiola.designsystem.theme.LocalGradientColors
-import com.mshdabiola.designsystem.theme.SkTheme
+import com.mshdabiola.designsystem.theme.SeriesTheme
 import com.mshdabiola.model.Contrast
 import com.mshdabiola.model.DarkThemeConfig
 import com.mshdabiola.model.ThemeBrand
@@ -63,13 +63,13 @@ fun SkeletonApp(
     val darkTheme = shouldUseDarkTheme(uiState)
 
     CompositionLocalProvider(LocalAnalyticsHelper provides analyticsHelper) {
-        SkTheme(
+        SeriesTheme(
             darkTheme = darkTheme,
             themeBrand = chooseTheme(uiState),
             themeContrast = chooseContrast(uiState),
             disableDynamicTheming = shouldDisableDynamicTheming(uiState),
         ) {
-            SkBackground {
+            SeriesBackground {
                 SkGradientBackground(
                     gradientColors = if (shouldShowGradientBackground) {
                         LocalGradientColors.current

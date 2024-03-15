@@ -18,15 +18,12 @@ import com.mshdabiola.model.canMigrate
 import com.mshdabiola.model.databaseName
 import com.mshdabiola.model.generalPath
 import com.mshdabiola.series.di.appModule
-import com.mshdabiola.series.navigation.SkeletonApp
+import com.mshdabiola.series.navigation.SeriesApp
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
 import org.koin.core.context.GlobalContext.startKoin
 import java.io.File
-
-// import com.toxicbakery.logging.Arbor
-// import com.toxicbakery.logging.Seedling
 
 @OptIn(ExperimentalDecomposeApi::class, ExperimentalMaterial3WindowSizeClassApi::class,
     ExperimentalResourceApi::class
@@ -49,7 +46,7 @@ fun mainApp(appArgs: AppArgs) {
             state = windowState,
         ) {
 
-            SkeletonApp(
+            SeriesApp(
                 context = defaultComponentContext,
             )
         }
@@ -80,7 +77,7 @@ fun main() {
     }
 
     val appArgs = AppArgs(
-        appName = "Skeleton App", // To show on title bar
+        appName = "Series", // To show on title bar
         version = "v2.0.0", // To show on title inside brackets
         versionCode = 100, // To compare with latest version code (in case if you want to prompt update)
     )

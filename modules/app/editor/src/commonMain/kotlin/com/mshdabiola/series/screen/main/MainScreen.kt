@@ -73,7 +73,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
-import com.mshdabiola.designsystem.theme.SkTheme
+import com.mshdabiola.designsystem.theme.SeriesTheme
 import com.mshdabiola.series.CommonScreen
 import com.mshdabiola.ui.examui.ExamUi
 import com.mshdabiola.ui.state.ExamUiState
@@ -781,7 +781,7 @@ fun MainDialog(
 //@Preview
 @Composable
 fun MainDialogPreveiw() {
-    SkTheme  {
+    SeriesTheme  {
         MainDialog(true)
     }
 

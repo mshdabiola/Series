@@ -16,7 +16,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 
 @Composable
-fun SkTextField(
+fun SeriesTextField(
     modifier: Modifier = Modifier,
     value: String,
     onValueChange: (String) -> Unit = {},

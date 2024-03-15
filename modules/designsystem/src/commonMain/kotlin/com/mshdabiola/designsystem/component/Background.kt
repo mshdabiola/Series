@@ -33,7 +33,7 @@ import kotlin.math.tan
  * @param content The background content.
  */
 @Composable
-fun SkBackground(
+fun SeriesBackground(
     modifier: Modifier = Modifier,
     content: @Composable () -> Unit,
 ) {

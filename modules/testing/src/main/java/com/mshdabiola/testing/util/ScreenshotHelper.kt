@@ -21,7 +21,7 @@ import com.github.takahirom.roborazzi.RoborazziOptions.CompareOptions
 import com.github.takahirom.roborazzi.RoborazziOptions.RecordOptions
 import com.github.takahirom.roborazzi.captureRoboImage
 import com.google.accompanist.testharness.TestHarness
-import com.mshdabiola.designsystem.theme.SkTheme
+import com.mshdabiola.designsystem.theme.SeriesTheme
 import com.mshdabiola.model.ThemeBrand
 import org.robolectric.RuntimeEnvironment
 
@@ -101,7 +101,7 @@ fun <A : ComponentActivity> AndroidComposeTestRule<ActivityScenarioRule<A>, A>.c
         CompositionLocalProvider(
             LocalInspectionMode provides true,
         ) {
-            SkTheme(
+            SeriesTheme(
                 themeBrand = ThemeBrand.DEFAULT,
                 darkTheme = darkMode,
                 disableDynamicTheming = !dynamicTheming,

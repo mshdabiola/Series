@@ -10,9 +10,8 @@ import androidx.compose.material3.Text
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.unit.dp
-import com.mshdabiola.designsystem.component.SkBackground
+import com.mshdabiola.designsystem.component.SeriesBackground
 import com.mshdabiola.designsystem.component.SkGradientBackground
-import com.mshdabiola.testing.TestApplication
 import com.mshdabiola.testing.util.captureMultiTheme
 import org.junit.Rule
 import org.junit.Test
@@ -34,7 +33,7 @@ class BackgroundScreenshotTests {
     @Test
     fun niaBackground_multipleThemes() {
         composeTestRule.captureMultiTheme("Background") { description ->
-            SkBackground(Modifier.size(100.dp)) {
+            SeriesBackground(Modifier.size(100.dp)) {
                 Text("$description background")
             }
         }

@@ -13,13 +13,11 @@ import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onRoot
 import com.github.takahirom.roborazzi.captureRoboImage
 import com.google.accompanist.testharness.TestHarness
-import com.mshdabiola.designsystem.component.SkTopAppBar
-import com.mshdabiola.designsystem.icon.SkIcons
-import com.mshdabiola.designsystem.theme.SkTheme
-import com.mshdabiola.testing.TestApplication
+import com.mshdabiola.designsystem.component.SeriesTopAppBar
+import com.mshdabiola.designsystem.icon.SeriesIcons
+import com.mshdabiola.designsystem.theme.SeriesTheme
 import com.mshdabiola.testing.util.DefaultRoborazziOptions
 import com.mshdabiola.testing.util.captureMultiTheme
-import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -52,7 +50,7 @@ class TopAppBarScreenshotTests() {
                 LocalInspectionMode provides true,
             ) {
                 TestHarness(fontScale = 2f) {
-                    SkTheme {
+                    SeriesTheme {
                         NiaTopAppBarExample()
                     }
                 }
@@ -68,11 +66,11 @@ class TopAppBarScreenshotTests() {
     @Composable
     private fun NiaTopAppBarExample() {
 
-        SkTopAppBar(
+        SeriesTopAppBar(
             titleRes = "Testing",
-            navigationIcon = SkIcons.Search,
+            navigationIcon = SeriesIcons.Search,
             navigationIconContentDescription = "Navigation icon",
-            actionIcon = SkIcons.MoreVert,
+            actionIcon = SeriesIcons.MoreVert,
             actionIconContentDescription = "Action icon",
         )
     }

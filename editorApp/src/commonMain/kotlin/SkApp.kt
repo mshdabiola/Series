@@ -30,15 +30,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
-import androidx.compose.ui.semantics.semantics
 import com.arkivanov.decompose.DefaultComponentContext
 import com.mshdabiola.analytics.AnalyticsHelper
 import com.mshdabiola.analytics.LocalAnalyticsHelper
-import com.mshdabiola.designsystem.component.SkBackground
+import com.mshdabiola.designsystem.component.SeriesBackground
 import com.mshdabiola.designsystem.component.SkGradientBackground
 import com.mshdabiola.designsystem.theme.GradientColors
 import com.mshdabiola.designsystem.theme.LocalGradientColors
-import com.mshdabiola.designsystem.theme.SkTheme
+import com.mshdabiola.designsystem.theme.SeriesTheme
 import com.mshdabiola.model.Contrast
 import com.mshdabiola.model.DarkThemeConfig
 import com.mshdabiola.model.ThemeBrand
@@ -46,7 +45,6 @@ import com.mshdabiola.mvvn.KoinCommonViewModel
 import com.mshdabiola.mvvn.collectAsStateWithLifecycleCommon
 import com.mshdabiola.mvvn.get
 import com.mshdabiola.mvvn.semanticsCommon
-import com.mshdabiola.navigation.IRootComponent
 import com.mshdabiola.navigation.RootComponent
 
 @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
@@ -69,13 +67,13 @@ fun SkeletonApp(
     val darkTheme = shouldUseDarkTheme(uiState)
 
     CompositionLocalProvider(LocalAnalyticsHelper provides analyticsHelper) {
-        SkTheme(
+        SeriesTheme(
             darkTheme = darkTheme,
             themeBrand = chooseTheme(uiState),
             themeContrast = chooseContrast(uiState),
             disableDynamicTheming = shouldDisableDynamicTheming(uiState),
         ) {
-            SkBackground {
+            SeriesBackground {
                 SkGradientBackground(
                     gradientColors = if (shouldShowGradientBackground) {
                         LocalGradientColors.current

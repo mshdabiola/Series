@@ -203,12 +203,12 @@ compose.desktop {
         val iconsRoot = project.file("src/main/composeResources/drawable/launcher")
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
-            packageVersion = "1.0.1"
-            packageName = "Skeleton"
-            description = "Template"
+            packageVersion = "1.0.0"
+            packageName = "Series"
+            description = "For setting question"
             copyright = "© 2022 Mshdabiola. All rights reserved."
             vendor = "Mshdabiola App"
-            version = "1.0.1"
+            version = "1.0.0"
             licenseFile.set(rootProject.file("LICENSE"))
 
             modules("java.net.http", "java.sql")
@@ -217,20 +217,21 @@ compose.desktop {
                 iconFile.set(iconsRoot.resolve("linux.png"))
                 debMaintainer = "mshdabiola@gmail.com"
                 menuGroup = packageName
-                appCategory = "Productivity"
+                appCategory = "Education"
             }
 
             windows {
                 iconFile.set(iconsRoot.resolve("windows.ico"))
                 shortcut = true
                 menuGroup = packageName
+//                https://www.guidgen.com/   generate uuid
                 //https://wixtoolset.org/documentation/manual/v3/howtos/general/generate_guids.html
-                upgradeUuid = "791AC64E-C9A7-4CBF-A1C4-AFE5CFFDDDFA"
+                upgradeUuid = "c51e7958-c613-421b-a894-62a7d10a209a"
             }
 
             macOS {
                 iconFile.set(iconsRoot.resolve("macos.icns"))
-                bundleID = "com.mshdabiola.skeleton"
+                bundleID = "com.mshdabiola.series.editor"
                 appCategory = "public.app-category.productivity"
                 signing {
                     sign.set(false)

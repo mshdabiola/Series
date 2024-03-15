@@ -4,20 +4,19 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import com.mshdabiola.designsystem.component.DetailTopAppBar
-import com.mshdabiola.designsystem.component.SkTopAppBar
-import com.mshdabiola.designsystem.icon.SkIcons
+import com.mshdabiola.designsystem.component.SeriesTopAppBar
+import com.mshdabiola.designsystem.icon.SeriesIcons
 import org.jetbrains.compose.resources.ExperimentalResourceApi
-import org.jetbrains.compose.resources.StringResource
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalResourceApi::class)
 @Preview("Top App Bar")
 @Composable
 private fun SkTopAppBarPreview() {
-    SkTopAppBar(
+    SeriesTopAppBar(
         titleRes ="Testing",
-        navigationIcon = SkIcons.Search,
+        navigationIcon = SeriesIcons.Search,
         navigationIconContentDescription = "Navigation icon",
-        actionIcon = SkIcons.MoreVert,
+        actionIcon = SeriesIcons.MoreVert,
         actionIconContentDescription = "Action icon",
     )
 }

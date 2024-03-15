@@ -1,14 +1,8 @@
 package com.mshdabiola.desktop
 
-import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.MenuBar
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.WindowPlacement
 import androidx.compose.ui.window.WindowPosition
@@ -24,12 +18,8 @@ import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
 import org.koin.core.context.GlobalContext.startKoin
-import java.util.prefs.Preferences
 
-// import com.toxicbakery.logging.Arbor
-// import com.toxicbakery.logging.Seedling
-
-@OptIn(ExperimentalDecomposeApi::class, ExperimentalMaterial3WindowSizeClassApi::class,
+@OptIn(ExperimentalDecomposeApi::class,
     ExperimentalResourceApi::class
 )
 fun mainApp(appArgs: AppArgs) {
@@ -65,7 +55,7 @@ fun main() {
 
 
     val appArgs = AppArgs(
-        appName = "Skeleton App", // To show on title bar
+        appName = "Series Editor", // To show on title bar
         version = "v2.0.0", // To show on title inside brackets
         versionCode = 100, // To compare with latest version code (in case if you want to prompt update)
     )

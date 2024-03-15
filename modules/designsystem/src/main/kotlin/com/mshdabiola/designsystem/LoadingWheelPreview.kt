@@ -2,16 +2,16 @@ package com.mshdabiola.designsystem
 
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
-import com.mshdabiola.designsystem.component.SkLoadingWheel
-import com.mshdabiola.designsystem.component.SkOverlayLoadingWheel
-import com.mshdabiola.designsystem.theme.SkTheme
+import com.mshdabiola.designsystem.component.SeriesLoadingWheel
+import com.mshdabiola.designsystem.component.SeriesOverlayLoadingWheel
+import com.mshdabiola.designsystem.theme.SeriesTheme
 
 @ThemePreviews
 @Composable
 fun NiaLoadingWheelPreview() {
-    SkTheme {
+    SeriesTheme {
         Surface {
-            SkLoadingWheel(contentDesc = "LoadingWheel")
+            SeriesLoadingWheel(contentDesc = "LoadingWheel")
         }
     }
 }
@@ -19,9 +19,9 @@ fun NiaLoadingWheelPreview() {
 @ThemePreviews
 @Composable
 fun NiaOverlayLoadingWheelPreview() {
-    SkTheme {
+    SeriesTheme {
         Surface {
-            SkOverlayLoadingWheel(contentDesc = "LoadingWheel")
+            SeriesOverlayLoadingWheel(contentDesc = "LoadingWheel")
         }
     }
 }

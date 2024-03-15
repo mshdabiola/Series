@@ -55,6 +55,7 @@ kotlin {
                 api(libs.kotlinx.collection.immutable)
                 api(project(":modules:model"))
                 api(libs.androidx.compose.material3.windowSizeClass)
+                api(libs.kotlinx.coroutines.core)
 
 
             }

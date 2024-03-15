@@ -20,7 +20,7 @@ import com.mshdabiola.designsystem.theme.GradientColors
 import com.mshdabiola.designsystem.theme.LocalBackgroundTheme
 import com.mshdabiola.designsystem.theme.LocalGradientColors
 import com.mshdabiola.designsystem.theme.LocalTintTheme
-import com.mshdabiola.designsystem.theme.SkTheme
+import com.mshdabiola.designsystem.theme.SeriesTheme
 import com.mshdabiola.designsystem.theme.ThemeColor
 import com.mshdabiola.designsystem.theme.TintTheme
 import com.mshdabiola.model.Contrast
@@ -29,7 +29,7 @@ import org.junit.Test
 import kotlin.test.assertEquals
 
 /**
- * Tests [SkTheme] using different combinations of the theme mode parameters:
+ * Tests [SeriesTheme] using different combinations of the theme mode parameters:
  * darkTheme, disableDynamicTheming, and androidTheme.
  *
  * It verifies that the various composition locals — [MaterialTheme], [LocalGradientColors] and
@@ -44,7 +44,7 @@ class ThemeColorTest {
     @Test
     fun darkThemeFalse_dynamicColorFalse_androidThemeFalse() {
         composeTestRule.setContent {
-            SkTheme(
+            SeriesTheme(
                 darkTheme = false,
                 disableDynamicTheming = true,
             ) {
@@ -63,7 +63,7 @@ class ThemeColorTest {
     @Test
     fun darkThemeTrue_dynamicColorFalse_androidThemeFalse() {
         composeTestRule.setContent {
-            SkTheme(
+            SeriesTheme(
                 darkTheme = true,
                 disableDynamicTheming = true,
             ) {
@@ -82,7 +82,7 @@ class ThemeColorTest {
     @Test
     fun darkThemeFalse_dynamicColorTrue_androidThemeFalse() {
         composeTestRule.setContent {
-            SkTheme(
+            SeriesTheme(
                 darkTheme = false,
                 disableDynamicTheming = false,
             ) {
@@ -101,7 +101,7 @@ class ThemeColorTest {
     @Test
     fun darkThemeTrue_dynamicColorTrue_androidThemeFalse() {
         composeTestRule.setContent {
-            SkTheme(
+            SeriesTheme(
                 darkTheme = true,
                 disableDynamicTheming = false,
             ) {
@@ -120,7 +120,7 @@ class ThemeColorTest {
     @Test
     fun darkThemeFalse_dynamicColorFalse_androidThemeTrue() {
         composeTestRule.setContent {
-            SkTheme(
+            SeriesTheme(
                 darkTheme = false,
                 disableDynamicTheming = true,
             ) {
@@ -139,7 +139,7 @@ class ThemeColorTest {
     @Test
     fun darkThemeTrue_dynamicColorFalse_androidThemeTrue() {
         composeTestRule.setContent {
-            SkTheme(
+            SeriesTheme(
                 darkTheme = true,
                 disableDynamicTheming = true,
             ) {
@@ -158,7 +158,7 @@ class ThemeColorTest {
     @Test
     fun darkThemeFalse_dynamicColorTrue_androidThemeTrue() {
         composeTestRule.setContent {
-            SkTheme(
+            SeriesTheme(
                 darkTheme = false,
                 disableDynamicTheming = false,
             ) {
@@ -177,7 +177,7 @@ class ThemeColorTest {
     @Test
     fun darkThemeTrue_dynamicColorTrue_androidThemeTrue() {
         composeTestRule.setContent {
-            SkTheme(
+            SeriesTheme(
                 darkTheme = true,
                 disableDynamicTheming = false,
             ) {

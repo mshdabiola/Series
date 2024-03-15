@@ -16,18 +16,18 @@ import com.mshdabiola.navigation.IRootComponent
 import kotlinx.coroutines.CoroutineScope
 
 @Composable
-fun rememberSkAppState(
+fun rememberSeriesAppState(
     windowSizeClass: WindowSizeClass,
     coroutineScope: CoroutineScope = rememberCoroutineScope(),
     navController: IRootComponent,
-): SkAppState {
+): SeriesAppState {
 //    NavigationTrackingSideEffect(navController)
     return remember(
         navController,
         coroutineScope,
         windowSizeClass,
     ) {
-        SkAppState(
+        SeriesAppState(
             navController,
             coroutineScope,
             windowSizeClass,
@@ -36,7 +36,7 @@ fun rememberSkAppState(
 }
 
 @Stable
-class SkAppState(
+class SeriesAppState(
     val navController: IRootComponent,
     val coroutineScope: CoroutineScope,
     val windowSizeClass: WindowSizeClass,
