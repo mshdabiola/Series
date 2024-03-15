@@ -124,10 +124,10 @@ android {
     sourceSets["main"].res.srcDirs("src/androidMain/res")
     sourceSets["main"].resources.srcDirs("src/commonMain/composeResources")
 
-    namespace = "com.mshdabiola.series"
+    namespace = "com.mshdabiola.series.cbt"
 
     defaultConfig {
-        applicationId = "com.mshdabiola.series"
+        applicationId = "com.mshdabiola.series.cbt"
         versionCode = 1
         versionName = "0.0.1" // X.Y.Z; X = Major, Y = minor, Z = Patch level
 

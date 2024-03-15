@@ -2,7 +2,7 @@
  *abiola 2024
  */
 
-package com.mshdabiola.series
+package com.mshdabiola.series.cbt
 
 // import androidx.work.Worker
 // import androidx.work.WorkerParameters

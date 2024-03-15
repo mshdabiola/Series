@@ -2,7 +2,7 @@
  *abiola 2022
  */
 
-package com.mshdabiola.series.di
+package com.mshdabiola.series.cbt.di
 
 import android.app.Activity
 import android.content.Context
