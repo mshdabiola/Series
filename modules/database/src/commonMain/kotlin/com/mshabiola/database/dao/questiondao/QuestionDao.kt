@@ -28,9 +28,9 @@ internal class QuestionDao(
 ) : IQuestionDao {
     override suspend fun insert(question: Question) {
         withContext(coroutineDispatcher) {
-            if (question.id == -1L)
+            if (question.id == -1L) {
                 questionQueries.insert(question.toEntity())
-            else {
+            } else {
 //                val entity = question.toEntity()
 //                questionQueries.update(
 //                    examId = entity.examId,
@@ -43,10 +43,8 @@ internal class QuestionDao(
 //                )
                 questionQueries.insertReplace(question.toEntity())
             }
-
         }
     }
-
 
     override fun getAll(): Flow<List<Question>> {
         return questionQueries
@@ -94,11 +92,8 @@ internal class QuestionDao(
                 val option = options.filter { it.questionId == question.id }
                 question.toQuestionWithOptions(option, inst, topic)
             }
-
-
         }
             .flowOn(coroutineDispatcher)
-
     }
 
     override fun getRandom(num: Long): Flow<List<QuestionFull>> {
@@ -142,7 +137,7 @@ internal class QuestionDao(
                 questione.answer,
                 questione.instructionId,
                 questione.topicId,
-                questione.id
+                questione.id,
             )
         }
     }

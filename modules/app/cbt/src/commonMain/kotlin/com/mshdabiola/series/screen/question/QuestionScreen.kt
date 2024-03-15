@@ -45,7 +45,6 @@ import androidx.compose.ui.unit.dp
 import com.mshdabiola.mvvn.collectAsStateWithLifecycleCommon
 import com.mshdabiola.mvvn.semanticsCommon
 import com.mshdabiola.series.screen.MainViewModel
-import com.mshdabiola.ui.getSection
 import com.mshdabiola.series.screen.main.MainState
 import com.mshdabiola.ui.AllQuestionBottomSheet
 import com.mshdabiola.ui.InstructionBottomSheet
@@ -53,6 +52,7 @@ import com.mshdabiola.ui.QuestionScroll
 import com.mshdabiola.ui.QuestionUi
 import com.mshdabiola.ui.TimeCounter
 import com.mshdabiola.ui.correct
+import com.mshdabiola.ui.getSection
 import com.mshdabiola.ui.onCorrect
 import com.mshdabiola.ui.state.InstructionUiState
 import com.mshdabiola.ui.state.QuestionUiState
@@ -77,12 +77,12 @@ internal fun QuestionScreen(
         },
         onOption = viewModel::onOption,
         onTimeChanged = viewModel::onTimeChanged,
-        changeIndex = viewModel::changeIndex
+        changeIndex = viewModel::changeIndex,
     )
 }
 
 @OptIn(
-    ExperimentalFoundationApi::class
+    ExperimentalFoundationApi::class,
 )
 @Composable
 internal fun QuestionScreen(
@@ -90,16 +90,13 @@ internal fun QuestionScreen(
     back: () -> Unit = {},
     onFinish: () -> Unit = {},
     onNextTheory: (Int) -> Unit = {},
-    onOption: (Int, Int, Int) -> Unit = { _, _, _ -> }, //paper,question,option
+    onOption: (Int, Int, Int) -> Unit = { _, _, _ -> }, // paper,question,option
     onTimeChanged: (Long) -> Unit = {},
     changeIndex: (Int) -> Unit = {},
 ) {
-
-
     if (mainStat.questions.flatten().isEmpty()) {
         Text(text = "empty")
     } else {
-
         var show by remember {
             mutableStateOf(false)
         }
@@ -108,22 +105,25 @@ internal fun QuestionScreen(
         }
         val coroutineScope = rememberCoroutineScope()
 
-
         val finishPercent = remember(mainStat.choose) {
             val allChoose = mainStat
                 .choose
                 .flatten()
 
-            ((allChoose.count {
-                it > -1
-            } / allChoose.size.toFloat()) * 100).toInt()
-
+            (
+                (
+                    allChoose.count {
+                        it > -1
+                    } / allChoose.size.toFloat()
+                    ) * 100
+                ).toInt()
         }
-        val states = getState(sizes = mainStat
-            .questions
-            .map { it.size }
-            .toImmutableList())
-
+        val states = getState(
+            sizes = mainStat
+                .questions
+                .map { it.size }
+                .toImmutableList(),
+        )
 
         LaunchedEffect(key1 = mainStat.currentTime, block = {
             mainStat.currentExam?.let {
@@ -132,7 +132,6 @@ internal fun QuestionScreen(
                     onFinish()
                 }
             }
-
         })
 
         Scaffold(
@@ -143,33 +142,34 @@ internal fun QuestionScreen(
                         IconButton(onClick = back) {
                             Icon(
                                 imageVector = Icons.Default.ArrowBackIosNew,
-                                contentDescription = "back"
+                                contentDescription = "back",
                             )
                         }
-
                     },
                     floatingActionButton = {
                         ExtendedFloatingActionButton(
                             onClick = onFinish,
-                            containerColor = if (finishPercent == 100)
+                            containerColor = if (finishPercent == 100) {
                                 correct()
-                            else
-                                FloatingActionButtonDefaults.containerColor,
-                            contentColor = if (finishPercent == 100)
+                            } else {
+                                FloatingActionButtonDefaults.containerColor
+                            },
+                            contentColor = if (finishPercent == 100) {
                                 onCorrect()
-                            else
+                            } else {
                                 contentColorFor(backgroundColor = FloatingActionButtonDefaults.containerColor)
+                            },
                         ) {
                             Icon(
                                 imageVector = Icons.Default.Kitesurfing,
-                                contentDescription = "submit"
+                                contentDescription = "submit",
                             )
                             Spacer(modifier = Modifier.width(ButtonDefaults.IconSpacing))
                             Text(text = "Submit: $finishPercent%")
                         }
-                    }
+                    },
                 )
-            }
+            },
 
         ) { paddingValues ->
             Column(
@@ -178,19 +178,18 @@ internal fun QuestionScreen(
                     .padding(8.dp)
                     .fillMaxSize(),
                 verticalArrangement = Arrangement.spacedBy(8.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
+                horizontalAlignment = Alignment.CenterHorizontally,
             ) {
-
                 TimeCounter(
                     modifier = Modifier.padding(top = 4.dp),
                     currentTime2 = mainStat.currentTime,
                     total = mainStat.totalTime,
-                    onTimeChanged = onTimeChanged
+                    onTimeChanged = onTimeChanged,
                 )
 
                 Spacer(modifier = Modifier.height(8.dp))
 
-                //AnimatedContent(modifier = Modifier.fillMaxSize(), targetState = mainStat.currentPaper, label = "dd") { paperIndex ->
+                // AnimatedContent(modifier = Modifier.fillMaxSize(), targetState = mainStat.currentPaper, label = "dd") { paperIndex ->
                 ExamPaper(
                     questions = mainStat.questions[mainStat.currentSectionIndex],
                     state = states[mainStat.currentSectionIndex],
@@ -200,7 +199,7 @@ internal fun QuestionScreen(
                         onOption(
                             mainStat.currentSectionIndex,
                             quIndex,
-                            optinId
+                            optinId,
                         )
                     },
                     setInstructionUiState = { instructionUiState = it },
@@ -209,9 +208,9 @@ internal fun QuestionScreen(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.spacedBy(
                         16.dp,
-                        Alignment.CenterHorizontally
+                        Alignment.CenterHorizontally,
                     ),
-                    verticalAlignment = Alignment.CenterVertically
+                    verticalAlignment = Alignment.CenterVertically,
                 ) {
                     item {
                         TextButton(onClick = { show = true }) {
@@ -223,23 +222,21 @@ internal fun QuestionScreen(
                         itemsIndexed(mainStat.sections) { index, section ->
                             ElevatedSuggestionChip(
                                 onClick = { changeIndex(index) },
-                                colors = if (section.isFinished)
+                                colors = if (section.isFinished) {
                                     SuggestionChipDefaults.elevatedSuggestionChipColors(
                                         containerColor = correct(),
-                                        labelColor = onCorrect()
+                                        labelColor = onCorrect(),
                                     )
-                                else
-                                    SuggestionChipDefaults.elevatedSuggestionChipColors(),
+                                } else {
+                                    SuggestionChipDefaults.elevatedSuggestionChipColors()
+                                },
                                 label = {
                                     Text(getSection()[section.stringRes])
-                                })
-
+                                },
+                            )
                         }
                     }
-
-
                 }
-
 
                 // }
             }
@@ -247,7 +244,7 @@ internal fun QuestionScreen(
 
         InstructionBottomSheet(
             instructionUiState = instructionUiState,
-            onDismissRequest = { instructionUiState = null }
+            onDismissRequest = { instructionUiState = null },
         )
         AllQuestionBottomSheet(
             show = show,
@@ -261,9 +258,8 @@ internal fun QuestionScreen(
                     }
             },
             currentNumber = states[mainStat.currentSectionIndex].currentPage,
-            onDismissRequest = { show = false })
-
-
+            onDismissRequest = { show = false },
+        )
     }
 }
 
@@ -277,7 +273,6 @@ fun ColumnScope.ExamPaper(
     setInstructionUiState: (InstructionUiState?) -> Unit = {},
     onOption: (Int, Int) -> Unit = { _, _ -> },
 ) {
-
     val coroutineScope = rememberCoroutineScope()
     val scrollState = rememberScrollState()
     LaunchedEffect(key1 = state.currentPage) {
@@ -289,9 +284,7 @@ fun ColumnScope.ExamPaper(
         } catch (e: Exception) {
             e.printStackTrace()
         }
-
     }
-
 
     HorizontalPager(
         modifier = Modifier
@@ -299,7 +292,7 @@ fun ColumnScope.ExamPaper(
             .verticalScroll(state = scrollState),
         state = state,
         verticalAlignment = Alignment.Top,
-        userScrollEnabled = false
+        userScrollEnabled = false,
     ) { index ->
 
         QuestionUi(
@@ -319,7 +312,7 @@ fun ColumnScope.ExamPaper(
                             scrollState.scrollTo(0)
                         }
                 }
-            }
+            },
         )
     }
 
@@ -339,7 +332,6 @@ fun ColumnScope.ExamPaper(
         },
 
         onNext = {
-
             coroutineScope.launch {
                 onNextTheory(state.currentPage + 1)
                 state.animateScrollToPage(state.currentPage + 1)
@@ -351,15 +343,13 @@ fun ColumnScope.ExamPaper(
                 state.animateScrollToPage(state.currentPage - 1)
                 scrollState.scrollTo(0)
             }
-        }
+        },
     )
-
 }
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun getState(sizes: ImmutableList<Int>): ImmutableList<PagerState> {
-
     return sizes.map {
         rememberPagerState {
             it

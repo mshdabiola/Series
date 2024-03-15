@@ -28,7 +28,6 @@ fun TimeCounter(
     total: Long,
     onTimeChanged: (Long) -> Unit = {},
 ) {
-
     val time = remember(total, currentTime2) {
         val remain = total - currentTime2
 
@@ -44,7 +43,6 @@ fun TimeCounter(
     var color by remember {
         mutableStateOf(initColor)
     }
-
 
     LaunchedEffect(currentTime2) {
         withContext(Dispatchers.IO) {
@@ -67,15 +65,14 @@ fun TimeCounter(
                     startAngle = -90f,
                     sweepAngle = fraction,
                     useCenter = false,
-                    style = Stroke(width = 4.dp.toPx(), cap = StrokeCap.Round)
+                    style = Stroke(width = 4.dp.toPx(), cap = StrokeCap.Round),
                 )
             },
-        contentAlignment = Alignment.Center
+        contentAlignment = Alignment.Center,
     ) {
         Text(time)
     }
 }
-
 
 fun Long.toMinute() = this.div(60)
 fun Long.toSecond() = this.mod(60)

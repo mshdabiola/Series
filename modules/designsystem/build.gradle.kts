@@ -23,7 +23,6 @@ dependencies {
     // lintPublish(projects.lint)
 
 
-
     debugApi(libs.androidx.compose.ui.tooling)
 
     implementation(libs.coil.kt.compose)
@@ -34,9 +33,9 @@ dependencies {
     testImplementation(libs.roborazzi)
     testImplementation(project(":modules:testing"))
 
-      androidTestImplementation(libs.androidx.compose.ui.test)
+    androidTestImplementation(libs.androidx.compose.ui.test)
     androidTestImplementation(project(":modules:testing"))
-    implementation ("com.google.guava:listenablefuture:9999.0-empty-to-avoid-conflict-with-guava")
+    implementation("com.google.guava:listenablefuture:9999.0-empty-to-avoid-conflict-with-guava")
 
 }
 kotlin {

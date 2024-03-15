@@ -23,13 +23,10 @@ class Setting : KoinTest {
             single {
                 val settings = MapSettings()
                 settings.toFlowSettings(get())
-
             }
-
         }
         // Your KoinApplication instance here
         modules(module, commonModule)
-
     }
 
     @Test

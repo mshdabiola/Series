@@ -13,7 +13,7 @@ import org.jetbrains.compose.resources.ExperimentalResourceApi
 @Composable
 private fun SkTopAppBarPreview() {
     SeriesTopAppBar(
-        titleRes ="Testing",
+        titleRes = "Testing",
         navigationIcon = SeriesIcons.Search,
         navigationIconContentDescription = "Navigation icon",
         actionIcon = SeriesIcons.MoreVert,

@@ -18,10 +18,10 @@ internal actual fun StatCardPreview() {
                 year = 2015,
                 subject = "Jeanpaul",
                 isObjOnly = false,
-                examTime = 400
-            )
+                examTime = 400,
+            ),
         ).toImmutableList(),
-        isSubmit = false
+        isSubmit = false,
     )
 }
 
@@ -33,9 +33,8 @@ internal actual fun ContinueCardPreview() {
         progress = 0.5f,
         timeRemain = 23,
         enabled = false,
-        part = "Objective and Theory"
+        part = "Objective and Theory",
     )
-
 }
 
 @Preview
@@ -43,4 +42,3 @@ internal actual fun ContinueCardPreview() {
 internal actual fun OtherCardPreview() {
     OtherCard("OTherr", painter = painterResource(R.drawable.aaa))
 }
-

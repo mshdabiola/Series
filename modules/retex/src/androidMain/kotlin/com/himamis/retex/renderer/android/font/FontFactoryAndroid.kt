@@ -14,7 +14,8 @@ class FontFactoryAndroid(private val mAssetManager: AssetManager) : FontFactory(
     }
 
     override fun createTextLayout(
-        string: String, font: Font,
+        string: String,
+        font: Font,
         fontRenderContext: FontRenderContext,
     ): TextLayout {
         return TextLayoutA(string, font as FontA, fontRenderContext as FontRenderContextA)

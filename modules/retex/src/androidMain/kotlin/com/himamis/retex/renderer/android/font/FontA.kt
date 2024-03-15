@@ -34,9 +34,12 @@ class FontA : Font {
     override fun deriveFont(type: Int): Font {
         val typefaceStyle = getTypefaceStyle(type)
         return FontA(
-            mName, Typeface.create(
-                typeface, typefaceStyle
-            ), size
+            mName,
+            Typeface.create(
+                typeface,
+                typefaceStyle,
+            ),
+            size,
         )
     }
 

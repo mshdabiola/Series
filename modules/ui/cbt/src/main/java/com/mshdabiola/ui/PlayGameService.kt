@@ -22,7 +22,6 @@ actual fun PlayLogin() {
     val playgame = PlayGames.getGamesSignInClient(activity)
     val user = PlayGames.getPlayersClient(activity)
 
-
     var isAuthenticated by remember { mutableStateOf(false) }
     var userName by remember {
         mutableStateOf("Abiola")
@@ -48,15 +47,12 @@ actual fun PlayLogin() {
                                     it.printStackTrace()
                                 }
                         }
-
-
                     }
                 }
                 .addOnFailureListener {
                     it.printStackTrace()
                     isAuthenticated = false
                 }
-
         }
 
         override fun onResume(owner: LifecycleOwner) {
@@ -66,21 +62,19 @@ actual fun PlayLogin() {
 
     val lifecycleOwner = LocalLifecycleOwner.current
 
-
     DisposableEffect(key1 = Unit) {
         lifecycleOwner.lifecycle.addObserver(defaultLifecycleObserver)
 
         onDispose {
             lifecycleOwner.lifecycle.removeObserver(defaultLifecycleObserver)
         }
-
     }
 
     if (isAuthenticated) {
         Text(
             "Hello $userName",
             color = MaterialTheme.colorScheme.primary,
-            style = MaterialTheme.typography.titleMedium
+            style = MaterialTheme.typography.titleMedium,
         )
     } else {
         Button(onClick = {
@@ -100,11 +94,8 @@ actual fun PlayLogin() {
                     it.printStackTrace()
                     isAuthenticated = false
                 }
-
         }) {
             Text(text = "Login")
         }
     }
-
-
 }

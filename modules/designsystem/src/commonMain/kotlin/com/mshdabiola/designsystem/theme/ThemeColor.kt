@@ -176,6 +176,7 @@ sealed class ThemeColor(val isDark: Boolean, val contrast: Contrast) {
                         inversePrimary = inversePrimaryDarkMediumContrast,
                     )
                 }
+
                 contrast == Contrast.Medium && !isDark -> {
                     val primaryLightMediumContrast = Color(0xFF0A466F)
                     val onPrimaryLightMediumContrast = Color(0xFFFFFFFF)
@@ -313,6 +314,7 @@ sealed class ThemeColor(val isDark: Boolean, val contrast: Contrast) {
                         inversePrimary = inversePrimaryDarkHighContrast,
                     )
                 }
+
                 contrast == Contrast.High && !isDark -> {
                     val primaryLightHighContrast = Color(0xFF00243E)
                     val onPrimaryLightHighContrast = Color(0xFFFFFFFF)
@@ -381,6 +383,7 @@ sealed class ThemeColor(val isDark: Boolean, val contrast: Contrast) {
                         inversePrimary = inversePrimaryLightHighContrast,
                     )
                 }
+
                 else -> {
                     val primaryLight = Color(0xFF31628D)
                     val onPrimaryLight = Color(0xFFFFFFFF)
@@ -593,6 +596,7 @@ sealed class ThemeColor(val isDark: Boolean, val contrast: Contrast) {
                         inversePrimary = inversePrimaryDarkMediumContrast,
                     )
                 }
+
                 contrast == Contrast.Medium && !isDark -> {
                     val primaryLightMediumContrast = Color(0xFF35490D)
                     val onPrimaryLightMediumContrast = Color(0xFFFFFFFF)
@@ -730,6 +734,7 @@ sealed class ThemeColor(val isDark: Boolean, val contrast: Contrast) {
                         inversePrimary = inversePrimaryDarkHighContrast,
                     )
                 }
+
                 contrast == Contrast.High && !isDark -> {
                     val primaryLightHighContrast = Color(0xFF192600)
                     val onPrimaryLightHighContrast = Color(0xFFFFFFFF)
@@ -798,6 +803,7 @@ sealed class ThemeColor(val isDark: Boolean, val contrast: Contrast) {
                         inversePrimary = inversePrimaryLightHighContrast,
                     )
                 }
+
                 else -> {
                     val primaryLight = Color(0xFF506528)
                     val onPrimaryLight = Color(0xFFFFFFFF)

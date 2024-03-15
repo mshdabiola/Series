@@ -7,6 +7,6 @@ import androidx.compose.runtime.Composable
 @Composable
 actual fun ProfileScreenPreview() {
     ProfileScreen(
-        profileState = ProfileState()
+        profileState = ProfileState(),
     )
 }

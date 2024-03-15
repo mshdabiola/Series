@@ -9,12 +9,10 @@ fun MainScreenNav(
     windowSizeClass: WindowSizeClass,
     onExamClick: (Long, Long) -> Unit = { _, _ -> },
 ) {
-
     val viewModel: MainViewModel = KoinCommonViewModel()
     MainScreen(
         windowSizeClass,
         onExamClick = onExamClick,
-        viewModel = viewModel
+        viewModel = viewModel,
     )
 }
-

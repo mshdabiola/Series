@@ -18,7 +18,6 @@ import androidx.compose.ui.unit.dp
 import com.mshdabiola.mvvn.KoinCommonViewModel
 import com.mshdabiola.mvvn.semanticsCommon
 import com.mshdabiola.series.screen.MainViewModel
-import com.mshdabiola.ui.Leaderboard
 import com.mshdabiola.ui.MoreRankButton
 import com.mshdabiola.ui.UserRankUiState
 import com.mshdabiola.ui.state.UserRank
@@ -37,7 +36,7 @@ internal fun StatScreen() {
 
     StatScreen(
         statState = StatState(),
-        userRankList = userRankList
+        userRankList = userRankList,
     )
 }
 
@@ -53,30 +52,27 @@ internal fun StatScreen(
             TopAppBar(
                 title = { Text(text = "Ranks") },
 
-                )
+            )
         },
 
-        ) { paddingValues ->
+    ) { paddingValues ->
 
         LazyColumn(
             modifier = Modifier
                 .padding(paddingValues)
                 .padding(horizontal = 8.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-
             items(userRankList) {
                 UserRankUiState(it)
             }
             item {
                 if (userRankList.isNotEmpty()) {
-
                     MoreRankButton()
                 }
             }
         }
     }
-
 }
 
 @Composable

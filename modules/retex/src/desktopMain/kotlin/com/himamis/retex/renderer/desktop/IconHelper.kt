@@ -60,7 +60,9 @@ object IconHelper {
                 icon.paintIcon({
                     if (c != null) {
                         ColorD(c.foreground)
-                    } else Colors.BLACK
+                    } else {
+                        Colors.BLACK
+                    }
                 }, g2d, x.toDouble(), y.toDouble())
                 icon.paintCursor(g2d, y.toDouble())
             }

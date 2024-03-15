@@ -73,7 +73,6 @@ fun <T> LargeDropdownMenu(
             maxLines = 1,
         )
 
-
         // Transparent clickable surface on top of OutlinedTextField
         Surface(
             modifier = Modifier
@@ -116,7 +115,7 @@ fun <T> LargeDropdownMenu(
                         drawItem(
                             item,
                             selectedItem,
-                            true
+                            true,
                         ) {
                             onItemSelected(index, item)
                             expanded = false
@@ -128,7 +127,7 @@ fun <T> LargeDropdownMenu(
                     }
                 }
             }
-            //}
+            // }
         }
     }
 }
@@ -147,10 +146,12 @@ fun LargeDropdownMenuItem(
     }
 
     CompositionLocalProvider(LocalContentColor provides contentColor) {
-        Box(modifier = Modifier
-            .clickable(enabled) { onClick() }
-            .fillMaxWidth()
-            .padding(16.dp)) {
+        Box(
+            modifier = Modifier
+                .clickable(enabled) { onClick() }
+                .fillMaxWidth()
+                .padding(16.dp),
+        ) {
             Text(
                 text = text,
                 style = MaterialTheme.typography.titleSmall,

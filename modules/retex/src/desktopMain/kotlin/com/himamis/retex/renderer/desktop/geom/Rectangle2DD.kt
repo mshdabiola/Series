@@ -45,7 +45,8 @@ package com.himamis.retex.renderer.desktop.geom
 
 import java.awt.geom.Rectangle2D
 
-class Rectangle2DD : Rectangle2D.Double,
+class Rectangle2DD :
+    Rectangle2D.Double,
     com.himamis.retex.renderer.share.platform.geom.Rectangle2D {
     constructor(rectangle: Rectangle2D?) {
         setRect(rectangle)

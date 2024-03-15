@@ -2,11 +2,9 @@ package com.mshdabiola.model
 
 import java.io.File
 
-
 object ImageUtil {
 
     fun newPath(extension: String, examId: Long): File {
-
         val time = System.currentTimeMillis()
         // val extension = if (extension == "svg") "svg" else extension
         return (getGeneralDir("$time.$extension", examId))
@@ -19,6 +17,4 @@ object ImageUtil {
         }
         return File(homeDir, name)
     }
-
-
 }

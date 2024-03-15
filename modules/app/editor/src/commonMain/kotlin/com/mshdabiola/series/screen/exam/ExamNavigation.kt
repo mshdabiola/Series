@@ -12,14 +12,13 @@ fun ExamScreenNav(
     subjectId: Long,
     onBack: () -> Unit,
 ) {
-
     val viewModel: ExamViewModel = KoinCommonViewModel(
         key = "id$examId subId$subjectId",
-        parameters = { parametersOf(examId, subjectId) })
+        parameters = { parametersOf(examId, subjectId) },
+    )
     ExamScreen(
         windowSizeClass = windowSizeClass,
         onBack = onBack,
-        viewModel = viewModel
+        viewModel = viewModel,
     )
 }
-

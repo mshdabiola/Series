@@ -49,7 +49,7 @@ fun InstructionEditUi(
             value = instructionUiState.title ?: "",
             onValueChange = onTitleChange,
             maxLines = 1,
-            label = { Text("Title") }
+            label = { Text("Title") },
         )
         Spacer(Modifier.height(4.dp))
         Content(
@@ -62,11 +62,9 @@ fun InstructionEditUi(
             edit = edit,
             changeType = changeType,
             onTextChange = onTextChange,
-            examId = instructionUiState.examId
+            examId = instructionUiState.examId,
         )
-
     }
-
 }
 
 @Composable
@@ -82,13 +80,14 @@ fun InstructionUi(
         modifier = modifier,
         overlineContent = { Text("Id - ${instructionUiState.id}") },
         headlineContent = {
-            if (instructionUiState.title != null)
+            if (instructionUiState.title != null) {
                 Text(instructionUiState.title)
+            }
         },
         supportingContent = {
             ContentView(
                 items = instructionUiState.content,
-                examId = instructionUiState.examId
+                examId = instructionUiState.examId,
             )
         },
         trailingContent = {
@@ -97,15 +96,14 @@ fun InstructionUi(
                     Icon(Icons.Default.MoreVert, "more")
                 }
                 DropdownMenu(expanded = showDrop, onDismissRequest = { showDrop = false }) {
-
-
                     DropdownMenuItem(
                         leadingIcon = { Icon(Icons.Default.Update, "update") },
                         text = { Text("Update") },
                         onClick = {
                             onUpdate(instructionUiState.id)
                             showDrop = false
-                        })
+                        },
+                    )
 
                     DropdownMenuItem(
                         leadingIcon = { Icon(Icons.Default.Delete, "Delete") },
@@ -113,12 +111,10 @@ fun InstructionUi(
                         onClick = {
                             onDelete(instructionUiState.id)
                             showDrop = false
-                        })
-
-
+                        },
+                    )
                 }
             }
-        }
+        },
     )
-
 }

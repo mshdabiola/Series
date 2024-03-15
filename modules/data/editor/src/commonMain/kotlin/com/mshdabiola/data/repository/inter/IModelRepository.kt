@@ -1,6 +1,5 @@
 package com.mshdabiola.data.repository.inter
 
-
 import com.mshdabiola.model.Model
 import kotlinx.coroutines.flow.Flow
 
@@ -13,5 +12,4 @@ interface IModelRepository {
     suspend fun updateModel(name: String, id: Long)
     fun getOneModel(id: Long): Flow<Model>
     suspend fun delete(id: Long)
-
 }

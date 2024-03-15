@@ -81,7 +81,7 @@ class FontD : Font {
     fun createGlyphVector(frc: FontRenderContext?, s: String?): GlyphVector {
         return GlyphVectorD(
             font
-                .createGlyphVector(frc as java.awt.font.FontRenderContext?, s)
+                .createGlyphVector(frc as java.awt.font.FontRenderContext?, s),
         )
     }
 

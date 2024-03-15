@@ -1,6 +1,6 @@
 package com.mshdabiola.ui
 
-//import androidx.compose.foundation.onClick
+// import androidx.compose.foundation.onClick
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
@@ -31,9 +31,8 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.unit.dp
 import com.mshdabiola.retex.Latex
 
-
 @OptIn(
-    ExperimentalLayoutApi::class
+    ExperimentalLayoutApi::class,
 )
 @Composable
 fun TemplateUi() {
@@ -51,7 +50,7 @@ fun TemplateUi() {
                 "\\overrightarrow{abc}",
                 "\\overleftarrow{abc}",
                 "\\overbrace{abc}",
-                "\\underbrace{abc}"
+                "\\underbrace{abc}",
             ),
             "Equation" to listOf(
                 "\\frac{0}{0}",
@@ -64,7 +63,7 @@ fun TemplateUi() {
                 "\\prod_{x=4}^x",
                 "\\int_a^b f(x)\\,dx.",
                 "\\left.\\frac{dx}{dy}\\right|_x",
-                "\\frac{\\partial u}{\\partial t}"
+                "\\frac{\\partial u}{\\partial t}",
             ),
             "Functions" to listOf(
                 "\\arccos(x)",
@@ -130,17 +129,17 @@ fun TemplateUi() {
                 "\\mbox{~and~} ",
                 "\\left[ \\begin{array}{cc|r} 3 & 4 & 5 \\\\ 1 & 3 & 729 \\end{array} \\right]",
                 "\\begin{eqnarray}\n" +
-                        "\\cos 2\\theta & = & \\cos^2 \\theta - \\sin^2 \\theta \\\\\n" +
-                        "& = & 2 \\cos^2 \\theta - 1.\n" +
-                        "\\end{eqnarray}",
+                    "\\cos 2\\theta & = & \\cos^2 \\theta - \\sin^2 \\theta \\\\\n" +
+                    "& = & 2 \\cos^2 \\theta - 1.\n" +
+                    "\\end{eqnarray}",
                 "\\begin{tabular}{|l|l|l|}\\hline\n" +
-                        "Chicago&U.S.A.&1893\\\\\n" +
-                        "Z\\\"{u}rich&Switzerland&1897\\\\\n" +
-                        "Paris&France&1900\\\\\n" +
-                        "Heidelberg&Germany&1904\\\\\n" +
-                        "Rome&Italy&1908\\hline\\end{tabular}"
-            )
-        ), //equation
+                    "Chicago&U.S.A.&1893\\\\\n" +
+                    "Z\\\"{u}rich&Switzerland&1897\\\\\n" +
+                    "Paris&France&1900\\\\\n" +
+                    "Heidelberg&Germany&1904\\\\\n" +
+                    "Rome&Italy&1908\\hline\\end{tabular}",
+            ),
+        ), // equation
         mapOf(
             "Acute" to listOf(
                 "\\acute{a}",
@@ -152,7 +151,7 @@ fun TemplateUi() {
                 "\\check{a}",
                 "\\dot{a}",
                 "\\hat{a}",
-                "\\vec{a}"
+                "\\vec{a}",
 
             ),
             "Font" to listOf(
@@ -161,7 +160,7 @@ fun TemplateUi() {
                 " \\mathfrak{A}",
                 " \\mathsf{A}",
                 " \\mathbf{A}",
-                "\\text{ a text }"
+                "\\text{ a text }",
             ),
             "Greek" to listOf(
                 "\\alpha", "\\beta", "\\gamma", "\\delta", "\\epsilon",
@@ -172,8 +171,8 @@ fun TemplateUi() {
                 "\\Gamma", "\\Delta", "\\Epsilon",
                 "\\Theta", "\\Lambda", "\\Xi", "\\Psi", "\\Pi", "\\Sigma",
                 "\\Upsilon", "\\Phi", "\\Omega",
-            )
-        ), //letter
+            ),
+        ), // letter
         mapOf(
             "Binary" to listOf(
                 "\\ast",
@@ -257,7 +256,7 @@ fun TemplateUi() {
                 "\\geqslant_0",
             ),
             "Relation 1" to listOf(
-                //eqution
+                // eqution
                 "\\equiv",
                 "\\cong",
                 "\\neq",
@@ -300,7 +299,7 @@ fun TemplateUi() {
                 "\\notin",
             ),
             "Relation 2" to listOf(
-                //equal
+                // equal
                 "\\approxeq",
                 "\\thicksim",
                 "\\backsim",
@@ -422,7 +421,7 @@ fun TemplateUi() {
                 "\\varsubsetneq",
                 "\\varsupsetneq",
                 "\\varsubsetneqq",
-                "\\varsupsetneqq"
+                "\\varsupsetneqq",
             ),
             "Arrow 1" to listOf(
                 "\\leftarrow", "\\longleftarrow", "\\uparrow",
@@ -452,8 +451,12 @@ fun TemplateUi() {
                 "\\Rsh", "\\downdownarrows", "\\upharpoonright",
             ),
             "Arrow 4" to listOf(
-                "\\nleftarrow", "\\nrightarrow", "\\nLeftarrow",
-                "\\nRightarrow", "\\nleftrightarrow", "\\nLeftrightarrow"
+                "\\nleftarrow",
+                "\\nrightarrow",
+                "\\nLeftarrow",
+                "\\nRightarrow",
+                "\\nleftrightarrow",
+                "\\nLeftrightarrow",
             ),
             "Miscellaneous" to listOf(
                 "\\aleph",
@@ -514,11 +517,10 @@ fun TemplateUi() {
                 "\\wp",
                 "\\|",
 
-                ),
-        ), //symbol
+            ),
+        ), // symbol
 
     )
-
 
 //    "surd"
     val clipboard = LocalClipboardManager.current
@@ -538,11 +540,10 @@ fun TemplateUi() {
     }
     // HorizontalPager(state = state, userScrollEnabled = false) {
 
-
     if (state == 0) {
         FlowRow(
             Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(4.dp)
+            horizontalArrangement = Arrangement.spacedBy(4.dp),
         ) {
             MarkUpEngine.list.keys.toList().forEach {
                 SuggestionChip(onClick = {
@@ -551,16 +552,14 @@ fun TemplateUi() {
                             append("*")
                             append(it)
                             append("*content*e*")
-                        }
+                        },
                     )
                 }, label = { MarkUpText("*$it*key-$it*e*") })
-
             }
         }
     } else {
         TemptRow(listOfMap[state - 1])
     }
-
 
     // }
 }
@@ -577,10 +576,9 @@ fun TemptRow(
     }
 }
 
-
 @OptIn(
     ExperimentalLayoutApi::class,
-    ExperimentalFoundationApi::class
+    ExperimentalFoundationApi::class,
 )
 @Composable
 internal fun TemplateContent(name: String, list: List<String>) {
@@ -592,47 +590,45 @@ internal fun TemplateContent(name: String, list: List<String>) {
     Column(
         Modifier
             .fillMaxWidth()
-            .animateContentSize { _, _ -> }
+            .animateContentSize { _, _ -> },
     ) {
         Row(
             Modifier
                 .clickable(onClick = { showAll = !showAll })
                 .fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             Text(name)
             IconButton(modifier = Modifier, onClick = { showAll = !showAll }) {
                 Icon(
                     if (!showAll) Icons.Default.KeyboardArrowDown else Icons.Default.KeyboardArrowUp,
-                    "down"
+                    "down",
                 )
             }
         }
         if (showAll) {
             FlowRow(
                 Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(4.dp)
+                horizontalArrangement = Arrangement.spacedBy(4.dp),
             ) {
                 list.forEach {
                     SuggestionChip(onClick = {
                         clipboard.setText(
                             buildAnnotatedString {
-
                                 append(it)
-                            }
+                            },
                         )
                     }, label = { Latex(text = it) })
                 }
             }
         }
-
     }
 }
 
-//@Preview
-//@Composable
-//fun TemplatePreview() {
+// @Preview
+// @Composable
+// fun TemplatePreview() {
 //    //TemplateUi()
 //    // TemplateContent("Arrow", listOf("abioa", "avvii"))
 //    TemptRow(
@@ -641,4 +637,4 @@ internal fun TemplateContent(name: String, list: List<String>) {
 //            "Text2" to listOf("aviol", "aksl"),
 //        )
 //    )
-//}
+// }

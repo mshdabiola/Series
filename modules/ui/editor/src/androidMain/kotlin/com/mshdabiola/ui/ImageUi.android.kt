@@ -16,7 +16,6 @@ import java.io.File
 import java.io.FileInputStream
 
 actual fun loadSvgPainter(file: File, density: Density): Painter {
-
     val inputStream = FileInputStream(file)
     val svg = SVG.getFromInputStream(inputStream)
     val w = if (svg.documentWidth > 0) svg.documentWidth else svg.documentViewBox.width()
@@ -24,15 +23,12 @@ actual fun loadSvgPainter(file: File, density: Density): Painter {
 
     svg.renderDPI = density.density * 96f // default is 96
 
-
     val bitmap = ImageBitmap(w.toInt(), h.toInt(), ImageBitmapConfig.Argb8888)
     val canvas = Canvas(bitmap)
     canvas.nativeCanvas.drawRGB(255, 255, 255)
     svg.renderToCanvas(canvas.nativeCanvas)
 
-
     return BitmapPainter(bitmap)
-
 }
 
 actual fun loadImageBitmap(file: File): ImageBitmap? {
@@ -60,11 +56,10 @@ actual fun loadSvgPainter1(
 ): ImageBitmap? {
     val instream = FileInputStream(file)
     val svg = SVG.getFromInputStream(instream)
-    //if (svg.documentWidth.toInt() !=-1){
+    // if (svg.documentWidth.toInt() !=-1){
     val w = svg.documentViewBox.width()
     val h = svg.documentViewBox.height()
     svg.renderDPI = density.density * 96f // default is 96
-
 
     val bitmap = ImageBitmap(w.toInt(), h.toInt(), ImageBitmapConfig.Argb8888)
     val canvas = Canvas(bitmap)

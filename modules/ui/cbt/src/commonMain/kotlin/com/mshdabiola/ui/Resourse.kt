@@ -12,7 +12,6 @@ expect fun getStringType(): String
 @Composable
 expect fun getExamPart(): Array<String>
 
-
 @Composable
 expect fun getSection(): Array<String>
 

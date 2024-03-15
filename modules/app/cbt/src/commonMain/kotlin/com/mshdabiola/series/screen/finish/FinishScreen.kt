@@ -36,12 +36,12 @@ import androidx.compose.ui.unit.dp
 import com.mshdabiola.mvvn.collectAsStateWithLifecycleCommon
 import com.mshdabiola.mvvn.semanticsCommon
 import com.mshdabiola.series.screen.MainViewModel
-import com.mshdabiola.ui.getSection
 import com.mshdabiola.series.screen.main.MainState
 import com.mshdabiola.ui.FinishCard
 import com.mshdabiola.ui.InstructionBottomSheet
 import com.mshdabiola.ui.QuestionUi
 import com.mshdabiola.ui.ScoreCard
+import com.mshdabiola.ui.getSection
 import com.mshdabiola.ui.state.InstructionUiState
 import com.mshdabiola.ui.state.QuestionUiState
 import kotlinx.collections.immutable.toImmutableList
@@ -49,9 +49,7 @@ import kotlinx.coroutines.launch
 
 @Composable
 internal fun FinishScreen(onBack: () -> Unit, toQuestion: () -> Unit, viewModel: MainViewModel) {
-
     val mainState = viewModel.mainState.collectAsStateWithLifecycleCommon()
-
 
     FinishScreen(
         mainState = mainState.value,
@@ -83,7 +81,6 @@ internal fun FinishScreen(
         mutableStateOf<InstructionUiState?>(null)
     }
 
-
     Scaffold(
         modifier = Modifier.semanticsCommon {},
         bottomBar = {
@@ -92,13 +89,12 @@ internal fun FinishScreen(
                     IconButton(onClick = back) {
                         Icon(
                             imageVector = Icons.Default.ArrowBackIosNew,
-                            contentDescription = "back"
+                            contentDescription = "back",
                         )
                     }
                     IconButton(onClick = { /*TODO*/ }) {
                         Icon(imageVector = Icons.Default.Share, contentDescription = "Share")
                     }
-
                 },
                 floatingActionButton = {
                     ExtendedFloatingActionButton(onClick = toQuestion) {
@@ -106,9 +102,9 @@ internal fun FinishScreen(
                         Spacer(modifier = Modifier.width(ButtonDefaults.IconSpacing))
                         Text(text = "Retry Questions")
                     }
-                }
+                },
             )
-        }
+        },
     ) { paddingValues ->
         LazyColumn(
             Modifier
@@ -117,13 +113,13 @@ internal fun FinishScreen(
                 .padding(horizontal = 8.dp),
             state = lazyState,
             verticalArrangement = Arrangement.spacedBy(8.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             item {
                 Text(
                     text = "Good Job",
                     style = MaterialTheme.typography.headlineMedium,
-                    color = MaterialTheme.colorScheme.primary
+                    color = MaterialTheme.colorScheme.primary,
                 )
             }
             item {
@@ -138,8 +134,8 @@ internal fun FinishScreen(
                                 lazyState.scrollToItem(3)
                             }
                         }
-
-                    })
+                    },
+                )
             }
             item {
                 if (mainState.score != null) {
@@ -169,16 +165,18 @@ internal fun FinishScreen(
                                             lazyState.scrollToItem(3)
                                         }
                                     },
-                                    text = { Text(text = getSection()[section.stringRes]) })
+                                    text = { Text(text = getSection()[section.stringRes]) },
+                                )
                             }
                         }
                     }
                 }
                 itemsIndexed(
                     items = mainState.questions.getOrElse(
-                        mainState.currentSectionIndex
+                        mainState.currentSectionIndex,
                     ) { emptyList<QuestionUiState>().toImmutableList() },
-                    key = { _, item -> item.id }) { index, item ->
+                    key = { _, item -> item.id },
+                ) { index, item ->
                     QuestionUi(
                         number = (index + 1L),
                         questionUiState = item,
@@ -186,25 +184,21 @@ internal fun FinishScreen(
                             instructionUiState = item.instructionUiState
                         },
                         selectedOption = mainState.choose[mainState.currentSectionIndex].getOrNull(
-                            index
+                            index,
                         ) ?: -1,
                         onOptionClick = {
                         },
-                        showAnswer = true
+                        showAnswer = true,
                     )
                 }
             }
-
-
         }
-
     }
     InstructionBottomSheet(
         instructionUiState = instructionUiState,
 
-        onDismissRequest = { instructionUiState = null }
+        onDismissRequest = { instructionUiState = null },
     )
-
 }
 
 @Composable

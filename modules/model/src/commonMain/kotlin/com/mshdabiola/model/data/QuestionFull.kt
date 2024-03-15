@@ -20,11 +20,18 @@ fun Question.toQuestionWithOptions(
     instruction: Instruction?,
     topic: Topic?,
 
-    ) =
+) =
     QuestionFull(
-        id, nos, examId, content, list, isTheory, answer, instruction, topic
+        id, nos, examId, content, list, isTheory, answer, instruction, topic,
     )
 
 fun QuestionFull.toQuestion() = Question(
-    id, nos, examId, content, isTheory, answer, instruction?.id, topic?.id
+    id,
+    nos,
+    examId,
+    content,
+    isTheory,
+    answer,
+    instruction?.id,
+    topic?.id,
 )

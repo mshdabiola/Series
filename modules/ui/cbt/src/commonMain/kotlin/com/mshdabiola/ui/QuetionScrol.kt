@@ -39,7 +39,6 @@ fun QuestionScroll(
     onNext: () -> Unit = {},
     onPrev: () -> Unit = {},
 ) {
-
     val state = rememberLazyListState()
 
     LaunchedEffect(currentQuestion) {
@@ -56,18 +55,16 @@ fun QuestionScroll(
     }
     Column(
         verticalArrangement = Arrangement.spacedBy(4.dp, Alignment.CenterVertically),
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-
         Row(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(4.dp, Alignment.CenterHorizontally)
+            horizontalArrangement = Arrangement.spacedBy(4.dp, Alignment.CenterHorizontally),
         ) {
-
             IconButton(
                 enabled = showPrev,
-                onClick = onPrev
+                onClick = onPrev,
             ) {
                 Icon(Icons.Default.KeyboardArrowLeft, "prev")
             }
@@ -75,35 +72,27 @@ fun QuestionScroll(
             LazyRow(
                 state = state,
                 modifier = Modifier.weight(1f),
-                horizontalArrangement = Arrangement.spacedBy(4.dp, Alignment.CenterHorizontally)
+                horizontalArrangement = Arrangement.spacedBy(4.dp, Alignment.CenterHorizontally),
             ) {
-
                 items(count = number, key = { it }) {
                     QuestionNumberButton(
                         number = it,
                         isChoose = chooses[it] > -1,
-                        isCurrent = it == currentQuestion
+                        isCurrent = it == currentQuestion,
                     ) { onChooseClick(it) }
                 }
             }
             IconButton(
                 enabled = showNext,
-                onClick = onNext
+                onClick = onNext,
             ) {
                 Icon(Icons.Default.KeyboardArrowRight, "next")
             }
-
         }
 
-
-
         Text("${noAnswer.value} of $number")
-
-
     }
-
 }
-
 
 @Composable
 internal expect fun QuestionScrollPreview()
@@ -116,25 +105,23 @@ fun QuestionNumberButton(
     isCurrent: Boolean = false,
     onClick: () -> Unit = {},
 ) {
-    val color = if (isChoose)
+    val color = if (isChoose) {
         MaterialTheme.colorScheme.primaryContainer
-    else
+    } else {
         MaterialTheme.colorScheme.surface
+    }
     val border = isCurrent || !isChoose
-
-
 
     OutlinedCard(
         modifier = Modifier.requiredSize(48.dp),
         shape = CircleShape,
         colors = CardDefaults.outlinedCardColors(containerColor = color),
         border = CardDefaults.outlinedCardBorder(border),
-        onClick = onClick
+        onClick = onClick,
     ) {
         Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
             Text("${number + 1}")
         }
-
     }
 }
 

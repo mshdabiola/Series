@@ -1,6 +1,6 @@
 package com.mshdabiola.series.screen.main
 
-//import androidx.compose.desktop.ui.tooling.preview.Preview
+// import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.clickable
@@ -83,7 +83,6 @@ import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.launch
 import java.io.File
 
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen(
@@ -106,15 +105,14 @@ fun MainScreen(
 //            viewModel.onExport(it.path)
 //        }
 //    }
-    //)
+    // )
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val coroutineScope = rememberCoroutineScope()
     val action: @Composable RowScope.() -> Unit = {
         Box {
-
             IconButton(
                 onClick = { showDrop = true },
-                //enabled = currentSubjectIndex > -1
+                // enabled = currentSubjectIndex > -1
             ) {
                 Icon(Icons.Default.MoreVert, "more")
             }
@@ -122,54 +120,54 @@ fun MainScreen(
             if (viewModel.isSelectMode.value) {
                 DropdownMenu(
                     expanded = showDrop,
-                    onDismissRequest = { showDrop = false }) {
-
-
+                    onDismissRequest = { showDrop = false },
+                ) {
                     DropdownMenuItem(
                         leadingIcon = {
                             Icon(
                                 Icons.Default.SelectAll,
-                                "select All"
+                                "select All",
                             )
                         },
                         text = { Text("Select All") },
                         onClick = {
                             viewModel.selectAll()
-                        })
+                        },
+                    )
 
                     if (currentSubjectIndex > -1) {
-
                         DropdownMenuItem(
                             leadingIcon = {
                                 Icon(
                                     Icons.Default.Subject,
-                                    "select all subject"
+                                    "select all subject",
                                 )
                             },
                             text = { Text("Select Current Subject") },
                             onClick = {
                                 viewModel.selectAllSubject()
-                            })
+                            },
+                        )
                     }
                     DropdownMenuItem(
                         leadingIcon = {
                             Icon(
                                 Icons.Rounded.Deselect,
-                                "deselect"
+                                "deselect",
                             )
                         },
                         text = { Text("DeSelect All") },
                         onClick = {
                             viewModel.deselectAll()
                             showDrop = false
-
-                        })
+                        },
+                    )
 
                     DropdownMenuItem(
                         leadingIcon = {
                             Icon(
                                 Icons.Rounded.SaveAs,
-                                "save"
+                                "save",
                             )
                         },
                         text = { Text("Export Selected") },
@@ -177,57 +175,57 @@ fun MainScreen(
                             // onDelete(examUiState.id)
                             showDialog = true
                             showDrop = false
-                        })
+                        },
+                    )
 
                     DropdownMenuItem(
                         leadingIcon = {
                             Icon(
                                 Icons.Rounded.Delete,
-                                "delete"
+                                "delete",
                             )
                         },
                         text = { Text("Delete selected") },
                         onClick = {
                             deleteId = -1
                             showDrop = false
-
-                        })
-
+                        },
+                    )
                 }
-
             } else {
-
                 DropdownMenu(
                     expanded = showDrop,
-                    onDismissRequest = { showDrop = false }) {
-
+                    onDismissRequest = { showDrop = false },
+                ) {
                     if (currentSubjectIndex > -1) {
                         DropdownMenuItem(
                             leadingIcon = {
                                 Icon(
                                     Icons.Default.Update,
-                                    "update"
+                                    "update",
                                 )
                             },
                             text = { Text("Update") },
                             onClick = {
                                 viewModel.updateSubject(currentSubjectIndex)
                                 showDrop = false
-                            })
+                            },
+                        )
                     }
 
                     DropdownMenuItem(
                         leadingIcon = {
                             Icon(
                                 Icons.Default.HdrOnSelect,
-                                "select mode"
+                                "select mode",
                             )
                         },
                         text = { Text("Select mode") },
                         onClick = {
                             viewModel.toggleSelectMode()
                             showDrop = false
-                        })
+                        },
+                    )
 
 //                            DropdownMenuItem(
 //                                leadingIcon = {
@@ -240,10 +238,7 @@ fun MainScreen(
 //                                onClick = {
 //
 //                                })
-
-
                 }
-
             }
         }
     }
@@ -268,7 +263,7 @@ fun MainScreen(
 //
 //            },
         )
-        //}
+        // }
     }
 
     if (windowSizeClass.widthSizeClass == WindowWidthSizeClass.Compact) {
@@ -279,10 +274,10 @@ fun MainScreen(
                 Card(
                     modifier = Modifier.fillMaxHeight().width(300.dp),
                     colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.background),
-                    elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+                    elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
                 ) {
                     LazyColumn(
-                        modifier = Modifier.fillMaxHeight().width(200.dp).systemBarsPadding()
+                        modifier = Modifier.fillMaxHeight().width(200.dp).systemBarsPadding(),
                     ) {
                         item {
                             NavigationDrawerItem(
@@ -292,7 +287,7 @@ fun MainScreen(
 
                                     coroutineScope.launch { drawerState.close() }
                                 },
-                                selected = currentSubjectIndex == -1L
+                                selected = currentSubjectIndex == -1L,
                             )
                         }
                         items(subjects.value, key = { it.id }) {
@@ -302,16 +297,13 @@ fun MainScreen(
                                     viewModel.onSubject(it.id)
                                     coroutineScope.launch { drawerState.close() }
                                 },
-                                selected = currentSubjectIndex == it.id
+                                selected = currentSubjectIndex == it.id,
                             )
                         }
-
                     }
                 }
-
             },
             content = {
-
                 MainContent(
                     modifier = Modifier
                         .padding(horizontal = 16.dp),
@@ -345,9 +337,10 @@ fun MainScreen(
                             Icon(Icons.Default.Menu, "menu")
                         }
                         action()
-                    }
+                    },
                 )
-            })
+            },
+        )
     } else {
         PermanentNavigationDrawer(
             modifier = Modifier,
@@ -355,32 +348,30 @@ fun MainScreen(
                 Card(
                     modifier = Modifier.fillMaxHeight().width(300.dp),
                     colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.background),
-                    shape = RectangleShape
+                    shape = RectangleShape,
 //                    elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
                 ) {
                     LazyColumn(
-                        modifier = Modifier.fillMaxHeight().width(200.dp).systemBarsPadding()
+                        modifier = Modifier.fillMaxHeight().width(200.dp).systemBarsPadding(),
                     ) {
                         item {
                             NavigationDrawerItem(
                                 label = { Text("All Examination") },
                                 onClick = { viewModel.onSubject(-1) },
-                                selected = currentSubjectIndex == -1L
+                                selected = currentSubjectIndex == -1L,
                             )
                         }
                         items(subjects.value, key = { it.id }) {
                             NavigationDrawerItem(
                                 label = { Text(it.name) },
                                 onClick = { viewModel.onSubject(it.id) },
-                                selected = currentSubjectIndex == it.id
+                                selected = currentSubjectIndex == it.id,
                             )
                         }
-
                     }
                 }
             },
             content = {
-
                 MainContent(
                     modifier = Modifier
                         .padding(horizontal = 16.dp),
@@ -402,11 +393,11 @@ fun MainScreen(
                     onDeleteSubject = { deleteId = it },
                     onUpdateSubject = viewModel::onUpdateExam,
                     action = action,
-                    topbar = topbar
-
+                    topbar = topbar,
 
                 )
-            })
+            },
+        )
     }
     if (deleteId != null) {
         AlertDialog(
@@ -432,11 +423,9 @@ fun MainScreen(
             title = { Text(text = "Delete Subject") },
             text = {
                 Text("Are you sure you want to delete this examination?")
-            }
+            },
         )
     }
-
-
 }
 
 @Composable
@@ -462,7 +451,7 @@ fun MainContent(
     action: @Composable RowScope.() -> Unit = {},
     topbar: @Composable () -> Unit = {},
 
-    ) {
+) {
     var showmenu by remember {
         mutableStateOf(false)
     }
@@ -487,25 +476,22 @@ fun MainContent(
                             } else {
                                 onExamClick(it.id, it.subjectID)
                             }
-
                         },
                         examUiState = it,
                         onDelete = onDeleteSubject,
                         onUpdate = onUpdateSubject,
                         toggleSelect = toggleSelect,
-                        isSelectMode = isSelectMode
+                        isSelectMode = isSelectMode,
 
                     )
                 }
             }
-
-
         },
         secondScreen = {
             Column(
                 Modifier
                     .fillMaxSize(),
-                verticalArrangement = Arrangement.spacedBy(8.dp)
+                verticalArrangement = Arrangement.spacedBy(8.dp),
             ) {
                 Text("Add Examination")
                 Box {
@@ -519,24 +505,27 @@ fun MainContent(
                                 showmenu = !showmenu
                             }) { Icon(imageVector = Icons.Default.ArrowDropDown, "down") }
                         },
-                        readOnly = true
+                        readOnly = true,
 
                     )
                     DropdownMenu(
                         expanded = showmenu,
-                        onDismissRequest = { showmenu = false }) {
+                        onDismissRequest = { showmenu = false },
+                    ) {
                         subjects.forEach { subj ->
-                            DropdownMenuItem(text = { Text(subj.name) },
+                            DropdownMenuItem(
+                                text = { Text(subj.name) },
                                 onClick = {
                                     onSubjectIdChange(subj.id)
                                     showmenu = false
-                                })
+                                },
+                            )
                         }
                     }
                 }
                 Row(
                     modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
                 ) {
                     TextField(
                         modifier = Modifier.weight(0.5f),
@@ -547,7 +536,7 @@ fun MainContent(
                         onValueChange = { onExamYearChange(it) },
                         maxLines = 1,
 
-                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                     )
 
                     TextField(
@@ -558,7 +547,7 @@ fun MainContent(
                         suffix = { Text("Min") },
                         onValueChange = { onExamDurationChange(it) },
                         maxLines = 1,
-                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                     )
                 }
 
@@ -567,7 +556,8 @@ fun MainContent(
                     enabled = examUiState.subject.isNotBlank() && examUiState.year != -1L,
                     onClick = {
                         addExam()
-                    }) {
+                    },
+                ) {
                     Text("Add Exam")
                 }
                 Spacer(Modifier.width(16.dp))
@@ -583,7 +573,7 @@ fun MainContent(
                     },
                     keyboardOptions = KeyboardOptions(
                         capitalization = KeyboardCapitalization.Sentences,
-                        autoCorrect = true
+                        autoCorrect = true,
                     ),
                     maxLines = 1,
                 )
@@ -592,33 +582,28 @@ fun MainContent(
                     enabled = subjectUiState.name.isNotBlank(),
                     onClick = {
                         addSubject()
-                    }) {
+                    },
+                ) {
                     Text("Add Subject")
                 }
-
-
             }
         },
         action = action,
-        topbar = topbar
+        topbar = topbar,
     )
-
-
 }
 
-
-//@Preview
+// @Preview
 @Composable
 fun ContentPreview() {
     MaterialTheme {
-
     }
 }
 //
-//@OptIn(ExperimentalSplitPaneApi::class, ExperimentalResourceApi::class)
-//@Preview
-//@Composable
-//fun id() {
+// @OptIn(ExperimentalSplitPaneApi::class, ExperimentalResourceApi::class)
+// @Preview
+// @Composable
+// fun id() {
 //    MaterialTheme {
 //
 //        val state = rememberSplitPaneState(0.5f, true)
@@ -650,7 +635,7 @@ fun ContentPreview() {
 //
 //    }
 //
-//}
+// }
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -679,12 +664,12 @@ fun MainDialog(
             Card {
                 Column(
                     modifier = Modifier.padding(16.dp),
-                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                    verticalArrangement = Arrangement.spacedBy(8.dp),
                 ) {
                     Text(
                         modifier = Modifier.align(Alignment.CenterHorizontally),
                         text = "Export Examination",
-                        style = MaterialTheme.typography.titleMedium
+                        style = MaterialTheme.typography.titleMedium,
                     )
                     Row(modifier = Modifier.fillMaxWidth()) {
                         Text(modifier = Modifier.weight(0.3f), text = "Directory")
@@ -697,10 +682,9 @@ fun MainDialog(
                             Icon(
                                 modifier = Modifier.weight(0.1f),
                                 imageVector = Icons.Default.MoreHoriz,
-                                contentDescription = "select"
+                                contentDescription = "select",
                             )
                         }
-
                     }
 
                     TextField(
@@ -710,7 +694,7 @@ fun MainDialog(
                         placeholder = { Text("data") },
                         onValueChange = { name = it },
                         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
-                        maxLines = 1
+                        maxLines = 1,
 
                     )
                     TextField(
@@ -720,7 +704,7 @@ fun MainDialog(
                         placeholder = { Text("SwordFish") },
                         onValueChange = { key = it },
                         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
-                        maxLines = 1
+                        maxLines = 1,
                     )
                     TextField(
                         modifier = Modifier.fillMaxWidth(),
@@ -730,14 +714,14 @@ fun MainDialog(
                         onValueChange = { version = it },
                         keyboardOptions = KeyboardOptions(
                             imeAction = ImeAction.Next,
-                            keyboardType = KeyboardType.Number
+                            keyboardType = KeyboardType.Number,
                         ),
-                        maxLines = 1
+                        maxLines = 1,
                     )
 
                     Row(
                         modifier = Modifier.align(Alignment.End),
-                        horizontalArrangement = Arrangement.spacedBy(8.dp)
+                        horizontalArrangement = Arrangement.spacedBy(8.dp),
                     ) {
                         TextButton(onClick = onClose) {
                             Text("Cancel")
@@ -749,26 +733,21 @@ fun MainDialog(
                                     path,
                                     name.ifBlank { "data" },
                                     key.ifBlank { "SwordFish" },
-                                    version.toIntOrNull() ?: 0
+                                    version.toIntOrNull() ?: 0,
                                 )
                                 path = ""
                                 version = ""
                                 key = ""
                                 name = ""
                                 onClose()
-
                             },
-                            enabled = path.isNotBlank()
+                            enabled = path.isNotBlank(),
                         ) {
                             Text("Export")
                         }
                     }
-
-
                 }
             }
-
-
         }
     }
     DirtoryUi(showDir, onDismiss = { showDir = false }) {
@@ -778,16 +757,13 @@ fun MainDialog(
     }
 }
 
-//@Preview
+// @Preview
 @Composable
 fun MainDialogPreveiw() {
-    SeriesTheme  {
+    SeriesTheme {
         MainDialog(true)
     }
-
-
 }
-
 
 @Composable
 expect fun DirtoryUi(
@@ -795,4 +771,3 @@ expect fun DirtoryUi(
     onDismiss: () -> Unit = {},
     onFile: (File?) -> Unit = {},
 )
-

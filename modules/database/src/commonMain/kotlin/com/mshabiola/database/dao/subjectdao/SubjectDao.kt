@@ -19,10 +19,11 @@ internal class SubjectDao(
     override suspend fun insert(subject: Subject) {
         println("insert subject $subject")
         withContext(coroutineDispatcher) {
-            if (subject.id == -1L)
+            if (subject.id == -1L) {
                 subjectQueries.insert(subject.toEntity())
-            else
+            } else {
                 subjectQueries.update(subject.name, subject.id)
+            }
         }
     }
 
@@ -38,7 +39,7 @@ internal class SubjectDao(
         withContext(coroutineDispatcher) {
             subjectQueries.update(
                 subject.name,
-                subject.id
+                subject.id,
             )
         }
     }

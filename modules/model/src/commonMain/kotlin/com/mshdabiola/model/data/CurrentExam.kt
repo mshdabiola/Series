@@ -12,5 +12,3 @@ data class CurrentExam(
     val examPart: Int = 0,
     val choose: List<List<Int>>,
 )
-
-

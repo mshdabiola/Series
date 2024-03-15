@@ -41,4 +41,3 @@ actual fun getIconLayer3(): Painter {
 actual fun getSection(): Array<String> {
     return stringArrayResource(id = R.array.sections)
 }
-

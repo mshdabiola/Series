@@ -97,7 +97,7 @@ fun SkeletonApp(
 //            }
 
                     Scaffold(
-                        modifier = Modifier.semanticsCommon{},
+                        modifier = Modifier.semanticsCommon {},
                         containerColor = Color.Transparent,
                         contentColor = MaterialTheme.colorScheme.onBackground,
                         contentWindowInsets = WindowInsets(0, 0, 0, 0),
@@ -108,9 +108,12 @@ fun SkeletonApp(
                                 modifier = Modifier
                                     .windowInsetsPadding(WindowInsets.safeDrawing)
                                     .testTag("add"),
-                                onClick = {  },
+                                onClick = { },
                             ) {
-                                Icon(imageVector = Icons.Rounded.Add, contentDescription = "add note")
+                                Icon(
+                                    imageVector = Icons.Rounded.Add,
+                                    contentDescription = "add note",
+                                )
 //                            Spacer(modifier = )
                                 Text(text = "Add note")
                             }

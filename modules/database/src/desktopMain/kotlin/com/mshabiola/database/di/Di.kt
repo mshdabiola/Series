@@ -39,16 +39,16 @@ actual val databaseModule: Module
                 driver = driver,
                 questionEntityAdapter = QuestionEntity.Adapter(
                     listOfValueAdapter,
-                    listOfValueAdapter
+                    listOfValueAdapter,
                 ),
                 instructionEntityAdapter = InstructionEntity.Adapter(listOfValueAdapter),
-                optionEntityAdapter = OptionEntity.Adapter(listOfValueAdapter)
+                optionEntityAdapter = OptionEntity.Adapter(listOfValueAdapter),
             )
         }
         single(qualifier = qualifier("temp")) {
             val driver = JdbcSqliteDriver(
                 JdbcSqliteDriver.IN_MEMORY,
-                properties = Properties().apply { put("foreign_keys", "true") }
+                properties = Properties().apply { put("foreign_keys", "true") },
             )
                 .also { SeriesDatabase.Schema.create(it) }
 
@@ -56,18 +56,17 @@ actual val databaseModule: Module
                 driver = driver,
                 questionEntityAdapter = QuestionEntity.Adapter(
                     listOfValueAdapter,
-                    listOfValueAdapter
+                    listOfValueAdapter,
                 ),
                 instructionEntityAdapter = InstructionEntity.Adapter(listOfValueAdapter),
-                optionEntityAdapter = OptionEntity.Adapter(listOfValueAdapter)
+                optionEntityAdapter = OptionEntity.Adapter(listOfValueAdapter),
             )
         }
 
         includes(daoModules)
-
     }
 
-//private var version: Int
+// private var version: Int
 //    get() {
 //        val sqlCursor = driver.executeQuery(null, "PRAGMA user_version;", 0, null)
 //        return sqlCursor.getLong(0)!!.toInt()

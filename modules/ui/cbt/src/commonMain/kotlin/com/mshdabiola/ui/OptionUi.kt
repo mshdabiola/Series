@@ -21,7 +21,6 @@ import com.mshdabiola.model.data.Type
 import com.mshdabiola.ui.state.OptionUiState
 import kotlinx.collections.immutable.ImmutableList
 
-
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun OptionsUi(
@@ -31,7 +30,6 @@ fun OptionsUi(
     selectedOption: Int = -1,
     examId: Long,
 ) {
-
     val noRow = remember {
         val isLong = optionUiStates
             .map { it.content }
@@ -46,10 +44,9 @@ fun OptionsUi(
                     }
             }
         if (isLong) 1 else 2
-
     }
     FlowRow(
-        maxItemsInEachRow = noRow
+        maxItemsInEachRow = noRow,
     ) {
         optionUiStates.forEachIndexed { index, optionUiState ->
             OptionUi(
@@ -58,17 +55,14 @@ fun OptionsUi(
                 showAnswer = showAnswer,
                 isChoose = selectedOption == index,
                 onClick = { onClick(index) },
-                examId = examId
+                examId = examId,
             )
         }
     }
-
-
 }
 
 @Composable
 internal expect fun OptionsUiPreview()
-
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -83,7 +77,7 @@ fun OptionUi(
     val color = when {
         optionUiState.isAnswer && showAnswer -> CardDefaults.cardColors(
             containerColor = correctContainer(),
-            contentColor = onCorrectContainer()
+            contentColor = onCorrectContainer(),
         )
 
         isChoose && showAnswer -> CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.errorContainer)
@@ -96,17 +90,14 @@ fun OptionUi(
         modifier = modifier,
         colors = color,
         shape = RoundedCornerShape(4.dp),
-        onClick = onClick
-    )
-    {
+        onClick = onClick,
+    ) {
         Column(
             Modifier.heightIn(min = 48.dp).fillMaxWidth().padding(4.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
+            verticalArrangement = Arrangement.Center,
         ) {
             ItemUi(optionUiState.content, examId)
         }
     }
-
-
 }

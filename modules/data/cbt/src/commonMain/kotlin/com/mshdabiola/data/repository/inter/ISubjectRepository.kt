@@ -5,6 +5,5 @@ import kotlinx.coroutines.flow.Flow
 
 interface ISubjectRepository {
 
-
     fun getAll(): Flow<List<Subject>>
 }

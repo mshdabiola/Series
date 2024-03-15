@@ -7,8 +7,6 @@ import kotlinx.coroutines.test.runTest
 class TopicTest : AbstractTest() {
 
     override fun insert() = runTest {
-
-
     }
 
     override fun delete() = runTest {
@@ -22,5 +20,4 @@ class TopicTest : AbstractTest() {
     override fun getAll() = runTest {
         TODO("Not yet implemented")
     }
-
 }

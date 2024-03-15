@@ -65,7 +65,6 @@ class TopAppBarScreenshotTests() {
 
     @Composable
     private fun NiaTopAppBarExample() {
-
         SeriesTopAppBar(
             titleRes = "Testing",
             navigationIcon = SeriesIcons.Search,

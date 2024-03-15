@@ -46,7 +46,6 @@ actual fun Latex(
         }
     }
 
-
     val density = LocalDensity.current
 
     var error by remember {
@@ -62,15 +61,19 @@ actual fun Latex(
             val size2 = size * density.density
             val formula = TeXFormula(text)
 
-            image = (formula.createBufferedImage(
-                style.value, type.value,
-                size2, textColor.toPaintColor(), backgroundColor.toPaintColor()
-            ) as ImageD).compose()
+            image = (
+                formula.createBufferedImage(
+                    style.value,
+                    type.value,
+                    size2,
+                    textColor.toPaintColor(),
+                    backgroundColor.toPaintColor(),
+                ) as ImageD
+                ).compose()
         } catch (e: Exception) {
             error = e.message
             image = null
         }
-
     }
 
     image?.let {
@@ -78,19 +81,14 @@ actual fun Latex(
             modifier = modifier
                 .horizontalScroll(rememberScrollState()),
             bitmap = it,
-            contentDescription = ""
+            contentDescription = "",
         )
     }
     error?.let {
         Text(it, color = MaterialTheme.colorScheme.error)
     }
-
-
 }
 
-
 fun Color.toPaintColor(): com.himamis.retex.renderer.share.platform.graphics.Color {
-
-
     return ColorD(color = java.awt.Color(red, green, blue, alpha))
 }

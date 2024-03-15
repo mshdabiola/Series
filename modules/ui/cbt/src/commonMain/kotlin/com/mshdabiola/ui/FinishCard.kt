@@ -31,65 +31,60 @@ fun FinishCard(
         Column(
             modifier = Modifier.padding(8.dp),
             verticalArrangement = Arrangement.spacedBy(4.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Icon(
                 modifier = Modifier.size(200.dp),
                 imageVector = imageVector,
                 contentDescription = "cup",
-                tint = MaterialTheme.colorScheme.primary
+                tint = MaterialTheme.colorScheme.primary,
             )
             Text(
                 "Your Grade is $grade",
                 style = MaterialTheme.typography.titleMedium,
-                color = MaterialTheme.colorScheme.primary
+                color = MaterialTheme.colorScheme.primary,
             )
             OutlinedButton(
-                onClick = onShowAnswers
+                onClick = onShowAnswers,
             ) {
                 Text("${if (isHide) "Show" else "Hide"} correct answers")
             }
         }
     }
-
 }
 
 @Composable
 internal expect fun FinishCardPreview()
-
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun ScoreCard(scoreUiState: ScoreUiState) {
     Row(
         modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.SpaceEvenly
+        horizontalArrangement = Arrangement.SpaceEvenly,
     ) {
         Column {
             ScoreItem(
                 heading = "Correct answers",
-                content = "${scoreUiState.correct} ${if (scoreUiState.correct > 1) "Questions" else "Question"}"
+                content = "${scoreUiState.correct} ${if (scoreUiState.correct > 1) "Questions" else "Question"}",
             )
             ScoreItem(
                 heading = "Incorrect answers",
-                content = "${scoreUiState.inCorrect} ${if (scoreUiState.inCorrect > 1) "Questions" else "Question"}"
+                content = "${scoreUiState.inCorrect} ${if (scoreUiState.inCorrect > 1) "Questions" else "Question"}",
             )
         }
         Column {
             ScoreItem(heading = "Completion", content = "${scoreUiState.completed}%")
             ScoreItem(
                 heading = "skipped",
-                content = "${scoreUiState.skipped} ${if (scoreUiState.skipped > 1) "Questions" else "Question"}"
+                content = "${scoreUiState.skipped} ${if (scoreUiState.skipped > 1) "Questions" else "Question"}",
             )
         }
-
     }
 }
 
-
 @Composable
 internal expect fun ScoreCardPreview()
-
 
 @Composable
 fun ScoreItem(
@@ -100,12 +95,12 @@ fun ScoreItem(
         Text(
             heading,
             style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.secondary
+            color = MaterialTheme.colorScheme.secondary,
         )
         Text(
             content,
             style = MaterialTheme.typography.bodyLarge,
-            color = MaterialTheme.colorScheme.primary
+            color = MaterialTheme.colorScheme.primary,
         )
     }
 }

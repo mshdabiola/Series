@@ -58,7 +58,12 @@ class ButtonScreenshotTests {
                 SeriesButton(
                     onClick = {},
                     text = { Text("$description Icon Button") },
-                    leadingIcon = { Icon(imageVector = SeriesIcons.Add, contentDescription = null) },
+                    leadingIcon = {
+                        Icon(
+                            imageVector = SeriesIcons.Add,
+                            contentDescription = null,
+                        )
+                    },
                 )
             }
         }

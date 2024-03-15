@@ -17,22 +17,22 @@ import org.koin.core.qualifier.Qualifier
  */
 @OptIn(KoinInternalApi::class)
 @Composable
- expect inline fun <reified T> get(
+expect inline fun <reified T> get(
     qualifier: Qualifier? = null,
     noinline parameters: ParametersDefinition? = null,
 ): T
 //
-//@OptIn(KoinInternalApi::class)
-//@Composable
-//inline fun <reified T> inject(
+// @OptIn(KoinInternalApi::class)
+// @Composable
+// inline fun <reified T> inject(
 //    qualifier: Qualifier? = null,
 //    scope: Scope = GlobalContext.get().scopeRegistry.rootScope,
 //    noinline parameters: ParametersDefinition? = null,
-//): Lazy<T> = remember(qualifier, parameters) {
+// ): Lazy<T> = remember(qualifier, parameters) {
 //    scope.inject(qualifier, LazyThreadSafetyMode.NONE, parameters)
-//}
+// }
 //
-//@Composable
-//fun getKoin(): Koin = remember {
+// @Composable
+// fun getKoin(): Koin = remember {
 //    GlobalContext.get()
-//}
+// }

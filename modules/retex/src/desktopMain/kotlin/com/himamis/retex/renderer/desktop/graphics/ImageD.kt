@@ -52,8 +52,10 @@ import java.awt.image.BufferedImage
 class ImageD : BufferedImage, Image {
 
     constructor(image: BufferedImage) : super(
-        image.colorModel, image.copyData(null),
-        image.isAlphaPremultiplied, null
+        image.colorModel,
+        image.copyData(null),
+        image.isAlphaPremultiplied,
+        null,
 
     )
 

@@ -11,7 +11,8 @@ import com.arkivanov.decompose.value.Value
 import com.arkivanov.decompose.value.operator.map
 import kotlinx.serialization.Serializable
 
-class PagerComponent(componentContext: ComponentContext) : IPagerComponent,
+class PagerComponent(componentContext: ComponentContext) :
+    IPagerComponent,
     ComponentContext by componentContext {
 
     @OptIn(ExperimentalDecomposeApi::class)
@@ -24,24 +25,26 @@ class PagerComponent(componentContext: ComponentContext) : IPagerComponent,
         initialPages = {
             Pages(
                 items = listOf(
-                    Config2.Main, Config2.Statistic, Config2.Profile
+                    Config2.Main,
+                    Config2.Statistic,
+                    Config2.Profile,
                 ),
-                selectedIndex = 0
+                selectedIndex = 0,
             )
-        }
+        },
     ) { configuration: Config2, componentContext: ComponentContext ->
         when (configuration) {
             is Config2.Main -> IPagerComponent.PScreen.MainRootScreen(MainComponent(componentContext))
             is Config2.Statistic -> IPagerComponent.PScreen.StatisticsRootScreen(
                 StatisticComponent(
-                    componentContext
-                )
+                    componentContext,
+                ),
             )
 
             is Config2.Profile -> IPagerComponent.PScreen.ProfileRootScreen(
                 ProfileComponent(
-                    componentContext
-                )
+                    componentContext,
+                ),
             )
         }
     }
@@ -53,7 +56,6 @@ class PagerComponent(componentContext: ComponentContext) : IPagerComponent,
     override fun selectedPage(int: Int) {
         navigation.select(int)
     }
-
 
     @Serializable
     private sealed interface Config2 {
@@ -67,5 +69,4 @@ class PagerComponent(componentContext: ComponentContext) : IPagerComponent,
         @Serializable
         data object Profile : Config2
     }
-
 }

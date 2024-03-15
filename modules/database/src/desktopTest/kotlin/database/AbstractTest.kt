@@ -23,7 +23,7 @@ abstract class AbstractTest : KoinTest {
             single(qualifier = qualifier("real")) {
                 val driver = JdbcSqliteDriver(
                     JdbcSqliteDriver.IN_MEMORY,
-                    properties = Properties().apply { put("foreign_keys", "true") }
+                    properties = Properties().apply { put("foreign_keys", "true") },
                 )
                     .also { SeriesDatabase.Schema.create(it) }
 
@@ -31,17 +31,15 @@ abstract class AbstractTest : KoinTest {
                     driver = driver,
                     questionEntityAdapter = QuestionEntity.Adapter(
                         listOfValueAdapter,
-                        listOfValueAdapter
+                        listOfValueAdapter,
                     ),
                     instructionEntityAdapter = InstructionEntity.Adapter(listOfValueAdapter),
-                    optionEntityAdapter = OptionEntity.Adapter(listOfValueAdapter)
+                    optionEntityAdapter = OptionEntity.Adapter(listOfValueAdapter),
                 )
             }
-
         }
         // Your KoinApplication instance here
         modules(module, daoModules)
-
     }
 
     @Test
@@ -55,6 +53,4 @@ abstract class AbstractTest : KoinTest {
 
     @Test
     abstract fun getAll()
-
-
 }

@@ -5,7 +5,8 @@ import com.himamis.retex.renderer.share.platform.parser.NodeList
 import org.w3c.dom.Element
 import org.w3c.dom.Node
 
-class ElementA(impl: Element) : NodeA(impl as Node),
+class ElementA(impl: Element) :
+    NodeA(impl as Node),
     com.himamis.retex.renderer.share.platform.parser.Element {
     private val impl: Element?
 

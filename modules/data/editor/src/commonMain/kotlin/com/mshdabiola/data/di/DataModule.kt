@@ -26,7 +26,6 @@ import org.koin.core.qualifier.qualifier
 import org.koin.dsl.bind
 import org.koin.dsl.module
 
-
 val dataModule = module {
     includes(settingModule, databaseModule, newModule, analyticsModule)
     singleOf(::SettingRepository) bind ISettingRepository::class
@@ -42,7 +41,7 @@ val dataModule = module {
         ExamRepository(
             iExamDao = get(),
             database = get(qualifier = qualifier(name)),
-            driver = get()
+            driver = get(),
         )
     } bind IExamRepository::class
 }

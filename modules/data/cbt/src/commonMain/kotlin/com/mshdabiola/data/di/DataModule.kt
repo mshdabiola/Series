@@ -17,14 +17,12 @@ import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.bind
 import org.koin.dsl.module
 
-
 val dataModule = module {
-    includes(settingModule, databaseModule,analyticsModule)
+    includes(settingModule, databaseModule, analyticsModule)
     singleOf(::SettingRepository) bind ISettingRepository::class
     // singleOf(::RealINetworkRepository) bind INetworkRepository::class
     singleOf(::SubjectRepository) bind ISubjectRepository::class
     singleOf(::QuestionRepository) bind IQuestionRepository::class
     singleOf(::ExamRepository) bind IExamRepository::class
     singleOf(::OfflineFirstUserDataRepository) bind UserDataRepository::class
-
 }

@@ -9,11 +9,9 @@ fun QuestionScreenNav(
     onBack: () -> Unit,
     onFinish: () -> Unit,
 ) {
-
     val viewModel: MainViewModel = KoinCommonViewModel()
     QuestionScreen(onBack = onBack, onFinish = {
         onBack()
         onFinish()
     }, viewModel = viewModel)
 }
-

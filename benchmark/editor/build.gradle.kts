@@ -4,6 +4,7 @@
 import com.android.build.api.dsl.ManagedVirtualDevice
 import com.mshdabiola.app.BuildType
 import com.mshdabiola.app.configureFlavors
+
 @Suppress("DSL_SCOPE_VIOLATION")
 plugins {
     id("mshdabiola.android.test")

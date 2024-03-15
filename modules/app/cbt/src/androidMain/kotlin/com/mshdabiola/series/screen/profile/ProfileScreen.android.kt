@@ -7,6 +7,6 @@ import androidx.compose.ui.tooling.preview.Preview
 @Composable
 actual fun ProfileScreenPreview() {
     ProfileScreen(
-        profileState = ProfileState()
+        profileState = ProfileState(),
     )
 }

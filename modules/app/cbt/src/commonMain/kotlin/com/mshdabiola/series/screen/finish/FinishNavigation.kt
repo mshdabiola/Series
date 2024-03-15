@@ -9,7 +9,6 @@ fun FinishScreenNav(
     onBack: () -> Unit,
     toQuestion: () -> Unit,
 ) {
-
     val viewModel: MainViewModel = KoinCommonViewModel()
     FinishScreen(
         onBack = onBack,
@@ -17,7 +16,6 @@ fun FinishScreenNav(
         toQuestion = {
             onBack()
             toQuestion()
-        }
+        },
     )
 }
-

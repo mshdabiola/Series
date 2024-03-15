@@ -18,14 +18,14 @@ internal class TopicDao(
 ) : ITopicDao {
     override suspend fun insert(topic: Topic) {
         withContext(coroutineDispatcher) {
-            if (topic.id == -1L)
+            if (topic.id == -1L) {
                 topicQueries.insert(topic.toEntity())
-            else {
+            } else {
                 val entity = topic.toEntity()
                 topicQueries.update(
                     name = entity.name,
                     subjectId = entity.subjectId,
-                    id = entity.id
+                    id = entity.id,
                 )
             }
         }
@@ -54,7 +54,7 @@ internal class TopicDao(
                 topic.subjectId,
                 topic.id,
 
-                )
+            )
         }
     }
 

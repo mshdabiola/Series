@@ -59,7 +59,9 @@ import javax.imageio.ImageIO
 
 class GraphicsFactoryDesktop : GraphicsFactory() {
     override fun createBasicStroke(
-        width: Double, cap: Int, join: Int,
+        width: Double,
+        cap: Int,
+        join: Int,
         miterLimit: Double,
     ): BasicStroke {
         return BasicStrokeD(width, cap, join, miterLimit)

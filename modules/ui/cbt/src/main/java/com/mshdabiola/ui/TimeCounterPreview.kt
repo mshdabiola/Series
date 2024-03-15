@@ -8,6 +8,6 @@ import androidx.compose.ui.tooling.preview.Preview
 internal actual fun TimeCounterPreview() {
     TimeCounter(
         currentTime2 = 150L,
-        total = 300L
+        total = 300L,
     )
 }

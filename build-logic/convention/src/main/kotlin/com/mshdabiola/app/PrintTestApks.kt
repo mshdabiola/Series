@@ -1,4 +1,3 @@
-
 package com.mshdabiola.app
 
 import com.android.build.api.artifact.SingleArtifact

@@ -18,18 +18,17 @@ internal class InstructionDao(
 ) : IInstructionDao {
     override suspend fun insert(instruction: Instruction) {
         withContext(coroutineDispatcher) {
-            if (instruction.id == -1L)
+            if (instruction.id == -1L) {
                 instructionQueries.insert(instruction.toEntity())
-            else {
+            } else {
                 val entity = instruction.toEntity()
                 instructionQueries.update(
                     title = entity.title,
                     content = entity.content,
                     examId = entity.examId,
-                    id = entity.id
+                    id = entity.id,
                 )
             }
-
         }
     }
 
@@ -48,7 +47,7 @@ internal class InstructionDao(
                 instruction.title,
                 instruction.content,
                 instruction.examId,
-                instruction.id
+                instruction.id,
             )
         }
     }

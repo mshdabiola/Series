@@ -4,7 +4,6 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 
-
 val corrent = Color(0xFF3AC200)
 val light_corrent = Color(0xFF1D6D00)
 val light_oncorrent = Color(0xFFFFFFFF)
@@ -23,7 +22,6 @@ fun correctContainer() =
 fun onCorrectContainer() =
     if (!isSystemInDarkTheme()) light_oncorrentContainer else dark_oncorrentContainer
 
-
 @Composable
 fun correct() =
     if (!isSystemInDarkTheme()) light_corrent else dark_corrent
@@ -31,4 +29,3 @@ fun correct() =
 @Composable
 fun onCorrect() =
     if (!isSystemInDarkTheme()) light_oncorrent else dark_oncorrent
-

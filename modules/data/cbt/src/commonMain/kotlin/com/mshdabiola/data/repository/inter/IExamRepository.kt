@@ -6,5 +6,4 @@ import kotlinx.coroutines.flow.Flow
 interface IExamRepository {
 
     fun getAllWithSub(): Flow<List<ExamWithSub>>
-
 }

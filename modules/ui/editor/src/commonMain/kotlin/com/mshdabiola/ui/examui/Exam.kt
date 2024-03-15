@@ -39,13 +39,14 @@ fun ExamUi(
     var showDrop by remember { mutableStateOf(false) }
     ListItem(
         modifier = modifier,
-        colors = if (examUiState.isSelected)
+        colors = if (examUiState.isSelected) {
             ListItemDefaults.colors(
                 containerColor =
-                MaterialTheme.colorScheme.primaryContainer
+                MaterialTheme.colorScheme.primaryContainer,
             )
-        else
-            ListItemDefaults.colors(),
+        } else {
+            ListItemDefaults.colors()
+        },
         headlineContent = {
             Text(examUiState.subject)
         },
@@ -53,17 +54,14 @@ fun ExamUi(
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
             ) {
-
                 Text(examUiState.year.toString())
                 Text("✦")
                 Text("${examUiState.examTime} Minutes")
                 Text("✦")
                 Text(if (examUiState.isObjOnly) "Objective" else "Objective and Theory")
             }
-
-
         },
         trailingContent = {
             if (!isSelectMode) {
@@ -72,15 +70,14 @@ fun ExamUi(
                         Icon(Icons.Default.MoreVert, "more")
                     }
                     DropdownMenu(expanded = showDrop, onDismissRequest = { showDrop = false }) {
-
-
                         DropdownMenuItem(
                             leadingIcon = { Icon(Icons.Default.Update, "update") },
                             text = { Text("Update") },
                             onClick = {
                                 onUpdate(examUiState.id)
                                 showDrop = false
-                            })
+                            },
+                        )
 
                         DropdownMenuItem(
                             leadingIcon = { Icon(Icons.Default.Delete, "Delete") },
@@ -88,7 +85,8 @@ fun ExamUi(
                             onClick = {
                                 onDelete(examUiState.id)
                                 showDrop = false
-                            })
+                            },
+                        )
 
                         DropdownMenuItem(
                             leadingIcon = { Icon(Icons.Default.HdrOnSelect, "Select") },
@@ -96,13 +94,11 @@ fun ExamUi(
                             onClick = {
                                 toggleSelect(examUiState.id)
                                 showDrop = false
-                            })
-
-
+                            },
+                        )
                     }
                 }
             }
-        }
+        },
     )
-
 }

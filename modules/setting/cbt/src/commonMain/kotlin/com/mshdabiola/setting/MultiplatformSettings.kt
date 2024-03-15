@@ -15,8 +15,6 @@ interface MultiplatformSettings {
 
     suspend fun getCurrentExam(): CurrentExam?
 
-
-
     suspend fun setThemeBrand(themeBrand: ThemeBrand)
 
     suspend fun setThemeContrast(contrast: Contrast)

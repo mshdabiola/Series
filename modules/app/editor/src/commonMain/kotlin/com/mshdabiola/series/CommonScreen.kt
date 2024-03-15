@@ -27,7 +27,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CommonScreen(
@@ -38,16 +37,13 @@ fun CommonScreen(
     topbar: @Composable () -> Unit = {},
 ) {
     if (windowSizeClass.widthSizeClass <= WindowWidthSizeClass.Medium) {
-
         var show by remember { mutableStateOf(false) }
-
 
         Scaffold(
             bottomBar = {
                 BottomAppBar(floatingActionButton = {
                     ExtendedFloatingActionButton(onClick = {
                         show = true
-
                     }) {
                         Icon(Icons.Default.Add, "add")
                         Spacer(Modifier.width(8.dp))
@@ -56,24 +52,21 @@ fun CommonScreen(
                 }, actions = action)
             },
 
-            ) {
+        ) {
             firstScreen(Modifier.padding(it))
             if (show) {
                 ModalBottomSheet(
                     onDismissRequest = { show = false },
                     Modifier.fillMaxSize(),
-                    sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+                    sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true),
                 ) {
                     secondScreen()
                 }
             }
-
-
         }
-
     } else {
         Scaffold(
-            topBar = topbar
+            topBar = topbar,
         ) {
             Row(modifier = Modifier.padding(it).fillMaxSize()) {
                 Column(Modifier.weight(0.55f)) {
@@ -84,10 +77,8 @@ fun CommonScreen(
                 }
             }
         }
-
     }
 }
-
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -99,22 +90,17 @@ fun CommonScreen2(
     onDismiss: () -> Unit = {},
 ) {
     if (windowSizeClass.widthSizeClass <= WindowWidthSizeClass.Medium) {
-
-
         firstScreen(Modifier)
         if (show) {
             ModalBottomSheet(
                 onDismissRequest = onDismiss,
                 Modifier.fillMaxSize(),
-                sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+                sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true),
             ) {
                 secondScreen()
             }
         }
-
-
     } else {
-
         Row(modifier = Modifier.fillMaxSize()) {
             Column(Modifier.weight(0.55f)) {
                 firstScreen(Modifier)
@@ -124,6 +110,4 @@ fun CommonScreen2(
             }
         }
     }
-
-
 }

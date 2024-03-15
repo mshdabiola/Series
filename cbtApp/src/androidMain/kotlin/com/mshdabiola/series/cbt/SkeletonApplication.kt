@@ -5,8 +5,8 @@
 package com.mshdabiola.series.cbt
 
 import android.app.Application
-import com.mshdabiola.series.di.appModule
 import com.mshdabiola.series.cbt.di.jankStatsModule
+import com.mshdabiola.series.di.appModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 import timber.log.Timber

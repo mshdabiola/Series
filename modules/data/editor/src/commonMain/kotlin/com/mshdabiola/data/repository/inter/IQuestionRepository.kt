@@ -6,7 +6,6 @@ import kotlinx.coroutines.flow.Flow
 
 interface IQuestionRepository {
 
-
     suspend fun insert(questionFull: QuestionFull)
 
     suspend fun insertAll(questionFull: List<QuestionFull>)
@@ -22,6 +21,4 @@ interface IQuestionRepository {
     suspend fun deleteAll()
 
     suspend fun deleteOption(id: Long)
-
-
 }

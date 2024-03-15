@@ -41,31 +41,30 @@ internal class MultiplatformSettingsImpl(
                 )
             }
         }
+
     override suspend fun setCurrentExam(currentExam: CurrentExam) {
         withContext(Dispatchers.IO) {
             settings.edit {
                 val crString = Json.encodeToString(CurrentExam.serializer(), currentExam)
                 it[currentExamKey] = crString
             }
-
         }
     }
 
     override suspend fun getCurrentExam(): CurrentExam? {
-
         val list = settings.data.map {
             val crString = it[currentExamKey]
-            if (crString == null)
+            if (crString == null) {
                 null
-            else
+            } else {
                 Json.decodeFromString(CurrentExam.serializer(), crString)
+            }
         }
 //        val list = settings
 //            .toBlockingSettings()
 //            .decodeValueOrNull(ListSerializer(CurrentExam.serializer()), Keys.currentExamKey)
         return list.firstOrNull()
     }
-
 
     override suspend fun setThemeBrand(themeBrand: ThemeBrand) {
         val userData = userData.first().copy(themeBrand = themeBrand)

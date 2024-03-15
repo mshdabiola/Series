@@ -16,7 +16,8 @@ import org.junit.Test
  * via the `includeInStartupProfile` parameter.
  */
 class StartupBaselineProfile {
-    @get:Rule val baselineProfileRule = BaselineProfileRule()
+    @get:Rule
+    val baselineProfileRule = BaselineProfileRule()
 
     @Test
     fun generate() = baselineProfileRule.collect(

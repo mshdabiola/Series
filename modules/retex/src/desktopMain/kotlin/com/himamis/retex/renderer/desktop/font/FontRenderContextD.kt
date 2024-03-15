@@ -46,7 +46,8 @@ package com.himamis.retex.renderer.desktop.font
 import com.himamis.retex.renderer.share.platform.font.Font
 import java.awt.font.FontRenderContext
 
-class FontRenderContextD(var impl: FontRenderContext) : FontRenderContext(),
+class FontRenderContextD(var impl: FontRenderContext) :
+    FontRenderContext(),
     com.himamis.retex.renderer.share.platform.font.FontRenderContext {
     override fun getFont(): Font? {
         // not used, web only

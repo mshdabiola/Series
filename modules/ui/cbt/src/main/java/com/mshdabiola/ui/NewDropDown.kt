@@ -82,10 +82,9 @@ fun <T> LargeDropdownMenu(
                 focusedTrailingIconColor = MaterialTheme.colorScheme.onSurface,
                 unfocusedTrailingIconColor = MaterialTheme.colorScheme.onSurface,
                 focusedLabelColor = MaterialTheme.colorScheme.onSurface,
-                unfocusedLabelColor = MaterialTheme.colorScheme.onSurface
+                unfocusedLabelColor = MaterialTheme.colorScheme.onSurface,
             ),
         )
-
 
         // Transparent clickable surface on top of OutlinedTextField
         Surface(
@@ -129,7 +128,7 @@ fun <T> LargeDropdownMenu(
                         drawItem(
                             item,
                             selectedItem,
-                            true
+                            true,
                         ) {
                             onItemSelected(index, item)
                             expanded = false
@@ -141,7 +140,7 @@ fun <T> LargeDropdownMenu(
                     }
                 }
             }
-            //}
+            // }
         }
     }
 }
@@ -160,10 +159,12 @@ fun LargeDropdownMenuItem(
     }
 
     CompositionLocalProvider(LocalContentColor provides contentColor) {
-        Box(modifier = Modifier
-            .clickable(enabled) { onClick() }
-            .fillMaxWidth()
-            .padding(16.dp)) {
+        Box(
+            modifier = Modifier
+                .clickable(enabled) { onClick() }
+                .fillMaxWidth()
+                .padding(16.dp),
+        ) {
             Text(
                 text = text,
                 style = MaterialTheme.typography.titleSmall,

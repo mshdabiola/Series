@@ -12,16 +12,16 @@ class MainViewModel(
 
     val uiState: StateFlow<MainActivityUiState> = MutableStateFlow(
         MainActivityUiState.Success(
-        UserData(
-            useDynamicColor = false,
-            themeBrand = ThemeBrand.DEFAULT,
-            contrast = Contrast.Normal,
-            darkThemeConfig = DarkThemeConfig.LIGHT,
-            shouldHideOnboarding = true
-        )))
-
+            UserData(
+                useDynamicColor = false,
+                themeBrand = ThemeBrand.DEFAULT,
+                contrast = Contrast.Normal,
+                darkThemeConfig = DarkThemeConfig.LIGHT,
+                shouldHideOnboarding = true,
+            ),
+        ),
+    )
 }
-
 
 sealed interface MainActivityUiState {
     data object Loading : MainActivityUiState

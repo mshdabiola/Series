@@ -2,13 +2,12 @@ package com.mshdabiola.series.screen.profile
 
 import com.mshdabiola.model.Model
 
-
-//sealed interface MainState {
+// sealed interface MainState {
 //    data class Show(val models: List<ModelUiState>) : MainState
 //    object Error : MainState
 //
 //    object Loading : MainState
-//}
+// }
 
 data class ProfileState(
     val name: String = "abiola",

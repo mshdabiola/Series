@@ -22,20 +22,20 @@ dependencies {
 
     implementation(libs.firebase.analytics)
 }
-kotlin{
+kotlin {
     @OptIn(ExperimentalWasmDsl::class)
     wasmJs {
         browser()
     }
-    sourceSets{
-        val desktopMain by getting{
-            dependencies{
+    sourceSets {
+        val desktopMain by getting {
+            dependencies {
 
             }
         }
 
-        val commonMain by getting{
-            dependencies{
+        val commonMain by getting {
+            dependencies {
                 implementation(compose.runtime)
 
 

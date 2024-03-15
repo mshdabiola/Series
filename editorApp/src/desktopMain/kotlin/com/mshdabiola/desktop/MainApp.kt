@@ -19,11 +19,11 @@ import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
 import org.koin.core.context.GlobalContext.startKoin
 
-@OptIn(ExperimentalDecomposeApi::class,
-    ExperimentalResourceApi::class
+@OptIn(
+    ExperimentalDecomposeApi::class,
+    ExperimentalResourceApi::class,
 )
 fun mainApp(appArgs: AppArgs) {
-
     val life = LifecycleRegistry()
     application {
         val defaultComponentContext = DefaultComponentContext(life)
@@ -40,9 +40,8 @@ fun mainApp(appArgs: AppArgs) {
             icon = painterResource(DrawableResource("drawable/launcher/system.png")),
             state = windowState,
         ) {
-
             SkeletonApp(
-                context = defaultComponentContext
+                context = defaultComponentContext,
             )
         }
     }
@@ -52,7 +51,6 @@ fun main() {
     startKoin {
         modules(appModules)
     }
-
 
     val appArgs = AppArgs(
         appName = "Series Editor", // To show on title bar

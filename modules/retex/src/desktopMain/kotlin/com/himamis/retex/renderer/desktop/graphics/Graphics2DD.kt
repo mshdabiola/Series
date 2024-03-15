@@ -118,8 +118,12 @@ class Graphics2DD(val impl: Graphics2D) : Graphics2DInterface {
     }
 
     override fun bezierCurveTo(
-        x: Double, y: Double, x1: Double, y1: Double,
-        x2: Double, y2: Double,
+        x: Double,
+        y: Double,
+        x1: Double,
+        y1: Double,
+        x2: Double,
+        y2: Double,
     ) {
         path!!.curveTo(x, y, x1, y1, x2, y2)
     }
@@ -145,14 +149,22 @@ class Graphics2DD(val impl: Graphics2D) : Graphics2DInterface {
     }
 
     override fun drawArc(
-        x: Int, y: Int, width: Int, height: Int, startAngle: Int,
+        x: Int,
+        y: Int,
+        width: Int,
+        height: Int,
+        startAngle: Int,
         arcAngle: Int,
     ) {
         impl.drawArc(x, y, width, height, startAngle, arcAngle)
     }
 
     override fun fillArc(
-        x: Int, y: Int, width: Int, height: Int, startAngle: Int,
+        x: Int,
+        y: Int,
+        width: Int,
+        height: Int,
+        startAngle: Int,
         arcAngle: Int,
     ) {
         impl.fillArc(x, y, width, height, startAngle, arcAngle)
@@ -171,10 +183,8 @@ class Graphics2DD(val impl: Graphics2D) : Graphics2DInterface {
     }
 
     override fun rotate(theta: Double) {
-
         impl.rotate(theta)
     }
-
 
     override fun drawImage(image: Image, x: Int, y: Int) {
         impl.drawImage(image as java.awt.Image, x, y, null)
@@ -182,8 +192,9 @@ class Graphics2DD(val impl: Graphics2D) : Graphics2DInterface {
 
     override fun drawImage(image: Image, transform: Transform) {
         impl.drawImage(
-            image as java.awt.Image, transform as AffineTransform,
-            null
+            image as java.awt.Image,
+            transform as AffineTransform,
+            null,
         )
     }
 
@@ -198,7 +209,7 @@ class Graphics2DD(val impl: Graphics2D) : Graphics2DInterface {
     override fun setRenderingHint(key: Int, value: Int) {
         impl.setRenderingHint(
             getNativeRenderingKey(key),
-            getNativeRenderingValue(value)
+            getNativeRenderingValue(value),
         )
     }
 

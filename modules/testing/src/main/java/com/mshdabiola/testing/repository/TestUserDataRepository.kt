@@ -4,25 +4,25 @@
 
 package com.mshdabiola.testing.repository
 //
-//import com.mshdabiola.data.repository.UserDataRepository
-//import com.mshdabiola.model.Contrast
-//import com.mshdabiola.model.DarkThemeConfig
-//import com.mshdabiola.model.ThemeBrand
-//import com.mshdabiola.model.UserData
-//import kotlinx.coroutines.channels.BufferOverflow.DROP_OLDEST
-//import kotlinx.coroutines.flow.Flow
-//import kotlinx.coroutines.flow.MutableSharedFlow
-//import kotlinx.coroutines.flow.filterNotNull
+// import com.mshdabiola.data.repository.UserDataRepository
+// import com.mshdabiola.model.Contrast
+// import com.mshdabiola.model.DarkThemeConfig
+// import com.mshdabiola.model.ThemeBrand
+// import com.mshdabiola.model.UserData
+// import kotlinx.coroutines.channels.BufferOverflow.DROP_OLDEST
+// import kotlinx.coroutines.flow.Flow
+// import kotlinx.coroutines.flow.MutableSharedFlow
+// import kotlinx.coroutines.flow.filterNotNull
 //
-//val emptyUserData = UserData(
+// val emptyUserData = UserData(
 //    themeBrand = ThemeBrand.DEFAULT,
 //    darkThemeConfig = DarkThemeConfig.FOLLOW_SYSTEM,
 //    useDynamicColor = false,
 //    shouldHideOnboarding = false,
 //    contrast = Contrast.Normal,
-//)
+// )
 //
-//class TestUserDataRepository : UserDataRepository {
+// class TestUserDataRepository : UserDataRepository {
 //    /**
 //     * The backing hot flow for the list of followed topic ids for testing.
 //     */
@@ -68,4 +68,4 @@ package com.mshdabiola.testing.repository
 //    fun setUserData(userData: UserData) {
 //        _userData.tryEmit(userData)
 //    }
-//}
+// }

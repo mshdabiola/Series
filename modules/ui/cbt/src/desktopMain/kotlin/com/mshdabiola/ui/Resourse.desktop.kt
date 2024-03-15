@@ -43,4 +43,3 @@ actual fun getIconLayer3(): Painter {
 actual fun getSection(): Array<String> {
     return arrayOf("Objective", "Theory")
 }
-

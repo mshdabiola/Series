@@ -18,9 +18,9 @@ internal class OptionDao(
 ) : IOptionDao {
     override suspend fun insert(option: Option) {
         withContext(coroutineDispatcher) {
-            if (option.id == -1L)
+            if (option.id == -1L) {
                 optionQueries.insert(option.toEntity())
-            else {
+            } else {
                 optionQueries.insertOrReplace(option.toEntity())
             }
         }
@@ -64,7 +64,7 @@ internal class OptionDao(
                 content = optionEntity.content,
                 isAnswer = optionEntity.isAnswer,
                 id = optionEntity.id,
-                nos = optionEntity.nos
+                nos = optionEntity.nos,
             )
         }
     }
@@ -83,11 +83,9 @@ internal class OptionDao(
         }
     }
 
-
     override suspend fun deleteAll() {
         withContext(coroutineDispatcher) {
             optionQueries.deleteAll()
         }
     }
-
 }

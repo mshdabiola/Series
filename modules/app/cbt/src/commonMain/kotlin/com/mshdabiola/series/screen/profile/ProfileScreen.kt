@@ -22,7 +22,7 @@ internal fun ProfileScreen() {
     val viewModel: MainViewModel = KoinCommonViewModel()
 
     ProfileScreen(
-        profileState = ProfileState()
+        profileState = ProfileState(),
     )
 }
 
@@ -39,12 +39,12 @@ internal fun ProfileScreen(
             )
         },
 
-        ) { paddingValues ->
+    ) { paddingValues ->
         Column(
             Modifier
                 .padding(paddingValues)
                 .padding(horizontal = 8.dp)
-                .verticalScroll(rememberScrollState())
+                .verticalScroll(rememberScrollState()),
         ) {
             var latex = "\\begin{array}{l}"
             latex += "\\u000corall\\varepsilon\\in\\mathbb{R}_+^*\\ \\exists\\eta>0\\ |x-x_0|\\leq\\eta\\Longrightarrow|f(x)-f(x_0)|\\leq\\varepsilon\\\\"
@@ -63,12 +63,9 @@ internal fun ProfileScreen(
 //            )
 
             Latex(text = latex, foregroundColor = Color.Magenta)
-
         }
     }
-
 }
-
 
 @Composable
 expect fun ProfileScreenPreview()

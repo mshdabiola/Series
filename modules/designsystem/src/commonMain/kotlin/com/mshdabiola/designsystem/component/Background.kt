@@ -82,7 +82,7 @@ fun SkGradientBackground(
                     // degrees off the vertical axis
                     val offset = size.height * tan(
 
-                            toRadians(11.06)
+                        toRadians(11.06)
                             .toFloat(),
                     )
 

@@ -1,6 +1,6 @@
 package com.himamis.retex.renderer.desktop
 
-//import com.mshdabiola.retex.ColorUtil
+// import com.mshdabiola.retex.ColorUtil
 
 import com.himamis.retex.renderer.share.ColorUtil
 import com.himamis.retex.renderer.share.TeXConstants

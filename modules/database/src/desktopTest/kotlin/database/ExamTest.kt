@@ -11,18 +11,17 @@ import kotlin.test.assertEquals
 @OptIn(ExperimentalCoroutinesApi::class)
 class ExamTest : AbstractTest() {
 
-
     override fun insert() = runTest {
         val examDao by inject<ExamDao>()
 
         examDao.insert(
-            Exam(id = 6100L, subjectID = 2153L, year = 659L, isObjOnly = false, examTime = 8)
+            Exam(id = 6100L, subjectID = 2153L, year = 659L, isObjOnly = false, examTime = 8),
         )
         examDao.insert(
-            Exam(id = 6100L, subjectID = 232, year = 3, isObjOnly = false, examTime = 8)
+            Exam(id = 6100L, subjectID = 232, year = 3, isObjOnly = false, examTime = 8),
         )
         examDao.insert(
-            Exam(subjectID = 232, year = 3, isObjOnly = false, examTime = 8)
+            Exam(subjectID = 232, year = 3, isObjOnly = false, examTime = 8),
         )
 
         examDao.getAll()
@@ -31,14 +30,10 @@ class ExamTest : AbstractTest() {
                 println(list.joinToString())
                 assertEquals(3, list.size)
                 this.cancelAndIgnoreRemainingEvents()
-
             }
-
-
     }
 
     override fun delete() = runTest {
-
     }
 
     override fun getOne() = runTest {
@@ -48,5 +43,4 @@ class ExamTest : AbstractTest() {
     override fun getAll() = runTest {
         TODO("Not yet implemented")
     }
-
 }

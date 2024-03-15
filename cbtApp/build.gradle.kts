@@ -16,7 +16,7 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.roborazzi)
 }
-dependencies{
+dependencies {
 
     implementation(project(":modules:app:cbt"))
     implementation(project(":modules:model"))
@@ -53,7 +53,7 @@ dependencies{
 
     androidTestImplementation(project(":modules:testing"))
     androidTestImplementation(libs.accompanist.testharness)
-    debugImplementation (libs.androidx.monitor)
+    debugImplementation(libs.androidx.monitor)
     baselineProfile(project(":benchmark:cbt"))
 }
 
@@ -68,7 +68,7 @@ kotlin {
         }
         binaries.executable()
     }
-    
+
     androidTarget {
         compilations.all {
             kotlinOptions {
@@ -76,12 +76,12 @@ kotlin {
             }
         }
     }
-    
+
     jvm("desktop")
-    
+
     sourceSets {
         val desktopMain by getting
-        
+
         androidMain.dependencies {
             implementation(libs.compose.ui.tooling.preview)
             implementation(libs.androidx.activity.compose)

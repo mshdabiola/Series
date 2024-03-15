@@ -56,7 +56,7 @@ class FontLoaderD : FontLoader {
     override fun loadFont(name: String): Font {
         FactoryProvider.debugS("loadFont():$name")
         val fontIn = FactoryProviderDesktop::class.java.getResourceAsStream(
-            "/com/himamis/retex/renderer/desktop/$name"
+            "/com/himamis/retex/renderer/desktop/$name",
         )
         return try {
             val f = java.awt.Font
@@ -74,8 +74,8 @@ class FontLoaderD : FontLoader {
             FontD(f)
         } catch (e: Exception) {
             throw ResourceParseException(
-                "FontLoader" + ": FontLoader '"
-                        + name + "'. Error message: " + e.message
+                "FontLoader" + ": FontLoader '" +
+                    name + "'. Error message: " + e.message,
             )
         } finally {
             try {

@@ -34,16 +34,16 @@ import com.mshdabiola.mvvn.collectAsStateWithLifecycleCommon
 import com.mshdabiola.mvvn.semanticsCommon
 import com.mshdabiola.series.screen.ExamType
 import com.mshdabiola.series.screen.MainViewModel
+import com.mshdabiola.ui.ContinueCard
+import com.mshdabiola.ui.OtherCard
+import com.mshdabiola.ui.PlayLogin
+import com.mshdabiola.ui.StartCard
 import com.mshdabiola.ui.getExamPart
 import com.mshdabiola.ui.getIconLayer1
 import com.mshdabiola.ui.getIconLayer2
 import com.mshdabiola.ui.getIconLayer3
 import com.mshdabiola.ui.getStringSubject
 import com.mshdabiola.ui.getStringType
-import com.mshdabiola.ui.ContinueCard
-import com.mshdabiola.ui.OtherCard
-import com.mshdabiola.ui.PlayLogin
-import com.mshdabiola.ui.StartCard
 
 @Composable
 internal fun MainScreen(onQuestion: () -> Unit) {
@@ -90,51 +90,46 @@ internal fun MainScreen(
                         Text(text = getStringSubject())
                         Text(
                             text = getStringType(),
-                            style = MaterialTheme.typography.labelMedium
+                            style = MaterialTheme.typography.labelMedium,
                         )
                     }
-
                 },
                 scrollBehavior = scrollBehavior,
                 actions = {
                     IconButton(onClick = { /*TODO*/ }) {
                         Icon(imageVector = Icons.Default.Settings, contentDescription = "settings")
                     }
-                }
+                },
 
             )
         },
-        snackbarHost = { SnackbarHost(snackbarHostState) }
+        snackbarHost = { SnackbarHost(snackbarHostState) },
     ) { paddingValues ->
         Column(
             Modifier
                 .verticalScroll(state)
                 .padding(paddingValues)
                 .padding(horizontal = 8.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
+            verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {
-
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically
+                verticalAlignment = Alignment.CenterVertically,
             ) {
                 Column(Modifier.weight(1f)) {
                     PlayLogin()
                     Spacer(modifier = Modifier.height(8.dp))
                     Text(
                         text = "Step right up and test your skills. " +
-                                "Wellcome to Physics test that will challenge and entertain you",
+                            "Wellcome to Physics test that will challenge and entertain you",
                         modifier = Modifier.padding(horizontal = 16.dp),
-                        textAlign = TextAlign.Center
+                        textAlign = TextAlign.Center,
 
                     )
-
                 }
                 Image(painter = getIconLayer2(), contentDescription = "")
-
             }
             mainState.currentExam?.let {
-
                 ContinueCard(
                     year = it.year,
                     progress = finishPercent,
@@ -143,9 +138,8 @@ internal fun MainScreen(
                     part = getExamPart()[mainState.examPart],
                     onClick = {
                         onQuestion()
-                    }
+                    },
                 )
-
             }
 
             StartCard(
@@ -154,16 +148,16 @@ internal fun MainScreen(
                 onClick = { yearIndex, typeIndex ->
                     onStartExam(ExamType.YEAR, yearIndex, typeIndex)
                     onQuestion()
-                })
+                },
+            )
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
                 OtherCard(
                     title = "Random exam",
                     painter = getIconLayer1(),
                     onClick = {
-
                         onStartExam(ExamType.RANDOM, -1, 1)
                         onQuestion()
-                    }
+                    },
                 )
                 OtherCard(
                     title = "Fast finger",
@@ -171,11 +165,9 @@ internal fun MainScreen(
                     onClick = {
                         onStartExam(ExamType.FAST_FINGER, -1, 1)
                         onQuestion()
-                    }
+                    },
                 )
             }
-
-
         }
     }
 }

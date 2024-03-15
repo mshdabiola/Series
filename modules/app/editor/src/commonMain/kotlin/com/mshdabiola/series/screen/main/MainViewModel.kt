@@ -27,14 +27,11 @@ class MainViewModel(
     private val iExamRepository: IExamRepository,
 ) : ViewModel() {
 
-
-    private val _currentSubjectId = MutableStateFlow(-1L) //-1 for all subject
+    private val _currentSubjectId = MutableStateFlow(-1L) // -1 for all subject
     val currentSubjectId = _currentSubjectId.asStateFlow()
-
 
     private val _examUiStates = MutableStateFlow(emptyList<ExamUiState>().toImmutableList())
     val examUiStates = _examUiStates.asStateFlow()
-
 
     val subjects = iSubjectRepository
         .getAll()
@@ -45,7 +42,7 @@ class MainViewModel(
         .stateIn(
             viewModelScope,
             started = SharingStarted.WhileSubscribed(5000),
-            initialValue = emptyList<SubjectUiState>().toImmutableList()
+            initialValue = emptyList<SubjectUiState>().toImmutableList(),
         )
 
     private val _subject = mutableStateOf(SubjectUiState(name = ""))
@@ -58,18 +55,16 @@ class MainViewModel(
                 year = -1L,
                 subject = "",
                 isObjOnly = true,
-                examTime = 15
-            )
+                examTime = 15,
+            ),
         )
     val exam: State<ExamUiState> = _exam
-
 
     private val _dateError = mutableStateOf(false)
     val dateError: State<Boolean> = _dateError
 
     private val _isSelectMode = mutableStateOf(false)
     val isSelectMode: State<Boolean> = _isSelectMode
-
 
     init {
 
@@ -85,7 +80,6 @@ class MainViewModel(
                                     .toImmutableList()
                             }
                         }
-
                 } else {
                     iExamRepository.getExamBySubjectId(id)
                         .collectLatest { list ->
@@ -95,26 +89,21 @@ class MainViewModel(
                                     .toImmutableList()
                             }
                         }
-
-
                 }
             }
         }
-
     }
-
 
     fun onSubject(index: Long) {
         _currentSubjectId.update {
             index
         }
-
     }
 
     fun addExam() {
         viewModelScope.launch {
             iExamRepository.insertExam(
-                exam.value.toExam()
+                exam.value.toExam(),
             )
             _exam.value = exam.value.copy(id = -1, year = -1, subject = "")
         }
@@ -133,22 +122,18 @@ class MainViewModel(
 
     fun onExamYearContentChange(text: String) {
         try {
-
             _dateError.value = false
             _exam.value = exam.value.copy(year = text.toLong())
         } catch (e: Exception) {
             _dateError.value = true
         }
-
     }
 
     fun onExamDurationContentChange(text: String) {
         try {
-
             _exam.value = exam.value.copy(examTime = text.toLongOrNull() ?: -1)
         } catch (e: Exception) {
         }
-
     }
 
     fun onSubjectIdChange(id: Long) {
@@ -159,9 +144,7 @@ class MainViewModel(
 
     fun onDeleteExam(id: Long) {
         viewModelScope.launch {
-
             iExamRepository.deleteExam(id)
-
         }
     }
 
@@ -172,7 +155,6 @@ class MainViewModel(
     }
 
     fun updateSubject(id: Long) {
-
         subjects.value.find { it.id == id }?.let {
             _subject.value = it.copy(focus = true)
         }
@@ -187,7 +169,6 @@ class MainViewModel(
             iExamRepository.export(ids, path, name, version, key)
             deselectAll()
         }
-
     }
 
     fun toggleSelectMode() {
@@ -197,8 +178,9 @@ class MainViewModel(
     fun toggleSelect(index: Long) {
         val exams = examUiStates.value.toMutableList()
         val examIndex = exams.indexOfFirst { it.id == index }
-        if (examIndex == -1)
+        if (examIndex == -1) {
             return
+        }
         val exam = exams[examIndex]
         exams[examIndex] = exam.copy(isSelected = !exam.isSelected)
         if (!isSelectMode.value && !exam.isSelected) {
@@ -231,10 +213,11 @@ class MainViewModel(
         val exams = examUiStates
             .value
             .map {
-                if (it.subjectID == currentSubjectId.value)
+                if (it.subjectID == currentSubjectId.value) {
                     it.copy(isSelected = true)
-                else
+                } else {
                     it.copy(isSelected = false)
+                }
             }
             .toImmutableList()
 
@@ -252,4 +235,3 @@ class MainViewModel(
         _isSelectMode.value = false
     }
 }
-

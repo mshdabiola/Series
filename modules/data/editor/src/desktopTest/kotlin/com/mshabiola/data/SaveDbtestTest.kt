@@ -1,13 +1,15 @@
 package com.mshabiola.data
 
 import app.cash.sqldelight.driver.jdbc.sqlite.JdbcSqliteDriver
-import com.mshabiola.database.Security
 import com.mshabiola.database.di.databaseModule
 import com.mshabiola.database.di.name
 import com.mshabiola.database.model.listOfValueAdapter
-import com.mshabiola.database.util.Constant
 import com.mshdabiola.database.SeriesDatabase
+import com.mshdabiola.model.Security
+import com.mshdabiola.model.assetData
 import com.mshdabiola.model.data.Item
+import com.mshdabiola.model.databaseName
+import com.mshdabiola.model.defaultKey
 import commshdabioladatabase.tables.ExamEntity
 import commshdabioladatabase.tables.InstructionEntity
 import commshdabioladatabase.tables.OptionEntity
@@ -26,8 +28,7 @@ import kotlin.io.path.Path
 import kotlin.io.path.inputStream
 import kotlin.io.path.outputStream
 
-class DatabaseUtilTest : KoinTest {
-
+class SaveDbtestTest : KoinTest {
 
     @get:Rule
     val koinTestRule = KoinTestRule.create {
@@ -35,7 +36,7 @@ class DatabaseUtilTest : KoinTest {
             single(qualifier = qualifier("real")) {
                 val driver = JdbcSqliteDriver(
                     JdbcSqliteDriver.IN_MEMORY,
-                    properties = Properties().apply { put("foreign_keys", "true") }
+                    properties = Properties().apply { put("foreign_keys", "true") },
                 )
                     .also { SeriesDatabase.Schema.create(it) }
 
@@ -43,27 +44,24 @@ class DatabaseUtilTest : KoinTest {
                     driver = driver,
                     questionEntityAdapter = QuestionEntity.Adapter(
                         listOfValueAdapter,
-                        listOfValueAdapter
+                        listOfValueAdapter,
                     ),
                     instructionEntityAdapter = InstructionEntity.Adapter(listOfValueAdapter),
-                    optionEntityAdapter = OptionEntity.Adapter(listOfValueAdapter)
+                    optionEntityAdapter = OptionEntity.Adapter(listOfValueAdapter),
                 )
             }
-
         }
         // Your KoinApplication instance here
         modules(module, databaseModule)
-
     }
 
     @Test
     fun insert() = runTest {
-
         val inputDb by inject<SeriesDatabase>(qualifier = qualifier(name))
 
         val subjects = listOf(
             SubjectEntity(1, "Math"),
-            SubjectEntity(2, "English")
+            SubjectEntity(2, "English"),
         )
 
         val exams = listOf(
@@ -81,7 +79,7 @@ class DatabaseUtilTest : KoinTest {
                 isTheory = 0,
                 answer = null,
                 instructionId = null,
-                topicId = null
+                topicId = null,
             ),
             QuestionEntity(
                 id = 2,
@@ -91,7 +89,7 @@ class DatabaseUtilTest : KoinTest {
                 isTheory = 0,
                 answer = null,
                 instructionId = null,
-                topicId = null
+                topicId = null,
             ),
             QuestionEntity(
                 id = 3,
@@ -101,7 +99,7 @@ class DatabaseUtilTest : KoinTest {
                 isTheory = 0,
                 answer = null,
                 instructionId = null,
-                topicId = null
+                topicId = null,
             ),
             QuestionEntity(
                 id = 4,
@@ -111,11 +109,10 @@ class DatabaseUtilTest : KoinTest {
                 isTheory = 0,
                 answer = null,
                 instructionId = null,
-                topicId = null
+                topicId = null,
             ),
 
-            )
-
+        )
 
         val options = listOf(
             OptionEntity(
@@ -124,7 +121,7 @@ class DatabaseUtilTest : KoinTest {
                 questionId = 1,
                 examId = 1,
                 content = listOf(Item("abioa")),
-                isAnswer = 1
+                isAnswer = 1,
             ),
             OptionEntity(
                 id = -1,
@@ -132,7 +129,7 @@ class DatabaseUtilTest : KoinTest {
                 questionId = 1,
                 examId = 1,
                 content = listOf(Item("abioa")),
-                isAnswer = 0
+                isAnswer = 0,
             ),
             OptionEntity(
                 id = -1,
@@ -140,8 +137,8 @@ class DatabaseUtilTest : KoinTest {
                 questionId = 1,
                 examId = 1,
                 content = listOf(Item("abioa")),
-                isAnswer = 0
-            )
+                isAnswer = 0,
+            ),
         )
 
         subjects.forEach {
@@ -164,17 +161,14 @@ class DatabaseUtilTest : KoinTest {
 //            2,
 //            key = Constant.defaultKey
 //        )
-
-
     }
 
     @Test
     fun readIt() = runTest {
         val path =
-            Path("/Users/user/AndroidStudioProjects/Series/subject/${Constant.assetData}test")
+            Path("/Users/user/AndroidStudioProjects/Series/subject/${assetData}test")
         val output =
-            Path("/Users/user/AndroidStudioProjects/Series/subject/${Constant.databaseName}")
-        Security.decode(path.inputStream(), output.outputStream(), key = Constant.defaultKey)
+            Path("/Users/user/AndroidStudioProjects/Series/subject/$databaseName")
+        Security.decode(path.inputStream(), output.outputStream(), key = defaultKey)
     }
 }
-

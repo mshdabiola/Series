@@ -1,5 +1,3 @@
-
-
 package com.mshdabiola.app
 
 import com.android.build.api.dsl.CommonExtension
@@ -12,7 +10,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
  * Configure Compose-specific options
  */
 internal fun Project.configureAndroidCompose(
-    commonExtension: CommonExtension<*, *, *, *, *,*>,
+    commonExtension: CommonExtension<*, *, *, *, *, *>,
 ) {
 
     commonExtension.apply {

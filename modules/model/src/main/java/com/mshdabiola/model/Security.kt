@@ -17,16 +17,12 @@ import javax.crypto.spec.SecretKeySpec
 object Security {
 
     fun encode(byteArray: ByteArray, output: OutputStream, key: String) {
-
         ObjectOutputStream(output).use {
             it.writeObject(encrypt(byteArray, key))
         }
-
     }
 
     fun decode(input: InputStream, output: OutputStream, key: String) {
-
-
         ObjectInputStream(input).use { objectInputStream ->
             val map: HashMap<String, ByteArray>? =
                 objectInputStream.readObject() as? HashMap<String, ByteArray>
@@ -39,7 +35,6 @@ object Security {
                 }
             }
         }
-
     }
 
     fun copy(destinationFile: File, version: InputStream, data: InputStream, key: String) {
@@ -48,9 +43,9 @@ object Security {
         // An intermediate file is used so that we never end up with a half-copied database file
         // in the internal directory.
         val intermediateFile = File.createTempFile(
-            "sqlite-copy-helper", ".tmp"
+            "sqlite-copy-helper",
+            ".tmp",
         )
-
 
         intermediateFile.deleteOnExit()
 //        input.source().use { a ->
@@ -62,7 +57,6 @@ object Security {
             }
         }
         decode(data, FileOutputStream(intermediateFile), key)
-
 
         val parent = destinationFile.parentFile
         if (parent != null && !parent.exists() && !parent.mkdirs()) {
@@ -104,7 +98,7 @@ object Security {
         val map = HashMap<String, ByteArray>()
 
         try {
-            //Random salt for next step
+            // Random salt for next step
             // 1
             val random = SecureRandom()
             // 2
@@ -112,11 +106,11 @@ object Security {
             // 3
             random.nextBytes(salt)
 
-            //PBKDF2 - derive the key from the password, don't use passwords directly
+            // PBKDF2 - derive the key from the password, don't use passwords directly
             // 4
-            val passwordChar = key.toCharArray() //Turn password into char[] array
+            val passwordChar = key.toCharArray() // Turn password into char[] array
             // 5
-            val pbKeySpec = PBEKeySpec(passwordChar, salt, 1324, 256) //1324 iterations
+            val pbKeySpec = PBEKeySpec(passwordChar, salt, 1324, 256) // 1324 iterations
             // 6
             val secretKeyFactory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1")
             // 7
@@ -124,9 +118,9 @@ object Security {
             // 8
             val keySpec = SecretKeySpec(keyBytes, "AES")
 
-            //Create initialization vector for AES
+            // Create initialization vector for AES
             // 9
-            val ivRandom = SecureRandom() //not caching previous seeded instance of SecureRandom
+            val ivRandom = SecureRandom() // not caching previous seeded instance of SecureRandom
             // 10
             val iv = ByteArray(16)
             // 11
@@ -134,7 +128,7 @@ object Security {
             // 12
             val ivSpec = IvParameterSpec(iv)
 
-            //Encrypt
+            // Encrypt
             // 13
             val cipher = Cipher.getInstance("AES/CBC/PKCS5Padding")
             cipher.init(Cipher.ENCRYPT_MODE, keySpec, ivSpec)
@@ -149,6 +143,4 @@ object Security {
         }
         return map
     }
-
-
 }

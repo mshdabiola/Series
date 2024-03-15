@@ -19,12 +19,10 @@ fun SkeletonAppNavHost(appState: SkAppState) {
         animation = stackAnimation(fade() + slide()),
     ) {
         when (val instance = it.instance) {
-
-
             is IRootComponent.RootScreen.MainRootScreen -> {
                 MainScreenNav(
                     appState.windowSizeClass,
-                    onExamClick = appState.navController::navigateToExam
+                    onExamClick = appState.navController::navigateToExam,
                 )
             }
 
@@ -36,7 +34,6 @@ fun SkeletonAppNavHost(appState: SkAppState) {
                     onBack = appState.navController::pop,
                 )
             }
-
         }
     }
 }

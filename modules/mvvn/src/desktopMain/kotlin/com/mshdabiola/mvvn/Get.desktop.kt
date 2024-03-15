@@ -6,11 +6,11 @@ import org.koin.core.annotation.KoinInternalApi
 import org.koin.core.context.GlobalContext
 import org.koin.core.parameter.ParametersDefinition
 import org.koin.core.qualifier.Qualifier
-import org.koin.core.scope.Scope
+
 @OptIn(KoinInternalApi::class)
 @Composable
 actual inline fun <reified T> get(
-    qualifier: Qualifier? ,
+    qualifier: Qualifier?,
     noinline parameters: ParametersDefinition?,
 ): T = remember(qualifier, parameters) {
     GlobalContext.get().scopeRegistry.rootScope.get(qualifier, parameters)

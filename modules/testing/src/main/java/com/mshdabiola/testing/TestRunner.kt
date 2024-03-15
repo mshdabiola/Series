@@ -15,7 +15,7 @@ class TestRunner : AndroidJUnitRunner() {
     override fun newApplication(
         classLoader: ClassLoader?,
         className: String?,
-        context: Context?
+        context: Context?,
     ): Application {
         return super.newApplication(classLoader, TestApplication::class.simpleName, context)
     }

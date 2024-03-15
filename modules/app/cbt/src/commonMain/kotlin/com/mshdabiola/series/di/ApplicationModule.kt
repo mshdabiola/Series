@@ -1,6 +1,5 @@
 package com.mshdabiola.series.di
 
-
 import com.mshdabiola.data.di.dataModule
 import com.mshdabiola.mvvn.commonViewModel
 import com.mshdabiola.series.navigation.MainAppViewModel
@@ -13,5 +12,4 @@ val appModule = module {
         MainViewModel(get(), get(), get())
     }
     commonViewModel { MainAppViewModel(get()) }
-
 }

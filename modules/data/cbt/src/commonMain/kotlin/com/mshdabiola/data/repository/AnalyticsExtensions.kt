@@ -7,7 +7,10 @@ package com.mshdabiola.data.repository
 import com.mshdabiola.analytics.AnalyticsEvent
 import com.mshdabiola.analytics.AnalyticsHelper
 
-internal fun AnalyticsHelper.logNewsResourceBookmarkToggled(newsResourceId: String, isBookmarked: Boolean) {
+internal fun AnalyticsHelper.logNewsResourceBookmarkToggled(
+    newsResourceId: String,
+    isBookmarked: Boolean,
+) {
     val eventType = if (isBookmarked) "news_resource_saved" else "news_resource_unsaved"
     val paramKey = if (isBookmarked) "saved_news_resource_id" else "unsaved_news_resource_id"
     logEvent(

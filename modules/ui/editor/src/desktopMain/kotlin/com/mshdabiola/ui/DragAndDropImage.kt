@@ -29,8 +29,6 @@ actual fun DragAndDropImage(
     path: String,
     onPathChange: (String) -> Unit,
 ) {
-
-
     var isover by remember { mutableStateOf(false) }
 
     val listener = object : DropTargetListener {
@@ -56,16 +54,12 @@ actual fun DragAndDropImage(
             event.acceptDrop(DnDConstants.ACTION_COPY)
             val transferable = event.transferable
 
-
             val file = transferable.transferDataFlavors
                 .filter {
-
                     it.isFlavorJavaFileListType
                 }
                 .mapNotNull {
-
                     transferable.getTransferData(it) as? List<*>
-
                 }
                 .flatten()
                 .firstNotNullOf {
@@ -75,9 +69,7 @@ actual fun DragAndDropImage(
             isover = false
             event.dropComplete(true)
         }
-
     }
-
 
     SwingPanel(
         background = Color.Transparent,
@@ -88,41 +80,41 @@ actual fun DragAndDropImage(
                 setContent {
                     Card(
                         Modifier.fillMaxSize(),
-                        border = if (isover) BorderStroke(
-                            width = 4.dp,
-                            color = Color.Blue
-                        ) else BorderStroke(width = 2.dp, color = Color.Black)
+                        border = if (isover) {
+                            BorderStroke(
+                                width = 4.dp,
+                                color = Color.Blue,
+                            )
+                        } else {
+                            BorderStroke(width = 2.dp, color = Color.Black)
+                        },
                     ) {
                         Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                             //  if (File(path).exists()) {
                             ImageUi(
                                 modifier.fillMaxSize(),
                                 path = path,
-                                contentDescription = ""
+                                contentDescription = "",
                             )
 //                            } else {
 //                                Text(text = "drag image here")
 //                            }
                         }
-
-
                     }
-
                 }
                 DropTarget(this, listener)
             }
-        })
-
-
+        },
+    )
 }
 //
-//@Composable
+// @Composable
 // fun ImageUi(
 //    modifier: Modifier,
 //    path: String,
 //    contentDescription: String,
 //    contentScale: ContentScale
-//) {
+// ) {
 //    val density = LocalDensity.current
 //    val filePath = File(path)
 //    when (filePath.extension) {
@@ -158,4 +150,4 @@ actual fun DragAndDropImage(
 //
 //    }
 //
-//}
+// }

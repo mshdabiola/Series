@@ -14,5 +14,5 @@ internal actual fun FinishCardPreview() {
 @Preview
 @Composable
 internal actual fun ScoreCardPreview() {
-    //ScoreCard()
+    // ScoreCard()
 }

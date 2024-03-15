@@ -8,7 +8,6 @@ import kotlinx.collections.immutable.toImmutableList
 @Preview
 @Composable
 actual fun MainScreenPreview() {
-
     MainScreen(
         mainState = MainState(
             listOfAllExams = listOf(
@@ -18,7 +17,7 @@ actual fun MainScreenPreview() {
                     year = 6756L,
                     subject = "Taya",
                     isObjOnly = false,
-                    examTime = 400
+                    examTime = 400,
                 ),
             ).toImmutableList(),
             currentExam = ExamUiState(
@@ -27,9 +26,8 @@ actual fun MainScreenPreview() {
                 year = 1556L,
                 subject = "Math",
                 isObjOnly = false,
-                examTime = 0L
-            )
-        )
+                examTime = 0L,
+            ),
+        ),
     )
 }
-

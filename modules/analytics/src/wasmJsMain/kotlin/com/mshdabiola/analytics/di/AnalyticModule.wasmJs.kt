@@ -7,7 +7,7 @@ import org.koin.dsl.bind
 import org.koin.dsl.module
 
 actual val analyticsModule: Module
-    get() =  module {
+    get() = module {
 
         single {
             object : AnalyticsHelper {

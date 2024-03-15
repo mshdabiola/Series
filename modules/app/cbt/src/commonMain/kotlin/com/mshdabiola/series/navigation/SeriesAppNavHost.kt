@@ -39,7 +39,7 @@ fun SeriesAppNavHost(appState: SeriesAppState) {
             is IRootComponent.RootScreen.PagerScreen -> {
                 PagerCom(
                     (it.instance as IRootComponent.RootScreen.PagerScreen).component,
-                    onQuestion = appState.navController::navigateToQuestion
+                    onQuestion = appState.navController::navigateToQuestion,
 
                 )
             }
@@ -47,23 +47,19 @@ fun SeriesAppNavHost(appState: SeriesAppState) {
             is IRootComponent.RootScreen.QuestionRootScreen -> {
                 QuestionScreenNav(
                     onBack = appState.navController::pop,
-                    onFinish = appState.navController::navigateToFinish
+                    onFinish = appState.navController::navigateToFinish,
                 )
             }
 
             is IRootComponent.RootScreen.FinishRootScreen -> {
                 FinishScreenNav(
                     onBack = appState.navController::pop,
-                    toQuestion = appState.navController::navigateToQuestion
+                    toQuestion = appState.navController::navigateToQuestion,
                 )
             }
-
         }
-
     }
 }
-
-
 
 @OptIn(ExperimentalDecomposeApi::class, ExperimentalFoundationApi::class)
 @Composable
@@ -78,7 +74,7 @@ fun PagerCom(
             pages = iPagerComponent.pages,
             modifier = Modifier.weight(1f),
             onPageSelected = {},
-            scrollAnimation = PagesScrollAnimation.Default
+            scrollAnimation = PagesScrollAnimation.Default,
         ) { _, page ->
             when (page) {
                 is IPagerComponent.PScreen.MainRootScreen -> {
@@ -93,29 +89,31 @@ fun PagerCom(
                     StatScreenNav()
                 }
             }
-
-
         }
         UpdateAppUi()
         NavigationBar {
-            NavigationBarItem(selected = current == 0,
+            NavigationBarItem(
+                selected = current == 0,
                 onClick = {
                     iPagerComponent.selectedPage(0)
                 },
-                icon = { Icon(imageVector = Icons.Default.Home, contentDescription = "home") })
+                icon = { Icon(imageVector = Icons.Default.Home, contentDescription = "home") },
+            )
 
-            NavigationBarItem(selected = current == 1,
+            NavigationBarItem(
+                selected = current == 1,
                 onClick = {
                     iPagerComponent.selectedPage(1)
                 },
-                icon = { Icon(imageVector = Icons.Default.Star, contentDescription = "home") })
-            NavigationBarItem(selected = current == 2,
+                icon = { Icon(imageVector = Icons.Default.Star, contentDescription = "home") },
+            )
+            NavigationBarItem(
+                selected = current == 2,
                 onClick = {
                     iPagerComponent.selectedPage(2)
                 },
-                icon = { Icon(imageVector = Icons.Default.Home, contentDescription = "home") })
+                icon = { Icon(imageVector = Icons.Default.Home, contentDescription = "home") },
+            )
         }
     }
-
 }
-

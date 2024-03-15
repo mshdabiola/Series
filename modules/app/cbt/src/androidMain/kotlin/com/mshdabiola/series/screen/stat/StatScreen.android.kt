@@ -10,6 +10,6 @@ import kotlinx.collections.immutable.toImmutableList
 actual fun StatScreenPreview() {
     StatScreen(
         statState = StatState(),
-        userRankList = listOf(UserRank(null, "abiola", 10, 45)).toImmutableList()
+        userRankList = listOf(UserRank(null, "abiola", 10, 45)).toImmutableList(),
     )
 }

@@ -14,9 +14,7 @@ interface MultiplatformSettings {
     val name: Flow<String>
     val userData: Flow<UserData>
 
-
     suspend fun setName(name: String)
-
 
     suspend fun setCurrentInstruction(instruction: Instruction)
 
@@ -33,7 +31,6 @@ interface MultiplatformSettings {
     suspend fun setCurrentExam(currentExam: CurrentExam?)
 
     suspend fun getCurrentExam(): CurrentExam?
-
 
     suspend fun setThemeBrand(themeBrand: ThemeBrand)
 

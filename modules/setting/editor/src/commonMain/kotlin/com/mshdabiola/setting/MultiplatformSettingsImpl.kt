@@ -53,15 +53,12 @@ internal class MultiplatformSettingsImpl(
             }
         }
 
-
     override suspend fun setName(name: String) {
         settings.edit { it[nameKey] = name }
     }
 
-
     override suspend fun setCurrentInstruction(instruction: Instruction) {
         withContext(Dispatchers.IO) {
-
             val list = getInstructionList().toMutableList()
             val index = list.indexOfFirst { it.examId == instruction.examId }
             if (index == -1) {
@@ -77,19 +74,16 @@ internal class MultiplatformSettingsImpl(
 //            settings
 //                .toBlockingSettings()
 //                .encodeValue(ListSerializer(Instruction.serializer()), Keys.instructionKey, list)
-
         }
     }
 
     override suspend fun getCurrentInstruction(examId: Long): Instruction? {
         return getInstructionList()
             .find { it.examId == examId }
-
     }
 
     override suspend fun removeInstruction(examId: Long) {
         withContext(Dispatchers.IO) {
-
             val list = getInstructionList().toMutableList()
             val index = list.indexOfFirst { it.examId == examId }
             if (index == -1) {
@@ -105,27 +99,23 @@ internal class MultiplatformSettingsImpl(
 //            settings
 //                .toBlockingSettings()
 //                .encodeValue(ListSerializer(Instruction.serializer()), Keys.instructionKey, list)
-
         }
     }
 
     private suspend fun getInstructionList(): List<Instruction> {
-
         val data = settings.data.map {
             val instrus = it[instructionKey]
-            if (instrus == null)
+            if (instrus == null) {
                 emptyList<Instruction>()
-            else
+            } else {
                 Json.decodeFromString(ListSerializer(Instruction.serializer()), instrus)
-
+            }
         }
         return data.first()
     }
 
-
     override suspend fun setCurrentQuestion(question: QuestionFull) {
         withContext(Dispatchers.IO) {
-
             val list = getQuestionList().toMutableList()
             val index = list.indexOfFirst { it.examId == question.examId }
             if (index == -1) {
@@ -140,19 +130,16 @@ internal class MultiplatformSettingsImpl(
 //            settings
 //                .toBlockingSettings()
 //                .encodeValue(ListSerializer(QuestionFull.serializer()), Keys.questionKey, list)
-
         }
     }
 
     override suspend fun getCurrentQuestion(examId: Long): QuestionFull? {
         return getQuestionList()
             .find { it.examId == examId }
-
     }
 
     override suspend fun removeQuestion(examId: Long) {
         withContext(Dispatchers.IO) {
-
             val list = getQuestionList().toMutableList()
             val index = list.indexOfFirst { it.examId == examId }
             if (index == -1) {
@@ -168,7 +155,6 @@ internal class MultiplatformSettingsImpl(
 //            settings
 //                .toBlockingSettings()
 //                .encodeValue(ListSerializer(QuestionFull.serializer()), Keys.questionKey, list)
-
         }
     }
 
@@ -177,7 +163,7 @@ internal class MultiplatformSettingsImpl(
             settings.edit {
                 val crString = Json.encodeToString(
                     ListSerializer(CurrentExam.serializer()),
-                    if (currentExam == null) emptyList() else listOf(currentExam)
+                    if (currentExam == null) emptyList() else listOf(currentExam),
                 )
                 it[currentExamKey] = crString
             }
@@ -191,14 +177,13 @@ internal class MultiplatformSettingsImpl(
     }
 
     override suspend fun getCurrentExam(): CurrentExam? {
-
         val data = settings.data.map {
             val current = it[currentExamKey]
-            if (current == null)
+            if (current == null) {
                 null
-            else
+            } else {
                 Json.decodeFromString(ListSerializer(CurrentExam.serializer()), current)
-
+            }
         }
         return data.firstOrNull()?.firstOrNull()
 //        val list = settings
@@ -210,11 +195,11 @@ internal class MultiplatformSettingsImpl(
     private suspend fun getQuestionList(): List<QuestionFull> {
         val data = settings.data.map {
             val questionFull = it[questionKey]
-            if (questionFull == null)
+            if (questionFull == null) {
                 emptyList()
-            else
+            } else {
                 Json.decodeFromString(ListSerializer(QuestionFull.serializer()), questionFull)
-
+            }
         }
         return data.first()
 //        return settings.toBlockingSettings().decodeValue(
@@ -253,5 +238,4 @@ internal class MultiplatformSettingsImpl(
         val userDataStr = Json.encodeToString(userData.toSer())
         settings.edit { it[userDataKey] = userDataStr }
     }
-
 }

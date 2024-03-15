@@ -9,9 +9,8 @@ import javax.swing.JFileChooser
 actual fun DirtoryUi(
     show: Boolean,
     onDismiss: () -> Unit,
-    onFile: (File?) -> Unit
+    onFile: (File?) -> Unit,
 ) {
-
     LaunchedEffect(show) {
         if (show) {
             val jFileChooser = JFileChooser()
@@ -23,7 +22,6 @@ actual fun DirtoryUi(
                 onFile(file)
             }
             onDismiss()
-
         }
     }
 }

@@ -25,8 +25,10 @@ import org.jetbrains.compose.resources.painterResource
 import org.koin.core.context.GlobalContext.startKoin
 import java.io.File
 
-@OptIn(ExperimentalDecomposeApi::class, ExperimentalMaterial3WindowSizeClassApi::class,
-    ExperimentalResourceApi::class
+@OptIn(
+    ExperimentalDecomposeApi::class,
+    ExperimentalMaterial3WindowSizeClassApi::class,
+    ExperimentalResourceApi::class,
 )
 fun mainApp(appArgs: AppArgs) {
     val life = LifecycleRegistry()
@@ -45,7 +47,6 @@ fun mainApp(appArgs: AppArgs) {
             icon = painterResource(DrawableResource("drawable/launcher/system.png")),
             state = windowState,
         ) {
-
             SeriesApp(
                 context = defaultComponentContext,
             )
@@ -73,7 +74,6 @@ fun main() {
         val version = classLoader.getResourceAsStream("files/version.txt")
         val key = "mshdabiola20"
         Security.copy(destinationFile, version!!, data!!, key)
-
     }
 
     val appArgs = AppArgs(

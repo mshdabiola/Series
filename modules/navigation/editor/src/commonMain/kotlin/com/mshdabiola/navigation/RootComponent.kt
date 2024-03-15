@@ -14,7 +14,6 @@ class RootComponent(
 ) : IRootComponent, ComponentContext by componentContext {
     private val navigation = StackNavigation<Config>()
 
-
     override val stack: Value<ChildStack<*, IRootComponent.RootScreen>>
         get() = _stack
 
@@ -30,26 +29,22 @@ class RootComponent(
         navigation.pop()
     }
 
-
     private val _stack = childStack(
         source = navigation,
         serializer = Config.serializer(),
         initialConfiguration = Config.Main,
         handleBackButton = true,
-        childFactory = ::factory
+        childFactory = ::factory,
     )
 
-
     @Serializable
-    private sealed interface Config{
-
+    private sealed interface Config {
 
         @Serializable
         data class Exam(val examId: Long, val subjectId: Long) : Config
 
         @Serializable
         data object Main : Config
-
     }
 
     private fun factory(
@@ -57,25 +52,21 @@ class RootComponent(
         componentContext: ComponentContext,
     ): IRootComponent.RootScreen {
         return when (config) {
-
             is Config.Main -> IRootComponent.RootScreen.MainRootScreen(
                 navigateToMain(
-                    componentContext
-                )
+                    componentContext,
+                ),
             )
 
             is Config.Exam -> IRootComponent.RootScreen.QuestionRootScreen(
                 examId = config.examId,
                 subjectId = config.subjectId,
                 navigateToExam(
-                    componentContext
-                )
+                    componentContext,
+                ),
             )
-
-
         }
     }
-
 
     private fun navigateToExam(componentContext: ComponentContext): QuestionComponent {
         return QuestionComponent(componentContext)
@@ -84,6 +75,4 @@ class RootComponent(
     private fun navigateToMain(componentContext: ComponentContext): MainComponent {
         return MainComponent(componentContext)
     }
-
-
 }

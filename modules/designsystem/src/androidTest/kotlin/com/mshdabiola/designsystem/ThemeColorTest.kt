@@ -48,7 +48,8 @@ class ThemeColorTest {
                 darkTheme = false,
                 disableDynamicTheming = true,
             ) {
-                val colorScheme = ThemeColor.DefaultThemeColor(false,Contrast.Normal).getColorScheme()
+                val colorScheme =
+                    ThemeColor.DefaultThemeColor(false, Contrast.Normal).getColorScheme()
                 assertColorSchemesEqual(colorScheme, MaterialTheme.colorScheme)
                 val gradientColors = defaultGradientColors(colorScheme)
                 assertEquals(gradientColors, LocalGradientColors.current)
@@ -67,7 +68,8 @@ class ThemeColorTest {
                 darkTheme = true,
                 disableDynamicTheming = true,
             ) {
-                val colorScheme = ThemeColor.DefaultThemeColor(false,Contrast.Normal).getColorScheme()
+                val colorScheme =
+                    ThemeColor.DefaultThemeColor(false, Contrast.Normal).getColorScheme()
                 assertColorSchemesEqual(colorScheme, MaterialTheme.colorScheme)
                 val gradientColors = defaultGradientColors(colorScheme)
                 assertEquals(gradientColors, LocalGradientColors.current)
@@ -124,11 +126,14 @@ class ThemeColorTest {
                 darkTheme = false,
                 disableDynamicTheming = true,
             ) {
-                val colorScheme = ThemeColor.DefaultThemeColor(false,Contrast.Normal).getColorScheme()
+                val colorScheme =
+                    ThemeColor.DefaultThemeColor(false, Contrast.Normal).getColorScheme()
                 assertColorSchemesEqual(colorScheme, MaterialTheme.colorScheme)
-                val gradientColors = ThemeColor.DefaultThemeColor(false,Contrast.Normal).getGradientColors()
+                val gradientColors =
+                    ThemeColor.DefaultThemeColor(false, Contrast.Normal).getGradientColors()
                 assertEquals(gradientColors, LocalGradientColors.current)
-                val backgroundTheme = ThemeColor.DefaultThemeColor(false,Contrast.Normal).getBackgroundTheme()
+                val backgroundTheme =
+                    ThemeColor.DefaultThemeColor(false, Contrast.Normal).getBackgroundTheme()
                 assertEquals(backgroundTheme, LocalBackgroundTheme.current)
                 val tintTheme = defaultTintTheme()
                 assertEquals(tintTheme, LocalTintTheme.current)
@@ -143,11 +148,14 @@ class ThemeColorTest {
                 darkTheme = true,
                 disableDynamicTheming = true,
             ) {
-                val colorScheme = ThemeColor.DefaultThemeColor(true,Contrast.Normal).getColorScheme()
+                val colorScheme =
+                    ThemeColor.DefaultThemeColor(true, Contrast.Normal).getColorScheme()
                 assertColorSchemesEqual(colorScheme, MaterialTheme.colorScheme)
-                val gradientColors = ThemeColor.DefaultThemeColor(true,Contrast.Normal).getGradientColors()
+                val gradientColors =
+                    ThemeColor.DefaultThemeColor(true, Contrast.Normal).getGradientColors()
                 assertEquals(gradientColors, LocalGradientColors.current)
-                val backgroundTheme = ThemeColor.DefaultThemeColor(true,Contrast.Normal).getBackgroundTheme()
+                val backgroundTheme =
+                    ThemeColor.DefaultThemeColor(true, Contrast.Normal).getBackgroundTheme()
                 assertEquals(backgroundTheme, LocalBackgroundTheme.current)
                 val tintTheme = defaultTintTheme()
                 assertEquals(tintTheme, LocalTintTheme.current)
@@ -162,11 +170,14 @@ class ThemeColorTest {
                 darkTheme = false,
                 disableDynamicTheming = false,
             ) {
-                val colorScheme = ThemeColor.DefaultThemeColor(false,Contrast.Normal).getColorScheme()
+                val colorScheme =
+                    ThemeColor.DefaultThemeColor(false, Contrast.Normal).getColorScheme()
                 assertColorSchemesEqual(colorScheme, MaterialTheme.colorScheme)
-                val gradientColors = ThemeColor.DefaultThemeColor(false,Contrast.Normal).getGradientColors()
+                val gradientColors =
+                    ThemeColor.DefaultThemeColor(false, Contrast.Normal).getGradientColors()
                 assertEquals(gradientColors, LocalGradientColors.current)
-                val backgroundTheme = ThemeColor.DefaultThemeColor(false,Contrast.Normal).getBackgroundTheme()
+                val backgroundTheme =
+                    ThemeColor.DefaultThemeColor(false, Contrast.Normal).getBackgroundTheme()
                 assertEquals(backgroundTheme, LocalBackgroundTheme.current)
                 val tintTheme = defaultTintTheme()
                 assertEquals(tintTheme, LocalTintTheme.current)
@@ -181,11 +192,14 @@ class ThemeColorTest {
                 darkTheme = true,
                 disableDynamicTheming = false,
             ) {
-                val colorScheme = ThemeColor.DefaultThemeColor(true,Contrast.Normal).getColorScheme()
+                val colorScheme =
+                    ThemeColor.DefaultThemeColor(true, Contrast.Normal).getColorScheme()
                 assertColorSchemesEqual(colorScheme, MaterialTheme.colorScheme)
-                val gradientColors = ThemeColor.DefaultThemeColor(true,Contrast.Normal).getGradientColors()
+                val gradientColors =
+                    ThemeColor.DefaultThemeColor(true, Contrast.Normal).getGradientColors()
                 assertEquals(gradientColors, LocalGradientColors.current)
-                val backgroundTheme = ThemeColor.DefaultThemeColor(true,Contrast.Normal).getBackgroundTheme()
+                val backgroundTheme =
+                    ThemeColor.DefaultThemeColor(true, Contrast.Normal).getBackgroundTheme()
                 assertEquals(backgroundTheme, LocalBackgroundTheme.current)
                 val tintTheme = defaultTintTheme()
                 assertEquals(tintTheme, LocalTintTheme.current)
@@ -196,13 +210,13 @@ class ThemeColorTest {
     @Composable
     private fun dynamicLightColorSchemeWithFallback(): ColorScheme = when {
         SDK_INT >= VERSION_CODES.S -> dynamicLightColorScheme(LocalContext.current)
-        else -> ThemeColor.DefaultThemeColor(false,Contrast.Normal).getColorScheme()
+        else -> ThemeColor.DefaultThemeColor(false, Contrast.Normal).getColorScheme()
     }
 
     @Composable
     private fun dynamicDarkColorSchemeWithFallback(): ColorScheme = when {
         SDK_INT >= VERSION_CODES.S -> dynamicDarkColorScheme(LocalContext.current)
-        else -> ThemeColor.DefaultThemeColor(true,Contrast.Normal).getColorScheme()
+        else -> ThemeColor.DefaultThemeColor(true, Contrast.Normal).getColorScheme()
     }
 
     private fun emptyGradientColors(colorScheme: ColorScheme): GradientColors =

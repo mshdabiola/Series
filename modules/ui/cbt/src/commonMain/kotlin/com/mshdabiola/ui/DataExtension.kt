@@ -29,7 +29,7 @@ fun QuestionFull.toQuestionUiState(isEdit: Boolean = false) = QuestionUiState(
         it.toItemUi(isEdit)
     }?.toImmutableList(),
     instructionUiState = instruction?.toInstructionUiState(),
-    topicUiState = topic?.toUi()
+    topicUiState = topic?.toUi(),
 )
 
 fun Option.toOptionUi(isEdit: Boolean = false) =
@@ -37,20 +37,18 @@ fun Option.toOptionUi(isEdit: Boolean = false) =
         id = id,
         nos = nos,
         content = content.map { it.toItemUi(isEdit) }.toImmutableList(),
-        isAnswer = isAnswer
+        isAnswer = isAnswer,
     )
-
 
 fun Item.toItemUi(isEdit: Boolean = false) =
     ItemUiState(content = content, type = type, isEditMode = isEdit)
-
 
 fun Instruction.toInstructionUiState(isEdit: Boolean = false) =
     InstructionUiState(
         id = id,
         examId = examId,
         title = title,
-        content = content.map { it.toItemUi(isEdit = isEdit) }.toImmutableList()
+        content = content.map { it.toItemUi(isEdit = isEdit) }.toImmutableList(),
     )
 
 fun Topic.toUi() = TopicUiState(id = id, subjectId = subjectId, name = name)
@@ -61,6 +59,5 @@ fun ExamWithSub.toUi() = ExamUiState(
     year = year,
     subject = subject,
     isObjOnly = isObjOnly,
-    examTime = examTime
+    examTime = examTime,
 )
-

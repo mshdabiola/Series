@@ -6,7 +6,11 @@ import androidx.sqlite.db.SupportSQLiteOpenHelper
 import com.mshdabiola.database.BuildConfig
 import com.mshdabiola.model.Security
 import timber.log.Timber
-import java.io.*
+import java.io.File
+import java.io.FileInputStream
+import java.io.FileOutputStream
+import java.io.IOException
+import java.io.InputStream
 import java.util.concurrent.Callable
 
 /**
@@ -31,15 +35,12 @@ class SQLiteCopyOpenHelper(
 //    else
 //        BuildConfig.store_key
 
-
     override fun setWriteAheadLoggingEnabled(enabled: Boolean) {
         delegate.setWriteAheadLoggingEnabled(enabled)
     }
 
-
     override val databaseName: String?
         get() = delegate.databaseName
-
 
     override val readableDatabase: SupportSQLiteDatabase
         get() {
@@ -88,7 +89,6 @@ class SQLiteCopyOpenHelper(
             // A database file is present, check if we need to re-copy it.
             val currentVersion = try {
                 readVersion()
-
             } catch (e: IOException) {
                 Timber.tag(TAG).w(e, "Unable to read database version.")
                 return
@@ -100,7 +100,6 @@ class SQLiteCopyOpenHelper(
                         .reader()
                         .readText()
                         .toInt()
-
                 } catch (e: IOException) {
                     Timber.tag(TAG).w(e, "Unable to read database version.")
                     0
@@ -108,7 +107,6 @@ class SQLiteCopyOpenHelper(
 
             Timber.e("current verson is $currentVersion")
             Timber.e("old verson is $oldVersion")
-
 
             if (currentVersion == oldVersion) {
                 return
@@ -154,7 +152,7 @@ class SQLiteCopyOpenHelper(
                 .reader()
                 .readText()
                 .toInt()
-            //.toIntOrNull() ?: 1
+            // .toIntOrNull() ?: 1
         } catch (e: IOException) {
             throw RuntimeException(e)
         }
@@ -186,9 +184,9 @@ class SQLiteCopyOpenHelper(
 //
 //
 //        intermediateFile.deleteOnExit()
-////        input.source().use { a ->
-////            intermediateFile.sink().buffer().use { b -> b.writeAll(a) }
-////        }
+// //        input.source().use { a ->
+// //            intermediateFile.sink().buffer().use { b -> b.writeAll(a) }
+// //        }
 //        versionOutput.use { out ->
 //            context.assets.open("version.txt").use {
 //                out.write(it.readBytes())
@@ -221,7 +219,7 @@ class SQLiteCopyOpenHelper(
                 context,
                 copyConfig,
                 config.callback.version,
-                delegate.create(config)
+                delegate.create(config),
             )
         }
     }
@@ -235,4 +233,3 @@ sealed class CopyConfig
 data class CopyFromAssetPath(val path: String) : CopyConfig()
 data class CopyFromFile(val file: File) : CopyConfig()
 data class CopyFromInputStream(val callable: Callable<InputStream>) : CopyConfig()
-

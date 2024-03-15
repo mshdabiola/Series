@@ -1,5 +1,3 @@
-
-
 package com.mshdabiola.app
 
 import org.gradle.api.Project

@@ -19,7 +19,6 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.TextUnitType
 
-
 @Composable
 fun MarkUpText(
     text: String,
@@ -41,18 +40,16 @@ fun MarkUpText(
 ) {
     Text(
         text = buildAnnotatedString {
-
             // pushStyle(SpanStyle(baselineShift = BaselineShift.Subscript))
             if (MarkUpEngine.containStyle(text)) {
                 text
                     .split("*")
                     .forEach {
                         when {
-
                             MarkUpEngine.isStyleString(it) -> pushStyle(
                                 MarkUpEngine.getSpanStyle(
-                                    it
-                                )
+                                    it,
+                                ),
                             )
 
                             it == "e" -> pop()
@@ -78,10 +75,9 @@ fun MarkUpText(
         softWrap = softWrap,
         maxLines = maxLines,
         onTextLayout = onTextLayout,
-        style = style
+        style = style,
     )
 }
-
 
 object MarkUpEngine {
     private var color = Color.Unspecified
@@ -115,7 +111,7 @@ object MarkUpEngine {
         "sp" to {
             baselineShift = BaselineShift.Superscript
             fontSize = TextUnit(0.899f, TextUnitType.Em)
-        }
+        },
 
     )
 
@@ -138,7 +134,6 @@ object MarkUpEngine {
         baselineShift = BaselineShift.None
         fontSize = TextUnit.Unspecified
 
-
         val styleList = sty.split(",")
         styleList.forEach {
             list[it]?.invoke()
@@ -151,9 +146,8 @@ object MarkUpEngine {
             fontWeight = weight,
             fontStyle = style,
             background = background,
-            textDecoration = decoration
+            textDecoration = decoration,
 
         )
     }
-
 }

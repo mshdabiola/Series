@@ -30,7 +30,7 @@ fun QuestionUi(
 ) {
     Column(
         modifier = modifier,
-        verticalArrangement = Arrangement.spacedBy(8.dp)
+        verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
         QuestionHeadUi(
             number = number,
@@ -39,19 +39,16 @@ fun QuestionUi(
             title = questionUiState.title,
             onInstruction = onInstruction,
             examID = questionUiState.examId,
-            instructionTitle = questionUiState.instructionUiState?.title
+            instructionTitle = questionUiState.instructionUiState?.title,
         )
         OptionsUi(
             optionUiStates = questionUiState.options,
             showAnswer = showAnswer,
             selectedOption = selectedOption,
             onClick = onOptionClick,
-            examId = questionUiState.id
+            examId = questionUiState.id,
         )
-
     }
-
-
 }
 
 @Composable
@@ -64,22 +61,20 @@ fun QuestionHeadUi(
     examID: Long,
     onInstruction: () -> Unit = {},
 ) {
-
     val textColor = LocalTextStyle.current.color.copy(alpha = 0.5f)
     Card {
-
         Column(
             modifier = Modifier.padding(8.dp),
-            verticalArrangement = Arrangement.spacedBy(4.dp)
+            verticalArrangement = Arrangement.spacedBy(4.dp),
         ) {
             Row(
                 Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
+                horizontalArrangement = Arrangement.SpaceBetween,
             ) {
                 Text(
                     "Question $number",
                     color = textColor,
-                    style = MaterialTheme.typography.bodySmall
+                    style = MaterialTheme.typography.bodySmall,
                 )
                 Text(title, color = textColor, style = MaterialTheme.typography.bodySmall)
             }
@@ -89,16 +84,14 @@ fun QuestionHeadUi(
             if (isInstruction) {
                 ElevatedButton(
                     modifier = Modifier.align(Alignment.End),
-                    onClick = onInstruction
+                    onClick = onInstruction,
                 ) {
                     Text(instructionTitle ?: "Read Instruction")
                 }
             }
         }
-
     }
 }
-
 
 @Composable
 internal expect fun QuestionHeadUiPreview()

@@ -52,7 +52,8 @@ import java.awt.Font
 import java.awt.font.FontRenderContext
 
 class TextLayoutD(
-    string: String?, font: Font?,
+    string: String?,
+    font: Font?,
     fontRenderContext: FontRenderContext?,
 ) : TextLayout {
     private val layout: java.awt.font.TextLayout

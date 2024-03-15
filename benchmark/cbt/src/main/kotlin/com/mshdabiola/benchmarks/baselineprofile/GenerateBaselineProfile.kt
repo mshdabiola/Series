@@ -13,7 +13,8 @@ import org.junit.Rule
 import org.junit.Test
 
 class GenerateBaselineProfile {
-    @get:Rule val baselineProfileRule = BaselineProfileRule()
+    @get:Rule
+    val baselineProfileRule = BaselineProfileRule()
 
     @Test
     fun generate() =

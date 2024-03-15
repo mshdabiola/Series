@@ -9,7 +9,6 @@ import org.xml.sax.InputSource
 import java.io.File
 import java.net.URL
 
-
 actual fun loadImageBitmap(file: File): ImageBitmap? =
     file.inputStream().buffered().use(::loadImageBitmap)
 
@@ -20,7 +19,7 @@ actual fun loadXmlImageVector(file: File, density: Density): ImageVector =
     file.inputStream().buffered().use {
         androidx.compose.ui.res.loadXmlImageVector(
             InputSource(it),
-            density
+            density,
         )
     }
 
@@ -36,7 +35,7 @@ fun loadXmlImageVector(url: String, density: Density): ImageVector =
     URL(url).openStream().buffered().use {
         androidx.compose.ui.res.loadXmlImageVector(
             InputSource(it),
-            density
+            density,
         )
     }
 

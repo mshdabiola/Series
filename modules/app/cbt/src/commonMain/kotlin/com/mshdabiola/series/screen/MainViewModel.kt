@@ -1,7 +1,7 @@
 package com.mshdabiola.series.screen
 
-//import com.mshdabiola.ui.screen.ExamType
-//import com.mshdabiola.ui.screen.main.Section
+// import com.mshdabiola.ui.screen.ExamType
+// import com.mshdabiola.ui.screen.main.Section
 import com.mshdabiola.data.repository.inter.IExamRepository
 import com.mshdabiola.data.repository.inter.IQuestionRepository
 import com.mshdabiola.data.repository.inter.ISettingRepository
@@ -25,15 +25,14 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-//import timber.log.Timber
+// import timber.log.Timber
 
 class MainViewModel(
     private val settingRepository: ISettingRepository,
     private val questionRepository: IQuestionRepository,
     iExamRepository: IExamRepository,
 
-    ) : ViewModel() {
-
+) : ViewModel() {
 
     private var type: ExamType = ExamType.YEAR
 
@@ -57,20 +56,15 @@ class MainViewModel(
                 }
         }
 
-
         viewModelScope.launch(Dispatchers.IO) {
 
             onContinueExam()
         }
-
-
     }
 
     fun startExam(examType: ExamType, yearIndex: Int, typeIndex: Int) {
         viewModelScope.launch(Dispatchers.IO) {
-
             try {
-
                 type = examType
 
                 val exam = when (type) {
@@ -93,19 +87,16 @@ class MainViewModel(
                         val list = getAllQuestions(exam.id)
                         when (typeIndex) {
                             0 -> {
-
                                 allQuestions.add(list.filter { it.isTheory.not() })
                                 allQuestions.add(list.filter { it.isTheory })
                             }
 
                             1 -> {
-
                                 allQuestions.add(list.filter { it.isTheory.not() })
                             }
 
                             else -> {
                                 allQuestions.add(list.filter { it.isTheory })
-
                             }
                         }
                     }
@@ -113,7 +104,6 @@ class MainViewModel(
                     ExamType.FAST_FINGER -> {
                         allQuestions.add(getAllQuestions(null).filter { it.isTheory.not() })
                     }
-
                 }
 
                 val section = allQuestions
@@ -122,8 +112,7 @@ class MainViewModel(
                         Section(stringRes = if (isTheory) 1 else 0, false)
                     }
 
-
-                //Timber.e("time ${exam.examTime}")
+                // Timber.e("time ${exam.examTime}")
                 val time = when (type) {
                     ExamType.RANDOM, ExamType.YEAR -> exam.examTime * 60L
                     ExamType.FAST_FINGER -> allQuestions[0].size * 30L
@@ -144,17 +133,13 @@ class MainViewModel(
                         currentSectionIndex = 0,
                         sections = section.toImmutableList(),
                         totalTime = time, currentTime = 0, examPart = typeIndex,
-                        isSubmit = false
+                        isSubmit = false,
                     )
                 }
-
             } catch (e: Exception) {
                 e.printStackTrace()
-
             }
         }
-
-
     }
 
     private suspend fun onContinueExam() {
@@ -162,29 +147,23 @@ class MainViewModel(
         //   Timber.e("setting exam $currentExam1")
 
         if (currentExam1 != null) {
-
             val allQuestions = emptyList<List<QuestionUiState>>().toMutableList()
-
 
             val list = getAllQuestions(currentExam1.id)
             when (currentExam1.examPart) {
                 0 -> {
                     allQuestions.add(list.filter { it.isTheory.not() })
                     allQuestions.add(list.filter { it.isTheory })
-
                 }
 
                 1 -> {
-
                     allQuestions.add(list.filter { it.isTheory.not() })
                 }
 
                 else -> {
                     allQuestions.add(list.filter { it.isTheory })
-
                 }
             }
-
 
             val exam = mainState.value.listOfAllExams.find {
                 currentExam1.id == it.id
@@ -207,44 +186,39 @@ class MainViewModel(
                     currentSectionIndex = currentExam1.paperIndex,
                     choose = chooses,
                     sections = section.toImmutableList(),
-                    questions = allQuestions.map { it.toImmutableList() }.toImmutableList()
+                    questions = allQuestions.map { it.toImmutableList() }.toImmutableList(),
                 )
             }
 
             if (currentExam1.isSubmit) {
                 markExam()
             }
-
         }
     }
 
-
     private suspend fun getAllQuestions(id: Long?): List<QuestionUiState> {
-
-        val que = if (id == null)
+        val que = if (id == null) {
             questionRepository.getRandom(6)
-        else
+        } else {
             questionRepository
                 .getAllWithExamId(id)
+        }
 
         return que
             .map { questionFulls ->
                 questionFulls
                     .map {
                         it.copy(
-                            options = it.options.shuffled()
+                            options = it.options.shuffled(),
                         )
                             .toQuestionUiState()
                             .copy(title = getTitle(it.examId, it.nos, it.isTheory))
-
-
                     }
             }
             .firstOrNull() ?: emptyList()
     }
 
     fun onOption(sectionIndex: Int, questionIndex: Int, optionIndex: Int?) {
-
 //
         val chooses = mainState.value.choose.toMutableList()
         val choose = chooses[sectionIndex].toMutableList()
@@ -266,20 +240,17 @@ class MainViewModel(
             it.copy(
                 choose = chooses.toImmutableList(),
                 sections = sections.toImmutableList(),
-                currentSectionIndex = currentSection
+                currentSectionIndex = currentSection,
             )
         }
 
-        //add and remove Choose
+        // add and remove Choose
     }
 
-
     private suspend fun saveCurrentExam() {
-
         val id = mainState.value
 
         if (id.currentExam != null && type.save) {
-
             settingRepository.setCurrentExam(
                 CurrentExam(
                     id = id.currentExam.id,
@@ -288,15 +259,11 @@ class MainViewModel(
                     isSubmit = id.isSubmit,
                     examPart = id.examPart,
                     paperIndex = mainState.value.currentSectionIndex,
-                    choose = mainState.value.choose
-                )
+                    choose = mainState.value.choose,
+                ),
             )
-
         }
-
-
     }
-
 
     private var saveJob: Job? = null
     fun onTimeChanged(time: Long) {
@@ -309,15 +276,13 @@ class MainViewModel(
         }
     }
 
-
     fun onSubmit() {
         viewModelScope.launch(Dispatchers.IO) {
             _mainState.update {
                 it.copy(
                     isSubmit = true,
-                    currentTime = 0
+                    currentTime = 0,
                 )
-
             }
             markExam()
             saveCurrentExam()
@@ -328,7 +293,7 @@ class MainViewModel(
         val question = emptyList<List<QuestionUiState>>().toMutableList()
         _mainState.update { state ->
             state.copy(
-                questions = question.map { it.toImmutableList() }.toImmutableList()
+                questions = question.map { it.toImmutableList() }.toImmutableList(),
             )
         }
 
@@ -338,8 +303,6 @@ class MainViewModel(
 
             startExam(type, index, mainState.value.examPart)
         }
-
-
     }
 
     private fun markExam() {
@@ -375,9 +338,9 @@ class MainViewModel(
                     inCorrect = inCorrect,
                     skipped = skipped,
                     grade = grade,
-                    correct = correct
+                    correct = correct,
                 ),
-                currentSectionIndex = 0
+                currentSectionIndex = 0,
             )
         }
     }
@@ -393,6 +356,4 @@ class MainViewModel(
             it.copy(currentSectionIndex = index)
         }
     }
-
-
 }

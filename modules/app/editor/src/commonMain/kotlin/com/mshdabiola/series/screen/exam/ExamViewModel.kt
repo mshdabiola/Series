@@ -37,7 +37,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-//TOdo(when last theory delete change to object back)
+// TOdo(when last theory delete change to object back)
 class ExamViewModel(
     private val examId: Long,
     private val subjectId: Long,
@@ -47,13 +47,12 @@ class ExamViewModel(
     private val examRepository: IExamRepository,
     private val settingRepository: ISettingRepository,
 
-    ) : ViewModel() {
+) : ViewModel() {
     val converter = Converter()
-
 
     private var _question =
         mutableStateOf(
-            getEmptyQuestion()
+            getEmptyQuestion(),
         )
     val question: State<QuestionUiState> = _question
     private val _instructIdError = mutableStateOf(false)
@@ -61,9 +60,9 @@ class ExamViewModel(
 
     val questions = mutableStateOf(emptyList<QuestionUiState>().toImmutableList())
 
-    //instruction
+    // instruction
 
-    //topic
+    // topic
 
     val topicUiStates = mutableStateOf(emptyList<TopicUiState>().toImmutableList())
     private val _topicUiState = mutableStateOf(TopicUiState(subjectId = subjectId, name = ""))
@@ -74,10 +73,10 @@ class ExamViewModel(
     private val defaultInstruction = InstructionUiState(
         examId = examId,
         title = null,
-        content = listOf(ItemUiState(isEditMode = true)).toImmutableList()
+        content = listOf(ItemUiState(isEditMode = true)).toImmutableList(),
     )
     private val _instructionUiState = mutableStateOf(
-        defaultInstruction
+        defaultInstruction,
     )
     val instructionUiState: State<InstructionUiState> = _instructionUiState
 
@@ -88,8 +87,10 @@ class ExamViewModel(
                 log(it.toString())
                 val uiState = it.toInstructionUiState()
                 _instructionUiState.value =
-                    uiState.copy(content = uiState.content.map { it.copy(isEditMode = true) }
-                        .toImmutableList())
+                    uiState.copy(
+                        content = uiState.content.map { it.copy(isEditMode = true) }
+                            .toImmutableList(),
+                    )
             }
             snapshotFlow { instructionUiState.value }
                 .distinctUntilChanged()
@@ -100,7 +101,6 @@ class ExamViewModel(
                         log("save $it")
                         settingRepository.setCurrentInstruction(it.toInstruction())
                     }
-
                 }
         }
 
@@ -121,12 +121,9 @@ class ExamViewModel(
                     } else {
                         settingRepository.setCurrentQuestion(it.toQuestionWithOptions(examId))
                     }
-
-
                 }
         }
         viewModelScope.launch(Dispatchers.IO) {
-
         }
         viewModelScope.launch(Dispatchers.IO) {
             questionRepository.getAllWithExamId(examId)
@@ -141,7 +138,6 @@ class ExamViewModel(
                     withContext(Dispatchers.Main.immediate) {
                         questions.value = it
                     }
-
                 }
         }
         viewModelScope.launch(Dispatchers.IO) {
@@ -167,12 +163,11 @@ class ExamViewModel(
                     withContext(Dispatchers.Main.immediate) {
                         topicUiStates.value = it
                     }
-
                 }
         }
     }
 
-    //exam
+    // exam
     private fun updateExamType(isObjOnly: Boolean) {
         viewModelScope.launch(Dispatchers.IO) {
             val exam = examRepository.getOne(examId).firstOrNull() ?: return@launch
@@ -181,11 +176,9 @@ class ExamViewModel(
                 examRepository.updateType(examId, isObjOnly)
             }
         }
-
     }
 
-
-    //question logic
+    // question logic
     fun onDeleteQuestion(id: Long) {
         rearrangeAndSave { questionUiStates ->
             val index = questionUiStates.indexOfFirst { it.id == id }
@@ -196,8 +189,9 @@ class ExamViewModel(
 
     fun onMoveUpQuestion(id: Long) {
         val index = questions.value.indexOfFirst { it.id == id }
-        if (index == 0)
+        if (index == 0) {
             return
+        }
 
         rearrangeAndSave {
             val upIndex = index - 1
@@ -210,8 +204,9 @@ class ExamViewModel(
     fun onMoveDownQuestion(id: Long) {
         val q = questions.value
         val index = q.indexOfFirst { it.id == id }
-        if (index == q.lastIndex)
+        if (index == q.lastIndex) {
             return
+        }
 
         rearrangeAndSave {
             val downIndex = index + 1
@@ -247,7 +242,6 @@ class ExamViewModel(
     fun onAddQuestion() {
         var question2 = _question.value
 
-
         val number =
             if (question2.nos == -1L) questions.value.filter { it.isTheory == question2.isTheory }.size.toLong() + 1 else question2.nos
         question2 = question2.copy(nos = number)
@@ -262,9 +256,9 @@ class ExamViewModel(
 
     var answerJob: Job? = null
     fun onAnswerClick(questionId: Long, optionId: Long) {
-
-        if (answerJob != null)
+        if (answerJob != null) {
             return
+        }
         answerJob = viewModelScope.launch(Dispatchers.IO) {
             val questionUiStates = questions.value
             val questionIndex = questionUiStates.indexOfFirst { it.id == questionId }
@@ -276,16 +270,14 @@ class ExamViewModel(
                 }
 
             question = question.copy(
-                options = options.toImmutableList()
+                options = options.toImmutableList(),
             )
             questionRepository.insert(question.toQuestionWithOptions(examId))
             answerJob = null
         }
-
     }
 
-
-    //question edit logic
+    // question edit logic
     fun addOption() {
         var question = _question.value
         question = question.copy(
@@ -296,30 +288,32 @@ class ExamViewModel(
                         OptionUiState(
                             nos = (question.options.size + 1).toLong(),
                             content = listOf(
-                                ItemUiState(isEditMode = true, focus = true)
+                                ItemUiState(isEditMode = true, focus = true),
                             ).toImmutableList(),
-                            isAnswer = false
-                        )
+                            isAnswer = false,
+                        ),
                     )
                 }
-                .toImmutableList()
+                .toImmutableList(),
 
         )
 
         _question.value = question
     }
 
-
     fun onAddAnswer(show: Boolean) {
         var question = _question.value
         question = question.copy(
-            answer = if (show) listOf(
-                ItemUiState(isEditMode = true, focus = true)
-            ).toImmutableList() else null
+            answer = if (show) {
+                listOf(
+                    ItemUiState(isEditMode = true, focus = true),
+                ).toImmutableList()
+            } else {
+                null
+            },
         )
 
         _question.value = question
-
     }
 
     fun isTheory(isT: Boolean) {
@@ -328,49 +322,50 @@ class ExamViewModel(
         question = if (isT) {
             question.copy(
                 answer = listOf(
-                    ItemUiState(isEditMode = true, focus = false)
+                    ItemUiState(isEditMode = true, focus = false),
                 ).toImmutableList(),
-                options = emptyList<OptionUiState>().toImmutableList()
+                options = emptyList<OptionUiState>().toImmutableList(),
             )
-
         } else {
             getEmptyQuestion()
         }
         _question.value = question.copy(isTheory = isT)
-
-
     }
 
     private fun getEmptyQuestion(optionNo: Int = 4, isTheory: Boolean = false): QuestionUiState {
-
         val opNumb = if (isTheory) 0 else optionNo
         return QuestionUiState(
             nos = -1,
             examId = examId,
             content = listOf(
-                ItemUiState(isEditMode = true, focus = true)
+                ItemUiState(isEditMode = true, focus = true),
             ).toImmutableList(),
             options = (1..opNumb)
                 .map {
                     OptionUiState(
                         nos = it.toLong(),
                         content = listOf(
-                            ItemUiState(isEditMode = true)
+                            ItemUiState(isEditMode = true),
                         ).toImmutableList(),
-                        isAnswer = false
+                        isAnswer = false,
                     )
                 }.toImmutableList(),
             isTheory = isTheory,
-            answer = if (isTheory) listOf(
-                ItemUiState(isEditMode = true)
-            ).toImmutableList() else null
+            answer = if (isTheory) {
+                listOf(
+                    ItemUiState(isEditMode = true),
+                ).toImmutableList()
+            } else {
+                null
+            },
         )
     }
 
     private var job: Job? = null
     private fun rearrangeAndSave(onEdit: suspend (MutableList<QuestionUiState>) -> Unit) {
-        if (job != null)
+        if (job != null) {
             return
+        }
 
         job = viewModelScope.launch {
             var list = questions.value.toMutableList()
@@ -385,16 +380,13 @@ class ExamViewModel(
                     obj += 1
                     questionUiState.copy(nos = obj)
                 }
-
             }.toMutableList()
 
-            //save
+            // save
             questionRepository.insertMany(list.map { it.toQuestionWithOptions(examId) })
             job = null
         }
-
     }
-
 
     fun addUP(questionIndex: Int, index: Int) {
         editContent(questionIndex) {
@@ -406,17 +398,16 @@ class ExamViewModel(
 
     fun addDown(questionIndex: Int, index: Int) {
         editContent(questionIndex) {
-
             it.add(index + 1, ItemUiState(isEditMode = true))
             index + 1
         }
     }
 
     fun moveUP(questionIndex: Int, index: Int) {
-        if (index == 0)
+        if (index == 0) {
             return
+        }
         editContent(questionIndex) {
-
             val upIndex = index - 1
             val up = it[upIndex]
             it[upIndex] = it[index]
@@ -427,7 +418,6 @@ class ExamViewModel(
     }
 
     fun moveDown(questionIndex: Int, index: Int) {
-
         editContent(questionIndex) {
             if (index != it.lastIndex) {
                 val upIndex = index + 1
@@ -436,12 +426,10 @@ class ExamViewModel(
                 it[index] = up
             }
             null
-
         }
     }
 
     fun edit(questionIndex: Int, index: Int) {
-
         editContent(questionIndex) {
             val item = it[index]
 
@@ -472,7 +460,6 @@ class ExamViewModel(
                 } else {
                     it.removeAt(index)
                 }
-
             } else {
                 it.removeAt(index)
                 if (it.isEmpty()) {
@@ -492,11 +479,8 @@ class ExamViewModel(
                 }
             }
             _question.value = quest.copy(options = options.toImmutableList())
-
         }
-
     }
-
 
     fun changeType(questionIndex: Int, index: Int, type: Type) {
         editContent(questionIndex) {
@@ -509,12 +493,11 @@ class ExamViewModel(
         }
     }
 
-    //focus returen value
+    // focus returen value
     fun onTextChange(questionIndex: Int, index: Int, text: String) {
         editContent(questionIndex) {
             val item = it[index]
             if (item.type == Type.IMAGE) {
-
                 val name = SvgObject
                     .saveImage(
                         item.content,
@@ -523,7 +506,6 @@ class ExamViewModel(
                     )
                 log("name $name")
                 it[index] = item.copy(content = name)
-
             } else {
                 it[index] = item.copy(content = text)
             }
@@ -537,11 +519,10 @@ class ExamViewModel(
     }
 
     private fun editContent(
-        questionIndex: Int, items: suspend (MutableList<ItemUiState>) -> Int?,
+        questionIndex: Int,
+        items: suspend (MutableList<ItemUiState>) -> Int?,
     ) {
         viewModelScope.launch {
-
-
             var quest = _question.value
 
             when (questionIndex) {
@@ -586,18 +567,14 @@ class ExamViewModel(
                     options[questionIndex] = option
 
                     quest = quest.copy(options = options.toImmutableList())
-
-
                 }
             }
 
-
             _question.value = quest
         }
-
     }
 
-    //remove option when its items is empty
+    // remove option when its items is empty
     private fun removeEmptyOptions() {
 //        val question = question.value
 //        if (question.options.any { it.content.isEmpty() }) {
@@ -619,7 +596,6 @@ class ExamViewModel(
     }
 
     fun onAddExamFromInput() {
-
         val count = questions.value.partition { it.isTheory.not() }
 
         viewModelScope.launch {
@@ -629,20 +605,17 @@ class ExamViewModel(
                         path = examInputUiState.value.content,
                         examId = examId,
                         nextObjNumber = count.first.size + 1L,
-                        nextTheoryNumber = count.second.size + 1L
+                        nextTheoryNumber = count.second.size + 1L,
                     )
 
                 log(list.joinToString())
                 launch { questionRepository.insertAll(list) }
                 _examInputUiState.value = examInputUiState.value.copy(content = "", isError = false)
-
             } catch (e: Exception) {
                 e.printStackTrace()
                 _examInputUiState.value = examInputUiState.value.copy(isError = true)
             }
-
         }
-
     }
 
     private val _topicInputUiState = mutableStateOf(TopicInputUiState("", false))
@@ -653,27 +626,23 @@ class ExamViewModel(
     }
 
     fun onAddTopicFromInput() {
-
         viewModelScope.launch {
             try {
                 val list =
                     converter.textToTopic(
                         path = topicInputUiState.value.content,
-                        subjectId = subjectId
+                        subjectId = subjectId,
                     )
 
                 log(list.joinToString())
                 launch { topicRepository.insertAll(list) }
                 _topicInputUiState.value =
                     topicInputUiState.value.copy(content = "", isError = false)
-
             } catch (e: Exception) {
                 e.printStackTrace()
                 _topicInputUiState.value = topicInputUiState.value.copy(isError = true)
             }
-
         }
-
     }
 
     private val _instruInputUiState = mutableStateOf(InstruInputUiState("", false))
@@ -684,64 +653,52 @@ class ExamViewModel(
     }
 
     fun onAddInstruTopicFromInput() {
-
         viewModelScope.launch {
             try {
                 val list =
                     converter.textToInstruction(
                         path = instruInputUiState.value.content,
-                        examId = examId
+                        examId = examId,
                     )
 
                 log(list.joinToString())
                 launch { instructionRepository.insertAll(list) }
                 _instruInputUiState.value =
                     instruInputUiState.value.copy(content = "", isError = false)
-
             } catch (e: Exception) {
                 e.printStackTrace()
                 _instruInputUiState.value = instruInputUiState.value.copy(isError = true)
             }
-
         }
-
     }
-
 
     fun onInstructionIdChange(text: String) {
         try {
-
             if (text.isBlank()) {
                 _instructIdError.value = false
                 _question.value = question.value.copy(instructionUiState = null)
-
             } else {
                 val instr = instructions.value.find { it.id == text.toLong() }
                 _instructIdError.value = instr == null
 
                 _question.value = question.value.copy(instructionUiState = instr)
             }
-
-
         } catch (e: Exception) {
             _instructIdError.value = true
-
         }
     }
 
-
-    //instruction logic
+    // instruction logic
 
     fun instructionTitleChange(text: String) {
         _instructionUiState.value =
             instructionUiState.value.copy(title = text.ifBlank { null })
     }
 
-
     fun onAddInstruction() {
         viewModelScope.launch {
             instructionRepository.insert(
-                instructionUiState.value.toInstruction()
+                instructionUiState.value.toInstruction(),
             )
 
             _instructionUiState.value = defaultInstruction
@@ -758,7 +715,6 @@ class ExamViewModel(
 
     fun addDownInstruction(index: Int) {
         editContentInstruction() {
-
             it.add(index + 1, ItemUiState(isEditMode = true))
 
             index + 1
@@ -766,24 +722,23 @@ class ExamViewModel(
     }
 
     fun moveUpInstruction(index: Int) {
-        if (index == 0)
+        if (index == 0) {
             return
+        }
         editContentInstruction() {
-
             val upIndex = index - 1
             val up = it[upIndex]
             it[upIndex] = it[index]
             it[index] = up
 
             null
-
         }
     }
 
     fun moveDownInstruction(index: Int) {
-
-        if (index == instructionUiState.value.content.lastIndex)
+        if (index == instructionUiState.value.content.lastIndex) {
             return
+        }
         editContentInstruction() {
             if (index != it.lastIndex) {
                 val upIndex = index + 1
@@ -793,12 +748,10 @@ class ExamViewModel(
             }
 
             null
-
         }
     }
 
     fun editInstruction(index: Int) {
-
         editContentInstruction() {
             val item = it[index]
 
@@ -808,9 +761,9 @@ class ExamViewModel(
     }
 
     fun deleteInstruction(index: Int) {
-
-        if (instructionUiState.value.content.size == 1)
+        if (instructionUiState.value.content.size == 1) {
             return
+        }
         editContentInstruction() {
             val oldItem = it[index]
             if (oldItem.type == Type.IMAGE) {
@@ -819,9 +772,7 @@ class ExamViewModel(
             it.removeAt(index)
             null
         }
-
     }
-
 
     fun changeTypeInstruction(index: Int, type: Type) {
         editContentInstruction() {
@@ -842,11 +793,10 @@ class ExamViewModel(
                     .saveImage(
                         item.content,
                         text,
-                        examId
+                        examId,
                     )
                 log("name $name")
                 it[index] = item.copy(content = name)
-
             } else {
                 it[index] = item.copy(content = text)
             }
@@ -869,17 +819,15 @@ class ExamViewModel(
             _instructionUiState.value = instructionUiState
                 .value
                 .copy(
-                    content = items.toImmutableList()
+                    content = items.toImmutableList(),
                 )
         }
-
     }
 
     fun onDeleteInstruction(id: Long) {
         viewModelScope.launch {
             instructionRepository.delete(id)
         }
-
     }
 
     fun onUpdateInstruction(id: Long) {
@@ -897,13 +845,12 @@ class ExamViewModel(
                     .map {
                         it.copy(isEditMode = true)
                     }
-                    .toImmutableList())
+                    .toImmutableList(),
+            )
         }
-
     }
 
-
-    //topic logic
+    // topic logic
 
     fun onAddTopic() {
         viewModelScope.launch {
@@ -928,10 +875,7 @@ class ExamViewModel(
         }
     }
 
-
     private fun log(msg: String) {
 //        co.touchlab.kermit.Logger.e(msg)
     }
-
-
 }

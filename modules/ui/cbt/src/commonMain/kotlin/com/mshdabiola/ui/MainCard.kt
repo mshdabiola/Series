@@ -49,66 +49,58 @@ fun ContinueCard(
 ) {
     val color = LocalTextStyle.current.color.copy(alpha = 0.7f)
     val timeString = remember(timeRemain) {
-
         String.format("%02d : %02d", timeRemain.toMinute(), timeRemain.toSecond())
     }
     Card() {
         Column(
             Modifier.padding(8.dp),
-            verticalArrangement = Arrangement.spacedBy(4.dp)
+            verticalArrangement = Arrangement.spacedBy(4.dp),
 
         ) {
             Text(
                 text = "You are soon closed to end, finish your quiz and find out your scores",
                 style = MaterialTheme.typography.bodyMedium,
-                color = color
+                color = color,
             )
             FlowRow(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(16.dp),
                 // verticalAlignment = Alignment.Start,
-                maxItemsInEachRow = 2
+                maxItemsInEachRow = 2,
             ) {
                 Text(modifier = Modifier.weight(0.4f), text = "Year : $year")
                 Text(modifier = Modifier.weight(0.6f), text = "Remaining: $timeString")
                 Text(
                     modifier = Modifier.weight(0.4f),
-                    text = "Progress : ${(progress * 100).toInt()}%"
+                    text = "Progress : ${(progress * 100).toInt()}%",
                 )
                 Text(modifier = Modifier.weight(0.6f), text = "Type : $part")
             }
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
+                horizontalArrangement = Arrangement.SpaceBetween,
             ) {
-
             }
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
+                horizontalArrangement = Arrangement.SpaceBetween,
             ) {
-
             }
-
-
-
-
 
             LinearProgressIndicator(
                 modifier = Modifier.fillMaxWidth(),
                 progress = progress,
-                trackColor = MaterialTheme.colorScheme.background
+                trackColor = MaterialTheme.colorScheme.background,
 
             )
 
             Button(
                 modifier = Modifier.align(Alignment.End),
                 onClick = onClick,
-                enabled = enabled
+                enabled = enabled,
             ) {
                 Text(text = "Continue Exam")
             }
-
         }
     }
 }
@@ -141,29 +133,29 @@ fun StartCard(
         Card() {
             Column(
                 Modifier.padding(8.dp),
-                verticalArrangement = Arrangement.spacedBy(4.dp)
+                verticalArrangement = Arrangement.spacedBy(4.dp),
             ) {
                 Text(
                     modifier = Modifier,
-                    text = "Ready to challenge yourself with new test? Let go!"
+                    text = "Ready to challenge yourself with new test? Let go!",
                 )
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
+                    verticalAlignment = Alignment.CenterVertically,
                 ) {
                     YearExposed(
                         modifier = Modifier.width(130.dp),
                         exams = exams,
                         label = "Exam year",
-                        selectedOptionText = yearIndex
+                        selectedOptionText = yearIndex,
                     ) { yearIndex = it }
 
                     ExamType(
                         modifier = Modifier.width(150.dp),
                         enabled = exams.getOrNull(yearIndex)?.isObjOnly == false,
                         selectedOption = typeIndex,
-                        onChange = { typeIndex = it }
+                        onChange = { typeIndex = it },
                     )
                 }
                 Button(
@@ -171,15 +163,13 @@ fun StartCard(
                     onClick = {
                         onClick(yearIndex, typeIndex)
                     },
-                    colors = if (isSubmit) ButtonDefaults.buttonColors() else ButtonDefaults.elevatedButtonColors()
+                    colors = if (isSubmit) ButtonDefaults.buttonColors() else ButtonDefaults.elevatedButtonColors(),
                 ) {
                     Text(text = "Start exam")
                 }
             }
-
         }
     }
-
 }
 
 @Composable
@@ -197,20 +187,20 @@ fun OtherCard(
         Column(
             Modifier.padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
+            horizontalAlignment = Alignment.CenterHorizontally,
 
         ) {
             Box(
                 modifier = Modifier
                     .clip(CircleShape)
                     .background(MaterialTheme.colorScheme.primaryContainer)
-                    .padding(16.dp)
+                    .padding(16.dp),
             ) {
                 Icon(
                     modifier = Modifier.size(64.dp),
                     painter = painter,
                     contentDescription = contentDesc,
-                    tint = MaterialTheme.colorScheme.onPrimaryContainer
+                    tint = MaterialTheme.colorScheme.onPrimaryContainer,
                 )
             }
 
@@ -221,7 +211,6 @@ fun OtherCard(
 
 @Composable
 internal expect fun OtherCardPreview()
-
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -247,10 +236,9 @@ internal fun YearExposed(
                 enabled = itemEnabled,
                 onClick = onClick,
             )
-        }
+        },
     )
 // We want to react on tap/press on TextField to show menu
-
 }
 
 @Composable
@@ -270,6 +258,6 @@ internal fun ExamType(
         items = types.toList(),
         selectedIndex = selectedOption,
         selectedItemToString = { it },
-        onItemSelected = { index: Int, _: String -> onChange(index) })
-
+        onItemSelected = { index: Int, _: String -> onChange(index) },
+    )
 }
