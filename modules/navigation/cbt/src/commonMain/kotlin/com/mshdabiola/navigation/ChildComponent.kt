@@ -11,6 +11,9 @@ class QuestionComponent(private val componentContext: ComponentContext) :
 class FinishComponent(private val componentContext: ComponentContext) :
     ComponentContext by componentContext
 
+class SettingComponent(private val componentContext: ComponentContext) :
+    ComponentContext by componentContext
+
 class ProfileComponent(private val componentContext: ComponentContext) :
     ComponentContext by componentContext
 

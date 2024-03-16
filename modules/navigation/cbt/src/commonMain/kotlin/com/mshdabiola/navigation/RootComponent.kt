@@ -30,6 +30,10 @@ class RootComponent(
         navigation.push(Config.Questions)
     }
 
+    override fun navigateToSetting() {
+        navigation.push(Config.Setting)
+    }
+
     override fun pop() {
         navigation.pop()
     }
@@ -53,6 +57,9 @@ class RootComponent(
 
         @Serializable
         data object Finish : Config
+
+        @Serializable
+        data object Setting : Config
     }
 
     private fun factory(
@@ -73,6 +80,12 @@ class RootComponent(
                     componentContext,
                 ),
             )
+
+            is Config.Setting -> IRootComponent.RootScreen.SettingRootScreen(
+                navigateToSetting(
+                    componentContext,
+                ),
+            )
         }
     }
 
@@ -82,5 +95,9 @@ class RootComponent(
 
     private fun navigateToFinish(componentContext: ComponentContext): FinishComponent {
         return FinishComponent(componentContext)
+    }
+
+    private fun navigateToSetting(componentContext: ComponentContext): SettingComponent {
+        return SettingComponent(componentContext)
     }
 }

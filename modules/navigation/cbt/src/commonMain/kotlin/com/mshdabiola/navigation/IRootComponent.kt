@@ -11,11 +11,15 @@ interface IRootComponent {
     fun navigateToFinish()
     fun navigateToQuestion()
 
+    fun navigateToSetting()
+
     fun pop()
     sealed class RootScreen {
 
         class PagerScreen(val component: IPagerComponent) : RootScreen()
         class QuestionRootScreen(val component: QuestionComponent) : RootScreen()
         class FinishRootScreen(val component: FinishComponent) : RootScreen()
+        class SettingRootScreen(val component: SettingComponent) : RootScreen()
+
     }
 }

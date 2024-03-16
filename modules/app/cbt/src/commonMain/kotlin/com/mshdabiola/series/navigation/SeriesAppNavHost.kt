@@ -25,6 +25,7 @@ import com.mshdabiola.series.screen.finish.FinishScreenNav
 import com.mshdabiola.series.screen.main.MainScreenNav
 import com.mshdabiola.series.screen.profile.ProfileScreenNav
 import com.mshdabiola.series.screen.question.QuestionScreenNav
+import com.mshdabiola.series.screen.setting.SettingScreenNav
 import com.mshdabiola.series.screen.stat.StatScreenNav
 import com.mshdabiola.ui.UpdateAppUi
 
@@ -40,6 +41,7 @@ fun SeriesAppNavHost(appState: SeriesAppState) {
                 PagerCom(
                     (it.instance as IRootComponent.RootScreen.PagerScreen).component,
                     onQuestion = appState.navController::navigateToQuestion,
+                    onSetting = appState.navController::navigateToSetting
 
                 )
             }
@@ -57,6 +59,9 @@ fun SeriesAppNavHost(appState: SeriesAppState) {
                     toQuestion = appState.navController::navigateToQuestion,
                 )
             }
+            is IRootComponent.RootScreen.SettingRootScreen->{
+                SettingScreenNav (onBack = appState.navController::pop)
+            }
         }
     }
 }
@@ -66,6 +71,7 @@ fun SeriesAppNavHost(appState: SeriesAppState) {
 fun PagerCom(
     iPagerComponent: IPagerComponent,
     onQuestion: () -> Unit = {},
+    onSetting:()->Unit={}
 ) {
     val current = iPagerComponent.current.subscribeAsState().value
 
@@ -78,7 +84,7 @@ fun PagerCom(
         ) { _, page ->
             when (page) {
                 is IPagerComponent.PScreen.MainRootScreen -> {
-                    MainScreenNav(onQuestion = onQuestion)
+                    MainScreenNav(onQuestion = onQuestion, onSetting = onSetting)
                 }
 
                 is IPagerComponent.PScreen.ProfileRootScreen -> {
