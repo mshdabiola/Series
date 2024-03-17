@@ -23,9 +23,11 @@ fun DropdownMenu(
     currentIndex: Int = 0,
     data: ImmutableList<String> = emptyList<String>().toImmutableList(),
     onDataChange: (Int) -> Unit = {},
-    label: String?=null
+    label: String?=null,
+    enabled : Boolean=true
 ) {
     var expanded by remember { mutableStateOf(false) }
+
 
     ExposedDropdownMenuBox(
         expanded = expanded,
@@ -39,7 +41,10 @@ fun DropdownMenu(
             onValueChange = {},
             trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
             colors = ExposedDropdownMenuDefaults.textFieldColors(),
-        //    label = if (label==null) null else {}
+            label = if (label==null) null else {{
+                Text(label)
+            }},
+            enabled=enabled
         )
         ExposedDropdownMenu(
             expanded = expanded,

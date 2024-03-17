@@ -36,6 +36,7 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.unit.dp
 import com.mshdabiola.ui.state.ExamUiState
 import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.toImmutableList
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
@@ -200,11 +201,11 @@ fun OtherCard(
                     modifier = Modifier.size(64.dp),
                     painter = painter,
                     contentDescription = contentDesc,
-                    tint = MaterialTheme.colorScheme.onPrimaryContainer,
+                    tint = MaterialTheme.colorScheme.onBackground,
                 )
             }
 
-            Text(text = title, color = MaterialTheme.colorScheme.onPrimaryContainer)
+            Text(text = title, color = MaterialTheme.colorScheme.onBackground)
         }
     }
 }
@@ -221,23 +222,15 @@ internal fun YearExposed(
     label: String,
     onChange: (Int) -> Unit,
 ) {
-    LargeDropdownMenu(
-        modifier = modifier,
+
+    DropdownMenu(
+        modifier,
+        currentIndex = selectedOptionText,
+        data = exams.map { it.year.toString() }.toImmutableList(),
         label = label,
-        notSetLabel = "Select Exam Year",
-        items = exams,
-        selectedIndex = selectedOptionText,
-        selectedItemToString = { it.year.toString() },
-        onItemSelected = { index: Int, _: ExamUiState -> onChange(index) },
-        drawItem = { item, selected, itemEnabled, onClick ->
-            LargeDropdownMenuItem(
-                text = item.year.toString(),
-                selected = selected,
-                enabled = itemEnabled,
-                onClick = onClick,
-            )
-        },
+        onDataChange = onChange
     )
+
 // We want to react on tap/press on TextField to show menu
 }
 
@@ -250,14 +243,13 @@ internal fun ExamType(
 ) {
     val types = getExamPart()
 
-    LargeDropdownMenu(
-        modifier = modifier,
-        enabled = enabled,
-        label = "Exam Type",
-        notSetLabel = "Select Exam Type",
-        items = types.toList(),
-        selectedIndex = selectedOption,
-        selectedItemToString = { it },
-        onItemSelected = { index: Int, _: String -> onChange(index) },
+    DropdownMenu(
+        modifier,
+        currentIndex = selectedOption,
+        data = types.toList().toImmutableList(),
+        label = "Examp type",
+        onDataChange = onChange,
+        enabled = enabled
     )
+
 }

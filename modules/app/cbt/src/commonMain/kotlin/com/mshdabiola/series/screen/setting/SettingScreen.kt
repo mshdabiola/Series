@@ -31,6 +31,7 @@ import com.mshdabiola.model.DarkThemeConfig
 import com.mshdabiola.model.ThemeBrand
 import com.mshdabiola.mvvn.KoinCommonViewModel
 import com.mshdabiola.mvvn.collectAsStateWithLifecycleCommon
+import com.mshdabiola.ui.DropdownMenu
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 
@@ -156,45 +157,3 @@ internal fun SettingScreen(
 
 @Composable
 expect fun SettingScreenPreview()
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun DropdownMenu(
-    currentIndex: Int = 0,
-    data: ImmutableList<String> = emptyList<String>().toImmutableList(),
-    onDataChange: (Int) -> Unit = {},
-) {
-    var expanded by remember { mutableStateOf(false) }
-
-    ExposedDropdownMenuBox(
-        expanded = expanded,
-        onExpandedChange = { expanded = it },
-    ) {
-        TextField(
-            // The `menuAnchor` modifier must be passed to the text field for correctness.
-            modifier = Modifier.menuAnchor(),
-            readOnly = true,
-            value = data[currentIndex],
-            onValueChange = {},
-            //  label = { Text("Label") },
-            trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
-            colors = ExposedDropdownMenuDefaults.textFieldColors(),
-        )
-        ExposedDropdownMenu(
-            expanded = expanded,
-            onDismissRequest = { expanded = false },
-        ) {
-            data.forEachIndexed { index, s ->
-                DropdownMenuItem(
-                    text = { Text(s) },
-                    onClick = {
-                        onDataChange(index)
-                        expanded = false
-                    },
-                    contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding,
-                )
-            }
-        }
-    }
-
-}

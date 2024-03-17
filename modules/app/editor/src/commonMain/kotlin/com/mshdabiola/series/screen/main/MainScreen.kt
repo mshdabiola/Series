@@ -508,7 +508,8 @@ fun MainContent(
                     data = subjects.map { it.name }.toImmutableList(),
                     onDataChange = {
                         onSubjectIdChange(subjects[it].id)
-                    }
+                    },
+                    label = "Subject"
                 )
 //                Box {
 //                    TextField(

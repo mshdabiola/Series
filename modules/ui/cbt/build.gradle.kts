@@ -17,7 +17,7 @@ kotlin {
             dependencies {
                 implementation(project(":modules:retex"))
                 implementation(project(":modules:model"))
-                implementation(project(":modules:ui:common"))
+                api(project(":modules:ui:common"))
                 implementation(project(":modules:mvvn"))
                 implementation(project(":modules:data:cbt"))
                 implementation(project(":modules:designsystem"))
