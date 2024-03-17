@@ -7,3 +7,6 @@ class MainComponent(private val componentContext: ComponentContext) :
 
 class QuestionComponent(private val componentContext: ComponentContext) :
     ComponentContext by componentContext
+
+class SettingComponent(private val componentContext: ComponentContext) :
+ComponentContext by componentContext

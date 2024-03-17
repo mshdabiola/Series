@@ -9,6 +9,9 @@ interface IRootComponent {
     fun navigateToFinish()
     fun navigateToExam(examId: Long, subjectId: Long)
 
+    fun navigateToSetting()
+
+
     fun pop()
     sealed class RootScreen {
 
@@ -19,5 +22,6 @@ interface IRootComponent {
         ) : RootScreen()
 
         class MainRootScreen(val component: MainComponent) : RootScreen()
+        class SettingRootScreen(val component: SettingComponent) : RootScreen()
     }
 }

@@ -18,6 +18,7 @@ import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
@@ -27,6 +28,7 @@ import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.MoreHoriz
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.SelectAll
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.Subject
 import androidx.compose.material.icons.filled.Update
 import androidx.compose.material.icons.rounded.Delete
@@ -89,7 +91,9 @@ fun MainScreen(
     windowSizeClass: WindowSizeClass,
     viewModel: MainViewModel,
     onExamClick: (Long, Long) -> Unit = { _, _ -> },
-) {
+    onSetting: ()->Unit,
+
+    ) {
     // var show by remember { mutableStateOf(false) }
 
     var showDrop by remember { mutableStateOf(false) }
@@ -109,6 +113,12 @@ fun MainScreen(
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val coroutineScope = rememberCoroutineScope()
     val action: @Composable RowScope.() -> Unit = {
+        IconButton(
+            onClick = onSetting,
+            // enabled = currentSubjectIndex > -1
+        ) {
+            Icon(Icons.Default.Settings, "setting")
+        }
         Box {
             IconButton(
                 onClick = { showDrop = true },
@@ -192,7 +202,8 @@ fun MainScreen(
                         },
                     )
                 }
-            } else {
+            }
+            else {
                 DropdownMenu(
                     expanded = showDrop,
                     onDismissRequest = { showDrop = false },
@@ -246,22 +257,7 @@ fun MainScreen(
         //  if (windowSizeClass.widthSizeClass== WindowWidthSizeClass.Expanded) {
         TopAppBar(
             title = { Text("Main Screen") },
-            actions = action,
-//            navigationIcon = {
-//
-//                IconButton(onClick = {
-//                    coroutineScope.launch {
-//                        if (drawerState.isOpen) {
-//                            drawerState.close()
-//                        } else {
-//                            drawerState.open()
-//                        }
-//                    }
-//                }) {
-//                    Icon(Icons.Default.Menu, "menu")
-//                }
-//
-//            },
+            actions = action
         )
         // }
     }
@@ -275,12 +271,19 @@ fun MainScreen(
                     modifier = Modifier.fillMaxHeight().width(300.dp),
                     colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.background),
                     elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
+                    shape = RoundedCornerShape(0.dp,8.dp,8.dp,0.dp)
+                    ,
                 ) {
                     LazyColumn(
-                        modifier = Modifier.fillMaxHeight().width(200.dp).systemBarsPadding(),
+                        modifier = Modifier.fillMaxHeight()
+                            .systemBarsPadding()
+                            .padding(16.dp)
+                        ,
                     ) {
                         item {
                             NavigationDrawerItem(
+                                modifier = Modifier.fillMaxWidth(),
+
                                 label = { Text("All Examination") },
                                 onClick = {
                                     viewModel.onSubject(-1)
@@ -292,6 +295,7 @@ fun MainScreen(
                         }
                         items(subjects.value, key = { it.id }) {
                             NavigationDrawerItem(
+                                modifier = Modifier.fillMaxWidth(),
                                 label = { Text(it.name) },
                                 onClick = {
                                     viewModel.onSubject(it.id)
@@ -349,13 +353,16 @@ fun MainScreen(
                     modifier = Modifier.fillMaxHeight().width(300.dp),
                     colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.background),
                     shape = RectangleShape,
-//                    elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+                    elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
                 ) {
                     LazyColumn(
-                        modifier = Modifier.fillMaxHeight().width(200.dp).systemBarsPadding(),
+                        modifier = Modifier.fillMaxHeight()
+                            .systemBarsPadding()
+                            .padding(16.dp)
                     ) {
                         item {
                             NavigationDrawerItem(
+                                modifier = Modifier.fillMaxWidth(),
                                 label = { Text("All Examination") },
                                 onClick = { viewModel.onSubject(-1) },
                                 selected = currentSubjectIndex == -1L,
@@ -363,6 +370,7 @@ fun MainScreen(
                         }
                         items(subjects.value, key = { it.id }) {
                             NavigationDrawerItem(
+                                modifier = Modifier.fillMaxWidth(),
                                 label = { Text(it.name) },
                                 onClick = { viewModel.onSubject(it.id) },
                                 selected = currentSubjectIndex == it.id,
@@ -494,35 +502,43 @@ fun MainContent(
                 verticalArrangement = Arrangement.spacedBy(8.dp),
             ) {
                 Text("Add Examination")
-                Box {
-                    TextField(
-                        modifier = Modifier.fillMaxWidth(),
-                        label = { Text("Subject") },
-                        value = examUiState.subject,
-                        onValueChange = {},
-                        trailingIcon = {
-                            IconButton(onClick = {
-                                showmenu = !showmenu
-                            }) { Icon(imageVector = Icons.Default.ArrowDropDown, "down") }
-                        },
-                        readOnly = true,
-
-                    )
-                    DropdownMenu(
-                        expanded = showmenu,
-                        onDismissRequest = { showmenu = false },
-                    ) {
-                        subjects.forEach { subj ->
-                            DropdownMenuItem(
-                                text = { Text(subj.name) },
-                                onClick = {
-                                    onSubjectIdChange(subj.id)
-                                    showmenu = false
-                                },
-                            )
-                        }
+                com.mshdabiola.ui.DropdownMenu(
+                    modifier = Modifier.fillMaxWidth(),
+                    currentIndex = subjects.indexOfFirst { it.name==examUiState.subject},
+                    data = subjects.map { it.name }.toImmutableList(),
+                    onDataChange = {
+                        onSubjectIdChange(subjects[it].id)
                     }
-                }
+                )
+//                Box {
+//                    TextField(
+//                        modifier = Modifier.fillMaxWidth(),
+//                        label = { Text("Subject") },
+//                        value = examUiState.subject,
+//                        onValueChange = {},
+//                        trailingIcon = {
+//                            IconButton(onClick = {
+//                                showmenu = !showmenu
+//                            }) { Icon(imageVector = Icons.Default.ArrowDropDown, "down") }
+//                        },
+//                        readOnly = true,
+//
+//                    )
+//                    DropdownMenu(
+//                        expanded = showmenu,
+//                        onDismissRequest = { showmenu = false },
+//                    ) {
+//                        subjects.forEach { subj ->
+//                            DropdownMenuItem(
+//                                text = { Text(subj.name) },
+//                                onClick = {
+//                                    onSubjectIdChange(subj.id)
+//                                    showmenu = false
+//                                },
+//                            )
+//                        }
+//                    }
+//                }
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.spacedBy(8.dp),

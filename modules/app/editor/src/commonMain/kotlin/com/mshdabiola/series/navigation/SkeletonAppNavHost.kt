@@ -10,6 +10,7 @@ import com.arkivanov.decompose.extensions.compose.stack.animation.stackAnimation
 import com.mshdabiola.navigation.IRootComponent
 import com.mshdabiola.series.screen.exam.ExamScreenNav
 import com.mshdabiola.series.screen.main.MainScreenNav
+import com.mshdabiola.series.screen.setting.SettingScreenNav
 
 @Composable
 fun SkeletonAppNavHost(appState: SkAppState) {
@@ -23,6 +24,7 @@ fun SkeletonAppNavHost(appState: SkAppState) {
                 MainScreenNav(
                     appState.windowSizeClass,
                     onExamClick = appState.navController::navigateToExam,
+                    onSetting=appState.navController::navigateToSetting
                 )
             }
 
@@ -31,6 +33,11 @@ fun SkeletonAppNavHost(appState: SkAppState) {
                     appState.windowSizeClass,
                     subjectId = instance.subjectId,
                     examId = instance.examId,
+                    onBack = appState.navController::pop,
+                )
+            }
+            is IRootComponent.RootScreen.SettingRootScreen -> {
+                SettingScreenNav(
                     onBack = appState.navController::pop,
                 )
             }
