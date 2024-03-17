@@ -256,3 +256,4 @@ baselineProfile {
 dependencyGuard {
     configuration("releaseRuntimeClasspath")
 }
+task("testClasses")
