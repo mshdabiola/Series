@@ -5,6 +5,7 @@
 package com.mshdabiola.series.editor
 
 import android.app.Application
+import com.mshdabiola.model.parentPath
 import com.mshdabiola.series.di.appModules
 import com.mshdabiola.series.editor.di.jankStatsModule
 import org.koin.android.ext.koin.androidContext
@@ -20,6 +21,7 @@ class SkeletonApplication : Application() {
             androidContext(this@SkeletonApplication)
             modules(appModules, jankStatsModule)
         }
+        parentPath = this.applicationContext.filesDir.path
 
         if (packageName.contains("debug")) {
             Timber.plant(Timber.DebugTree())
