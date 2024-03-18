@@ -21,7 +21,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.HdrOnSelect
 import androidx.compose.material.icons.filled.Menu
@@ -91,9 +90,9 @@ fun MainScreen(
     windowSizeClass: WindowSizeClass,
     viewModel: MainViewModel,
     onExamClick: (Long, Long) -> Unit = { _, _ -> },
-    onSetting: ()->Unit,
+    onSetting: () -> Unit,
 
-    ) {
+) {
     // var show by remember { mutableStateOf(false) }
 
     var showDrop by remember { mutableStateOf(false) }
@@ -202,8 +201,7 @@ fun MainScreen(
                         },
                     )
                 }
-            }
-            else {
+            } else {
                 DropdownMenu(
                     expanded = showDrop,
                     onDismissRequest = { showDrop = false },
@@ -257,7 +255,7 @@ fun MainScreen(
         //  if (windowSizeClass.widthSizeClass== WindowWidthSizeClass.Expanded) {
         TopAppBar(
             title = { Text("Main Screen") },
-            actions = action
+            actions = action,
         )
         // }
     }
@@ -271,14 +269,12 @@ fun MainScreen(
                     modifier = Modifier.fillMaxHeight().width(300.dp),
                     colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.background),
                     elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
-                    shape = RoundedCornerShape(0.dp,8.dp,8.dp,0.dp)
-                    ,
+                    shape = RoundedCornerShape(0.dp, 8.dp, 8.dp, 0.dp),
                 ) {
                     LazyColumn(
                         modifier = Modifier.fillMaxHeight()
                             .systemBarsPadding()
-                            .padding(16.dp)
-                        ,
+                            .padding(16.dp),
                     ) {
                         item {
                             NavigationDrawerItem(
@@ -353,12 +349,12 @@ fun MainScreen(
                     modifier = Modifier.fillMaxHeight().width(300.dp),
                     colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.background),
                     shape = RectangleShape,
-                    elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
+                    elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
                 ) {
                     LazyColumn(
                         modifier = Modifier.fillMaxHeight()
                             .systemBarsPadding()
-                            .padding(16.dp)
+                            .padding(16.dp),
                     ) {
                         item {
                             NavigationDrawerItem(
@@ -504,12 +500,12 @@ fun MainContent(
                 Text("Add Examination")
                 com.mshdabiola.ui.DropdownMenu(
                     modifier = Modifier.fillMaxWidth(),
-                    currentIndex = subjects.indexOfFirst { it.name==examUiState.subject},
+                    currentIndex = subjects.indexOfFirst { it.name == examUiState.subject },
                     data = subjects.map { it.name }.toImmutableList(),
                     onDataChange = {
                         onSubjectIdChange(subjects[it].id)
                     },
-                    label = "Subject"
+                    label = "Subject",
                 )
 //                Box {
 //                    TextField(

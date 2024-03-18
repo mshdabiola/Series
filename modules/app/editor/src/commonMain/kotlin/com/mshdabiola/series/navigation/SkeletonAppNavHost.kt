@@ -24,7 +24,7 @@ fun SkeletonAppNavHost(appState: SkAppState) {
                 MainScreenNav(
                     appState.windowSizeClass,
                     onExamClick = appState.navController::navigateToExam,
-                    onSetting=appState.navController::navigateToSetting
+                    onSetting = appState.navController::navigateToSetting,
                 )
             }
 
@@ -36,6 +36,7 @@ fun SkeletonAppNavHost(appState: SkAppState) {
                     onBack = appState.navController::pop,
                 )
             }
+
             is IRootComponent.RootScreen.SettingRootScreen -> {
                 SettingScreenNav(
                     onBack = appState.navController::pop,

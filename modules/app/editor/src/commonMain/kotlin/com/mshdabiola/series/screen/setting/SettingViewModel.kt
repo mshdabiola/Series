@@ -13,46 +13,43 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 class SettingViewModel(
-   private val userDataRepository: UserDataRepository,
+    private val userDataRepository: UserDataRepository,
 ) : ViewModel() {
-    private val default=  UserData(
+    private val default = UserData(
         useDynamicColor = false,
         themeBrand = ThemeBrand.DEFAULT,
         contrast = Contrast.Normal,
         darkThemeConfig = DarkThemeConfig.LIGHT,
-        shouldHideOnboarding = true
+        shouldHideOnboarding = true,
     )
     val uiState: StateFlow<SettingState> = userDataRepository.userData.map {
         SettingState(it)
     }.stateIn(
         scope = viewModelScope,
-        initialValue = SettingState(  default
+        initialValue = SettingState(
+            default,
         ),
         started = SharingStarted.WhileSubscribed(5_000),
     )
 
+    fun setThemeBrand(themeBrand: ThemeBrand) {
+        viewModelScope.launch {
+            userDataRepository.setThemeBrand(themeBrand)
+        }
+    }
 
-
-     fun setThemeBrand(themeBrand: ThemeBrand){
-         viewModelScope.launch {
-             userDataRepository.setThemeBrand(themeBrand)
-         }
-
-     }
-
-     fun setThemeContrast(contrast: Contrast){
-         viewModelScope.launch {
-             userDataRepository.setThemeContrast(contrast)
-         }
-     }
+    fun setThemeContrast(contrast: Contrast) {
+        viewModelScope.launch {
+            userDataRepository.setThemeContrast(contrast)
+        }
+    }
 
     /**
      * Sets the desired dark theme config.
      */
-     fun setDarkThemeConfig(darkThemeConfig: DarkThemeConfig){
+    fun setDarkThemeConfig(darkThemeConfig: DarkThemeConfig) {
         viewModelScope.launch {
             userDataRepository.setDarkThemeConfig(darkThemeConfig)
         }
-     }
-
+    }
 }

@@ -20,6 +20,5 @@ interface IRootComponent {
         class QuestionRootScreen(val component: QuestionComponent) : RootScreen()
         class FinishRootScreen(val component: FinishComponent) : RootScreen()
         class SettingRootScreen(val component: SettingComponent) : RootScreen()
-
     }
 }

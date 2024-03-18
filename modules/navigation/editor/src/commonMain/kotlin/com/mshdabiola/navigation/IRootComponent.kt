@@ -11,7 +11,6 @@ interface IRootComponent {
 
     fun navigateToSetting()
 
-
     fun pop()
     sealed class RootScreen {
 

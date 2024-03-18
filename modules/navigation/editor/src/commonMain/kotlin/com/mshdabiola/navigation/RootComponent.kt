@@ -52,7 +52,6 @@ class RootComponent(
 
         @Serializable
         data object Setting : Config
-
     }
 
     private fun factory(
@@ -73,8 +72,9 @@ class RootComponent(
                     componentContext,
                 ),
             )
-            is Config.Setting->IRootComponent.RootScreen.SettingRootScreen(
-                navigateToSetting(componentContext)
+
+            is Config.Setting -> IRootComponent.RootScreen.SettingRootScreen(
+                navigateToSetting(componentContext),
             )
         }
     }

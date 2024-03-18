@@ -222,13 +222,12 @@ internal fun YearExposed(
     label: String,
     onChange: (Int) -> Unit,
 ) {
-
     DropdownMenu(
         modifier,
         currentIndex = selectedOptionText,
         data = exams.map { it.year.toString() }.toImmutableList(),
         label = label,
-        onDataChange = onChange
+        onDataChange = onChange,
     )
 
 // We want to react on tap/press on TextField to show menu
@@ -249,7 +248,6 @@ internal fun ExamType(
         data = types.toList().toImmutableList(),
         label = "Examp type",
         onDataChange = onChange,
-        enabled = enabled
+        enabled = enabled,
     )
-
 }

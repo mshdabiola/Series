@@ -41,7 +41,7 @@ fun SeriesAppNavHost(appState: SeriesAppState) {
                 PagerCom(
                     (it.instance as IRootComponent.RootScreen.PagerScreen).component,
                     onQuestion = appState.navController::navigateToQuestion,
-                    onSetting = appState.navController::navigateToSetting
+                    onSetting = appState.navController::navigateToSetting,
 
                 )
             }
@@ -59,8 +59,9 @@ fun SeriesAppNavHost(appState: SeriesAppState) {
                     toQuestion = appState.navController::navigateToQuestion,
                 )
             }
-            is IRootComponent.RootScreen.SettingRootScreen->{
-                SettingScreenNav (onBack = appState.navController::pop)
+
+            is IRootComponent.RootScreen.SettingRootScreen -> {
+                SettingScreenNav(onBack = appState.navController::pop)
             }
         }
     }
@@ -71,7 +72,7 @@ fun SeriesAppNavHost(appState: SeriesAppState) {
 fun PagerCom(
     iPagerComponent: IPagerComponent,
     onQuestion: () -> Unit = {},
-    onSetting:()->Unit={}
+    onSetting: () -> Unit = {},
 ) {
     val current = iPagerComponent.current.subscribeAsState().value
 

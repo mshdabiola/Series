@@ -14,5 +14,4 @@ val appModule = module {
     }
     commonViewModel { MainAppViewModel(get()) }
     commonViewModel { SettingViewModel(get()) }
-
 }

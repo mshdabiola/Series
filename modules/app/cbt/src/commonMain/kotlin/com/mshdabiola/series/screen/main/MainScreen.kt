@@ -46,14 +46,14 @@ import com.mshdabiola.ui.getStringSubject
 import com.mshdabiola.ui.getStringType
 
 @Composable
-internal fun MainScreen(onQuestion: () -> Unit,onSetting: () -> Unit) {
+internal fun MainScreen(onQuestion: () -> Unit, onSetting: () -> Unit) {
     val viewModel: MainViewModel = KoinCommonViewModel()
     val mainState = viewModel.mainState.collectAsStateWithLifecycleCommon()
     MainScreen(
         mainState = mainState.value,
         onQuestion = onQuestion,
         onStartExam = viewModel::startExam,
-        onSetting = onSetting
+        onSetting = onSetting,
     )
 }
 
@@ -63,7 +63,7 @@ internal fun MainScreen(
     mainState: MainState,
     onQuestion: () -> Unit = {},
     onStartExam: (ExamType, Int, Int) -> Unit = { _, _, _ -> },
-    onSetting : ()->Unit={}
+    onSetting: () -> Unit = {},
 ) {
     val snackbarHostState = remember {
         SnackbarHostState()

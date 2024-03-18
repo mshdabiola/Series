@@ -12,22 +12,20 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.Placeholder
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DropdownMenu(
-    modifier: Modifier=Modifier,
+    modifier: Modifier = Modifier,
     currentIndex: Int = 0,
     data: ImmutableList<String> = emptyList<String>().toImmutableList(),
     onDataChange: (Int) -> Unit = {},
-    label: String?=null,
-    enabled : Boolean=true
+    label: String? = null,
+    enabled: Boolean = true,
 ) {
     var expanded by remember { mutableStateOf(false) }
-
 
     ExposedDropdownMenuBox(
         expanded = expanded,
@@ -37,14 +35,18 @@ fun DropdownMenu(
             // The `menuAnchor` modifier must be passed to the text field for correctness.
             modifier = modifier.menuAnchor(),
             readOnly = true,
-            value = data.getOrNull(if (currentIndex<0)0 else currentIndex) ?:"",
+            value = data.getOrNull(if (currentIndex < 0) 0 else currentIndex) ?: "",
             onValueChange = {},
             trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
             colors = ExposedDropdownMenuDefaults.textFieldColors(),
-            label = if (label==null) null else {{
-                Text(label)
-            }},
-            enabled=enabled
+            label = if (label == null) {
+                null
+            } else {
+                {
+                    Text(label)
+                }
+            },
+            enabled = enabled,
         )
         ExposedDropdownMenu(
             expanded = expanded,
@@ -62,5 +64,4 @@ fun DropdownMenu(
             }
         }
     }
-
 }

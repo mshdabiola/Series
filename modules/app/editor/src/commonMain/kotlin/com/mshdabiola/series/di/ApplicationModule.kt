@@ -15,7 +15,6 @@ val appModules = module {
     commonViewModel { MainAppViewModel(get()) }
     commonViewModel { SettingViewModel(get()) }
 
-
 //    factoryOf(::MainViewModel)
     commonViewModel {
         ExamViewModel(

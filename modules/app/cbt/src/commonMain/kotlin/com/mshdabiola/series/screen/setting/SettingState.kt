@@ -1,6 +1,5 @@
 package com.mshdabiola.series.screen.setting
 
-import com.mshdabiola.model.Model
 import com.mshdabiola.model.UserData
 
 // sealed interface MainState {
@@ -11,5 +10,5 @@ import com.mshdabiola.model.UserData
 // }
 
 data class SettingState(
-    val userData: UserData
+    val userData: UserData,
 )
