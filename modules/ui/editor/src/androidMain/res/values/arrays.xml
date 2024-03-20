@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string-array name="exam_part">
-        <item>Obj &amp; Theory</item>
-        <item>Objective</item>
-        <item>Theory</item>
-
-    </string-array>
-</resources>
