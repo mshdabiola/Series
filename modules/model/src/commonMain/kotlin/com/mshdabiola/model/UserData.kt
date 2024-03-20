@@ -1,19 +1,16 @@
+/*
+ *abiola 2024
+ */
+
 package com.mshdabiola.model
 
+/**
+ * Class summarizing user interest data
+ */
 data class UserData(
-    val topicIds: List<Int>,
-    val integer: Int,
-    val yes: Boolean,
-    val names: List<String>,
-    val maps: Map<String, Boolean>,
-    val brandTheme: BrandTheme,
-    val themeConfig: ThemeConfig,
+    val themeBrand: ThemeBrand,
+    val darkThemeConfig: DarkThemeConfig,
+    val useDynamicColor: Boolean,
+    val shouldHideOnboarding: Boolean,
+    val contrast: Contrast,
 )
-
-enum class BrandTheme {
-    ThemeDefault, ThemeAndroid
-}
-
-enum class ThemeConfig {
-    System, Light, Dark
-}

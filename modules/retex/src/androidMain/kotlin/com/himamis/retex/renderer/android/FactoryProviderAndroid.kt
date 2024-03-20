@@ -26,12 +26,12 @@ class FactoryProviderAndroid(private val mAssetManager: AssetManager) : FactoryP
         return GraphicsFactoryAndroid()
     }
 
-    //@Override
+    // @Override
     protected fun createParserFactory(): ParserFactory {
         return ParserFactoryAndroid()
     }
 
-    //@Override
+    // @Override
     override fun createResourceLoaderFactory(): ResourceLoaderFactory {
         return ResourceLoaderFactoryAndroid(mAssetManager)
     }

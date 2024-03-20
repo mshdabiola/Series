@@ -1,11 +1,11 @@
 package com.mshdabiola.data.repository
 //
-//import com.mshdabiola.data.repository.inter.INetworkRepository
-//import com.mshdabiola.network.INetworkDataSource
+// import com.mshdabiola.data.repository.inter.INetworkRepository
+// import com.mshdabiola.network.INetworkDataSource
 //
-//internal class RealINetworkRepository constructor(
+// internal class RealINetworkRepository constructor(
 //    private val INetworkDataSource: INetworkDataSource
-//) : INetworkRepository {
+// ) : INetworkRepository {
 //    override suspend fun get() {
 //        //  networkSource.get()
 //    }
@@ -15,4 +15,4 @@ package com.mshdabiola.data.repository
 //    }
 //
 //
-//}
+// }

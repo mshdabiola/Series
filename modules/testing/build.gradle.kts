@@ -1,27 +1,38 @@
-@Suppress("DSL_SCOPE_VIOLATION")
+/*
+ *abiola 2024
+ */
 plugins {
-    kotlin("multiplatform")
-    id("com.android.library")
+    id("mshdabiola.android.library")
+    id("mshdabiola.android.library.compose")
 }
 
 android {
-    compileSdk = 34
-//    buildFeatures {
-//        compose = true
-//    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
-    }
-//    kotlinOptions {
-//        jvmTarget = "1.8"
-//    }
     namespace = "com.mshdabiola.testing"
 }
+dependencies {
 
+    debugApi(libs.androidx.compose.ui.testManifest)
+    api(kotlin("test"))
+    api(libs.androidx.compose.ui.test)
+    api(libs.roborazzi)
+
+    api(project(":modules:analytics"))
+//    api(project(":modules:data"))
+    api(project(":modules:model"))
+
+
+    debugApi(libs.androidx.compose.ui.testManifest)
+
+    implementation(libs.accompanist.testharness)
+    implementation(libs.androidx.activity.compose)
+    implementation(libs.androidx.test.rules)
+    implementation(libs.kotlinx.coroutines.test)
+    implementation(libs.kotlinx.datetime)
+    implementation(libs.robolectric.shadows)
+    implementation(project(":modules:designsystem"))
+}
 kotlin {
-    androidTarget()
-    jvm("desktop")
+
     sourceSets {
         val commonMain by getting {
             dependencies {
@@ -29,7 +40,7 @@ kotlin {
                 //    implementation(project(":core:common"))
 //                implementation(project(":modules:data"))
 //                implementation(project(":modules:model"))
-                api(libs.junit4)
+                api(libs.junit)
                 api(libs.kotlinx.coroutines.test)
                 api(libs.turbine)
                 api(libs.koin.test)
@@ -46,11 +57,11 @@ kotlin {
         val androidMain by getting {
             dependencies {
                 //  debugApi(libs.androidx.compose.ui.testManifest)
-                api(libs.androidx.test.core)
-                api(libs.androidx.test.espresso.core)
-                api(libs.androidx.test.runner)
-                api(libs.androidx.test.rules)
-                api(libs.androidx.compose.ui.test)
+//                api(libs.androidx.test.core)
+//                api(libs.androidx.test.espresso.core)
+//                api(libs.androidx.test.runner)
+//                api(libs.androidx.test.rules)
+//                api(libs.androidx.compose.ui.test)
                 api(libs.koin.android.test)
             }
         }

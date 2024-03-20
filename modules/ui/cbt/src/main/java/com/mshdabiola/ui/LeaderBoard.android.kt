@@ -46,26 +46,24 @@ actual fun Leaderboard(getRank: (ImmutableList<UserRank>) -> Unit) {
     val id = stringResource(id = R.string.leaderboard_ranks)
 
     LaunchedEffect(key1 = Unit) {
-
         leaderboardsClient.loadTopScores(
             id,
             LeaderboardVariant.TIME_SPAN_ALL_TIME,
             LeaderboardVariant.COLLECTION_PUBLIC,
-            25
+            25,
         )
             .addOnCompleteListener { annotatedDataTask ->
                 val data = annotatedDataTask.result?.let { annotatedData ->
                     annotatedData.get()?.scores
                         ?.mapNotNull {
-                            if (it == null)
+                            if (it == null) {
                                 null
-                            else {
-
+                            } else {
                                 UserRank(
                                     imageUrl = it.scoreHolderIconImageUri.toString(),
                                     name = it.scoreHolderDisplayName,
                                     score = it.rawScore,
-                                    position = it.rank
+                                    position = it.rank,
                                 )
                             }
                         }
@@ -73,7 +71,6 @@ actual fun Leaderboard(getRank: (ImmutableList<UserRank>) -> Unit) {
                 if (data != null) {
                     getRank(data.toImmutableList())
                 }
-
             }
             .addOnFailureListener { it.printStackTrace() }
     }
@@ -94,7 +91,7 @@ actual fun UserRankUiState(userRank: UserRank) {
         trailingContent = {
             Text(
                 text = userRank.position.toString(),
-                style = MaterialTheme.typography.bodyLarge
+                style = MaterialTheme.typography.bodyLarge,
             )
         },
         leadingContent = {
@@ -103,19 +100,18 @@ actual fun UserRankUiState(userRank: UserRank) {
                     modifier = Modifier
                         .size(50.dp)
                         .clip(CircleShape),
-                    bitmap = imageBitmap!!, contentDescription = ""
+                    bitmap = imageBitmap!!,
+                    contentDescription = "",
                 )
             }
-        }
+        },
     )
 }
 
 suspend fun loadImage(context: Context, path: String?) = suspendCoroutine {
-
     if (path == null) {
         Timber.e("load image path is null")
         it.resume(null)
-
     }
     val image = ImageManager.create(context)
     image.loadImage({ _: Uri, drawable: Drawable?, isRequestDrawable: Boolean ->
@@ -143,7 +139,6 @@ actual fun MoreRankButton(modifier: Modifier) {
 
     TextButton(onClick = {
         try {
-
             leaderboardsClient
                 .getLeaderboardIntent(id)
                 .addOnSuccessListener {
@@ -157,9 +152,8 @@ actual fun MoreRankButton(modifier: Modifier) {
         } catch (e: Exception) {
             e.printStackTrace()
         }
-        //leaderboardsClient.getLeaderboardIntent(id,LeaderboardVariant.TIME_SPAN_ALL_TIME,LeaderboardVariant.COLLECTION_PUBLIC)
+        // leaderboardsClient.getLeaderboardIntent(id,LeaderboardVariant.TIME_SPAN_ALL_TIME,LeaderboardVariant.COLLECTION_PUBLIC)
     }) {
         Text(modifier = modifier, text = "More")
     }
-
 }

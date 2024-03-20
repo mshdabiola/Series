@@ -12,15 +12,15 @@ object AmendRect {
      * @return the same rectangle with modified bounds
      */
     fun amendRectF(rectF: RectF?): RectF? {
-        if (rectF!!.bottom - rectF.top < 1.0f
-            && rectF.bottom > rectF.top
+        if (rectF!!.bottom - rectF.top < 1.0f &&
+            rectF.bottom > rectF.top
         ) {
             val centerY = rectF.centerY()
             rectF.top = centerY - 0.5f
             rectF.bottom = centerY + 0.5f
         }
-        if (rectF.right - rectF.left < 1.0f
-            && rectF.right > rectF.left
+        if (rectF.right - rectF.left < 1.0f &&
+            rectF.right > rectF.left
         ) {
             val centerX = rectF.centerX()
             rectF.left = centerX - 0.5f

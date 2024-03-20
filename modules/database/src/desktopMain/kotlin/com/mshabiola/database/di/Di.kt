@@ -3,7 +3,7 @@ package com.mshabiola.database.di
 import app.cash.sqldelight.driver.jdbc.sqlite.JdbcSqliteDriver
 import com.mshabiola.database.model.listOfValueAdapter
 import com.mshdabiola.database.SeriesDatabase
-import com.mshdabiola.model.Security
+import com.mshdabiola.model.databaseName
 import com.mshdabiola.model.generalPath
 import commshdabioladatabase.tables.InstructionEntity
 import commshdabioladatabase.tables.OptionEntity
@@ -21,7 +21,7 @@ actual val databaseModule: Module
             if (dir.exists().not()) {
                 dir.mkdirs()
             }
-            val dbPath = File(generalPath, Security.databaseName)
+            val dbPath = File(generalPath, databaseName)
 //            val os= System.getProperty("os.name")
 //            println("os $os")
 //            println("path ${System.getProperty("user.home")}")
@@ -39,16 +39,16 @@ actual val databaseModule: Module
                 driver = driver,
                 questionEntityAdapter = QuestionEntity.Adapter(
                     listOfValueAdapter,
-                    listOfValueAdapter
+                    listOfValueAdapter,
                 ),
                 instructionEntityAdapter = InstructionEntity.Adapter(listOfValueAdapter),
-                optionEntityAdapter = OptionEntity.Adapter(listOfValueAdapter)
+                optionEntityAdapter = OptionEntity.Adapter(listOfValueAdapter),
             )
         }
         single(qualifier = qualifier("temp")) {
             val driver = JdbcSqliteDriver(
                 JdbcSqliteDriver.IN_MEMORY,
-                properties = Properties().apply { put("foreign_keys", "true") }
+                properties = Properties().apply { put("foreign_keys", "true") },
             )
                 .also { SeriesDatabase.Schema.create(it) }
 
@@ -56,18 +56,17 @@ actual val databaseModule: Module
                 driver = driver,
                 questionEntityAdapter = QuestionEntity.Adapter(
                     listOfValueAdapter,
-                    listOfValueAdapter
+                    listOfValueAdapter,
                 ),
                 instructionEntityAdapter = InstructionEntity.Adapter(listOfValueAdapter),
-                optionEntityAdapter = OptionEntity.Adapter(listOfValueAdapter)
+                optionEntityAdapter = OptionEntity.Adapter(listOfValueAdapter),
             )
         }
 
         includes(daoModules)
-
     }
 
-//private var version: Int
+// private var version: Int
 //    get() {
 //        val sqlCursor = driver.executeQuery(null, "PRAGMA user_version;", 0, null)
 //        return sqlCursor.getLong(0)!!.toInt()

@@ -15,10 +15,8 @@ class RootComponent(
 ) : IRootComponent, ComponentContext by componentContext {
     private val navigation = StackNavigation<Config>()
 
-
     override val stack: Value<ChildStack<*, IRootComponent.RootScreen>>
         get() = _stack
-
 
     override fun navigateToPager() {
         navigation.bringToFront(Config.Pager)
@@ -32,27 +30,27 @@ class RootComponent(
         navigation.push(Config.Questions)
     }
 
+    override fun navigateToSetting() {
+        navigation.push(Config.Setting)
+    }
+
     override fun pop() {
         navigation.pop()
     }
-
 
     private val _stack = childStack(
         source = navigation,
         serializer = Config.serializer(),
         initialConfiguration = Config.Pager,
         handleBackButton = true,
-        childFactory = ::factory
+        childFactory = ::factory,
     )
 
-
-
     @Serializable
-    private sealed interface Config  {
+    private sealed interface Config {
 
         @Serializable
         data object Pager : Config
-
 
         @Serializable
         data object Questions : Config
@@ -60,6 +58,8 @@ class RootComponent(
         @Serializable
         data object Finish : Config
 
+        @Serializable
+        data object Setting : Config
     }
 
     private fun factory(
@@ -71,20 +71,23 @@ class RootComponent(
 
             is Config.Finish -> IRootComponent.RootScreen.FinishRootScreen(
                 navigateToFinish(
-                    componentContext
-                )
+                    componentContext,
+                ),
             )
 
             is Config.Questions -> IRootComponent.RootScreen.QuestionRootScreen(
                 navigateToQuestion(
-                    componentContext
-                )
+                    componentContext,
+                ),
             )
 
-
+            is Config.Setting -> IRootComponent.RootScreen.SettingRootScreen(
+                navigateToSetting(
+                    componentContext,
+                ),
+            )
         }
     }
-
 
     private fun navigateToQuestion(componentContext: ComponentContext): QuestionComponent {
         return QuestionComponent(componentContext)
@@ -94,5 +97,7 @@ class RootComponent(
         return FinishComponent(componentContext)
     }
 
-
+    private fun navigateToSetting(componentContext: ComponentContext): SettingComponent {
+        return SettingComponent(componentContext)
+    }
 }

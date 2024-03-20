@@ -8,7 +8,6 @@ interface IExamRepository {
 
     suspend fun insertAll(exams: List<Exam>)
 
-
     suspend fun insertExam(exam: Exam)
 
     suspend fun deleteExam(examId: Long)

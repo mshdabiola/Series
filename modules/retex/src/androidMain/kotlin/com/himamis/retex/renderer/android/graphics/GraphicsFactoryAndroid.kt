@@ -9,7 +9,9 @@ import com.himamis.retex.renderer.share.platform.graphics.Transform
 
 class GraphicsFactoryAndroid : GraphicsFactory() {
     override fun createBasicStroke(
-        width: Double, cap: Int, join: Int,
+        width: Double,
+        cap: Int,
+        join: Int,
         miterLimit: Double,
     ): BasicStroke {
         return BasicStrokeA(width, miterLimit, cap, join)

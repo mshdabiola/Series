@@ -13,13 +13,11 @@ import commshdabioladatabase.tables.QuestionEntity
 import commshdabioladatabase.tables.SubjectEntity
 import commshdabioladatabase.tables.TopicEntity
 
-
 fun Instruction.toEntity() =
     InstructionEntity(id = id, examId = examId, title = title, content = content)
 
 fun InstructionEntity.toModel() =
     Instruction(id = id, examId = examId, title = title, content = content)
-
 
 fun Option.toEntity() = OptionEntity(
     id = id,
@@ -27,7 +25,7 @@ fun Option.toEntity() = OptionEntity(
     questionId = questionId,
     examId = examId,
     content = content,
-    isAnswer = if (isAnswer) 1 else 0
+    isAnswer = if (isAnswer) 1 else 0,
 )
 
 fun OptionEntity.toModel() = Option(
@@ -36,7 +34,7 @@ fun OptionEntity.toModel() = Option(
     questionId = questionId,
     examId = examId,
     content = content,
-    isAnswer = isAnswer == 1L
+    isAnswer = isAnswer == 1L,
 )
 
 fun Question.toEntity() = QuestionEntity(
@@ -47,7 +45,7 @@ fun Question.toEntity() = QuestionEntity(
     isTheory = if (isTheory) 1 else 0,
     answer = answer,
     instructionId = instructionId,
-    topicId = topicId
+    topicId = topicId,
 )
 
 fun QuestionEntity.toModel() = Question(
@@ -58,7 +56,7 @@ fun QuestionEntity.toModel() = Question(
     isTheory = isTheory == 1L,
     answer = answer,
     instructionId = instructionId,
-    topicId = topicId
+    topicId = topicId,
 )
 
 fun Subject.toEntity() = SubjectEntity(id, name)
@@ -74,7 +72,7 @@ fun Exam.toEntity() = ExamEntity(
     subjectId = subjectID,
     year = year,
     isObjOnly = if (isObjOnly) 0L else 1,
-    examTime = examTime
+    examTime = examTime,
 )
 
 fun ExamEntity.toModel() = Exam(
@@ -82,5 +80,5 @@ fun ExamEntity.toModel() = Exam(
     subjectID = subjectId,
     isObjOnly = isObjOnly == 0L,
     year = year,
-    examTime = examTime
+    examTime = examTime,
 )

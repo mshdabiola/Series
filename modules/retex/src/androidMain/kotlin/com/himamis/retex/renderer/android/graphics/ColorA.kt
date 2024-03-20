@@ -29,4 +29,3 @@ class ColorA : Color {
         return if (color != other.color) false else true
     }
 }
-

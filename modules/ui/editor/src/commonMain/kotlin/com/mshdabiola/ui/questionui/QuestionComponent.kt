@@ -37,7 +37,6 @@ import androidx.compose.ui.unit.dp
 import com.mshdabiola.model.data.Type
 import com.mshdabiola.ui.state.QuestionUiState
 
-
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun QuestionEditUi(
@@ -53,7 +52,6 @@ fun QuestionEditUi(
     onTextChange: (Int, Int, String) -> Unit = { _, _, _ -> },
     fillIt: Boolean = false,
 ) {
-
     Column(modifier) {
         Content(
             items = questionUiState.content,
@@ -65,7 +63,7 @@ fun QuestionEditUi(
             moveDown = { moveDown(-1, it) },
             edit = { edit(-1, it) },
             changeType = { i, t -> changeType(-1, i, t) },
-            onTextChange = { i, s -> onTextChange(-1, i, s) }
+            onTextChange = { i, s -> onTextChange(-1, i, s) },
 
         )
 
@@ -91,13 +89,13 @@ fun QuestionEditUi(
 //            }
 //        }
 
-        FlowRow(maxItemsInEachRow = 2) {
+        FlowRow(modifier = Modifier.fillMaxWidth(), maxItemsInEachRow = 2) {
             questionUiState.options.forEachIndexed { i, optionUiState ->
 
+//                Box(modifier=Modifier.height(20.dp).fillMaxWidth(0.49f).background(if(i%2==0)Color.Blue else Color.Black))
 
                 Content(
-                    modifier = Modifier.fillMaxWidth(if (fillIt) 1f else 0.5f)//.weight(0.5f)
-                    ,
+                    modifier = Modifier.fillMaxWidth(if (fillIt) 1f else 0.499999f), // .weight(0.5f)
                     items = optionUiState.content,
                     examId = questionUiState.examId,
                     addUp = { addUp(i, it) },
@@ -107,7 +105,7 @@ fun QuestionEditUi(
                     moveDown = { moveDown(i, it) },
                     edit = { edit(i, it) },
                     changeType = { ii, t -> changeType(i, ii, t) },
-                    onTextChange = { idn, s -> onTextChange(i, idn, s) }
+                    onTextChange = { idn, s -> onTextChange(i, idn, s) },
 
                 )
             }
@@ -126,7 +124,7 @@ fun QuestionEditUi(
                 moveDown = { moveDown(-2, it) },
                 edit = { edit(-2, it) },
                 changeType = { i, t -> changeType(-2, i, t) },
-                onTextChange = { i, s -> onTextChange(-2, i, s) }
+                onTextChange = { i, s -> onTextChange(-2, i, s) },
 
             )
         }
@@ -149,10 +147,9 @@ fun QuestionUi(
     }
     OutlinedCard(modifier) {
         Column {
-
             Row(
                 modifier = Modifier.padding(horizontal = 16.dp).fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
             ) {
                 Text(
                     if (questionUiState.isTheory) "Theory" else "Objective",
@@ -171,7 +168,7 @@ fun QuestionUi(
                 headlineContent = {
                     ContentView(
                         items = questionUiState.content,
-                        examId = questionUiState.examId
+                        examId = questionUiState.examId,
                     )
                 },
                 trailingContent = {
@@ -180,15 +177,14 @@ fun QuestionUi(
                             Icon(Icons.Default.MoreVert, "more")
                         }
                         DropdownMenu(expanded = showDrop, onDismissRequest = { showDrop = false }) {
-
-
                             DropdownMenuItem(
                                 leadingIcon = { Icon(Icons.Default.Update, "update") },
                                 text = { Text("Update") },
                                 onClick = {
                                     onUpdate(questionUiState.id)
                                     showDrop = false
-                                })
+                                },
+                            )
 
                             DropdownMenuItem(
                                 leadingIcon = { Icon(Icons.Default.ArrowUpward, "up") },
@@ -196,14 +192,16 @@ fun QuestionUi(
                                 onClick = {
                                     onMoveUp(questionUiState.id)
                                     showDrop = false
-                                })
+                                },
+                            )
                             DropdownMenuItem(
                                 leadingIcon = { Icon(Icons.Default.ArrowDownward, "down") },
                                 text = { Text("Move Down") },
                                 onClick = {
                                     onMoveDown(questionUiState.id)
                                     showDrop = false
-                                })
+                                },
+                            )
 
                             DropdownMenuItem(
                                 leadingIcon = { Icon(Icons.Default.Delete, "Delete") },
@@ -211,19 +209,15 @@ fun QuestionUi(
                                 onClick = {
                                     onDelete(questionUiState.id)
                                     showDrop = false
-                                })
-
-
+                                },
+                            )
                         }
                     }
-
-
-                }
+                },
             )
 
             questionUiState.options.chunked(2).forEach { optionsUiStates ->
                 Row {
-
                     optionsUiStates.forEach { optionsUiState ->
                         ContentView(
                             modifier = Modifier
@@ -231,19 +225,19 @@ fun QuestionUi(
                                 .clickable(onClick = {
                                     onAnswer(
                                         questionUiState.id,
-                                        optionsUiState.id
+                                        optionsUiState.id,
                                     )
                                 }),
-                            color = if (optionsUiState.isAnswer)
+                            color = if (optionsUiState.isAnswer) {
                                 Color.Green.copy(alpha = 0.5f)
-                            else ListItemDefaults.containerColor,
+                            } else {
+                                ListItemDefaults.containerColor
+                            },
 
                             items = optionsUiState.content,
-                            examId = questionUiState.examId
+                            examId = questionUiState.examId,
                         )
-
                     }
-
                 }
             }
 
@@ -252,12 +246,10 @@ fun QuestionUi(
                 Text("Answer", modifier = Modifier.padding(horizontal = 16.dp))
                 ContentView(
                     items = questionUiState.answer,
-                    examId = questionUiState.examId
+                    examId = questionUiState.examId,
 
                 )
             }
-
         }
     }
 }
-

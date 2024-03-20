@@ -12,5 +12,4 @@ internal class SettingRepository(private val settings: MultiplatformSettings) : 
     override suspend fun getCurrentExam(): CurrentExam? {
         return settings.getCurrentExam()
     }
-
 }

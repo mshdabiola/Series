@@ -8,9 +8,8 @@ import com.mshdabiola.ui.state.Position
 fun PositionUi(position: Position) {
     ListItem(
         leadingContent = {
-
         },
-        headlineContent = {}
+        headlineContent = {},
 
     )
 }

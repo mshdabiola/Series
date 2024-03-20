@@ -1,12 +1,11 @@
-import com.mshdabiola.app.configureFlavors
-
 plugins {
-    id("mshdabiola.mpp.feature")
+    id("mshdabiola.android.library")
+    id("mshdabiola.android.library.compose")
 }
 
 android {
     namespace = "com.mshdabiola.ui.cbt"
-    configureFlavors(this)
+//    configureFlavors(this)
 
 }
 
@@ -18,7 +17,7 @@ kotlin {
             dependencies {
                 implementation(project(":modules:retex"))
                 implementation(project(":modules:model"))
-                implementation(project(":modules:ui:common"))
+                api(project(":modules:ui:common"))
                 implementation(project(":modules:mvvn"))
                 implementation(project(":modules:data:cbt"))
                 implementation(project(":modules:designsystem"))

@@ -8,9 +8,7 @@ import kotlinx.coroutines.test.runTest
 class OptionTest : AbstractTest() {
 
     override fun insert() = runTest {
-
         println(SeriesDatabase.Schema.version)
-
     }
 
     override fun delete() = runTest {
@@ -24,5 +22,4 @@ class OptionTest : AbstractTest() {
     override fun getAll() = runTest {
         TODO("Not yet implemented")
     }
-
 }

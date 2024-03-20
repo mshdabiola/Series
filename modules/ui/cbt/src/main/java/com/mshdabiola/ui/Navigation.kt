@@ -18,7 +18,6 @@ import com.mshdabiola.ui.QuestionNumberButton
 import com.mshdabiola.ui.state.InstructionUiState
 import kotlinx.collections.immutable.ImmutableList
 
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AllQuestionBottomSheet(
@@ -33,7 +32,7 @@ fun AllQuestionBottomSheet(
             Column(
                 Modifier.padding(8.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.spacedBy(8.dp)
+                verticalArrangement = Arrangement.spacedBy(8.dp),
             ) {
                 Text(text = "All questions")
 
@@ -48,17 +47,14 @@ fun AllQuestionBottomSheet(
                                 number = it,
                                 isChoose = chooses[it] > -1,
                                 isCurrent = it == currentNumber,
-                                onClick = { onChooseClick(it) })
+                                onClick = { onChooseClick(it) },
+                            )
                         }
-                    })
+                    },
+                )
             }
-
-
         }
-
-
     }
-
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -72,16 +68,10 @@ fun InstructionBottomSheet(
             Column(
                 Modifier.padding(8.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.spacedBy(8.dp)
+                verticalArrangement = Arrangement.spacedBy(8.dp),
             ) {
-
                 ItemUi(items = instructionUiState.content, examID = instructionUiState.examId)
-
             }
-
-
         }
-
     }
 }
-

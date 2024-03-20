@@ -6,5 +6,5 @@ import androidx.compose.runtime.Composable
 @Preview
 @Composable
 internal actual fun TimeCounterPreview() {
-    //TimeCounter(1000,1000)
+    // TimeCounter(1000,1000)
 }

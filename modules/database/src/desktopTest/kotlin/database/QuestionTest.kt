@@ -39,8 +39,8 @@ class QuestionTest : AbstractTest() {
                 isTheory = true,
                 answer = null,
                 instructionId = null,
-                topicId = null
-            )
+                topicId = null,
+            ),
         )
 
         assertEquals(1, questionDao.getAll().first().size)
@@ -65,8 +65,8 @@ class QuestionTest : AbstractTest() {
                 isTheory = false,
                 answer = null,
                 instructionId = null,
-                topicId = null
-            )
+                topicId = null,
+            ),
         )
         optionDao.insertMany(
             listOf(
@@ -76,7 +76,7 @@ class QuestionTest : AbstractTest() {
                     questionId = 1,
                     examId = 9,
                     content = listOf(Item("abioa")),
-                    isAnswer = false
+                    isAnswer = false,
                 ),
                 Option(
                     id = -1,
@@ -84,7 +84,7 @@ class QuestionTest : AbstractTest() {
                     questionId = 1,
                     examId = 9,
                     content = listOf(Item("abioa")),
-                    isAnswer = false
+                    isAnswer = false,
                 ),
                 Option(
                     id = -1,
@@ -92,9 +92,9 @@ class QuestionTest : AbstractTest() {
                     questionId = 1,
                     examId = 9,
                     content = listOf(Item("abioa")),
-                    isAnswer = false
-                )
-            )
+                    isAnswer = false,
+                ),
+            ),
         )
 
         questionDao.delete(1)
@@ -134,8 +134,8 @@ class QuestionTest : AbstractTest() {
                 isTheory = false,
                 answer = null,
                 instructionId = null,
-                topicId = null
-            )
+                topicId = null,
+            ),
         )
         var list = listOf(
             Option(
@@ -144,7 +144,7 @@ class QuestionTest : AbstractTest() {
                 questionId = 1,
                 examId = 9,
                 content = listOf(Item("abioa")),
-                isAnswer = false
+                isAnswer = false,
             ),
             Option(
                 id = -1,
@@ -152,7 +152,7 @@ class QuestionTest : AbstractTest() {
                 questionId = 1,
                 examId = 9,
                 content = listOf(Item("abioa")),
-                isAnswer = false
+                isAnswer = false,
             ),
             Option(
                 id = -1,
@@ -160,11 +160,11 @@ class QuestionTest : AbstractTest() {
                 questionId = 1,
                 examId = 9,
                 content = listOf(Item("abioa")),
-                isAnswer = false
-            )
+                isAnswer = false,
+            ),
         )
         optionDao.insertMany(
-            list
+            list,
         )
         list = optionDao.getAllByQuestionIdAndExamId(1, 9).first().toMutableList()
         list.removeAt(0)
@@ -176,7 +176,5 @@ class QuestionTest : AbstractTest() {
         println("all ${all.joinToString()}")
         assertEquals(1, all.size)
         assertEquals(1, optionDao.getAllByQuestionIdAndExamId(1, 9).first().size)
-
     }
-
 }

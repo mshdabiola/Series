@@ -33,9 +33,14 @@ inline fun <reified T : ViewModel> getCommonViewModel(
     scope: Scope = LocalKoinScope.current,
     noinline parameters: ParametersDefinition? = null,
 ): T {
-
     return resolveViewModel(
-        T::class, viewModelStoreOwner.viewModelStore, key, extras, qualifier, scope, parameters
+        T::class,
+        viewModelStoreOwner.viewModelStore,
+        key,
+        extras,
+        qualifier,
+        scope,
+        parameters,
     )
 //    remember(qualifier, parameters) {
 //        val vmClazz = T::class

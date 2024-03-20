@@ -31,7 +31,6 @@ actual fun UpdateAppUi(modifier: Modifier) {
 
     val appUpdateInfoManager = remember {
         AppUpdateManagerFactory.create(activity)
-
     }
     var installStateUpdatedListener: InstallStateUpdatedListener? = null
 
@@ -48,7 +47,6 @@ actual fun UpdateAppUi(modifier: Modifier) {
                 if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE &&
                     appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.FLEXIBLE)
                 ) {
-
                     installStateUpdatedListener = InstallStateUpdatedListener { state ->
 
 //                    if (state.installStatus() == InstallStatus.DOWNLOADING) {
@@ -63,22 +61,19 @@ actual fun UpdateAppUi(modifier: Modifier) {
 
                     installStateUpdatedListener?.let { appUpdateInfoManager.registerListener(it) }
 
-
                     appUpdateInfoManager.startUpdateFlowForResult(
                         appUpdateInfo,
 
                         activity,
                         AppUpdateOptions.defaultOptions(AppUpdateType.FLEXIBLE),
-                        343
+                        343,
 
                     )
-
                 }
                 //  log("update ${appUpdateInfo.packageName()} ${appUpdateInfo.availableVersionCode()}",)
             }.addOnFailureListener {
                 it.printStackTrace()
             }
-
         }
 
         override fun onResume(owner: LifecycleOwner) {
@@ -92,7 +87,7 @@ actual fun UpdateAppUi(modifier: Modifier) {
                     if (appUpdateInfo.installStatus() == InstallStatus.INSTALLED) {
                         installStateUpdatedListener?.let {
                             appUpdateInfoManager.unregisterListener(
-                                it
+                                it,
                             )
                         }
                     }
@@ -102,7 +97,6 @@ actual fun UpdateAppUi(modifier: Modifier) {
 
     val lifecycleOwner = LocalLifecycleOwner.current
 
-
     DisposableEffect(key1 = Unit) {
         lifecycleOwner.lifecycle.addObserver(defaultLifecycleObserver)
 
@@ -110,7 +104,6 @@ actual fun UpdateAppUi(modifier: Modifier) {
             installStateUpdatedListener = null
             lifecycleOwner.lifecycle.removeObserver(defaultLifecycleObserver)
         }
-
     }
 
     if (show) {
@@ -123,7 +116,7 @@ actual fun UpdateAppUi(modifier: Modifier) {
                 }) {
                     Text(text = "Reload")
                 }
-            }
+            },
         ) {
             Text(text = "Waec series just download an update")
         }

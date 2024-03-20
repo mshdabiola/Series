@@ -12,7 +12,6 @@ interface ISettingRepository {
 
     suspend fun removeInstruction(examId: Long)
 
-
     suspend fun setCurrentQuestion(question: QuestionFull)
 
     suspend fun getCurrentQuestion(examId: Long): QuestionFull?

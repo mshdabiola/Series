@@ -36,13 +36,12 @@ actual class DatabaseExportImport actual constructor(
                 dir.mkdirs()
             }
             launch {
-
                 val dbPath = File(path, name)
                 dbPath.delete()
 
                 val driver = JdbcSqliteDriver(
                     "jdbc:sqlite:${dbPath.path}",
-                    properties = Properties().apply { put("foreign_keys", "true") }
+                    properties = Properties().apply { put("foreign_keys", "true") },
                 )
                     .also { SeriesDatabase.Schema.create(it) }
                 driver.execute(null, "PRAGMA user_version=$version", 0)
@@ -51,10 +50,10 @@ actual class DatabaseExportImport actual constructor(
                     driver = driver,
                     questionEntityAdapter = QuestionEntity.Adapter(
                         listOfValueAdapter,
-                        listOfValueAdapter
+                        listOfValueAdapter,
                     ),
                     instructionEntityAdapter = InstructionEntity.Adapter(listOfValueAdapter),
-                    optionEntityAdapter = OptionEntity.Adapter(listOfValueAdapter)
+                    optionEntityAdapter = OptionEntity.Adapter(listOfValueAdapter),
                 )
 
                 val exams = database.examQueries
@@ -107,7 +106,6 @@ actual class DatabaseExportImport actual constructor(
                 driver.close()
 
                 Security.encode(dbPath.readBytes(), dbPath.outputStream(), key)
-
             }
             launch {
                 val imagePath = File(path, "image")
@@ -119,7 +117,6 @@ actual class DatabaseExportImport actual constructor(
                 versionFile.deleteOnExit()
                 versionFile.writeText("$version")
             }
-
         }
     }
 
@@ -128,20 +125,19 @@ actual class DatabaseExportImport actual constructor(
             val dbPath = Path(path)
             Security.decode(dbPath.inputStream(), dbPath.outputStream(), key)
 
-
             val driver = JdbcSqliteDriver(
                 "jdbc:sqlite:${dbPath.pathString}",
-                properties = Properties().apply { put("foreign_keys", "true") }
+                properties = Properties().apply { put("foreign_keys", "true") },
             )
                 .also { SeriesDatabase.Schema.create(it) }
             val input = SeriesDatabase(
                 driver = driver,
                 questionEntityAdapter = QuestionEntity.Adapter(
                     listOfValueAdapter,
-                    listOfValueAdapter
+                    listOfValueAdapter,
                 ),
                 instructionEntityAdapter = InstructionEntity.Adapter(listOfValueAdapter),
-                optionEntityAdapter = OptionEntity.Adapter(listOfValueAdapter)
+                optionEntityAdapter = OptionEntity.Adapter(listOfValueAdapter),
             )
 
             val exams = input.examQueries
@@ -195,24 +191,19 @@ actual class DatabaseExportImport actual constructor(
         }
     }
 
-
     suspend fun copyImage(dir: File, examsId: List<Long>) {
         withContext(Dispatchers.IO) {
             try {
                 examsId.forEach {
                     val from = File(generalPath, "$it")
                     val to = File(dir.path, "$it")
-                    //to.createParentDirectories()
+                    // to.createParentDirectories()
 
                     from.copyRecursively(to, overwrite = true)
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
             }
-
-
         }
     }
-
-
 }

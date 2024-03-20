@@ -9,7 +9,6 @@ internal class ExamRepository(
     private val iExamDao: IExamDao,
 ) : IExamRepository {
 
-
     override fun getAllWithSub(): Flow<List<ExamWithSub>> {
         return iExamDao
             .getAllWithSub()

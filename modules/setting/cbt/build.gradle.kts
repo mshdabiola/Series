@@ -1,6 +1,6 @@
 @Suppress("DSL_SCOPE_VIOLATION")
 plugins {
-    id("mshdabiola.mpp.library")
+    id("mshdabiola.android.library")
     alias(libs.plugins.kotlin.serialization)
 }
 

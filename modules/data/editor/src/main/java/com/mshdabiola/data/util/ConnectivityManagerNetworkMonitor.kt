@@ -13,7 +13,6 @@ import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.conflate
 
 @SuppressLint("MissingPermission")
-
 class ConnectivityManagerNetworkMonitor constructor(
     private val context: Context,
 ) : NetworkMonitor {
@@ -58,6 +57,5 @@ class ConnectivityManagerNetworkMonitor constructor(
         null -> false
 
         else -> activeNetworkInfo?.isConnected ?: false
-
     }
 }

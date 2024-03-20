@@ -10,13 +10,9 @@ val listOfStringAdapter = object : ColumnAdapter<List<String>, String> {
     }
 
     override fun encode(value: List<String>): String {
-
         TODO("Not yet implemented")
     }
-
-
 }
-
 
 val listOfValueAdapter = object : ColumnAdapter<List<Item>, String> {
     private val delimit = "||"
@@ -32,24 +28,20 @@ val listOfValueAdapter = object : ColumnAdapter<List<Item>, String> {
                 .map { pair ->
                     Item(
                         pair.first,
-                        Type.values().firstOrNull { it.name == pair.second } ?: Type.TEXT)
+                        Type.values().firstOrNull { it.name == pair.second } ?: Type.TEXT,
+                    )
                 }
         } catch (e: Exception) {
             println("value $databaseValue")
             e.printStackTrace()
             emptyList()
         }
-
-
     }
 
     override fun encode(value: List<Item>): String {
         return value
             .joinToString(separator = delimit) {
                 "${it.content}$delimit${it.type.name}"
-
             }
-
     }
-
 }

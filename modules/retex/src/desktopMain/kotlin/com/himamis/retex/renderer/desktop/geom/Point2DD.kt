@@ -45,7 +45,8 @@ package com.himamis.retex.renderer.desktop.geom
 
 import java.awt.geom.Point2D
 
-class Point2DD(x: kotlin.Double, y: kotlin.Double) : Point2D.Double(),
+class Point2DD(x: kotlin.Double, y: kotlin.Double) :
+    Point2D.Double(),
     com.himamis.retex.renderer.share.platform.geom.Point2D {
     init {
         setLocation(x, y)

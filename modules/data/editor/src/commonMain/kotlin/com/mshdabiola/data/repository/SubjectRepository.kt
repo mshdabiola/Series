@@ -9,7 +9,6 @@ internal class SubjectRepository(
     private val iSubjectDao: ISubjectDao,
 ) : ISubjectRepository {
 
-
     override fun getAll(): Flow<List<Subject>> {
         return iSubjectDao
             .getAll()
@@ -23,11 +22,9 @@ internal class SubjectRepository(
         iSubjectDao.insert(subject)
     }
 
-
     override suspend fun deleteSubject(subjectId: Long) {
         iSubjectDao.delete(subjectId)
     }
-
 
     override suspend fun updateSubject(subject: Subject) {
         iSubjectDao.update(subject)

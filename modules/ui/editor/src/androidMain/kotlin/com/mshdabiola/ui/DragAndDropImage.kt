@@ -34,7 +34,6 @@ actual fun DragAndDropImage(
     path: String,
     onPathChange: (String) -> Unit,
 ) {
-
     val context = LocalContext.current
 
     val isover by remember { mutableStateOf(false) }
@@ -74,24 +73,26 @@ actual fun DragAndDropImage(
                     outputStream.close()
                 }
                 onPathChange(path2.path)
-                //saveImage(it, time)
+                // saveImage(it, time)
             }
         },
     )
 
-
-
     Card(
         onClick = {
             imageLauncher.launch(
-                arrayOf("image/*")
+                arrayOf("image/*"),
             )
         },
         Modifier.size(100.dp),
-        border = if (isover) BorderStroke(
-            width = 4.dp,
-            color = Color.Blue
-        ) else BorderStroke(width = 2.dp, color = Color.Black)
+        border = if (isover) {
+            BorderStroke(
+                width = 4.dp,
+                color = Color.Blue,
+            )
+        } else {
+            BorderStroke(width = 2.dp, color = Color.Black)
+        },
 
     ) {
         Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
@@ -99,17 +100,13 @@ actual fun DragAndDropImage(
             ImageUi(
                 modifier.fillMaxSize(),
                 path = path,
-                contentDescription = ""
+                contentDescription = "",
             )
 //                            } else {
 //                                Text(text = "drag image here")
 //                            }
         }
-
-
     }
-
-
 }
 
 fun getExtension(context: Context, uri: Uri): String? {
@@ -130,5 +127,3 @@ fun getFileMimeType(uri: Uri, context: Context): String? {
         MimeTypeMap.getFileExtensionFromUrl(Uri.fromFile(File(uri.path)).toString())
     }
 }
-
-

@@ -23,7 +23,7 @@ import java.io.File
 import java.io.IOException
 import java.net.URL
 
-//fun main() = singleWindowApplication {
+// fun main() = singleWindowApplication {
 //    val density = LocalDensity.current
 //    Column {
 //        AsyncImage(
@@ -52,7 +52,7 @@ import java.net.URL
 //            modifier = Modifier.width(200.dp)
 //        )
 //    }
-//}
+// }
 
 @Composable
 fun <T> AsyncImage(
@@ -62,7 +62,6 @@ fun <T> AsyncImage(
     modifier: Modifier = Modifier,
     contentScale: ContentScale = ContentScale.Fit,
 ) {
-
     var image by remember { mutableStateOf<T?>(null) }
 
     LaunchedEffect(load) {
@@ -83,11 +82,10 @@ fun <T> AsyncImage(
             painter = painterFor(image!!),
             contentDescription = contentDescription,
             contentScale = contentScale,
-            modifier = modifier
+            modifier = modifier,
         )
     }
 }
-
 
 /* Loading from file with java.io API */
 

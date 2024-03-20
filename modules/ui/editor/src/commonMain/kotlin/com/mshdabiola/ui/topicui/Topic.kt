@@ -35,15 +35,14 @@ fun TopicUi(
                     Icon(Icons.Default.MoreVert, "more")
                 }
                 DropdownMenu(expanded = showDrop, onDismissRequest = { showDrop = false }) {
-
-
                     DropdownMenuItem(
                         leadingIcon = { Icon(Icons.Default.Update, "update") },
                         text = { Text("Update") },
                         onClick = {
                             onUpdate(topicUiState.id)
                             showDrop = false
-                        })
+                        },
+                    )
 
                     DropdownMenuItem(
                         leadingIcon = { Icon(Icons.Default.Delete, "Delete") },
@@ -51,12 +50,10 @@ fun TopicUi(
                         onClick = {
                             onDelete(topicUiState.id)
                             showDrop = false
-                        })
-
-
+                        },
+                    )
                 }
             }
-        }
+        },
     )
-
 }

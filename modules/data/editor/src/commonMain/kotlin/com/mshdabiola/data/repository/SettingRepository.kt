@@ -8,7 +8,6 @@ import com.mshdabiola.setting.MultiplatformSettings
 
 internal class SettingRepository(private val settings: MultiplatformSettings) : ISettingRepository {
 
-
     override suspend fun setCurrentInstruction(instruction: Instruction) {
         settings.setCurrentInstruction(instruction)
     }
@@ -40,5 +39,4 @@ internal class SettingRepository(private val settings: MultiplatformSettings) : 
     override suspend fun getCurrentExam(): CurrentExam? {
         return settings.getCurrentExam()
     }
-
 }

@@ -45,7 +45,8 @@ package com.himamis.retex.renderer.desktop.graphics
 
 import java.awt.Color
 
-class ColorD(r: Int, g: Int, b: Int, a: Int) : Color(r, g, b, a),
+class ColorD(r: Int, g: Int, b: Int, a: Int) :
+    Color(r, g, b, a),
     com.himamis.retex.renderer.share.platform.graphics.Color {
     constructor(color: Color) : this(color.red, color.green, color.blue, color.alpha)
 

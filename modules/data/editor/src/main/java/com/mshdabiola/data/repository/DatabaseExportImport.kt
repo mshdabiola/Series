@@ -38,13 +38,11 @@ actual class DatabaseExportImport actual constructor(
             val dbParent = File(parentPath).parent
             val dbPath = File(dbParent, "databases/data.db")
 
-
 //            val dir = File(dbDir)
 //            if (dir.exists().not()) {
 //                dir.mkdirs()
 //            }
             launch {
-
                 val dbOutput = File(pathNew, name)
                 dbPath.delete()
 
@@ -53,17 +51,15 @@ actual class DatabaseExportImport actual constructor(
                     .also { SeriesDatabase.Schema.create(it) }
                 driver.execute(null, "PRAGMA user_version=$version", 0)
 
-
                 val db = SeriesDatabase(
                     driver = driver,
                     questionEntityAdapter = QuestionEntity.Adapter(
                         listOfValueAdapter,
-                        listOfValueAdapter
+                        listOfValueAdapter,
                     ),
                     instructionEntityAdapter = InstructionEntity.Adapter(listOfValueAdapter),
-                    optionEntityAdapter = OptionEntity.Adapter(listOfValueAdapter)
+                    optionEntityAdapter = OptionEntity.Adapter(listOfValueAdapter),
                 )
-
 
                 val exams = database.examQueries
                     .getByIds(examsId)
@@ -115,7 +111,6 @@ actual class DatabaseExportImport actual constructor(
                 driver.close()
 
                 Security.encode(dbPath.readBytes(), dbOutput.outputStream(), key)
-
             }
             launch {
                 val imagePath = File(pathNew, "image")
@@ -127,7 +122,6 @@ actual class DatabaseExportImport actual constructor(
                 versionFile.deleteOnExit()
                 versionFile.writeText("$version")
             }
-
         }
     }
 
@@ -142,10 +136,10 @@ actual class DatabaseExportImport actual constructor(
                 driver = driver,
                 questionEntityAdapter = QuestionEntity.Adapter(
                     listOfValueAdapter,
-                    listOfValueAdapter
+                    listOfValueAdapter,
                 ),
                 instructionEntityAdapter = InstructionEntity.Adapter(listOfValueAdapter),
-                optionEntityAdapter = OptionEntity.Adapter(listOfValueAdapter)
+                optionEntityAdapter = OptionEntity.Adapter(listOfValueAdapter),
             )
 
             val exams = input.examQueries
@@ -199,7 +193,6 @@ actual class DatabaseExportImport actual constructor(
         }
     }
 
-
     suspend fun copyImage(dir: File, examsId: List<Long>) {
         withContext(Dispatchers.IO) {
             try {
@@ -208,16 +201,13 @@ actual class DatabaseExportImport actual constructor(
                     val to = File(dir.path, "$it")
 
                     Timber.e("From ${from.path} to ${to.path}")
-                    //to.createParentDirectories()
+                    // to.createParentDirectories()
 
                     from.copyRecursively(to, overwrite = true)
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
             }
-
-
         }
     }
-
 }

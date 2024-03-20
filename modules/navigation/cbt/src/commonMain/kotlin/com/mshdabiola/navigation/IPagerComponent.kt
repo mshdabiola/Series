@@ -9,13 +9,11 @@ interface IPagerComponent {
     val pages: Value<ChildPages<*, PScreen>>
     val current: Value<Int>
 
-
     fun selectedPage(int: Int)
 
     sealed class PScreen {
         class MainRootScreen(val component1: MainComponent) : PScreen()
         class StatisticsRootScreen(val component1: StatisticComponent) : PScreen()
-//        class ProfileRootScreen(val component1: ProfileComponent) : PScreen()
+        class ProfileRootScreen(val component1: ProfileComponent) : PScreen()
     }
-
 }

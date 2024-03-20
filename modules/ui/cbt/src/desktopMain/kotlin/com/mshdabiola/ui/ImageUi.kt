@@ -28,7 +28,7 @@ actual fun ImageUi(
                 load = { loadSvgPainter(File(path), density) },
                 painterFor = { it },
                 contentDescription = contentDescription,
-                contentScale = contentScale
+                contentScale = contentScale,
             )
         }
 
@@ -38,7 +38,7 @@ actual fun ImageUi(
                 load = { loadXmlImageVector(File(path), density) },
                 painterFor = { rememberVectorPainter(it) },
                 contentDescription = contentDescription,
-                contentScale = contentScale
+                contentScale = contentScale,
             )
         }
 
@@ -48,10 +48,8 @@ actual fun ImageUi(
                 load = { loadImageBitmap(File(path)) },
                 painterFor = { BitmapPainter(it) },
                 contentDescription = contentDescription,
-                contentScale = contentScale
+                contentScale = contentScale,
             )
         }
-
     }
-
 }

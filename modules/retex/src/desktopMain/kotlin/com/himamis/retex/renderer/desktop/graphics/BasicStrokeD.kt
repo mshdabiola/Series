@@ -47,20 +47,26 @@ import java.awt.BasicStroke
 
 class BasicStrokeD : BasicStroke, com.himamis.retex.renderer.share.platform.graphics.BasicStroke {
     constructor(basicStroke: BasicStroke) : this(
-        basicStroke.lineWidth.toDouble(), basicStroke.endCap,
-        basicStroke.lineJoin, basicStroke.miterLimit.toDouble()
+        basicStroke.lineWidth.toDouble(),
+        basicStroke.endCap,
+        basicStroke.lineJoin,
+        basicStroke.miterLimit.toDouble(),
     )
 
     constructor(width: Double, cap: Int, join: Int, miterlimit: Double) : super(
         width.toFloat(),
         cap,
         join,
-        miterlimit.toFloat()
+        miterlimit.toFloat(),
     )
 
     constructor(thickness: Double, dashes: DoubleArray?) : super(
-        thickness.toFloat(), CAP_BUTT, JOIN_MITER,
-        10f, doubleToFloat(dashes), 0f
+        thickness.toFloat(),
+        CAP_BUTT,
+        JOIN_MITER,
+        10f,
+        doubleToFloat(dashes),
+        0f,
     )
 
     companion object {

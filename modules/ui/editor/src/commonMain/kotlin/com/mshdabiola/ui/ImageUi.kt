@@ -29,7 +29,7 @@ fun ImageUi(
                 load = { loadSvgPainter(File(path), density) },
                 painterFor = { it },
                 contentDescription = contentDescription,
-                contentScale = contentScale
+                contentScale = contentScale,
             )
         }
 
@@ -39,7 +39,7 @@ fun ImageUi(
                 load = { loadXmlImageVector(File(path), density) },
                 painterFor = { rememberVectorPainter(it) },
                 contentDescription = contentDescription,
-                contentScale = contentScale
+                contentScale = contentScale,
             )
         }
 
@@ -49,20 +49,18 @@ fun ImageUi(
                 load = { loadImageBitmap(File(path)) },
                 painterFor = { BitmapPainter(it) },
                 contentDescription = contentDescription,
-                contentScale = contentScale
+                contentScale = contentScale,
             )
         }
-
     }
-
 }
 
 expect fun loadSvgPainter(file: File, density: Density): Painter
 expect fun loadSvgPainter1(file: File, density: Density): ImageBitmap?
 
-//fun loadSvgPainter2(file : File, density: Density) : ImageVector {
+// fun loadSvgPainter2(file : File, density: Density) : ImageVector {
 //    return loadSvgPainter1(file, density)
-//}
+// }
 
 expect fun loadXmlImageVector(file: File, density: Density): ImageVector
 expect fun loadImageBitmap(file: File): ImageBitmap?

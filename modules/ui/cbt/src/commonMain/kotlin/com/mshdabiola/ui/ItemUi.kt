@@ -12,10 +12,8 @@ import com.mshdabiola.model.data.Type
 import com.mshdabiola.ui.state.ItemUiState
 import kotlinx.collections.immutable.ImmutableList
 
-
 @Composable
 fun ItemUi(items: ImmutableList<ItemUiState>, examID: Long) {
-
     items.forEach { item ->
         when (item.type) {
             Type.EQUATION -> {
@@ -30,15 +28,12 @@ fun ItemUi(items: ImmutableList<ItemUiState>, examID: Long) {
                 ImageUi(
                     Modifier.fillMaxWidth().heightIn(60.dp, 300.dp),
                     path = getGeneralDir(item.content, examID).path,
-                    contentDescription = item.content
+                    contentDescription = item.content,
                 )
             }
         }
     }
-
-
 }
-
 
 @Composable
 internal expect fun EquationUi(

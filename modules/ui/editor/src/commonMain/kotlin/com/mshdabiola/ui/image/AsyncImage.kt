@@ -14,7 +14,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.IOException
 
-
 @Composable
 fun <T> AsyncImage(
     load: () -> T?,
@@ -23,7 +22,6 @@ fun <T> AsyncImage(
     modifier: Modifier = Modifier,
     contentScale: ContentScale = ContentScale.Fit,
 ) {
-
     var image by remember { mutableStateOf<T?>(null) }
 
     LaunchedEffect(load) {
@@ -44,7 +42,7 @@ fun <T> AsyncImage(
             painter = painterFor(image!!),
             contentDescription = contentDescription,
             contentScale = contentScale,
-            modifier = modifier
+            modifier = modifier,
         )
     }
 }

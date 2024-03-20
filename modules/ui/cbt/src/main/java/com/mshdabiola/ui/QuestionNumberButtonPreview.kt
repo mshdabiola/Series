@@ -6,10 +6,9 @@ import androidx.compose.ui.tooling.preview.Preview
 @Preview
 @Composable
 internal actual fun QuestionNumberButtonPreview() {
-    //QuestionNumberButton(QuestionNumberUiState(4,false))
+    // QuestionNumberButton(QuestionNumberUiState(4,false))
 }
 
 @Composable
 internal actual fun QuestionScrollPreview() {
-
 }

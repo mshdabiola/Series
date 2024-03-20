@@ -46,7 +46,8 @@ package com.himamis.retex.renderer.desktop.graphics
 import java.awt.Shape
 import java.awt.Stroke
 
-class StrokeD(val stroke: Stroke) : com.himamis.retex.renderer.share.platform.graphics.Stroke,
+class StrokeD(val stroke: Stroke) :
+    com.himamis.retex.renderer.share.platform.graphics.Stroke,
     Stroke {
 
     override fun createStrokedShape(p: Shape): Shape {

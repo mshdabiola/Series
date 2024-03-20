@@ -51,7 +51,7 @@ class TextAttributeProviderD : TextAttributeProvider {
         return try { // to avoid problems with Java 1.5
             TextAttributeD(
                 TextAttribute::class.java
-                    .getField(name)[TextAttribute::class.java] as java.awt.font.TextAttribute
+                    .getField(name)[TextAttribute::class.java] as java.awt.font.TextAttribute,
             )
         } catch (e: Exception) {
             null

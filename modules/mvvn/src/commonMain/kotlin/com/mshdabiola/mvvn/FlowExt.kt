@@ -8,6 +8,5 @@ import kotlinx.coroutines.flow.StateFlow
 @Composable
 expect fun <T> StateFlow<T>.collectAsStateWithLifecycleCommon(): State<T>
 
-
 @Composable
 expect fun <T> Flow<T>.collectAsStateWithLifecycleCommon(initialValue: T): State<T>

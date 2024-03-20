@@ -1,6 +1,5 @@
 package com.mshabiola.database.di
 
-
 import com.mshabiola.database.dao.exam.ExamDao
 import com.mshabiola.database.dao.exam.IExamDao
 import com.mshabiola.database.dao.instructiondao.IInstructionDao
@@ -27,7 +26,6 @@ expect val databaseModule: Module
 const val name = "real"
 
 internal val daoModules = module {
-
 
     single {
         get<SeriesDatabase>(qualifier = qualifier(name)).instructionQueries

@@ -1,16 +1,12 @@
 package com.mshdabiola.data.repository
 
-
 import com.mshdabiola.data.repository.inter.IModelRepository
 import com.mshdabiola.model.Model
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
-internal class RealModelRepository constructor(
-
-) : IModelRepository {
+internal class RealModelRepository constructor() : IModelRepository {
     override suspend fun insert(model: Model) {
-
     }
 
     override fun getAllModel(): Flow<List<Model>> {
@@ -18,7 +14,6 @@ internal class RealModelRepository constructor(
     }
 
     override suspend fun updateModel(name: String, id: Long) {
-
     }
 
     override fun getOneModel(id: Long): Flow<Model> {
@@ -26,7 +21,5 @@ internal class RealModelRepository constructor(
     }
 
     override suspend fun delete(id: Long) {
-
     }
-
 }

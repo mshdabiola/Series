@@ -45,7 +45,6 @@ import com.mshdabiola.ui.MarkUpText
 import com.mshdabiola.ui.state.ItemUiState
 import kotlinx.collections.immutable.ImmutableList
 
-
 @Composable
 fun ContentView(
     modifier: Modifier = Modifier,
@@ -53,8 +52,6 @@ fun ContentView(
     items: ImmutableList<ItemUiState>,
     examId: Long,
 ) {
-
-
     Column(modifier) {
         items.forEachIndexed { _, item ->
 
@@ -76,17 +73,15 @@ fun ContentView(
                                 ImageUi(
                                     Modifier.size(100.dp),
                                     path = ImageUtil.getGeneralDir(item.content, examId).path,
-                                    contentDescription = ""
+                                    contentDescription = "",
                                 )
                             }
                     }
-                }
+                },
 
             )
         }
-
     }
-
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -104,9 +99,7 @@ fun Content(
     changeType: (Int, Type) -> Unit = { _, _ -> },
     onTextChange: (Int, String) -> Unit = { _, _ -> },
 
-    ) {
-
-
+) {
     Column(modifier) {
         items.forEachIndexed { index, item ->
             var showContext by remember { mutableStateOf(false) }
@@ -132,11 +125,11 @@ fun Content(
                             examId = examId,
                             onTextChange = {
                                 onTextChange(index, it)
-                            })
+                            },
+                        )
                     }
                 },
                 trailingContent = {
-
                     Box {
                         IconButton(onClick = { showContext = true }) {
                             Icon(Icons.Default.MoreVert, "")
@@ -147,8 +140,9 @@ fun Content(
                             onDismissRequest = {
                                 showContext = false
                                 showChange = false
-                            }) {
-                            if (showChange){
+                            },
+                        ) {
+                            if (showChange) {
                                 if (item.type != Type.IMAGE) {
                                     DropdownMenuItem(text = { Text("Image") }, onClick = {
                                         changeType(index, Type.IMAGE)
@@ -164,31 +158,35 @@ fun Content(
                                             changeType(index, Type.EQUATION)
                                             showChange = false
                                             showContext = false
-                                        })
+                                        },
+                                    )
                                 }
 
                                 if (item.type != Type.TEXT) {
                                     DropdownMenuItem(text = { Text("Text") }, onClick = {
-
                                         changeType(index, Type.TEXT)
                                         showChange = false
                                         showContext = false
                                     })
                                 }
-
-                            }else{
+                            } else {
                                 DropdownMenuItem(
                                     leadingIcon = {
-                                        if (!item.isEditMode) Icon(
-                                            Icons.Default.Edit,
-                                            "edit"
-                                        ) else Icon(Icons.Default.ViewAgenda, "view")
+                                        if (!item.isEditMode) {
+                                            Icon(
+                                                Icons.Default.Edit,
+                                                "edit",
+                                            )
+                                        } else {
+                                            Icon(Icons.Default.ViewAgenda, "view")
+                                        }
                                     },
                                     text = { Text(if (!item.isEditMode) "Edit" else "View") },
                                     onClick = {
                                         edit(index)
                                         showContext = false
-                                    })
+                                    },
+                                )
                                 DropdownMenuItem(
                                     leadingIcon = {
                                         Icon(Icons.Default.ChangeCircle, "change")
@@ -196,7 +194,8 @@ fun Content(
                                     text = { Text("Change Type") },
                                     onClick = {
                                         showChange = true
-                                    })
+                                    },
+                                )
 
                                 DropdownMenuItem(
                                     leadingIcon = { Icon(Icons.Default.Add, "delete") },
@@ -204,49 +203,48 @@ fun Content(
                                     onClick = {
                                         addUp(index)
                                         showContext = false
-                                    })
+                                    },
+                                )
                                 DropdownMenuItem(
                                     leadingIcon = { Icon(Icons.Default.Add, "delete") },
                                     text = { Text("Add Down") },
                                     onClick = {
                                         addBottom(index)
                                         showContext = false
-                                    })
+                                    },
+                                )
                                 DropdownMenuItem(
                                     leadingIcon = { Icon(Icons.Default.Delete, "delete") },
                                     text = { Text("Delete") },
                                     onClick = {
                                         delete(index)
                                         showContext = false
-                                    })
+                                    },
+                                )
                                 DropdownMenuItem(
                                     leadingIcon = { Icon(Icons.Default.MoveUp, "delete") },
                                     text = { Text("Move up") },
                                     onClick = {
                                         moveUp(index)
                                         showContext = false
-                                    })
+                                    },
+                                )
                                 DropdownMenuItem(
                                     leadingIcon = { Icon(Icons.Default.MoveDown, "delete") },
                                     text = { Text("Move down") },
                                     onClick = {
                                         moveDown(index)
                                         showContext = false
-                                    })
+                                    },
+                                )
                             }
-
-
                         }
                     }
-
-                }
+                },
             )
         }
-
     }
-
 }
-
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -265,18 +263,18 @@ fun EquationContent(
     }
 
     Box(modifier, contentAlignment = Alignment.Center) {
-
-        if (equation.isEditMode)
+        if (equation.isEditMode) {
             TextField(
                 modifier = Modifier.focusRequester(focusRequester).fillMaxWidth(),
                 label = { Text("Equation") },
                 maxLines = 1,
                 value = equation.content,
                 onValueChange = onTextChange,
-               keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next)
+                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
             )
-        else
+        } else {
             Latex(modifier = Modifier, equation.content)
+        }
     }
 }
 
@@ -288,14 +286,12 @@ fun ImageContent(
     onTextChange: (String) -> Unit = {},
 ) {
     Box(modifier, contentAlignment = Alignment.Center) {
-
         DragAndDropImage(
             modifier = Modifier.size(100.dp),
             path = ImageUtil.getGeneralDir(image.content, examId).path,
-            onPathChange = onTextChange
+            onPathChange = onTextChange,
         )
     }
-
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -313,18 +309,16 @@ fun TextContent(
             focusRequester.requestFocus()
         }
     }
-    if (text.isEditMode)
+    if (text.isEditMode) {
         TextField(
             modifier = modifier.focusRequester(focusRequester).fillMaxWidth(),
             value = text.content,
             label = { Text("Text Content") },
             maxLines = 1,
             onValueChange = onTextChange,
-            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next)
+            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
         )
-    else
+    } else {
         MarkUpText(modifier = modifier, text = text.content)
-
+    }
 }
-
-

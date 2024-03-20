@@ -16,7 +16,7 @@ class BasicStrokeA @JvmOverloads constructor(
         miterLimit,
         getCap(cap),
         getJoin(join),
-        null
+        null,
     )
 
     constructor(width: Double, dashes: DoubleArray?) : this(
@@ -24,7 +24,7 @@ class BasicStrokeA @JvmOverloads constructor(
         10.0,
         BasicStroke.CAP_BUTT,
         BasicStroke.JOIN_MITER,
-        dashes
+        dashes,
     )
 
     val nativeObject: Any?

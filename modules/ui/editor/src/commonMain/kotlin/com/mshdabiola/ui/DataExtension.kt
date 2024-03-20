@@ -32,7 +32,7 @@ fun QuestionFull.toQuestionUiState(isEdit: Boolean = false) = QuestionUiState(
         it.toItemUi(isEdit)
     }?.toImmutableList(),
     instructionUiState = instruction?.toInstructionUiState(),
-    topicUiState = topic?.toUi()
+    topicUiState = topic?.toUi(),
 )
 
 fun QuestionUiState.toQuestionWithOptions(examId: Long) = QuestionFull(
@@ -46,7 +46,7 @@ fun QuestionUiState.toQuestionWithOptions(examId: Long) = QuestionFull(
     isTheory = isTheory,
     answer = answer?.map { it.toItem() },
     instruction = instructionUiState?.toInstruction(),
-    topic = topicUiState?.toTopic()
+    topic = topicUiState?.toTopic(),
 )
 
 fun Option.toOptionUi(isEdit: Boolean = false) =
@@ -54,7 +54,7 @@ fun Option.toOptionUi(isEdit: Boolean = false) =
         id = id,
         nos = nos,
         content = content.map { it.toItemUi(isEdit) }.toImmutableList(),
-        isAnswer = isAnswer
+        isAnswer = isAnswer,
     )
 
 fun OptionUiState.toOption(questionId: Long, examId: Long) =
@@ -64,9 +64,8 @@ fun OptionUiState.toOption(questionId: Long, examId: Long) =
         questionId = questionId,
         examId = examId,
         content = content.map { it.toItem() },
-        isAnswer = isAnswer
+        isAnswer = isAnswer,
     )
-
 
 fun ItemUiState.toItem() = Item(content = content, type = type)
 fun Item.toItemUi(isEdit: Boolean = false) =
@@ -76,14 +75,15 @@ fun InstructionUiState.toInstruction() = Instruction(
     id = id,
     examId = examId,
     title = title,
-    content = content.map { it.toItem() })
+    content = content.map { it.toItem() },
+)
 
 fun Instruction.toInstructionUiState(isEdit: Boolean = false) =
     InstructionUiState(
         id = id,
         examId = examId,
         title = title,
-        content = content.map { it.toItemUi(isEdit = isEdit) }.toImmutableList()
+        content = content.map { it.toItemUi(isEdit = isEdit) }.toImmutableList(),
     )
 
 fun Topic.toUi() = TopicUiState(id = id, subjectId = subjectId, name = name)
@@ -98,7 +98,7 @@ fun ExamWithSub.toUi() = ExamUiState(
     year = year,
     subject = subject,
     isObjOnly = isObjOnly,
-    examTime = examTime
+    examTime = examTime,
 )
 
 fun ExamUiState.toExam() =

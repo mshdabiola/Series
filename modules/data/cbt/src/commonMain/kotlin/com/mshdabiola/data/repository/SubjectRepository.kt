@@ -9,7 +9,6 @@ internal class SubjectRepository(
     private val iSubjectDao: ISubjectDao,
 ) : ISubjectRepository {
 
-
     override fun getAll(): Flow<List<Subject>> {
         return iSubjectDao
             .getAll()

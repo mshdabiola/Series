@@ -1,6 +1,6 @@
 @Suppress("DSL_SCOPE_VIOLATION")
 plugins {
-    id("mshdabiola.mpp.library")
+    id("mshdabiola.android.library")
 }
 
 android {
@@ -17,6 +17,7 @@ kotlin {
                 implementation(project(":modules:database"))
                 implementation(project(":modules:setting:cbt"))
                 implementation(libs.kotlinx.coroutines.core)
+                implementation(project(":modules:analytics"))
             }
         }
 

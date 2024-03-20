@@ -26,6 +26,4 @@ class ImageA(width: Int, height: Int, type: Int) : Image {
         val canvas = Canvas(bitmap.asAndroidBitmap())
         return Graphics2DA(canvas)
     }
-
-
 }

@@ -1,6 +1,5 @@
 package com.mshdabiola.ui.com.mshdabiola.ui
 
-
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
@@ -51,7 +50,7 @@ private class BuildContext {
          * Group that doesn't exist in xml file. We add it manually when we see <clip-path> node.
          * It will be automatically popped when the real group will be popped.
          */
-        Virtual
+        Virtual,
     }
 }
 
@@ -61,7 +60,7 @@ internal fun Element.parseVectorRoot(density: Density): ImageVector {
         defaultWidth = attributeOrNull(ANDROID_NS, "width").parseDp(density),
         defaultHeight = attributeOrNull(ANDROID_NS, "height").parseDp(density),
         viewportWidth = attributeOrNull(ANDROID_NS, "viewportWidth")?.toFloat() ?: 0f,
-        viewportHeight = attributeOrNull(ANDROID_NS, "viewportHeight")?.toFloat() ?: 0f
+        viewportHeight = attributeOrNull(ANDROID_NS, "viewportHeight")?.toFloat() ?: 0f,
     )
     parseVectorNodes(builder, context)
     return builder.build()
@@ -103,14 +102,14 @@ private fun Element.parsePath(builder: ImageVector.Builder) {
         strokeLineMiter = attributeOrNull(ANDROID_NS, "strokeMiterLimit")?.toFloat() ?: 1.0f,
         trimPathStart = attributeOrNull(ANDROID_NS, "trimPathStart")?.toFloat() ?: 0.0f,
         trimPathEnd = attributeOrNull(ANDROID_NS, "trimPathEnd")?.toFloat() ?: 1.0f,
-        trimPathOffset = attributeOrNull(ANDROID_NS, "trimPathOffset")?.toFloat() ?: 0.0f
+        trimPathOffset = attributeOrNull(ANDROID_NS, "trimPathOffset")?.toFloat() ?: 0.0f,
     )
 }
 
 private fun Element.parseClipPath(builder: ImageVector.Builder, context: BuildContext) {
     builder.addGroup(
         name = attributeOrNull(ANDROID_NS, "name") ?: "",
-        clipPathData = addPathNodes(attributeOrNull(ANDROID_NS, "pathData"))
+        clipPathData = addPathNodes(attributeOrNull(ANDROID_NS, "pathData")),
     )
     context.currentGroups.addLast(BuildContext.Group.Virtual)
 }
@@ -125,7 +124,7 @@ private fun Element.parseGroup(builder: ImageVector.Builder, context: BuildConte
         attributeOrNull(ANDROID_NS, "scaleY")?.toFloat() ?: DefaultScaleY,
         attributeOrNull(ANDROID_NS, "translateX")?.toFloat() ?: DefaultTranslationX,
         attributeOrNull(ANDROID_NS, "translateY")?.toFloat() ?: DefaultTranslationY,
-        EmptyPath
+        EmptyPath,
     )
     context.currentGroups.addLast(BuildContext.Group.Real)
 
@@ -158,23 +157,23 @@ private fun Element.parseLinearGradient() = Brush.linearGradient(
     colorStops = parseColorStops(),
     start = Offset(
         attributeOrNull(ANDROID_NS, "startX")?.toFloat() ?: 0f,
-        attributeOrNull(ANDROID_NS, "startY")?.toFloat() ?: 0f
+        attributeOrNull(ANDROID_NS, "startY")?.toFloat() ?: 0f,
     ),
     end = Offset(
         attributeOrNull(ANDROID_NS, "endX")?.toFloat() ?: 0f,
-        attributeOrNull(ANDROID_NS, "endY")?.toFloat() ?: 0f
+        attributeOrNull(ANDROID_NS, "endY")?.toFloat() ?: 0f,
     ),
-    tileMode = attributeOrNull(ANDROID_NS, "tileMode")?.let(::parseTileMode) ?: TileMode.Clamp
+    tileMode = attributeOrNull(ANDROID_NS, "tileMode")?.let(::parseTileMode) ?: TileMode.Clamp,
 )
 
 private fun Element.parseRadialGradient() = Brush.radialGradient(
     colorStops = parseColorStops(),
     center = Offset(
         attributeOrNull(ANDROID_NS, "centerX")?.toFloat() ?: 0f,
-        attributeOrNull(ANDROID_NS, "centerY")?.toFloat() ?: 0f
+        attributeOrNull(ANDROID_NS, "centerY")?.toFloat() ?: 0f,
     ),
     radius = attributeOrNull(ANDROID_NS, "gradientRadius")?.toFloat() ?: 0f,
-    tileMode = attributeOrNull(ANDROID_NS, "tileMode")?.let(::parseTileMode) ?: TileMode.Clamp
+    tileMode = attributeOrNull(ANDROID_NS, "tileMode")?.let(::parseTileMode) ?: TileMode.Clamp,
 )
 
 private fun Element.parseSweepGradient() = Brush.sweepGradient(
@@ -182,7 +181,7 @@ private fun Element.parseSweepGradient() = Brush.sweepGradient(
     center = Offset(
         attributeOrNull(ANDROID_NS, "centerX")?.toFloat() ?: 0f,
         attributeOrNull(ANDROID_NS, "centerY")?.toFloat() ?: 0f,
-    )
+    ),
 )
 
 private fun Element.parseColorStops(): Array<Pair<Float, Color>> {
@@ -249,7 +248,7 @@ private fun Element.apptAttr(
         .filterIsInstance<Element>()
         .find {
             it.namespaceURI == AAPT_NS && it.localName == "attr" &&
-                    it.getAttribute("name") == "$prefix:$name"
+                it.getAttribute("name") == "$prefix:$name"
         }
 }
 

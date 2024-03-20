@@ -14,7 +14,6 @@ internal class ExamRepository(
     private val driver: SqlDriver,
 ) : IExamRepository {
 
-
     override fun getAllWithSub(): Flow<List<ExamWithSub>> {
         return iExamDao
             .getAllWithSub()
@@ -57,7 +56,6 @@ internal class ExamRepository(
         }
     }
 
-
     override suspend fun insertExam(exam: Exam) {
         iExamDao.insert(exam)
     }
@@ -66,7 +64,6 @@ internal class ExamRepository(
         iExamDao.delete(examId)
     }
 
-
     override suspend fun updateExam(exam: Exam) {
         iExamDao.update(exam)
     }
@@ -74,6 +71,4 @@ internal class ExamRepository(
     override fun getExamBySubjectId(subId: Long): Flow<List<ExamWithSub>> {
         return iExamDao.getAllBySubjectIdWithSub(subId)
     }
-
-
 }

@@ -10,7 +10,6 @@ import kotlinx.coroutines.withContext
 
 class Converter {
 
-
     suspend fun textToTopic(
         path: String,
         subjectId: Long,
@@ -22,13 +21,11 @@ class Converter {
                 .map {
                     Topic(
                         subjectId = subjectId,
-                        name = it
+                        name = it,
                     )
                 }
-
         }
     }
-
 
     suspend fun textToInstruction(
         path: String,
@@ -37,13 +34,12 @@ class Converter {
         return withContext(Dispatchers.IO) {
             path
                 .split(Regex("\\s*\\*\\s*"))
-
                 .filter { it.isNotBlank() }
                 .map {
                     Instruction(
                         examId = examId,
                         title = null,
-                        content = listOf(itemise(it))
+                        content = listOf(itemise(it)),
                     )
                 }
         }
@@ -56,7 +52,6 @@ class Converter {
         nextTheoryNumber: Long,
     ): List<QuestionFull> {
         return withContext(Dispatchers.IO) {
-
             val list = mutableListOf<QuestionFull>()
             var options = mutableListOf<String>()
             var answer: String? = null
@@ -84,8 +79,8 @@ class Converter {
                                             theoryNo = thrNo,
                                             content = question!!,
                                             examId = examId,
-                                            answer = answer ?: ""
-                                        )
+                                            answer = answer ?: "",
+                                        ),
                                     )
 
                                     thrNo += 1
@@ -95,8 +90,8 @@ class Converter {
                                             questionNos = objNo,
                                             content = question!!,
                                             examId = examId,
-                                            options = options
-                                        )
+                                            options = options,
+                                        ),
                                     )
                                     objNo += 1
                                 }
@@ -106,7 +101,6 @@ class Converter {
                                 options = mutableListOf()
                             }
                             question = pair.second
-
                         }
 
                         "o" -> {
@@ -129,8 +123,8 @@ class Converter {
                             theoryNo = thrNo,
                             content = question!!,
                             examId = examId,
-                            answer = answer ?: ""
-                        )
+                            answer = answer ?: "",
+                        ),
                     )
                 } else {
                     list.add(
@@ -138,18 +132,15 @@ class Converter {
                             questionNos = objNo,
                             content = question!!,
                             examId = examId,
-                            options = options
-                        )
+                            options = options,
+                        ),
                     )
                 }
-
-
             }
 
             list
         }
     }
-
 
     private fun convertObj(
         questionNos: Long,
@@ -164,7 +155,7 @@ class Converter {
                     questionId = questionNos,
                     examId = examId,
                     content = listOf(itemise(s)),
-                    isAnswer = false
+                    isAnswer = false,
                 )
             }
 
@@ -176,9 +167,8 @@ class Converter {
             isTheory = opti.isEmpty(),
             answer = null,
             instruction = null,
-            topic = null
+            topic = null,
         )
-
     }
 
     private fun convertThe(
@@ -187,7 +177,6 @@ class Converter {
         examId: Long,
         answer: String,
     ): QuestionFull {
-
         return QuestionFull(
             nos = theoryNo,
             examId = examId,
@@ -196,14 +185,11 @@ class Converter {
             isTheory = true,
             answer = listOf(itemise(answer)),
             instruction = null,
-            topic = null
+            topic = null,
         )
-
     }
 
     private fun itemise(string: String): Item {
         return Item(content = string)
     }
-
-
 }

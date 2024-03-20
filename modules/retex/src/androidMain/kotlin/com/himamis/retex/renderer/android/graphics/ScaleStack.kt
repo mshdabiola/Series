@@ -73,8 +73,10 @@ class ScaleStack {
         val scaledWidth = Math.round(scaleX(bitmap!!.width.toFloat()))
         val scaledHeight = Math.round(scaleY(bitmap.height.toFloat()))
         return Bitmap.createScaledBitmap(
-            bitmap, scaledWidth, scaledHeight,
-            false
+            bitmap,
+            scaledWidth,
+            scaledHeight,
+            false,
         )
     }
 }

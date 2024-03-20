@@ -14,4 +14,4 @@ data class QuestionUiState(
     val instructionUiState: InstructionUiState? = null,
     val topicUiState: TopicUiState? = null,
 
-    )
+)

@@ -19,19 +19,17 @@ internal class ExamDao(
 ) : IExamDao {
     override suspend fun insert(exam: Exam) {
         withContext(coroutineDispatcher) {
-            if (exam.id == -1L)
+            if (exam.id == -1L) {
                 examQueries.insert(exam.toEntity())
-            else {
+            } else {
                 val entity = exam.toEntity()
                 examQueries.update(
                     subjectId = entity.subjectId,
                     year = entity.year,
                     examTime = entity.examTime,
-                    id = entity.id
+                    id = entity.id,
                 )
-
             }
-
         }
     }
 
@@ -41,7 +39,7 @@ internal class ExamDao(
                 subjectId = exam.subjectID,
                 year = exam.year,
                 examTime = exam.examTime,
-                id = exam.id
+                id = exam.id,
             )
         }
     }
@@ -67,11 +65,10 @@ internal class ExamDao(
                         year = it.year,
                         isObjOnly = it.isObjOnly == 0L,
                         subject = it.name,
-                        examTime = it.examTime
+                        examTime = it.examTime,
                     )
                 }
             }
-
     }
 
     override fun getAllBySubjectIdWithSub(subjectID: Long): Flow<List<ExamWithSub>> {
@@ -87,18 +84,16 @@ internal class ExamDao(
                         year = it.year,
                         isObjOnly = it.isObjOnly == 0L,
                         subject = it.name,
-                        examTime = it.examTime
+                        examTime = it.examTime,
                     )
                 }
             }
-
     }
 
     override suspend fun deleteAll() {
         withContext(coroutineDispatcher) {
             examQueries.deleteAll()
         }
-
     }
 
     override suspend fun updateType(id: Long, isOnlyObj: Boolean) {

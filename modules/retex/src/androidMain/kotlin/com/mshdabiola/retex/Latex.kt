@@ -60,41 +60,40 @@ actual fun Latex(
             if (FactoryProvider.getInstance() == null) {
                 FactoryProvider.setInstance(
                     FactoryProviderAndroid(
-                        context.assets
-                    )
+                        context.assets,
+                    ),
                 )
             }
             val size2 = size * con.fontScale * density.density
             val formula = TeXFormula(text)
 
-            image = (formula.createBufferedImage(
-                style.value, type.value,
-                size2, textColor.toPaintColor(), backgroundColor.toPaintColor()
-            ) as ImageA).bitmap
+            image = (
+                formula.createBufferedImage(
+                    style.value,
+                    type.value,
+                    size2,
+                    textColor.toPaintColor(),
+                    backgroundColor.toPaintColor(),
+                ) as ImageA
+                ).bitmap
         } catch (e: Exception) {
             error = e.message
             image = null
         }
-
     }
-
-
 
     image?.let {
         Image(
             modifier = modifier.horizontalScroll(rememberScrollState()),
             bitmap = it,
-            contentDescription = ""
+            contentDescription = "",
         )
     }
 
     error?.let {
         Text(it, color = MaterialTheme.colorScheme.error)
     }
-
-
 }
-
 
 fun Color.toPaintColor(): com.himamis.retex.renderer.share.platform.graphics.Color {
     return ColorA(toArgb())

@@ -41,7 +41,6 @@ actual fun ImageUi(
     contentDescription: String,
     contentScale: ContentScale,
 ) {
-
     val file = remember(path) {
         File(path)
     }
@@ -51,18 +50,16 @@ actual fun ImageUi(
             modifier = modifier,
             path = path,
             contentDescription = contentDescription,
-            contentScale = contentScale
+            contentScale = contentScale,
         )
     } else {
         BitmapImage(
             modifier = modifier,
             path = path,
             contentDescription = contentDescription,
-            contentScale = contentScale
+            contentScale = contentScale,
         )
     }
-
-
 }
 
 @Composable
@@ -80,31 +77,26 @@ fun VectorImage(
 
     LaunchedEffect(key1 = path, block = {
         try {
-
-
             val instream = context.assets.open(path)
             image = instream.buffered().use {
                 com.mshdabiola.ui.loadXmlImageVector(
                     InputSource(it),
-                    density
+                    density,
                 )
             }
-
         } catch (e: Exception) {
             Timber.e(e)
         }
     })
-
 
     if (image != null) {
         Image(
             modifier = modifier,
             imageVector = image!!,
             contentDescription = contentDescription,
-            contentScale = contentScale
+            contentScale = contentScale,
         )
     }
-
 }
 
 @Composable
@@ -121,23 +113,20 @@ fun BitmapImage(
 
     LaunchedEffect(key1 = path, block = {
         try {
-
             image = BitmapFactory
                 .decodeStream(context.assets.open(path))
                 .asImageBitmap()
-
         } catch (e: Exception) {
             Timber.e(e)
         }
     })
-
 
     if (image != null) {
         Image(
             modifier = modifier,
             bitmap = image!!,
             contentDescription = contentDescription,
-            contentScale = contentScale
+            contentScale = contentScale,
         )
     }
 }
@@ -150,51 +139,57 @@ internal actual fun QuestionUiPreview() {
         nos = 1,
         examId = 1,
         content = listOf(
-            ItemUiState(content = "What is your name")
+            ItemUiState(content = "What is your name"),
         )
             .toImmutableList(),
         options = listOf(
             OptionUiState(
-                id = 1, nos = 1, content = listOf(
-                    ItemUiState(
-                        content = "Isabelle"
-                    )
-                ).toImmutableList(),
-                isAnswer = false
-            ),
-            OptionUiState(
-                id = 2, nos = 2,
-                content = listOf(
-                    ItemUiState(
-                        content = "Isabelle"
-                    )
-                ).toImmutableList(),
-                isAnswer = false,
-            ),
-            OptionUiState(
-                id = 3, nos = 3, content = listOf(
-                    ItemUiState(
-                        content = "Isabelle"
-                    )
-                ).toImmutableList(),
-                isAnswer = false
-            ),
-            OptionUiState(
-                id = 4, nos = 4,
+                id = 1,
+                nos = 1,
                 content = listOf(
                     ItemUiState(
                         content = "Isabelle",
-                    )
+                    ),
                 ).toImmutableList(),
                 isAnswer = false,
-            )
+            ),
+            OptionUiState(
+                id = 2,
+                nos = 2,
+                content = listOf(
+                    ItemUiState(
+                        content = "Isabelle",
+                    ),
+                ).toImmutableList(),
+                isAnswer = false,
+            ),
+            OptionUiState(
+                id = 3,
+                nos = 3,
+                content = listOf(
+                    ItemUiState(
+                        content = "Isabelle",
+                    ),
+                ).toImmutableList(),
+                isAnswer = false,
+            ),
+            OptionUiState(
+                id = 4,
+                nos = 4,
+                content = listOf(
+                    ItemUiState(
+                        content = "Isabelle",
+                    ),
+                ).toImmutableList(),
+                isAnswer = false,
+            ),
         ).toImmutableList(),
         instructionUiState = InstructionUiState(
             id = 1,
             examId = 3,
             title = "What",
-            content = listOf(ItemUiState()).toImmutableList()
-        )
+            content = listOf(ItemUiState()).toImmutableList(),
+        ),
     )
     QuestionUi(
         number = 1,
@@ -205,44 +200,50 @@ internal actual fun QuestionUiPreview() {
 @Preview
 @Composable
 internal actual fun OptionsUiPreview() {
-
     OptionsUi(
         optionUiStates = listOf(
             OptionUiState(
-                id = 1, nos = 1,
+                id = 1,
+                nos = 1,
                 content = listOf(
-                    ItemUiState(
-                        content = "Isabelle"
-                    )
-                ).toImmutableList(),
-                isAnswer = false,
-            ),
-            OptionUiState(
-                id = 2, nos = 2, content = listOf(
-                    ItemUiState(
-                        content = "Isabelle"
-                    )
-                ).toImmutableList(),
-                isAnswer = false
-            ),
-            OptionUiState(
-                id = 3, nos = 3,
-                content = listOf(
-                    ItemUiState(
-                        content = "Isabelle"
-                    )
-                ).toImmutableList(),
-                isAnswer = false,
-            ),
-            OptionUiState(
-                id = 4, nos = 4, content = listOf(
                     ItemUiState(
                         content = "Isabelle",
-                    )
+                    ),
                 ).toImmutableList(),
-                isAnswer = false
-            )
-        ).toImmutableList(), examId = 4
+                isAnswer = false,
+            ),
+            OptionUiState(
+                id = 2,
+                nos = 2,
+                content = listOf(
+                    ItemUiState(
+                        content = "Isabelle",
+                    ),
+                ).toImmutableList(),
+                isAnswer = false,
+            ),
+            OptionUiState(
+                id = 3,
+                nos = 3,
+                content = listOf(
+                    ItemUiState(
+                        content = "Isabelle",
+                    ),
+                ).toImmutableList(),
+                isAnswer = false,
+            ),
+            OptionUiState(
+                id = 4,
+                nos = 4,
+                content = listOf(
+                    ItemUiState(
+                        content = "Isabelle",
+                    ),
+                ).toImmutableList(),
+                isAnswer = false,
+            ),
+        ).toImmutableList(),
+        examId = 4,
     )
 }
 
@@ -255,6 +256,6 @@ internal actual fun QuestionHeadUiPreview() {
         content = listOf(ItemUiState("What is you name")).toImmutableList(),
         isInstruction = true,
         examID = 4,
-        instructionTitle = "Passage"
+        instructionTitle = "Passage",
     )
 }

@@ -6,5 +6,5 @@ enum class LatexType(val value: Int) {
     BOLD(2),
     ITALIC(4),
     ROMAN(8),
-    TYPEWRITER(16)
+    TYPEWRITER(16),
 }

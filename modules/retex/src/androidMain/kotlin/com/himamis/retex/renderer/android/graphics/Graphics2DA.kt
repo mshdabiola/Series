@@ -97,10 +97,14 @@ class Graphics2DA() : Graphics2DInterface {
     override fun getStroke(): Stroke? {
         return if (mStroke != null) {
             mStroke
-        } else BasicStrokeA(
-            mDrawPaint.strokeWidth.toDouble(), mDrawPaint.strokeMiter.toDouble(),
-            mDrawPaint.strokeCap, mDrawPaint.strokeJoin
-        )
+        } else {
+            BasicStrokeA(
+                mDrawPaint.strokeWidth.toDouble(),
+                mDrawPaint.strokeMiter.toDouble(),
+                mDrawPaint.strokeCap,
+                mDrawPaint.strokeJoin,
+            )
+        }
     }
 
     override fun setStroke(stroke: Stroke) {
@@ -170,8 +174,10 @@ class Graphics2DA() : Graphics2DInterface {
         val rect = (rectangle as RoundRectangle2DA).rectF
         val copy = RectF(rect)
         mCanvas!!.drawRoundRect(
-            mScaleStack.scaleRectF(copy), mScaleStack.scaleX(rectangle.getArcW().toFloat()),
-            mScaleStack.scaleY(rectangle.getArcH().toFloat()), mDrawPaint
+            mScaleStack.scaleRectF(copy),
+            mScaleStack.scaleX(rectangle.getArcW().toFloat()),
+            mScaleStack.scaleY(rectangle.getArcH().toFloat()),
+            mDrawPaint,
         )
     }
 
@@ -180,10 +186,13 @@ class Graphics2DA() : Graphics2DInterface {
         val start = impl.startPoint
         val end = impl.endPoint
         mCanvas!!.drawLine(
-            mScaleStack.scaleX(start!!.x), mScaleStack.scaleY(start.y), mScaleStack.scaleX(
-                end!!.x
+            mScaleStack.scaleX(start!!.x),
+            mScaleStack.scaleY(start.y),
+            mScaleStack.scaleX(
+                end!!.x,
             ),
-            mScaleStack.scaleY(end.y), mDrawPaint
+            mScaleStack.scaleY(end.y),
+            mDrawPaint,
         )
     }
 
@@ -196,7 +205,7 @@ class Graphics2DA() : Graphics2DInterface {
             length,
             mScaleStack.scaleX(x.toFloat()),
             mScaleStack.scaleY(y.toFloat()),
-            mDrawPaint
+            mDrawPaint,
         )
         afterFill()
     }
@@ -208,7 +217,7 @@ class Graphics2DA() : Graphics2DInterface {
             text!!,
             mScaleStack.scaleX(x.toFloat()),
             mScaleStack.scaleY(y.toFloat()),
-            paint
+            paint,
         )
     }
 
@@ -219,7 +228,7 @@ class Graphics2DA() : Graphics2DInterface {
             startAngle.toFloat(),
             arcAngle.toFloat(),
             false,
-            mDrawPaint
+            mDrawPaint,
         )
     }
 
@@ -257,7 +266,7 @@ class Graphics2DA() : Graphics2DInterface {
             mScaleStack.scaleBitmap(bitmap.asAndroidBitmap()),
             mScaleStack.scaleX(x.toFloat()),
             mScaleStack.scaleY(y.toFloat()),
-            mDrawPaint
+            mDrawPaint,
         )
     }
 
@@ -267,7 +276,7 @@ class Graphics2DA() : Graphics2DInterface {
         mCanvas!!.drawBitmap(
             mScaleStack.scaleBitmap(bitmap.asAndroidBitmap()),
             (transform as Matrix),
-            mDrawPaint
+            mDrawPaint,
         )
     }
 

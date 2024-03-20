@@ -1,7 +1,7 @@
 package com.mshdabiola.data.repository.inter
 
-//interface INetworkRepository {
+// interface INetworkRepository {
 //    suspend fun get()
 //
 //    suspend fun gotoGoogle(): String
-//}
+// }
