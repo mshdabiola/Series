@@ -1,8 +1,6 @@
 package com.mshdabiola.setting.di
 
 import android.content.Context
-import com.mshdabiola.setting.createDataStore
-import com.mshdabiola.setting.dataStoreFileName
 import com.russhwolf.settings.ExperimentalSettingsApi
 import com.russhwolf.settings.ExperimentalSettingsImplementation
 import com.russhwolf.settings.coroutines.FlowSettings
