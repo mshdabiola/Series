@@ -1,0 +1,6 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="modules_ui_cbt_type">Waec Series</string>
+    <string name="modules_ui_cbt_subject">Physics</string>
+    <string name="modules_ui_cbt_leaderboard_ranks" translatable="false" tools:ignore="ExtraTranslation">CgkI_8Pjz6gXEAIQAg</string>
+
+</resources>
