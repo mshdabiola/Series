@@ -28,14 +28,12 @@ internal class MultiplatformSettingsImpl(
     private val settings: FlowSettings,
     private val coroutineDispatcher: CoroutineDispatcher,
 ) : MultiplatformSettings {
-    private val nameKey="name"
-    private val dummyKey="dummy"
     private val userKey="userKey"
 
 
-    val instructionKey = "instruction"
-    val questionKey = "question"
-    val currentExamKey = "currentExam"
+    private val instructionKey = "instruction"
+    private val questionKey = "question"
+    private val currentExamKey = "currentExam"
 
     override val userData: Flow<UserData>
         get() = settings.getStringOrNullFlow(userKey) .map {
