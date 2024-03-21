@@ -200,11 +200,11 @@ compose.desktop {
             version.set("7.3.0")
         }
 
-        val iconsRoot = project.file("src/main/composeResources/drawable/launcher")
+        val iconsRoot = project.file("src/commonMain/composeResources/drawable/launcher")
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
             packageVersion = "1.0.0"
-            packageName = "Series"
+            packageName = "Series Cbt"
             description = "For setting question"
             copyright = "© 2022 Mshdabiola. All rights reserved."
             vendor = "Mshdabiola App"
@@ -250,7 +250,7 @@ compose.experimental {
 baselineProfile {
     // Don't build on every iteration of a full assemble.
     // Instead enable generation directly for the release build variant.
-    automaticGenerationDuringBuild = true
+    automaticGenerationDuringBuild = false
 }
 
 dependencyGuard {

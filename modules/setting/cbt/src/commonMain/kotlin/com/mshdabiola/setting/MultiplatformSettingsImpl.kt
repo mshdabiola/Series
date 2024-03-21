@@ -1,14 +1,15 @@
 package com.mshdabiola.setting
 
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.core.edit
-import androidx.datastore.preferences.core.stringPreferencesKey
 import com.mshdabiola.model.Contrast
 import com.mshdabiola.model.DarkThemeConfig
 import com.mshdabiola.model.ThemeBrand
 import com.mshdabiola.model.UserData
 import com.mshdabiola.model.data.CurrentExam
+import com.mshdabiola.model.data.UserDataSer
+import com.mshdabiola.model.data.toData
+import com.mshdabiola.model.data.toSer
+import com.russhwolf.settings.ExperimentalSettingsApi
+import com.russhwolf.settings.coroutines.FlowSettings
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -19,18 +20,19 @@ import kotlinx.coroutines.withContext
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
+@OptIn(ExperimentalSettingsApi::class)
 internal class MultiplatformSettingsImpl(
-    private val settings: DataStore<Preferences>,
+    private val settings: FlowSettings,
     private val coroutineDispatcher: CoroutineDispatcher,
 ) : MultiplatformSettings {
-    private val currentExamKey = stringPreferencesKey("currentKey")
-    private val userDataKey = stringPreferencesKey("UserData")
+    private val userKey="userKey"
+    private val currentExamKey = "currentExam"
 
     override val userData: Flow<UserData>
-        get() = settings.data.map {
-            val userData = it[userDataKey]
-            if (userData != null) {
-                Json.decodeFromString<UserDataSer>(userData).toData()
+        get() = settings.getStringOrNullFlow(userKey) .map {
+
+            if (it != null) {
+                Json.decodeFromString<UserDataSer>(it).toData()
             } else {
                 UserData(
                     themeBrand = ThemeBrand.DEFAULT,
@@ -42,57 +44,57 @@ internal class MultiplatformSettingsImpl(
             }
         }
 
-    override suspend fun setCurrentExam(currentExam: CurrentExam) {
-        withContext(Dispatchers.IO) {
-            settings.edit {
-                val crString = Json.encodeToString(CurrentExam.serializer(), currentExam)
-                it[currentExamKey] = crString
-            }
+
+override suspend fun setCurrentExam(currentExam: CurrentExam) {
+    withContext(Dispatchers.IO) {
+        val crString = Json.encodeToString(CurrentExam.serializer(), currentExam)
+
+        settings.putString(currentExamKey,crString)
+    }
+}
+
+override suspend fun getCurrentExam(): CurrentExam? {
+    val list = settings.getStringOrNullFlow(currentExamKey).map {crString->
+        if (crString == null) {
+            null
+        } else {
+            Json.decodeFromString(CurrentExam.serializer(), crString)
         }
     }
-
-    override suspend fun getCurrentExam(): CurrentExam? {
-        val list = settings.data.map {
-            val crString = it[currentExamKey]
-            if (crString == null) {
-                null
-            } else {
-                Json.decodeFromString(CurrentExam.serializer(), crString)
-            }
-        }
 //        val list = settings
 //            .toBlockingSettings()
 //            .decodeValueOrNull(ListSerializer(CurrentExam.serializer()), Keys.currentExamKey)
-        return list.firstOrNull()
-    }
+    return list.firstOrNull()
+}
+
 
     override suspend fun setThemeBrand(themeBrand: ThemeBrand) {
         val userData = userData.first().copy(themeBrand = themeBrand)
         val userDataStr = Json.encodeToString(userData.toSer())
-        settings.edit { it[userDataKey] = userDataStr }
+        settings.putString(userKey,userDataStr)
     }
 
     override suspend fun setThemeContrast(contrast: Contrast) {
         val userData = userData.first().copy(contrast = contrast)
         val userDataStr = Json.encodeToString(userData.toSer())
-        settings.edit { it[userDataKey] = userDataStr }
+        settings.putString(userKey,userDataStr)
     }
 
     override suspend fun setDynamicColorPreference(useDynamicColor: Boolean) {
         val userData = userData.first().copy(useDynamicColor = useDynamicColor)
         val userDataStr = Json.encodeToString(userData.toSer())
-        settings.edit { it[userDataKey] = userDataStr }
+        settings.putString(userKey,userDataStr)
     }
 
     override suspend fun setDarkThemeConfig(darkThemeConfig: DarkThemeConfig) {
         val userData = userData.first().copy(darkThemeConfig = darkThemeConfig)
         val userDataStr = Json.encodeToString(userData.toSer())
-        settings.edit { it[userDataKey] = userDataStr }
+        settings.putString(userKey,userDataStr)
     }
 
     override suspend fun setShouldHideOnboarding(shouldHideOnboarding: Boolean) {
         val userData = userData.first().copy(shouldHideOnboarding = shouldHideOnboarding)
         val userDataStr = Json.encodeToString(userData.toSer())
-        settings.edit { it[userDataKey] = userDataStr }
+        settings.putString(userKey,userDataStr)
     }
 }

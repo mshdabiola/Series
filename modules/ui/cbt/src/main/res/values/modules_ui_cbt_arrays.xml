@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string-array name="exam_part">
+    <string-array name="modules_ui_cbt_exam_part">
         <item>Obj &amp; Theory</item>
         <item>Objective</item>
         <item>Theory</item>

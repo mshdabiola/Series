@@ -40,5 +40,5 @@ internal actual fun ContinueCardPreview() {
 @Preview
 @Composable
 internal actual fun OtherCardPreview() {
-    OtherCard("OTherr", painter = painterResource(R.drawable.aaa))
+    OtherCard("OTherr", painter = painterResource(R.drawable.modules_ui_cbt_aaa))
 }

@@ -43,7 +43,7 @@ import kotlin.coroutines.suspendCoroutine
 actual fun Leaderboard(getRank: (ImmutableList<UserRank>) -> Unit) {
     val activity = LocalContext.current as Activity
     val leaderboardsClient = PlayGames.getLeaderboardsClient(activity)
-    val id = stringResource(id = R.string.leaderboard_ranks)
+    val id = stringResource(id = R.string.modules_ui_cbt_leaderboard_ranks)
 
     LaunchedEffect(key1 = Unit) {
         leaderboardsClient.loadTopScores(
@@ -135,7 +135,7 @@ suspend fun loadImage(context: Context, path: String?) = suspendCoroutine {
 actual fun MoreRankButton(modifier: Modifier) {
     val activity = LocalContext.current as Activity
     val leaderboardsClient = PlayGames.getLeaderboardsClient(activity)
-    val id = stringResource(id = R.string.leaderboard_ranks)
+    val id = stringResource(id = R.string.modules_ui_cbt_leaderboard_ranks)
 
     TextButton(onClick = {
         try {
