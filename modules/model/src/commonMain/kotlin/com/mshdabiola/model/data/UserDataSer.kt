@@ -2,7 +2,7 @@
  *abiola 2024
  */
 
-package com.mshdabiola.setting.model
+package com.mshdabiola.model.data
 
 import com.mshdabiola.model.Contrast
 import com.mshdabiola.model.DarkThemeConfig
