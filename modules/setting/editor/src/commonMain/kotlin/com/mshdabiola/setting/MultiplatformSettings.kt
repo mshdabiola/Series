@@ -11,10 +11,8 @@ import kotlinx.coroutines.flow.Flow
 
 interface MultiplatformSettings {
 
-    val name: Flow<String>
     val userData: Flow<UserData>
 
-    suspend fun setName(name: String)
 
     suspend fun setCurrentInstruction(instruction: Instruction)
 
