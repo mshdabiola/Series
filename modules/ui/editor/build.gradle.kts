@@ -24,6 +24,7 @@ kotlin {
 
                 implementation(project(":modules:navigation:editor"))
                 implementation(libs.koin.core)
+                api(libs.calf.filepicker)
 
                 implementation(libs.decompose.core)
                 implementation(libs.decompose.compose.jetbrains)

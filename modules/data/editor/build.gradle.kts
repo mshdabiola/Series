@@ -20,6 +20,7 @@ kotlin {
                 implementation(project(":modules:database"))
                 implementation(project(":modules:setting:editor"))
                 implementation(libs.kotlinx.coroutines.core)
+                implementation(libs.generativeai.google)
                 // implementation(project(":modules:svgtovector"))
             }
         }

@@ -94,6 +94,8 @@ compose = "1.6.1"
 
 
 androidSvg = "1.4"
+generativeai = "0.2.2-1.0.0"
+calf = "0.4.0"
 
 
 
@@ -236,6 +238,8 @@ android-tools-common = { group = "com.android.tools", name = "common", version.r
 compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose" }
 compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "compose" }
 android-svg-arr = { module = "com.caverock:androidsvg-aar", version.ref = "androidSvg" }
+generativeai-google = { module = "dev.shreyaspatil.generativeai:generativeai-google", version.ref = "generativeai" }
+calf-filepicker = { module = "com.mohamedrejeb.calf:calf-file-picker", version.ref = "calf" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
