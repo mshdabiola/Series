@@ -3,7 +3,7 @@ package com.mshdabiola.setting
 import com.mshdabiola.model.Contrast
 import com.mshdabiola.model.DarkThemeConfig
 import com.mshdabiola.model.ThemeBrand
-import com.mshdabiola.model.UserData
+import com.mshdabiola.model.data.UserData
 import com.mshdabiola.model.data.CurrentExam
 import kotlinx.coroutines.flow.Flow
 

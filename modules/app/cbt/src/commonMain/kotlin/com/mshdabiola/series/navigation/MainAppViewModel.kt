@@ -5,7 +5,7 @@
 package com.mshdabiola.series.navigation
 
 import com.mshdabiola.data.repository.UserDataRepository
-import com.mshdabiola.model.UserData
+import com.mshdabiola.model.data.UserData
 import com.mshdabiola.mvvn.ViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow

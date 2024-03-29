@@ -3,13 +3,10 @@ package com.mshdabiola.setting
 import com.mshdabiola.model.Contrast
 import com.mshdabiola.model.DarkThemeConfig
 import com.mshdabiola.model.ThemeBrand
-import com.mshdabiola.model.UserData
 import com.mshdabiola.model.data.CurrentExam
 import com.mshdabiola.model.data.Instruction
 import com.mshdabiola.model.data.QuestionFull
-import com.mshdabiola.model.data.UserDataSer
-import com.mshdabiola.model.data.toData
-import com.mshdabiola.model.data.toSer
+import com.mshdabiola.model.data.UserData
 import com.russhwolf.settings.ExperimentalSettingsApi
 import com.russhwolf.settings.coroutines.FlowSettings
 import kotlinx.coroutines.CoroutineDispatcher
@@ -39,7 +36,7 @@ internal class MultiplatformSettingsImpl(
         get() = settings.getStringOrNullFlow(userKey) .map {
 
             if (it != null) {
-                Json.decodeFromString<UserDataSer>(it).toData()
+                Json.decodeFromString<UserData>(it)
             } else {
                 UserData(
                     themeBrand = ThemeBrand.DEFAULT,
@@ -178,31 +175,31 @@ internal class MultiplatformSettingsImpl(
     }
     override suspend fun setThemeBrand(themeBrand: ThemeBrand) {
         val userData = userData.first().copy(themeBrand = themeBrand)
-        val userDataStr = Json.encodeToString(userData.toSer())
+        val userDataStr = Json.encodeToString(userData)
         settings.putString(userKey,userDataStr)
     }
 
     override suspend fun setThemeContrast(contrast: Contrast) {
         val userData = userData.first().copy(contrast = contrast)
-        val userDataStr = Json.encodeToString(userData.toSer())
+        val userDataStr = Json.encodeToString(userData)
         settings.putString(userKey,userDataStr)
     }
 
     override suspend fun setDynamicColorPreference(useDynamicColor: Boolean) {
         val userData = userData.first().copy(useDynamicColor = useDynamicColor)
-        val userDataStr = Json.encodeToString(userData.toSer())
+        val userDataStr = Json.encodeToString(userData)
         settings.putString(userKey,userDataStr)
     }
 
     override suspend fun setDarkThemeConfig(darkThemeConfig: DarkThemeConfig) {
         val userData = userData.first().copy(darkThemeConfig = darkThemeConfig)
-        val userDataStr = Json.encodeToString(userData.toSer())
+        val userDataStr = Json.encodeToString(userData)
         settings.putString(userKey,userDataStr)
     }
 
     override suspend fun setShouldHideOnboarding(shouldHideOnboarding: Boolean) {
         val userData = userData.first().copy(shouldHideOnboarding = shouldHideOnboarding)
-        val userDataStr = Json.encodeToString(userData.toSer())
+        val userDataStr = Json.encodeToString(userData)
         settings.putString(userKey,userDataStr)
     }
 }
