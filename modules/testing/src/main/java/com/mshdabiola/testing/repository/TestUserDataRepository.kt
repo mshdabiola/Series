@@ -8,7 +8,7 @@ package com.mshdabiola.testing.repository
 // import com.mshdabiola.model.Contrast
 // import com.mshdabiola.model.DarkThemeConfig
 // import com.mshdabiola.model.ThemeBrand
-// import com.mshdabiola.model.UserData
+// import com.mshdabiola.model.data.UserData
 // import kotlinx.coroutines.channels.BufferOverflow.DROP_OLDEST
 // import kotlinx.coroutines.flow.Flow
 // import kotlinx.coroutines.flow.MutableSharedFlow

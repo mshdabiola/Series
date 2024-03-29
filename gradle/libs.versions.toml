@@ -1,5 +1,5 @@
 [versions]
-agp = "8.4.0-alpha10"
+agp = "8.5.0-alpha02"
 androidTools = "31.2.0"
 
 accompanist = "0.32.0"
