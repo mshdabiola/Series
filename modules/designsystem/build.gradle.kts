@@ -25,7 +25,10 @@ dependencies {
 
     debugApi(libs.androidx.compose.ui.tooling)
 
-    implementation(libs.coil.kt.compose)
+    api(libs.coil.kt.compose)
+    api(libs.coil.kt.svg)
+    api(libs.coil.kt)
+
 
     testImplementation(libs.androidx.compose.ui.test)
     testImplementation(libs.accompanist.testharness)

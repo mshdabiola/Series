@@ -24,6 +24,7 @@ kotlin {
 
                 implementation(project(":modules:designsystem"))
                 implementation(project(":modules:analytics"))
+                implementation(libs.calf.filepicker)
 
             }
         }
