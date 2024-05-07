@@ -29,7 +29,7 @@ class SQLiteCopyOpenHelper(
 
     private var verified = false
 
-    private val key = BuildConfig.store_key
+    private val key = "key"//BuildConfig.store_key
 //        if (BuildConfig.DEBUG)
 //        BuildConfig.store_key
 //    else

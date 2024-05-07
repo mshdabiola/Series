@@ -11,11 +11,11 @@ plugins {
     alias(libs.plugins.gms) apply false
     alias(libs.plugins.androidx.baselineprofile) apply false
     alias(libs.plugins.roborazzi) apply false
-
+    alias(libs.plugins.ksp) apply false
+    alias(libs.plugins.room) apply false
     alias(libs.plugins.kotlinMultiplatform) apply false
     alias(libs.plugins.jetbrainsCompose) apply false
-
-
+    alias(libs.plugins.compose.compiler) apply false
 }
 //./gradlew assembleDebug -PenableComposeCompilerReports=true
 // ./gradlew a

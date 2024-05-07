@@ -58,16 +58,16 @@ dependencies {
 }
 
 kotlin {
-    @OptIn(ExperimentalWasmDsl::class)
-    wasmJs {
-        moduleName = "composeApp"
-        browser {
-            commonWebpackConfig {
-                outputFileName = "composeApp.js"
-            }
-        }
-        binaries.executable()
-    }
+//    @OptIn(ExperimentalWasmDsl::class)
+//    wasmJs {
+//        moduleName = "composeApp"
+//        browser {
+//            commonWebpackConfig {
+//                outputFileName = "composeApp.js"
+//            }
+//        }
+//        binaries.executable()
+//    }
 
     androidTarget {
         compilations.all {
@@ -241,10 +241,10 @@ compose.desktop {
     }
 }
 
-
-compose.experimental {
-    web.application {}
-}
+//
+//compose.experimental {
+//    web.application {}
+//}
 
 
 baselineProfile {

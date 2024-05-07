@@ -21,6 +21,7 @@ kotlin {
                 implementation(project(":modules:mvvn"))
                 implementation(project(":modules:data:cbt"))
                 implementation(project(":modules:designsystem"))
+                api(compose.components.resources)
 
                 implementation(project(":modules:navigation:cbt"))
                 implementation(project(":modules:retex"))

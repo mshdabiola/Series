@@ -19,15 +19,20 @@ import com.mshdabiola.app.configureGradleManagedDevices
 import com.mshdabiola.app.libs
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.api.artifacts.VersionCatalogsExtension
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.dependencies
+import org.gradle.kotlin.dsl.getByType
 import org.gradle.kotlin.dsl.project
+import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 
 class AndroidFeatureConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
             pluginManager.apply {
                 apply("mshdabiola.android.library")
+                apply("mshdabiola.android.library.compose")
+                apply("mshdabiola.android.library.jacoco")
             }
             extensions.configure<LibraryExtension> {
                 defaultConfig {
@@ -38,18 +43,65 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
             }
 
             dependencies {
-                add("implementation", project(":modules:ui"))
-                add("implementation", project(":modules:designsystem"))
+                add("testImplementation", project(":modules:testing"))
+                add("androidTestImplementation", project(":modules:testing"))
 
-                add("implementation", libs.findLibrary("androidx.navigation.compose").get())
-
-                add("implementation", libs.findLibrary("androidx.hilt.navigation.compose").get())
-                add("implementation", libs.findLibrary("androidx.lifecycle.runtimeCompose").get())
-                add("implementation", libs.findLibrary("androidx.lifecycle.viewModelCompose").get())
-                add("debugImplementation", libs.findLibrary("androidx.monitor").get())
-
+                add("testImplementation", libs.findLibrary("robolectric").get())
 
             }
+
+            extensions.configure<KotlinMultiplatformExtension> {
+
+                val libs = extensions.getByType<VersionCatalogsExtension>().named("libs")
+                with(sourceSets) {
+
+                    getByName("commonMain") {
+                        this.dependencies {
+                            implementation(project(":modules:data"))
+
+                            implementation(project(":modules:mvvn"))
+                            implementation(project(":modules:ui"))
+
+                            implementation(project(":modules:designsystem"))
+                            implementation(project(":modules:analytics"))
+                        }
+
+                    }
+                    getByName("commonTest") {
+                        this.dependencies {
+
+                        }
+
+                    }
+                    getByName("androidMain") {
+                        this.dependencies {
+
+                        }
+
+                    }
+                    getByName("androidInstrumentedTest") {
+                        this.dependencies {
+//
+                        }
+
+                    }
+                    getByName("desktopMain") {
+                        this.dependencies {
+                            // implementation(libs.findLibrary("koin.core").get())
+
+                        }
+
+                    }
+                    getByName("desktopTest") {
+                        this.dependencies {
+
+                        }
+
+                    }
+                }
+
+            }
+
         }
     }
 }
