@@ -14,10 +14,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.mshdabiola.designsystem.icon.mainRoute
 import com.mshdabiola.detail.DetailRoute
-import com.mshdabiola.detail.DetailViewModel
-import com.mshdabiola.mvvn.KoinCommonViewModel
 import com.mshdabiola.ui.ScreenSize
-import org.koin.core.parameter.parameterSetOf
 
 val DETAIL_ROUTE = mainRoute[1]
 
@@ -62,22 +59,17 @@ fun NavGraphBuilder.detailScreen(
             slideOutOfContainer(towards = AnimatedContentTransitionScope.SlideDirection.Right)
         },
     ) { backStack ->
-        val id1 = backStack.arguments?.getLong(DETAIL_ID_ARG)
-        val id2 = backStack.arguments?.getLong(DETAIL_ID_ARG2)
+        val examId = backStack.arguments?.getLong(DETAIL_ID_ARG)
+        val subjectId = backStack.arguments?.getLong(DETAIL_ID_ARG2)
 
-        val viewModel: DetailViewModel = KoinCommonViewModel(
-            parameters = {
-                parameterSetOf(
-                    id1, id2
-                )
-            },
-        )
+
 
         DetailRoute(
             screenSize = screenSize,
             onShowSnackbar = onShowSnack,
             onBack = onBack,
-            viewModel = viewModel,
+           examId = examId ?: 4,
+            subjectId = subjectId ?:5
         )
     }
 }

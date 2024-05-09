@@ -67,6 +67,12 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import com.mshdabiola.designsystem.component.DetailTopAppBar
 import com.mshdabiola.designsystem.component.SkTextField
+import com.mshdabiola.detail.instruction.InstructionContent
+import com.mshdabiola.detail.instruction.InstructionRoute
+import com.mshdabiola.detail.question.ExamContent
+import com.mshdabiola.detail.question.QuestionRoute
+import com.mshdabiola.detail.topic.TopicContent
+import com.mshdabiola.detail.topic.TopicRoute
 import com.mshdabiola.model.data.Type
 import com.mshdabiola.ui.CommonScreen2
 import com.mshdabiola.ui.ScreenSize
@@ -89,74 +95,75 @@ import kotlinx.coroutines.launch
 @Composable
 internal fun DetailRoute(
     screenSize: ScreenSize,
-
+    examId:Long,
+    subjectId:Long,
     onShowSnackbar: suspend (String, String?) -> Boolean,
     onBack: () -> Unit,
-    modifier: Modifier = Modifier,
-    viewModel: DetailViewModel,
 ) {
-    ExamScreen(onBack, screenSize, viewModel)
+    ExamScreen(examId,subjectId,screenSize,onBack)
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
-@VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-@Composable
-internal fun DetailScreen(
-    modifier: Modifier = Modifier,
-    title: String = "",
-    content: String = "",
-    screenSize: ScreenSize = ScreenSize.COMPACT,
+//@OptIn(ExperimentalMaterial3Api::class)
+//@VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+//@Composable
+//internal fun DetailScreen(
+//    modifier: Modifier = Modifier,
+//    title: String = "",
+//    content: String = "",
+//    screenSize: ScreenSize = ScreenSize.COMPACT,
+//
+//    onTitleChange: (String) -> Unit = {},
+//    onContentChange: (String) -> Unit = {},
+//    onShowSnackbar: suspend (String, String?) -> Boolean = { _, _ -> false },
+//    onBack: () -> Unit = {},
+//    onDelete: () -> Unit = {},
+//) {
+//    val coroutineScope = rememberCoroutineScope()
+//    Column(modifier) {
+//        DetailTopAppBar(
+//            onNavigationClick = onBack,
+//            onDeleteClick = onDelete,
+//        )
+//        SkTextField(
+//            modifier = Modifier
+//                .fillMaxWidth()
+//                .testTag("detail:title"),
+//            value = title,
+//            onValueChange = onTitleChange,
+//            placeholder = "Title",
+//            maxNum = 1,
+//            imeAction = ImeAction.Next,
+//        )
+//        SkTextField(
+//            modifier = Modifier
+//                .fillMaxWidth()
+//                .testTag("detail:content")
+//                .weight(1f),
+//            value = content,
+//            onValueChange = onContentChange,
+//            placeholder = "content",
+//            imeAction = ImeAction.Done,
+//            keyboardAction = { coroutineScope.launch { onShowSnackbar("Note Update", null) } },
+//        )
+//    }
+//
+//    TrackScreenViewEvent(screenName = "Detail")
+//}
 
-    onTitleChange: (String) -> Unit = {},
-    onContentChange: (String) -> Unit = {},
-    onShowSnackbar: suspend (String, String?) -> Boolean = { _, _ -> false },
-    onBack: () -> Unit = {},
-    onDelete: () -> Unit = {},
-) {
-    val coroutineScope = rememberCoroutineScope()
-    Column(modifier) {
-        DetailTopAppBar(
-            onNavigationClick = onBack,
-            onDeleteClick = onDelete,
-        )
-        SkTextField(
-            modifier = Modifier
-                .fillMaxWidth()
-                .testTag("detail:title"),
-            value = title,
-            onValueChange = onTitleChange,
-            placeholder = "Title",
-            maxNum = 1,
-            imeAction = ImeAction.Next,
-        )
-        SkTextField(
-            modifier = Modifier
-                .fillMaxWidth()
-                .testTag("detail:content")
-                .weight(1f),
-            value = content,
-            onValueChange = onContentChange,
-            placeholder = "content",
-            imeAction = ImeAction.Done,
-            keyboardAction = { coroutineScope.launch { onShowSnackbar("Note Update", null) } },
-        )
-    }
-
-    TrackScreenViewEvent(screenName = "Detail")
-}
-
-@Composable
-private fun DetailScreenPreview() {
-    DetailScreen()
-}
+//
+//@Composable
+//private fun DetailScreenPreview() {
+//    DetailScreen()
+//}
 
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
 fun ExamScreen(
-    onBack: () -> Unit = {},
+    examId:Long,
+    subjectId:Long,
     screenSize: ScreenSize,
-    viewModel: DetailViewModel,
+    onBack: () -> Unit = {},
 
     ) {
 
@@ -198,13 +205,9 @@ fun ExamScreen(
         },
     ) { paddingValues ->
 
-        val questions = viewModel.questions
-        val instructionUiStates = viewModel.instructions
-        val topicUiStates = viewModel.topicUiStates
         var state by remember {
             mutableStateOf(0)
         }
-        val coroutineScope = rememberCoroutineScope()
         Column(Modifier.padding(paddingValues).fillMaxSize()) {
             TabRow(
                 selectedTabIndex = state,
@@ -239,517 +242,18 @@ fun ExamScreen(
             ) {
                 when (state) {
                     0 ->
-                        ExamContent(
-                            modifier = Modifier,
-                            questionUiState = viewModel.question.value,
-                            questions = questions.value,
-                            instructIdError = viewModel.instructIdError.value,
-                            topicUiStates = topicUiStates.value,
-                            examInputUiState = viewModel.examInputUiState.value,
-                            screenSize = screenSize,
-                            addUp = viewModel::addUP,
-                            addBottom = viewModel::addDown,
-                            moveUp = viewModel::moveUP,
-                            moveDown = viewModel::moveDown,
-                            edit = viewModel::edit,
-                            delete = viewModel::delete,
-                            changeType = viewModel::changeType,
-                            onTextChange = viewModel::onTextChange,
-                            onAddQuestion = viewModel::onAddQuestion,
-                            onAddOption = viewModel::addOption,
-                            onAddAnswer = viewModel::onAddAnswer,
-                            isTheory = viewModel::isTheory,
-                            onDeleteQuestion = viewModel::onDeleteQuestion,
-                            onUpdateQuestion = viewModel::onUpdateQuestion,
-                            onMoveDownQuestion = viewModel::onMoveDownQuestion,
-                            onMoveUpQuestion = viewModel::onMoveUpQuestion,
-                            onAnswer = viewModel::onAnswerClick,
-                            instructionIdChange = viewModel::onInstructionIdChange,
-                            onTopicSelect = viewModel::onTopicSelect,
-                            onAddExamInUiState = viewModel::onAddExamFromInput,
-                            onExamInputChange = viewModel::onExamInputChanged,
-                            show = show,
-                            onDismiss = onDismiss,
-                        )
-
+                     QuestionRoute(screenSize,examId,subjectId)
                     1 ->
-                        InstructionContent(
-                            instructionUiState = viewModel.instructionUiState.value,
-                            instructionUiStates = instructionUiStates.value,
-                            instruInputUiState = viewModel.instruInputUiState.value,
-                            screenSize = screenSize,
-                            onTitleChange = viewModel::instructionTitleChange,
-                            addUp = viewModel::addUpInstruction,
-                            addBottom = viewModel::addDownInstruction,
-                            delete = viewModel::deleteInstruction,
-                            moveUp = viewModel::moveUpInstruction,
-                            moveDown = viewModel::moveDownInstruction,
-                            edit = viewModel::editInstruction,
-                            changeType = viewModel::changeTypeInstruction,
-                            onTextChange = viewModel::onTextChangeInstruction,
-                            onAddInstruction = viewModel::onAddInstruction,
-                            onDeleteInstruction = viewModel::onDeleteInstruction,
-                            onUpdateInstruction = viewModel::onUpdateInstruction,
-                            onAddInstruInputUiState = viewModel::onAddInstruTopicFromInput,
-                            onInstruInputChange = viewModel::onInstuInputChanged,
-                            show = show,
-                            onDismiss = onDismiss,
-                        )
+                        InstructionRoute(screenSize,examId,subjectId)
+
 
                     else ->
-                        TopicContent(
-                            topicUiState = viewModel.topicUiState.value,
-                            topicUiStates = topicUiStates.value,
-                            topicInputUiState = viewModel.topicInputUiState.value,
-                            screenSize = screenSize,
-                            onAddTopic = viewModel::onAddTopic,
-                            onTopicChange = viewModel::onTopicChange,
-                            onDelete = viewModel::onDeleteTopic,
-                            onUpdate = viewModel::onUpdateTopic,
-                            onAddTopicInputUiState = viewModel::onAddTopicFromInput,
-                            onTopicInputChange = viewModel::onTopicInputChanged,
-                            show = show,
-                            onDismiss = onDismiss,
-                        )
+                        TopicRoute(screenSize,examId,subjectId)
+
                 }
             }
         }
     }
 }
 
-@OptIn(
-    ExperimentalFoundationApi::class,
-    ExperimentalLayoutApi::class,
-)
-@Composable
-fun ExamContent(
-    modifier: Modifier = Modifier,
-    questionUiState: QuestionUiState,
-    instructIdError: Boolean,
-    questions: ImmutableList<QuestionUiState>,
-    topicUiStates: ImmutableList<TopicUiState>,
-    examInputUiState: ExamInputUiState,
-    screenSize: ScreenSize,
-    show: Boolean = false,
-    addUp: (Int, Int) -> Unit = { _, _ -> },
-    addBottom: (Int, Int) -> Unit = { _, _ -> },
-    delete: (Int, Int) -> Unit = { _, _ -> },
-    moveUp: (Int, Int) -> Unit = { _, _ -> },
-    moveDown: (Int, Int) -> Unit = { _, _ -> },
-    edit: (Int, Int) -> Unit = { _, _ -> },
-    changeType: (Int, Int, Type) -> Unit = { _, _, _ -> },
-    onTextChange: (Int, Int, String) -> Unit = { _, _, _ -> },
-    onAddQuestion: () -> Unit = {},
-    onAddOption: () -> Unit = {},
-    onAddAnswer: (Boolean) -> Unit = {},
-    isTheory: (Boolean) -> Unit = {},
-    onUpdateQuestion: (Long) -> Unit = {},
-    onDeleteQuestion: (Long) -> Unit = {},
-    onMoveUpQuestion: (Long) -> Unit = {},
-    onMoveDownQuestion: (Long) -> Unit = {},
-    onAnswer: (Long, Long) -> Unit = { _, _ -> },
-    instructionIdChange: (String) -> Unit = {},
-    onTopicSelect: (Long) -> Unit = {},
-    onAddExamInUiState: () -> Unit = {},
-    onExamInputChange: (String) -> Unit = {},
-    onDismiss: () -> Unit = {},
 
-    ) {
-    var showTopiDropdown by remember { mutableStateOf(false) }
-    var showConvert by remember { mutableStateOf(false) }
-
-    var fillIt =
-        rememberUpdatedState(screenSize != ScreenSize.EXPANDED)
-
-    CommonScreen2(
-        screenSize,
-        firstScreen = {
-            LazyColumn(
-                it.padding(8.dp).fillMaxSize(),
-                verticalArrangement = Arrangement.spacedBy(8.dp),
-            ) {
-                items(questions, key = { it.id }) {
-                    QuestionUi(
-                        questionUiState = it,
-                        onDelete = onDeleteQuestion,
-                        onUpdate = onUpdateQuestion,
-                        onMoveDown = onMoveDownQuestion,
-                        onMoveUp = onMoveUpQuestion,
-                        onAnswer = onAnswer,
-                    )
-                }
-            }
-        },
-        secondScreen = {
-            Column(
-                modifier = Modifier.padding(8.dp).fillMaxWidth()
-                    .verticalScroll(rememberScrollState()),
-            ) {
-                Row(
-                    Modifier.fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(8.dp),
-                ) {
-                    OutlinedTextField(
-                        modifier = Modifier.weight(0.5f),
-                        value = questionUiState.instructionUiState?.id?.toString() ?: "",
-                        onValueChange = instructionIdChange,
-                        isError = instructIdError,
-                        label = { Text("Instruction id") },
-                    )
-
-                    Box(modifier = Modifier.weight(0.5f)) {
-                        OutlinedTextField(
-                            readOnly = true,
-                            maxLines = 1,
-                            value = questionUiState.topicUiState?.name ?: "",
-                            onValueChange = {},
-                            label = { Text("Topic id") },
-                            trailingIcon = {
-                                IconButton(onClick = { showTopiDropdown = true }) {
-                                    Icon(Icons.Default.ArrowDropDown, "drop")
-                                }
-                            },
-                        )
-                        DropdownMenu(
-                            expanded = showTopiDropdown,
-                            onDismissRequest = { showTopiDropdown = false },
-                        ) {
-                            topicUiStates.forEach {
-                                DropdownMenuItem(onClick = {
-                                    onTopicSelect(it.id)
-                                    showTopiDropdown = false
-                                }, text = {
-                                    Text(
-                                        it.name,
-                                        maxLines = 1,
-                                        modifier = Modifier
-                                            .basicMarquee(iterations = 2),
-                                    )
-                                })
-                            }
-                        }
-                    }
-                }
-                QuestionEditUi(
-                    questionUiState = questionUiState,
-                    addUp = addUp,
-                    addBottom = addBottom,
-                    moveDown = moveDown,
-                    moveUp = moveUp,
-                    delete = delete,
-                    edit = edit,
-                    changeType = changeType,
-                    onTextChange = onTextChange,
-                    fillIt = fillIt.value,
-                )
-                FlowRow(
-                    Modifier.fillMaxSize(),
-                    verticalArrangement = Arrangement.spacedBy(4.dp, Alignment.CenterVertically),
-                    horizontalArrangement = Arrangement.SpaceEvenly,
-                    maxItemsInEachRow = 2,
-                ) {
-                    SuggestionChip(
-                        onClick = onAddOption,
-                        label = { Text("Add Option") },
-                    )
-
-                    SuggestionChip(
-                        onClick = { onAddAnswer(questionUiState.answers == null) },
-                        label = {
-                            Text(
-                                if (questionUiState.answers == null) "Add Answers" else "Remove answer",
-                            )
-                        },
-                    )
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Text("Is Theory")
-                        Spacer(Modifier.width(2.dp))
-                        Switch(
-                            checked = questionUiState.isTheory,
-                            onCheckedChange = { isTheory(it) },
-                            enabled = questionUiState.id < 0,
-                        )
-                    }
-
-                    Button(modifier = Modifier, onClick = onAddQuestion) {
-                        Icon(Icons.Default.Add, "add")
-                        Spacer(Modifier.width(ButtonDefaults.IconSpacing))
-                        Text("Add Question")
-                    }
-                }
-                Spacer(Modifier.height(16.dp))
-                Row(
-                    Modifier
-                        .clickable(onClick = { showConvert = !showConvert })
-                        .fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically,
-                ) {
-                    Text("Convert text to exams")
-                    IconButton(modifier = Modifier, onClick = { showConvert = !showConvert }) {
-                        Icon(
-                            if (!showConvert) Icons.Default.KeyboardArrowDown else Icons.Default.KeyboardArrowUp,
-                            "down",
-                        )
-                    }
-                }
-
-                if (showConvert) {
-                    Column {
-                        OutlinedTextField(
-                            value = examInputUiState.content,
-                            onValueChange = onExamInputChange,
-                            isError = examInputUiState.isError,
-                            modifier = Modifier.fillMaxWidth().height(300.dp),
-                        )
-                        Spacer(Modifier.height(4.dp))
-                        Row(
-                            Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.SpaceBetween,
-                            verticalAlignment = Alignment.CenterVertically,
-                        ) {
-                            Text("*q* question *o* option *t* type 0or1 *a* answer")
-                            Button(
-                                modifier = Modifier,
-                                onClick = onAddExamInUiState,
-                            ) {
-                                Text("Convert to Exam")
-                            }
-                        }
-                    }
-                }
-                Spacer(Modifier.height(16.dp))
-                TemplateUi()
-            }
-        },
-        show,
-        onDismiss,
-    )
-}
-
-@OptIn(
-    ExperimentalMaterial3Api::class,
-    ExperimentalFoundationApi::class,
-)
-@Composable
-fun TopicContent(
-    modifier: Modifier = Modifier,
-    topicUiState: TopicUiState,
-    topicInputUiState: TopicInputUiState,
-    topicUiStates: ImmutableList<TopicUiState>,
-    screenSize: ScreenSize,
-    show: Boolean = false,
-    onTopicChange: (String) -> Unit = {},
-    onAddTopic: () -> Unit = {},
-    onDelete: (Long) -> Unit = {},
-    onUpdate: (Long) -> Unit = {},
-    onAddTopicInputUiState: () -> Unit = {},
-    onTopicInputChange: (String) -> Unit = {},
-    onDismiss: () -> Unit = {},
-) {
-    var showConvert by remember { mutableStateOf(false) }
-
-    CommonScreen2(
-        screenSize = screenSize,
-        firstScreen = {
-            LazyColumn(it.fillMaxSize()) {
-                items(items = topicUiStates, key = { it.id }) {
-                    TopicUi(
-                        topicUiState = it,
-                        onDelete = onDelete,
-                        onUpdate = onUpdate,
-                    )
-                }
-            }
-        },
-        secondScreen = {
-            Column(
-                modifier = Modifier.fillMaxWidth().imePadding()
-                    .verticalScroll(rememberScrollState()),
-            ) {
-                val focusRequester = remember {
-                    FocusRequester()
-                }
-                LaunchedEffect(topicUiState.focus) {
-                    if (topicUiState.focus) {
-                        focusRequester.requestFocus()
-                    }
-                }
-                TextField(
-                    modifier = Modifier
-                        .focusRequester(focusRequester)
-                        .fillMaxWidth(),
-                    value = topicUiState.name,
-                    onValueChange = onTopicChange,
-                    label = { Text("Topic") },
-                    maxLines = 1,
-                )
-                Spacer(Modifier.height(4.dp))
-                Button(onClick = onAddTopic) {
-                    Text(if (topicUiState.id < 0) "Add topic" else "Update topic")
-                }
-                Spacer(Modifier.height(16.dp))
-                Row(
-                    Modifier
-                        .clickable(onClick = { showConvert = !showConvert })
-                        .fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically,
-                ) {
-                    Text("Convert text to exams")
-                    IconButton(modifier = Modifier, onClick = { showConvert = !showConvert }) {
-                        Icon(
-                            if (!showConvert) Icons.Default.KeyboardArrowDown else Icons.Default.KeyboardArrowUp,
-                            "down",
-                        )
-                    }
-                }
-
-                if (showConvert) {
-                    Column {
-                        OutlinedTextField(
-                            value = topicInputUiState.content,
-                            onValueChange = onTopicInputChange,
-                            isError = topicInputUiState.isError,
-                            modifier = Modifier.fillMaxWidth().height(300.dp),
-                        )
-                        Spacer(Modifier.height(4.dp))
-                        Row(
-                            Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.SpaceBetween,
-                            verticalAlignment = Alignment.CenterVertically,
-                        ) {
-                            Text("* topic title")
-                            Button(
-                                modifier = Modifier,
-                                onClick = onAddTopicInputUiState,
-                            ) {
-                                Text("Convert to topic")
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        show,
-        onDismiss,
-    )
-}
-
-@OptIn(
-    ExperimentalFoundationApi::class,
-)
-@Composable
-fun InstructionContent(
-    modifier: Modifier = Modifier,
-    instructionUiState: InstructionUiState,
-    instructionUiStates: ImmutableList<InstructionUiState>,
-    instruInputUiState: InstruInputUiState,
-    screenSize: ScreenSize,
-    show: Boolean = false,
-    onTitleChange: (String) -> Unit = {},
-    addUp: (Int) -> Unit = { _ -> },
-    addBottom: (Int) -> Unit = { _ -> },
-    delete: (Int) -> Unit = { _ -> },
-    moveUp: (Int) -> Unit = { _ -> },
-    moveDown: (Int) -> Unit = { _ -> },
-    edit: (Int) -> Unit = { _ -> },
-    changeType: (Int, Type) -> Unit = { _, _ -> },
-    onTextChange: (Int, String) -> Unit = { _, _ -> },
-    onAddInstruction: () -> Unit = {},
-    onDeleteInstruction: (Long) -> Unit = {},
-    onUpdateInstruction: (Long) -> Unit = {},
-    onAddInstruInputUiState: () -> Unit = {},
-    onInstruInputChange: (String) -> Unit = {},
-    onDismiss: () -> Unit = {},
-) {
-    var showConvert by remember { mutableStateOf(false) }
-
-    CommonScreen2(
-        screenSize,
-        firstScreen = {
-            LazyColumn(it.fillMaxSize()) {
-                items(
-                    items = instructionUiStates,
-                    key = { it.id },
-                ) {
-                    InstructionUi(
-                        instructionUiState = it,
-                        onUpdate = onUpdateInstruction,
-                        onDelete = onDeleteInstruction,
-                    )
-                }
-            }
-        },
-        secondScreen = {
-            Column(modifier = Modifier.fillMaxWidth().verticalScroll(rememberScrollState())) {
-                InstructionEditUi(
-                    modifier = Modifier.fillMaxWidth(),
-                    instructionUiState = instructionUiState,
-                    onTitleChange = onTitleChange,
-                    addUp = addUp,
-                    addBottom = addBottom,
-                    delete = delete,
-                    moveUp = moveUp,
-                    moveDown = moveDown,
-                    edit = edit,
-                    changeType = changeType,
-                    onTextChange = onTextChange,
-                )
-                Spacer(Modifier.height(4.dp))
-                Row(Modifier.fillMaxWidth()) {
-                    Button(
-                        onClick = onAddInstruction,
-                        enabled = instructionUiState.content.first().content.isNotBlank(),
-                    ) {
-                        Text("Add Instruction")
-                    }
-                }
-                Spacer(Modifier.height(16.dp))
-                Row(
-                    Modifier
-                        .clickable(onClick = { showConvert = !showConvert })
-                        .fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically,
-                ) {
-                    Text("Convert text to exams")
-                    IconButton(modifier = Modifier, onClick = { showConvert = !showConvert }) {
-                        Icon(
-                            if (!showConvert) Icons.Default.KeyboardArrowDown else Icons.Default.KeyboardArrowUp,
-                            "down",
-                        )
-                    }
-                }
-
-                if (showConvert) {
-                    Column {
-                        OutlinedTextField(
-                            value = instruInputUiState.content,
-                            onValueChange = onInstruInputChange,
-                            isError = instruInputUiState.isError,
-                            modifier = Modifier.fillMaxWidth().height(300.dp),
-                        )
-                        Spacer(Modifier.height(4.dp))
-                        Row(
-                            Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.SpaceBetween,
-                            verticalAlignment = Alignment.CenterVertically,
-                        ) {
-                            Text("* instruction title")
-                            Button(
-                                modifier = Modifier,
-                                onClick = onAddInstruInputUiState,
-                            ) {
-                                Text("Convert to Instruction")
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        show,
-        onDismiss,
-    )
-}

@@ -1,8 +1,4 @@
-/*
- *abiola 2022
- */
-
-package com.mshdabiola.detail
+package com.mshdabiola.detail.question
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
@@ -19,17 +15,13 @@ import com.mshdabiola.model.data.Type
 import com.mshdabiola.mvvn.ViewModel
 import com.mshdabiola.ui.state.ExamInputUiState
 import com.mshdabiola.ui.state.InstruInputUiState
-import com.mshdabiola.ui.state.InstructionUiState
 import com.mshdabiola.ui.state.ItemUiState
 import com.mshdabiola.ui.state.OptionUiState
 import com.mshdabiola.ui.state.QuestionUiState
 import com.mshdabiola.ui.state.TopicInputUiState
-import com.mshdabiola.ui.state.TopicUiState
-import com.mshdabiola.ui.toInstruction
 import com.mshdabiola.ui.toInstructionUiState
 import com.mshdabiola.ui.toQuestionUiState
 import com.mshdabiola.ui.toQuestionWithOptions
-import com.mshdabiola.ui.toTopic
 import com.mshdabiola.ui.toUi
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.Job
@@ -40,17 +32,17 @@ import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
-class DetailViewModel(
-    // savedStateHandle: SavedStateHandle,
-    // id: Long,
+class QuestionViewModel (
     private val examId: Long,
     private val subjectId: Long,
     private val questionRepository: IQuestionRepository,
     private val instructionRepository: IInstructionRepository,
-    private val topicRepository: ITopicRepository,
     private val examRepository: IExaminationRepository,
     private val settingRepository: ISettingRepository,
-) : ViewModel() {
+    private val topicRepository: ITopicRepository,
+
+    ): ViewModel() {
+
     val converter = Converter()
 
     private var _question =
@@ -63,60 +55,8 @@ class DetailViewModel(
 
     val questions = mutableStateOf(emptyList<QuestionUiState>().toImmutableList())
 
-    // instruction
-
-    // topic
-
-    val topicUiStates = mutableStateOf(emptyList<TopicUiState>().toImmutableList())
-    private val _topicUiState = mutableStateOf(TopicUiState(subjectId = subjectId, name = ""))
-    val topicUiState: State<TopicUiState> = _topicUiState
-
-    val instructions = mutableStateOf(emptyList<InstructionUiState>().toImmutableList())
-
-    private val defaultInstruction = InstructionUiState(
-        examId = examId,
-        title = null,
-        content = listOf(ItemUiState(isEditMode = true)).toImmutableList(),
-    )
-    private val _instructionUiState = mutableStateOf(
-        defaultInstruction,
-    )
-    val instructionUiState: State<InstructionUiState> = _instructionUiState
 
     init {
-
-        viewModelScope.launch {
-            settingRepository.instructions
-                .first()
-                .get(examId)
-                ?.let {
-                    log(it.toString())
-                    val uiState = it.toInstructionUiState()
-                    _instructionUiState.value =
-                        uiState.copy(
-                            content = uiState.content.map { it.copy(isEditMode = true) }
-                                .toImmutableList(),
-                        )
-                }
-            snapshotFlow { instructionUiState.value }
-                .distinctUntilChanged()
-                .collectLatest {
-                    if (it == defaultInstruction) {
-                        val inst = settingRepository.instructions
-                            .first()
-                            .toMutableMap()
-                        inst.remove(examId)
-                        settingRepository.setCurrentInstruction(inst)
-                    } else {
-                        log("save $it")
-                        val inst = settingRepository.instructions
-                            .first()
-                            .toMutableMap()
-                        inst[examId] = it.toInstruction()
-                        settingRepository.setCurrentInstruction(inst)
-                    }
-                }
-        }
 
         viewModelScope.launch {
             settingRepository.questions
@@ -164,32 +104,11 @@ class DetailViewModel(
 
                 }
         }
-        viewModelScope.launch {
-            instructionRepository
-                .getAllByExamId(examId)
-                .map { instructionList ->
-                    instructionList.map {
-                        it.toInstructionUiState()
-                    }.toImmutableList()
-                }
-                .collectLatest {
-                    instructions.value = it
 
-                }
-        }
 
-        viewModelScope.launch {
-            topicRepository
-                .getAllBySubject(subjectId)
-                .map { it.map { it.toUi() }.toImmutableList() }
-                .collectLatest {
-                    topicUiStates.value = it
 
-                }
-        }
     }
 
-    // exam
     private fun updateExamType(isObjOnly: Boolean) {
         viewModelScope.launch {
             val exam = examRepository.getOne(examId).firstOrNull() ?: return@launch
@@ -535,10 +454,7 @@ class DetailViewModel(
         }
     }
 
-    fun onTopicSelect(id: Long) {
-        val topic = topicUiStates.value.find { it.id == id }
-        _question.value = question.value.copy(topicUiState = topic)
-    }
+
 
     private fun editContent(
         questionIndex: Int,
@@ -596,19 +512,7 @@ class DetailViewModel(
         }
     }
 
-    // remove option when its items is empty
-    private fun removeEmptyOptions() {
-//        val question = question.value
-//        if (question.options.any { it.content.isEmpty() }) {
-//            val index = question.options.indexOfFirst { it.content.isEmpty() }
-//            var options = question.options.toMutableList()
-//            options.removeAt(index)
-//            options = options.mapIndexed { index2, optionsUiState ->
-//                optionsUiState.copy(id = index2.toLong())
-//            }.toMutableList()
-//            _question.value = question.copy(options = options.toImmutableList())
-//        }
-    }
+
 
     private val _examInputUiState = mutableStateOf(ExamInputUiState("", false))
     val examInputUiState: State<ExamInputUiState> = _examInputUiState
@@ -646,6 +550,7 @@ class DetailViewModel(
     fun onTopicInputChanged(text: String) {
         _topicInputUiState.value = topicInputUiState.value.copy(content = text)
     }
+
 
     fun onAddTopicFromInput() {
         viewModelScope.launch {
@@ -695,207 +600,27 @@ class DetailViewModel(
     }
 
     fun onInstructionIdChange(text: String) {
-        try {
-            if (text.isBlank()) {
-                _instructIdError.value = false
-                _question.value = question.value.copy(instructionUiState = null)
-            } else {
-                val instr = instructions.value.find { it.id == text.toLong() }
-                _instructIdError.value = instr == null
-
-                _question.value = question.value.copy(instructionUiState = instr)
-            }
-        } catch (e: Exception) {
-            _instructIdError.value = true
-        }
+//        try {
+//            if (text.isBlank()) {
+//                _instructIdError.value = false
+//                _question.value = question.value.copy(instructionUiState = null)
+//            } else {
+//                val instr = instructions.value.find { it.id == text.toLong() }
+//                _instructIdError.value = instr == null
+//
+//                _question.value = question.value.copy(instructionUiState = instr)
+//            }
+//        } catch (e: Exception) {
+//            _instructIdError.value = true
+//        }
     }
 
-    // instruction logic
-
-    fun instructionTitleChange(text: String) {
-        _instructionUiState.value =
-            instructionUiState.value.copy(title = text.ifBlank { null })
+    fun onTopicSelect(id: Long) {
+//        val topic = topicUiStates.value.find { it.id == id }
+//        _question.value = question.value.copy(topicUiState = topic)
     }
 
-    fun onAddInstruction() {
-        viewModelScope.launch {
-            instructionRepository.upsert(
-                instructionUiState.value.toInstruction(),
-            )
 
-            _instructionUiState.value = defaultInstruction
-        }
-    }
-
-    fun addUpInstruction(index: Int) {
-        editContentInstruction() {
-            val i = if (index == 0) 0 else index - 1
-            it.add(i, ItemUiState(isEditMode = true))
-            i
-        }
-    }
-
-    fun addDownInstruction(index: Int) {
-        editContentInstruction() {
-            it.add(index + 1, ItemUiState(isEditMode = true))
-
-            index + 1
-        }
-    }
-
-    fun moveUpInstruction(index: Int) {
-        if (index == 0) {
-            return
-        }
-        editContentInstruction() {
-            val upIndex = index - 1
-            val up = it[upIndex]
-            it[upIndex] = it[index]
-            it[index] = up
-
-            null
-        }
-    }
-
-    fun moveDownInstruction(index: Int) {
-        if (index == instructionUiState.value.content.lastIndex) {
-            return
-        }
-        editContentInstruction() {
-            if (index != it.lastIndex) {
-                val upIndex = index + 1
-                val up = it[upIndex]
-                it[upIndex] = it[index]
-                it[index] = up
-            }
-
-            null
-        }
-    }
-
-    fun editInstruction(index: Int) {
-        editContentInstruction() {
-            val item = it[index]
-
-            it[index] = item.copy(isEditMode = !item.isEditMode)
-            if (!item.isEditMode) index else null
-        }
-    }
-
-    fun deleteInstruction(index: Int) {
-        if (instructionUiState.value.content.size == 1) {
-            return
-        }
-        editContentInstruction() {
-            val oldItem = it[index]
-            if (oldItem.type == Type.IMAGE) {
-                getGeneralDir(oldItem.content, examId).deleteOnExit()
-            }
-            it.removeAt(index)
-            null
-        }
-    }
-
-    fun changeTypeInstruction(index: Int, type: Type) {
-        editContentInstruction() {
-            val oldItem = it[index]
-            if (oldItem.type == Type.IMAGE) {
-                getGeneralDir(oldItem.content, examId).deleteOnExit()
-            }
-            it[index] = ItemUiState(isEditMode = true, type = type)
-            index
-        }
-    }
-
-    fun onTextChangeInstruction(index: Int, text: String) {
-        editContentInstruction {
-            val item = it[index]
-            if (item.type == Type.IMAGE) {
-                val name = SvgObject
-                    .saveImage(
-                        item.content,
-                        text,
-                        examId,
-                    )
-                log("name $name")
-                it[index] = item.copy(content = name)
-            } else {
-                it[index] = item.copy(content = text)
-            }
-
-            null
-        }
-    }
-
-    private fun editContentInstruction(
-        onItems: suspend (MutableList<ItemUiState>) -> Int?,
-    ) {
-        viewModelScope.launch {
-            var items = instructionUiState.value.content.toMutableList()
-            val i = onItems(items)
-            if (i != null) {
-                items = items.mapIndexed { index, itemUi ->
-                    itemUi.copy(focus = index == i)
-                }.toMutableList()
-            }
-            _instructionUiState.value = instructionUiState
-                .value
-                .copy(
-                    content = items.toImmutableList(),
-                )
-        }
-    }
-
-    fun onDeleteInstruction(id: Long) {
-        viewModelScope.launch {
-            instructionRepository.delete(id)
-        }
-    }
-
-    fun onUpdateInstruction(id: Long) {
-        val oldInstructionUiState = _instructionUiState.value
-        if (oldInstructionUiState.id < 0) {
-            oldInstructionUiState.content
-                .filter { it.type == Type.IMAGE }
-                .forEach {
-                    getGeneralDir(it.content, examId).delete()
-                }
-        }
-        instructions.value.find { it.id == id }?.let { uiState ->
-            _instructionUiState.value = uiState.copy(
-                content = uiState.content
-                    .map {
-                        it.copy(isEditMode = true)
-                    }
-                    .toImmutableList(),
-            )
-        }
-    }
-
-    // topic logic
-
-    fun onAddTopic() {
-        viewModelScope.launch {
-            topicRepository.upsert(topicUiState.value.toTopic())
-            _topicUiState.value = TopicUiState(subjectId = subjectId, name = "")
-        }
-    }
-
-    fun onTopicChange(text: String) {
-        _topicUiState.value = topicUiState.value.copy(name = text)
-    }
-
-    fun onDeleteTopic(id: Long) {
-        viewModelScope.launch {
-            topicRepository.delete(id)
-        }
-    }
-
-    fun onUpdateTopic(id: Long) {
-        topicUiStates.value.find { it.id == id }?.let {
-            _topicUiState.value = it.copy(focus = true)
-        }
-    }
 
     private fun log(msg: String) {
 //        co.touchlab.kermit.Logger.e(msg)
