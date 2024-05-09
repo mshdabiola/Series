@@ -75,7 +75,7 @@ class FontLoaderD : FontLoader {
         } catch (e: Exception) {
             throw ResourceParseException(
                 "FontLoader" + ": FontLoader '" +
-                    name + "'. Error message: " + e.message,
+                        name + "'. Error message: " + e.message,
             )
         } finally {
             try {

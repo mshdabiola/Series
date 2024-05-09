@@ -6,9 +6,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.mshdabiola.designsystem.component.SeriesBackground
+import com.mshdabiola.designsystem.component.SkBackground
 import com.mshdabiola.designsystem.component.SkGradientBackground
-import com.mshdabiola.designsystem.theme.SeriesTheme
+import com.mshdabiola.designsystem.theme.SkTheme
 
 /**
  * Multipreview annotation that represents light and dark themes. Add this annotation to a
@@ -21,31 +21,31 @@ annotation class ThemePreviews
 @ThemePreviews
 @Composable
 fun BackgroundDefault() {
-    SeriesTheme(disableDynamicTheming = true) {
-        SeriesBackground(Modifier.size(100.dp), content = {})
+    SkTheme(disableDynamicTheming = true) {
+        SkBackground(Modifier.size(100.dp), content = {})
     }
 }
 
 @ThemePreviews
 @Composable
 fun BackgroundDynamic() {
-    SeriesTheme(disableDynamicTheming = false) {
-        SeriesBackground(Modifier.size(100.dp), content = {})
+    SkTheme(disableDynamicTheming = false) {
+        SkBackground(Modifier.size(100.dp), content = {})
     }
 }
 
 @ThemePreviews
 @Composable
 fun BackgroundAndroid() {
-    SeriesTheme() {
-        SeriesBackground(Modifier.size(100.dp), content = {})
+    SkTheme() {
+        SkBackground(Modifier.size(100.dp), content = {})
     }
 }
 
 @ThemePreviews
 @Composable
 fun GradientBackgroundDefault() {
-    SeriesTheme(disableDynamicTheming = true) {
+    SkTheme(disableDynamicTheming = true) {
         SkGradientBackground(Modifier.size(100.dp), content = {})
     }
 }
@@ -53,7 +53,7 @@ fun GradientBackgroundDefault() {
 @ThemePreviews
 @Composable
 fun GradientBackgroundDynamic() {
-    SeriesTheme(disableDynamicTheming = false) {
+    SkTheme(disableDynamicTheming = false) {
         SkGradientBackground(Modifier.size(100.dp), content = {})
     }
 }
@@ -61,7 +61,7 @@ fun GradientBackgroundDynamic() {
 @ThemePreviews
 @Composable
 fun GradientBackgroundAndroid() {
-    SeriesTheme() {
+    SkTheme() {
         SkGradientBackground(Modifier.size(100.dp), content = {})
     }
 }

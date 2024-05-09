@@ -133,8 +133,8 @@ object Base64 {
             // Copy next three bytes into lower 24 bits of int, paying attension
             // to sign.
             val i = sArr!![s++].toInt() and 0xff shl 16 or (
-                sArr[s++].toInt() and 0xff shl 8
-                ) or (sArr[s++].toInt() and 0xff)
+                    sArr[s++].toInt() and 0xff shl 8
+                    ) or (sArr[s++].toInt() and 0xff)
 
             // Encode the int into four chars
             dArr[d++] = CA[i ushr 18 and 0x3f]
@@ -155,9 +155,9 @@ object Base64 {
         if (left > 0) {
             // Prepare the int
             val i = (
-                sArr!![eLen].toInt() and 0xff shl 10
-                    or if (left == 2) sArr[sLen - 1].toInt() and 0xff shl 2 else 0
-                )
+                    sArr!![eLen].toInt() and 0xff shl 10
+                            or if (left == 2) sArr[sLen - 1].toInt() and 0xff shl 2 else 0
+                    )
 
             // Set last four chars
             dArr[dLen - 4] = CA[i shr 12]
@@ -295,8 +295,8 @@ object Base64 {
         while (d < eLen) {
             // Assemble three bytes into an int from four "valid" characters.
             val i = IA[sArr[sIx++].code] shl 18 or (
-                IA[sArr[sIx++].code] shl 12
-                ) or (IA[sArr[sIx++].code] shl 6) or IA[sArr[sIx++].code]
+                    IA[sArr[sIx++].code] shl 12
+                    ) or (IA[sArr[sIx++].code] shl 6) or IA[sArr[sIx++].code]
 
             // Add the bytes
             dArr[d++] = (i shr 16).toByte()
@@ -362,8 +362,8 @@ object Base64 {
             // Copy next three bytes into lower 24 bits of int, paying attension
             // to sign.
             val i = sArr!![s++].toInt() and 0xff shl 16 or (
-                sArr[s++].toInt() and 0xff shl 8
-                ) or (sArr[s++].toInt() and 0xff)
+                    sArr[s++].toInt() and 0xff shl 8
+                    ) or (sArr[s++].toInt() and 0xff)
 
             // Encode the int into four chars
             dArr[d++] = CA[i ushr 18 and 0x3f].code.toByte()
@@ -384,9 +384,9 @@ object Base64 {
         if (left > 0) {
             // Prepare the int
             val i = (
-                sArr!![eLen].toInt() and 0xff shl 10
-                    or if (left == 2) sArr[sLen - 1].toInt() and 0xff shl 2 else 0
-                )
+                    sArr!![eLen].toInt() and 0xff shl 10
+                            or if (left == 2) sArr[sLen - 1].toInt() and 0xff shl 2 else 0
+                    )
 
             // Set last four chars
             dArr[dLen - 4] = CA[i shr 12].code.toByte()
@@ -524,8 +524,8 @@ object Base64 {
         while (d < eLen) {
             // Assemble three bytes into an int from four "valid" characters.
             val i = IA[sArr[sIx++].toInt()] shl 18 or (
-                IA[sArr[sIx++].toInt()] shl 12
-                ) or (IA[sArr[sIx++].toInt()] shl 6) or IA[sArr[sIx++].toInt()]
+                    IA[sArr[sIx++].toInt()] shl 12
+                    ) or (IA[sArr[sIx++].toInt()] shl 6) or IA[sArr[sIx++].toInt()]
 
             // Add the bytes
             dArr[d++] = (i shr 16).toByte()
@@ -710,8 +710,8 @@ object Base64 {
         while (d < eLen) {
             // Assemble three bytes into an int from four "valid" characters.
             val i = IA[s[sIx++].code] shl 18 or (
-                IA[s[sIx++].code] shl 12
-                ) or (IA[s[sIx++].code] shl 6) or IA[s[sIx++].code]
+                    IA[s[sIx++].code] shl 12
+                    ) or (IA[s[sIx++].code] shl 6) or IA[s[sIx++].code]
 
             // Add the bytes
             dArr[d++] = (i shr 16).toByte()

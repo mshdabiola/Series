@@ -1,8 +1,6 @@
 package com.mshdabiola.model.data
 
-import kotlinx.serialization.Serializable
 
-@Serializable
 data class CurrentExam(
     val id: Long,
     val currentTime: Long = 0,

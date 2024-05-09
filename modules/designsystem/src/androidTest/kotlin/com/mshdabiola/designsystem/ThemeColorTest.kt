@@ -20,7 +20,7 @@ import com.mshdabiola.designsystem.theme.GradientColors
 import com.mshdabiola.designsystem.theme.LocalBackgroundTheme
 import com.mshdabiola.designsystem.theme.LocalGradientColors
 import com.mshdabiola.designsystem.theme.LocalTintTheme
-import com.mshdabiola.designsystem.theme.SeriesTheme
+import com.mshdabiola.designsystem.theme.SkTheme
 import com.mshdabiola.designsystem.theme.ThemeColor
 import com.mshdabiola.designsystem.theme.TintTheme
 import com.mshdabiola.model.Contrast
@@ -29,7 +29,7 @@ import org.junit.Test
 import kotlin.test.assertEquals
 
 /**
- * Tests [SeriesTheme] using different combinations of the theme mode parameters:
+ * Tests [SkTheme] using different combinations of the theme mode parameters:
  * darkTheme, disableDynamicTheming, and androidTheme.
  *
  * It verifies that the various composition locals — [MaterialTheme], [LocalGradientColors] and
@@ -44,12 +44,14 @@ class ThemeColorTest {
     @Test
     fun darkThemeFalse_dynamicColorFalse_androidThemeFalse() {
         composeTestRule.setContent {
-            SeriesTheme(
+            SkTheme(
                 darkTheme = false,
                 disableDynamicTheming = true,
+                useAndroidTheme = false,
             ) {
-                val colorScheme =
-                    ThemeColor.DefaultThemeColor(false, Contrast.Normal).getColorScheme()
+                val colorScheme = ThemeColor
+                    .DefaultThemeColor(false, Contrast.Normal)
+                    .getColorScheme()
                 assertColorSchemesEqual(colorScheme, MaterialTheme.colorScheme)
                 val gradientColors = defaultGradientColors(colorScheme)
                 assertEquals(gradientColors, LocalGradientColors.current)
@@ -64,12 +66,14 @@ class ThemeColorTest {
     @Test
     fun darkThemeTrue_dynamicColorFalse_androidThemeFalse() {
         composeTestRule.setContent {
-            SeriesTheme(
+            SkTheme(
                 darkTheme = true,
                 disableDynamicTheming = true,
+                useAndroidTheme = false,
             ) {
-                val colorScheme =
-                    ThemeColor.DefaultThemeColor(false, Contrast.Normal).getColorScheme()
+                val colorScheme = ThemeColor
+                    .DefaultThemeColor(true, Contrast.Normal)
+                    .getColorScheme()
                 assertColorSchemesEqual(colorScheme, MaterialTheme.colorScheme)
                 val gradientColors = defaultGradientColors(colorScheme)
                 assertEquals(gradientColors, LocalGradientColors.current)
@@ -84,9 +88,10 @@ class ThemeColorTest {
     @Test
     fun darkThemeFalse_dynamicColorTrue_androidThemeFalse() {
         composeTestRule.setContent {
-            SeriesTheme(
+            SkTheme(
                 darkTheme = false,
                 disableDynamicTheming = false,
+                useAndroidTheme = false,
             ) {
                 val colorScheme = dynamicLightColorSchemeWithFallback()
                 assertColorSchemesEqual(colorScheme, MaterialTheme.colorScheme)
@@ -103,9 +108,10 @@ class ThemeColorTest {
     @Test
     fun darkThemeTrue_dynamicColorTrue_androidThemeFalse() {
         composeTestRule.setContent {
-            SeriesTheme(
+            SkTheme(
                 darkTheme = true,
                 disableDynamicTheming = false,
+                useAndroidTheme = false,
             ) {
                 val colorScheme = dynamicDarkColorSchemeWithFallback()
                 assertColorSchemesEqual(colorScheme, MaterialTheme.colorScheme)
@@ -122,18 +128,22 @@ class ThemeColorTest {
     @Test
     fun darkThemeFalse_dynamicColorFalse_androidThemeTrue() {
         composeTestRule.setContent {
-            SeriesTheme(
+            SkTheme(
                 darkTheme = false,
                 disableDynamicTheming = true,
+                useAndroidTheme = true,
             ) {
-                val colorScheme =
-                    ThemeColor.DefaultThemeColor(false, Contrast.Normal).getColorScheme()
+                val colorScheme = ThemeColor
+                    .DefaultThemeColor(false, Contrast.Normal)
+                    .getColorScheme()
                 assertColorSchemesEqual(colorScheme, MaterialTheme.colorScheme)
-                val gradientColors =
-                    ThemeColor.DefaultThemeColor(false, Contrast.Normal).getGradientColors()
+                val gradientColors = ThemeColor
+                    .DefaultThemeColor(false, Contrast.Normal)
+                    .getGradientColors()
                 assertEquals(gradientColors, LocalGradientColors.current)
-                val backgroundTheme =
-                    ThemeColor.DefaultThemeColor(false, Contrast.Normal).getBackgroundTheme()
+                val backgroundTheme = ThemeColor
+                    .DefaultThemeColor(false, Contrast.Normal)
+                    .getBackgroundTheme()
                 assertEquals(backgroundTheme, LocalBackgroundTheme.current)
                 val tintTheme = defaultTintTheme()
                 assertEquals(tintTheme, LocalTintTheme.current)
@@ -144,9 +154,10 @@ class ThemeColorTest {
     @Test
     fun darkThemeTrue_dynamicColorFalse_androidThemeTrue() {
         composeTestRule.setContent {
-            SeriesTheme(
+            SkTheme(
                 darkTheme = true,
                 disableDynamicTheming = true,
+                useAndroidTheme = true,
             ) {
                 val colorScheme =
                     ThemeColor.DefaultThemeColor(true, Contrast.Normal).getColorScheme()
@@ -166,9 +177,10 @@ class ThemeColorTest {
     @Test
     fun darkThemeFalse_dynamicColorTrue_androidThemeTrue() {
         composeTestRule.setContent {
-            SeriesTheme(
+            SkTheme(
                 darkTheme = false,
                 disableDynamicTheming = false,
+                useAndroidTheme = true,
             ) {
                 val colorScheme =
                     ThemeColor.DefaultThemeColor(false, Contrast.Normal).getColorScheme()
@@ -188,9 +200,10 @@ class ThemeColorTest {
     @Test
     fun darkThemeTrue_dynamicColorTrue_androidThemeTrue() {
         composeTestRule.setContent {
-            SeriesTheme(
+            SkTheme(
                 darkTheme = true,
                 disableDynamicTheming = false,
+                useAndroidTheme = true,
             ) {
                 val colorScheme =
                     ThemeColor.DefaultThemeColor(true, Contrast.Normal).getColorScheme()

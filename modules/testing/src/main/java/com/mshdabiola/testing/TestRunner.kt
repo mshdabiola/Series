@@ -17,6 +17,6 @@ class TestRunner : AndroidJUnitRunner() {
         className: String?,
         context: Context?,
     ): Application {
-        return super.newApplication(classLoader, TestApplication::class.simpleName, context)
+        return super.newApplication(classLoader, TestApplication::class.java.name, context)
     }
 }

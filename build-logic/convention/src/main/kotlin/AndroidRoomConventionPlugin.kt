@@ -71,7 +71,7 @@ class AndroidRoomConventionPlugin : Plugin<Project> {
                             implementation(libs.findLibrary("room.runtime").get())
                             implementation(libs.findLibrary("room.ktx").get())
                             implementation(libs.findLibrary("room.paging").get())
-//                            implementation(libs.findLibrary("paging.common").get())
+                            implementation(libs.findLibrary("kotlinx.serialization.json").get())
 
                             api(libs.findLibrary("sqlite.bundled").get())//sqlite-bundled
 

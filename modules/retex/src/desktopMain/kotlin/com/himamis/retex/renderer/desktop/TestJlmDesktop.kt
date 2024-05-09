@@ -28,14 +28,14 @@ class TestJlmDesktop : JFrame() {
                  Rows  & Column 1 & Column 2 \\Row 1 & 1234     & 2345     \\Row 2 & 3456     & 4567     \\Row 3 & 5678     & 6789     \\Row 4 & 7890     & 8901     \\Row 5 & 9012     & 10000    \\\end{tabular}
             """.trimIndent(),
             "\\renewcommand{\\arraystretch}{1.7}" +
-                "\\begin{tabular}{|l|l|l|}" +
-                "Rows  & Column 1 & Column 2 \\\\" +
-                "Row 1 & 1234     & 2345     \\\\" +
-                "Row 2 & 3456     & 4567     \\\\" +
-                "Row 3 & 5678     & 6789     \\\\" +
-                "Row 4 & 7890     & 8901     \\\\" +
-                "Row 5 & 9012     & 10000    \\\\" +
-                "\\end{tabular}",
+                    "\\begin{tabular}{|l|l|l|}" +
+                    "Rows  & Column 1 & Column 2 \\\\" +
+                    "Row 1 & 1234     & 2345     \\\\" +
+                    "Row 2 & 3456     & 4567     \\\\" +
+                    "Row 3 & 5678     & 6789     \\\\" +
+                    "Row 4 & 7890     & 8901     \\\\" +
+                    "Row 5 & 9012     & 10000    \\\\" +
+                    "\\end{tabular}",
         )
         var y = 100
         for (text in texts) {

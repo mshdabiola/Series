@@ -68,14 +68,14 @@ actual fun Latex(
             val formula = TeXFormula(text)
 
             image = (
-                formula.createBufferedImage(
-                    style.value,
-                    type.value,
-                    size2,
-                    textColor.toPaintColor(),
-                    backgroundColor.toPaintColor(),
-                ) as ImageA
-                ).bitmap
+                    formula.createBufferedImage(
+                        style.value,
+                        type.value,
+                        size2,
+                        textColor.toPaintColor(),
+                        backgroundColor.toPaintColor(),
+                    ) as ImageA
+                    ).bitmap
         } catch (e: Exception) {
             error = e.message
             image = null

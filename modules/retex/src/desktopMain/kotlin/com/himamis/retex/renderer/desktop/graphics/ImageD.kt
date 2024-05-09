@@ -57,7 +57,7 @@ class ImageD : BufferedImage, Image {
         image.isAlphaPremultiplied,
         null,
 
-    )
+        )
 
     constructor(width: Int, height: Int, imageType: Int) : super(width, height, imageType)
 

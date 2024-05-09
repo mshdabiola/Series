@@ -32,11 +32,12 @@ val unspecified_scheme = ColorFamily(
 )
 
 @Composable
-fun SeriesTheme(
+fun SkTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     themeBrand: ThemeBrand = ThemeBrand.DEFAULT,
     themeContrast: Contrast = Contrast.Normal,
     disableDynamicTheming: Boolean = true,
+    useAndroidTheme: Boolean = true,
     content: @Composable () -> Unit,
 ) {
     val themeColor = when (themeBrand) {
@@ -44,30 +45,44 @@ fun SeriesTheme(
         else -> ThemeColor.DefaultThemeColor(darkTheme, themeContrast)
     }
 
-    val useDynamicTheme = when {
-        themeBrand != ThemeBrand.DEFAULT -> false
-        !disableDynamicTheming -> true
-        else -> false
-    }
-    val colorScheme = if (useDynamicTheme && supportsDynamicTheming()) {
-        getDynamicColor(darkTheme)
-    } else {
-        themeColor.getColorScheme()
-    }
+    // Color scheme
+    val colorScheme = when {
+        useAndroidTheme -> themeColor.getColorScheme()
+        !disableDynamicTheming && supportsDynamicTheming() -> getDynamicColor(darkTheme)
 
+        else -> themeColor.getColorScheme()
+    }
+    // Gradient colors
+    val emptyGradientColors = GradientColors(container = colorScheme.surfaceColorAtElevation(2.dp))
+    val defaultGradientColors = GradientColors(
+        top = colorScheme.inverseOnSurface,
+        bottom = colorScheme.primaryContainer,
+        container = colorScheme.surface,
+    )
+    val gradientColors = when {
+        useAndroidTheme -> themeColor.getGradientColors()
+        !disableDynamicTheming && supportsDynamicTheming() -> emptyGradientColors
+        else -> defaultGradientColors
+    }
+    // Background theme
+    val defaultBackgroundTheme = BackgroundTheme(
+        color = colorScheme.surface,
+        tonalElevation = 2.dp,
+    )
+    val backgroundTheme = when {
+        useAndroidTheme -> themeColor.getBackgroundTheme()
+        else -> defaultBackgroundTheme
+    }
+    val tintTheme = when {
+        useAndroidTheme -> themeColor.getTintTheme()
+        !disableDynamicTheming && supportsDynamicTheming() -> TintTheme(colorScheme.primary)
+        else -> TintTheme()
+    }
     // Composition locals
     CompositionLocalProvider(
-        LocalGradientColors provides if (useDynamicTheme) {
-            GradientColors(
-                container = colorScheme.surfaceColorAtElevation(
-                    2.dp,
-                ),
-            )
-        } else {
-            themeColor.getGradientColors()
-        },
-        LocalBackgroundTheme provides themeColor.getBackgroundTheme(),
-        LocalTintTheme provides themeColor.getTintTheme(),
+        LocalGradientColors provides gradientColors,
+        LocalBackgroundTheme provides backgroundTheme,
+        LocalTintTheme provides tintTheme,
     ) {
         MaterialTheme(
             colorScheme = colorScheme,

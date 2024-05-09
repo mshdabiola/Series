@@ -17,7 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun SeriesButton(
+fun SkButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
@@ -37,14 +37,14 @@ fun SeriesButton(
 }
 
 @Composable
-fun SeriesButton(
+fun SkButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
     text: @Composable () -> Unit,
     leadingIcon: @Composable (() -> Unit)? = null,
 ) {
-    SeriesButton(
+    SkButton(
         onClick = onClick,
         modifier = modifier,
         enabled = enabled,
@@ -54,7 +54,7 @@ fun SeriesButton(
             ButtonDefaults.ContentPadding
         },
     ) {
-        SeriesButtonContent(
+        SkButtonContent(
             text = text,
             leadingIcon = leadingIcon,
         )
@@ -62,7 +62,7 @@ fun SeriesButton(
 }
 
 @Composable
-private fun SeriesButtonContent(
+private fun SkButtonContent(
     text: @Composable () -> Unit,
     leadingIcon: @Composable (() -> Unit)? = null,
 ) {

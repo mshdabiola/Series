@@ -1,15 +1,14 @@
 package com.mshdabiola.model.data
 
-import kotlinx.serialization.Serializable
-
-@Serializable
 data class Question(
-    val id: Long = -1,
-    val nos: Long,
+    val id: Long? = null,
+    val number: Long,
     val examId: Long,
-    val content: List<Item>,
+    val title: String = "",
+    val contents: List<Content>,
+    val answers: List<Content>,
+    val options: List<Option>?,
     val isTheory: Boolean,
-    val answer: List<Item>?,
-    val instructionId: Long?,
-    val topicId: Long?,
+    val instruction: Instruction? = null,
+    val topic: Topic?,
 )

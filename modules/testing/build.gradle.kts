@@ -17,7 +17,7 @@ dependencies {
     api(libs.roborazzi)
 
     api(project(":modules:analytics"))
-//    api(project(":modules:data"))
+    api(project(":modules:data"))
     api(project(":modules:model"))
 
 

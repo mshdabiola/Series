@@ -11,11 +11,10 @@ import org.koin.core.qualifier.Qualifier
 
 @Composable
 actual inline fun <reified T : ViewModel> KoinCommonViewModel(
-    key: String?,
     qualifier: Qualifier?,
     noinline parameters: ParametersDefinition?,
 ): T {
-    return getCommonViewModel(key = key, qualifier = qualifier, parameters = parameters)
+    return getCommonViewModel(qualifier, parameters = parameters)
 }
 
 @OptIn(ExperimentalComposeUiApi::class)

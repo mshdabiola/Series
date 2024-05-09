@@ -1,41 +1,26 @@
 package database
 
-import app.cash.sqldelight.driver.jdbc.sqlite.JdbcSqliteDriver
-import com.mshabiola.database.di.daoModules
-import com.mshabiola.database.model.listOfValueAdapter
+import androidx.room.Room
+import androidx.sqlite.driver.bundled.BundledSQLiteDriver
 import com.mshdabiola.database.SeriesDatabase
-import commshdabioladatabase.tables.InstructionEntity
-import commshdabioladatabase.tables.OptionEntity
-import commshdabioladatabase.tables.QuestionEntity
+import com.mshdabiola.database.di.daoModules
+import com.mshdabiola.database.di.getRoomDatabase
 import org.junit.Rule
 import org.junit.Test
-import org.koin.core.qualifier.qualifier
 import org.koin.dsl.module
 import org.koin.test.KoinTest
 import org.koin.test.KoinTestRule
-import java.util.Properties
 
 abstract class AbstractTest : KoinTest {
 
     @get:Rule
     val koinTestRule = KoinTestRule.create {
         val module = module {
-            single(qualifier = qualifier("real")) {
-                val driver = JdbcSqliteDriver(
-                    JdbcSqliteDriver.IN_MEMORY,
-                    properties = Properties().apply { put("foreign_keys", "true") },
-                )
-                    .also { SeriesDatabase.Schema.create(it) }
-
-                SeriesDatabase(
-                    driver = driver,
-                    questionEntityAdapter = QuestionEntity.Adapter(
-                        listOfValueAdapter,
-                        listOfValueAdapter,
-                    ),
-                    instructionEntityAdapter = InstructionEntity.Adapter(listOfValueAdapter),
-                    optionEntityAdapter = OptionEntity.Adapter(listOfValueAdapter),
-                )
+            single {
+                val db = Room
+                    .inMemoryDatabaseBuilder<SeriesDatabase>()
+                    .setDriver(BundledSQLiteDriver())
+                getRoomDatabase(db)
             }
         }
         // Your KoinApplication instance here
