@@ -62,7 +62,9 @@ import org.koin.core.parameter.parameterSetOf
 internal fun QuestionRoute(
     screenSize: ScreenSize,
     examId : Long,
-    subjectId:Long
+    subjectId:Long,
+    onDismiss: () -> Unit = {},
+    show: Boolean = false,
 ) {
     val viewModel: QuestionViewModel = KoinCommonViewModel(
         parameters = {
@@ -71,9 +73,6 @@ internal fun QuestionRoute(
             )
         },
     )
-
-    var show by remember { mutableStateOf(false) }
-    val onDismiss = { show = false }
 
 
     ExamContent(

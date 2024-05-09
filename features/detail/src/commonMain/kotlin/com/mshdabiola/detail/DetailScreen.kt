@@ -242,13 +242,13 @@ fun ExamScreen(
             ) {
                 when (state) {
                     0 ->
-                     QuestionRoute(screenSize,examId,subjectId)
+                     QuestionRoute(screenSize,examId,subjectId,onDismiss,show)
                     1 ->
-                        InstructionRoute(screenSize,examId,subjectId)
+                        InstructionRoute(screenSize,examId,subjectId,onDismiss,show)
 
 
                     else ->
-                        TopicRoute(screenSize,examId,subjectId)
+                        TopicRoute(screenSize,examId,subjectId,onDismiss,show)
 
                 }
             }
