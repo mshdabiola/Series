@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
@@ -47,6 +48,8 @@ internal fun InstructionRoute(
     subjectId:Long,
     onDismiss: () -> Unit = {},
     show: Boolean = false,
+    setInstruction: (Long) -> Unit = {},
+    currentInstruction:Long?=null
     ) {
     val viewModel: InstructionViewModel = KoinCommonViewModel(
         parameters = {
@@ -77,6 +80,8 @@ internal fun InstructionRoute(
         onInstruInputChange = viewModel::onInstuInputChanged,
         show = show,
         onDismiss = onDismiss,
+        setInstruction = setInstruction,
+        currentInstruction = currentInstruction
     )
 
 }
@@ -104,21 +109,27 @@ fun InstructionContent(
     onAddInstruInputUiState: () -> Unit = {},
     onInstruInputChange: (String) -> Unit = {},
     onDismiss: () -> Unit = {},
+    setInstruction: (Long) -> Unit = {},
+    currentInstruction:Long?=null
 ) {
     var showConvert by remember { mutableStateOf(false) }
 
     CommonScreen2(
         screenSize,
-        firstScreen = {
-            LazyColumn(it.fillMaxSize()) {
+        firstScreen = { modifier1 ->
+            LazyColumn(modifier1.fillMaxSize().padding(8.dp)) {
                 items(
                     items = instructionUiStates,
                     key = { it.id },
                 ) {
                     InstructionUi(
+                        modifier = Modifier.clickable {
+                            setInstruction(it.id)
+                        },
                         instructionUiState = it,
                         onUpdate = onUpdateInstruction,
                         onDelete = onDeleteInstruction,
+                        isSelect = currentInstruction==it.id
                     )
                 }
             }

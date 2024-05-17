@@ -71,9 +71,11 @@ import com.mshdabiola.detail.instruction.InstructionContent
 import com.mshdabiola.detail.instruction.InstructionRoute
 import com.mshdabiola.detail.question.ExamContent
 import com.mshdabiola.detail.question.QuestionRoute
+import com.mshdabiola.detail.question.QuestionViewModel
 import com.mshdabiola.detail.topic.TopicContent
 import com.mshdabiola.detail.topic.TopicRoute
 import com.mshdabiola.model.data.Type
+import com.mshdabiola.mvvn.KoinCommonViewModel
 import com.mshdabiola.ui.CommonScreen2
 import com.mshdabiola.ui.ScreenSize
 import com.mshdabiola.ui.TemplateUi
@@ -91,6 +93,7 @@ import com.mshdabiola.ui.state.TopicUiState
 import com.mshdabiola.ui.topicui.TopicUi
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.coroutines.launch
+import org.koin.core.parameter.parameterSetOf
 
 @Composable
 internal fun DetailRoute(
@@ -175,6 +178,16 @@ fun ExamScreen(
     }
     var show by remember { mutableStateOf(false) }
     val onDismiss = { show = false }
+    val questionViewModel: QuestionViewModel = KoinCommonViewModel(
+        parameters = {
+            parameterSetOf(
+                examId, subjectId
+            )
+        },
+    )
+
+    val question = questionViewModel.question.value
+
 
     Scaffold(
         topBar = {
@@ -242,13 +255,37 @@ fun ExamScreen(
             ) {
                 when (state) {
                     0 ->
-                     QuestionRoute(screenSize,examId,subjectId,onDismiss,show)
+                     QuestionRoute(
+                         screenSize = screenSize,
+                         examId = examId,
+                         subjectId = subjectId,
+                         onDismiss = onDismiss,
+                         show = show,
+                        viewModel = questionViewModel
+
+                     )
                     1 ->
-                        InstructionRoute(screenSize,examId,subjectId,onDismiss,show)
+                        InstructionRoute(
+                            screenSize = screenSize,
+                            examId = examId,
+                            subjectId = subjectId,
+                            onDismiss = onDismiss,
+                            show = show,
+                            currentInstruction = question.instructionUiState?.id,
+                            setInstruction = questionViewModel::onInstructionIdChange
+                        )
 
 
                     else ->
-                        TopicRoute(screenSize,examId,subjectId,onDismiss,show)
+                        TopicRoute(
+                            screenSize = screenSize,
+                            examId = examId,
+                            subjectId = subjectId,
+                            onDismiss = onDismiss,
+                            show = show,
+                            currentTopic = question.topicUiState?.id,
+                            setTopic = questionViewModel::onTopicInputChanged
+                        )
 
                 }
             }

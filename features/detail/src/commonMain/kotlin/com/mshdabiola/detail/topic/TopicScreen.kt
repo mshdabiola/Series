@@ -10,8 +10,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.onClick
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -53,6 +55,8 @@ internal fun TopicRoute(
     subjectId:Long,
     onDismiss: () -> Unit = {},
     show: Boolean = false,
+    setTopic: (Long) -> Unit = {},
+    currentTopic:Long?=null
 ) {
     val viewModel: TopicViewModel = KoinCommonViewModel(
         parameters = {
@@ -75,8 +79,11 @@ internal fun TopicRoute(
         onTopicInputChange = viewModel::onTopicInputChanged,
         show = show,
         onDismiss = onDismiss,
+        setTopic = setTopic,
+        currentTopic = currentTopic
     )
 }
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun TopicContent(
     modifier: Modifier = Modifier,
@@ -92,18 +99,24 @@ fun TopicContent(
     onAddTopicInputUiState: () -> Unit = {},
     onTopicInputChange: (String) -> Unit = {},
     onDismiss: () -> Unit = {},
+    setTopic: (Long) -> Unit = {},
+    currentTopic:Long?=null
 ) {
     var showConvert by remember { mutableStateOf(false) }
 
     CommonScreen2(
         screenSize = screenSize,
-        firstScreen = {
-            LazyColumn(it.fillMaxSize()) {
+        firstScreen = { modifier1 ->
+            LazyColumn(modifier1.fillMaxSize().padding(8.dp)) {
                 items(items = topicUiStates, key = { it.id }) {
                     TopicUi(
+                        modifier = Modifier.clickable {
+                          setTopic(it.id)
+                        },
                         topicUiState = it,
                         onDelete = onDelete,
                         onUpdate = onUpdate,
+                        isSelect = it.id==currentTopic
                     )
                 }
             }

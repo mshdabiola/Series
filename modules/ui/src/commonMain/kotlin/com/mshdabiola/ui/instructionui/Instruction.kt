@@ -15,6 +15,8 @@ import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.ListItem
+import androidx.compose.material3.ListItemDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -71,14 +73,15 @@ fun InstructionEditUi(
 fun InstructionUi(
     modifier: Modifier = Modifier,
     instructionUiState: InstructionUiState,
+    isSelect :Boolean=false,
     onUpdate: (Long) -> Unit = {},
     onDelete: (Long) -> Unit = {},
 ) {
     var showDrop by remember { mutableStateOf(false) }
-
+    val color =
+    if (isSelect) MaterialTheme.colorScheme.primaryContainer else ListItemDefaults.containerColor
     ListItem(
         modifier = modifier,
-        overlineContent = { Text("Id - ${instructionUiState.id}") },
         headlineContent = {
             if (instructionUiState.title != null) {
                 Text(instructionUiState.title)
@@ -86,6 +89,7 @@ fun InstructionUi(
         },
         supportingContent = {
             ContentView(
+                color = color,
                 items = instructionUiState.content,
                 examId = instructionUiState.examId,
             )
@@ -116,5 +120,6 @@ fun InstructionUi(
                 }
             }
         },
+        colors =ListItemDefaults.colors(color)
     )
 }

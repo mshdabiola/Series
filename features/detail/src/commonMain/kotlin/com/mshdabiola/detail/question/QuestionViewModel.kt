@@ -11,19 +11,20 @@ import com.mshdabiola.data.repository.IQuestionRepository
 import com.mshdabiola.data.repository.ISettingRepository
 import com.mshdabiola.data.repository.ITopicRepository
 import com.mshdabiola.model.ImageUtil.getGeneralDir
+import com.mshdabiola.model.data.Instruction
+import com.mshdabiola.model.data.Topic
 import com.mshdabiola.model.data.Type
 import com.mshdabiola.mvvn.ViewModel
 import com.mshdabiola.ui.state.ExamInputUiState
-import com.mshdabiola.ui.state.InstruInputUiState
 import com.mshdabiola.ui.state.ItemUiState
 import com.mshdabiola.ui.state.OptionUiState
 import com.mshdabiola.ui.state.QuestionUiState
-import com.mshdabiola.ui.state.TopicInputUiState
 import com.mshdabiola.ui.toInstructionUiState
 import com.mshdabiola.ui.toQuestionUiState
 import com.mshdabiola.ui.toQuestionWithOptions
 import com.mshdabiola.ui.toUi
 import kotlinx.collections.immutable.toImmutableList
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -50,13 +51,31 @@ class QuestionViewModel (
             getEmptyQuestion(),
         )
     val question: State<QuestionUiState> = _question
-    private val _instructIdError = mutableStateOf(false)
-    val instructIdError: State<Boolean> = _instructIdError
+   // private val _instructIdError = mutableStateOf(false)
+    //val instructIdError: State<Boolean> = _instructIdError
+   private var instructions :List<Instruction> = emptyList()
+
+    private var topics :List<Topic> = emptyList()
 
     val questions = mutableStateOf(emptyList<QuestionUiState>().toImmutableList())
 
 
     init {
+
+        viewModelScope.launch(Dispatchers.Default) {
+            instructionRepository
+                .getAll()
+                .collectLatest {
+                    instructions=it
+                }
+        }
+        viewModelScope.launch(Dispatchers.Default) {
+            topicRepository
+                .getAll()
+                .collectLatest {
+                    topics=it
+                }
+        }
 
         viewModelScope.launch {
             settingRepository.questions
@@ -544,76 +563,32 @@ class QuestionViewModel (
         }
     }
 
-    private val _topicInputUiState = mutableStateOf(TopicInputUiState("", false))
-    val topicInputUiState: State<TopicInputUiState> = _topicInputUiState
-
-    fun onTopicInputChanged(text: String) {
-        _topicInputUiState.value = topicInputUiState.value.copy(content = text)
-    }
 
 
-    fun onAddTopicFromInput() {
-        viewModelScope.launch {
-            try {
-                val list =
-                    converter.textToTopic(
-                        path = topicInputUiState.value.content,
-                        subjectId = subjectId,
-                    )
+    fun onInstructionIdChange(id:Long?) {
 
-                log(list.joinToString())
-                launch { topicRepository.insertAll(list) }
-                _topicInputUiState.value =
-                    topicInputUiState.value.copy(content = "", isError = false)
-            } catch (e: Exception) {
-                e.printStackTrace()
-                _topicInputUiState.value = topicInputUiState.value.copy(isError = true)
+
+            if (id==null) {
+                _question.value = question.value.copy(instructionUiState = null)
+            } else {
+                val instr = instructions.find { it.id == id}
+
+                _question.value = question.value.copy(instructionUiState = instr?.toInstructionUiState())
             }
+
+    }
+
+    fun onTopicInputChanged(id: Long?) {
+        if (id==null) {
+            _question.value = question.value.copy(topicUiState = null)
+        } else {
+            val topic = topics.find { it.id == id}
+
+            _question.value = question.value.copy(topicUiState = topic?.toUi())
         }
+
     }
 
-    private val _instruInputUiState = mutableStateOf(InstruInputUiState("", false))
-    val instruInputUiState: State<InstruInputUiState> = _instruInputUiState
-
-    fun onInstuInputChanged(text: String) {
-        _instruInputUiState.value = instruInputUiState.value.copy(content = text)
-    }
-
-    fun onAddInstruTopicFromInput() {
-        viewModelScope.launch {
-            try {
-                val list =
-                    converter.textToInstruction(
-                        path = instruInputUiState.value.content,
-                        examId = examId,
-                    )
-
-                log(list.joinToString())
-                launch { instructionRepository.insertAll(list) }
-                _instruInputUiState.value =
-                    instruInputUiState.value.copy(content = "", isError = false)
-            } catch (e: Exception) {
-                e.printStackTrace()
-                _instruInputUiState.value = instruInputUiState.value.copy(isError = true)
-            }
-        }
-    }
-
-    fun onInstructionIdChange(text: String) {
-//        try {
-//            if (text.isBlank()) {
-//                _instructIdError.value = false
-//                _question.value = question.value.copy(instructionUiState = null)
-//            } else {
-//                val instr = instructions.value.find { it.id == text.toLong() }
-//                _instructIdError.value = instr == null
-//
-//                _question.value = question.value.copy(instructionUiState = instr)
-//            }
-//        } catch (e: Exception) {
-//            _instructIdError.value = true
-//        }
-    }
 
     fun onTopicSelect(id: Long) {
 //        val topic = topicUiStates.value.find { it.id == id }

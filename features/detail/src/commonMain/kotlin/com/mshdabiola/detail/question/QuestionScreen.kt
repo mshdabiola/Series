@@ -1,10 +1,8 @@
 package com.mshdabiola.detail.question
 
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
@@ -21,13 +19,10 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.DropdownMenu
-import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
@@ -35,6 +30,7 @@ import androidx.compose.material3.SuggestionChip
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -43,7 +39,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.mshdabiola.detail.instruction.InstructionViewModel
 import com.mshdabiola.model.data.Type
 import com.mshdabiola.mvvn.KoinCommonViewModel
 import com.mshdabiola.ui.CommonScreen2
@@ -53,7 +48,6 @@ import com.mshdabiola.ui.questionui.QuestionEditUi
 import com.mshdabiola.ui.questionui.QuestionUi
 import com.mshdabiola.ui.state.ExamInputUiState
 import com.mshdabiola.ui.state.QuestionUiState
-import com.mshdabiola.ui.state.TopicUiState
 import kotlinx.collections.immutable.ImmutableList
 import org.koin.core.parameter.parameterSetOf
 
@@ -61,26 +55,20 @@ import org.koin.core.parameter.parameterSetOf
 @Composable
 internal fun QuestionRoute(
     screenSize: ScreenSize,
-    examId : Long,
-    subjectId:Long,
+    examId: Long,
+    subjectId: Long,
     onDismiss: () -> Unit = {},
     show: Boolean = false,
+   viewModel: QuestionViewModel
 ) {
-    val viewModel: QuestionViewModel = KoinCommonViewModel(
-        parameters = {
-            parameterSetOf(
-                examId,subjectId
-            )
-        },
-    )
 
 
     ExamContent(
         modifier = Modifier,
         questionUiState = viewModel.question.value,
         questions = viewModel.questions.value,
-        instructIdError = viewModel.instructIdError.value,
-      //  topicUiStates = topicUiStates.value,
+        // instructIdError = viewModel.instructIdError.value,
+        //  topicUiStates = topicUiStates.value,
         examInputUiState = viewModel.examInputUiState.value,
         screenSize = screenSize,
         addUp = viewModel::addUP,
@@ -100,8 +88,8 @@ internal fun QuestionRoute(
         onMoveDownQuestion = viewModel::onMoveDownQuestion,
         onMoveUpQuestion = viewModel::onMoveUpQuestion,
         onAnswer = viewModel::onAnswerClick,
-        instructionIdChange = viewModel::onInstructionIdChange,
-        onTopicSelect = viewModel::onTopicSelect,
+//        instructionIdChange = viewModel::onInstructionIdChange,
+//        onTopicSelect = viewModel::onTopicSelect,
         onAddExamInUiState = viewModel::onAddExamFromInput,
         onExamInputChange = viewModel::onExamInputChanged,
         show = show,
@@ -117,9 +105,7 @@ internal fun QuestionRoute(
 fun ExamContent(
     modifier: Modifier = Modifier,
     questionUiState: QuestionUiState,
-    instructIdError: Boolean,
     questions: ImmutableList<QuestionUiState>,
-   // topicUiStates: ImmutableList<TopicUiState>,
     examInputUiState: ExamInputUiState,
     screenSize: ScreenSize,
     show: Boolean = false,
@@ -140,8 +126,8 @@ fun ExamContent(
     onMoveUpQuestion: (Long) -> Unit = {},
     onMoveDownQuestion: (Long) -> Unit = {},
     onAnswer: (Long, Long) -> Unit = { _, _ -> },
-    instructionIdChange: (String) -> Unit = {},
-    onTopicSelect: (Long) -> Unit = {},
+//    instructionIdChange: (String) -> Unit = {},
+//    onTopicSelect: (Long) -> Unit = {},
     onAddExamInUiState: () -> Unit = {},
     onExamInputChange: (String) -> Unit = {},
     onDismiss: () -> Unit = {},
@@ -185,25 +171,19 @@ fun ExamContent(
                     OutlinedTextField(
                         modifier = Modifier.weight(0.5f),
                         value = questionUiState.instructionUiState?.id?.toString() ?: "",
-                        onValueChange = instructionIdChange,
-                        isError = instructIdError,
+                        readOnly = true,
+                        onValueChange = {},
                         label = { Text("Instruction id") },
                     )
 
 
-                        OutlinedTextField(
-                            modifier = Modifier.weight(0.5f),
-                            readOnly = true,
-                            maxLines = 1,
-                            value = questionUiState.topicUiState?.name ?: "",
-                            onValueChange = {},
-                            label = { Text("Topic id") },
-                            trailingIcon = {
-                                IconButton(onClick = { showTopiDropdown = true }) {
-                                    Icon(Icons.Default.ArrowDropDown, "drop")
-                                }
-                            },
-                        )
+                    OutlinedTextField(
+                        modifier = Modifier.weight(0.5f),
+                        readOnly = true,
+                        value = questionUiState.topicUiState?.id?.toString() ?: "",
+                        onValueChange = {},
+                        label = { Text("Topic id") },
+                    )
 
                 }
                 QuestionEditUi(
