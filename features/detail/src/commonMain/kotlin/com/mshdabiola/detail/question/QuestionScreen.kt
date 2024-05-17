@@ -30,7 +30,6 @@ import androidx.compose.material3.SuggestionChip
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -40,16 +39,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.mshdabiola.model.data.Type
-import com.mshdabiola.mvvn.KoinCommonViewModel
 import com.mshdabiola.ui.CommonScreen2
 import com.mshdabiola.ui.ScreenSize
 import com.mshdabiola.ui.TemplateUi
-import com.mshdabiola.ui.questionui.QuestionEditUi
-import com.mshdabiola.ui.questionui.QuestionUi
 import com.mshdabiola.ui.state.ExamInputUiState
 import com.mshdabiola.ui.state.QuestionUiState
 import kotlinx.collections.immutable.ImmutableList
-import org.koin.core.parameter.parameterSetOf
 
 
 @Composable

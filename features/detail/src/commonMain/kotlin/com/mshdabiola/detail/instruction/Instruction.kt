@@ -1,4 +1,4 @@
-package com.mshdabiola.ui.instructionui
+package com.mshdabiola.detail.instruction
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -27,8 +27,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.mshdabiola.model.data.Type
-import com.mshdabiola.ui.questionui.Content
-import com.mshdabiola.ui.questionui.ContentView
+import com.mshdabiola.ui.image.Content
+import com.mshdabiola.ui.image.ContentView
 import com.mshdabiola.ui.state.InstructionUiState
 
 @Composable
@@ -84,7 +84,7 @@ fun InstructionUi(
         modifier = modifier,
         headlineContent = {
             if (instructionUiState.title != null) {
-                Text(instructionUiState.title)
+                Text(instructionUiState.title!!)
             }
         },
         supportingContent = {

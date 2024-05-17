@@ -1,4 +1,4 @@
-package com.mshdabiola.ui
+package com.mshdabiola.ui.image
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -10,7 +10,6 @@ import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Density
-import com.mshdabiola.ui.image.AsyncImage
 import java.io.File
 
 @Composable

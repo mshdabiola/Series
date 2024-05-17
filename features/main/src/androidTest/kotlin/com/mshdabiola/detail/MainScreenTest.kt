@@ -7,7 +7,7 @@ package com.mshdabiola.detail
 import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import com.mshdabiola.main.MainScreen
-import com.mshdabiola.ui.MainState
+import com.mshdabiola.main.MainState
 import com.mshdabiola.ui.NoteUiState
 import kotlinx.collections.immutable.toImmutableList
 import org.junit.Rule

@@ -7,7 +7,6 @@ package com.mshdabiola.main
 import com.mshdabiola.data.repository.IExaminationRepository
 import com.mshdabiola.data.repository.ISubjectRepository
 import com.mshdabiola.mvvn.ViewModel
-import com.mshdabiola.ui.MainState
 import com.mshdabiola.ui.state.ExamUiState
 import com.mshdabiola.ui.state.SubjectUiState
 import com.mshdabiola.ui.toExam

@@ -1,4 +1,4 @@
-package com.mshdabiola.ui.questionui
+package com.mshdabiola.detail.question
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
@@ -35,6 +35,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.mshdabiola.model.data.Type
+import com.mshdabiola.ui.image.Content
+import com.mshdabiola.ui.image.ContentView
 import com.mshdabiola.ui.state.QuestionUiState
 
 @OptIn(ExperimentalLayoutApi::class)
@@ -115,7 +117,7 @@ fun QuestionEditUi(
             Spacer(Modifier.height(4.dp))
             Text("Answer", modifier = Modifier.padding(horizontal = 16.dp))
             Content(
-                items = questionUiState.answers,
+                items = questionUiState.answers!!,
                 examId = questionUiState.id,
                 addUp = { addUp(-2, it) },
                 addBottom = { addBottom(-2, it) },
@@ -245,7 +247,7 @@ fun QuestionUi(
                 Spacer(Modifier.height(4.dp))
                 Text("Answer", modifier = Modifier.padding(horizontal = 16.dp))
                 ContentView(
-                    items = questionUiState.answers,
+                    items = questionUiState.answers!!,
                     examId = questionUiState.examId,
 
                     )

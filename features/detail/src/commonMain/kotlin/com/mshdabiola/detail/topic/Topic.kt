@@ -1,4 +1,4 @@
-package com.mshdabiola.ui.topicui
+package com.mshdabiola.detail.topic
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.material.icons.Icons

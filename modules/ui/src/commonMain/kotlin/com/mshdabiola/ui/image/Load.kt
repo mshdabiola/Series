@@ -1,7 +1,7 @@
-package com.mshdabiola.ui
 
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.Density
+import com.mshdabiola.ui.image.parseVectorRoot
 import org.xml.sax.InputSource
 import javax.xml.parsers.DocumentBuilderFactory
 

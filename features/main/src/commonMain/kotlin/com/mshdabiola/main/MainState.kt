@@ -1,4 +1,4 @@
-package com.mshdabiola.ui
+package com.mshdabiola.main
 
 import com.mshdabiola.model.Note
 import com.mshdabiola.ui.state.ExamUiState
@@ -25,4 +25,3 @@ data class MainState(
 //    val messages: ImmutableList<Notify> = emptyList<Notify>().toImmutableList()
 )
 
-fun Note.asNoteUiState() = NoteUiState(id, title, content)

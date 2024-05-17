@@ -83,7 +83,6 @@ import com.mshdabiola.mvvn.KoinCommonViewModel
 import com.mshdabiola.mvvn.collectAsStateWithLifecycleCommon
 import com.mshdabiola.ui.CommonScreen
 import com.mshdabiola.ui.ScreenSize
-import com.mshdabiola.ui.examui.ExamUi
 import com.mshdabiola.ui.state.ExamUiState
 import com.mshdabiola.ui.state.SubjectUiState
 import kotlinx.collections.immutable.ImmutableList
@@ -510,7 +509,7 @@ internal fun MainScreen(
                 verticalArrangement = Arrangement.spacedBy(8.dp),
             ) {
                 Text("Add Examination")
-                com.mshdabiola.ui.DropdownMenu(
+                com.mshdabiola.ui.image.DropdownMenu(
                     modifier = Modifier.fillMaxWidth(),
                     currentIndex = subjects.indexOfFirst { it.name == examUiState?.subject?.name },
                     data = subjects.map { it.name }.toImmutableList(),

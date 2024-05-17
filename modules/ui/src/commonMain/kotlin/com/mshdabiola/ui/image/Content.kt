@@ -1,4 +1,4 @@
-package com.mshdabiola.ui.questionui
+package com.mshdabiola.ui.image
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -39,8 +39,6 @@ import androidx.compose.ui.unit.dp
 import com.mshdabiola.model.ImageUtil
 import com.mshdabiola.model.data.Type
 import com.mshdabiola.retex.Latex
-import com.mshdabiola.ui.DragAndDropImage
-import com.mshdabiola.ui.ImageUi
 import com.mshdabiola.ui.MarkUpText
 import com.mshdabiola.ui.state.ItemUiState
 import kotlinx.collections.immutable.ImmutableList

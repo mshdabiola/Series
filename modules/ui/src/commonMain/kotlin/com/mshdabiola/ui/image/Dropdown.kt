@@ -1,4 +1,4 @@
-package com.mshdabiola.ui
+package com.mshdabiola.ui.image
 
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api

@@ -1,4 +1,4 @@
-package com.mshdabiola.ui
+package com.mshdabiola.ui.image
 
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush

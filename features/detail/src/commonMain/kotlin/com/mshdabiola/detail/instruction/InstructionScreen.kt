@@ -33,8 +33,6 @@ import com.mshdabiola.model.data.Type
 import com.mshdabiola.mvvn.KoinCommonViewModel
 import com.mshdabiola.ui.CommonScreen2
 import com.mshdabiola.ui.ScreenSize
-import com.mshdabiola.ui.instructionui.InstructionEditUi
-import com.mshdabiola.ui.instructionui.InstructionUi
 import com.mshdabiola.ui.state.InstruInputUiState
 import com.mshdabiola.ui.state.InstructionUiState
 import kotlinx.collections.immutable.ImmutableList

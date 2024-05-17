@@ -1,4 +1,4 @@
-package com.mshdabiola.ui.examui
+package com.mshdabiola.main
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
