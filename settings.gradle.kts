@@ -54,4 +54,9 @@ include(":features:main")
 include(":features:detail")
 include(":features:setting")
 
+include(":features:mainc")
+include(":features:finish")
+include(":features:question")
+include(":features:profile")
+include(":features:stat")
 

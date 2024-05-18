@@ -3,6 +3,7 @@ package com.mshdabiola.designsystem.icon
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Logout
 import androidx.compose.material.icons.filled.Bookmarks
+import androidx.compose.material.icons.filled.Domain
 import androidx.compose.material.icons.filled.Explore
 import androidx.compose.material.icons.filled.Feedback
 import androidx.compose.material.icons.filled.Info
@@ -11,6 +12,16 @@ import androidx.compose.material.icons.filled.Map
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Reviews
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.filled.Stairs
+import androidx.compose.material.icons.outlined.Domain
+import androidx.compose.material.icons.outlined.Person
+import androidx.compose.material.icons.outlined.Stairs
+import androidx.compose.runtime.Composable
+import org.jetbrains.compose.resources.stringArrayResource
+import series.modules.designsystem.generated.resources.Res
+import series.modules.designsystem.generated.resources.main_navigator
+import series.modules.designsystem.generated.resources.setting_navigator
+import series.modules.designsystem.generated.resources.str_arr
 
 val mainIcons =
     arrayOf(
@@ -32,6 +43,30 @@ val mainRoute =
         "explore_route",
         "bookmarks_route",
         "reviews_route",
+    )
+
+val mainNavigator
+    @Composable
+    get() = stringArrayResource(Res.array.main_navigator)
+val settingNavigator
+    @Composable
+    get() = stringArrayResource(Res.array.setting_navigator)
+
+val cbtNavigator
+   @Composable
+    get() = stringArrayResource(Res.array.str_arr)
+val cbtIcons =
+    arrayOf(
+        Icons.Outlined.Domain,
+        Icons.Outlined.Person,
+        Icons.Outlined.Stairs,
+    )
+
+val cbtRoute =
+    arrayOf(
+        "main_route",
+        "profile_route",
+        "stat_route",
     )
 
 val settingIcons =

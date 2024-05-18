@@ -11,7 +11,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.LocalLibrary
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -28,19 +27,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.mshdabiola.designsystem.icon.mainIcons
+import com.mshdabiola.designsystem.icon.cbtIcons
+import com.mshdabiola.designsystem.icon.cbtNavigator
+import com.mshdabiola.designsystem.icon.cbtRoute
 import com.mshdabiola.designsystem.icon.mainRoute
 import com.mshdabiola.designsystem.icon.settingIcons
+import com.mshdabiola.designsystem.icon.settingNavigator
 import com.mshdabiola.designsystem.icon.settingRoute
-import org.jetbrains.compose.resources.stringArrayResource
-import org.jetbrains.compose.resources.stringResource
-import series.modules.ui.generated.resources.Res
-import series.modules.ui.generated.resources.app_name
-import series.modules.ui.generated.resources.main
-import series.modules.ui.generated.resources.main_navigator
-import series.modules.ui.generated.resources.setting_navigator
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CommonNavigation(
     modifier: Modifier = Modifier,
@@ -67,37 +61,24 @@ fun CommonNavigation(
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Icon(Icons.Default.LocalLibrary, "Logo")
                 Text(
-                    stringResource(Res.string.app_name),
+                    "Cbt",
                     style = MaterialTheme.typography.headlineSmall,
                 )
             }
             Spacer(Modifier.height(32.dp))
-//        FloatingActionButton(
-//            containerColor = MaterialTheme.colorScheme.secondaryContainer,
-//            onClick = onCreate){
-//            Row (
-//                modifier = Modifier.padding(ButtonDefaults.TextButtonWithIconContentPadding),
-//                verticalAlignment = Alignment.CenterVertically
-//                ){
-//                Icon(Icons.Default.AddAPhoto,"add image")
-//                Spacer(Modifier.width(ButtonDefaults.IconSpacing))
-//                Text(stringResource(Res.string.add_image))
-//            }
-//        }
-
             if (showLong) {
                 Column(
                     verticalArrangement = Arrangement.spacedBy(8.dp),
                 ) {
-                    Text(stringResource(Res.string.main))
-                    stringArrayResource(Res.array.main_navigator)
+                    Text("Main")
+                    cbtNavigator
                         .forEachIndexed { index, navigator ->
                             NavigationDrawerItem(
-                                selected = currentNavigation.contains(mainRoute[index]),
+                                selected = currentNavigation.contains(cbtRoute[index]),
                                 label = { Text(navigator) },
-                                onClick = { onNavigate(mainRoute[index]) },
+                                onClick = { onNavigate(cbtRoute[index]) },
                                 colors = color,
-                                icon = { Icon(mainIcons[index], navigator) },
+                                icon = { Icon(cbtIcons[index], navigator) },
                             )
                         }
                 }
@@ -108,7 +89,7 @@ fun CommonNavigation(
             Column(
                 verticalArrangement = Arrangement.spacedBy(8.dp),
             ) {
-                stringArrayResource(Res.array.setting_navigator)
+                settingNavigator
                     .forEachIndexed { index, navigator ->
                         NavigationDrawerItem(
                             selected = currentNavigation.contains(settingRoute[index]),
@@ -153,15 +134,15 @@ fun CommonRail(
                 horizontalAlignment = Alignment.CenterHorizontally,
 
                 ) {
-                Text(stringResource(Res.string.main))
-                stringArrayResource(Res.array.main_navigator)
+                Text("Main")
+                cbtNavigator
                     .forEachIndexed { index, navigator ->
                         NavigationRailItem(
-                            selected = currentNavigation.contains(mainRoute[index]),
+                            selected = currentNavigation.contains(cbtRoute[index]),
 //                            label = { Text(navigator) },
-                            onClick = { onNavigate(mainRoute[index]) },
+                            onClick = { onNavigate(cbtRoute[index]) },
                             alwaysShowLabel = false,
-                            icon = { Icon(mainIcons[index], navigator) },
+                            icon = { Icon(cbtIcons[index], navigator) },
                         )
                     }
             }
@@ -171,7 +152,7 @@ fun CommonRail(
             Column(
                 verticalArrangement = Arrangement.spacedBy(8.dp),
             ) {
-                stringArrayResource(Res.array.setting_navigator)
+                settingNavigator
                     .forEachIndexed { index, navigator ->
                         NavigationRailItem(
                             selected = currentNavigation.contains(settingRoute[index]),
@@ -198,14 +179,14 @@ fun CommonBar(
     onNavigate: (String) -> Unit = {},
 ) {
     NavigationBar(modifier) {
-        stringArrayResource(Res.array.main_navigator)
+        cbtNavigator
             .forEachIndexed { index, navigator ->
                 NavigationBarItem(
-                    selected = currentNavigation.contains(mainRoute[index]),
+                    selected = currentNavigation.contains(cbtRoute[index]),
                     // label = { Text(navigator) },
-                    onClick = { onNavigate(mainRoute[index]) },
+                    onClick = { onNavigate(cbtRoute[index]) },
                     alwaysShowLabel = false,
-                    icon = { Icon(mainIcons[index], navigator) },
+                    icon = { Icon(cbtIcons[index], navigator) },
                 )
             }
     }
