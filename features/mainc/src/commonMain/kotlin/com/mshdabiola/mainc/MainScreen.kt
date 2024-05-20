@@ -48,7 +48,6 @@ import com.mshdabiola.ui.getIconLayer3
 import com.mshdabiola.ui.getStringSubject
 import com.mshdabiola.ui.getStringType
 import com.mshdabiola.ui.state.ExamType
-import com.mshdabiola.ui.state.MainState
 
 // import org.koin.androidx.compose.koinViewModel
 

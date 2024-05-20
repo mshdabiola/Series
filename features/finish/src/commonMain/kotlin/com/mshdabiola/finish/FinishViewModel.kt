@@ -8,25 +8,18 @@ import com.mshdabiola.data.repository.IExaminationRepository
 import com.mshdabiola.data.repository.IQuestionRepository
 import com.mshdabiola.data.repository.ISettingRepository
 import com.mshdabiola.data.repository.ISubjectRepository
-import com.mshdabiola.model.data.CurrentExam
 import com.mshdabiola.mvvn.ViewModel
 import com.mshdabiola.ui.state.ExamType
 import com.mshdabiola.ui.state.ExamUiState
-import com.mshdabiola.ui.state.MainState
 import com.mshdabiola.ui.state.QuestionUiState
 import com.mshdabiola.ui.state.ScoreUiState
 import com.mshdabiola.ui.state.Section
 import com.mshdabiola.ui.toQuestionUiState
 import com.mshdabiola.ui.toUi
 import kotlinx.collections.immutable.toImmutableList
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.firstOrNull
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
@@ -36,13 +29,54 @@ class FinishViewModel constructor(
     private val questionRepository: IQuestionRepository,
     private val iExamRepository: IExaminationRepository,
 
-    ) : ViewModel(){
+    ) : ViewModel() {
 
-    private var type: ExamType = ExamType.YEAR
 
     private val _mainState =
-        MutableStateFlow(MainState(listOfAllExams = emptyList<ExamUiState>().toImmutableList()))
+        MutableStateFlow(MainState())
     val mainState = _mainState.asStateFlow()
+
+    init {
+        viewModelScope.launch {
+            var current = settingRepository.currentExam.first()
+
+            current = current.copy(isSubmit = true)
+
+            settingRepository.setCurrentExam(current)
+
+            val exam = iExamRepository.getOne(current.id).first()!!
+            val questions = questionRepository.getByExamId(current.id).first()
+                .map { it.toQuestionUiState() }
+
+            val allQuestions = emptyList<List<QuestionUiState>>().toMutableList()
+
+            allQuestions.add(questions.filter { it.isTheory.not() })
+            allQuestions.add(questions.filter { it.isTheory })
+
+
+            val section = allQuestions
+                .map { questionUiStates ->
+                    val isTheory = questionUiStates.all { it.isTheory }
+                    Section(stringRes = if (isTheory) 1 else 0, false)
+                }
+
+            val choose=current.choose.map { it.toImmutableList() }.toImmutableList()
+
+
+            _mainState.update {
+                it.copy(
+                    examination = exam.toUi(),
+                    questions = allQuestions.map { it.toImmutableList() }.toImmutableList(),
+                    sections = section.toImmutableList(),
+                    choose = choose,
+                    typeIndex = current.examPart
+                )
+            }
+
+            markExam()
+
+        }
+    }
 
     private fun markExam() {
         val answerIndex = mainState.value

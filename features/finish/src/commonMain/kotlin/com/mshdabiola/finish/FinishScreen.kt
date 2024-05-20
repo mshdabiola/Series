@@ -46,8 +46,8 @@ import com.mshdabiola.ui.QuestionUi
 import com.mshdabiola.ui.ScoreCard
 import com.mshdabiola.ui.ScreenSize
 import com.mshdabiola.ui.getSection
+import com.mshdabiola.ui.state.ExamType
 import com.mshdabiola.ui.state.InstructionUiState
-import com.mshdabiola.ui.state.MainState
 import com.mshdabiola.ui.state.QuestionUiState
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.launch
@@ -69,7 +69,10 @@ internal fun FinishRoute(
         mainState = mainState.value,
         back =onBack,
         changeIndex = {},
-        navigateToQuestion =navigateToQuestion,
+        navigateToQuestion ={e,y,t->
+            onBack()
+            navigateToQuestion(e,y,t)
+        },
     )
 }
 
@@ -106,7 +109,7 @@ internal fun FinishScreen(
                     }
                 },
                 floatingActionButton = {
-                    ExtendedFloatingActionButton(onClick = { navigateToQuestion(4, 5, 5) }) {
+                    ExtendedFloatingActionButton(onClick = { navigateToQuestion(ExamType.YEAR.ordinal, mainState.examination.year, mainState.typeIndex) }) {
                         Icon(imageVector = Icons.Default.Replay, contentDescription = "Share")
                         Spacer(modifier = Modifier.width(ButtonDefaults.IconSpacing))
                         Text(text = "Retry Questions")

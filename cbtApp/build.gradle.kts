@@ -1,5 +1,4 @@
 import com.mshdabiola.app.BuildType
-import org.jetbrains.compose.ExperimentalComposeLibrary
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl
 
@@ -10,7 +9,6 @@ plugins {
     id("mshdabiola.android.application")
     id("mshdabiola.android.application.compose")
     id("mshdabiola.android.application.jacoco")
-    id("jacoco")
     id("mshdabiola.android.application.firebase")
     alias(libs.plugins.androidx.baselineprofile)
     alias(libs.plugins.androidApplication)
@@ -18,14 +16,14 @@ plugins {
 }
 dependencies {
 
-    implementation(project(":modules:app:cbt"))
-    implementation(project(":modules:model"))
-    implementation(project(":modules:data:cbt"))
-    implementation(project(":modules:navigation:cbt"))
-    implementation(project(":modules:analytics"))
-    implementation(project(":modules:mvvn"))
-    implementation(project(":modules:designsystem"))
-
+//    implementation(project(":modules:app"))
+//    implementation(project(":modules:model"))
+//    implementation(project(":modules:data"))
+//    implementation(project(":modules:navigation"))
+//    implementation(project(":modules:analytics"))
+//    implementation(project(":modules:mvvn"))
+//    implementation(project(":modules:designsystem"))
+//
 
 
     implementation(libs.koin.android.compose)
@@ -58,7 +56,7 @@ dependencies {
 }
 
 kotlin {
-//    @OptIn(ExperimentalWasmDsl::class)
+    @OptIn(ExperimentalWasmDsl::class)
 //    wasmJs {
 //        moduleName = "composeApp"
 //        browser {
@@ -87,34 +85,58 @@ kotlin {
             implementation(libs.androidx.activity.compose)
         }
         commonMain.dependencies {
-            implementation(compose.runtime)
-            implementation(compose.foundation)
-            implementation(compose.material)
-            implementation(compose.ui)
-            @OptIn(ExperimentalComposeLibrary::class)
-            implementation(compose.components.resources)
+//            implementation(compose.runtime)
+//            implementation(compose.foundation)
+//            implementation(compose.material)
+//            implementation(compose.ui)
+//            @OptIn(ExperimentalComposeLibrary::class)
+//            implementation(compose.components.resources)
 //            implementation(project(":shared"))
-
-            implementation(libs.androidx.compose.material3.windowSizeClass)
-
-            implementation(libs.decompose.core)
-            implementation(libs.decompose.compose.jetbrains)
-
+//
+//            implementation(libs.androidx.compose.material3.windowSizeClass)
+//
+//            implementation(libs.decompose.core)
+//            implementation(libs.decompose.compose.jetbrains)
+//
             implementation(libs.koin.core)
+//
+//            implementation(project(":modules:designsystem"))
+//            implementation(project(":modules:analytics"))
+//            implementation(project(":modules:mvvn"))
+//            implementation(project(":modules:navigation"))
+//            implementation(project(":modules:network"))
+            implementation(project(":modules:data"))
+
+
+            implementation(project(":modules:mvvn"))
+            implementation(project(":modules:ui"))
+
 
             implementation(project(":modules:designsystem"))
             implementation(project(":modules:analytics"))
-            implementation(project(":modules:mvvn"))
-            implementation(project(":modules:navigation:cbt"))
+
+
+
+
+            implementation(project(":features:mainc"))
+            implementation(project(":features:profile"))
+            implementation(project(":features:stat"))
+            implementation(project(":features:question"))
+            implementation(project(":features:finish"))
+
+            implementation(project(":features:setting"))
+
+
         }
 
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
-            implementation(project(":modules:app:cbt"))
+            // implementation(project(":modules:app"))
 
             implementation(libs.kotlinx.coroutines.swing)
 
         }
+
     }
 }
 
@@ -124,10 +146,10 @@ android {
     sourceSets["main"].res.srcDirs("src/androidMain/res")
     sourceSets["main"].resources.srcDirs("src/commonMain/composeResources")
 
-    namespace = "com.mshdabiola.series.cbt"
+    namespace = "com.mshdabiola.skeletonapp"
 
     defaultConfig {
-        applicationId = "com.mshdabiola.series.cbt"
+        applicationId = "com.mshdabiola.skeletonapp"
         versionCode = 1
         versionName = "0.0.1" // X.Y.Z; X = Major, Y = minor, Z = Patch level
 
@@ -147,7 +169,7 @@ android {
             applicationIdSuffix = BuildType.RELEASE.applicationIdSuffix
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                "proguard-rules.pro",
             )
 
             // To publish on the Play store a private signing key is required, but to allow anyone
@@ -197,18 +219,18 @@ compose.desktop {
         buildTypes.release.proguard {
             configurationFiles.from(project.file("compose-desktop.pro"))
             obfuscate.set(true)
-            version.set("7.3.0")
+            version.set("7.4.2")
         }
 
-        val iconsRoot = project.file("src/commonMain/composeResources/drawable/launcher")
+        val iconsRoot = project.file("src/desktopMain/resources/launcher")
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
-            packageVersion = "1.0.0"
-            packageName = "Series Cbt"
-            description = "For setting question"
+            packageVersion = "1.0.1"
+            packageName = "Skeleton"
+            description = "Template"
             copyright = "© 2022 Mshdabiola. All rights reserved."
             vendor = "Mshdabiola App"
-            version = "1.0.0"
+            version = "1.0.1"
             licenseFile.set(rootProject.file("LICENSE"))
 
             modules("java.net.http", "java.sql")
@@ -217,21 +239,22 @@ compose.desktop {
                 iconFile.set(iconsRoot.resolve("linux.png"))
                 debMaintainer = "mshdabiola@gmail.com"
                 menuGroup = packageName
-                appCategory = "Education"
+                appCategory = "Productivity"
             }
 
             windows {
                 iconFile.set(iconsRoot.resolve("windows.ico"))
                 shortcut = true
                 menuGroup = packageName
-//                https://www.guidgen.com/   generate uuid
+//                https://www.guidgen.com/
+
                 //https://wixtoolset.org/documentation/manual/v3/howtos/general/generate_guids.html
-                upgradeUuid = "9ed621bd-5cd6-49d9-90d8-d3ff766709ab"
+                upgradeUuid = "791AC64E-C9A7-4CBF-A1C4-AFE5CFFDDDFA"
             }
 
             macOS {
                 iconFile.set(iconsRoot.resolve("macos.icns"))
-                bundleID = "com.mshdabiola.series.editor"
+                bundleID = "com.mshdabiola.skeleton"
                 appCategory = "public.app-category.productivity"
                 signing {
                     sign.set(false)
@@ -241,7 +264,7 @@ compose.desktop {
     }
 }
 
-//
+
 //compose.experimental {
 //    web.application {}
 //}

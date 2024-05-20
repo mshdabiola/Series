@@ -1,3 +1,8 @@
+-printmapping build/release-mapping.txt
+
+-dontoptimize
+
+
 -keepclasseswithmembers public class com.mshdabiola.desktop.MainAppKt {
     public static void main(java.lang.String[]);
 }
@@ -84,11 +89,20 @@
 }
 
 # Change here com.yourcompany.yourpackage
--keep,includedescriptorclasses class com.mshdabiola.model.data**$$serializer { *; } # <-- change package name to your app's
--keepclassmembers class com.mshdabiola.model.data.** { # <-- change package name to your app's
+-keep,includedescriptorclasses class com.mshdabiola.setting.model**$$serializer { *; } # <-- change package name to your app's
+-keepclassmembers class com.mshdabiola.setting.model.** { # <-- change package name to your app's
     *** Companion;
 }
--keepclasseswithmembers class com.mshdabiola.model.data.** { # <-- change package name to your app's
+-keepclasseswithmembers class com.mshdabiola.setting.model.** { # <-- change package name to your app's
+    kotlinx.serialization.KSerializer serializer(...);
+}
+
+# Change here com.yourcompany.yourpackage
+-keep,includedescriptorclasses class com.mshdabiola.network.model**$$serializer { *; } # <-- change package name to your app's
+-keepclassmembers class com.mshdabiola.network.model.** { # <-- change package name to your app's
+    *** Companion;
+}
+-keepclasseswithmembers class com.mshdabiola.network.model.** { # <-- change package name to your app's
     kotlinx.serialization.KSerializer serializer(...);
 }
 
@@ -142,3 +156,9 @@
 -ignorewarnings
 
 -optimizations !class/unboxing/enum
+
+-keep class * extends androidx.room.RoomDatabase
+-keep @androidx.room.Entity class *
+-dontwarn androidx.room.paging.**
+-keep class androidx.sqlite.** { *; }
+-keep class androidx.sqlite.database.** { *; }

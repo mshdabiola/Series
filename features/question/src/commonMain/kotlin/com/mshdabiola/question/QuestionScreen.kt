@@ -59,7 +59,6 @@ import com.mshdabiola.ui.correct
 import com.mshdabiola.ui.getSection
 import com.mshdabiola.ui.onCorrect
 import com.mshdabiola.ui.state.InstructionUiState
-import com.mshdabiola.ui.state.MainState
 import com.mshdabiola.ui.state.QuestionUiState
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
@@ -82,7 +81,10 @@ internal fun QuestionRoute(
     QuestionScreen(
         mainStat = mainState.value,
         back = onBack,
-        onFinish ={navigateToFinish()},
+        onFinish = {
+            onBack()
+            navigateToFinish()
+        },
         onOption = viewModel::onOption,
         onTimeChanged = viewModel::onTimeChanged,
         changeIndex = viewModel::changeIndex,

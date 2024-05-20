@@ -50,7 +50,7 @@ kotlin {
                 api(compose.materialIconsExtended)
                 api(compose.components.resources)
                 api(libs.kotlinx.collection.immutable)
-                api(project(":modules:model"))
+                api("com.mshdabiola.model:model:1.0.0")
                 api(libs.androidx.compose.material3.windowSizeClass)
                 api(libs.navigation.compose)
                 api(libs.paging.compose.common)

@@ -11,10 +11,7 @@ import com.mshdabiola.data.repository.ISubjectRepository
 import com.mshdabiola.model.data.CurrentExam
 import com.mshdabiola.mvvn.ViewModel
 import com.mshdabiola.ui.state.ExamType
-import com.mshdabiola.ui.state.ExamUiState
-import com.mshdabiola.ui.state.MainState
 import com.mshdabiola.ui.state.QuestionUiState
-import com.mshdabiola.ui.state.ScoreUiState
 import com.mshdabiola.ui.state.Section
 import com.mshdabiola.ui.toQuestionUiState
 import com.mshdabiola.ui.toUi
@@ -23,7 +20,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
@@ -31,7 +27,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class QuestionViewModel constructor(
-    examType: ExamType, yearIndex: Int, typeIndex: Int,
+    examOrdinal: Int, year: Long, val  typeIndex: Int,
     private val iSubjectRepository: ISubjectRepository,
     private val settingRepository: ISettingRepository,
     private val questionRepository: IQuestionRepository,
@@ -39,50 +35,45 @@ class QuestionViewModel constructor(
 
     ) : ViewModel() {
 
-    private var type: ExamType = ExamType.YEAR
+    private var type: ExamType = ExamType.values()[examOrdinal]
 
     private val _mainState =
-        MutableStateFlow(MainState(listOfAllExams = emptyList<ExamUiState>().toImmutableList()))
+        MutableStateFlow(MainState())
     val mainState = _mainState.asStateFlow()
 
     init {
-        viewModelScope.launch(Dispatchers.IO) {
-            iExamRepository
-                .getAll()
-                .map { examWithSubs ->
-                    examWithSubs
-                        .map { it.toUi() }
-                        .toImmutableList()
-                }
-                .collectLatest { exam ->
-                    _mainState.update {
-                        it.copy(listOfAllExams = exam)
-                    }
-                }
-        }
 
         viewModelScope.launch(Dispatchers.IO) {
-
-            onContinueExam()
+            startExam(examType = type, year, typeIndex)
         }
     }
 
-    fun startExam(examType: ExamType, yearIndex: Int, typeIndex: Int) {
+    private fun startExam(examType: ExamType, year: Long, typeIndex: Int) {
+
+
         viewModelScope.launch(Dispatchers.IO) {
+
+            val list = iExamRepository
+                .getAll()
+                .map {
+                    it.map { it.toUi() }
+                }
+                .first()
+
             try {
                 type = examType
 
                 val exam = when (type) {
                     ExamType.YEAR -> {
-                        mainState.value.listOfAllExams[yearIndex]
+                       list.single { it.year == year }
                     }
 
                     ExamType.FAST_FINGER -> {
-                        mainState.value.listOfAllExams[0]
+                        list[0]
                     }
 
                     ExamType.RANDOM -> {
-                        mainState.value.listOfAllExams.filter { it.isObjectiveOnly }.random()
+                        list.filter { it.isObjectiveOnly }.random()
                     }
                 }
 
@@ -137,8 +128,8 @@ class QuestionViewModel constructor(
                         choose = choose.map { it.toImmutableList() }.toImmutableList(),
                         currentSectionIndex = 0,
                         sections = section.toImmutableList(),
-                        totalTime = time, currentTime = 0, examPart = typeIndex,
-                        isSubmit = false,
+                        totalTime = time, currentTime = 0,
+                      //  examPart = typeIndex,
                     )
                 }
             } catch (e: Exception) {
@@ -169,8 +160,13 @@ class QuestionViewModel constructor(
                     allQuestions.add(list.filter { it.isTheory })
                 }
             }
-
-            val exam = mainState.value.listOfAllExams.find {
+            val listexam = iExamRepository
+                .getAll()
+                .map {
+                    it.map { it.toUi() }
+                }
+                .first()
+            val exam = listexam.find {
                 currentExam1.id == it.id
             }
             val chooses = currentExam1.choose.map { it.toImmutableList() }.toImmutableList()
@@ -184,10 +180,10 @@ class QuestionViewModel constructor(
             _mainState.update { state ->
                 state.copy(
                     currentExam = exam,
-                    examPart = currentExam1.examPart,
+//                    examPart = currentExam1.examPart,
                     currentTime = currentExam1.currentTime,
                     totalTime = currentExam1.totalTime,
-                    isSubmit = currentExam1.isSubmit,
+//                    isSubmit = currentExam1.isSubmit,
                     currentSectionIndex = currentExam1.paperIndex,
                     choose = chooses,
                     sections = section.toImmutableList(),
@@ -195,9 +191,6 @@ class QuestionViewModel constructor(
                 )
             }
 
-            if (currentExam1.isSubmit) {
-                markExam()
-            }
         }
     }
 
@@ -261,8 +254,8 @@ class QuestionViewModel constructor(
                     id = id.currentExam!!.id,
                     currentTime = id.currentTime,
                     totalTime = id.totalTime,
-                    isSubmit = id.isSubmit,
-                    examPart = id.examPart,
+//                    isSubmit = id.isSubmit,
+                    examPart = typeIndex,
                     paperIndex = mainState.value.currentSectionIndex,
                     choose = mainState.value.choose,
                 ),
@@ -281,79 +274,11 @@ class QuestionViewModel constructor(
         }
     }
 
-    fun onSubmit() {
-        viewModelScope.launch(Dispatchers.IO) {
-            _mainState.update {
-                it.copy(
-                    isSubmit = true,
-                    currentTime = 0,
-                )
-            }
-            markExam()
-            saveCurrentExam()
-        }
-    }
-
-    fun onRetry() {
-        val question = emptyList<List<QuestionUiState>>().toMutableList()
-        _mainState.update { state ->
-            state.copy(
-                questions = question.map { it.toImmutableList() }.toImmutableList(),
-            )
-        }
-
-        mainState.value.currentExam?.let { examUiState ->
-            val index = mainState.value.listOfAllExams.indexOfFirst { it.id == examUiState.id }
-            //   Timber.e("retry index is $index")
-
-            startExam(type, index, mainState.value.examPart)
-        }
-    }
-
-    private fun markExam() {
-        val answerIndex = mainState.value
-            .questions[0]
-            .filter { it.isTheory.not() }
-            .map { questionUiState ->
-                questionUiState.options!!.indexOfFirst { it.isAnswer }
-            }
-        val choose = mainState.value.choose[0]
-        val size = choose.size
-        val correct = answerIndex
-            .mapIndexed { index, i ->
-                choose[index] == i
-            }
-            .count { it }
-        val inCorrect = answerIndex.size - correct
-
-        val complete = choose.count { it > -1 }
-        val skipped = size - complete
-        val compPercent = ((complete / size.toFloat()) * 100).toInt()
-        val grade = when (((correct / size.toFloat()) * 100).toInt()) {
-            in 0..40 -> 'D'
-            in 41..50 -> 'C'
-            in 51..60 -> 'B'
-            else -> 'A'
-        }
-
-        _mainState.update {
-            it.copy(
-                score = ScoreUiState(
-                    completed = compPercent,
-                    inCorrect = inCorrect,
-                    skipped = skipped,
-                    grade = grade,
-                    correct = correct,
-                ),
-                currentSectionIndex = 0,
-            )
-        }
-    }
 
     private fun getTitle(examId: Long, no: Long, isTheory: Boolean): String {
-        val exam = mainState.value.listOfAllExams.find { it.id == examId }
+      //  val exam = mainState.value.listOfAllExams.find { it.id == examId }
 
-        return "Waec ${exam?.year} ${if (isTheory) "Theo" else "Obj"} Q$no"
+        return "Waec"// ${exam?.year} ${if (isTheory) "Theo" else "Obj"} Q$no"
     }
 
     fun changeIndex(index: Int) {

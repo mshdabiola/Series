@@ -1,7 +1,10 @@
 @Suppress("DSL_SCOPE_VIOLATION")
 plugins {
     id("mshdabiola.android.library")
+    id("maven-publish")
 }
+group = "com.mshdabiola.series"
+version = "0.0.1"
 
 android {
     namespace = "com.mshdabiola.data"

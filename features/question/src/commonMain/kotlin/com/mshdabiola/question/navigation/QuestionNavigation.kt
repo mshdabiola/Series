@@ -64,8 +64,8 @@ fun NavGraphBuilder.questionScreen(
         },
     ) { backStack->
 
-        val year = backStack.arguments!!.getInt(QUESTION_ID_YEAR)
-        val exam = backStack.arguments!!.getLong(QUESTION_ID_EXAM_TYPE)
+        val year = backStack.arguments!!.getLong(QUESTION_ID_YEAR)
+        val exam = backStack.arguments!!.getInt(QUESTION_ID_EXAM_TYPE)
         val index = backStack.arguments!!.getInt(QUESTION_ID_INDEX)
 
 

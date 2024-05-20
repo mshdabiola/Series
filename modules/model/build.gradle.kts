@@ -1,6 +1,17 @@
 @Suppress("DSL_SCOPE_VIOLATION")
 plugins {
     id("mshdabiola.android.library")
+    id("maven-publish")
+}
+group = "com.mshdabiola.model"
+version = "1.0.0"
+
+publishing {
+    repositories {
+        maven {
+            //...
+        }
+    }
 }
 
 android {
@@ -8,6 +19,11 @@ android {
 }
 
 kotlin {
+    kotlin {
+        androidTarget {
+            publishLibraryVariants("release", "debug")
+        }
+    }
 //    @OptIn(ExperimentalWasmDsl::class)
 //    wasmJs {
 //        browser()
