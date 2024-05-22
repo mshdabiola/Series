@@ -27,6 +27,7 @@ import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.getByType
 import org.gradle.kotlin.dsl.kotlin
+import org.gradle.kotlin.dsl.repositories
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 
 class AndroidLibraryConventionPlugin : Plugin<Project> {
@@ -36,8 +37,15 @@ class AndroidLibraryConventionPlugin : Plugin<Project> {
                 apply("kotlin-multiplatform")
                 apply("com.android.library")
                 apply("mshdabiola.android.lint")
+                apply("maven-publish")
 
             }
+            group = "com.mshdabiola.series"
+            version = "0.0.1"
+
+
+        
+
 
             extensions.configure<LibraryExtension> {
                 configureKotlinAndroid(this)
@@ -58,7 +66,9 @@ class AndroidLibraryConventionPlugin : Plugin<Project> {
                 add("testImplementation", kotlin("test"))
             }
             extensions.configure<KotlinMultiplatformExtension> {
-                androidTarget()
+                androidTarget {
+                    publishLibraryVariants("release", "debug")
+                }
                 jvm("desktop")
                 val libs = extensions.getByType<VersionCatalogsExtension>().named("libs")
                 with(sourceSets) {

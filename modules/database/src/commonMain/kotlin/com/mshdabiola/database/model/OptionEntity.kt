@@ -8,6 +8,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
+import com.mshdabiola.database.converter.ContentSer
 import com.mshdabiola.model.data.Content
 
 @Entity(
@@ -30,6 +31,6 @@ data class OptionEntity(
     val questionId: Long,
     val examId: Long,
     val title: String,
-    val contents: List<Content>,
+    val contents: List<ContentSer>,
     val isAnswer: Boolean
 )

@@ -2,6 +2,7 @@ package com.mshdabiola.database.di
 
 import androidx.room.RoomDatabase
 import com.mshdabiola.database.SeriesDatabase
+import com.mshdabiola.database.converter.ContentListConverter
 import kotlinx.coroutines.Dispatchers
 import org.koin.core.module.Module
 import org.koin.dsl.module
@@ -46,5 +47,6 @@ fun getRoomDatabase(
         .fallbackToDestructiveMigrationOnDowngrade(false)
         // .setDriver(BundledSQLiteDriver())
         .setQueryCoroutineContext(Dispatchers.IO)
+        .addTypeConverter(ContentListConverter())
         .build()
 }

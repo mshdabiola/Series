@@ -2,18 +2,18 @@ package com.mshdabiola.ui
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.painter.Painter
+import com.mshdabiola.series.ui.generated.resources.Res
+import com.mshdabiola.series.ui.generated.resources.modules_ui_cbt_exam_part
+import com.mshdabiola.series.ui.generated.resources.modules_ui_cbt_layer_1
+import com.mshdabiola.series.ui.generated.resources.modules_ui_cbt_layer_2
+import com.mshdabiola.series.ui.generated.resources.modules_ui_cbt_layer__1
+import com.mshdabiola.series.ui.generated.resources.modules_ui_cbt_sections
+import com.mshdabiola.series.ui.generated.resources.modules_ui_cbt_subject
+import com.mshdabiola.series.ui.generated.resources.modules_ui_cbt_type
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringArrayResource
 import org.jetbrains.compose.resources.stringResource
-import series.modules.ui.generated.resources.Res
-import series.modules.ui.generated.resources.modules_ui_cbt_exam_part
-import series.modules.ui.generated.resources.modules_ui_cbt_layer_1
-import series.modules.ui.generated.resources.modules_ui_cbt_layer_2
-import series.modules.ui.generated.resources.modules_ui_cbt_layer__1
-import series.modules.ui.generated.resources.modules_ui_cbt_sections
-import series.modules.ui.generated.resources.modules_ui_cbt_subject
-import series.modules.ui.generated.resources.modules_ui_cbt_type
-import series.modules.ui.generated.resources.rew
+
 
 @Composable
  fun getStringSubject(): String{
