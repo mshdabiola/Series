@@ -29,37 +29,21 @@ rootProject.name = "series"
 //include(":app")
 //include(":app:baselineprofile")
 include(":modules:database")
-include(":modules:designsystem")
 include(":modules:model")
 include(":modules:network")
-include(":modules:data")
-include(":modules:domain")
 include(":modules:testing")
 include(":modules:retex")
 include(":modules:jretex")
 include(":modules:datastore")
 
-include(":benchmark:cbt")
-include(":benchmark:editor")
 
-include(":modules:mvvn")
 include(":modules:analytics")
 
+include(":modules:ui")
+include(":modules:designsystem")
 
-include(":cbtApp")
+
+
 include(":editorApp")
 
-//include(":shared")
-
-include(":modules:ui")
-
-include(":features:main")
-include(":features:detail")
-include(":features:setting")
-
-include(":features:mainc")
-include(":features:finish")
-include(":features:question")
-include(":features:profile")
-include(":features:stat")
 

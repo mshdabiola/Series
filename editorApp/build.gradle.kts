@@ -52,7 +52,6 @@ dependencies {
     androidTestImplementation(project(":modules:testing"))
     androidTestImplementation(libs.accompanist.testharness)
     debugImplementation(libs.androidx.monitor)
-    baselineProfile(project(":benchmark:editor"))
 }
 
 kotlin {
@@ -85,43 +84,13 @@ kotlin {
             implementation(libs.androidx.activity.compose)
         }
         commonMain.dependencies {
-//            implementation(compose.runtime)
-//            implementation(compose.foundation)
-//            implementation(compose.material)
-//            implementation(compose.ui)
-//            @OptIn(ExperimentalComposeLibrary::class)
-//            implementation(compose.components.resources)
-//            implementation(project(":shared"))
-//
-//            implementation(libs.androidx.compose.material3.windowSizeClass)
-//
-//            implementation(libs.decompose.core)
-//            implementation(libs.decompose.compose.jetbrains)
-//
             implementation(libs.koin.core)
-//
-//            implementation(project(":modules:designsystem"))
-//            implementation(project(":modules:analytics"))
-//            implementation(project(":modules:mvvn"))
-//            implementation(project(":modules:navigation"))
-//            implementation(project(":modules:network"))
-            implementation(project(":modules:data"))
 
-
-            implementation(project(":modules:mvvn"))
             implementation(project(":modules:ui"))
 
 
             implementation(project(":modules:designsystem"))
             implementation(project(":modules:analytics"))
-
-
-
-
-            implementation(project(":features:main"))
-            implementation(project(":features:detail"))
-            implementation(project(":features:setting"))
-
 
         }
 

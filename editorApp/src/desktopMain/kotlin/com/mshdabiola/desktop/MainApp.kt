@@ -13,15 +13,10 @@ import androidx.compose.ui.window.WindowPlacement
 import androidx.compose.ui.window.WindowPosition
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
-import com.mshdabiola.skeletonapp.di.appModule
-import com.mshdabiola.skeletonapp.ui.SkeletonApp
-import org.koin.core.context.GlobalContext.startKoin
 import java.util.prefs.Preferences
 
-// import com.toxicbakery.logging.Arbor
-// import com.toxicbakery.logging.Seedling
 
-fun mainApp(appArgs: AppArgs) {
+fun mainApp() {
     val preference = Preferences.userRoot() // .node("main")
     val isLightKey = "isLight"
 
@@ -35,43 +30,18 @@ fun mainApp(appArgs: AppArgs) {
 
         Window(
             onCloseRequest = ::exitApplication,
-            title = "${appArgs.appName} (${appArgs.version})",
+            title = "oooo",
             icon = painterResource("launcher/system.png"),
             state = windowState,
         ) {
-//            MenuBar {
-//                Menu("Theme", 'T') {
-//                    if (!isLight) {
-//                        Item("Light Theme") {
-//                            isLight = true
-//                            preference.putBoolean(isLightKey, true)
-//                            preference.flush()
-//                        }
-//                    }
-//                    if (isLight) {
-//                        Item("Dark Theme") {
-//                            isLight = false
-//                            preference.putBoolean(isLightKey, false)
-//                            preference.flush()
-//                        }
-//                    }
-//                }
-//            }
-            SkeletonApp()
+
+
         }
     }
 }
 
 fun main() {
-    startKoin {
-        modules(appModule)
-    }
 
-    val appArgs = AppArgs(
-        appName = "Skeleton App", // To show on title bar
-        version = "v2.0.0", // To show on title inside brackets
-        versionCode = 100, // To compare with latest version code (in case if you want to prompt update)
-    )
 
-    mainApp(appArgs)
+    mainApp()
 }
