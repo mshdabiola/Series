@@ -25,3 +25,15 @@
 -keep,allowshrinking class * extends androidx.compose.ui.node.ModifierNodeElement {
 
 }
+
+-keepattributes Signature,RuntimeVisibleAnnotations,AnnotationDefault
+-keepclassmembers class * {
+    @kotlinx.serialization.SerialName *;
+}
+-keepclassmembers class * {
+    @kotlinx.serialization.Serializable *;
+}
+
+-keepclassmembers enum * {
+    @kotlinx.serialization.SerialName *;
+}
