@@ -26,21 +26,10 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "series"
-//include(":app")
-//include(":app:baselineprofile")
 include(":modules:database")
 include(":modules:model")
-include(":modules:network")
-include(":modules:testing")
 include(":modules:retex")
 include(":modules:jretex")
-include(":modules:datastore")
-
-
-include(":modules:analytics")
-
-include(":modules:ui")
-include(":modules:designsystem")
 
 
 

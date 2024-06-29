@@ -14,6 +14,7 @@
  *   limitations under the License.
  */
 
+import androidx.room.gradle.RoomExtension
 import com.google.devtools.ksp.gradle.KspExtension
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -36,10 +37,14 @@ class AndroidRoomConventionPlugin : Plugin<Project> {
             val libs = extensions.getByType<VersionCatalogsExtension>().named("libs")
 
             extensions.configure<KspExtension> {
+                arg("room.generateKotlin", "true")
+
+            }
+            extensions.configure<RoomExtension> {
                 // The schemas directory contains a schema file for each version of the Room database.
                 // This is required to enable Room auto migrations.
                 // See https://developer.android.com/reference/kotlin/androidx/room/AutoMigration.
-                // arg(RoomSchemaArgProvider(File(projectDir, "schemas")))
+                schemaDirectory("$projectDir/schemas")
             }
 
 
@@ -61,17 +66,18 @@ class AndroidRoomConventionPlugin : Plugin<Project> {
 
             extensions.configure<KotlinMultiplatformExtension> {
                 androidTarget()
-                jvm("desktop")
+                jvm()
+                jvmToolchain(17)
                 // val libs = extensions.getByType<VersionCatalogsExtension>().named("libs")
                 with(sourceSets) {
 
                     getByName("commonMain") {
                         this.dependencies {
-                            implementation(project(":modules:model"))
+//                            implementation(project(":modules:model"))
                             implementation(libs.findLibrary("room.runtime").get())
                             implementation(libs.findLibrary("room.ktx").get())
                             implementation(libs.findLibrary("room.paging").get())
-                            implementation(libs.findLibrary("kotlinx.serialization.json").get())
+//                            implementation(libs.findLibrary("paging.common").get())
 
                             api(libs.findLibrary("sqlite.bundled").get())//sqlite-bundled
 
@@ -87,15 +93,5 @@ class AndroidRoomConventionPlugin : Plugin<Project> {
         }
     }
 
-    /**
-     * https://issuetracker.google.com/issues/132245929
-     * [Export schemas](https://developer.android.com/training/data-storage/room/migrating-db-versions#export-schemas)
-     */
-//    class RoomSchemaArgProvider(
-//        @get:InputDirectory
-//        @get:PathSensitive(PathSensitivity.RELATIVE)
-//        val schemaDir: File,
-//    ) : CommandLineArgumentProvider {
-//        override fun asArguments() = listOf("room.schemaLocation=${schemaDir.path}")
-//    }
+
 }

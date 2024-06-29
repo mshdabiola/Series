@@ -39,14 +39,23 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
                     testInstrumentationRunner =
                         "com.mshdabiola.testing.TestRunner"
                 }
+                testOptions.animationsDisabled = true
                 configureGradleManagedDevices(this)
             }
 
             dependencies {
+
+
+                add("implementation", libs.findLibrary("androidx.lifecycle.runtimeCompose").get())
+                add("implementation", libs.findLibrary("androidx.tracing.ktx").get())
+                add("testImplementation", libs.findLibrary("robolectric").get())
                 add("testImplementation", project(":modules:testing"))
+                add("testImplementation", project(":modules:screenshot-testing"))
+
+
+                add("androidTestImplementation", libs.findLibrary("androidx.lifecycle.runtimeTesting").get())
                 add("androidTestImplementation", project(":modules:testing"))
 
-                add("testImplementation", libs.findLibrary("robolectric").get())
 
             }
 
@@ -59,7 +68,7 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
                         this.dependencies {
                             implementation(project(":modules:data"))
 
-                            implementation(project(":modules:mvvn"))
+                            implementation(project(":modules:model"))
                             implementation(project(":modules:ui"))
 
                             implementation(project(":modules:designsystem"))
@@ -85,14 +94,14 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
                         }
 
                     }
-                    getByName("desktopMain") {
+                    getByName("jvmMain") {
                         this.dependencies {
                             // implementation(libs.findLibrary("koin.core").get())
 
                         }
 
                     }
-                    getByName("desktopTest") {
+                    getByName("jvmTest") {
                         this.dependencies {
 
                         }

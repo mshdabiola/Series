@@ -9,10 +9,10 @@ plugins {
     id("mshdabiola.android.application")
     id("mshdabiola.android.application.compose")
     id("mshdabiola.android.application.jacoco")
-    id("mshdabiola.android.application.firebase")
-    alias(libs.plugins.androidx.baselineprofile)
-    alias(libs.plugins.androidApplication)
-    alias(libs.plugins.roborazzi)
+//    id("mshdabiola.android.application.firebase")
+//    alias(libs.plugins.androidx.baselineprofile)
+//    alias(libs.plugins.androidApplication)
+//    alias(libs.plugins.roborazzi)
 }
 dependencies {
 
@@ -26,32 +26,10 @@ dependencies {
 //
 
 
-    implementation(libs.koin.android.compose)
-    implementation(libs.koin.android)
-
-    implementation(libs.androidx.metrics)
-
-    implementation(libs.timber)
-    debugImplementation(libs.leakcanary.android)
-
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.core.splashscreen)
-    implementation(libs.androidx.tracing.ktx)
-    implementation(libs.androidx.profileinstaller)
 
-    debugImplementation(libs.androidx.compose.ui.testManifest)
-
-
-    testImplementation(project(":modules:testing"))
-    testImplementation(libs.accompanist.testharness)
-
-    testImplementation(libs.robolectric)
-    testImplementation(libs.roborazzi)
-
-    androidTestImplementation(project(":modules:testing"))
-    androidTestImplementation(libs.accompanist.testharness)
-    debugImplementation(libs.androidx.monitor)
 }
 
 kotlin {
@@ -80,17 +58,21 @@ kotlin {
         val desktopMain by getting
 
         androidMain.dependencies {
-            implementation(libs.compose.ui.tooling.preview)
-            implementation(libs.androidx.activity.compose)
+//            implementation(libs.compose.ui.tooling.preview)
+//            implementation(libs.androidx.activity.compose)
         }
         commonMain.dependencies {
             implementation(libs.koin.core)
 
-            implementation(project(":modules:ui"))
+            implementation(project(":modules:database"))
+            implementation(project(":modules:retex"))
+            implementation(project(":modules:jretex"))
 
-
-            implementation(project(":modules:designsystem"))
-            implementation(project(":modules:analytics"))
+            
+//
+//
+//            implementation(project(":modules:designsystem"))
+//            implementation(project(":modules:analytics"))
 
         }
 
@@ -142,7 +124,7 @@ android {
             // TODO: Abstract the signing configuration to a separate file to avoid hardcoding this.
             // signingConfig = signingConfigs.getByName("debug")
             // Ensure Baseline Profile is fresh for release builds.
-            baselineProfile.automaticGenerationDuringBuild = true
+            //baselineProfile.automaticGenerationDuringBuild = true
         }
         create("benchmark") {
             // Enable all the optimizations from release build through initWith(release).
@@ -169,7 +151,7 @@ android {
     }
 
     dependencies {
-        debugImplementation(libs.compose.ui.tooling)
+       // debugImplementation(libs.compose.ui.tooling)
     }
 }
 
@@ -235,11 +217,11 @@ compose.desktop {
 //}
 
 
-baselineProfile {
-    // Don't build on every iteration of a full assemble.
-    // Instead enable generation directly for the release build variant.
-    automaticGenerationDuringBuild = false
-}
+//baselineProfile {
+//    // Don't build on every iteration of a full assemble.
+//    // Instead enable generation directly for the release build variant.
+//    automaticGenerationDuringBuild = false
+//}
 
 dependencyGuard {
     configuration("releaseRuntimeClasspath")
