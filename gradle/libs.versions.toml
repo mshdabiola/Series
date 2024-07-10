@@ -55,7 +55,7 @@ truth = "1.4.2"
 turbine = "1.1.0"
 timber = "5.0.1"
 
-compose-plugin = "1.6.11"
+compose-plugin = "23.10.16.1"
 
 
 playGame = "20.1.0"
