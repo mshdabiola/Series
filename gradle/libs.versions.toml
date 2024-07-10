@@ -70,7 +70,7 @@ ktor = "2.3.11"
 uiTextGoogleFonts = "1.6.8"
 
 koin = "3.6.0-alpha3"
-koinTest = "3.6.0-alpha3"
+koinTest = "3.6.0-wasm-alpha2"
 koinCompose = "3.6.0-Beta4"
 koinComposeMultiplatform = "1.2.0-Beta4"
 
