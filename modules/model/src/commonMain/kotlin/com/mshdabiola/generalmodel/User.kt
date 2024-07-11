@@ -3,9 +3,10 @@ package com.mshdabiola.generalmodel
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class Instruction(
+data class User(
     val id: Long=-1,
-    val examId: Long,
-    val title: String,
-    val content: List<Content>,
+    val name: String,
+    val password: String,
+    val imagePath: String,
+    val rank :Long
 )

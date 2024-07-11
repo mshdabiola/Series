@@ -1,10 +1,11 @@
 package com.mshdabiola.generalmodel
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class Examination(
-    val id: Long?,
+    val id: Long=-1,
+    val subjectId: Long,
     val year: Long,
-    val isObjectiveOnly: Boolean,
     val duration: Long,
-    val updateTime: Long,
-    val subject: Subject,
 )
