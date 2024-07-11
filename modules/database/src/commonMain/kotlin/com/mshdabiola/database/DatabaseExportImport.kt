@@ -11,7 +11,6 @@ import org.koin.core.qualifier.qualifier
 import java.io.File
 import kotlin.io.path.Path
 import kotlin.io.path.inputStream
-import kotlin.io.path.outputStream
 
 class DatabaseExportImport(
     private val database: SeriesDatabase,
@@ -43,11 +42,11 @@ class DatabaseExportImport(
                     .first()
 
                 val questions = database.getQuestionDao()
-                    .getByIds(examsId)
+                    .getByExamIds(examsId)
                     .first()
 
                 val options = database.getOptionDao()
-                    .getByIds(examsId)
+                    .getByQuestionIds(questions.mapNotNull { it.id }.toSet())
                     .first()
 
                 val instructions = database.getInstructionDao()
@@ -107,7 +106,7 @@ class DatabaseExportImport(
             val input by inject<SeriesDatabase>(qualifier = qualifier("tem"), parameters = { parametersOf(dbOut.path) })
 
             val exams = input.getExaminationDao()
-                .getAll2()
+                .getAll()
                 .first()
             val subject =
                 input.getSubjectDao()
@@ -116,7 +115,7 @@ class DatabaseExportImport(
 
             val questions =
                 input.getQuestionDao()
-                    .getAll2()
+                    .getAll()
                     .first()
 
             val options =

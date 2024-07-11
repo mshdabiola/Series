@@ -2,12 +2,12 @@
  *abiola 2024
  */
 
-package com.mshdabiola.database.dao
+package com.mshdabiola.database.dao.exam
 
 import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.Upsert
-import com.mshdabiola.database.model.OptionEntity
+import com.mshdabiola.database.model.exam.OptionEntity
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -22,8 +22,12 @@ interface OptionDao {
     @Query("SELECT * FROM option_table WHERE id = :id")
     fun getOne(id: Long): Flow<OptionEntity?>
 
-    @Query("SELECT * FROM option_table WHERE examId IN (:ids)")
-    fun getByIds(ids: Set<Long>): Flow<List<OptionEntity>>
+//    @Query("SELECT * FROM option_table WHERE examId IN (:ids)")
+//    fun getByIds(ids: Set<Long>): Flow<List<OptionEntity>>
+
+    @Query("SELECT * FROM option_table WHERE questionId IN (:ids)")
+    fun getByQuestionIds(ids: Set<Long>): Flow<List<OptionEntity>>
+
 
     @Query("DELETE FROM option_table WHERE id = :id")
     suspend fun delete(id: Long)

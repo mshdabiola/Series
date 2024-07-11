@@ -1,10 +1,10 @@
 package database
 
 import app.cash.turbine.test
-import com.mshdabiola.database.dao.ExaminationDao
-import com.mshdabiola.database.dao.SubjectDao
-import com.mshdabiola.database.model.ExaminationEntity
-import com.mshdabiola.database.model.SubjectEntity
+import com.mshdabiola.database.dao.exam.ExaminationDao
+import com.mshdabiola.database.dao.exam.SubjectDao
+import com.mshdabiola.database.model.exam.ExaminationEntity
+import com.mshdabiola.database.model.exam.SubjectEntity
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.koin.core.component.inject
@@ -21,7 +21,7 @@ class SubjectTest : AbstractTest() {
 
         val id = subjectDao.upsert(SubjectEntity(null, title = "abiola"))
 
-        examinationDao.upsert(ExaminationEntity(null, id, 2014, false, 45, 54))
+        examinationDao.upsert(ExaminationEntity(null, id, 2014, false, 45, 54,null))
 
         examinationDao.getAll()
             .test {

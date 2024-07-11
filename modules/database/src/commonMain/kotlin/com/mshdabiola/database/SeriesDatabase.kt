@@ -6,22 +6,28 @@ package com.mshdabiola.database
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import com.mshdabiola.database.dao.ExaminationDao
-import com.mshdabiola.database.dao.InstructionDao
-import com.mshdabiola.database.dao.OptionDao
-import com.mshdabiola.database.dao.QuestionDao
-import com.mshdabiola.database.dao.SubjectDao
+import com.mshdabiola.database.dao.SeriesDao
 import com.mshdabiola.database.dao.TopicDao
-import com.mshdabiola.database.model.ExaminationEntity
-import com.mshdabiola.database.model.InstructionEntity
-import com.mshdabiola.database.model.OptionEntity
-import com.mshdabiola.database.model.QuestionEntity
-import com.mshdabiola.database.model.SubjectEntity
-import com.mshdabiola.database.model.TopicEntity
+import com.mshdabiola.database.dao.UserDao
+import com.mshdabiola.database.dao.exam.ExaminationDao
+import com.mshdabiola.database.dao.exam.InstructionDao
+import com.mshdabiola.database.dao.exam.OptionDao
+import com.mshdabiola.database.dao.exam.QuestionDao
+import com.mshdabiola.database.dao.exam.SubjectDao
+import com.mshdabiola.database.model.SeriesEntity
+import com.mshdabiola.database.model.UserEntity
+import com.mshdabiola.database.model.exam.ExaminationEntity
+import com.mshdabiola.database.model.exam.InstructionEntity
+import com.mshdabiola.database.model.exam.OptionEntity
+import com.mshdabiola.database.model.exam.QuestionEntity
+import com.mshdabiola.database.model.exam.SubjectEntity
+import com.mshdabiola.database.model.topic.TopicEntity
 
 @Database(
     entities =
     [
+        UserEntity::class,
+        SeriesEntity::class,
         ExaminationEntity::class,
         InstructionEntity::class,
         OptionEntity::class,
@@ -29,7 +35,7 @@ import com.mshdabiola.database.model.TopicEntity
         SubjectEntity::class,
         TopicEntity::class,
     ],
-    version = 1,
+    version = 2,
 //    autoMigrations = [
 //        //AutoMigration(from = 2, to = 3, spec = DatabaseMigrations.Schema2to3::class),
 //
@@ -51,6 +57,9 @@ abstract class SeriesDatabase : RoomDatabase() {
 
     abstract fun getTopicDao(): TopicDao
 
+    abstract fun getSeriesDao(): SeriesDao
+
+    abstract fun getUserDao(): UserDao
 //
 //    abstract fun getPlayerDao(): PlayerDao
 //

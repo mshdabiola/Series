@@ -7,7 +7,7 @@ package com.mshdabiola.database.dao
 import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.Upsert
-import com.mshdabiola.database.model.TopicEntity
+import com.mshdabiola.database.model.topic.TopicEntity
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -18,9 +18,6 @@ interface TopicDao {
 
     @Query("SELECT * FROM topic_table")
     fun getAll(): Flow<List<TopicEntity>>
-
-    @Query("SELECT * FROM topic_table WHERE subjectId = :subjectID")
-    fun getAllBySubject(subjectID: Long): Flow<List<TopicEntity>>
 
     @Query("SELECT * FROM topic_table WHERE id IN (:ids)")
     fun getByIds(ids: Set<Long>): Flow<List<TopicEntity>>

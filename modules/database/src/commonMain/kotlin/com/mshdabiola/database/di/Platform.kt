@@ -39,6 +39,15 @@ val daoModules = module {
     single {
         DatabaseExportImport(get(qualifier = qualifier("per")))
     }
+
+    single {
+        get<SeriesDatabase>(qualifier = qualifier("per")).getSeriesDao()
+    }
+
+    single {
+        get<SeriesDatabase>(qualifier = qualifier("per")).getUserDao()
+    }
+
 }
 
 fun getRoomDatabase(

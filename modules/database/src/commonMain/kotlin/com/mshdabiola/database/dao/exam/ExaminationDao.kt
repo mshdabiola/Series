@@ -2,14 +2,14 @@
  *abiola 2024
  */
 
-package com.mshdabiola.database.dao
+package com.mshdabiola.database.dao.exam
 
 import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.Transaction
 import androidx.room.Upsert
-import com.mshdabiola.database.model.ExaminationEntity
-import com.mshdabiola.database.model.ExaminationFull
+import com.mshdabiola.database.model.exam.ExaminationEntity
+import com.mshdabiola.database.model.exam.ExaminationWithSubject
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -20,18 +20,18 @@ interface ExaminationDao {
 
     @Transaction
     @Query("SELECT * FROM examination_table")
-    fun getAll(): Flow<List<ExaminationFull>>
+    fun getAllWithSubject(): Flow<List<ExaminationWithSubject>>
 
     @Query("SELECT * FROM examination_table")
-    fun getAll2(): Flow<List<ExaminationEntity>>
+    fun getAll(): Flow<List<ExaminationEntity>>
 
     @Transaction
     @Query("SELECT * FROM examination_table WHERE subjectId = :subjectId")
-    fun getAllBySubjectId(subjectId: Long): Flow<List<ExaminationFull>>
+    fun getAllBySubjectIdWithSubject(subjectId: Long): Flow<List<ExaminationWithSubject>>
 
     @Transaction
     @Query("SELECT * FROM examination_table WHERE id = :id")
-    fun getOne(id: Long): Flow<ExaminationFull?>
+    fun getOneWithSubject(id: Long): Flow<ExaminationWithSubject?>
 
     @Query("SELECT * FROM examination_table WHERE id IN (:ids)")
     fun getByIds(ids: Set<Long>): Flow<List<ExaminationEntity>>

@@ -2,8 +2,8 @@ package database
 
 import app.cash.turbine.test
 import com.mshdabiola.database.DatabaseExportImport
-import com.mshdabiola.database.dao.ExaminationDao
-import com.mshdabiola.database.dao.SubjectDao
+import com.mshdabiola.database.dao.exam.ExaminationDao
+import com.mshdabiola.database.dao.exam.SubjectDao
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.koin.core.component.inject

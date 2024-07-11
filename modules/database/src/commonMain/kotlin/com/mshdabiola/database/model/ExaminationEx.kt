@@ -1,0 +1,145 @@
+/*
+ *abiola 2024
+ */
+
+package com.mshdabiola.database.model
+
+import com.mshdabiola.database.model.exam.ExaminationEntity
+import com.mshdabiola.database.model.exam.ExaminationWithSubject
+import com.mshdabiola.database.model.exam.InstructionEntity
+import com.mshdabiola.database.model.exam.OptionEntity
+import com.mshdabiola.database.model.exam.QuestionEntity
+import com.mshdabiola.database.model.exam.QuestionWithOptsInstTop
+import com.mshdabiola.database.model.exam.SubjectEntity
+import com.mshdabiola.database.model.topic.TopicEntity
+import com.mshdabiola.generalmodel.Examination
+import com.mshdabiola.generalmodel.Instruction
+import com.mshdabiola.generalmodel.Option
+import com.mshdabiola.generalmodel.QUESTION_TYPE
+import com.mshdabiola.generalmodel.Question
+import com.mshdabiola.generalmodel.Series
+import com.mshdabiola.generalmodel.Subject
+import com.mshdabiola.generalmodel.Topic
+import com.mshdabiola.generalmodel.User
+import com.mshdabiola.generalmodel.serial.asModel
+import com.mshdabiola.generalmodel.serial.asString
+import com.mshdabiola.generalmodel.serial.toContent
+import com.mshdabiola.generalmodel.serial.toSer
+
+fun UserEntity.asModel() = User(
+    id!!,
+    name,
+    password,
+    imagePath,
+    rank
+)
+
+fun User.asEntity() = UserEntity(
+    id.checkId(),
+    name,
+    password,
+    imagePath,
+    rank
+)
+
+fun SeriesEntity.asModel() = Series(
+    id!!,
+    userId,
+    name,
+)
+
+fun Series.asEntity() = SeriesEntity(
+    id = id.checkId(),
+    userId = userId,
+    name = name,
+)
+
+fun SubjectEntity.asModel() = Subject(
+    id!!,
+    seriesId = seriesId,
+    title = title,
+)
+
+fun Subject.asEntity() = SubjectEntity(id.checkId(), seriesId = seriesId, title = title)
+
+
+fun Topic.asEntity() = TopicEntity(id.checkId(), subjectId, title)
+fun TopicEntity.asModel() = Topic(id!!, subjectId, title)
+
+
+fun Examination.asEntity() = ExaminationEntity(
+    id = id.checkId(),
+    subjectId = subjectId,
+    year = year,
+    duration = duration,
+)
+
+fun ExaminationEntity.asModel() = Examination(
+    id = id!!,
+    subjectId = subjectId,
+    year = year,
+    duration = duration,
+)
+
+fun ExaminationWithSubject.asExam() = com.mshdabiola.generalmodel.ExaminationWithSubject(
+    examination = examinationEntity.asModel(),
+    series = subjectWithSeries.seriesEntity.asModel(),
+    subject = subjectWithSeries.subjectEntity.asModel(),
+)
+
+
+fun Instruction.asEntity() =
+    InstructionEntity(id.checkId(), examId, title, content.map { it.toSer() }.asString())
+
+fun InstructionEntity.asModel() =
+    Instruction(id!!, examId, title, content.toContent().map { it.asModel() })
+
+
+fun Question.asModel() = QuestionEntity(
+    id.checkId(),
+    number,
+    examId,
+    title,
+    contents.map { it.toSer() }.asString(),
+    answers.map { it.toSer() }.asString(),
+    type = type.ordinal,
+    instruction?.id,
+    topic?.id,
+)
+
+
+
+fun QuestionWithOptsInstTop.asModel() = Question(
+    id = questionEntity.id!!,
+    number = questionEntity.number,
+    examId = questionEntity.examId,
+    title = questionEntity.title,
+    contents = questionEntity.contents.toContent().map { it.asModel() },
+    answers = questionEntity.answers.toContent().map { it.asModel() },
+    options = options.map { it.asModel() },
+    type = QUESTION_TYPE.entries[questionEntity.type],
+    instruction = instructionEntity?.asModel(),
+    topic = topicEntity?.asModel(),
+)
+
+fun Option.asEntity() = OptionEntity(
+    id = id.checkId(),
+    number = number,
+    questionId = questionId,
+    title = title,
+    contents = contents.map { it.toSer() }.asString(),
+    isAnswer = isAnswer,
+)
+
+fun OptionEntity.asModel() = Option(
+    id = id!!,
+    number = number,
+    questionId = questionId,
+    title = title,
+    contents = contents.toContent().map { it.asModel() },
+    isAnswer = isAnswer,
+)
+
+
+
+fun Long.checkId() = if (this == -1L) null else this

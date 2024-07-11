@@ -2,33 +2,29 @@
  *abiola 2024
  */
 
-package com.mshdabiola.database.model
+package com.mshdabiola.database.model.exam
 
-import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
+import androidx.room.Index
 import androidx.room.PrimaryKey
 
 @Entity(
     foreignKeys = [
         ForeignKey(
-            entity = QuestionEntity::class,
+            entity = ExaminationEntity::class,
             parentColumns = arrayOf("id"),
-            childColumns = arrayOf("questionId"),
+            childColumns = arrayOf("examId"),
             onDelete = ForeignKey.CASCADE,
         ),
     ],
+    indices = [Index(value = ["examId"])],
 
-    tableName = "option_table",
-)
-data class OptionEntity(
+    tableName = "instruction_table")
+data class InstructionEntity(
     @PrimaryKey(true)
     val id: Long?,
-    val number: Long,
-    @ColumnInfo(index = true)
-    val questionId: Long,
     val examId: Long,
     val title: String,
-    val contents: String,
-    val isAnswer: Boolean,
+    val content: String,
 )

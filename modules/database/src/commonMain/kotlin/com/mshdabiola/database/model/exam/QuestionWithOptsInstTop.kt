@@ -2,12 +2,13 @@
  *abiola 2024
  */
 
-package com.mshdabiola.database.model
+package com.mshdabiola.database.model.exam
 
 import androidx.room.Embedded
 import androidx.room.Relation
+import com.mshdabiola.database.model.topic.TopicEntity
 
-data class QuestionFull(
+data class QuestionWithOptsInstTop(
     @Embedded val questionEntity: QuestionEntity,
     @Relation(parentColumn = "id", entityColumn = "questionId")
     val options: List<OptionEntity>,
@@ -15,5 +16,4 @@ data class QuestionFull(
     val instructionEntity: InstructionEntity?,
     @Relation(parentColumn = "topicId", entityColumn = "id")
     val topicEntity: TopicEntity?,
-
-)
+    )
