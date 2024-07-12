@@ -16,7 +16,6 @@
 
 import com.android.build.api.variant.LibraryAndroidComponentsExtension
 import com.android.build.gradle.LibraryExtension
-import com.mshdabiola.app.configureFlavors
 import com.mshdabiola.app.configureGradleManagedDevices
 import com.mshdabiola.app.configureKotlinAndroid
 import com.mshdabiola.app.configurePrintApksTask
@@ -44,12 +43,15 @@ class AndroidLibraryConventionPlugin : Plugin<Project> {
                 apply("kotlin-multiplatform")
                 apply("com.android.library")
                 apply("mshdabiola.android.lint")
-                apply( "org.jetbrains.kotlin.plugin.power-assert")
+                apply("org.jetbrains.kotlin.plugin.power-assert")
                 apply("maven-publish")
             }
 
             group = "com.mshdabiola.series"
             version = libs.findVersion("versionName").get().toString()
+
+
+            //includedSourceSets = listOf("commonMain", "jvmMain", "jsMain", "nativeMain")
 
             extensions.configure<PowerAssertGradleExtension> {
                 functions.set(
@@ -62,9 +64,9 @@ class AndroidLibraryConventionPlugin : Plugin<Project> {
                 )
             }
 
-            var project : Properties?=null
+            var project: Properties? = null
             try {
-                project=  File(rootDir, "local.properties").inputStream().use {
+                project = File(rootDir, "local.properties").inputStream().use {
                     Properties().apply { load(it) }
 
                 }
@@ -82,8 +84,9 @@ class AndroidLibraryConventionPlugin : Plugin<Project> {
                         name = "library"
                         url = uri("https://maven.pkg.github.com/mshdabiola/series")
                         credentials {
-                            username = project?.getProperty("gpr.userid")  ?: System.getenv("USERID")
-                            password = project?.getProperty("gpr.password") ?: System.getenv("PASSWORD")
+                            username = project?.getProperty("gpr.userid") ?: System.getenv("USERID")
+                            password =
+                                project?.getProperty("gpr.password") ?: System.getenv("PASSWORD")
                         }
                     }
                 }
@@ -110,7 +113,7 @@ class AndroidLibraryConventionPlugin : Plugin<Project> {
                 add("implementation", libs.findLibrary("androidx.tracing.ktx").get())
             }
             extensions.configure<KotlinMultiplatformExtension> {
-                androidTarget{
+                androidTarget {
                     publishLibraryVariants("release", "debug")
 
                 }
@@ -147,7 +150,7 @@ class AndroidLibraryConventionPlugin : Plugin<Project> {
                         this.dependencies {
 //                            implementation(kotlin("test"))
                             //  implementation(project(":core:testing"))
-                           // implementation(project(":modules:testing"))
+                            // implementation(project(":modules:testing"))
                         }
 
                     }
