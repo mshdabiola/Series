@@ -173,4 +173,4 @@ fun OptionEntity.asModel() = Option(
 )
 
 
-fun Long.checkId() = if (this == -1L) null else this
+fun Long.checkId() = if (this < 0) null else this
