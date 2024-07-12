@@ -18,10 +18,30 @@ import androidx.room.migration.AutoMigrationSpec
  */
 object DatabaseMigrations {
 
+
+        @DeleteColumn(
+            tableName = "examination_table",
+            columnName = "updateTime"
+        )
+        @DeleteColumn(
+            tableName = "examination_table",
+            columnName = "isObjectiveOnly"
+        )
+        @DeleteColumn(
+            tableName = "option_table",
+            columnName = "examId"
+        )
+        @DeleteColumn(
+            tableName = "question_table",
+            columnName = "isTheory"
+        )
+
+    class Schema1to2 : AutoMigrationSpec
+
     @RenameColumn(
-        tableName = "topics",
-        fromColumnName = "description",
-        toColumnName = "shortDescription",
+        tableName = "user_table",
+        fromColumnName = "rank",
+        toColumnName = "point"
     )
     class Schema2to3 : AutoMigrationSpec
 
@@ -36,6 +56,7 @@ object DatabaseMigrations {
         DeleteTable(
             tableName = "episodes",
         ),
+
     )
     class Schema10to11 : AutoMigrationSpec
 

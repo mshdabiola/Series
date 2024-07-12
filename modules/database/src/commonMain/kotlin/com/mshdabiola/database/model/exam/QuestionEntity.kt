@@ -4,6 +4,7 @@
 
 package com.mshdabiola.database.model.exam
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
@@ -29,6 +30,7 @@ data class QuestionEntity(
     val title: String,
     val contents: String,
     val answers: String,
+    @ColumnInfo(defaultValue = "0")
     val type: Int,
     val instructionId: Long?,
     val topicId: Long?,

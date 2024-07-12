@@ -4,6 +4,7 @@
 
 package com.mshdabiola.database.model.exam
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
@@ -25,6 +26,7 @@ import com.mshdabiola.database.model.SeriesEntity
 data class SubjectEntity(
     @PrimaryKey(true)
     val id: Long?,
+    @ColumnInfo(defaultValue = "1")
     val seriesId:Long,
     val title: String,
 )

@@ -43,9 +43,9 @@ fun User.asEntity() = UserEntity(
 )
 
 fun SeriesEntity.asModel() = Series(
-    id!!,
-    userId,
-    name,
+    id = id!!,
+    userId = userId,
+    name = name,
 )
 
 fun Series.asEntity() = SeriesEntity(
@@ -55,16 +55,28 @@ fun Series.asEntity() = SeriesEntity(
 )
 
 fun SubjectEntity.asModel() = Subject(
-    id!!,
+    id = id!!,
     seriesId = seriesId,
     title = title,
 )
 
-fun Subject.asEntity() = SubjectEntity(id.checkId(), seriesId = seriesId, title = title)
+fun Subject.asEntity() = SubjectEntity(
+    id = id.checkId(),
+    seriesId = seriesId,
+    title = title
+)
 
 
-fun Topic.asEntity() = TopicEntity(id.checkId(), subjectId, title)
-fun TopicEntity.asModel() = Topic(id!!, subjectId, title)
+fun Topic.asEntity() = TopicEntity(
+    id = id.checkId(),
+    subjectId = subjectId,
+    title = title
+)
+fun TopicEntity.asModel() = Topic(
+    id = id!!,
+    subjectId = subjectId,
+    title = title
+)
 
 
 fun Examination.asEntity() = ExaminationEntity(
@@ -89,22 +101,31 @@ fun ExaminationWithSubject.asExam() = com.mshdabiola.generalmodel.ExaminationWit
 
 
 fun Instruction.asEntity() =
-    InstructionEntity(id.checkId(), examId, title, content.map { it.toSer() }.asString())
+    InstructionEntity(
+        id = id.checkId(),
+        examId = examId,
+        title = title,
+        content = content.map { it.toSer() }.asString()
+    )
 
 fun InstructionEntity.asModel() =
-    Instruction(id!!, examId, title, content.toContent().map { it.asModel() })
+    Instruction(
+        id = id!!,
+        examId = examId,
+        title = title,
+        content = content.toContent().map { it.asModel() })
 
 
 fun Question.asModel() = QuestionEntity(
-    id.checkId(),
-    number,
-    examId,
-    title,
-    contents.map { it.toSer() }.asString(),
-    answers.map { it.toSer() }.asString(),
+    id = id.checkId(),
+    number = number,
+    examId = examId,
+    title = title,
+    contents = contents.map { it.toSer() }.asString(),
+    answers = answers.map { it.toSer() }.asString(),
     type = type.ordinal,
-    instruction?.id,
-    topic?.id,
+    instructionId = instruction?.id,
+    topicId = topic?.id,
 )
 
 
