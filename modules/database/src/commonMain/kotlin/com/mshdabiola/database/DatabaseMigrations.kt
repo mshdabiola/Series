@@ -45,6 +45,9 @@ object DatabaseMigrations {
     )
     class Schema2to3 : AutoMigrationSpec
 
+    class Schema3to4 : AutoMigrationSpec
+
+
     @DeleteColumn(
         tableName = "news_resources",
         columnName = "episode_id",

@@ -17,7 +17,7 @@ import com.mshdabiola.database.model.SeriesEntity
             entity = SeriesEntity::class,
             parentColumns = arrayOf("id"),
             childColumns = arrayOf("seriesId"),
-            onDelete = ForeignKey.CASCADE,
+            onDelete = ForeignKey.SET_DEFAULT,
         ),
     ],
     indices = [Index(value = ["seriesId"])],
