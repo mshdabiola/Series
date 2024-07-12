@@ -11,4 +11,4 @@ data class ExaminationWithSubject(
     @Embedded val examinationEntity: ExaminationEntity,
     @Relation(entity = SubjectEntity::class, parentColumn = "subjectId", entityColumn = "id")
     val subjectWithSeries: SubjectWithSeries,
-    )
+)

@@ -11,6 +11,7 @@ import com.mshdabiola.database.model.exam.OptionEntity
 import com.mshdabiola.database.model.exam.QuestionEntity
 import com.mshdabiola.database.model.exam.QuestionWithOptsInstTop
 import com.mshdabiola.database.model.exam.SubjectEntity
+import com.mshdabiola.database.model.exam.SubjectWithSeries
 import com.mshdabiola.database.model.topic.TopicEntity
 import com.mshdabiola.generalmodel.Examination
 import com.mshdabiola.generalmodel.Instruction
@@ -63,10 +64,17 @@ fun SubjectEntity.asModel() = Subject(
     title = title,
 )
 
+
 fun Subject.asEntity() = SubjectEntity(
     id = id.checkId(),
     seriesId = seriesId,
     title = title
+)
+
+
+fun SubjectWithSeries.asModel() = com.mshdabiola.generalmodel.SubjectWithSeries(
+    subject = subjectEntity.asModel(),
+    series = seriesEntity.asModel(),
 )
 
 
@@ -75,6 +83,7 @@ fun Topic.asEntity() = TopicEntity(
     subjectId = subjectId,
     title = title
 )
+
 fun TopicEntity.asModel() = Topic(
     id = id!!,
     subjectId = subjectId,
@@ -132,7 +141,6 @@ fun Question.asModel() = QuestionEntity(
 )
 
 
-
 fun QuestionWithOptsInstTop.asModel() = Question(
     id = questionEntity.id!!,
     number = questionEntity.number,
@@ -163,7 +171,6 @@ fun OptionEntity.asModel() = Option(
     contents = contents.toContent().map { it.asModel() },
     isAnswer = isAnswer,
 )
-
 
 
 fun Long.checkId() = if (this == -1L) null else this

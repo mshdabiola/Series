@@ -2,20 +2,14 @@ package com.mshdabiola.database.dao
 
 import androidx.room.Dao
 import androidx.room.Query
-import androidx.room.Transaction
 import androidx.room.Upsert
 import com.mshdabiola.database.model.SeriesEntity
-import com.mshdabiola.database.model.SeriesWithSubjects
 import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface SeriesDao {
     @Query("SELECT * FROM series_table")
     fun getAll(): Flow<List<SeriesEntity>>
-
-    @Transaction
-    @Query("SELECT * FROM series_table")
-    fun getAllWithSubjects(): Flow<List<SeriesWithSubjects>>
 
     @Query("SELECT * FROM series_table WHERE id = :id")
     fun getOne(id: Long): Flow<SeriesEntity?>
