@@ -4,6 +4,7 @@
 
 package com.mshdabiola.database
 
+import androidx.room.AutoMigration
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import com.mshdabiola.database.dao.SeriesDao
@@ -35,12 +36,12 @@ import com.mshdabiola.database.model.topic.TopicEntity
         SubjectEntity::class,
         TopicEntity::class,
     ],
-    version = 2,
-//    autoMigrations = [
-//        //AutoMigration(from = 2, to = 3, spec = DatabaseMigrations.Schema2to3::class),
-//
-//                     ]
-//    ,
+    version = 3,
+    autoMigrations = [
+        AutoMigration(from = 1, to = 2, spec = DatabaseMigrations.Schema1to2::class),
+        AutoMigration(from = 2, to = 3, spec = DatabaseMigrations.Schema2to3::class),
+
+    ],
     exportSchema = true,
 )
 abstract class SeriesDatabase : RoomDatabase() {

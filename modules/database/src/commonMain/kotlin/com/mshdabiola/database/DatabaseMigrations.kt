@@ -41,7 +41,7 @@ object DatabaseMigrations {
     @RenameColumn(
         tableName = "user_table",
         fromColumnName = "rank",
-        toColumnName = "point"
+        toColumnName = "points"
     )
     class Schema2to3 : AutoMigrationSpec
 

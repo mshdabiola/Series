@@ -21,25 +21,28 @@ import com.mshdabiola.generalmodel.Series
 import com.mshdabiola.generalmodel.Subject
 import com.mshdabiola.generalmodel.Topic
 import com.mshdabiola.generalmodel.User
+import com.mshdabiola.generalmodel.UserType
 import com.mshdabiola.generalmodel.serial.asModel
 import com.mshdabiola.generalmodel.serial.asString
 import com.mshdabiola.generalmodel.serial.toContent
 import com.mshdabiola.generalmodel.serial.toSer
 
 fun UserEntity.asModel() = User(
-    id!!,
-    name,
-    password,
-    imagePath,
-    rank
+    id = id!!,
+    name = name,
+    type = UserType.entries[type],
+    password = password,
+    imagePath = imagePath,
+    points = points
 )
 
 fun User.asEntity() = UserEntity(
-    id.checkId(),
-    name,
-    password,
-    imagePath,
-    rank
+    id = id.checkId(),
+    name = name,
+    type = type.ordinal,
+    password = password,
+    imagePath = imagePath,
+    points = points
 )
 
 fun SeriesEntity.asModel() = Series(
