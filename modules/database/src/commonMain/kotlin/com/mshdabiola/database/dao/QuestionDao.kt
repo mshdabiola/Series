@@ -9,7 +9,7 @@ import androidx.room.Query
 import androidx.room.Transaction
 import androidx.room.Upsert
 import com.mshdabiola.database.model.QuestionEntity
-import com.mshdabiola.database.model.relation.QuestionWithOptsInstTop
+import com.mshdabiola.database.model.relation.QuestionWithOptsInstTopRelation
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -20,21 +20,21 @@ interface QuestionDao {
 
     @Transaction
     @Query("SELECT * FROM question_table")
-    fun getAllWithOptsInstTop(): Flow<List<QuestionWithOptsInstTop>>
+    fun getAllWithOptsInstTop(): Flow<List<QuestionWithOptsInstTopRelation>>
 
     @Query("SELECT * FROM question_table")
     fun getAll(): Flow<List<QuestionEntity>>
 
     @Transaction
     @Query("SELECT * FROM question_table WHERE id = :id")
-    fun getOneWithOptsInstTop(id: Long): Flow<QuestionWithOptsInstTop?>
+    fun getOneWithOptsInstTop(id: Long): Flow<QuestionWithOptsInstTopRelation?>
 
     @Query("SELECT * FROM question_table WHERE examId IN (:ids)")
     fun getByExamIds(ids: Set<Long>): Flow<List<QuestionEntity>>
 
     @Transaction
     @Query("SELECT * FROM question_table WHERE examId = :examId")
-    fun getByExamId(examId: Long): Flow<List<QuestionWithOptsInstTop>>
+    fun getByExamId(examId: Long): Flow<List<QuestionWithOptsInstTopRelation>>
 
 //    @Transaction
 //    @Query("SELECT * FROM question_table WHERE isTheory = false ORDER BY RANDOM() LIMIT :number")

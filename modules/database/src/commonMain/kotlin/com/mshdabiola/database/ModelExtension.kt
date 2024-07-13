@@ -13,10 +13,10 @@ import com.mshdabiola.database.model.SubjectEntity
 import com.mshdabiola.database.model.TopicCategoryEntity
 import com.mshdabiola.database.model.TopicEntity
 import com.mshdabiola.database.model.UserEntity
-import com.mshdabiola.database.model.relation.CategoryWithTopics
-import com.mshdabiola.database.model.relation.ExaminationWithSubject
-import com.mshdabiola.database.model.relation.QuestionWithOptsInstTop
-import com.mshdabiola.database.model.relation.SubjectWithSeries
+import com.mshdabiola.database.model.relation.CategoryWithTopicsRelation
+import com.mshdabiola.database.model.relation.ExaminationWithSubjectRelation
+import com.mshdabiola.database.model.relation.QuestionWithOptsInstTopRelation
+import com.mshdabiola.database.model.relation.SubjectWithSeriesRelation
 import com.mshdabiola.generalmodel.Examination
 import com.mshdabiola.generalmodel.Instruction
 import com.mshdabiola.generalmodel.Option
@@ -78,7 +78,7 @@ fun Subject.asEntity() = SubjectEntity(
 )
 
 
-fun SubjectWithSeries.asModel() = com.mshdabiola.generalmodel.SubjectWithSeries(
+fun SubjectWithSeriesRelation.asModel() = com.mshdabiola.generalmodel.SubjectWithSeries(
     subject = subjectEntity.asModel(),
     series = seriesEntity.asModel(),
 )
@@ -95,7 +95,7 @@ fun TopicCategoryEntity.asModel() = TopicCategory(
     name = name
 )
 
-fun CategoryWithTopics.asModel() = topics.map {
+fun CategoryWithTopicsRelation.asModel() = topics.map {
     TopicWithCategory(
         id = it.id!!,
         topicCategory = category.asModel(),
@@ -136,7 +136,7 @@ fun ExaminationEntity.asModel() = Examination(
     duration = duration,
 )
 
-fun ExaminationWithSubject.asExam() = com.mshdabiola.generalmodel.ExaminationWithSubject(
+fun ExaminationWithSubjectRelation.asExam() = com.mshdabiola.generalmodel.ExaminationWithSubject(
     examination = examinationEntity.asModel(),
     series = subjectWithSeries.seriesEntity.asModel(),
     subject = subjectWithSeries.subjectEntity.asModel(),
@@ -172,7 +172,7 @@ fun Question.asModel() = QuestionEntity(
 )
 
 
-fun QuestionWithOptsInstTop.asModel() = Question(
+fun QuestionWithOptsInstTopRelation.asModel() = Question(
     id = questionEntity.id!!,
     number = questionEntity.number,
     examId = questionEntity.examId,

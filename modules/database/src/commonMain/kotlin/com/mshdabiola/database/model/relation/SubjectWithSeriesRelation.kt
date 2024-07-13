@@ -5,7 +5,7 @@ import androidx.room.Relation
 import com.mshdabiola.database.model.SeriesEntity
 import com.mshdabiola.database.model.SubjectEntity
 
-data class SubjectWithSeries(
+data class SubjectWithSeriesRelation(
     @Embedded val subjectEntity: SubjectEntity,
     @Relation(parentColumn = "seriesId", entityColumn = "id")
     val seriesEntity: SeriesEntity,

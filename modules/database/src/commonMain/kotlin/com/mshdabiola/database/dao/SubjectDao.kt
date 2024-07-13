@@ -9,7 +9,7 @@ import androidx.room.Query
 import androidx.room.Transaction
 import androidx.room.Upsert
 import com.mshdabiola.database.model.SubjectEntity
-import com.mshdabiola.database.model.relation.SubjectWithSeries
+import com.mshdabiola.database.model.relation.SubjectWithSeriesRelation
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -23,14 +23,14 @@ interface SubjectDao {
 
     @Transaction
     @Query("SELECT * FROM subject_table")
-    fun getAllWithSeries(): Flow<List<SubjectWithSeries>>
+    fun getAllWithSeries(): Flow<List<SubjectWithSeriesRelation>>
 
     @Query("SELECT * FROM subject_table WHERE id = :id")
     fun getOne(id: Long): Flow<SubjectEntity?>
 
     @Transaction
     @Query("SELECT * FROM subject_table WHERE id = :id")
-    fun getOneWithSeries(id: Long): Flow<SubjectWithSeries?>
+    fun getOneWithSeries(id: Long): Flow<SubjectWithSeriesRelation?>
 
     @Query("SELECT * FROM subject_table WHERE id IN (:ids)")
     fun getByIds(ids: Set<Long>): Flow<List<SubjectEntity>>

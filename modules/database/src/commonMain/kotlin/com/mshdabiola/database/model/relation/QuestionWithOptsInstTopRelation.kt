@@ -11,7 +11,7 @@ import com.mshdabiola.database.model.OptionEntity
 import com.mshdabiola.database.model.QuestionEntity
 import com.mshdabiola.database.model.TopicEntity
 
-data class QuestionWithOptsInstTop(
+data class QuestionWithOptsInstTopRelation(
     @Embedded val questionEntity: QuestionEntity,
     @Relation(parentColumn = "id", entityColumn = "questionId")
     val options: List<OptionEntity>,

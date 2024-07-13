@@ -5,7 +5,7 @@ import androidx.room.Query
 import androidx.room.Transaction
 import androidx.room.Upsert
 import com.mshdabiola.database.model.TopicCategoryEntity
-import com.mshdabiola.database.model.relation.CategoryWithTopics
+import com.mshdabiola.database.model.relation.CategoryWithTopicsRelation
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -16,18 +16,18 @@ interface TopicCategoryDao {
 
     @Transaction
     @Query("SELECT * FROM topic_category_table WHERE id = :id")
-    fun getOneWithTopics(id: Long): Flow<CategoryWithTopics?>
+    fun getOneWithTopics(id: Long): Flow<CategoryWithTopicsRelation?>
 
     @Transaction
     @Query("SELECT * FROM topic_category_table WHERE subjectId = :subjectId")
-    fun getAllWithTopicsBySubjectId(subjectId: Long): Flow<List<CategoryWithTopics>>
+    fun getAllWithTopicsBySubjectId(subjectId: Long): Flow<List<CategoryWithTopicsRelation>>
 
     @Query("SELECT * FROM topic_category_table WHERE id = :subjectId")
     fun getAllBySubjectId(subjectId: Long): Flow<List<TopicCategoryEntity>>
 
     @Transaction
     @Query("SELECT * FROM topic_category_table")
-    fun getAllWithTopics(): Flow<List<CategoryWithTopics>>
+    fun getAllWithTopics(): Flow<List<CategoryWithTopicsRelation>>
 
     @Upsert
     suspend fun upsert(category: TopicCategoryEntity) :Long

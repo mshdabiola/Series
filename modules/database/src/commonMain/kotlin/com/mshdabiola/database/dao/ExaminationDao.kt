@@ -9,7 +9,7 @@ import androidx.room.Query
 import androidx.room.Transaction
 import androidx.room.Upsert
 import com.mshdabiola.database.model.ExaminationEntity
-import com.mshdabiola.database.model.relation.ExaminationWithSubject
+import com.mshdabiola.database.model.relation.ExaminationWithSubjectRelation
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -20,18 +20,18 @@ interface ExaminationDao {
 
     @Transaction
     @Query("SELECT * FROM examination_table")
-    fun getAllWithSubject(): Flow<List<ExaminationWithSubject>>
+    fun getAllWithSubject(): Flow<List<ExaminationWithSubjectRelation>>
 
     @Query("SELECT * FROM examination_table")
     fun getAll(): Flow<List<ExaminationEntity>>
 
     @Transaction
     @Query("SELECT * FROM examination_table WHERE subjectId = :subjectId")
-    fun getAllBySubjectIdWithSubject(subjectId: Long): Flow<List<ExaminationWithSubject>>
+    fun getAllBySubjectIdWithSubject(subjectId: Long): Flow<List<ExaminationWithSubjectRelation>>
 
     @Transaction
     @Query("SELECT * FROM examination_table WHERE id = :id")
-    fun getOneWithSubject(id: Long): Flow<ExaminationWithSubject?>
+    fun getOneWithSubject(id: Long): Flow<ExaminationWithSubjectRelation?>
 
     @Query("SELECT * FROM examination_table WHERE id IN (:ids)")
     fun getByIds(ids: Set<Long>): Flow<List<ExaminationEntity>>

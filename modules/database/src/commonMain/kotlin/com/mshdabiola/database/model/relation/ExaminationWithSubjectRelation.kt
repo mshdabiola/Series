@@ -9,8 +9,8 @@ import androidx.room.Relation
 import com.mshdabiola.database.model.ExaminationEntity
 import com.mshdabiola.database.model.SubjectEntity
 
-data class ExaminationWithSubject(
+data class ExaminationWithSubjectRelation(
     @Embedded val examinationEntity: ExaminationEntity,
     @Relation(entity = SubjectEntity::class, parentColumn = "subjectId", entityColumn = "id")
-    val subjectWithSeries: SubjectWithSeries,
+    val subjectWithSeries: SubjectWithSeriesRelation,
 )

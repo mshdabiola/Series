@@ -5,7 +5,7 @@ import androidx.room.Relation
 import com.mshdabiola.database.model.TopicCategoryEntity
 import com.mshdabiola.database.model.TopicEntity
 
-data class CategoryWithTopics(
+data class CategoryWithTopicsRelation(
    @Embedded val category: TopicCategoryEntity,
     @Relation(
         parentColumn = "id",
