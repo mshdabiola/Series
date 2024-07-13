@@ -23,6 +23,7 @@ import com.mshdabiola.generalmodel.Instruction
 import com.mshdabiola.generalmodel.Option
 import com.mshdabiola.generalmodel.QUESTION_TYPE
 import com.mshdabiola.generalmodel.Question
+import com.mshdabiola.generalmodel.QuestionPlain
 import com.mshdabiola.generalmodel.Series
 import com.mshdabiola.generalmodel.Subject
 import com.mshdabiola.generalmodel.Topic
@@ -172,6 +173,29 @@ fun Question.asModel() = QuestionEntity(
     topicId = topic?.id,
 )
 
+fun QuestionPlain.asEntity() = QuestionEntity(
+    id = id.checkId(),
+    number = number,
+    examId = examId,
+    title = title,
+    contents = contents,
+    answers = answers,
+    type = type,
+    instructionId = instructionId,
+    topicId = topicId,
+)
+
+fun QuestionEntity.asModel() = QuestionPlain(
+    id = id!!,
+    number = number,
+    examId = examId,
+    title = title,
+    contents = contents,
+    answers = answers,
+    type = type,
+    instructionId = instructionId,
+    topicId = topicId,
+)
 
 fun QuestionWithOptsInstTopRelation.asModel() = Question(
     id = questionEntity.id!!,

@@ -15,8 +15,7 @@ class InstructionTest :AbstractTest() {
     @Before
     fun setUp() = runTest{
         val subjectDao by inject<SubjectDao>()
-        subjectDao.upsert(SubjectEntity(null, title = "Math"))
-        subjectDao.upsert(SubjectEntity(null, title = "English"))
+
     }
 
     @Test

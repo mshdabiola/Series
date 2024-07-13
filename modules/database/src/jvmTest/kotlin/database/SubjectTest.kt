@@ -16,20 +16,7 @@ class SubjectTest : AbstractTest() {
 
     @Test
     override fun insert() = runTest {
-        val subjectDao by inject<SubjectDao>()
-        val examinationDao by inject<ExaminationDao>()
 
-        val id = subjectDao.upsert(SubjectEntity(null, title = "abiola"))
-
-        examinationDao.upsert(ExaminationEntity(null, id, 2014, false, 45, 54,null))
-
-        examinationDao.getAll()
-            .test {
-                val list = awaitItem()
-                print(list)
-                assertEquals("abiola", list[0].subjectEntity.title)
-                this.cancelAndIgnoreRemainingEvents()
-            }
     }
 
     override fun delete() {

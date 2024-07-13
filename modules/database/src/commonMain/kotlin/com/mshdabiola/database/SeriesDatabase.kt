@@ -57,6 +57,7 @@ import com.mshdabiola.database.model.TopicEntity
 )
 abstract class SeriesDatabase : RoomDatabase() {
 
+
     abstract fun getExaminationDao(): ExaminationDao
 
     abstract fun getInstructionDao(): InstructionDao
