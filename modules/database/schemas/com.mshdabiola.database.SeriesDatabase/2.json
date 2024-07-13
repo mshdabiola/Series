@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 2,
-    "identityHash": "946f21ed53db2b78e5a609a57a84fc2d",
+    "identityHash": "3677ec61546466a346f92ca0bae3ada1",
     "entities": [
       {
         "tableName": "user_table",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT NOT NULL, `password` TEXT NOT NULL, `imagePath` TEXT NOT NULL, `rank` INTEGER NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT NOT NULL, `type` INTEGER NOT NULL DEFAULT 0, `password` TEXT NOT NULL, `imagePath` TEXT NOT NULL, `points` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
@@ -18,6 +18,13 @@
             "columnName": "name",
             "affinity": "TEXT",
             "notNull": true
+          },
+          {
+            "fieldPath": "type",
+            "columnName": "type",
+            "affinity": "INTEGER",
+            "notNull": true,
+            "defaultValue": "0"
           },
           {
             "fieldPath": "password",
@@ -32,8 +39,8 @@
             "notNull": true
           },
           {
-            "fieldPath": "rank",
-            "columnName": "rank",
+            "fieldPath": "points",
+            "columnName": "points",
             "affinity": "INTEGER",
             "notNull": true
           }
@@ -353,7 +360,7 @@
       },
       {
         "tableName": "subject_table",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `seriesId` INTEGER NOT NULL DEFAULT 1, `title` TEXT NOT NULL, FOREIGN KEY(`seriesId`) REFERENCES `series_table`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `seriesId` INTEGER NOT NULL DEFAULT 1, `title` TEXT NOT NULL, FOREIGN KEY(`seriesId`) REFERENCES `series_table`(`id`) ON UPDATE NO ACTION ON DELETE SET DEFAULT )",
         "fields": [
           {
             "fieldPath": "id",
@@ -394,7 +401,7 @@
         "foreignKeys": [
           {
             "table": "series_table",
-            "onDelete": "CASCADE",
+            "onDelete": "SET DEFAULT",
             "onUpdate": "NO ACTION",
             "columns": [
               "seriesId"
@@ -461,7 +468,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '946f21ed53db2b78e5a609a57a84fc2d')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '3677ec61546466a346f92ca0bae3ada1')"
     ]
   }
 }
