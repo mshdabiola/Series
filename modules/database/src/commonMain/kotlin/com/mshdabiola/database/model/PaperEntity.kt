@@ -1,7 +1,8 @@
-package com.mshdabiola.database.model.session
+package com.mshdabiola.database.model
 
 import androidx.room.Entity
 import androidx.room.ForeignKey
+import androidx.room.PrimaryKey
 
 @Entity(
     foreignKeys = [
@@ -12,9 +13,10 @@ import androidx.room.ForeignKey
             onDelete = ForeignKey.CASCADE,
         ),
     ],
-    tableName = "paper")
-data class Paper(
-    val id: Long,
+    tableName = "paper_table")
+data class PaperEntity(
+    @PrimaryKey(true)
+    val id: Long?,
     val isRandom:Boolean,
     val sessionId: Long,
     val numberQuestions: Long,

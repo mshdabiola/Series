@@ -21,7 +21,10 @@ import com.mshdabiola.database.model.UserEntity
 import com.mshdabiola.database.model.ExaminationEntity
 import com.mshdabiola.database.model.InstructionEntity
 import com.mshdabiola.database.model.OptionEntity
+import com.mshdabiola.database.model.PaperEntity
 import com.mshdabiola.database.model.QuestionEntity
+import com.mshdabiola.database.model.SessionExamination
+import com.mshdabiola.database.model.SessionQuestion
 import com.mshdabiola.database.model.SubjectEntity
 import com.mshdabiola.database.model.TopicCategoryEntity
 import com.mshdabiola.database.model.TopicEntity
@@ -37,12 +40,15 @@ import com.mshdabiola.database.model.TopicEntity
         QuestionEntity::class,
         SubjectEntity::class,
         TopicEntity::class,
-        TopicCategoryEntity::class
+        TopicCategoryEntity::class,
+        SessionExamination::class,
+        PaperEntity::class,
+        SessionQuestion::class
     ],
-    version = 3,
+    version = 2,
     autoMigrations = [
         AutoMigration(from = 1, to = 2, spec = DatabaseMigrations.Schema1to2::class),
-        AutoMigration(from = 2, to = 3, spec = DatabaseMigrations.Schema2to3::class),
+//        AutoMigration(from = 2, to = 3, spec = DatabaseMigrations.Schema2to3::class),
 //        AutoMigration(from = 3, to = 4, spec = DatabaseMigrations.Schema2to3::class),
 
 

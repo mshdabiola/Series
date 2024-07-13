@@ -1,20 +1,25 @@
-package com.mshdabiola.database.model.session
+package com.mshdabiola.database.model
 
 import androidx.room.Entity
 import androidx.room.ForeignKey
+import androidx.room.Index
+import androidx.room.PrimaryKey
 
 @Entity(
     foreignKeys = [
         ForeignKey(
-            entity = Paper::class,
+            entity = PaperEntity::class,
             parentColumns = arrayOf("id"),
             childColumns = arrayOf("paperId"),
             onDelete = ForeignKey.CASCADE,
         ),
     ],
+    indices = [Index(value = ["paperId"])],
+
     tableName = "session_question")
 data class SessionQuestion(
-    val id: Long,
+    @PrimaryKey(true)
+    val id: Long?,
     val paperId: Long,
     val questionId: Long,
     val chosenOptionId: Long,

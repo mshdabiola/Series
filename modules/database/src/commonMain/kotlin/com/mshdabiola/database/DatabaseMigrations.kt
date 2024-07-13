@@ -35,7 +35,10 @@ object DatabaseMigrations {
             tableName = "question_table",
             columnName = "isTheory"
         )
-
+        @DeleteColumn(
+            tableName = "topic_table",
+            columnName = "subjectId"
+        )
     class Schema1to2 : AutoMigrationSpec
 
     @DeleteColumn(
