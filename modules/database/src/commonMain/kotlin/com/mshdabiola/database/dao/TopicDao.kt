@@ -19,8 +19,8 @@ interface TopicDao {
     @Query("SELECT * FROM topic_table")
     fun getAll(): Flow<List<TopicEntity>>
 
-    @Query("SELECT * FROM topic_table WHERE subjectId = :subjectID")
-    fun getAllBySubject(subjectID: Long): Flow<List<TopicEntity>>
+    @Query("SELECT * FROM topic_table WHERE categoryId = :categoryID")
+    fun getAllByCategory(categoryID: Long): Flow<List<TopicEntity>>
 
     @Query("SELECT * FROM topic_table WHERE id IN (:ids)")
     fun getByIds(ids: Set<Long>): Flow<List<TopicEntity>>

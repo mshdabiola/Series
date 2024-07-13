@@ -3,8 +3,8 @@ package com.mshdabiola.generalmodel
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class Topic(
+data class TopicWithCategory(
     val id: Long=-1,
-    val categoryId: Long,
+    val topicCategory: TopicCategory,
     val title: String,
 )

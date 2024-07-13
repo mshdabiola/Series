@@ -4,6 +4,7 @@
 
 package com.mshdabiola.database.model
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
@@ -12,17 +13,19 @@ import androidx.room.PrimaryKey
 @Entity(
     foreignKeys = [
         ForeignKey(
-            entity = SubjectEntity::class,
+            entity = TopicCategoryEntity::class,
             parentColumns = arrayOf("id"),
-            childColumns = arrayOf("subjectId"),
-            onDelete = ForeignKey.CASCADE,
+            childColumns = arrayOf("categoryId"),
+            onDelete = ForeignKey.SET_DEFAULT,
         ),
     ],
-    indices = [Index(value = ["subjectId"])],
-    tableName = "topic_table")
+    indices = [Index(value = ["categoryId"])],
+    tableName = "topic_table"
+)
 data class TopicEntity(
     @PrimaryKey(true)
     val id: Long?,
-    val subjectId: Long,      //remove syllabusId
+    @ColumnInfo(defaultValue = "1")
+    val categoryId: Long,      //remove syllabusId
     val title: String,
 )

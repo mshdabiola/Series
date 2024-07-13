@@ -15,6 +15,7 @@ import com.mshdabiola.database.dao.InstructionDao
 import com.mshdabiola.database.dao.OptionDao
 import com.mshdabiola.database.dao.QuestionDao
 import com.mshdabiola.database.dao.SubjectDao
+import com.mshdabiola.database.dao.TopicCategoryDao
 import com.mshdabiola.database.model.SeriesEntity
 import com.mshdabiola.database.model.UserEntity
 import com.mshdabiola.database.model.ExaminationEntity
@@ -22,6 +23,7 @@ import com.mshdabiola.database.model.InstructionEntity
 import com.mshdabiola.database.model.OptionEntity
 import com.mshdabiola.database.model.QuestionEntity
 import com.mshdabiola.database.model.SubjectEntity
+import com.mshdabiola.database.model.TopicCategoryEntity
 import com.mshdabiola.database.model.TopicEntity
 
 @Database(
@@ -35,11 +37,12 @@ import com.mshdabiola.database.model.TopicEntity
         QuestionEntity::class,
         SubjectEntity::class,
         TopicEntity::class,
+        TopicCategoryEntity::class
     ],
-    version = 2,
+    version = 3,
     autoMigrations = [
         AutoMigration(from = 1, to = 2, spec = DatabaseMigrations.Schema1to2::class),
-//        AutoMigration(from = 2, to = 3, spec = DatabaseMigrations.Schema2to3::class),
+        AutoMigration(from = 2, to = 3, spec = DatabaseMigrations.Schema2to3::class),
 //        AutoMigration(from = 3, to = 4, spec = DatabaseMigrations.Schema2to3::class),
 
 
@@ -63,8 +66,6 @@ abstract class SeriesDatabase : RoomDatabase() {
     abstract fun getSeriesDao(): SeriesDao
 
     abstract fun getUserDao(): UserDao
-//
-//    abstract fun getPlayerDao(): PlayerDao
-//
-//    abstract fun getPawnDao(): PawnDao
+
+    abstract fun getTopicCategoryDao(): TopicCategoryDao
 }

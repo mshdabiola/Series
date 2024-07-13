@@ -48,6 +48,10 @@ val daoModules = module {
         get<SeriesDatabase>(qualifier = qualifier("per")).getUserDao()
     }
 
+    single {
+        get<SeriesDatabase>(qualifier = qualifier("per")).getTopicCategoryDao()
+    }
+
 }
 
 fun getRoomDatabase(

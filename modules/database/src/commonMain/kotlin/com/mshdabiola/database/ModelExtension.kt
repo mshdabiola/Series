@@ -10,8 +10,10 @@ import com.mshdabiola.database.model.OptionEntity
 import com.mshdabiola.database.model.QuestionEntity
 import com.mshdabiola.database.model.SeriesEntity
 import com.mshdabiola.database.model.SubjectEntity
+import com.mshdabiola.database.model.TopicCategoryEntity
 import com.mshdabiola.database.model.TopicEntity
 import com.mshdabiola.database.model.UserEntity
+import com.mshdabiola.database.model.relation.CategoryWithTopics
 import com.mshdabiola.database.model.relation.ExaminationWithSubject
 import com.mshdabiola.database.model.relation.QuestionWithOptsInstTop
 import com.mshdabiola.database.model.relation.SubjectWithSeries
@@ -23,6 +25,8 @@ import com.mshdabiola.generalmodel.Question
 import com.mshdabiola.generalmodel.Series
 import com.mshdabiola.generalmodel.Subject
 import com.mshdabiola.generalmodel.Topic
+import com.mshdabiola.generalmodel.TopicCategory
+import com.mshdabiola.generalmodel.TopicWithCategory
 import com.mshdabiola.generalmodel.User
 import com.mshdabiola.generalmodel.UserType
 import com.mshdabiola.generalmodel.serial.asModel
@@ -79,16 +83,41 @@ fun SubjectWithSeries.asModel() = com.mshdabiola.generalmodel.SubjectWithSeries(
     series = seriesEntity.asModel(),
 )
 
+fun TopicCategory.asEntity() = TopicCategoryEntity(
+    id = id.checkId(),
+    subjectId = subjectId,
+    name = name
+)
+
+fun TopicCategoryEntity.asModel() = TopicCategory(
+    id = id!!,
+    subjectId = subjectId,
+    name = name
+)
+
+fun CategoryWithTopics.asModel() = topics.map {
+    TopicWithCategory(
+        id = it.id!!,
+        topicCategory = category.asModel(),
+        title = it.title
+    )
+}
+
+//fun TopicWithCategoryRelation.asModel() = TopicWithCategory(
+//    id = topic.id!!,
+//    topicCategory = topicCategory.asModel(),
+//    title = topic.title
+//)
 
 fun Topic.asEntity() = TopicEntity(
     id = id.checkId(),
-    subjectId = subjectId,
+    categoryId = categoryId,
     title = title
 )
 
 fun TopicEntity.asModel() = Topic(
     id = id!!,
-    subjectId = subjectId,
+    categoryId = categoryId,
     title = title
 )
 

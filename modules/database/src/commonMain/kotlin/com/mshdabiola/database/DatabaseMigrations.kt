@@ -38,10 +38,9 @@ object DatabaseMigrations {
 
     class Schema1to2 : AutoMigrationSpec
 
-    @RenameColumn(
-        tableName = "user_table",
-        fromColumnName = "rank",
-        toColumnName = "points"
+    @DeleteColumn(
+        tableName = "topic_table",
+        columnName = "subjectId"
     )
     class Schema2to3 : AutoMigrationSpec
 
