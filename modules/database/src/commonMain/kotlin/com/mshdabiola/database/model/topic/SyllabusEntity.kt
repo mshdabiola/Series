@@ -3,7 +3,7 @@ package com.mshdabiola.database.model.topic
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
-import com.mshdabiola.database.model.exam.SubjectEntity
+import com.mshdabiola.database.model.SubjectEntity
 
 @Entity(
     foreignKeys = [

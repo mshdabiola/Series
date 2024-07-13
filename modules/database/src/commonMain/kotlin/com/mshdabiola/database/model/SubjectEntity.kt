@@ -2,14 +2,13 @@
  *abiola 2024
  */
 
-package com.mshdabiola.database.model.exam
+package com.mshdabiola.database.model
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
-import com.mshdabiola.database.model.SeriesEntity
 
 @Entity(
     foreignKeys = [

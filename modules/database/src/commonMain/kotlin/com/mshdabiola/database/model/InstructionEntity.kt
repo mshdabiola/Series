@@ -2,7 +2,7 @@
  *abiola 2024
  */
 
-package com.mshdabiola.database.model.exam
+package com.mshdabiola.database.model
 
 import androidx.room.Entity
 import androidx.room.ForeignKey

@@ -2,7 +2,6 @@ package com.mshdabiola.database.model.session
 
 import androidx.room.Entity
 import androidx.room.ForeignKey
-import com.mshdabiola.database.model.exam.SubjectEntity
 
 @Entity(
     foreignKeys = [

@@ -2,14 +2,14 @@
  *abiola 2024
  */
 
-package com.mshdabiola.database.dao.exam
+package com.mshdabiola.database.dao
 
 import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.Transaction
 import androidx.room.Upsert
-import com.mshdabiola.database.model.exam.ExaminationEntity
-import com.mshdabiola.database.model.exam.ExaminationWithSubject
+import com.mshdabiola.database.model.ExaminationEntity
+import com.mshdabiola.database.model.relation.ExaminationWithSubject
 import kotlinx.coroutines.flow.Flow
 
 @Dao

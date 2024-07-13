@@ -1,10 +1,10 @@
 package database
 
 import app.cash.turbine.test
-import com.mshdabiola.database.dao.exam.ExaminationDao
-import com.mshdabiola.database.dao.exam.SubjectDao
-import com.mshdabiola.database.model.exam.ExaminationEntity
-import com.mshdabiola.database.model.exam.SubjectEntity
+import com.mshdabiola.database.dao.ExaminationDao
+import com.mshdabiola.database.dao.SubjectDao
+import com.mshdabiola.database.model.ExaminationEntity
+import com.mshdabiola.database.model.SubjectEntity
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test

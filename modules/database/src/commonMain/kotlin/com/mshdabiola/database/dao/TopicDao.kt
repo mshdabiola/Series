@@ -6,9 +6,8 @@ package com.mshdabiola.database.dao
 
 import androidx.room.Dao
 import androidx.room.Query
-import androidx.room.Transaction
 import androidx.room.Upsert
-import com.mshdabiola.database.model.topic.TopicEntity
+import com.mshdabiola.database.model.TopicEntity
 import kotlinx.coroutines.flow.Flow
 
 @Dao

@@ -2,11 +2,14 @@
  *abiola 2024
  */
 
-package com.mshdabiola.database.model.exam
+package com.mshdabiola.database.model.relation
 
 import androidx.room.Embedded
 import androidx.room.Relation
-import com.mshdabiola.database.model.topic.TopicEntity
+import com.mshdabiola.database.model.InstructionEntity
+import com.mshdabiola.database.model.OptionEntity
+import com.mshdabiola.database.model.QuestionEntity
+import com.mshdabiola.database.model.TopicEntity
 
 data class QuestionWithOptsInstTop(
     @Embedded val questionEntity: QuestionEntity,

@@ -2,17 +2,19 @@
  *abiola 2024
  */
 
-package com.mshdabiola.database.model
+package com.mshdabiola.database
 
-import com.mshdabiola.database.model.exam.ExaminationEntity
-import com.mshdabiola.database.model.exam.ExaminationWithSubject
-import com.mshdabiola.database.model.exam.InstructionEntity
-import com.mshdabiola.database.model.exam.OptionEntity
-import com.mshdabiola.database.model.exam.QuestionEntity
-import com.mshdabiola.database.model.exam.QuestionWithOptsInstTop
-import com.mshdabiola.database.model.exam.SubjectEntity
-import com.mshdabiola.database.model.exam.SubjectWithSeries
-import com.mshdabiola.database.model.topic.TopicEntity
+import com.mshdabiola.database.model.ExaminationEntity
+import com.mshdabiola.database.model.InstructionEntity
+import com.mshdabiola.database.model.OptionEntity
+import com.mshdabiola.database.model.QuestionEntity
+import com.mshdabiola.database.model.SeriesEntity
+import com.mshdabiola.database.model.SubjectEntity
+import com.mshdabiola.database.model.TopicEntity
+import com.mshdabiola.database.model.UserEntity
+import com.mshdabiola.database.model.relation.ExaminationWithSubject
+import com.mshdabiola.database.model.relation.QuestionWithOptsInstTop
+import com.mshdabiola.database.model.relation.SubjectWithSeries
 import com.mshdabiola.generalmodel.Examination
 import com.mshdabiola.generalmodel.Instruction
 import com.mshdabiola.generalmodel.Option

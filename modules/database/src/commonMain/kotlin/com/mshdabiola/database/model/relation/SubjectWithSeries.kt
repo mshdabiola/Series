@@ -1,8 +1,9 @@
-package com.mshdabiola.database.model.exam
+package com.mshdabiola.database.model.relation
 
 import androidx.room.Embedded
 import androidx.room.Relation
 import com.mshdabiola.database.model.SeriesEntity
+import com.mshdabiola.database.model.SubjectEntity
 
 data class SubjectWithSeries(
     @Embedded val subjectEntity: SubjectEntity,

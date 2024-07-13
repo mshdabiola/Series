@@ -2,13 +2,12 @@
  *abiola 2024
  */
 
-package com.mshdabiola.database.model.topic
+package com.mshdabiola.database.model
 
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
-import com.mshdabiola.database.model.exam.SubjectEntity
 
 @Entity(
     foreignKeys = [
@@ -20,10 +19,11 @@ import com.mshdabiola.database.model.exam.SubjectEntity
         ),
     ],
     indices = [Index(value = ["subjectId"])],
-    tableName = "topic_table")
-data class TopicEntity(
+    tableName = "examination_table")
+data class ExaminationEntity(
     @PrimaryKey(true)
     val id: Long?,
-    val subjectId: Long,      //remove syllabusId
-    val title: String,
+    val subjectId: Long,
+    val year: Long,
+    val duration: Long,
 )
