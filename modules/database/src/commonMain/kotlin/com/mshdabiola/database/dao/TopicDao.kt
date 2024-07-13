@@ -6,8 +6,11 @@ package com.mshdabiola.database.dao
 
 import androidx.room.Dao
 import androidx.room.Query
+import androidx.room.Transaction
 import androidx.room.Upsert
 import com.mshdabiola.database.model.TopicEntity
+import com.mshdabiola.database.model.relation.TopicWithCategoryRelation
+import com.mshdabiola.generalmodel.TopicWithCategory
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -27,6 +30,10 @@ interface TopicDao {
 
     @Query("SELECT * FROM topic_table WHERE id = :id")
     fun getOne(id: Long): Flow<TopicEntity?>
+
+    @Transaction
+    @Query("SELECT * FROM topic_table WHERE id = :id")
+    fun getOneWithCategory(id: Long): Flow<TopicWithCategoryRelation?>
 
     @Query("DELETE FROM topic_table WHERE id = :id")
     suspend fun delete(id: Long)

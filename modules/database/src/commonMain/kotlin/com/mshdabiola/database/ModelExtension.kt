@@ -17,6 +17,7 @@ import com.mshdabiola.database.model.relation.CategoryWithTopicsRelation
 import com.mshdabiola.database.model.relation.ExaminationWithSubjectRelation
 import com.mshdabiola.database.model.relation.QuestionWithOptsInstTopRelation
 import com.mshdabiola.database.model.relation.SubjectWithSeriesRelation
+import com.mshdabiola.database.model.relation.TopicWithCategoryRelation
 import com.mshdabiola.generalmodel.Examination
 import com.mshdabiola.generalmodel.Instruction
 import com.mshdabiola.generalmodel.Option
@@ -103,11 +104,11 @@ fun CategoryWithTopicsRelation.asModel() = topics.map {
     )
 }
 
-//fun TopicWithCategoryRelation.asModel() = TopicWithCategory(
-//    id = topic.id!!,
-//    topicCategory = topicCategory.asModel(),
-//    title = topic.title
-//)
+fun TopicWithCategoryRelation.asModel() = TopicWithCategory(
+    id = topic.id!!,
+    topicCategory = topicCategory.asModel(),
+    title = topic.title
+)
 
 fun Topic.asEntity() = TopicEntity(
     id = id.checkId(),
@@ -182,7 +183,7 @@ fun QuestionWithOptsInstTopRelation.asModel() = Question(
     options = options.map { it.asModel() },
     type = QUESTION_TYPE.entries[questionEntity.type],
     instruction = instructionEntity?.asModel(),
-    topic = topicEntity?.asModel(),
+    topic = topicWithCategoryRelation?.asModel(),
 )
 
 fun Option.asEntity() = OptionEntity(

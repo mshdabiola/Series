@@ -17,6 +17,6 @@ data class QuestionWithOptsInstTopRelation(
     val options: List<OptionEntity>,
     @Relation(parentColumn = "instructionId", entityColumn = "id")
     val instructionEntity: InstructionEntity?,
-    @Relation(parentColumn = "topicId", entityColumn = "id")
-    val topicEntity: TopicEntity?,
+    @Relation(entity = TopicEntity::class, parentColumn = "topicId", entityColumn = "id")
+    val topicWithCategoryRelation: TopicWithCategoryRelation?,
     )

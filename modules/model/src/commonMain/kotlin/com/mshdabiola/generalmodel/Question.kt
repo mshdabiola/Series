@@ -13,5 +13,5 @@ data class Question(
     val options: List<Option>?,
     val type: QUESTION_TYPE,
     val instruction: Instruction? = null,
-    val topic: Topic?,
+    val topic: TopicWithCategory?,
 )
