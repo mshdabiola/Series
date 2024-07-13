@@ -1,5 +1,9 @@
-package com.mshdabiola.database
+package com.mshdabiola.generalmodel
 
+import kotlinx.serialization.ExperimentalSerializationApi
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.decodeFromStream
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
@@ -7,14 +11,26 @@ import java.io.InputStream
 import java.io.ObjectInputStream
 import java.io.ObjectOutputStream
 import java.io.OutputStream
+import java.nio.file.Path
 import java.security.SecureRandom
 import javax.crypto.Cipher
 import javax.crypto.SecretKeyFactory
 import javax.crypto.spec.IvParameterSpec
 import javax.crypto.spec.PBEKeySpec
 import javax.crypto.spec.SecretKeySpec
+import kotlin.io.path.inputStream
 
 object Security {
+
+
+    fun encodeData(data: ExportableData):String{
+        return Json.encodeToString(data)
+    }
+
+    @OptIn(ExperimentalSerializationApi::class)
+    fun decodeData (path:Path):ExportableData{
+        return  Json.decodeFromStream(path.inputStream())
+    }
 
     fun encode(byteArray: ByteArray, output: OutputStream, key: String) {
         ObjectOutputStream(output).use {
