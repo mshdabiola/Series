@@ -42,7 +42,7 @@ fun UserEntity.asModel() = User(
     type = UserType.entries[type],
     password = password,
     imagePath = imagePath,
-    points = points
+    points = points,
 )
 
 fun User.asEntity() = UserEntity(
@@ -51,7 +51,7 @@ fun User.asEntity() = UserEntity(
     type = type.ordinal,
     password = password,
     imagePath = imagePath,
-    points = points
+    points = points,
 )
 
 fun SeriesEntity.asModel() = Series(
@@ -72,13 +72,11 @@ fun SubjectEntity.asModel() = Subject(
     title = title,
 )
 
-
 fun Subject.asEntity() = SubjectEntity(
     id = id.checkId(),
     seriesId = seriesId,
-    title = title
+    title = title,
 )
-
 
 fun SubjectWithSeriesRelation.asModel() = com.mshdabiola.generalmodel.SubjectWithSeries(
     subject = subjectEntity.asModel(),
@@ -88,41 +86,40 @@ fun SubjectWithSeriesRelation.asModel() = com.mshdabiola.generalmodel.SubjectWit
 fun TopicCategory.asEntity() = TopicCategoryEntity(
     id = id.checkId(),
     subjectId = subjectId,
-    name = name
+    name = name,
 )
 
 fun TopicCategoryEntity.asModel() = TopicCategory(
     id = id!!,
     subjectId = subjectId,
-    name = name
+    name = name,
 )
 
 fun CategoryWithTopicsRelation.asModel() = topics.map {
     TopicWithCategory(
         id = it.id!!,
         topicCategory = category.asModel(),
-        title = it.title
+        title = it.title,
     )
 }
 
 fun TopicWithCategoryRelation.asModel() = TopicWithCategory(
     id = topic.id!!,
     topicCategory = topicCategory.asModel(),
-    title = topic.title
+    title = topic.title,
 )
 
 fun Topic.asEntity() = TopicEntity(
     id = id.checkId(),
     categoryId = categoryId,
-    title = title
+    title = title,
 )
 
 fun TopicEntity.asModel() = Topic(
     id = id!!,
     categoryId = categoryId,
-    title = title
+    title = title,
 )
-
 
 fun Examination.asEntity() = ExaminationEntity(
     id = id.checkId(),
@@ -144,13 +141,12 @@ fun ExaminationWithSubjectRelation.asExam() = com.mshdabiola.generalmodel.Examin
     subject = subjectWithSeries.subjectEntity.asModel(),
 )
 
-
 fun Instruction.asEntity() =
     InstructionEntity(
         id = id.checkId(),
         examId = examId,
         title = title,
-        content = content.map { it.toSer() }.asString()
+        content = content.map { it.toSer() }.asString(),
     )
 
 fun InstructionEntity.asModel() =
@@ -158,8 +154,8 @@ fun InstructionEntity.asModel() =
         id = id!!,
         examId = examId,
         title = title,
-        content = content.toContent().map { it.asModel() })
-
+        content = content.toContent().map { it.asModel() },
+    )
 
 fun Question.asModel() = QuestionEntity(
     id = id.checkId(),
@@ -227,6 +223,5 @@ fun OptionEntity.asModel() = Option(
     contents = contents.toContent().map { it.asModel() },
     isAnswer = isAnswer,
 )
-
 
 fun Long.checkId() = if (this < 0) null else this

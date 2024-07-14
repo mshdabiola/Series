@@ -21,11 +21,12 @@ import androidx.room.PrimaryKey
     ],
     indices = [Index(value = ["seriesId"])],
 
-    tableName = "subject_table")
+    tableName = "subject_table",
+)
 data class SubjectEntity(
     @PrimaryKey(true)
     val id: Long?,
     @ColumnInfo(defaultValue = "1")
-    val seriesId:Long,
+    val seriesId: Long,
     val title: String,
 )

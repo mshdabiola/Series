@@ -13,11 +13,12 @@ import androidx.room.PrimaryKey
             onDelete = ForeignKey.CASCADE,
         ),
     ],
-    tableName = "paper_table")
+    tableName = "paper_table",
+)
 data class PaperEntity(
     @PrimaryKey(true)
     val id: Long?,
-    val isRandom:Boolean,
+    val isRandom: Boolean,
     val sessionId: Long,
     val numberQuestions: Long,
     val type: Int,

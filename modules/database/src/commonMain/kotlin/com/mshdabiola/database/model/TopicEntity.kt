@@ -20,12 +20,12 @@ import androidx.room.PrimaryKey
         ),
     ],
     indices = [Index(value = ["categoryId"])],
-    tableName = "topic_table"
+    tableName = "topic_table",
 )
 data class TopicEntity(
     @PrimaryKey(true)
     val id: Long?,
     @ColumnInfo(defaultValue = "1")
-    val categoryId: Long,      //remove syllabusId
+    val categoryId: Long, // remove syllabusId
     val title: String,
 )

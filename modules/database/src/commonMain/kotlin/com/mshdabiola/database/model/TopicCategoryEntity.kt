@@ -15,7 +15,8 @@ import androidx.room.PrimaryKey
         ),
     ],
     indices = [Index(value = ["subjectId"])],
-    tableName = "topic_category_table")
+    tableName = "topic_category_table",
+)
 data class TopicCategoryEntity(
     @PrimaryKey(true)
     val id: Long?,

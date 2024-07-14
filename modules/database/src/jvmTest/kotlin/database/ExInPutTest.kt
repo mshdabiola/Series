@@ -12,8 +12,6 @@ import com.mshdabiola.database.dao.TopicCategoryDao
 import com.mshdabiola.database.dao.TopicDao
 import com.mshdabiola.database.dao.UserDao
 import com.mshdabiola.database.generalPath
-import com.mshdabiola.generalmodel.unzipFile
-import com.mshdabiola.generalmodel.zipDirectory
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.koin.core.component.inject
@@ -22,7 +20,6 @@ import kotlin.test.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class ExInPutTest : AbstractTest() {
-
 
     @Test
     override fun insert() = runTest {
@@ -52,30 +49,25 @@ class ExInPutTest : AbstractTest() {
 
         val path = "/home/mshdabiola/StudioProjects/Series/output2.se"
 
-        generalPath="/home/mshdabiola/StudioProjects/Series/test2"
+        generalPath = "/home/mshdabiola/StudioProjects/Series/test2"
         val output = File(path)
         output.createNewFile()
 
         output.outputStream().use {
             exportImport.export(examsId = examinations.map { it.id }.toSet(), it, "abiola")
-
         }
-
-
     }
 
     @Test
-    override fun delete() = runTest{
+    override fun delete() = runTest {
         val path = "/home/mshdabiola/StudioProjects/Series/output2.se"
         val exportImport by inject<ExportImport>()
 
         val input = File(path).inputStream()
-        val dir=File("/home/mshdabiola/StudioProjects/Series/output")
+        val dir = File("/home/mshdabiola/StudioProjects/Series/output")
         dir.mkdirs()
-        generalPath=dir.absolutePath
+        generalPath = dir.absolutePath
         exportImport.import(input, "abiola")
-
-
     }
 
     @Test
@@ -84,7 +76,7 @@ class ExInPutTest : AbstractTest() {
         val file = File("/home/mshdabiola/StudioProjects/Series/test2")
         file.mkdirs()
         val dest = File(path, "test")
-     //   unzipFile(dest.absolutePath, file.absolutePath, "abiola")
+        //   unzipFile(dest.absolutePath, file.absolutePath, "abiola")
     }
 
     override fun getAll() {

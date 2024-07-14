@@ -20,7 +20,8 @@ import androidx.room.PrimaryKey
     ],
     indices = [Index(value = ["examId"])],
 
-    tableName = "instruction_table")
+    tableName = "instruction_table",
+)
 data class InstructionEntity(
     @PrimaryKey(true)
     val id: Long?,

@@ -16,7 +16,8 @@ import androidx.room.PrimaryKey
     ],
     indices = [Index(value = ["userId"])],
 
-    tableName = "series_table")
+    tableName = "series_table",
+)
 data class SeriesEntity(
     @PrimaryKey(true)
     val id: Long?,

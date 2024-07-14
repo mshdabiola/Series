@@ -4,7 +4,7 @@ import com.mshdabiola.database.dao.TopicDao
 import org.junit.Test
 import org.koin.core.component.inject
 
-class TopicTest :AbstractTest() {
+class TopicTest : AbstractTest() {
 
     val topicDao by inject<TopicDao>()
 
@@ -27,5 +27,4 @@ class TopicTest :AbstractTest() {
     override fun getAll() {
         TODO("Not yet implemented")
     }
-
 }

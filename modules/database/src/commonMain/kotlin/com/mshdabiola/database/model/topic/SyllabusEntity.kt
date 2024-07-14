@@ -14,11 +14,12 @@ import com.mshdabiola.database.model.SubjectEntity
             onDelete = ForeignKey.CASCADE,
         ),
     ],
-    tableName = "syllabus_table")
+    tableName = "syllabus_table",
+)
 data class SyllabusEntity(
     @PrimaryKey(true)
     val id: Long?,
-    val subjectId:Long,
+    val subjectId: Long,
     val title: String,
     val description: String,
 )

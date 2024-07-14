@@ -10,7 +10,6 @@ import androidx.room.Transaction
 import androidx.room.Upsert
 import com.mshdabiola.database.model.TopicEntity
 import com.mshdabiola.database.model.relation.TopicWithCategoryRelation
-import com.mshdabiola.generalmodel.TopicWithCategory
 import kotlinx.coroutines.flow.Flow
 
 @Dao

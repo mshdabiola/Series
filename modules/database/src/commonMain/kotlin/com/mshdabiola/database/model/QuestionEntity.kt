@@ -21,7 +21,8 @@ import androidx.room.PrimaryKey
     ],
     indices = [Index(value = ["examId"])],
 
-    tableName = "question_table")
+    tableName = "question_table",
+)
 data class QuestionEntity(
     @PrimaryKey(true)
     val id: Long?,

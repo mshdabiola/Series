@@ -3,7 +3,6 @@ package com.mshdabiola.database.di
 import androidx.room.RoomDatabase
 import androidx.sqlite.SQLiteConnection
 import com.mshabiola.database.util.Constant
-import com.mshdabiola.database.DatabaseExportImport
 import com.mshdabiola.database.ExportImport
 import com.mshdabiola.database.SeriesDatabase
 import com.mshdabiola.database.callback
@@ -56,7 +55,6 @@ val daoModules = module {
     single {
         get<SeriesDatabase>(qualifier = qualifier("per")).getTopicCategoryDao()
     }
-
 }
 
 fun getRoomDatabase(

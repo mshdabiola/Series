@@ -19,4 +19,4 @@ data class QuestionWithOptsInstTopRelation(
     val instructionEntity: InstructionEntity?,
     @Relation(entity = TopicEntity::class, parentColumn = "topicId", entityColumn = "id")
     val topicWithCategoryRelation: TopicWithCategoryRelation?,
-    )
+)

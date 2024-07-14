@@ -2,20 +2,18 @@ package database
 
 import com.mshdabiola.database.dao.InstructionDao
 import com.mshdabiola.database.dao.SubjectDao
-import com.mshdabiola.database.model.SubjectEntity
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
 import org.koin.core.component.inject
 
-class InstructionTest :AbstractTest() {
+class InstructionTest : AbstractTest() {
 
     val instructionDao by inject<InstructionDao>()
 
     @Before
-    fun setUp() = runTest{
+    fun setUp() = runTest {
         val subjectDao by inject<SubjectDao>()
-
     }
 
     @Test
@@ -36,5 +34,4 @@ class InstructionTest :AbstractTest() {
     override fun getAll() {
         TODO("Not yet implemented")
     }
-
 }

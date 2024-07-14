@@ -28,7 +28,6 @@ interface OptionDao {
     @Query("SELECT * FROM option_table WHERE questionId IN (:ids)")
     fun getByQuestionIds(ids: Set<Long>): Flow<List<OptionEntity>>
 
-
     @Query("DELETE FROM option_table WHERE id = :id")
     suspend fun delete(id: Long)
 

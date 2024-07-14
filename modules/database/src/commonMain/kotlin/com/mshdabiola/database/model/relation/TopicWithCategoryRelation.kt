@@ -6,10 +6,10 @@ import com.mshdabiola.database.model.TopicCategoryEntity
 import com.mshdabiola.database.model.TopicEntity
 
 data class TopicWithCategoryRelation(
-   @Embedded val topic: TopicEntity,
+    @Embedded val topic: TopicEntity,
     @Relation(
         parentColumn = "categoryId",
-        entityColumn = "id"
+        entityColumn = "id",
     )
-    val topicCategory: TopicCategoryEntity
+    val topicCategory: TopicCategoryEntity,
 )

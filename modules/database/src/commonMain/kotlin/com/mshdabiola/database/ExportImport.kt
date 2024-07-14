@@ -25,7 +25,6 @@ class ExportImport(
         withContext(Dispatchers.IO) {
             val tempFile = createTempFolder()
             val job = launch {
-
                 // val db by inject<SeriesDatabase>(qualifier = qualifier("tem"), parameters = { parametersOf(dbPath.path) })
 
                 val exams = async {
@@ -62,7 +61,6 @@ class ExportImport(
                         .map { list -> list.map { it.asModel() } }
                         .first()
                 }
-
 
                 val options = async {
                     database.getOptionDao()
@@ -101,7 +99,7 @@ class ExportImport(
                     instructions = instructions.await(),
                     topicCategory = categories.await(),
                     questions = questions.await(),
-                    options = options.await()
+                    options = options.await(),
 
                 )
 
@@ -111,7 +109,6 @@ class ExportImport(
                 output.createNewFile()
 
                 output.writeText(string)
-
             }
             val job2 = launch {
                 val imagePath = File(tempFile, "image")
@@ -123,7 +120,6 @@ class ExportImport(
             if (tempFile != null) {
                 zipDirectory(tempFile, outputStream, password)
             }
-
         }
     }
 
@@ -141,9 +137,10 @@ class ExportImport(
                     val userJob = launch {
                         database
                             .getUserDao()
-                            .insertAll(data
-                                .users
-                                .map { it.asEntity() }
+                            .insertAll(
+                                data
+                                    .users
+                                    .map { it.asEntity() },
                             )
                     }
 
@@ -152,9 +149,10 @@ class ExportImport(
                     val seriesJob = launch {
                         database
                             .getSeriesDao()
-                            .insertAll(data
-                                .series
-                                .map { it.asEntity() }
+                            .insertAll(
+                                data
+                                    .series
+                                    .map { it.asEntity() },
                             )
                     }
 
@@ -163,9 +161,10 @@ class ExportImport(
                     val subjectJob = launch {
                         database
                             .getSubjectDao()
-                            .insertAll(data
-                                .subjects
-                                .map { it.asEntity() }
+                            .insertAll(
+                                data
+                                    .subjects
+                                    .map { it.asEntity() },
                             )
                     }
 
@@ -174,16 +173,18 @@ class ExportImport(
                     launch {
                         database
                             .getTopicCategoryDao()
-                            .insertAll(data
-                                .topicCategory
-                                .map { it.asEntity() }
+                            .insertAll(
+                                data
+                                    .topicCategory
+                                    .map { it.asEntity() },
                             )
                         launch {
                             database
                                 .getTopicDao()
-                                .insertAll(data
-                                    .topics
-                                    .map { it.asEntity() }
+                                .insertAll(
+                                    data
+                                        .topics
+                                        .map { it.asEntity() },
                                 )
                         }
                     }
@@ -191,34 +192,38 @@ class ExportImport(
                     launch {
                         database
                             .getExaminationDao()
-                            .insertAll(data
-                                .examinations
-                                .map { it.asEntity() }
+                            .insertAll(
+                                data
+                                    .examinations
+                                    .map { it.asEntity() },
                             )
 
                         launch {
                             database
                                 .getInstructionDao()
-                                .insertAll(data
-                                    .instructions
-                                    .map { it.asEntity() }
+                                .insertAll(
+                                    data
+                                        .instructions
+                                        .map { it.asEntity() },
                                 )
                         }
 
                         launch {
                             database
                                 .getQuestionDao()
-                                .insertAll(data
-                                    .questions
-                                    .map { it.asEntity() }
+                                .insertAll(
+                                    data
+                                        .questions
+                                        .map { it.asEntity() },
                                 )
 
                             launch {
                                 database
                                     .getOptionDao()
-                                    .insertAll(data
-                                        .options
-                                        .map { it.asEntity() }
+                                    .insertAll(
+                                        data
+                                            .options
+                                            .map { it.asEntity() },
                                     )
                             }
                         }
@@ -227,14 +232,10 @@ class ExportImport(
                 launch {
                     val imagePath = File(tempFile, "image")
                     imagePath.listFiles()?.forEach {
-
                         it.copyRecursively(File(generalPath, "image/${it.name}"), true)
                     }
-
                 }
             }
-
-
         }
     }
 

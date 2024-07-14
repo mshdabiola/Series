@@ -4,7 +4,7 @@ import com.mshdabiola.database.dao.OptionDao
 import org.junit.Test
 import org.koin.core.component.inject
 
-class OptionsTest :AbstractTest() {
+class OptionsTest : AbstractTest() {
 
     val optionDao by inject<OptionDao>()
 
@@ -27,5 +27,4 @@ class OptionsTest :AbstractTest() {
     override fun getAll() {
         TODO("Not yet implemented")
     }
-
 }

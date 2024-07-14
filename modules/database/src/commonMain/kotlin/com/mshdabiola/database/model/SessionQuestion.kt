@@ -16,7 +16,8 @@ import androidx.room.PrimaryKey
     ],
     indices = [Index(value = ["paperId"])],
 
-    tableName = "session_question")
+    tableName = "session_question",
+)
 data class SessionQuestion(
     @PrimaryKey(true)
     val id: Long?,

@@ -28,5 +28,4 @@ interface SeriesDao {
 
     @Upsert
     suspend fun insertAll(users: List<SeriesEntity>)
-
 }

@@ -16,18 +16,19 @@ import androidx.room.PrimaryKey
     ],
     indices = [Index(value = ["examinerId"])],
 
-    tableName = "session_examination")
+    tableName = "session_examination",
+)
 data class SessionExamination(
     @PrimaryKey(true)
     val id: Long?,
-    val examinerId:Long,
-    val userId:Long?,
-    val generatedFromId:Long?,
+    val examinerId: Long,
+    val userId: Long?,
+    val generatedFromId: Long?,
     val duration: Long,
     val remainingTime: Long,
     val totalMarks: Long,
     val isCompleted: Boolean,
     val progress: Long,
-    val isUploaded:Boolean,
-    val showResultImmediately:Boolean,
+    val isUploaded: Boolean,
+    val showResultImmediately: Boolean,
 )
