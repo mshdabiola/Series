@@ -11,5 +11,5 @@ data class QuestionWithOptsInstTop(
     val question: Question,
     val options: List<Option>,
     val instruction: Instruction?,
-    val topic: Topic?
+    val topic: Topic?,
 )

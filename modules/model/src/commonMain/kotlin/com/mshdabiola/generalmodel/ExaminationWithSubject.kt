@@ -10,5 +10,5 @@ import kotlinx.serialization.Serializable
 data class ExaminationWithSubject(
     val examination: Examination,
     val subject: Subject,
-    val series: Series
+    val series: Series,
 )

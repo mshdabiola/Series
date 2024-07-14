@@ -65,14 +65,14 @@ private fun extractFile(zis: ZipInputStream, filePath: String) {
 }
 
 // Zipping function with password
-fun zipDirectory(directory: File,  outputStream: OutputStream, password: String) {
+fun zipDirectory(directory: File, outputStream: OutputStream, password: String) {
     outputStream.use { fos ->
         val passwordBytes = password.toCharArray()
         val keySpec = PBEKeySpec(
             passwordBytes,
             "salt".toByteArray(),
             65536,
-            256
+            256,
         ) // Adjust salt and iterations as needed
         val factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1")
         val secretKey = SecretKeySpec(factory.generateSecret(keySpec).encoded, "AES")
@@ -105,14 +105,14 @@ fun unzipFile(inputStream: InputStream, destDir: String, password: String) {
         passwordBytes,
         "salt".toByteArray(),
         65536,
-        256
+        256,
     ) // Use the same salt and iterations as during zipping
     val factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1")
     val secretKey = SecretKeySpec(factory.generateSecret(keySpec).encoded, "AES")
     val cipher = Cipher.getInstance("AES")
     cipher.init(Cipher.DECRYPT_MODE, secretKey)
 
-   inputStream.use { fis ->
+    inputStream.use { fis ->
         Cipher.getInstance("AES").let {
             it.init(Cipher.DECRYPT_MODE, secretKey)
             CipherInputStream(fis, it).use { cis ->
@@ -133,4 +133,3 @@ fun unzipFile(inputStream: InputStream, destDir: String, password: String) {
         }
     }
 }
-

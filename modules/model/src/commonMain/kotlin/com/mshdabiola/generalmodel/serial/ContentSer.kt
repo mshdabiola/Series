@@ -4,7 +4,6 @@ import com.mshdabiola.generalmodel.Content
 import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.json.Json
 
-
 fun String.toContent(): List<Content> {
     return Json.decodeFromString(this)
 }

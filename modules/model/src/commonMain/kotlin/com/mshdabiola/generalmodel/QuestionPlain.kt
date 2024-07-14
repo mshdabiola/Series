@@ -4,7 +4,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class QuestionPlain(
-    val id: Long=-1,
+    val id: Long = -1,
     val number: Long,
     val examId: Long,
     val title: String,

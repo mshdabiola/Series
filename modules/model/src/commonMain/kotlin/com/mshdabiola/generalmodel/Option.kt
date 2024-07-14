@@ -4,7 +4,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class Option(
-    val id: Long=-1,
+    val id: Long = -1,
     val number: Long,
     val questionId: Long,
     val title: String,

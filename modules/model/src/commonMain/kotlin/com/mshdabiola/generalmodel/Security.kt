@@ -22,14 +22,13 @@ import kotlin.io.path.inputStream
 
 object Security {
 
-
-    fun encodeData(data: ExportableData):String{
+    fun encodeData(data: ExportableData): String {
         return Json.encodeToString(data)
     }
 
     @OptIn(ExperimentalSerializationApi::class)
-    fun decodeData (path:Path):ExportableData{
-        return  Json.decodeFromStream(path.inputStream())
+    fun decodeData(path: Path): ExportableData {
+        return Json.decodeFromStream(path.inputStream())
     }
 
     fun encode(byteArray: ByteArray, output: OutputStream, key: String) {

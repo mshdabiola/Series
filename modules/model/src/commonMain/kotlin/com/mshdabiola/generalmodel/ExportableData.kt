@@ -12,5 +12,5 @@ data class ExportableData(
     val examinations: List<Examination> = emptyList(),
     val instructions: List<Instruction> = emptyList(),
     val questions: List<QuestionPlain> = emptyList(),
-    val options: List<Option> = emptyList()
+    val options: List<Option> = emptyList(),
 )
