@@ -22,3 +22,5 @@
     ./gradlew wasmJsBrowserDistribution
 
     AIzaSyAjYhexe9sqDPQ0SX-2G-S10wr9CkNBKIg
+
+    publishToMavenLocal

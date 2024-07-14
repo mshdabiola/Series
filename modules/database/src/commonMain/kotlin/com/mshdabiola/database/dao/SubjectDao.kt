@@ -6,8 +6,10 @@ package com.mshdabiola.database.dao
 
 import androidx.room.Dao
 import androidx.room.Query
+import androidx.room.Transaction
 import androidx.room.Upsert
 import com.mshdabiola.database.model.SubjectEntity
+import com.mshdabiola.database.model.relation.SubjectWithSeriesRelation
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -19,8 +21,16 @@ interface SubjectDao {
     @Query("SELECT * FROM subject_table")
     fun getAll(): Flow<List<SubjectEntity>>
 
+    @Transaction
+    @Query("SELECT * FROM subject_table")
+    fun getAllWithSeries(): Flow<List<SubjectWithSeriesRelation>>
+
     @Query("SELECT * FROM subject_table WHERE id = :id")
     fun getOne(id: Long): Flow<SubjectEntity?>
+
+    @Transaction
+    @Query("SELECT * FROM subject_table WHERE id = :id")
+    fun getOneWithSeries(id: Long): Flow<SubjectWithSeriesRelation?>
 
     @Query("SELECT * FROM subject_table WHERE id IN (:ids)")
     fun getByIds(ids: Set<Long>): Flow<List<SubjectEntity>>

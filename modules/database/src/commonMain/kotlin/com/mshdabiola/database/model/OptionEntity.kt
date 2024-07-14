@@ -27,7 +27,6 @@ data class OptionEntity(
     val number: Long,
     @ColumnInfo(index = true)
     val questionId: Long,
-    val examId: Long,
     val title: String,
     val contents: String,
     val isAnswer: Boolean,
