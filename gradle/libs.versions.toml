@@ -85,7 +85,7 @@ kotlinxCollectionImmutable = "0.3.7"
 windowSizeClass = "0.5.0"
 
 database = "0.0.6"
-calf = "0.4.0"
+calf = "0.5.1"
 
 versionCode = "6"
 versionName = "0.0.6"
