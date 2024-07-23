@@ -1,10 +1,11 @@
-package database
+package com.mshdabiola.testing
 
 import com.mshdabiola.generalmodel.Content
 import com.mshdabiola.generalmodel.Examination
 import com.mshdabiola.generalmodel.ExportableData
 import com.mshdabiola.generalmodel.Instruction
 import com.mshdabiola.generalmodel.Option
+import com.mshdabiola.generalmodel.Question
 import com.mshdabiola.generalmodel.QuestionPlain
 import com.mshdabiola.generalmodel.Series
 import com.mshdabiola.generalmodel.Subject
