@@ -8,7 +8,7 @@ class ScreenShotTest {
     @Preview()
     @Composable
     fun mainw() {
-        Latex(text="com.mshdabiola.series")
+        Latex(text = "com.mshdabiola.series")
 //        Testing()
     }
 }

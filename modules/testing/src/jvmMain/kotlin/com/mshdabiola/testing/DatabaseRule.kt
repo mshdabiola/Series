@@ -31,7 +31,6 @@ val databaseTestModule = module {
     includes(daoModules)
 }
 
-
 val defaultData = exportableData
 suspend fun KoinComponent.insertData() {
     val userDao by inject<UserDao>()
@@ -43,8 +42,6 @@ suspend fun KoinComponent.insertData() {
     val optionDao by inject<OptionDao>()
     val topicDao by inject<TopicDao>()
     val topicCategoryDao by inject<TopicCategoryDao>()
-
-
 
     userDao.insertAll(defaultData.users.map { it.asEntity() })
     seriesDao.insertAll(defaultData.series.map { it.asEntity() })

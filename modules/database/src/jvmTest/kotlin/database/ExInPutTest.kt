@@ -38,14 +38,15 @@ import kotlin.test.assertEquals
 class ExInPutTest : AbstractTest() {
 
     @Test
-    fun setData()= runTest{
+    fun setData() = runTest {
         insertData()
         val userDao by inject<UserDao>()
 
         val users = userDao.getAllUsers().first()
 
-        assertEquals(defaultData.users.toMutableList().apply {removeFirst() }, users.map { it.asModel() })
+        assertEquals(defaultData.users.toMutableList().apply { removeFirst() }, users.map { it.asModel() })
     }
+
     @Test
     override fun insert() = runTest {
         // val modelDao by inject<NoteDao>()
