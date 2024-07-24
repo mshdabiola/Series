@@ -2,6 +2,7 @@ package database
 
 import com.mshdabiola.database.ExportImport
 import com.mshdabiola.database.asEntity
+import com.mshdabiola.database.asModel
 import com.mshdabiola.database.dao.ExaminationDao
 import com.mshdabiola.database.dao.InstructionDao
 import com.mshdabiola.database.dao.OptionDao
@@ -12,15 +13,39 @@ import com.mshdabiola.database.dao.TopicCategoryDao
 import com.mshdabiola.database.dao.TopicDao
 import com.mshdabiola.database.dao.UserDao
 import com.mshdabiola.database.generalPath
+import com.mshdabiola.testing.defaultData
+import com.mshdabiola.testing.examinations
+import com.mshdabiola.testing.exportableData
+import com.mshdabiola.testing.insertData
+import com.mshdabiola.testing.instructions
+import com.mshdabiola.testing.options
+import com.mshdabiola.testing.questionsPlain
+import com.mshdabiola.testing.series
+import com.mshdabiola.testing.subjects
+import com.mshdabiola.testing.topicCategories
+import com.mshdabiola.testing.topics
+import com.mshdabiola.testing.users
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.test.runTest
 import org.koin.core.component.inject
 import java.io.File
 import kotlin.test.Test
+import kotlin.test.assertEquals
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class ExInPutTest : AbstractTest() {
 
+    @Test
+    fun setData()= runTest{
+        insertData()
+        val userDao by inject<UserDao>()
+
+        val users = userDao.getAllUsers().first()
+
+        assertEquals(defaultData.users.toMutableList().apply {removeFirst() }, users.map { it.asModel() })
+    }
     @Test
     override fun insert() = runTest {
         // val modelDao by inject<NoteDao>()
