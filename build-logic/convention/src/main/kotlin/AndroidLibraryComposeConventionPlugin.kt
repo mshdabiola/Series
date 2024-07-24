@@ -32,7 +32,7 @@ class AndroidLibraryComposeConventionPlugin : Plugin<Project> {
 
            dependencies {
 //               add("screenshotTestImplementation",  project(":modules:designsystem"))
-//               add("screenshotTestImplementation", libs.findLibrary("androidx.compose.ui.tooling").get())
+               add("screenshotTestImplementation", libs.findLibrary("androidx.compose.ui.tooling").get())
 //               add("jvmTestImplementation",  project(":modules:testing"))
 //               add("commonTestImplementation",  project(":modules:testing"))
 
