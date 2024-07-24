@@ -12,6 +12,10 @@ kotlin {
 //    androidTarget()
 //    jvm("desktop")
     sourceSets {
+        androidMain.dependencies{
+            api(compose.preview)
+
+        }
         val commonMain by getting {
             dependencies {
                 implementation(project(":modules:jretex"))
@@ -21,6 +25,10 @@ kotlin {
                 implementation(compose.materialIconsExtended)
                 implementation(compose.components.resources)
             }
+        }
+        jvmMain.dependencies{
+            api(compose.preview)
+
         }
 
         val jvmTest by getting {

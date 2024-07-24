@@ -19,7 +19,9 @@ import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.takeOrElse
 import androidx.compose.ui.platform.LocalDensity
 import com.himamis.retex.renderer.desktop.FactoryProviderDesktop
+import com.himamis.retex.renderer.desktop.IconHelper
 import com.himamis.retex.renderer.desktop.graphics.ColorD
+import com.himamis.retex.renderer.desktop.graphics.Graphics2DD
 import com.himamis.retex.renderer.desktop.graphics.ImageD
 import com.himamis.retex.renderer.share.TeXFormula
 import com.himamis.retex.renderer.share.platform.FactoryProvider
@@ -60,7 +62,13 @@ actual fun Latex(
             }
             val size2 = size * density.density
             val formula = TeXFormula(text)
-
+//           val icon= formula.createTeXIcon(
+//                style.value,
+//                type.value.toDouble(),
+//            )
+//
+//            val vi=IconHelper.createIcon(icon)
+//            vi.paintIcon()
             image = (
                 formula.createBufferedImage(
                     style.value,
