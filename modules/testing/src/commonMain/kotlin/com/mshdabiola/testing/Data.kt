@@ -12,6 +12,7 @@ import com.mshdabiola.generalmodel.Topic
 import com.mshdabiola.generalmodel.TopicCategory
 import com.mshdabiola.generalmodel.User
 import com.mshdabiola.generalmodel.UserType
+import com.mshdabiola.generalmodel.serial.asString
 
 val users = listOf(
     User(1, "Alice", UserType.STUDENT, "password1", "path/to/image1.jpg", 85),
@@ -183,8 +184,10 @@ val questionsPlain = listOf(
         1,
         1,
         "What is the capital of France?",
-        "Multiple choice question about capital cities.",
-        "Paris",
+        contents = listOf(Content("Multiple choice question about capital cities.")).asString(),
+
+        answers = listOf(Content("Paris")).asString(),
+
         0,
         1,
         1,
@@ -194,19 +197,21 @@ val questionsPlain = listOf(
         2,
         1,
         "Solve for x: 2x + 5 = 11",
-        "Math problem involving linear equations.",
-        "x = 3",
+        contents = listOf(Content("Math problem involving linear equations.")).asString(),
+
+        answers = listOf(Content("x = 3")).asString(),
+
         1,
         1,
         2,
     ),
     QuestionPlain(
         3,
-        1,
+        3,
         2,
         "Write a Python function to calculate the factorial of a number.",
-        "Coding question requiring a Python function.",
-        "def factorial(n): ...",
+        contents = listOf(Content("Coding question requiring a Python function.")).asString(),
+        answers = listOf(Content("def factorial(n): ...")).asString(),
         2,
         2,
         3,
@@ -216,8 +221,8 @@ val questionsPlain = listOf(
         2,
         2,
         "Explain the difference between a list and a tuple in Python.",
-        "Conceptual question about Python data structures.",
-        "Answer explaining differences...",
+        contents = listOf(Content("Conceptual question about Python data structures.")).asString(),
+        answers = listOf(Content("Answer explaining differences...")).asString(),
         0,
         2,
         3,
@@ -227,8 +232,10 @@ val questionsPlain = listOf(
         1,
         3,
         "Describe the major events of the French Revolution.",
-        "History question requiring an essay response.",
-        "Essay response about French Revolution...",
+        contents = listOf(Content("History question requiring an essay response.")).asString(),
+
+        answers = listOf(Content("Essay response about French Revolution...")).asString(),
+
         3,
         3,
         4,
@@ -238,8 +245,10 @@ val questionsPlain = listOf(
         1,
         4,
         "Calculate the derivative of f(x) = x^2 + 3x - 2.",
-        "Calculus question involving differentiation.",
-        "f'(x) = 2x + 3",
+        contents = listOf(Content("Calculus question involving differentiation.")).asString(),
+
+        answers = listOf(Content("f'(x) = 2x + 3")).asString(),
+
         1,
         4,
         5,
@@ -249,8 +258,9 @@ val questionsPlain = listOf(
         1,
         5,
         "Create a simple HTML page with a heading and a paragraph.",
-        "Web development question requiring HTML code.",
-        "<html>...</html>",
+        contents = listOf(Content("Web development question requiring HTML code.")).asString(),
+        answers = listOf(Content("<html>...</html>")).asString(),
+
         2,
         5,
         6,
@@ -260,8 +270,10 @@ val questionsPlain = listOf(
         1,
         6,
         "What are the primary colors?",
-        "Art question about color theory.",
-        "Red, Yellow, Blue",
+        contents = listOf(Content("Art question about color theory.")).asString(),
+
+        answers = listOf(Content("Red, Yellow, Blue")).asString(),
+
         0,
         6,
         7,
@@ -271,8 +283,10 @@ val questionsPlain = listOf(
         1,
         7,
         "Explain the concept of a linked list data structure.",
-        "Computer science question about data structures.",
-        "Explanation of linked lists...",
+        contents = listOf(Content("Computer science question about data structures.")).asString(),
+
+        answers = listOf(Content("Explanation of linked lists...")).asString(),
+
         0,
         7,
         8,
@@ -282,8 +296,10 @@ val questionsPlain = listOf(
         1,
         8,
         "What is the key signature of C major?",
-        "Music theory question about scales.",
-        "No sharps or flats",
+        contents = listOf(Content("Music theory question about scales.")).asString(),
+
+        answers = listOf(Content("No sharps or flats")).asString(),
+
         0,
         8,
         9,
