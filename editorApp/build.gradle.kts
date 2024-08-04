@@ -112,7 +112,7 @@ android {
             applicationIdSuffix = BuildType.DEBUG.applicationIdSuffix
         }
         val release = getByName("release") {
-            isMinifyEnabled = true
+            isMinifyEnabled = false
             applicationIdSuffix = BuildType.RELEASE.applicationIdSuffix
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
@@ -134,7 +134,7 @@ android {
             signingConfig = signingConfigs.getByName("debug")
             // Only use benchmark proguard rules
             proguardFiles("benchmark-rules.pro")
-            isMinifyEnabled = true
+            isMinifyEnabled = false
             applicationIdSuffix = BuildType.BENCHMARK.applicationIdSuffix
         }
     }

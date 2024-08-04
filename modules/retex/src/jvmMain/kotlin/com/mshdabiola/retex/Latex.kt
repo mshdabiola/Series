@@ -60,7 +60,13 @@ actual fun Latex(
             }
             val size2 = size * density.density
             val formula = TeXFormula(text)
-
+//           val icon= formula.createTeXIcon(
+//                style.value,
+//                type.value.toDouble(),
+//            )
+//
+//            val vi=IconHelper.createIcon(icon)
+//            vi.paintIcon()
             image = (
                 formula.createBufferedImage(
                     style.value,

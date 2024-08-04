@@ -12,13 +12,23 @@ kotlin {
 //    androidTarget()
 //    jvm("desktop")
     sourceSets {
+        androidMain.dependencies{
+            api(compose.preview)
+
+        }
         val commonMain by getting {
             dependencies {
                 implementation(project(":modules:jretex"))
                 implementation(compose.runtime)
                 implementation(compose.foundation)
                 implementation(compose.material3)
+                implementation(compose.materialIconsExtended)
+                implementation(compose.components.resources)
             }
+        }
+        jvmMain.dependencies{
+            api(compose.preview)
+
         }
 
         val jvmTest by getting {
