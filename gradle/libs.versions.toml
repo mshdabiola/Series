@@ -83,7 +83,7 @@ vanniktech-gradle="0.29.0"
 
 
 series = "0.0.6"
-calf = "0.4.0"
+calf = "0.5.2"
 
 versionCode = "10"
 versionName = "0.0.10"
