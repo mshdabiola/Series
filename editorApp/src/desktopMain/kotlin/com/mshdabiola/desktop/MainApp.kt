@@ -61,7 +61,7 @@ fun mainApp() {
                     modifier = Modifier.size(300.dp),
                     text = textstate.text.toString(),
                     backgroundColor = Color.Green,
-                    foregroundColor = Color.Blue
+                    foregroundColor = Color.Blue,
                 )
                 BasicTextField(textstate, modifier = Modifier.fillMaxSize())
             }
