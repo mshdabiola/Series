@@ -1,3 +1,5 @@
+import com.vanniktech.maven.publish.SonatypeHost
+
 @Suppress("DSL_SCOPE_VIOLATION")
 plugins {
     id("mshdabiola.android.library")
@@ -52,6 +54,12 @@ mavenPublishing {
             url.set("https://github.com/mshdabiola/series")
         }
     }
+
+    // Configure publishing to Maven Central
+    publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL)
+
+    // Enable GPG signing for all publications
+    signAllPublications()
 }
 kotlin {
     sourceSets {

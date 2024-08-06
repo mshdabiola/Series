@@ -1,3 +1,4 @@
+import com.vanniktech.maven.publish.SonatypeHost
 import java.util.Properties
 
 plugins {
@@ -53,6 +54,13 @@ mavenPublishing {
             url.set("https://github.com/mshdabiola/series")
         }
     }
+
+
+    // Configure publishing to Maven Central
+    publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL)
+
+    // Enable GPG signing for all publications
+    signAllPublications()
 }
 //group = "com.mshdabiola.series"
 //version = libs.versions.versionName
