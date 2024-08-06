@@ -2,8 +2,7 @@ import com.vanniktech.maven.publish.SonatypeHost
 import java.util.Properties
 
 plugins {
-    id("java-library")
-    id("org.jetbrains.kotlin.jvm")
+    id("mshdabiola.jvm.library")
     id("com.vanniktech.maven.publish") version "0.29.0"
 
 }
@@ -65,7 +64,6 @@ mavenPublishing {
 //group = "com.mshdabiola.series"
 //version = libs.versions.versionName
 
-var project : Properties?=null
 //try {
 //    project=  File(rootDir, "local.properties").inputStream().use {
 //        Properties().apply { load(it) }
