@@ -1,6 +1,6 @@
-package com.mshdabiola.generalmodel.serial
+package com.mshdabiola.series_model.serial
 
-import com.mshdabiola.generalmodel.Content
+import com.mshdabiola.series_model.Content
 import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.json.Json
 

@@ -1,10 +1,10 @@
-package com.mshdabiola.generalmodel
+package com.mshdabiola.series_model
 
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class Subject(
+data class Topic(
     val id: Long = -1,
-    val seriesId: Long,
+    val categoryId: Long,
     val title: String,
 )

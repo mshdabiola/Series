@@ -1,4 +1,4 @@
-package com.mshdabiola.generalmodel
+package com.mshdabiola.series_model
 
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.encodeToString
