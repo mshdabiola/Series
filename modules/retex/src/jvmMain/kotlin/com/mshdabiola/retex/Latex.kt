@@ -89,7 +89,7 @@ actual fun Latex(
                 .horizontalScroll(rememberScrollState()),
             bitmap = it,
             contentDescription = "",
-            contentScale = ContentScale.Fit
+            contentScale = ContentScale.Fit,
         )
     }
     error?.let {
