@@ -1,4 +1,4 @@
-package com.mshdabiola.retex
+package com.mshdabiola.series_latex
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.horizontalScroll
@@ -17,11 +17,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.takeOrElse
-import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
-import com.himamis.retex.renderer.desktop.FactoryProviderDesktop
-import com.himamis.retex.renderer.desktop.graphics.ColorD
-import com.himamis.retex.renderer.desktop.graphics.ImageD
+import com.himamis.retex.renderer.android.FactoryProviderAndroid
+import com.himamis.retex.renderer.android.graphics.ColorA
+import com.himamis.retex.renderer.android.graphics.ImageA
 import com.himamis.retex.renderer.share.TeXFormula
 import com.himamis.retex.renderer.share.platform.FactoryProvider
 
@@ -35,8 +37,6 @@ actual fun Latex(
     style: LatexStyle,
     type: LatexType,
 ) {
-    var image by remember { mutableStateOf<ImageBitmap?>(null) }
-
     val style2 = LocalTextStyle.current
     val color = LocalContentColor.current
     val textColor = remember(color, foregroundColor, style2) {
@@ -46,9 +46,10 @@ actual fun Latex(
             }
         }
     }
-
+    val context = LocalContext.current
+    val con = LocalConfiguration.current
     val density = LocalDensity.current
-
+    var image by remember { mutableStateOf<ImageBitmap?>(null) }
     var error by remember {
         mutableStateOf<String?>(null)
     }
@@ -57,17 +58,15 @@ actual fun Latex(
         error = null
         try {
             if (FactoryProvider.getInstance() == null) {
-                FactoryProvider.setInstance(FactoryProviderDesktop())
+                FactoryProvider.setInstance(
+                    FactoryProviderAndroid(
+                        context.assets,
+                    ),
+                )
             }
-            val size2 = size * density.density
+            val size2 = size * con.fontScale * density.density
             val formula = TeXFormula(text)
-//           val icon= formula.createTeXIcon(
-//                style.value,
-//                type.value.toDouble(),
-//            )
-//
-//            val vi=IconHelper.createIcon(icon)
-//            vi.paintIcon()
+
             image = (
                 formula.createBufferedImage(
                     style.value,
@@ -75,8 +74,8 @@ actual fun Latex(
                     size2,
                     textColor.toPaintColor(),
                     backgroundColor.toPaintColor(),
-                ) as ImageD
-                ).compose()
+                ) as ImageA
+                ).bitmap
         } catch (e: Exception) {
             error = e.message
             image = null
@@ -85,18 +84,22 @@ actual fun Latex(
 
     image?.let {
         Image(
-            modifier = modifier
-                .horizontalScroll(rememberScrollState()),
+            modifier = modifier.horizontalScroll(rememberScrollState()),
             bitmap = it,
             contentDescription = "",
-            contentScale = ContentScale.Fit,
         )
     }
+
     error?.let {
         Text(it, color = MaterialTheme.colorScheme.error)
     }
 }
 
 fun Color.toPaintColor(): com.himamis.retex.renderer.share.platform.graphics.Color {
-    return ColorD(color = java.awt.Color(red, green, blue, alpha))
+    return ColorA(toArgb())
+}
+
+@Composable
+fun Testing(modifier: Modifier = Modifier) {
+    Text("Hello World")
 }

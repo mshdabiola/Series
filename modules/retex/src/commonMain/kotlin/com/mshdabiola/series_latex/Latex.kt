@@ -1,4 +1,4 @@
-package com.mshdabiola.retex
+package com.mshdabiola.series_latex
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier

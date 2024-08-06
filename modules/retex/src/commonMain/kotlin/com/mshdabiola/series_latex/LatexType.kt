@@ -1,4 +1,4 @@
-package com.mshdabiola.retex
+package com.mshdabiola.series_latex
 
 enum class LatexType(val value: Int) {
     SERIF(0),
