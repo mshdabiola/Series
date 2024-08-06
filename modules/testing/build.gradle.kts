@@ -1,3 +1,4 @@
+import com.vanniktech.maven.publish.SonatypeHost
 import org.jetbrains.compose.ExperimentalComposeLibrary
 
 /*
@@ -56,6 +57,13 @@ mavenPublishing {
             url.set("https://github.com/mshdabiola/series")
         }
     }
+
+
+    // Configure publishing to Maven Central
+    publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL)
+
+    // Enable GPG signing for all publications
+    signAllPublications()
 }
 android {
     namespace = "com.mshdabiola.testing"
