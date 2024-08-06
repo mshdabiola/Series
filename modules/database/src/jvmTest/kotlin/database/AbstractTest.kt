@@ -1,6 +1,6 @@
 package database
 
-import com.mshdabiola.testing.databaseTestModule
+import com.mshdabiola.series_testing.databaseTestModule
 import org.junit.Rule
 import org.junit.Test
 import org.koin.test.KoinTest

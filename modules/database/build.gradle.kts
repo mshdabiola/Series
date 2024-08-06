@@ -22,14 +22,14 @@ mavenPublishing {
     // Define coordinates for the published artifact
     coordinates(
         groupId =  libs.versions.groupId.get(),
-        artifactId = "database",
+        artifactId = "series-database",
         version = libs.versions.versionName.get()
     )
 
     // Configure POM metadata for the published artifact
     pom {
-        name.set("J retext KMP Library")
-        description.set("Sample Kotlin MultiPlatform Library Test")
+        name.set("Series Database")
+        description.set("Database for Series")
         inceptionYear.set("2024")
         url.set("https://github.com/mshdabiola/series")
 
@@ -63,7 +63,7 @@ mavenPublishing {
     signAllPublications()
 }
 android {
-    namespace = "com.mshdabiola.database"
+    namespace = "com.mshdabiola.series_database"
 }
 room {
     schemaDirectory("$projectDir/schemas")
