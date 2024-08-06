@@ -17,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.takeOrElse
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalDensity
 import com.himamis.retex.renderer.desktop.FactoryProviderDesktop
 import com.himamis.retex.renderer.desktop.graphics.ColorD
@@ -52,7 +53,7 @@ actual fun Latex(
         mutableStateOf<String?>(null)
     }
 
-    LaunchedEffect(textColor) {
+    LaunchedEffect(text) {
         error = null
         try {
             if (FactoryProvider.getInstance() == null) {
@@ -88,6 +89,7 @@ actual fun Latex(
                 .horizontalScroll(rememberScrollState()),
             bitmap = it,
             contentDescription = "",
+            contentScale = ContentScale.Fit
         )
     }
     error?.let {
