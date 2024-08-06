@@ -54,7 +54,7 @@ actual fun Latex(
         mutableStateOf<String?>(null)
     }
 
-    LaunchedEffect(textColor) {
+    LaunchedEffect(text) {
         error = null
         try {
             if (FactoryProvider.getInstance() == null) {
@@ -97,4 +97,9 @@ actual fun Latex(
 
 fun Color.toPaintColor(): com.himamis.retex.renderer.share.platform.graphics.Color {
     return ColorA(toArgb())
+}
+
+@Composable
+fun Testing(modifier: Modifier = Modifier) {
+    Text("Hello World")
 }

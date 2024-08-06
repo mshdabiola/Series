@@ -1,18 +1,3 @@
-/*
- * Copyright 2022 The Android Open Source Project
- *
- *   Licensed under the Apache License, Version 2.0 (the "License");
- *   you may not use this file except in compliance with the License.
- *   You may obtain a copy of the License at
- *
- *       https://www.apache.org/licenses/LICENSE-2.0
- *
- *   Unless required by applicable law or agreed to in writing, software
- *   distributed under the License is distributed on an "AS IS" BASIS,
- *   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *   See the License for the specific language governing permissions and
- *   limitations under the License.
- */
 
 import com.android.build.api.variant.LibraryAndroidComponentsExtension
 import com.android.build.gradle.LibraryExtension
@@ -44,12 +29,11 @@ class AndroidLibraryConventionPlugin : Plugin<Project> {
                 apply("kotlin-multiplatform")
                 apply("com.android.library")
                 apply("mshdabiola.android.lint")
-                apply( "org.jetbrains.kotlin.plugin.power-assert")
-                apply("maven-publish")
+                apply("org.jetbrains.kotlin.plugin.power-assert")
+              //  apply("maven-publish")
             }
 
-            group = "com.mshdabiola.series"
-            version = libs.findVersion("versionName").get().toString()
+            //includedSourceSets = listOf("commonMain", "jvmMain", "jsMain", "nativeMain")
 
             extensions.configure<PowerAssertGradleExtension> {
                 functions.set(
@@ -57,36 +41,9 @@ class AndroidLibraryConventionPlugin : Plugin<Project> {
                         "kotlin.assert",
                         "kotlin.test.assertTrue",
                         "kotlin.test.assertEquals",
-                        "kotlin.test.assertNull"
-                    )
+                        "kotlin.test.assertNull",
+                    ),
                 )
-            }
-
-            var project : Properties?=null
-            try {
-                project=  File(rootDir, "local.properties").inputStream().use {
-                    Properties().apply { load(it) }
-
-                }
-                // println("user ${ project?.getProperty("gpr.password")}")
-
-
-            } catch (e: Exception) {
-
-                //e.printStackTrace()
-            }
-
-            extensions.configure<PublishingExtension> {
-                repositories {
-                    maven {
-                        name = "library"
-                        url = uri("https://maven.pkg.github.com/mshdabiola/series")
-                        credentials {
-                            username = project?.getProperty("gpr.userid")  ?: System.getenv("USERID")
-                            password = project?.getProperty("gpr.password") ?: System.getenv("PASSWORD")
-                        }
-                    }
-                }
             }
 
 
@@ -110,7 +67,7 @@ class AndroidLibraryConventionPlugin : Plugin<Project> {
                 add("implementation", libs.findLibrary("androidx.tracing.ktx").get())
             }
             extensions.configure<KotlinMultiplatformExtension> {
-                androidTarget{
+                androidTarget {
                     publishLibraryVariants("release", "debug")
 
                 }
@@ -147,7 +104,7 @@ class AndroidLibraryConventionPlugin : Plugin<Project> {
                         this.dependencies {
 //                            implementation(kotlin("test"))
                             //  implementation(project(":core:testing"))
-                           // implementation(project(":modules:testing"))
+                            // implementation(project(":modules:testing"))
                         }
 
                     }
@@ -162,7 +119,7 @@ class AndroidLibraryConventionPlugin : Plugin<Project> {
                     getByName("jvmTest") {
                         this.dependencies {
                             // implementation(libs.findLibrary("koin.core").get())
-//                            implementation(project(":modules:testing"))
+                            implementation(project(":modules:testing"))
                         }
 
                     }
