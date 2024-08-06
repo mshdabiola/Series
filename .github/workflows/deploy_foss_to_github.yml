@@ -1,4 +1,4 @@
-name: Publish Artifacts
+name: Publish Artifacts to Github
 
 on:
   workflow_dispatch:

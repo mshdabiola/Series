@@ -1,11 +1,11 @@
-name: Publish Artifacts
+name: Publish Artifacts to Maven
 
-#on:
-#  push:
-#    tags:
-#      - '[0-9]+.[0-9]+.[0-9]+'
 on:
-  workflow_dispatch:
+  push:
+    tags:
+      - '[0-9]+.[0-9]+.[0-9]+'
+#on:
+#  workflow_dispatch:
 jobs:
   build:
     name: Build
