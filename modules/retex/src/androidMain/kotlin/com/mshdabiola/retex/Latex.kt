@@ -54,7 +54,7 @@ actual fun Latex(
         mutableStateOf<String?>(null)
     }
 
-    LaunchedEffect(textColor) {
+    LaunchedEffect(text) {
         error = null
         try {
             if (FactoryProvider.getInstance() == null) {
