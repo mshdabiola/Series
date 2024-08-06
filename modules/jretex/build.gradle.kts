@@ -27,8 +27,8 @@ mavenPublishing {
 
     // Configure POM metadata for the published artifact
     pom {
-        name.set("J retext KMP Library")
-        description.set("Sample Kotlin MultiPlatform Library Test")
+        name.set("Jretex")
+        description.set("Jretex KMP Library")
         inceptionYear.set("2024")
         url.set("https://github.com/mshdabiola/series")
 
