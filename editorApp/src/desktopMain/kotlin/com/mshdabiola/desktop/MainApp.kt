@@ -3,12 +3,15 @@ package com.mshdabiola.desktop
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
@@ -51,12 +54,16 @@ fun mainApp() {
 //            val latex = "\\frac{4+56+56}{8+\\sqrt[3]{\\frac{3}{2}}}"
 //            val latex2 = "abiola"
 //            val latex3 = "\\frac{\\frac{3+5}{5}}{\\frac{65}{98}}"
+            val textstate = rememberTextFieldState()
 
             Column(Modifier.fillMaxSize()) {
                 Latex(
                     modifier = Modifier.size(300.dp),
-                    text = latex,
+                    text = textstate.text.toString(),
+                    backgroundColor = Color.Green,
+                    foregroundColor = Color.Blue
                 )
+                BasicTextField(textstate, modifier = Modifier.fillMaxSize())
             }
         }
     }
