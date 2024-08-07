@@ -22,7 +22,7 @@ mavenPublishing {
     // Define coordinates for the published artifact
     coordinates(
         groupId =  libs.versions.groupId.get(),
-        artifactId = "series-database",
+        artifactId = "seriesdatabase",
         version = libs.versions.versionName.get()
     )
 
@@ -63,7 +63,7 @@ mavenPublishing {
     signAllPublications()
 }
 android {
-    namespace = "com.mshdabiola.series_database"
+    namespace = "com.mshdabiola.seriesdatabase"
 }
 room {
     schemaDirectory("$projectDir/schemas")

@@ -1,7 +1,7 @@
 package database
 
-import com.mshdabiola.series_database.dao.ExaminationDao
-import com.mshdabiola.series_database.dao.SubjectDao
+import com.mshdabiola.seriesdatabase.dao.ExaminationDao
+import com.mshdabiola.seriesdatabase.dao.SubjectDao
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
