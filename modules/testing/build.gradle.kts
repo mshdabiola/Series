@@ -25,7 +25,7 @@ mavenPublishing {
     // Define coordinates for the published artifact
     coordinates(
         groupId =  libs.versions.groupId.get(),
-        artifactId = "testing",
+        artifactId = "seriestesting",
         version =libs.versions.versionName.get()
     )
 
@@ -66,7 +66,7 @@ mavenPublishing {
     signAllPublications()
 }
 android {
-    namespace = "com.mshdabiola.testing"
+    namespace = "com.mshdabiola.seriestesting"
 }
 dependencies {
 //

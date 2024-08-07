@@ -1,18 +1,18 @@
-package com.mshdabiola.series_testing
+package com.mshdabiola.seriestesting
 
-import com.mshdabiola.series_model.Content
-import com.mshdabiola.series_model.Examination
-import com.mshdabiola.series_model.ExportableData
-import com.mshdabiola.series_model.Instruction
-import com.mshdabiola.series_model.Option
-import com.mshdabiola.series_model.QuestionPlain
-import com.mshdabiola.series_model.Series
-import com.mshdabiola.series_model.Subject
-import com.mshdabiola.series_model.Topic
-import com.mshdabiola.series_model.TopicCategory
-import com.mshdabiola.series_model.User
-import com.mshdabiola.series_model.UserType
-import com.mshdabiola.series_model.serial.asString
+import com.mshdabiola.seriesmodel.Content
+import com.mshdabiola.seriesmodel.Examination
+import com.mshdabiola.seriesmodel.ExportableData
+import com.mshdabiola.seriesmodel.Instruction
+import com.mshdabiola.seriesmodel.Option
+import com.mshdabiola.seriesmodel.QuestionPlain
+import com.mshdabiola.seriesmodel.Series
+import com.mshdabiola.seriesmodel.Subject
+import com.mshdabiola.seriesmodel.Topic
+import com.mshdabiola.seriesmodel.TopicCategory
+import com.mshdabiola.seriesmodel.User
+import com.mshdabiola.seriesmodel.UserType
+import com.mshdabiola.seriesmodel.serial.asString
 
 val users = listOf(
     User(1, "Alice", UserType.STUDENT, "password1", "path/to/image1.jpg", 85),
