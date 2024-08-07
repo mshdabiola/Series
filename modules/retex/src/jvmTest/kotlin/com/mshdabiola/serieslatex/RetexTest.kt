@@ -1,4 +1,4 @@
-package com.mshdabiola.series_latex
+package com.mshdabiola.serieslatex
 
 import androidx.compose.ui.test.junit4.createComposeRule
 import org.junit.Rule

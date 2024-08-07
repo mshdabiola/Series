@@ -1,4 +1,4 @@
-package com.mshdabiola.series_latex
+package com.mshdabiola.serieslatex
 
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.Text

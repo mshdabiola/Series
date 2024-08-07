@@ -1,4 +1,4 @@
-package com.mshdabiola.series_latex
+package com.mshdabiola.serieslatex
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.horizontalScroll

@@ -21,7 +21,7 @@ mavenPublishing {
     // Define coordinates for the published artifact
     coordinates(
         groupId = libs.versions.groupId.get(),
-        artifactId = "series-latex",
+        artifactId = "serieslatex",
         version =libs.versions.versionName.get()
     )
 
@@ -62,7 +62,7 @@ mavenPublishing {
     signAllPublications()
 }
 android {
-    namespace = "com.mshdabiola.series_latex"
+    namespace = "com.mshdabiola.serieslatex"
 
 }
 
