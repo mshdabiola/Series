@@ -85,8 +85,8 @@ vanniktech-gradle="0.29.0"
 series = "0.0.6"
 calf = "0.4.0"
 
-versionCode = "14"
-versionName = "0.0.14"
+versionCode = "15"
+versionName = "0.0.15"
 groupId ="io.github.mshdabiola"
 
 
