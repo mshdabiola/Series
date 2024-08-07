@@ -1,8 +1,8 @@
+import com.vanniktech.maven.publish.SonatypeHost
 import java.util.Properties
 
 plugins {
-    id("java-library")
-    id("org.jetbrains.kotlin.jvm")
+    id("mshdabiola.jvm.library")
     id("com.vanniktech.maven.publish") version "0.29.0"
 
 }
@@ -27,8 +27,8 @@ mavenPublishing {
 
     // Configure POM metadata for the published artifact
     pom {
-        name.set("J retext KMP Library")
-        description.set("Sample Kotlin MultiPlatform Library Test")
+        name.set("Jretex")
+        description.set("Jretex KMP Library")
         inceptionYear.set("2024")
         url.set("https://github.com/mshdabiola/series")
 
@@ -53,11 +53,17 @@ mavenPublishing {
             url.set("https://github.com/mshdabiola/series")
         }
     }
+
+
+    // Configure publishing to Maven Central
+    publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL)
+
+    // Enable GPG signing for all publications
+    signAllPublications()
 }
 //group = "com.mshdabiola.series"
 //version = libs.versions.versionName
 
-var project : Properties?=null
 //try {
 //    project=  File(rootDir, "local.properties").inputStream().use {
 //        Properties().apply { load(it) }

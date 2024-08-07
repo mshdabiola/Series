@@ -1,6 +1,6 @@
 package database
 
-import com.mshdabiola.database.dao.TopicDao
+import com.mshdabiola.seriesdatabase.dao.TopicDao
 import org.junit.Test
 import org.koin.core.component.inject
 

@@ -1,3 +1,5 @@
+import com.vanniktech.maven.publish.SonatypeHost
+
 plugins {
     id("mshdabiola.android.library")
     id("mshdabiola.android.library.compose")
@@ -19,14 +21,14 @@ mavenPublishing {
     // Define coordinates for the published artifact
     coordinates(
         groupId = libs.versions.groupId.get(),
-        artifactId = "retex",
+        artifactId = "serieslatex",
         version =libs.versions.versionName.get()
     )
 
     // Configure POM metadata for the published artifact
     pom {
-        name.set("J retext KMP Library")
-        description.set("Sample Kotlin MultiPlatform Library Test")
+        name.set("Series Latex")
+        description.set("Latex KMP Library")
         inceptionYear.set("2024")
         url.set("https://github.com/mshdabiola/series")
 
@@ -51,9 +53,16 @@ mavenPublishing {
             url.set("https://github.com/mshdabiola/series")
         }
     }
+
+
+    // Configure publishing to Maven Central
+    publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL)
+
+    // Enable GPG signing for all publications
+    signAllPublications()
 }
 android {
-    namespace = "com.mshdabiola.retex"
+    namespace = "com.mshdabiola.serieslatex"
 
 }
 

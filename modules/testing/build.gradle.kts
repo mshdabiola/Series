@@ -1,3 +1,4 @@
+import com.vanniktech.maven.publish.SonatypeHost
 import org.jetbrains.compose.ExperimentalComposeLibrary
 
 /*
@@ -24,7 +25,7 @@ mavenPublishing {
     // Define coordinates for the published artifact
     coordinates(
         groupId =  libs.versions.groupId.get(),
-        artifactId = "testing",
+        artifactId = "seriestesting",
         version =libs.versions.versionName.get()
     )
 
@@ -56,9 +57,16 @@ mavenPublishing {
             url.set("https://github.com/mshdabiola/series")
         }
     }
+
+
+    // Configure publishing to Maven Central
+    publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL)
+
+    // Enable GPG signing for all publications
+    signAllPublications()
 }
 android {
-    namespace = "com.mshdabiola.testing"
+    namespace = "com.mshdabiola.seriestesting"
 }
 dependencies {
 //

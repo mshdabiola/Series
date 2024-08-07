@@ -1,3 +1,5 @@
+import com.vanniktech.maven.publish.SonatypeHost
+
 @Suppress("DSL_SCOPE_VIOLATION")
 plugins {
     id("mshdabiola.android.library")
@@ -20,14 +22,14 @@ mavenPublishing {
     // Define coordinates for the published artifact
     coordinates(
         groupId = libs.versions.groupId.get(),
-        artifactId = "model",
+        artifactId = "seriesmodel",
         version = libs.versions.versionName.get()
     )
 
     // Configure POM metadata for the published artifact
     pom {
-        name.set("J retext KMP Library")
-        description.set("Sample Kotlin MultiPlatform Library Test")
+        name.set("Series Model")
+        description.set("Model for Series")
         inceptionYear.set("2024")
         url.set("https://github.com/mshdabiola/series")
 
@@ -52,6 +54,12 @@ mavenPublishing {
             url.set("https://github.com/mshdabiola/series")
         }
     }
+
+    // Configure publishing to Maven Central
+    publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL)
+
+    // Enable GPG signing for all publications
+    signAllPublications()
 }
 kotlin {
     sourceSets {
@@ -66,5 +74,5 @@ kotlin {
 }
 
 android {
-    namespace = "com.mshdabiola.generalmodel"
+    namespace = "com.mshdabiola.seriesmodel"
 }

@@ -20,7 +20,7 @@ import androidx.compose.ui.window.WindowPlacement
 import androidx.compose.ui.window.WindowPosition
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
-import com.mshdabiola.retex.Latex
+import com.mshdabiola.serieslatex.Latex
 import java.util.prefs.Preferences
 
 fun mainApp() {
