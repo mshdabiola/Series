@@ -1,4 +1,4 @@
-package com.mshdabiola.series_model
+package com.mshdabiola.seriesmodel
 
 enum class Type {
     TEXT,

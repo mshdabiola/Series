@@ -1,4 +1,4 @@
-package com.mshdabiola.series_model
+package com.mshdabiola.seriesmodel
 
 import java.io.File
 import java.io.FileInputStream

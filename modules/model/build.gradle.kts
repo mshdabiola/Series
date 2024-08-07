@@ -22,7 +22,7 @@ mavenPublishing {
     // Define coordinates for the published artifact
     coordinates(
         groupId = libs.versions.groupId.get(),
-        artifactId = "series-model",
+        artifactId = "seriesmodel",
         version = libs.versions.versionName.get()
     )
 
@@ -74,5 +74,5 @@ kotlin {
 }
 
 android {
-    namespace = "com.mshdabiola.generalmodel"
+    namespace = "com.mshdabiola.seriesmodel"
 }
