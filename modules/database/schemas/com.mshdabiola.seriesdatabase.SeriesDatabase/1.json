@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "94b379d7d53ae22a90fa294b627fa94a",
+    "identityHash": "cf7cb7017fa0ec12bcc60bada910fe95",
     "entities": [
       {
         "tableName": "user_table",
@@ -688,6 +688,17 @@
             "id"
           ]
         },
+        "indices": [
+          {
+            "name": "index_paper_table_sessionId",
+            "unique": false,
+            "columnNames": [
+              "sessionId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_paper_table_sessionId` ON `${TABLE_NAME}` (`sessionId`)"
+          }
+        ],
         "foreignKeys": [
           {
             "table": "session_examination",
@@ -776,7 +787,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '94b379d7d53ae22a90fa294b627fa94a')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'cf7cb7017fa0ec12bcc60bada910fe95')"
     ]
   }
 }

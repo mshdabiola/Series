@@ -21,6 +21,8 @@ dependencies {
     compileOnly(libs.room.gradlePlugin)
     compileOnly(libs.kotlin.powerAssert)
     compileOnly(libs.compose.gradlePlugin)
+    compileOnly(libs.vanniktech.gradlePlugin)
+
 
 
 
@@ -61,6 +63,10 @@ gradlePlugin {
         register("androidLibrary") {
             id = "mshdabiola.android.library"
             implementationClass = "AndroidLibraryConventionPlugin"
+        }
+        register("androidLibraryPublish") {
+            id = "mshdabiola.android.library.publish"
+            implementationClass = "AndroidLibraryPublishConventionPlugin"
         }
         register("androidFeature") {
             id = "mshdabiola.android.feature"

@@ -2,6 +2,7 @@ package com.mshdabiola.seriesdatabase.di
 
 import androidx.room.RoomDatabase
 import androidx.sqlite.SQLiteConnection
+import androidx.sqlite.driver.bundled.BundledSQLiteDriver
 import com.mshabiola.database.util.Constant
 import com.mshdabiola.seriesdatabase.ExportImport
 import com.mshdabiola.seriesdatabase.SeriesDatabase
@@ -61,25 +62,7 @@ fun getRoomDatabase(
     builder: RoomDatabase.Builder<SeriesDatabase>,
 ): SeriesDatabase {
     return builder
-        // .addMigrations(MIGRATIONS)
-        .fallbackToDestructiveMigrationOnDowngrade(false)
-        // .setDriver(BundledSQLiteDriver())
+         .setDriver(BundledSQLiteDriver())
         .setQueryCoroutineContext(Dispatchers.IO)
-        .addCallback(object : RoomDatabase.Callback() {
-            override fun onCreate(connection: SQLiteConnection) {
-                callback?.onCreate(connection, File(generalPath, Constant.databaseName).path)
-                super.onCreate(connection)
-            }
-
-            override fun onOpen(connection: SQLiteConnection) {
-                callback?.onOpen(connection)
-                super.onOpen(connection)
-            }
-
-            override fun onDestructiveMigration(connection: SQLiteConnection) {
-                callback?.onDestructiveMigration(connection)
-                super.onDestructiveMigration(connection)
-            }
-        })
         .build()
 }
