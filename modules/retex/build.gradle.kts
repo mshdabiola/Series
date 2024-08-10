@@ -1,65 +1,19 @@
-import com.vanniktech.maven.publish.SonatypeHost
-
 plugins {
     id("mshdabiola.android.library")
     id("mshdabiola.android.library.compose")
-    id("com.vanniktech.maven.publish") version "0.29.0"
-
-}
-publishing {
-    repositories {
-        maven {
-            name = "githubPackages"
-            url = uri("https://maven.pkg.github.com/mshdabiola/series")
-            credentials(PasswordCredentials::class)
-
-        }
-    }
+    id("mshdabiola.android.library.publish")
 }
 
 mavenPublishing {
     // Define coordinates for the published artifact
     coordinates(
-        groupId = libs.versions.groupId.get(),
         artifactId = "serieslatex",
-        version =libs.versions.versionName.get()
     )
-
     // Configure POM metadata for the published artifact
     pom {
         name.set("Series Latex")
         description.set("Latex KMP Library")
-        inceptionYear.set("2024")
-        url.set("https://github.com/mshdabiola/series")
-
-        licenses {
-            license {
-                name.set("MIT")
-                url.set("https://opensource.org/licenses/MIT")
-            }
-        }
-
-        // Specify developers information
-        developers {
-            developer {
-                id.set("mshdabiola")
-                name.set("Lawal abiola")
-                email.set("mshdabiola@gmail.com")
-            }
-        }
-
-        // Specify SCM information
-        scm {
-            url.set("https://github.com/mshdabiola/series")
-        }
     }
-
-
-    // Configure publishing to Maven Central
-    publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL)
-
-    // Enable GPG signing for all publications
-    signAllPublications()
 }
 android {
     namespace = "com.mshdabiola.serieslatex"
@@ -70,7 +24,7 @@ kotlin {
 //    androidTarget()
 //    jvm("desktop")
     sourceSets {
-        androidMain.dependencies{
+        androidMain.dependencies {
             api(compose.preview)
 
         }
@@ -82,9 +36,10 @@ kotlin {
                 implementation(compose.material3)
                 implementation(compose.materialIconsExtended)
                 implementation(compose.components.resources)
+//                implementation("org.scilab.forge:jlatexmath:1.0.7")
             }
         }
-        jvmMain.dependencies{
+        jvmMain.dependencies {
             api(compose.preview)
 
         }

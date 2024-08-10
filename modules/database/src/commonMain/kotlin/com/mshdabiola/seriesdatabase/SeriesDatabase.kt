@@ -4,8 +4,10 @@
 
 package com.mshdabiola.seriesdatabase
 
+import androidx.room.ConstructedBy
 import androidx.room.Database
 import androidx.room.RoomDatabase
+import androidx.room.RoomDatabaseConstructor
 import com.mshdabiola.seriesdatabase.dao.ExaminationDao
 import com.mshdabiola.seriesdatabase.dao.InstructionDao
 import com.mshdabiola.seriesdatabase.dao.OptionDao
@@ -27,6 +29,9 @@ import com.mshdabiola.seriesdatabase.model.SubjectEntity
 import com.mshdabiola.seriesdatabase.model.TopicCategoryEntity
 import com.mshdabiola.seriesdatabase.model.TopicEntity
 import com.mshdabiola.seriesdatabase.model.UserEntity
+
+@Suppress("EXPECT_ACTUAL_CLASSIFIERS_ARE_IN_BETA_WARNING")
+expect object SeriesDatabaseCtor : RoomDatabaseConstructor<SeriesDatabase>
 
 @Database(
     entities =
@@ -53,6 +58,7 @@ import com.mshdabiola.seriesdatabase.model.UserEntity
 //    ],
     exportSchema = true,
 )
+@ConstructedBy(SeriesDatabaseCtor::class) // NEW
 abstract class SeriesDatabase : RoomDatabase() {
 
     abstract fun getExaminationDao(): ExaminationDao
