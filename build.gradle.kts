@@ -19,6 +19,8 @@ plugins {
     alias(libs.plugins.compose.compiler) apply false
     alias(libs.plugins.conveyor) apply false
     alias(libs.plugins.screenshot) apply false
+    alias(libs.plugins.vanniktech) apply false
+
 }
 //./gradlew assembleDebug -PenableComposeCompilerReports=true
 // ./gradlew a
