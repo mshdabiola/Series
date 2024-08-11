@@ -1,5 +1,6 @@
 package com.himamis.retex.renderer.android.graphics
 
+import android.graphics.Bitmap
 import android.graphics.Canvas
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.ImageBitmapConfig
