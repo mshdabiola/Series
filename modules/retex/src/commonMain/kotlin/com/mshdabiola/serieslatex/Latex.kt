@@ -60,8 +60,6 @@ fun Latex(
                 style,
                 type,
             )
-
-
         } catch (e: Exception) {
             error = e.message
             image = null
@@ -91,7 +89,6 @@ fun getLatexImage(
 ): ImageBitmap {
     val formula = TeXFormula(text)
 
-
     return formula.createBufferedImage(
         style.value,
         type.value,
@@ -99,7 +96,6 @@ fun getLatexImage(
         foregroundColor.toPaintColor(),
         backgroundColor.toPaintColor(),
     ).getImageBitmap()
-
 }
 
 expect fun Color.toPaintColor(): com.himamis.retex.renderer.share.platform.graphics.Color

@@ -1,18 +1,13 @@
 package com.mshdabiola.seriesdatabase.di
 
 import androidx.room.RoomDatabase
-import androidx.sqlite.SQLiteConnection
 import androidx.sqlite.driver.bundled.BundledSQLiteDriver
-import com.mshabiola.database.util.Constant
 import com.mshdabiola.seriesdatabase.ExportImport
 import com.mshdabiola.seriesdatabase.SeriesDatabase
-import com.mshdabiola.seriesdatabase.callback
-import com.mshdabiola.seriesdatabase.generalPath
 import kotlinx.coroutines.Dispatchers
 import org.koin.core.module.Module
 import org.koin.core.qualifier.qualifier
 import org.koin.dsl.module
-import java.io.File
 
 expect val databaseModule: Module
 
@@ -62,7 +57,7 @@ fun getRoomDatabase(
     builder: RoomDatabase.Builder<SeriesDatabase>,
 ): SeriesDatabase {
     return builder
-         .setDriver(BundledSQLiteDriver())
+        .setDriver(BundledSQLiteDriver())
         .setQueryCoroutineContext(Dispatchers.IO)
         .build()
 }

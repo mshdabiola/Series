@@ -18,15 +18,12 @@ actual fun LoadTex(size: Double) {
     if (FactoryProvider.getInstance() == null) {
         FactoryProvider.setInstance(FactoryProviderDesktop())
         fontScale = size * density.density
-
     }
 }
-
 
 actual fun Color.toPaintColor(): com.himamis.retex.renderer.share.platform.graphics.Color {
     return ColorD(color = java.awt.Color(red, green, blue, alpha))
 }
-
 
 actual fun ImageBitmap.toByteArray(): ByteArray {
     val outputStream = ByteArrayOutputStream()
@@ -35,5 +32,5 @@ actual fun ImageBitmap.toByteArray(): ByteArray {
 }
 
 actual fun Image.getImageBitmap(): ImageBitmap {
-   return (this as ImageD).compose()
+    return (this as ImageD).compose()
 }

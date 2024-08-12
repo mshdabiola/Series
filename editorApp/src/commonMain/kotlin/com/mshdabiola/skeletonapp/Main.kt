@@ -28,7 +28,7 @@ fun Main() {
 //            val latex3 = "\\frac{\\frac{3+5}{5}}{\\frac{65}{98}}"
     val textstate = rememberTextFieldState()
 
-    Column (Modifier.fillMaxSize()) {
+    Column(Modifier.fillMaxSize()) {
         Latex(
             modifier = Modifier.size(300.dp),
             text = textstate.text.toString(),
@@ -37,5 +37,4 @@ fun Main() {
         )
         BasicTextField(textstate, modifier = Modifier.fillMaxSize())
     }
-
 }

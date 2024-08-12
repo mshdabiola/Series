@@ -28,11 +28,8 @@ actual fun LoadTex(size: Double) {
             ),
         )
         fontScale = size * density.density * con.fontScale
-
     }
-
 }
-
 
 actual fun Color.toPaintColor(): com.himamis.retex.renderer.share.platform.graphics.Color {
     return ColorA(toArgb())
