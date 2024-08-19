@@ -16,7 +16,7 @@ import androidx.room.PrimaryKey
             entity = SeriesEntity::class,
             parentColumns = arrayOf("id"),
             childColumns = arrayOf("seriesId"),
-            onDelete = ForeignKey.SET_DEFAULT,
+            onDelete = ForeignKey.CASCADE,
         ),
     ],
     indices = [Index(value = ["seriesId"])],
