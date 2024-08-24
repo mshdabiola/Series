@@ -87,7 +87,7 @@ class ExInPutTest : AbstractTest() {
         val path = "/home/mshdabiola/StudioProjects/Series/output2.se"
         val exportImport by inject<ExportImport>()
 
-        val input = File(path).inputStream()
+       // val input = File(path).inputStream()
         val dir = File("/home/mshdabiola/StudioProjects/Series/output")
 //        dir.mkdirs()
         generalPath = dir.absolutePath
