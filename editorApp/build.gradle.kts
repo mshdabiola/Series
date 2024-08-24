@@ -1,6 +1,5 @@
 import com.mshdabiola.app.BuildType
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
-import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -8,7 +7,7 @@ plugins {
 
     id("mshdabiola.android.application")
     id("mshdabiola.android.application.compose")
-    id("mshdabiola.android.application.jacoco")
+//    id("mshdabiola.android.application.jacoco")
 //    id("mshdabiola.android.application.firebase")
 //    alias(libs.plugins.androidx.baselineprofile)
 //    alias(libs.plugins.androidApplication)
@@ -33,7 +32,6 @@ dependencies {
 }
 
 kotlin {
-    @OptIn(ExperimentalWasmDsl::class)
 //    wasmJs {
 //        moduleName = "composeApp"
 //        browser {
