@@ -22,6 +22,7 @@ dependencies {
     compileOnly(libs.kotlin.powerAssert)
     compileOnly(libs.compose.gradlePlugin)
     compileOnly(libs.vanniktech.gradlePlugin)
+    compileOnly(libs.kover.gradlePlugin)
 
 
 
@@ -43,18 +44,12 @@ gradlePlugin {
             id = "mshdabiola.android.application.firebase"
             implementationClass = "AndroidApplicationFirebaseConventionPlugin"
         }
-        register("androidApplicationJacoco") {
-            id = "mshdabiola.android.application.jacoco"
-            implementationClass = "AndroidApplicationJacocoConventionPlugin"
-        }
+
         register("androidApplication") {
             id = "mshdabiola.android.application"
             implementationClass = "AndroidApplicationConventionPlugin"
         }
-        register("androidLibraryJacoco") {
-            id = "mshdabiola.android.library.jacoco"
-            implementationClass = "AndroidLibraryJacocoConventionPlugin"
-        }
+       
 
         register("androidLibraryCompose") {
             id = "mshdabiola.android.library.compose"
