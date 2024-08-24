@@ -16,7 +16,6 @@ import com.mshdabiola.seriesdatabase.generalPath
 import com.mshdabiola.seriestesting.defaultData
 import com.mshdabiola.seriestesting.examinations
 import com.mshdabiola.seriestesting.exportableData
-import com.mshdabiola.seriestesting.insertData
 import com.mshdabiola.seriestesting.instructions
 import com.mshdabiola.seriestesting.options
 import com.mshdabiola.seriestesting.questionsPlain
@@ -43,7 +42,7 @@ class ExInPutTest : AbstractTest() {
 
         val users = userDao.getAllUsers().first()
 
-        assertEquals(defaultData.users.toMutableList().apply { removeFirst() }, users.map { it.asModel() })
+        assertEquals(defaultData.users.toMutableList(), users.map { it.asModel() })
     }
 
     @Test

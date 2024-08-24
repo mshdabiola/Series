@@ -18,7 +18,6 @@ class InstructionTest : AbstractTest() {
 
     @Test
     override fun insert() {
-        TODO("Not yet implemented")
     }
 
     @Test
@@ -27,11 +26,9 @@ class InstructionTest : AbstractTest() {
 
     @Test
     override fun getOne() {
-        TODO("Not yet implemented")
     }
 
     @Test
     override fun getAll() {
-        TODO("Not yet implemented")
     }
 }

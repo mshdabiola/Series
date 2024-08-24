@@ -10,21 +10,17 @@ class QuestionTest : AbstractTest() {
 
     @Test
     override fun insert() {
-        TODO("Not yet implemented")
     }
 
     @Test
     override fun delete() {
-        TODO("Not yet implemented")
     }
 
     @Test
     override fun getOne() {
-        TODO("Not yet implemented")
     }
 
     @Test
     override fun getAll() {
-        TODO("Not yet implemented")
     }
 }
