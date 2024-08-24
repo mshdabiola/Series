@@ -87,7 +87,7 @@ jobs:
       - name: Run all local screenshot tests
         id: screenshotsverify
         continue-on-error: true
-        run: ./gradlew validateFossReliantDebugScreenshotTest
+        run: ./gradlew validateDebugScreenshotTest
 
       - name: Prevent pushing new screenshots if this is a fork
         id: checkfork_screenshots
@@ -101,7 +101,7 @@ jobs:
         id: screenshotsrecord
         if: steps.screenshotsverify.outcome == 'failure' && github.event_name == 'pull_request'
         run: |
-          ./gradlew updateFossReliantDebugScreenshotTest
+          ./gradlew updateDebugScreenshotTest
 
       - name: Push new screenshots if available
         uses: stefanzweifel/git-auto-commit-action@v5
@@ -127,7 +127,7 @@ jobs:
           path: '**/build/reports/tests/jvmTest'
 
       - name: Check lint
-        run: ./gradlew lintFossReliantRelease
+        run: ./gradlew lintRelease
 
       - name: Upload lint reports (HTML)
         if: always()
@@ -135,9 +135,6 @@ jobs:
         with:
           name: lint-reports
           path: '**/build/reports/lint-results-*.html'
-
-      - name: Check badging
-        run: ./gradlew checkFossReliantReleaseBadging
 
       - name: Generate coverage reports for Jvm
         run: ./gradlew koverXmlReportJvm; ./gradlew koverHtmlReportJvm   #koverHtmlReportJvm
@@ -217,7 +214,7 @@ jobs:
           disable-animations: true
           disk-size: 6000M
           heap-size: 600M
-          script: ./gradlew connectedFossReliantDebugAndroidTest --daemon
+          script: ./gradlew connectedDebugAndroidTest --daemon
 
       - name: Upload test reports
         if: always()
