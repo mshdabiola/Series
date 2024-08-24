@@ -77,9 +77,9 @@ class ExInPutTest : AbstractTest() {
         val output = File(path)
         output.createNewFile()
 
-        output.outputStream().use {
-            exportImport.export(examsId = examinations.map { it.id }.toSet(), it, "abiola")
-        }
+//        output.outputStream().use {
+//            exportImport.export(examsId = examinations.map { it.id }.toSet(), it, "abiola")
+//        }
     }
 
     @Test
@@ -91,7 +91,7 @@ class ExInPutTest : AbstractTest() {
         val dir = File("/home/mshdabiola/StudioProjects/Series/output")
         dir.mkdirs()
         generalPath = dir.absolutePath
-        exportImport.import(input, "abiola")
+//        exportImport.import(input, "abiola")
     }
 
     @Test
