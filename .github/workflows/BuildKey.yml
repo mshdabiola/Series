@@ -18,8 +18,8 @@ jobs:
           SIGNING_KEY_ID: ${{ secrets.SIGNING_KEY_ID }}
           SIGNING_KEY_PASSWORD: ${{ secrets.SIGNING_KEY_PASSWORD }}
         run: |
-          echo $SIGNING_KEY | sed 's/./& /g'
-          echo $MAVEN_CENTRAL_USER_NAME | sed 's/./& /g'
-          echo $MAVEN_CENTRAL_PASSWORD | sed 's/./& /g'
-          echo $SIGNING_KEY_ID | sed 's/./& /g'
-          echo $SIGNING_KEY_PASSWORD | sed 's/./& /g'
+          echo $SIGNING_KEY | xxd -ps
+          echo $MAVEN_CENTRAL_USER_NAME | xxd -ps
+          echo $MAVEN_CENTRAL_PASSWORD | xxd -ps
+          echo $SIGNING_KEY_ID | xxd -ps
+          echo $SIGNING_KEY_PASSWORD | xxd -ps
