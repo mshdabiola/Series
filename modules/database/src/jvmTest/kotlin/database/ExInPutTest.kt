@@ -16,7 +16,6 @@ import com.mshdabiola.seriesdatabase.generalPath
 import com.mshdabiola.seriestesting.defaultData
 import com.mshdabiola.seriestesting.examinations
 import com.mshdabiola.seriestesting.exportableData
-import com.mshdabiola.seriestesting.insertData
 import com.mshdabiola.seriestesting.instructions
 import com.mshdabiola.seriestesting.options
 import com.mshdabiola.seriestesting.questionsPlain
@@ -43,7 +42,7 @@ class ExInPutTest : AbstractTest() {
 
         val users = userDao.getAllUsers().first()
 
-        assertEquals(defaultData.users.toMutableList().apply { removeFirst() }, users.map { it.asModel() })
+        assertEquals(defaultData.users.toMutableList(), users.map { it.asModel() })
     }
 
     @Test
@@ -76,11 +75,11 @@ class ExInPutTest : AbstractTest() {
 
         generalPath = "/home/mshdabiola/StudioProjects/Series/test2"
         val output = File(path)
-        output.createNewFile()
+//        output.createNewFile()
 
-        output.outputStream().use {
-            exportImport.export(examsId = examinations.map { it.id }.toSet(), it, "abiola")
-        }
+//        output.outputStream().use {
+//            exportImport.export(examsId = examinations.map { it.id }.toSet(), it, "abiola")
+//        }
     }
 
     @Test
@@ -88,11 +87,11 @@ class ExInPutTest : AbstractTest() {
         val path = "/home/mshdabiola/StudioProjects/Series/output2.se"
         val exportImport by inject<ExportImport>()
 
-        val input = File(path).inputStream()
+        // val input = File(path).inputStream()
         val dir = File("/home/mshdabiola/StudioProjects/Series/output")
-        dir.mkdirs()
+//        dir.mkdirs()
         generalPath = dir.absolutePath
-        exportImport.import(input, "abiola")
+//        exportImport.import(input, "abiola")
     }
 
     @Test

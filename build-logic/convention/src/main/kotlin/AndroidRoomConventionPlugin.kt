@@ -53,14 +53,14 @@ class AndroidRoomConventionPlugin : Plugin<Project> {
             extensions.configure<KotlinMultiplatformExtension> {
                 androidTarget()
                 jvm()
-                jvmToolchain(17)
+                jvmToolchain(21)
                 // val libs = extensions.getByType<VersionCatalogsExtension>().named("libs")
                 with(sourceSets) {
 
                     commonMain.dependencies {
                         implementation(project(":modules:model"))
                         implementation(libs.findLibrary("room.runtime").get())
-                        api(libs.findLibrary("room.ktx").get())
+                        implementation(libs.findLibrary("room.ktx").get())
                         implementation(libs.findLibrary("room.paging").get())
 //                            implementation(libs.findLibrary("paging.common").get())
 
