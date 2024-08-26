@@ -81,7 +81,7 @@ kover = "0.8.3"
 vanniktech-gradle="0.29.0"
 
 
-series = "0.0.8"
+series = "0.0.19"
 calf = "0.5.4"
 
 versionCode = "19"
