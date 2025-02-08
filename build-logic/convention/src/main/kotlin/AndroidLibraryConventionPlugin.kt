@@ -5,9 +5,9 @@ import com.mshdabiola.app.configureGradleManagedDevices
 import com.mshdabiola.app.configureKotlinAndroid
 import com.mshdabiola.app.configurePrintApksTask
 import com.mshdabiola.app.disableUnnecessaryAndroidTests
+import com.mshdabiola.app.libs
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.api.artifacts.VersionCatalogsExtension
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.getByType
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
@@ -43,7 +43,7 @@ class AndroidLibraryConventionPlugin : Plugin<Project> {
             }
             extensions.configure<LibraryExtension> {
                 configureKotlinAndroid(this)
-                defaultConfig.targetSdk = 34
+                defaultConfig.targetSdk = 35
                 //configureFlavors(this)
                 configureGradleManagedDevices(this)
                 // The resource prefix is derived from the module name,
@@ -66,12 +66,11 @@ class AndroidLibraryConventionPlugin : Plugin<Project> {
                 jvm()
                 jvmToolchain(21)
 
-                val libs = extensions.getByType<VersionCatalogsExtension>().named("libs")
                 with(sourceSets) {
 
-                   commonMain.dependencies {
-                            implementation(libs.findLibrary("koin.core").get())
-                            implementation(libs.findLibrary("kermit").get())
+                    commonMain.dependencies {
+                        implementation(libs.findLibrary("koin.core").get())
+                        implementation(libs.findLibrary("kermit").get())
                     }
 
                     androidMain.dependencies {
