@@ -1,30 +1,13 @@
 
-import com.android.build.api.variant.LibraryAndroidComponentsExtension
-import com.android.build.gradle.LibraryExtension
-import com.mshdabiola.app.configureFlavors
-import com.mshdabiola.app.configureGradleManagedDevices
-import com.mshdabiola.app.configureKotlinAndroid
-import com.mshdabiola.app.configurePrintApksTask
-import com.mshdabiola.app.disableUnnecessaryAndroidTests
 import com.mshdabiola.app.libs
 import com.vanniktech.maven.publish.MavenPublishBaseExtension
 import com.vanniktech.maven.publish.SonatypeHost
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.api.artifacts.VersionCatalogsExtension
 import org.gradle.api.credentials.PasswordCredentials
 import org.gradle.api.publish.PublishingExtension
-import org.gradle.api.publish.maven.plugins.MavenPublishPlugin
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.credentials
-import org.gradle.kotlin.dsl.dependencies
-import org.gradle.kotlin.dsl.getByType
-import org.gradle.kotlin.dsl.kotlin
-import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
-import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
-import org.jetbrains.kotlin.powerassert.gradle.PowerAssertGradleExtension
-import java.io.File
-import java.util.Properties
 
 class AndroidLibraryPublishConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
