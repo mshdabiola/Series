@@ -35,6 +35,8 @@ import kotlin.test.assertEquals
 @OptIn(ExperimentalCoroutinesApi::class)
 class ExInPutTest : AbstractTest() {
 
+    val path = "/home/mshdabiola/StudioProjects/Series/data.se"
+
     @Test
     fun setData() = runTest {
         insertData()
@@ -104,5 +106,60 @@ class ExInPutTest : AbstractTest() {
     }
 
     override fun getAll() {
+    }
+
+    @Test
+    fun exportData() = runTest {
+        insertData()
+        val exportImport by inject<ExportImport>()
+
+        val output = File(path)
+        output.createNewFile()
+
+        output.outputStream().use {
+            exportImport.export(examsId = examinations.map { it.id }.toSet(), it, "abiola")
+        }
+    }
+
+    @Test
+    fun importData() = runTest {
+        val exportImport by inject<ExportImport>()
+
+        File(path)
+            .inputStream()
+            .use {
+                exportImport.import(it, "abiola")
+            }
+
+        val userDao by inject<UserDao>()
+
+        assertEquals(
+            defaultData.users.toMutableList(),
+            userDao.getAllUsers().first().map { it.asModel() },
+        )
+    }
+
+    suspend fun insertData() {
+        val userDao by inject<UserDao>()
+        val seriesDao by inject<SeriesDao>()
+        val subjectDao by inject<SubjectDao>()
+        val examinationDao by inject<ExaminationDao>()
+        val instructionDao by inject<InstructionDao>()
+        val questionDao by inject<QuestionDao>()
+        val optionDao by inject<OptionDao>()
+        val topicDao by inject<TopicDao>()
+        val topicCategoryDao by inject<TopicCategoryDao>()
+
+        val data = exportableData
+
+        userDao.insertAll(users.map { it.asEntity() })
+        seriesDao.insertAll(series.map { it.asEntity() })
+        subjectDao.insertAll(subjects.map { it.asEntity() })
+        examinationDao.insertAll(examinations.map { it.asEntity() })
+        instructionDao.insertAll(instructions.map { it.asEntity() })
+        questionDao.insertAll(questionsPlain.map { it.asEntity() })
+        optionDao.insertAll(options.map { it.asEntity() })
+        topicCategoryDao.insertAll(topicCategories.map { it.asEntity() })
+        topicDao.insertAll(topics.map { it.asEntity() })
     }
 }
