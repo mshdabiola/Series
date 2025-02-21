@@ -17,18 +17,25 @@ import com.mshdabiola.seriesdatabase.dao.SubjectDao
 import com.mshdabiola.seriesdatabase.dao.TopicCategoryDao
 import com.mshdabiola.seriesdatabase.dao.TopicDao
 import com.mshdabiola.seriesdatabase.dao.UserDao
-import com.mshdabiola.seriesdatabase.model.ExaminationEntity
-import com.mshdabiola.seriesdatabase.model.InstructionEntity
-import com.mshdabiola.seriesdatabase.model.OptionEntity
-import com.mshdabiola.seriesdatabase.model.PaperEntity
-import com.mshdabiola.seriesdatabase.model.QuestionEntity
-import com.mshdabiola.seriesdatabase.model.SeriesEntity
-import com.mshdabiola.seriesdatabase.model.SessionExamination
-import com.mshdabiola.seriesdatabase.model.SessionQuestion
-import com.mshdabiola.seriesdatabase.model.SubjectEntity
-import com.mshdabiola.seriesdatabase.model.TopicCategoryEntity
-import com.mshdabiola.seriesdatabase.model.TopicEntity
-import com.mshdabiola.seriesdatabase.model.UserEntity
+import com.mshdabiola.seriesdatabase.model.AcademicStaffEntity
+import com.mshdabiola.seriesdatabase.model.ChoiceOptionEntity
+import com.mshdabiola.seriesdatabase.model.ClassAttendanceEntity
+import com.mshdabiola.seriesdatabase.model.ClassEntity
+import com.mshdabiola.seriesdatabase.model.CourseEntity
+import com.mshdabiola.seriesdatabase.model.CourseGradeEntity
+import com.mshdabiola.seriesdatabase.model.ExamAttendanceEntity
+import com.mshdabiola.seriesdatabase.model.ExamInstructionEntity
+import com.mshdabiola.seriesdatabase.model.ExamPaperEntity
+import com.mshdabiola.seriesdatabase.model.ExamQuestionEntity
+import com.mshdabiola.seriesdatabase.model.ExamScheduleEntity
+import com.mshdabiola.seriesdatabase.model.GradeLevelEntity
+import com.mshdabiola.seriesdatabase.model.LearningMaterialEntity
+import com.mshdabiola.seriesdatabase.model.LearningObjectiveEntity
+import com.mshdabiola.seriesdatabase.model.LessonTopicEntity
+import com.mshdabiola.seriesdatabase.model.SchoolEntity
+import com.mshdabiola.seriesdatabase.model.StudentAnswerEntity
+import com.mshdabiola.seriesdatabase.model.StudentAnswerSheetEntity
+import com.mshdabiola.seriesdatabase.model.StudentEntity
 
 @Suppress("EXPECT_ACTUAL_CLASSIFIERS_ARE_IN_BETA_WARNING")
 expect object SeriesDatabaseCtor : RoomDatabaseConstructor<SeriesDatabase>
@@ -36,18 +43,29 @@ expect object SeriesDatabaseCtor : RoomDatabaseConstructor<SeriesDatabase>
 @Database(
     entities =
     [
-        UserEntity::class,
-        SeriesEntity::class,
-        ExaminationEntity::class,
-        InstructionEntity::class,
-        OptionEntity::class,
-        QuestionEntity::class,
-        SubjectEntity::class,
-        TopicEntity::class,
-        TopicCategoryEntity::class,
-        SessionExamination::class,
-        PaperEntity::class,
-        SessionQuestion::class,
+        SchoolEntity::class,
+        AcademicStaffEntity::class,
+        GradeLevelEntity::class,
+
+        ClassEntity::class,
+        StudentEntity::class,
+        CourseEntity::class,
+        LessonTopicEntity::class,
+        LearningObjectiveEntity::class,
+        LearningMaterialEntity::class,
+        ClassAttendanceEntity::class,
+
+        ExamPaperEntity::class,
+        ExamQuestionEntity::class,
+        ExamInstructionEntity::class,
+        ChoiceOptionEntity::class,
+        ExamScheduleEntity::class,
+        ExamAttendanceEntity::class,
+
+        StudentAnswerSheetEntity::class,
+        StudentAnswerEntity::class,
+
+        CourseGradeEntity::class,
     ],
     version = 1,
 //    autoMigrations = [
