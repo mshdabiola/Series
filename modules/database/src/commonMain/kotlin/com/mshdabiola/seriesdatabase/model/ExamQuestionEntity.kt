@@ -11,6 +11,7 @@ import androidx.room.Index
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
 import com.mshdabiola.seriesdatabase.util.Converters
+import com.mshdabiola.seriesmodel.QuestionType
 
 @Entity(
     tableName = "exam_questions",
@@ -37,19 +38,19 @@ import com.mshdabiola.seriesdatabase.util.Converters
 data class ExamQuestionEntity(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "question_id")
-    val questionId: Int = 0, // PK, Auto-generate
+    val questionId: Long?, // PK, Auto-generate
 
     @ColumnInfo(name = "exam_paper_id_fk") // Foreign Key column name
-    val examPaperId: Int, // FK to ExamPaper.examPaperId
+    val examPaperId: Long, // FK to ExamPaper.examPaperId
 
     @ColumnInfo(name = "question_type")
-    val questionType: String, // e.g., "MCQ", "Short Answer", "Essay"
+    val questionType: QuestionType, // e.g., "MCQ", "Short Answer", "Essay"
 
     @ColumnInfo(name = "marks")
-    val marks: Int,
+    val marks: Long,
 
     @ColumnInfo(name = "lesson_topic_id_fk", defaultValue = "NULL") // Foreign Key column name, optional
-    val lessonTopicId: Int? = null, // FK to LessonTopic.topicId - Optional
+    val lessonTopicId: Long? = null, // FK to LessonTopic.topicId - Optional
 
     val number: Long,
     val title: String,

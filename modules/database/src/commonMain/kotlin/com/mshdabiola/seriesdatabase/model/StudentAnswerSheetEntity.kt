@@ -11,7 +11,7 @@ import androidx.room.Index
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
 import com.mshdabiola.seriesdatabase.util.Converters
-import java.time.LocalDateTime
+import kotlinx.datetime.LocalDateTime
 
 @Entity(
     tableName = "student_answer_sheets",
@@ -38,13 +38,13 @@ import java.time.LocalDateTime
 data class StudentAnswerSheetEntity(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "answer_sheet_id")
-    val answerSheetId: Int = 0, // PK, Auto-generate
+    val answerSheetId: Long?, // PK, Auto-generate
 
     @ColumnInfo(name = "student_id_fk") // Foreign Key column name
-    val studentId: Int, // FK to Student.studentId
+    val studentId: Long, // FK to Student.studentId
 
     @ColumnInfo(name = "exam_schedule_id_fk") // Foreign Key column name
-    val examScheduleId: Int, // FK to ExamSchedule.examScheduleId
+    val examScheduleId: Long, // FK to ExamSchedule.examScheduleId
 
     @ColumnInfo(name = "submission_date")
     val submissionDate: LocalDateTime? = null, // Could be nullable

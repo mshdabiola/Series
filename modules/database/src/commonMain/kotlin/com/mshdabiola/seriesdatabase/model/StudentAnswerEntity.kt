@@ -44,23 +44,23 @@ import com.mshdabiola.seriesdatabase.util.Converters
 data class StudentAnswerEntity(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "student_answer_id")
-    val studentAnswerId: Int = 0, // PK, Auto-generate
+    val studentAnswerId: Long?, // PK, Auto-generate
 
     @ColumnInfo(name = "answer_sheet_id_fk") // Foreign Key column name
-    val answerSheetId: Int, // FK to StudentAnswerSheet.answerSheetId
+    val answerSheetId: Long, // FK to StudentAnswerSheet.answerSheetId
 
     @ColumnInfo(name = "exam_question_id_fk") // Foreign Key column name
-    val examQuestionId: Int, // FK to ExamQuestion.questionId
+    val examQuestionId: Long, // FK to ExamQuestion.questionId
 
     @ColumnInfo(name = "answer_text")
     val answerText: String? = null, // For written answers, nullable
 
     @ColumnInfo(name = "choice_option_id_fk", defaultValue = "NULL") // Foreign Key column name, optional
-    val choiceOptionId: Int? = null, // FK to ChoiceOption.optionId for MCQ, nullable
+    val choiceOptionId: Long? = null, // FK to ChoiceOption.optionId for MCQ, nullable
 
     @ColumnInfo(name = "is_correct")
     val isCorrect: Boolean? = null, // Calculated, nullable initially
 
     @ColumnInfo(name = "marks_obtained")
-    val marksObtained: Int? = null, // Evaluated, nullable initially
+    val marksObtained: Long? = null, // Evaluated, nullable initially
 )

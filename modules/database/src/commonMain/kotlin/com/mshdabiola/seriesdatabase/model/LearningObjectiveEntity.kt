@@ -30,11 +30,11 @@ import com.mshdabiola.seriesdatabase.util.Converters
 data class LearningObjectiveEntity(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "learning_objective_id")
-    val learningObjectiveId: Int = 0, // PK, Auto-generate
+    val learningObjectiveId: Long?, // PK, Auto-generate
 
     @ColumnInfo(name = "objective_text")
     val objectiveText: String,
 
     @ColumnInfo(name = "lesson_topic_id_fk") // Foreign Key column name
-    val lessonTopicId: Int, // FK to LessonTopic.topicId
+    val lessonTopicId: Long, // FK to LessonTopic.topicId
 )

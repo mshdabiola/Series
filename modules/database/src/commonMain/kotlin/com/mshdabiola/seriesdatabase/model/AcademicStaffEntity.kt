@@ -16,7 +16,7 @@ import com.mshdabiola.seriesmodel.StaffType
 data class AcademicStaffEntity(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "staff_id")
-    val staffId: Int = 0, // PK, Auto-generate
+    val staffId: Long?, // PK, Auto-generate
 
     @ColumnInfo(name = "staff_type")
     val staffType: StaffType,

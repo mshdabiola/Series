@@ -31,7 +31,7 @@ import com.mshdabiola.seriesmodel.MaterialType
 data class LearningMaterialEntity(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "learning_material_id")
-    val learningMaterialId: Int = 0, // PK, Auto-generate
+    val learningMaterialId: Long?, // PK, Auto-generate
 
     @ColumnInfo(name = "title")
     val title: String,
@@ -49,5 +49,5 @@ data class LearningMaterialEntity(
     val url: String? = null, // Optional URL
 
     @ColumnInfo(name = "lesson_topic_id_fk") // Foreign Key column name
-    val lessonTopicId: Int, // FK to LessonTopic.topicId
+    val lessonTopicId: Long, // FK to LessonTopic.topicId
 )

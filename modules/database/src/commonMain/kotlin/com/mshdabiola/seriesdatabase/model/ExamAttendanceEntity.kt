@@ -37,13 +37,13 @@ import com.mshdabiola.seriesmodel.AttendanceStatus
 @TypeConverters(Converters::class)
 data class ExamAttendanceEntity(
     @ColumnInfo(name = "exam_attendance_id")
-    val examAttendanceId: Int = 0, // PK, Auto-generate, not part of composite key
+    val examAttendanceId: Long?, // PK, Auto-generate, not part of composite key
 
     @ColumnInfo(name = "student_id_fk") // Foreign Key column, Part of Composite PK
-    val studentId: Int, // FK to Student.studentId
+    val studentId: Long, // FK to Student.studentId
 
     @ColumnInfo(name = "exam_schedule_id_fk") // Foreign Key column, Part of Composite PK
-    val examScheduleId: Int, // FK to ExamSchedule.examScheduleId
+    val examScheduleId: Long, // FK to ExamSchedule.examScheduleId
 
     @ColumnInfo(name = "attendance_status")
     val attendanceStatus: AttendanceStatus,

@@ -30,7 +30,7 @@ import com.mshdabiola.seriesdatabase.util.Converters
 data class CourseEntity(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "course_id")
-    val courseId: Int = 0, // PK, Auto-generate
+    val courseId: Long?, // PK, Auto-generate
 
     @ColumnInfo(name = "course_name")
     val courseName: String, // e.g., "Mathematics", "Science"
@@ -39,5 +39,5 @@ data class CourseEntity(
     val courseCode: String, // e.g., "MATH101", "SCI-G5"
 
     @ColumnInfo(name = "grade_level_id_fk") // Foreign Key column name
-    val gradeLevelId: Int, // FK to GradeLevel.gradeLevelId
+    val gradeLevelId: Long, // FK to GradeLevel.gradeLevelId
 )

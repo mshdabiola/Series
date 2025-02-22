@@ -11,11 +11,11 @@ import com.mshdabiola.seriesdatabase.util.Converters
 data class GradeLevelEntity(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "grade_level_id")
-    val gradeLevelId: Int = 0, // PK, Auto-generate
+    val gradeLevelId: Long?, // PK, Auto-generate
 
     @ColumnInfo(name = "grade_name")
     val gradeName: String, // e.g., "Grade 10", "Senior 5"
 
     @ColumnInfo(name = "level_number")
-    val levelNumber: Int, // e.g., 10, 5
+    val levelNumber: Long, // e.g., 10, 5
 )

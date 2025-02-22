@@ -15,7 +15,7 @@ import com.mshdabiola.seriesdatabase.util.Converters
 data class SchoolEntity(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "school_id")
-    val schoolId: Int = 0, // PK, Room will auto-generate
+    val schoolId: Long?, // PK, Room will auto-generate
 
     @ColumnInfo(name = "school_name")
     val schoolName: String,

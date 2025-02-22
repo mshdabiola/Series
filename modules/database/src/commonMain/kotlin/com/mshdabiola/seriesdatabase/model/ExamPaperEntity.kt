@@ -11,7 +11,7 @@ import androidx.room.Index
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
 import com.mshdabiola.seriesdatabase.util.Converters
-import java.time.LocalDateTime
+import kotlinx.datetime.LocalDateTime
 
 @Entity(
     tableName = "exam_papers",
@@ -45,22 +45,22 @@ import java.time.LocalDateTime
 data class ExamPaperEntity(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "exam_paper_id")
-    val examPaperId: Int = 0, // PK, Auto-generate
+    val examPaperId: Long?, // PK, Auto-generate
 
     @ColumnInfo(name = "paper_title")
     val paperTitle: String? = null, // e.g., "Mid-Term Math Paper", optional title
 
     @ColumnInfo(name = "course_id_fk") // Foreign Key column name
-    val courseId: Int, // FK to Course.courseId
+    val courseId: Long, // FK to Course.courseId
 
     @ColumnInfo(name = "creator_staff_id_fk") // Foreign Key column name
-    val creatorStaffId: Int, // FK to AcademicStaff.staffId
+    val creatorStaffId: Long, // FK to AcademicStaff.staffId
 
     @ColumnInfo(name = "creation_date")
     val creationDate: LocalDateTime,
 
     @ColumnInfo(name = "exam_schedule_id_fk", defaultValue = "NULL") // Foreign Key column name, initially nullable
-    val examScheduleId: Int? = null, // FK to ExamSchedule.examScheduleId - nullable initially
+    val examScheduleId: Long? = null, // FK to ExamSchedule.examScheduleId - nullable initially
 
     val year: Long,
 )

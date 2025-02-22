@@ -30,10 +30,10 @@ import com.mshdabiola.seriesdatabase.util.Converters
 data class ChoiceOptionEntity(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "option_id")
-    val optionId: Int = 0, // PK, Auto-generate
+    val optionId: Long?, // PK, Auto-generate
 
     @ColumnInfo(name = "exam_question_id_fk") // Foreign Key column name
-    val examQuestionId: Int, // FK to ExamQuestion.questionId
+    val examQuestionId: Long, // FK to ExamQuestion.questionId
 
     @ColumnInfo(name = "option_text")
     val optionText: String,

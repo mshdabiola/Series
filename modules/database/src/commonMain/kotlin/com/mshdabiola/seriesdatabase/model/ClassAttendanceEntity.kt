@@ -12,8 +12,8 @@ import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
 import com.mshdabiola.seriesdatabase.util.Converters
 import com.mshdabiola.seriesmodel.AttendanceStatus
-import java.time.LocalDate
-import java.time.LocalTime
+import kotlinx.datetime.LocalDate
+import kotlinx.datetime.LocalTime
 
 @Entity(
     tableName = "class_attendance",
@@ -40,13 +40,13 @@ import java.time.LocalTime
 @TypeConverters(Converters::class)
 data class ClassAttendanceEntity(
     @ColumnInfo(name = "class_attendance_id")
-    val classAttendanceId: Int = 0, // PK, Auto-generate, not part of composite key
+    val classAttendanceId: Long?, // PK, Auto-generate, not part of composite key
 
     @ColumnInfo(name = "student_id_fk") // Foreign Key column, Part of Composite PK
-    val studentId: Int, // FK to Student.studentId
+    val studentId: Long, // FK to Student.studentId
 
     @ColumnInfo(name = "class_id_fk") // Foreign Key column, Part of Composite PK
-    val classId: Int, // FK to Class.classId
+    val classId: Long, // FK to Class.classId
 
     @PrimaryKey // Part of Composite PK, needs @PrimaryKey to be recognized, even in composite key
     @ColumnInfo(name = "attendance_date")

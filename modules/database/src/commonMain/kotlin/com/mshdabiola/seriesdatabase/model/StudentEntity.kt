@@ -11,7 +11,7 @@ import androidx.room.Index
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
 import com.mshdabiola.seriesdatabase.util.Converters
-import java.time.LocalDate
+import kotlinx.datetime.LocalDate
 
 @Entity(
     tableName = "students",
@@ -31,7 +31,7 @@ import java.time.LocalDate
 data class StudentEntity(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "student_id")
-    val studentId: Int = 0, // PK, Auto-generate
+    val studentId: Long?, // PK, Auto-generate
 
     @ColumnInfo(name = "name")
     val name: String,
@@ -43,5 +43,5 @@ data class StudentEntity(
     val admissionNumber: String,
 
     @ColumnInfo(name = "class_id_fk") // Foreign Key column name
-    val classId: Int, // FK to Class.classId
+    val classId: Long, // FK to Class.classId
 )

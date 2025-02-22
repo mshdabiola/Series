@@ -37,10 +37,10 @@ import com.mshdabiola.seriesdatabase.util.Converters
 @TypeConverters(Converters::class)
 data class CourseGradeEntity(
     @ColumnInfo(name = "student_id_fk") // Foreign Key column, Part of Composite PK
-    val studentId: Int, // FK to Student.studentId
+    val studentId: Long, // FK to Student.studentId
 
     @ColumnInfo(name = "course_id_fk") // Foreign Key column, Part of Composite PK
-    val courseId: Int, // FK to Course.courseId
+    val courseId: Long, // FK to Course.courseId
 
     @PrimaryKey // Part of Composite PK, needs @PrimaryKey to be recognized, even in composite key
     @ColumnInfo(name = "academic_year")
