@@ -22,6 +22,7 @@ import com.mshdabiola.seriesdatabase.model.SchoolEntity
 import com.mshdabiola.seriesdatabase.model.StudentAnswerEntity
 import com.mshdabiola.seriesdatabase.model.StudentAnswerSheetEntity
 import com.mshdabiola.seriesdatabase.model.StudentEntity
+import com.mshdabiola.seriesdatabase.model.TeacherCourseQualificationEntity
 import com.mshdabiola.seriesmodel.AcademicStaff
 import com.mshdabiola.seriesmodel.ChoiceOption
 import com.mshdabiola.seriesmodel.ClassAttendance
@@ -40,13 +41,14 @@ import com.mshdabiola.seriesmodel.School
 import com.mshdabiola.seriesmodel.Student
 import com.mshdabiola.seriesmodel.StudentAnswer
 import com.mshdabiola.seriesmodel.StudentAnswerSheet
+import com.mshdabiola.seriesmodel.TeacherCourseQualification
 
 fun Long.checkId() = if (this < 0) null else this
 
 // School Converters
 fun SchoolEntity.toDomain(): School =
     School(
-        schoolId = this.schoolId,
+        schoolId = this.schoolId!!,
         schoolName = this.schoolName,
         schoolAddress = this.schoolAddress,
         academicYear = this.academicYear,
@@ -54,7 +56,7 @@ fun SchoolEntity.toDomain(): School =
 
 fun School.toEntity(): SchoolEntity =
     SchoolEntity(
-        schoolId = this.schoolId,
+        schoolId = this.schoolId.checkId(),
         schoolName = this.schoolName,
         schoolAddress = this.schoolAddress,
         academicYear = this.academicYear,
@@ -63,7 +65,7 @@ fun School.toEntity(): SchoolEntity =
 // AcademicStaff Converters
 fun AcademicStaffEntity.toDomain(): AcademicStaff =
     AcademicStaff(
-        staffId = this.staffId,
+        staffId = this.staffId!!,
         staffType = this.staffType,
         name = this.name,
         contactDetails = this.contactDetails,
@@ -73,7 +75,7 @@ fun AcademicStaffEntity.toDomain(): AcademicStaff =
 
 fun AcademicStaff.toEntity(): AcademicStaffEntity =
     AcademicStaffEntity(
-        staffId = this.staffId,
+        staffId = this.staffId.checkId(),
         staffType = this.staffType,
         name = this.name,
         contactDetails = this.contactDetails,
@@ -84,14 +86,14 @@ fun AcademicStaff.toEntity(): AcademicStaffEntity =
 // GradeLevel Converters
 fun GradeLevelEntity.toDomain(): GradeLevel =
     GradeLevel(
-        gradeLevelId = this.gradeLevelId,
+        gradeLevelId = this.gradeLevelId!!,
         gradeName = this.gradeName,
         levelNumber = this.levelNumber,
     )
 
 fun GradeLevel.toEntity(): GradeLevelEntity =
     GradeLevelEntity(
-        gradeLevelId = this.gradeLevelId,
+        gradeLevelId = this.gradeLevelId.checkId(),
         gradeName = this.gradeName,
         levelNumber = this.levelNumber,
     )
@@ -99,7 +101,7 @@ fun GradeLevel.toEntity(): GradeLevelEntity =
 // Class Converters
 fun ClassEntity.toDomain(): ClassS =
     ClassS(
-        classId = this.classId,
+        classId = this.classId!!,
         className = this.className,
         gradeLevelId = this.gradeLevelId,
         teacherStaffId = this.teacherStaffId,
@@ -107,7 +109,7 @@ fun ClassEntity.toDomain(): ClassS =
 
 fun ClassS.toEntity(): ClassEntity =
     ClassEntity(
-        classId = this.classId,
+        classId = this.classId.checkId(),
         className = this.className,
         gradeLevelId = this.gradeLevelId,
         teacherStaffId = this.teacherStaffId,
@@ -116,7 +118,7 @@ fun ClassS.toEntity(): ClassEntity =
 // Student Converters
 fun StudentEntity.toDomain(): Student =
     Student(
-        studentId = this.studentId,
+        studentId = this.studentId!!,
         name = this.name,
         dateOfBirth = this.dateOfBirth,
         admissionNumber = this.admissionNumber,
@@ -125,7 +127,7 @@ fun StudentEntity.toDomain(): Student =
 
 fun Student.toEntity(): StudentEntity =
     StudentEntity(
-        studentId = this.studentId,
+        studentId = this.studentId.checkId(),
         name = this.name,
         dateOfBirth = this.dateOfBirth,
         admissionNumber = this.admissionNumber,
@@ -135,7 +137,7 @@ fun Student.toEntity(): StudentEntity =
 // Course Converters
 fun CourseEntity.toDomain(): Course =
     Course(
-        courseId = this.courseId,
+        courseId = this.courseId!!,
         courseName = this.courseName,
         courseCode = this.courseCode,
         gradeLevelId = this.gradeLevelId,
@@ -143,7 +145,7 @@ fun CourseEntity.toDomain(): Course =
 
 fun Course.toEntity(): CourseEntity =
     CourseEntity(
-        courseId = this.courseId,
+        courseId = this.courseId.checkId(),
         courseName = this.courseName,
         courseCode = this.courseCode,
         gradeLevelId = this.gradeLevelId,
@@ -152,14 +154,14 @@ fun Course.toEntity(): CourseEntity =
 // LessonTopic Converters
 fun LessonTopicEntity.toDomain(): LessonTopic =
     LessonTopic(
-        topicId = this.topicId,
+        topicId = this.topicId!!,
         topicName = this.topicName,
         courseId = this.courseId,
     )
 
 fun LessonTopic.toEntity(): LessonTopicEntity =
     LessonTopicEntity(
-        topicId = this.topicId,
+        topicId = this.topicId.checkId(),
         topicName = this.topicName,
         courseId = this.courseId,
     )
@@ -167,7 +169,7 @@ fun LessonTopic.toEntity(): LessonTopicEntity =
 // LearningMaterial Converters
 fun LearningMaterialEntity.toDomain(): LearningMaterial =
     LearningMaterial(
-        learningMaterialId = this.learningMaterialId,
+        learningMaterialId = this.learningMaterialId!!,
         title = this.title,
         description = this.description,
         materialType = this.materialType,
@@ -178,7 +180,7 @@ fun LearningMaterialEntity.toDomain(): LearningMaterial =
 
 fun LearningMaterial.toEntity(): LearningMaterialEntity =
     LearningMaterialEntity(
-        learningMaterialId = this.learningMaterialId,
+        learningMaterialId = this.learningMaterialId.checkId(),
         title = this.title,
         description = this.description,
         materialType = this.materialType,
@@ -190,14 +192,14 @@ fun LearningMaterial.toEntity(): LearningMaterialEntity =
 // LearningObjective Converters
 fun LearningObjectiveEntity.toDomain(): LearningObjective =
     LearningObjective(
-        learningObjectiveId = this.learningObjectiveId,
+        learningObjectiveId = this.learningObjectiveId!!,
         objectiveText = this.objectiveText,
         lessonTopicId = this.lessonTopicId,
     )
 
 fun LearningObjective.toEntity(): LearningObjectiveEntity =
     LearningObjectiveEntity(
-        learningObjectiveId = this.learningObjectiveId,
+        learningObjectiveId = this.learningObjectiveId.checkId(),
         objectiveText = this.objectiveText,
         lessonTopicId = this.lessonTopicId,
     )
@@ -205,7 +207,7 @@ fun LearningObjective.toEntity(): LearningObjectiveEntity =
 // ExamPaper Converters
 fun ExamPaperEntity.toDomain(): ExamPaper =
     ExamPaper(
-        examPaperId = this.examPaperId,
+        examPaperId = this.examPaperId!!,
         paperTitle = this.paperTitle,
         courseId = this.courseId,
         creatorStaffId = this.creatorStaffId,
@@ -216,7 +218,7 @@ fun ExamPaperEntity.toDomain(): ExamPaper =
 
 fun ExamPaper.toEntity(): ExamPaperEntity =
     ExamPaperEntity(
-        examPaperId = this.examPaperId,
+        examPaperId = this.examPaperId.checkId(),
         paperTitle = this.paperTitle,
         courseId = this.courseId,
         creatorStaffId = this.creatorStaffId,
@@ -228,7 +230,7 @@ fun ExamPaper.toEntity(): ExamPaperEntity =
 // ExamSchedule Converters
 fun ExamScheduleEntity.toDomain(): ExamSchedule =
     ExamSchedule(
-        examScheduleId = this.examScheduleId,
+        examScheduleId = this.examScheduleId!!,
         examName = this.examName,
         examDate = this.examDate,
         startTime = this.startTime,
@@ -239,7 +241,7 @@ fun ExamScheduleEntity.toDomain(): ExamSchedule =
 
 fun ExamSchedule.toEntity(): ExamScheduleEntity =
     ExamScheduleEntity(
-        examScheduleId = this.examScheduleId,
+        examScheduleId = this.examScheduleId.checkId(),
         examName = this.examName,
         examDate = this.examDate,
         startTime = this.startTime,
@@ -251,13 +253,13 @@ fun ExamSchedule.toEntity(): ExamScheduleEntity =
 // ExamQuestion Converters
 fun ExamQuestionEntity.toDomain(): ExamQuestion =
     ExamQuestion(
-        questionId = this.questionId,
+        questionId = this.questionId!!,
         examPaperId = this.examPaperId,
         questionText = this.questionText,
         questionType = this.questionType,
         marks = this.marks,
         lessonTopicId = this.lessonTopicId,
-        answer= this.answer,
+        answer = this.answer,
         number = this.number,
         title = this.title,
         instructionId = this.instructionId,
@@ -265,13 +267,13 @@ fun ExamQuestionEntity.toDomain(): ExamQuestion =
 
 fun ExamQuestion.toEntity(): ExamQuestionEntity =
     ExamQuestionEntity(
-        questionId = this.questionId,
+        questionId = this.questionId.checkId(),
         examPaperId = this.examPaperId,
         questionText = this.questionText,
         questionType = this.questionType,
         marks = this.marks,
         lessonTopicId = this.lessonTopicId,
-        answer= this.answer,
+        answer = this.answer,
         number = this.number,
         title = this.title,
         instructionId = this.instructionId,
@@ -280,7 +282,7 @@ fun ExamQuestion.toEntity(): ExamQuestionEntity =
 // ChoiceOption Converters
 fun ChoiceOptionEntity.toDomain(): ChoiceOption =
     ChoiceOption(
-        optionId = this.optionId,
+        optionId = this.optionId!!,
         examQuestionId = this.examQuestionId,
         optionText = this.optionText,
         isCorrect = this.isCorrect,
@@ -290,7 +292,7 @@ fun ChoiceOptionEntity.toDomain(): ChoiceOption =
 
 fun ChoiceOption.toEntity(): ChoiceOptionEntity =
     ChoiceOptionEntity(
-        optionId = this.optionId,
+        optionId = this.optionId.checkId(),
         examQuestionId = this.examQuestionId,
         optionText = this.optionText,
         isCorrect = this.isCorrect,
@@ -301,7 +303,7 @@ fun ChoiceOption.toEntity(): ChoiceOptionEntity =
 // StudentAnswerSheet Converters
 fun StudentAnswerSheetEntity.toDomain(): StudentAnswerSheet =
     StudentAnswerSheet(
-        answerSheetId = this.answerSheetId,
+        answerSheetId = this.answerSheetId!!,
         studentId = this.studentId,
         examScheduleId = this.examScheduleId,
         submissionDate = this.submissionDate,
@@ -309,7 +311,7 @@ fun StudentAnswerSheetEntity.toDomain(): StudentAnswerSheet =
 
 fun StudentAnswerSheet.toEntity(): StudentAnswerSheetEntity =
     StudentAnswerSheetEntity(
-        answerSheetId = this.answerSheetId,
+        answerSheetId = this.answerSheetId.checkId(),
         studentId = this.studentId,
         examScheduleId = this.examScheduleId,
         submissionDate = this.submissionDate,
@@ -318,7 +320,7 @@ fun StudentAnswerSheet.toEntity(): StudentAnswerSheetEntity =
 // StudentAnswer Converters
 fun StudentAnswerEntity.toDomain(): StudentAnswer =
     StudentAnswer(
-        studentAnswerId = this.studentAnswerId,
+        studentAnswerId = this.studentAnswerId!!,
         answerSheetId = this.answerSheetId,
         examQuestionId = this.examQuestionId,
         answerText = this.answerText,
@@ -329,7 +331,7 @@ fun StudentAnswerEntity.toDomain(): StudentAnswer =
 
 fun StudentAnswer.toEntity(): StudentAnswerEntity =
     StudentAnswerEntity(
-        studentAnswerId = this.studentAnswerId,
+        studentAnswerId = this.studentAnswerId.checkId(),
         answerSheetId = this.answerSheetId,
         examQuestionId = this.examQuestionId,
         answerText = this.answerText,
@@ -361,7 +363,7 @@ fun CourseGrade.toEntity(): CourseGradeEntity =
 // ClassAttendance Converters
 fun ClassAttendanceEntity.toDomain(): ClassAttendance =
     ClassAttendance(
-        classAttendanceId = this.classAttendanceId,
+        classAttendanceId = this.classAttendanceId!!,
         studentId = this.studentId,
         classId = this.classId,
         attendanceDate = this.attendanceDate,
@@ -372,7 +374,7 @@ fun ClassAttendanceEntity.toDomain(): ClassAttendance =
 
 fun ClassAttendance.toEntity(): ClassAttendanceEntity =
     ClassAttendanceEntity(
-        classAttendanceId = this.classAttendanceId,
+        classAttendanceId = this.classAttendanceId.checkId(),
         studentId = this.studentId,
         classId = this.classId,
         attendanceDate = this.attendanceDate,
@@ -384,7 +386,7 @@ fun ClassAttendance.toEntity(): ClassAttendanceEntity =
 // ExamAttendance Converters
 fun ExamAttendanceEntity.toDomain(): ExamAttendance =
     ExamAttendance(
-        examAttendanceId = this.examAttendanceId,
+        examAttendanceId = this.examAttendanceId!!,
         studentId = this.studentId,
         examScheduleId = this.examScheduleId,
         attendanceStatus = this.attendanceStatus,
@@ -393,9 +395,26 @@ fun ExamAttendanceEntity.toDomain(): ExamAttendance =
 
 fun ExamAttendance.toEntity(): ExamAttendanceEntity =
     ExamAttendanceEntity(
-        examAttendanceId = this.examAttendanceId,
+        examAttendanceId = this.examAttendanceId.checkId(),
         studentId = this.studentId,
         examScheduleId = this.examScheduleId,
         attendanceStatus = this.attendanceStatus,
         reason = this.reason,
+    )
+
+fun TeacherCourseQualification.toEntity(): TeacherCourseQualificationEntity =
+    TeacherCourseQualificationEntity(
+        teacherStaffId = this.teacherStaffId,
+        courseId = this.courseId,
+        qualificationDate = this.qualificationDate,
+        notes = this.notes,
+        updatedAt = null,
+    )
+
+fun TeacherCourseQualificationEntity.toDomain(): TeacherCourseQualification =
+    TeacherCourseQualification(
+        teacherStaffId = this.teacherStaffId,
+        courseId = this.courseId,
+        qualificationDate = this.qualificationDate,
+        notes = this.notes,
     )
