@@ -3,10 +3,11 @@ package com.mshdabiola.seriesdatabase.util
 import androidx.room.TypeConverter
 import com.mshdabiola.seriesmodel.AttendanceStatus
 import com.mshdabiola.seriesmodel.MaterialType
+import com.mshdabiola.seriesmodel.QuestionType
 import com.mshdabiola.seriesmodel.StaffType
-import java.time.LocalDate
-import java.time.LocalDateTime
-import java.time.LocalTime
+import kotlinx.datetime.LocalDate
+import kotlinx.datetime.LocalDateTime
+import kotlinx.datetime.LocalTime
 
 object Converters {
     @TypeConverter
@@ -24,6 +25,14 @@ object Converters {
     @TypeConverter
     @JvmStatic
     fun toMaterialType(value: String): MaterialType = MaterialType.valueOf(value)
+
+    @TypeConverter
+    @JvmStatic
+    fun fromQuestionType(value: QuestionType): String = value.name
+
+    @TypeConverter
+    @JvmStatic
+    fun toQuestionType(value: String): QuestionType = QuestionType.valueOf(value)
 
     @TypeConverter
     @JvmStatic
