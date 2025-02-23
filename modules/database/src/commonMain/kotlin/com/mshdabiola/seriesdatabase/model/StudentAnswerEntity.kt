@@ -11,6 +11,8 @@ import androidx.room.Index
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
 import com.mshdabiola.seriesdatabase.util.Converters
+import com.mshdabiola.seriesmodel.Content
+import kotlinx.datetime.LocalDateTime
 
 @Entity(
     tableName = "student_answers",
@@ -53,7 +55,7 @@ data class StudentAnswerEntity(
     val examQuestionId: Long, // FK to ExamQuestion.questionId
 
     @ColumnInfo(name = "answer_text")
-    val answerText: String? = null, // For written answers, nullable
+    val answerText: List<Content>? = null, // For written answers, nullable
 
     @ColumnInfo(name = "choice_option_id_fk", defaultValue = "NULL") // Foreign Key column name, optional
     val choiceOptionId: Long? = null, // FK to ChoiceOption.optionId for MCQ, nullable
@@ -63,4 +65,5 @@ data class StudentAnswerEntity(
 
     @ColumnInfo(name = "marks_obtained")
     val marksObtained: Long? = null, // Evaluated, nullable initially
+    @ColumnInfo(name = "updated_at") val updatedAt: LocalDateTime,
 )

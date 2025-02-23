@@ -48,4 +48,5 @@ data class StudentAnswerSheetEntity(
 
     @ColumnInfo(name = "submission_date")
     val submissionDate: LocalDateTime? = null, // Could be nullable
+    @ColumnInfo(name = "updated_at") val updatedAt: LocalDateTime,
 )

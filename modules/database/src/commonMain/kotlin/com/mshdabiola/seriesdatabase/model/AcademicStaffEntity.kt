@@ -10,9 +10,20 @@ import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
 import com.mshdabiola.seriesdatabase.util.Converters
 import com.mshdabiola.seriesmodel.StaffType
+import kotlinx.datetime.LocalDateTime
 
-@Entity(tableName = "academic_staff")
-@TypeConverters(Converters::class)
+@Entity(
+    tableName = "academic_staff",
+    foreignKeys = [
+        androidx.room.ForeignKey(
+            entity = SchoolEntity::class,
+            parentColumns = ["school_id"],
+            childColumns = ["school_id"],
+            onDelete = androidx.room.ForeignKey.CASCADE,
+        ),
+    ],
+)
+@TypeConverters(Converters::class) // Updated closing parenthesis here
 data class AcademicStaffEntity(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "staff_id")
@@ -29,4 +40,7 @@ data class AcademicStaffEntity(
 
     val password: String,
     val imagePath: String,
+    @ColumnInfo(name = "school_id")
+    val schoolId: Long,
+    @ColumnInfo(name = "updated_at") val updatedAt: LocalDateTime,
 )

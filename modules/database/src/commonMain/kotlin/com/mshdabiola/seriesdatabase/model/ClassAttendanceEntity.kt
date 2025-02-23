@@ -8,11 +8,11 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
-import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
 import com.mshdabiola.seriesdatabase.util.Converters
 import com.mshdabiola.seriesmodel.AttendanceStatus
 import kotlinx.datetime.LocalDate
+import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.LocalTime
 
 @Entity(
@@ -48,7 +48,6 @@ data class ClassAttendanceEntity(
     @ColumnInfo(name = "class_id_fk") // Foreign Key column, Part of Composite PK
     val classId: Long, // FK to Class.classId
 
-    @PrimaryKey // Part of Composite PK, needs @PrimaryKey to be recognized, even in composite key
     @ColumnInfo(name = "attendance_date")
     val attendanceDate: LocalDate,
 
@@ -60,4 +59,5 @@ data class ClassAttendanceEntity(
 
     @ColumnInfo(name = "reason")
     val reason: String? = null, // Optional reason for absence/late
+    @ColumnInfo(name = "updated_at") val updatedAt: LocalDateTime,
 )

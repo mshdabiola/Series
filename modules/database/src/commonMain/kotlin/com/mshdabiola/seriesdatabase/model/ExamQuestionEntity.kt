@@ -11,7 +11,9 @@ import androidx.room.Index
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
 import com.mshdabiola.seriesdatabase.util.Converters
+import com.mshdabiola.seriesmodel.Content
 import com.mshdabiola.seriesmodel.QuestionType
+import kotlinx.datetime.LocalDateTime
 
 @Entity(
     tableName = "exam_questions",
@@ -53,12 +55,12 @@ data class ExamQuestionEntity(
     val lessonTopicId: Long? = null, // FK to LessonTopic.topicId - Optional
 
     val number: Long,
-    val title: String,
 
     @ColumnInfo(name = "question_text")
-    val questionText: String,
+    val questionText: List<Content>,
 
     val instructionId: Long?,
 
-    val answer: String,
+    val answer: List<Content>,
+    @ColumnInfo(name = "updated_at") val updatedAt: LocalDateTime,
 )

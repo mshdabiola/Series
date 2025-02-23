@@ -2,11 +2,23 @@ package com.mshdabiola.seriesdatabase.model
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
 import com.mshdabiola.seriesdatabase.util.Converters
+import kotlinx.datetime.LocalDateTime
 
-@Entity(tableName = "grade_levels")
+@Entity(
+    tableName = "grade_levels",
+    foreignKeys = [
+        ForeignKey(
+            entity = SchoolEntity::class,
+            parentColumns = ["school_id"],
+            childColumns = ["school_id"],
+            onDelete = ForeignKey.CASCADE,
+        ),
+    ],
+)
 @TypeConverters(Converters::class)
 data class GradeLevelEntity(
     @PrimaryKey(autoGenerate = true)
@@ -18,4 +30,8 @@ data class GradeLevelEntity(
 
     @ColumnInfo(name = "level_number")
     val levelNumber: Long, // e.g., 10, 5
+
+    @ColumnInfo(name = "school_id")
+    val schoolId: Long,
+    @ColumnInfo(name = "updated_at") val updatedAt: LocalDateTime,
 )

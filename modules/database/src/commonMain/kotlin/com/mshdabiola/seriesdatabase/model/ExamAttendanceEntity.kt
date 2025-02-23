@@ -11,6 +11,7 @@ import androidx.room.Index
 import androidx.room.TypeConverters
 import com.mshdabiola.seriesdatabase.util.Converters
 import com.mshdabiola.seriesmodel.AttendanceStatus
+import kotlinx.datetime.LocalDateTime
 
 @Entity(
     tableName = "exam_attendance",
@@ -50,4 +51,5 @@ data class ExamAttendanceEntity(
 
     @ColumnInfo(name = "reason")
     val reason: String? = null, // Optional reason for absence/late
+    @ColumnInfo(name = "updated_at") val updatedAt: LocalDateTime,
 )

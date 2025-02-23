@@ -11,6 +11,8 @@ import androidx.room.Index
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
 import com.mshdabiola.seriesdatabase.util.Converters
+import com.mshdabiola.seriesmodel.Content
+import kotlinx.datetime.LocalDateTime
 
 @Entity(
     tableName = "choice_options",
@@ -36,11 +38,10 @@ data class ChoiceOptionEntity(
     val examQuestionId: Long, // FK to ExamQuestion.questionId
 
     @ColumnInfo(name = "option_text")
-    val optionText: String,
+    val optionText: List<Content>,
 
     @ColumnInfo(name = "is_correct")
     val isCorrect: Boolean,
 
-    val title: String,
-    val contents: String,
+    @ColumnInfo(name = "updated_at") val updatedAt: LocalDateTime,
 )

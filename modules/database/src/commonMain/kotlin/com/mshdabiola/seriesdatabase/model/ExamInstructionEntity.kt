@@ -4,10 +4,12 @@
 
 package com.mshdabiola.seriesdatabase.model
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
-import androidx.room.PrimaryKey
+import com.mshdabiola.seriesmodel.Content
+import kotlinx.datetime.LocalDateTime
 
 @Entity(
     foreignKeys = [
@@ -23,9 +25,13 @@ import androidx.room.PrimaryKey
     tableName = "instruction_table",
 )
 data class ExamInstructionEntity(
-    @PrimaryKey(true)
+    @androidx.room.PrimaryKey(true)
     val id: Long?,
+    @ColumnInfo(name = "examId")
     val examId: Long,
+    @ColumnInfo(name = "title")
     val title: String,
-    val content: String,
+    @ColumnInfo(name = "content")
+    val content: List<Content>,
+    @ColumnInfo(name = "updated_at") val updatedAt: LocalDateTime,
 )

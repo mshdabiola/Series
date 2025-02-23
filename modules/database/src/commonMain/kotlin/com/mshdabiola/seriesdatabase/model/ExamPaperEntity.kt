@@ -63,4 +63,5 @@ data class ExamPaperEntity(
     val examScheduleId: Long? = null, // FK to ExamSchedule.examScheduleId - nullable initially
 
     val year: Long,
+    @ColumnInfo(name = "updated_at") val updatedAt: LocalDateTime,
 )

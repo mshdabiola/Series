@@ -12,6 +12,7 @@ import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
 import com.mshdabiola.seriesdatabase.util.Converters
 import kotlinx.datetime.LocalDate
+import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.LocalTime
 
 @Entity(
@@ -58,4 +59,5 @@ data class ExamScheduleEntity(
 
     @ColumnInfo(name = "exam_paper_id_fk", defaultValue = "NULL") // Foreign Key column name, nullable
     val examPaperId: Long? = null, // FK to ExamPaper.examPaperId - nullable initially
+    @ColumnInfo(name = "updated_at") val updatedAt: LocalDateTime,
 )

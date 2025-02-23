@@ -17,13 +17,13 @@ import kotlinx.datetime.LocalDateTime
     foreignKeys = [
         ForeignKey(
             entity = AcademicStaffEntity::class, // Renamed entity reference
-            parentColumns = ["staffId"],
+            parentColumns = ["staff_id"],
             childColumns = ["teacherStaffId_fk"],
             onDelete = ForeignKey.CASCADE,
         ),
         ForeignKey(
             entity = CourseEntity::class, // Renamed entity reference
-            parentColumns = ["courseId"],
+            parentColumns = ["course_id"],
             childColumns = ["courseId_fk"],
             onDelete = ForeignKey.CASCADE,
         ),
@@ -35,7 +35,7 @@ data class TeacherCourseQualificationEntity( // Renamed from RoomTeacherCourseQu
     @ColumnInfo(name = "courseId_fk") val courseId: Long,
     @ColumnInfo(name = "qualification_date") val qualificationDate: LocalDate?,
     @ColumnInfo(name = "notes") val notes: String?,
-    @ColumnInfo(name = "updated_at") val updatedAt: LocalDateTime?,
+    @ColumnInfo(name = "updated_at") val updatedAt: LocalDateTime,
 )
 
 // ... (Repeat this pattern for other entities, removing "Room" prefix) ...

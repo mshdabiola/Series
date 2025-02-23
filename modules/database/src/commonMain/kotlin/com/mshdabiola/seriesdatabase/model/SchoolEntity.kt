@@ -9,6 +9,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
 import com.mshdabiola.seriesdatabase.util.Converters
+import kotlinx.datetime.LocalDateTime
 
 @Entity(tableName = "schools")
 @TypeConverters(Converters::class) // Apply type converters at the class level or database level
@@ -25,4 +26,5 @@ data class SchoolEntity(
 
     @ColumnInfo(name = "academic_year")
     val academicYear: String, // e.g., "2023-2024"
+    @ColumnInfo(name = "updated_at") val updatedAt: LocalDateTime,
 )

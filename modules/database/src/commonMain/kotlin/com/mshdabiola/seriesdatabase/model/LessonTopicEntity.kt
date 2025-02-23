@@ -11,6 +11,7 @@ import androidx.room.Index
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
 import com.mshdabiola.seriesdatabase.util.Converters
+import kotlinx.datetime.LocalDateTime
 
 @Entity(
     tableName = "lesson_topics",
@@ -37,4 +38,5 @@ data class LessonTopicEntity(
 
     @ColumnInfo(name = "course_id_fk") // Foreign Key column name
     val courseId: Long, // FK to Course.courseId
+    @ColumnInfo(name = "updated_at") val updatedAt: LocalDateTime,
 )

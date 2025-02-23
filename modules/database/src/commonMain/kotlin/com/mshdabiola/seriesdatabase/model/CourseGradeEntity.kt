@@ -8,9 +8,9 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
-import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
 import com.mshdabiola.seriesdatabase.util.Converters
+import kotlinx.datetime.LocalDateTime
 
 @Entity(
     tableName = "course_grades",
@@ -42,7 +42,6 @@ data class CourseGradeEntity(
     @ColumnInfo(name = "course_id_fk") // Foreign Key column, Part of Composite PK
     val courseId: Long, // FK to Course.courseId
 
-    @PrimaryKey // Part of Composite PK, needs @PrimaryKey to be recognized, even in composite key
     @ColumnInfo(name = "academic_year")
     val academicYear: String, // Part of Composite PK
 
@@ -51,4 +50,5 @@ data class CourseGradeEntity(
 
     @ColumnInfo(name = "grading_system")
     val gradingSystem: String? = null, // Optional e.g., "Letter Grade", "Percentage"
+    @ColumnInfo(name = "updated_at") val updatedAt: LocalDateTime,
 )
