@@ -6,7 +6,6 @@ import androidx.room.Query
 import androidx.room.Upsert
 import com.mshdabiola.seriesdatabase.model.ClassAttendanceEntity
 import kotlinx.coroutines.flow.Flow
-import java.time.LocalDate
 
 @Dao
 interface ClassAttendanceDao {
@@ -34,9 +33,9 @@ interface ClassAttendanceDao {
     @Query("SELECT * FROM class_attendance WHERE class_id_fk = :classId")
     fun getClassAttendancesByClassId(classId: Int): Flow<List<ClassAttendanceEntity>>
 
-    @Query("SELECT * FROM class_attendance WHERE student_id_fk = :studentId AND class_id_fk = :classId AND attendance_date = :attendanceDate")
-    fun getClassAttendanceByCompositeKey(studentId: Int, classId: Int, attendanceDate: LocalDate): Flow<ClassAttendanceEntity?>
+//    @Query("SELECT * FROM class_attendance WHERE student_id_fk = :studentId AND class_id_fk = :classId AND attendance_date = :attendanceDate")
+//    fun getClassAttendanceByCompositeKey(studentId: Int, classId: Int, attendanceDate: LocalDate): Flow<ClassAttendanceEntity?>
 
-    @Query("SELECT * FROM class_attendance WHERE attendance_date = :attendanceDate")
-    fun getClassAttendancesByDate(attendanceDate: LocalDate): Flow<List<ClassAttendanceEntity>>
+//    @Query("SELECT * FROM class_attendance WHERE attendance_date = :attendanceDate")
+//    fun getClassAttendancesByDate(attendanceDate: LocalDate): Flow<List<ClassAttendanceEntity>>
 }

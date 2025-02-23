@@ -14,7 +14,6 @@ interface ClassDao {
 
     @Upsert
     suspend fun upsertAll(classes: List<ClassEntity>)
-    suspend fun update(clazz: ClassEntity)
 
     @Delete
     suspend fun delete(clazz: ClassEntity)
