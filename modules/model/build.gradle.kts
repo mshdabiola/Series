@@ -27,6 +27,8 @@ kotlin {
 
                 implementation(libs.kotlinx.serialization.json)
 
+                api(libs.kotlinx.datetime)
+
             }
         }
     }
