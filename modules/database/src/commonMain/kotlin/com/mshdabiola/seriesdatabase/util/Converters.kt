@@ -2,9 +2,12 @@ package com.mshdabiola.seriesdatabase.util
 
 import androidx.room.TypeConverter
 import com.mshdabiola.seriesmodel.AttendanceStatus
+import com.mshdabiola.seriesmodel.Content
 import com.mshdabiola.seriesmodel.MaterialType
 import com.mshdabiola.seriesmodel.QuestionType
 import com.mshdabiola.seriesmodel.StaffType
+import com.mshdabiola.seriesmodel.serial.asString
+import com.mshdabiola.seriesmodel.serial.toContent
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.LocalTime
@@ -65,4 +68,12 @@ object Converters {
     @TypeConverter
     @JvmStatic
     fun toLocalDateTime(dateTimeString: String?): LocalDateTime? = dateTimeString?.let { LocalDateTime.parse(it) }
+
+    @TypeConverter
+    @JvmStatic
+    fun fromContent(contents: List<Content>): String = contents.asString()
+
+    @TypeConverter
+    @JvmStatic
+    fun toContent(contentString: String): List<Content> = contentString.toContent()
 }

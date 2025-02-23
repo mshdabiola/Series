@@ -14,42 +14,67 @@ expect val databaseModule: Module
 val daoModules = module {
 
     single {
-        get<SchoolDatabase>(qualifier = qualifier("per")).getExaminationDao()
+        get<SchoolDatabase>(qualifier = qualifier("per")).academicStaffDao()
     }
 
     single {
-        get<SchoolDatabase>(qualifier = qualifier("per")).getInstructionDao()
+        get<SchoolDatabase>(qualifier = qualifier("per")).choiceOptionDao()
     }
     single {
-        get<SchoolDatabase>(qualifier = qualifier("per")).getOptionDao()
+        get<SchoolDatabase>(qualifier = qualifier("per")).classDao()
     }
     single {
-        get<SchoolDatabase>(qualifier = qualifier("per")).getQuestionDao()
+        get<SchoolDatabase>(qualifier = qualifier("per")).classAttendanceDao()
     }
     single {
-        get<SchoolDatabase>(qualifier = qualifier("per")).getSubjectDao()
+        get<SchoolDatabase>(qualifier = qualifier("per")).courseDao()
     }
     single {
-        get<SchoolDatabase>(qualifier = qualifier("per")).getTopicDao()
+        get<SchoolDatabase>(qualifier = qualifier("per")).examAttendanceDao()
     }
-//    single {
-//        DatabaseExportImport(get(qualifier = qualifier("per")))
-//    }
+
+    single {
+        get<SchoolDatabase>(qualifier = qualifier("per")).examPaperDao()
+    }
+
+    single {
+        get<SchoolDatabase>(qualifier = qualifier("per")).examQuestionDao()
+    }
+    single {
+        get<SchoolDatabase>(qualifier = qualifier("per")).examScheduleDao()
+    }
+    single {
+        get<SchoolDatabase>(qualifier = qualifier("per")).gradeLevelDao()
+    }
+    single {
+        get<SchoolDatabase>(qualifier = qualifier("per")).learningMaterialDao()
+    }
+    single {
+        get<SchoolDatabase>(qualifier = qualifier("per")).learningObjectiveDao()
+    }
+
+    single {
+        get<SchoolDatabase>(qualifier = qualifier("per")).lessonTopicDao()
+    }
+
+    single {
+        get<SchoolDatabase>(qualifier = qualifier("per")).schoolDao()
+    }
+    single {
+        get<SchoolDatabase>(qualifier = qualifier("per")).studentAnswerDao()
+    }
+    single {
+        get<SchoolDatabase>(qualifier = qualifier("per")).studentAnswerSheetDao()
+    }
+    single {
+        get<SchoolDatabase>(qualifier = qualifier("per")).studentDao()
+    }
+    single {
+        get<SchoolDatabase>(qualifier = qualifier("per")).teacherCourseQualificationDao()
+    }
 
     single {
         ExportImport(get(qualifier = qualifier("per")))
-    }
-
-    single {
-        get<SchoolDatabase>(qualifier = qualifier("per")).getSeriesDao()
-    }
-
-    single {
-        get<SchoolDatabase>(qualifier = qualifier("per")).getUserDao()
-    }
-
-    single {
-        get<SchoolDatabase>(qualifier = qualifier("per")).getTopicCategoryDao()
     }
 }
 
