@@ -16,6 +16,7 @@ import com.mshdabiola.seriesdatabase.dao.ClassDao
 import com.mshdabiola.seriesdatabase.dao.CourseDao
 import com.mshdabiola.seriesdatabase.dao.CourseGradeDao
 import com.mshdabiola.seriesdatabase.dao.ExamAttendanceDao
+import com.mshdabiola.seriesdatabase.dao.ExamInstructionDao
 import com.mshdabiola.seriesdatabase.dao.ExamPaperDao
 import com.mshdabiola.seriesdatabase.dao.ExamQuestionDao
 import com.mshdabiola.seriesdatabase.dao.ExamScheduleDao
@@ -35,6 +36,7 @@ import com.mshdabiola.seriesdatabase.model.ClassEntity
 import com.mshdabiola.seriesdatabase.model.CourseEntity
 import com.mshdabiola.seriesdatabase.model.CourseGradeEntity
 import com.mshdabiola.seriesdatabase.model.ExamAttendanceEntity
+import com.mshdabiola.seriesdatabase.model.ExamInstructionEntity
 import com.mshdabiola.seriesdatabase.model.ExamPaperEntity
 import com.mshdabiola.seriesdatabase.model.ExamQuestionEntity
 import com.mshdabiola.seriesdatabase.model.ExamScheduleEntity
@@ -65,6 +67,7 @@ expect object SchoolDatabaseCtor : RoomDatabaseConstructor<SchoolDatabase>
         LearningObjectiveEntity::class,
         ExamPaperEntity::class,
         ExamScheduleEntity::class,
+        ExamInstructionEntity::class,
         ExamQuestionEntity::class,
         ChoiceOptionEntity::class,
         StudentAnswerSheetEntity::class,
@@ -100,6 +103,7 @@ abstract class SchoolDatabase : RoomDatabase() {
     abstract fun learningObjectiveDao(): LearningObjectiveDao
     abstract fun examPaperDao(): ExamPaperDao
     abstract fun examScheduleDao(): ExamScheduleDao
+    abstract fun examInstructionDao(): ExamInstructionDao
     abstract fun examQuestionDao(): ExamQuestionDao
     abstract fun choiceOptionDao(): ChoiceOptionDao
     abstract fun studentAnswerSheetDao(): StudentAnswerSheetDao
