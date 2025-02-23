@@ -11,6 +11,7 @@ import com.mshdabiola.seriesdatabase.model.ClassEntity
 import com.mshdabiola.seriesdatabase.model.CourseEntity
 import com.mshdabiola.seriesdatabase.model.CourseGradeEntity
 import com.mshdabiola.seriesdatabase.model.ExamAttendanceEntity
+import com.mshdabiola.seriesdatabase.model.ExamInstructionEntity
 import com.mshdabiola.seriesdatabase.model.ExamPaperEntity
 import com.mshdabiola.seriesdatabase.model.ExamQuestionEntity
 import com.mshdabiola.seriesdatabase.model.ExamScheduleEntity
@@ -30,6 +31,7 @@ import com.mshdabiola.seriesmodel.ClassS
 import com.mshdabiola.seriesmodel.Course
 import com.mshdabiola.seriesmodel.CourseGrade
 import com.mshdabiola.seriesmodel.ExamAttendance
+import com.mshdabiola.seriesmodel.ExamInstruction
 import com.mshdabiola.seriesmodel.ExamPaper
 import com.mshdabiola.seriesmodel.ExamQuestion
 import com.mshdabiola.seriesmodel.ExamSchedule
@@ -42,6 +44,9 @@ import com.mshdabiola.seriesmodel.Student
 import com.mshdabiola.seriesmodel.StudentAnswer
 import com.mshdabiola.seriesmodel.StudentAnswerSheet
 import com.mshdabiola.seriesmodel.TeacherCourseQualification
+import kotlinx.datetime.Clock
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toLocalDateTime
 
 fun Long.checkId() = if (this < 0) null else this
 
@@ -60,6 +65,7 @@ fun School.toEntity(): SchoolEntity =
         schoolName = this.schoolName,
         schoolAddress = this.schoolAddress,
         academicYear = this.academicYear,
+        updatedAt = Clock.System.now().toLocalDateTime(TimeZone.UTC),
     )
 
 // AcademicStaff Converters
@@ -71,6 +77,7 @@ fun AcademicStaffEntity.toDomain(): AcademicStaff =
         contactDetails = this.contactDetails,
         password = this.password,
         imagePath = this.imagePath,
+        schoolId = schoolId,
     )
 
 fun AcademicStaff.toEntity(): AcademicStaffEntity =
@@ -81,6 +88,8 @@ fun AcademicStaff.toEntity(): AcademicStaffEntity =
         contactDetails = this.contactDetails,
         password = this.password,
         imagePath = this.imagePath,
+        schoolId = schoolId,
+        updatedAt = Clock.System.now().toLocalDateTime(TimeZone.UTC),
     )
 
 // GradeLevel Converters
@@ -89,6 +98,7 @@ fun GradeLevelEntity.toDomain(): GradeLevel =
         gradeLevelId = this.gradeLevelId!!,
         gradeName = this.gradeName,
         levelNumber = this.levelNumber,
+        schoolId = schoolId,
     )
 
 fun GradeLevel.toEntity(): GradeLevelEntity =
@@ -96,6 +106,8 @@ fun GradeLevel.toEntity(): GradeLevelEntity =
         gradeLevelId = this.gradeLevelId.checkId(),
         gradeName = this.gradeName,
         levelNumber = this.levelNumber,
+        schoolId = schoolId,
+        updatedAt = Clock.System.now().toLocalDateTime(TimeZone.UTC),
     )
 
 // Class Converters
@@ -113,6 +125,7 @@ fun ClassS.toEntity(): ClassEntity =
         className = this.className,
         gradeLevelId = this.gradeLevelId,
         teacherStaffId = this.teacherStaffId,
+        updatedAt = Clock.System.now().toLocalDateTime(TimeZone.UTC),
     )
 
 // Student Converters
@@ -132,6 +145,7 @@ fun Student.toEntity(): StudentEntity =
         dateOfBirth = this.dateOfBirth,
         admissionNumber = this.admissionNumber,
         classId = this.classId,
+        updatedAt = Clock.System.now().toLocalDateTime(TimeZone.UTC),
     )
 
 // Course Converters
@@ -149,6 +163,7 @@ fun Course.toEntity(): CourseEntity =
         courseName = this.courseName,
         courseCode = this.courseCode,
         gradeLevelId = this.gradeLevelId,
+        updatedAt = Clock.System.now().toLocalDateTime(TimeZone.UTC),
     )
 
 // LessonTopic Converters
@@ -164,6 +179,7 @@ fun LessonTopic.toEntity(): LessonTopicEntity =
         topicId = this.topicId.checkId(),
         topicName = this.topicName,
         courseId = this.courseId,
+        updatedAt = Clock.System.now().toLocalDateTime(TimeZone.UTC),
     )
 
 // LearningMaterial Converters
@@ -187,6 +203,7 @@ fun LearningMaterial.toEntity(): LearningMaterialEntity =
         filePath = this.filePath,
         url = this.url,
         lessonTopicId = this.lessonTopicId,
+        updatedAt = Clock.System.now().toLocalDateTime(TimeZone.UTC),
     )
 
 // LearningObjective Converters
@@ -202,6 +219,7 @@ fun LearningObjective.toEntity(): LearningObjectiveEntity =
         learningObjectiveId = this.learningObjectiveId.checkId(),
         objectiveText = this.objectiveText,
         lessonTopicId = this.lessonTopicId,
+        updatedAt = Clock.System.now().toLocalDateTime(TimeZone.UTC),
     )
 
 // ExamPaper Converters
@@ -225,6 +243,7 @@ fun ExamPaper.toEntity(): ExamPaperEntity =
         creationDate = this.creationDate,
         examScheduleId = this.examScheduleId,
         year = this.year,
+        updatedAt = Clock.System.now().toLocalDateTime(TimeZone.UTC),
     )
 
 // ExamSchedule Converters
@@ -248,6 +267,7 @@ fun ExamSchedule.toEntity(): ExamScheduleEntity =
         endTime = this.endTime,
         classId = this.classId,
         examPaperId = this.examPaperId,
+        updatedAt = Clock.System.now().toLocalDateTime(TimeZone.UTC),
     )
 
 // ExamQuestion Converters
@@ -261,7 +281,6 @@ fun ExamQuestionEntity.toDomain(): ExamQuestion =
         lessonTopicId = this.lessonTopicId,
         answer = this.answer,
         number = this.number,
-        title = this.title,
         instructionId = this.instructionId,
     )
 
@@ -275,8 +294,8 @@ fun ExamQuestion.toEntity(): ExamQuestionEntity =
         lessonTopicId = this.lessonTopicId,
         answer = this.answer,
         number = this.number,
-        title = this.title,
         instructionId = this.instructionId,
+        updatedAt = Clock.System.now().toLocalDateTime(TimeZone.UTC),
     )
 
 // ChoiceOption Converters
@@ -286,8 +305,6 @@ fun ChoiceOptionEntity.toDomain(): ChoiceOption =
         examQuestionId = this.examQuestionId,
         optionText = this.optionText,
         isCorrect = this.isCorrect,
-        title = this.title,
-        contents = this.contents,
     )
 
 fun ChoiceOption.toEntity(): ChoiceOptionEntity =
@@ -296,8 +313,7 @@ fun ChoiceOption.toEntity(): ChoiceOptionEntity =
         examQuestionId = this.examQuestionId,
         optionText = this.optionText,
         isCorrect = this.isCorrect,
-        title = this.title,
-        contents = this.contents,
+        updatedAt = Clock.System.now().toLocalDateTime(TimeZone.UTC),
     )
 
 // StudentAnswerSheet Converters
@@ -315,6 +331,7 @@ fun StudentAnswerSheet.toEntity(): StudentAnswerSheetEntity =
         studentId = this.studentId,
         examScheduleId = this.examScheduleId,
         submissionDate = this.submissionDate,
+        updatedAt = Clock.System.now().toLocalDateTime(TimeZone.UTC),
     )
 
 // StudentAnswer Converters
@@ -338,6 +355,7 @@ fun StudentAnswer.toEntity(): StudentAnswerEntity =
         choiceOptionId = this.choiceOptionId,
         isCorrect = this.isCorrect,
         marksObtained = this.marksObtained,
+        updatedAt = Clock.System.now().toLocalDateTime(TimeZone.UTC),
     )
 
 // CourseGrade Converters
@@ -358,6 +376,7 @@ fun CourseGrade.toEntity(): CourseGradeEntity =
         academicYear = this.academicYear,
         gradeValue = this.gradeValue,
         gradingSystem = this.gradingSystem,
+        updatedAt = Clock.System.now().toLocalDateTime(TimeZone.UTC),
     )
 
 // ClassAttendance Converters
@@ -381,6 +400,7 @@ fun ClassAttendance.toEntity(): ClassAttendanceEntity =
         attendanceTime = this.attendanceTime,
         attendanceStatus = this.attendanceStatus,
         reason = this.reason,
+        updatedAt = Clock.System.now().toLocalDateTime(TimeZone.UTC),
     )
 
 // ExamAttendance Converters
@@ -400,6 +420,7 @@ fun ExamAttendance.toEntity(): ExamAttendanceEntity =
         examScheduleId = this.examScheduleId,
         attendanceStatus = this.attendanceStatus,
         reason = this.reason,
+        updatedAt = Clock.System.now().toLocalDateTime(TimeZone.UTC),
     )
 
 fun TeacherCourseQualification.toEntity(): TeacherCourseQualificationEntity =
@@ -408,7 +429,7 @@ fun TeacherCourseQualification.toEntity(): TeacherCourseQualificationEntity =
         courseId = this.courseId,
         qualificationDate = this.qualificationDate,
         notes = this.notes,
-        updatedAt = null,
+        updatedAt = Clock.System.now().toLocalDateTime(TimeZone.UTC),
     )
 
 fun TeacherCourseQualificationEntity.toDomain(): TeacherCourseQualification =
@@ -417,4 +438,22 @@ fun TeacherCourseQualificationEntity.toDomain(): TeacherCourseQualification =
         courseId = this.courseId,
         qualificationDate = this.qualificationDate,
         notes = this.notes,
+    )
+
+// ExamInstruction Converters
+fun ExamInstructionEntity.toDomain(): ExamInstruction =
+    ExamInstruction(
+        id = id!!,
+        examId = examId,
+        title = title,
+        content = content,
+    )
+
+fun ExamInstruction.toEntity(): ExamInstructionEntity =
+    ExamInstructionEntity(
+        id = id.checkId(),
+        examId = examId,
+        title = title,
+        content = content,
+        updatedAt = Clock.System.now().toLocalDateTime(TimeZone.UTC),
     )
