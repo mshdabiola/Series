@@ -4,9 +4,12 @@
 
 package com.mshdabiola.seriesmodel
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class CourseGrade(
-    val studentId: Int, // FK to Student.studentId
-    val courseId: Int, // FK to Course.courseId
+    val studentId: Long, // FK to Student.studentId
+    val courseId: Long, // FK to Course.courseId
     val academicYear: String, // Part of Composite PK
     val gradeValue: String, // e.g., "A", "B+", "75%", "Pass"
     val gradingSystem: String? = null, // Optional e.g., "Letter Grade", "Percentage"

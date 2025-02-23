@@ -1,6 +1,6 @@
 package com.mshdabiola.seriesmodel
 
-enum class Type {
+enum class ContentType {
     TEXT,
     IMAGE,
     EQUATION,

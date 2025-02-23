@@ -12,5 +12,5 @@ fun List<Content>.asString(): String {
     return Json.encodeToString(ListSerializer(Content.serializer()), this)
 }
 
-fun Content.toSer() = Content(content, type)
-fun Content.asModel() = Content(content, type)
+fun Content.toSer() = Content(content, contentType)
+fun Content.asModel() = Content(content, contentType)

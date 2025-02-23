@@ -4,8 +4,11 @@
 
 package com.mshdabiola.seriesmodel
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class LearningObjective(
-    val learningObjectiveId: Int = 0, // PK, Auto-generate
-    val objectiveText: String,
-    val lessonTopicId: Int, // FK to LessonTopic.topicId
+    val learningObjectiveId: Long = -1, // PK, Auto-generate
+    val objectiveText: List<Content>,
+    val lessonTopicId: Long, // FK to LessonTopic.topicId
 )

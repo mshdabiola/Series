@@ -4,17 +4,19 @@
 
 package com.mshdabiola.seriesmodel
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class ExamQuestion(
-    val questionId: Int = 0, // PK, Auto-generate
-    val examPaperId: Int, // FK to ExamPaper.examPaperId
-    val questionText: String,
-    val questionType: String, // e.g., "MCQ", "Short Answer", "Essay"
-    val marks: Int,
-    val lessonTopicId: Int? = null, // FK to LessonTopic.topicId - Optional
+    val questionId: Long = -1, // PK, Auto-generate
+    val examPaperId: Long, // FK to ExamPaper.examPaperId
+    val questionText: List<Content>,
+    val questionType: QuestionType, // e.g., "MCQ", "Short Answer", "Essay"
+    val marks: Long,
+    val lessonTopicId: Long? = null, // FK to LessonTopic.topicId - Optional
     val number: Long,
-    val title: String,
 
     val instructionId: Long?,
 
-    val answer: String,
+    val answer: List<Content>,
 )

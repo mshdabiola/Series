@@ -4,9 +4,12 @@
 
 package com.mshdabiola.seriesmodel
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class Course(
-    val courseId: Int = 0, // PK, Auto-generate
+    val courseId: Long = -1, // PK, Auto-generate
     val courseName: String, // e.g., "Mathematics", "Science"
     val courseCode: String, // e.g., "MATH101", "SCI-G5"
-    val gradeLevelId: Int, // FK to GradeLevel.gradeLevelId
+    val gradeLevelId: Long, // FK to GradeLevel.gradeLevelId
 )

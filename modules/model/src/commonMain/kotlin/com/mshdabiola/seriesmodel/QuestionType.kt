@@ -1,6 +1,6 @@
 package com.mshdabiola.seriesmodel
 
-enum class QUESTION_TYPE {
+enum class QuestionType {
     MULTIPLE_CHOICE,
     ESSAY,
     PRACTICAL,

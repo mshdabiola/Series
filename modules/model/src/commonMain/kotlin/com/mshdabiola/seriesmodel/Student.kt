@@ -4,12 +4,14 @@
 
 package com.mshdabiola.seriesmodel
 
-import java.time.LocalDate
+import kotlinx.datetime.LocalDate
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class Student(
-    val studentId: Int = 0, // PK, Auto-generate
+    val studentId: Long = -1, // PK, Auto-generate
     val name: String,
     val dateOfBirth: LocalDate,
     val admissionNumber: String,
-    val classId: Int, // FK to Class.classId
+    val classId: Long, // FK to Class.classId
 )

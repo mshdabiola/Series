@@ -4,13 +4,15 @@
 
 package com.mshdabiola.seriesmodel
 
-import java.time.LocalDate
-import java.time.LocalTime
+import kotlinx.datetime.LocalDate
+import kotlinx.datetime.LocalTime
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class ClassAttendance(
-    val classAttendanceId: Int = 0, // PK, Auto-generate, not part of composite key
-    val studentId: Int, // FK to Student.studentId
-    val classId: Int, // FK to Class.classId
+    val classAttendanceId: Long = -1, // PK, Auto-generate, not part of composite key
+    val studentId: Long, // FK to Student.studentId
+    val classId: Long, // FK to Class.classId
     val attendanceDate: LocalDate,
     val attendanceTime: LocalTime? = null, // Optional time
     val attendanceStatus: AttendanceStatus,

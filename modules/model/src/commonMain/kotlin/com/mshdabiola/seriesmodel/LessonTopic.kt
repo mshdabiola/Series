@@ -4,8 +4,11 @@
 
 package com.mshdabiola.seriesmodel
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class LessonTopic(
-    val topicId: Int = 0, // PK, Auto-generate
+    val topicId: Long = -1, // PK, Auto-generate
     val topicName: String, // e.g., "Algebra", "Photosynthesis"
-    val courseId: Int, // FK to Course.courseId
+    val courseId: Long, // FK to Course.courseId
 )

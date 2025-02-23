@@ -4,11 +4,12 @@
 
 package com.mshdabiola.seriesmodel
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class ChoiceOption(
-    val optionId: Int = 0, // PK, Auto-generate
-    val examQuestionId: Int, // FK to ExamQuestion.questionId
-    val optionText: String,
+    val optionId: Long = -1, // PK, Auto-generate
+    val examQuestionId: Long, // FK to ExamQuestion.questionId
+    val optionText: List<Content>,
     val isCorrect: Boolean,
-    val title: String,
-    val contents: String,
 )

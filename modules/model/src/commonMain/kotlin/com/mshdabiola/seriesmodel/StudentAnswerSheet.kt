@@ -4,11 +4,13 @@
 
 package com.mshdabiola.seriesmodel
 
-import java.time.LocalDateTime
+import kotlinx.datetime.LocalDateTime
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class StudentAnswerSheet(
-    val answerSheetId: Int = 0, // PK, Auto-generate
-    val studentId: Int, // FK to Student.studentId
-    val examScheduleId: Int, // FK to ExamSchedule.examScheduleId
+    val answerSheetId: Long = -1, // PK, Auto-generate
+    val studentId: Long, // FK to Student.studentId
+    val examScheduleId: Long, // FK to ExamSchedule.examScheduleId
     val submissionDate: LocalDateTime? = null, // Could be nullable
 )
