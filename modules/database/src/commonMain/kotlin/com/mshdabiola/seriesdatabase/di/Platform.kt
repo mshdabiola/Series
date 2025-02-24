@@ -72,6 +72,13 @@ val daoModules = module {
     single {
         get<SchoolDatabase>(qualifier = qualifier("per")).teacherCourseQualificationDao()
     }
+    single {
+        get<SchoolDatabase>(qualifier = qualifier("per")).examInstructionDao()
+    }
+
+    single {
+        get<SchoolDatabase>(qualifier = qualifier("per")).courseGradeDao()
+    }
 
     single {
         ExportImport(get(qualifier = qualifier("per")))

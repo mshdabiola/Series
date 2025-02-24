@@ -3,6 +3,7 @@ package com.mshdabiola.seriesdatabase.model
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
+import androidx.room.Index
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
 import com.mshdabiola.seriesdatabase.util.Converters
@@ -17,6 +18,10 @@ import kotlinx.datetime.LocalDateTime
             childColumns = ["school_id"],
             onDelete = ForeignKey.CASCADE,
         ),
+    ],
+    indices = [
+        Index(value = ["school_id"]),
+
     ],
 )
 @TypeConverters(Converters::class)
