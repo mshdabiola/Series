@@ -147,81 +147,35 @@ class ExportImport(
 
                     val data = Security.decodeData(temp)
 
-                    launch {
-                        database.schoolDao().upsertAll(data.schools.map { it.toEntity() })
-                    }.join()
-                    launch {
-                        database.academicStaffDao()
-                            .upsertAll(data.academicStaff.map { it.toEntity() })
-                    }.join()
-                    launch {
-                        database.gradeLevelDao().upsertAll(data.gradeLevels.map { it.toEntity() })
-                    }.join()
-                    launch {
-                        database.classDao().upsertAll(data.classes.map { it.toEntity() })
-                    }.join()
-                    launch {
-                        database.studentDao().upsertAll(data.students.map { it.toEntity() })
-                    }.join()
-                    launch {
-                        database.courseDao().upsertAll(data.courses.map { it.toEntity() })
-                    }.join()
-                    launch {
-                        database.lessonTopicDao().upsertAll(data.lessonTopics.map { it.toEntity() })
-                    }.join()
-                    launch {
-                        database.learningMaterialDao()
-                            .upsertAll(data.learningMaterials.map { it.toEntity() })
-                    }.join()
-                    launch {
-                        database.learningObjectiveDao()
-                            .upsertAll(data.learningObjectives.map { it.toEntity() })
-                    }.join()
-                    launch {
-                        database.examScheduleDao()
-                            .upsertAll(data.examSchedules.map { it.toEntity() }) // ExamSchedule before ExamPaper due to FK
-                    }.join()
-                    launch {
-                        database.examPaperDao().upsertAll(data.examPapers.map { it.toEntity() })
-                    }.join()
-                    launch {
-                        database.examQuestionDao()
-                            .upsertAll(data.examQuestions.map { it.toEntity() })
-                    }.join()
-                    launch {
-                        database.choiceOptionDao()
-                            .upsertAll(data.choiceOptions.map { it.toEntity() })
-                    }.join()
-                    launch {
-                        database.studentAnswerSheetDao()
-                            .upsertAll(data.studentAnswerSheets.map { it.toEntity() })
-                    }.join()
-                    launch {
-                        database.studentAnswerDao()
-                            .upsertAll(data.studentAnswers.map { it.toEntity() })
-                    }.join()
-                    launch {
-                        database.courseGradeDao().upsertAll(data.courseGrades.map { it.toEntity() })
-                    }.join()
-                    launch {
-                        database.classAttendanceDao()
-                            .upsertAll(data.classAttendances.map { it.toEntity() })
-                    }.join()
-                    launch {
-                        database.examAttendanceDao()
-                            .upsertAll(data.examAttendances.map { it.toEntity() })
-                    }.join()
-                    launch {
-                        database.teacherCourseQualificationDao()
-                            .upsertAllTeacherCourseQualifications(data.teacherCourseQualifications.map { it.toEntity() })
-                    }.join()
+                    database.schoolDao().upsertAll(data.schools.map { it.toEntity() })
+                    database.gradeLevelDao().upsertAll(data.gradeLevels.map { it.toEntity() })
+                    database.academicStaffDao().upsertAll(data.academicStaff.map { it.toEntity() })
+                    database.classDao().upsertAll(data.classes.map { it.toEntity() })
+                    database.courseDao().upsertAll(data.courses.map { it.toEntity() })
+                    database.teacherCourseQualificationDao()
+                        .upsertAllTeacherCourseQualifications(data.teacherCourseQualifications.map { it.toEntity() })
+                    database.studentDao().upsertAll(data.students.map { it.toEntity() })
+                    database.lessonTopicDao().upsertAll(data.lessonTopics.map { it.toEntity() })
+                    database.learningObjectiveDao().upsertAll(data.learningObjectives.map { it.toEntity() })
+                    database.learningMaterialDao().upsertAll(data.learningMaterials.map { it.toEntity() })
+                    database.examPaperDao().upsertAll(data.examPapers.map { it.toEntity() })
+                    database.examQuestionDao().upsertAll(data.examQuestions.map { it.toEntity() })
+
+                    database.choiceOptionDao().upsertAll(data.choiceOptions.map { it.toEntity() })
+                    database.examScheduleDao().upsertAll(data.examSchedules.map { it.toEntity() })
+                    database.courseGradeDao().upsertAll(data.courseGrades.map { it.toEntity() })
+                    database.studentAnswerSheetDao().upsertAll(data.studentAnswerSheets.map { it.toEntity() })
+                    database.studentAnswerDao().upsertAll(data.studentAnswers.map { it.toEntity() })
+
+                    database.examAttendanceDao().upsertAll(data.examAttendances.map { it.toEntity() })
+                    database.classAttendanceDao().upsertAll(data.classAttendances.map { it.toEntity() })
                 }
                 launch {
                     val imagePath = File(tempFile, "image")
                     imagePath.listFiles()?.forEach {
                         it.copyRecursively(File(generalPath, "image/${it.name}"), true)
                     }
-                }
+                }.join()
             }
         }
     }

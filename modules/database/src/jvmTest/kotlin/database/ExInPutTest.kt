@@ -21,46 +21,52 @@ import com.mshdabiola.seriesdatabase.dao.StudentAnswerDao
 import com.mshdabiola.seriesdatabase.dao.StudentAnswerSheetDao
 import com.mshdabiola.seriesdatabase.dao.StudentDao
 import com.mshdabiola.seriesdatabase.dao.TeacherCourseQualificationDao
+import com.mshdabiola.seriesdatabase.toDomain
 import com.mshdabiola.seriesdatabase.toEntity
 import com.mshdabiola.seriestesting.getExportable
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.koin.core.component.inject
+import java.io.File
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class ExInPutTest : AbstractTest() {
 
-    val path = "/home/mshdabiola/StudioProjects/Series/data.se"
+    val path = "/home/mshdabiola/StudioProjects/Series/data2.se"
 
     @Test
     fun exportData() = runTest {
         insertData()
-        assertEquals(3, 3)
+        val exportImport by inject<ExportImport>()
+        File(path)
+            .outputStream()
+            .use {
+                exportImport.export(examsId = setOf(1), it, "abiola")
+            }
     }
 
     @Test
     fun importData() = runTest {
-//        val exportImport by inject<ExportImport>()
-//
-//        File(path)
-//            .inputStream()
-//            .use {
-//                exportImport.import(it, "abiola")
-//            }
-//
-//        val userDao by inject<SchoolDao>()
-//
-//        assertEquals(
-//            getExportable().schools.toMutableList(),
-//            userDao.getAllSchools().first().map { it.toDomain() },
-//        )
+        val exportImport by inject<ExportImport>()
+
+        File(path)
+            .inputStream()
+            .use {
+                exportImport.import(it, "abiola")
+            }
+
+        val userDao by inject<SchoolDao>()
+
+        assertEquals(
+            getExportable().schools.toMutableList(),
+            userDao.getAllSchools().first().map { it.toDomain() },
+        )
     }
 
     suspend fun insertData() {
-        val exportImport by inject<ExportImport>()
-
         val schoolDao by inject<SchoolDao>()
         val academicStaffDao by inject<AcademicStaffDao>()
         val choiceOptionDao by inject<ChoiceOptionDao>()
@@ -96,8 +102,6 @@ class ExInPutTest : AbstractTest() {
         lessonTopicDao.upsertAll(data.lessonTopics.map { it.toEntity() })
         learningObjectiveDao.upsertAll(data.learningObjectives.map { it.toEntity() })
         learningMaterialDao.upsertAll(data.learningMaterials.map { it.toEntity() })
-
-
 
         examPaperDao.upsertAll(data.examPapers.map { it.toEntity() })
         examQuestionDao.upsertAll(data.examQuestions.map { it.toEntity() })
