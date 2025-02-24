@@ -88,17 +88,16 @@ class ExInPutTest : AbstractTest() {
         gradeLevelDao.upsertAll(data.gradeLevels.map { it.toEntity() })
 
         academicStaffDao.upsertAll(data.academicStaff.map { it.toEntity() })
-        teacherCourseQualificationDao.upsertAllTeacherCourseQualifications(data.teacherCourseQualifications.map { it.toEntity() })
         classDao.upsertAll(data.classes.map { it.toEntity() })
         courseDao.upsertAll(data.courses.map { it.toEntity() })
+        teacherCourseQualificationDao.upsertAllTeacherCourseQualifications(data.teacherCourseQualifications.map { it.toEntity() })
 
         studentDao.upsertAll(data.students.map { it.toEntity() })
         lessonTopicDao.upsertAll(data.lessonTopics.map { it.toEntity() })
         learningObjectiveDao.upsertAll(data.learningObjectives.map { it.toEntity() })
         learningMaterialDao.upsertAll(data.learningMaterials.map { it.toEntity() })
 
-        examAttendanceDao.upsertAll(data.examAttendances.map { it.toEntity() })
-        classAttendanceDao.upsertAll(data.classAttendances.map { it.toEntity() })
+
 
         examPaperDao.upsertAll(data.examPapers.map { it.toEntity() })
         examQuestionDao.upsertAll(data.examQuestions.map { it.toEntity() })
@@ -109,5 +108,8 @@ class ExInPutTest : AbstractTest() {
         courseGradeDao.upsertAll(data.courseGrades.map { it.toEntity() })
         studentAnswerSheetDao.upsertAll(data.studentAnswerSheets.map { it.toEntity() })
         studentAnswerDao.upsertAll(data.studentAnswers.map { it.toEntity() })
+
+        examAttendanceDao.upsertAll(data.examAttendances.map { it.toEntity() })
+        classAttendanceDao.upsertAll(data.classAttendances.map { it.toEntity() })
     }
 }
