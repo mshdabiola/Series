@@ -20,6 +20,8 @@ plugins {
     alias(libs.plugins.conveyor) apply false
     alias(libs.plugins.screenshot) apply false
     alias(libs.plugins.vanniktech) apply false
+    alias(libs.plugins.kover) apply false
+
 
 }
 //./gradlew assembleDebug -PenableComposeCompilerReports=true
