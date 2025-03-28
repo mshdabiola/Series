@@ -34,7 +34,7 @@ import kotlinx.datetime.LocalDateTime
     ],
     primaryKeys = ["student_id_fk", "course_id_fk", "academic_year"], // Composite Primary Key for unique grade per student, course, year
 )
-@TypeConverters(Converters::class)
+//@TypeConverters(Converters::class)
 data class CourseGradeEntity(
     @ColumnInfo(name = "student_id_fk") // Foreign Key column, Part of Composite PK
     val studentId: Long, // FK to Student.studentId

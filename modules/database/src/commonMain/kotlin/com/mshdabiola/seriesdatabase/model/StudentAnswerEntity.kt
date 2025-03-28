@@ -42,7 +42,7 @@ import kotlinx.datetime.LocalDateTime
         Index(value = ["choice_option_id_fk"]),
     ],
 )
-@TypeConverters(Converters::class)
+//@TypeConverters(Converters::class)
 data class StudentAnswerEntity(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "student_answer_id")

@@ -41,7 +41,7 @@ import kotlinx.datetime.LocalDateTime
         Index(value = ["exam_schedule_id_fk"], unique = true), // Assuming 1 paper per schedule - make unique
     ],
 )
-@TypeConverters(Converters::class)
+//@TypeConverters(Converters::class)
 data class ExamPaperEntity(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "exam_paper_id")

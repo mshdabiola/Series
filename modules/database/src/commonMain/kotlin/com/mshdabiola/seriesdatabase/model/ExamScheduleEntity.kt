@@ -36,7 +36,7 @@ import kotlinx.datetime.LocalTime
         Index(value = ["exam_paper_id_fk"]),
     ],
 )
-@TypeConverters(Converters::class)
+//@TypeConverters(Converters::class)
 data class ExamScheduleEntity(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "exam_schedule_id")

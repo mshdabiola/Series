@@ -35,7 +35,7 @@ import kotlinx.datetime.LocalDateTime
     ],
     primaryKeys = ["student_id_fk", "exam_schedule_id_fk"], // Composite PK for unique attendance record per student, exam
 )
-@TypeConverters(Converters::class)
+//@TypeConverters(Converters::class)
 data class ExamAttendanceEntity(
     @ColumnInfo(name = "exam_attendance_id")
     val examAttendanceId: Long?, // PK, Auto-generate, not part of composite key

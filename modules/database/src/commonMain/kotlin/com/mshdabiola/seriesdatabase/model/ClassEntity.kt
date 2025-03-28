@@ -34,7 +34,7 @@ import kotlinx.datetime.LocalDateTime
         Index(value = ["teacher_staff_id_fk"]),
     ],
 )
-@TypeConverters(Converters::class)
+//@TypeConverters(Converters::class)
 data class ClassEntity(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "class_id")

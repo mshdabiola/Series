@@ -12,7 +12,7 @@ import com.mshdabiola.seriesdatabase.util.Converters
 import kotlinx.datetime.LocalDateTime
 
 @Entity(tableName = "schools")
-@TypeConverters(Converters::class) // Apply type converters at the class level or database level
+//@TypeConverters(Converters::class) // Apply type converters at the class level or database level
 data class SchoolEntity(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "school_id")

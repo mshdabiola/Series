@@ -28,7 +28,7 @@ import kotlinx.datetime.LocalDateTime
 
     ],
 )
-@TypeConverters(Converters::class) // Updated closing parenthesis here
+//@TypeConverters(Converters::class) // Updated closing parenthesis here
 data class AcademicStaffEntity(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "staff_id")
