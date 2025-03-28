@@ -47,27 +47,27 @@ object Converters {
 
     @TypeConverter
     @JvmStatic
-    fun fromLocalDate(date: LocalDate?): String? = date?.toString()
+    fun fromLocalDate(date: LocalDate): String = date.toString()
 
     @TypeConverter
     @JvmStatic
-    fun toLocalDate(dateString: String?): LocalDate? = dateString?.let { LocalDate.parse(it) }
+    fun toLocalDate(dateString: String): LocalDate = dateString.let { LocalDate.parse(it) }
 
     @TypeConverter
     @JvmStatic
-    fun fromLocalTime(time: LocalTime?): String? = time?.toString()
+    fun fromLocalTime(time: LocalTime): String = time.toString()
 
     @TypeConverter
     @JvmStatic
-    fun toLocalTime(timeString: String?): LocalTime? = timeString?.let { LocalTime.parse(it) }
+    fun toLocalTime(timeString: String): LocalTime = timeString.let { LocalTime.parse(it) }
 
     @TypeConverter
     @JvmStatic
-    fun fromLocalDateTime(dateTime: LocalDateTime?): String? = dateTime?.toString()
+    fun fromLocalDateTime(dateTime: LocalDateTime): String? = dateTime.toString()
 
     @TypeConverter
     @JvmStatic
-    fun toLocalDateTime(dateTimeString: String?): LocalDateTime? = dateTimeString?.let { LocalDateTime.parse(it) }
+    fun toLocalDateTime(dateTimeString: String): LocalDateTime = dateTimeString.let { LocalDateTime.parse(it) }
 
     @TypeConverter
     @JvmStatic
