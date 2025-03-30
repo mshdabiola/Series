@@ -4,6 +4,9 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
+import androidx.room.TypeConverters
+import com.mshdabiola.seriesdatabase.model.topic.Abiola
+import com.mshdabiola.seriesdatabase.util.ConverterAbiola
 
 @Entity(
     foreignKeys = [
@@ -18,9 +21,11 @@ import androidx.room.PrimaryKey
 
     tableName = "series_table",
 )
+//@TypeConverters(ConverterAbiola::class)
 data class SeriesEntity(
     @PrimaryKey(true)
     val id: Long?,
     val userId: Long,
     val name: String,
+    val abiola: Abiola,
 )

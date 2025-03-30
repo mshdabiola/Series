@@ -59,7 +59,7 @@ mavenPublishing {
     publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL)
 
     // Enable GPG signing for all publications
-    signAllPublications()
+//    signAllPublications()
 }
 kotlin {
     sourceSets {

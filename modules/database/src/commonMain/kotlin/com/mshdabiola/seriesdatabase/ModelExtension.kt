@@ -18,6 +18,7 @@ import com.mshdabiola.seriesdatabase.model.relation.ExaminationWithSubjectRelati
 import com.mshdabiola.seriesdatabase.model.relation.QuestionWithOptsInstTopRelation
 import com.mshdabiola.seriesdatabase.model.relation.SubjectWithSeriesRelation
 import com.mshdabiola.seriesdatabase.model.relation.TopicWithCategoryRelation
+import com.mshdabiola.seriesdatabase.model.topic.Abiola
 import com.mshdabiola.seriesmodel.Examination
 import com.mshdabiola.seriesmodel.Instruction
 import com.mshdabiola.seriesmodel.Option
@@ -64,6 +65,7 @@ fun Series.asEntity() = SeriesEntity(
     id = id.checkId(),
     userId = userId,
     name = name,
+    abiola = Abiola.Hammi,
 )
 
 fun SubjectEntity.asModel() = Subject(

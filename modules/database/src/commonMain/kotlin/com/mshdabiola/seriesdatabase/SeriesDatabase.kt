@@ -8,6 +8,7 @@ import androidx.room.ConstructedBy
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.RoomDatabaseConstructor
+import androidx.room.TypeConverters
 import com.mshdabiola.seriesdatabase.dao.ExaminationDao
 import com.mshdabiola.seriesdatabase.dao.InstructionDao
 import com.mshdabiola.seriesdatabase.dao.OptionDao
@@ -29,6 +30,7 @@ import com.mshdabiola.seriesdatabase.model.SubjectEntity
 import com.mshdabiola.seriesdatabase.model.TopicCategoryEntity
 import com.mshdabiola.seriesdatabase.model.TopicEntity
 import com.mshdabiola.seriesdatabase.model.UserEntity
+import com.mshdabiola.seriesdatabase.util.ConverterAbiola
 
 @Suppress("EXPECT_ACTUAL_CLASSIFIERS_ARE_IN_BETA_WARNING")
 expect object SeriesDatabaseCtor : RoomDatabaseConstructor<SeriesDatabase>
@@ -59,6 +61,7 @@ expect object SeriesDatabaseCtor : RoomDatabaseConstructor<SeriesDatabase>
     exportSchema = true,
 )
 @ConstructedBy(SeriesDatabaseCtor::class) // NEW
+@TypeConverters(ConverterAbiola::class)
 abstract class SeriesDatabase : RoomDatabase() {
 
     abstract fun getExaminationDao(): ExaminationDao
