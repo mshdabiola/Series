@@ -7,8 +7,6 @@ package com.mshdabiola.seriesdatabase.model
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import androidx.room.TypeConverters
-import com.mshdabiola.seriesdatabase.util.Converters
 import kotlinx.datetime.LocalDateTime
 
 @Entity(tableName = "schools")

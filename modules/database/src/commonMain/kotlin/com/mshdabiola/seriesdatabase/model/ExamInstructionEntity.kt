@@ -24,6 +24,7 @@ import kotlinx.datetime.LocalDateTime
 
     tableName = "instruction_table",
 )
+
 data class ExamInstructionEntity(
     @androidx.room.PrimaryKey(true)
     val id: Long?,

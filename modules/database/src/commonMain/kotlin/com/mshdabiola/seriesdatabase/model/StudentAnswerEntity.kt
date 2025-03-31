@@ -9,8 +9,6 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
-import androidx.room.TypeConverters
-import com.mshdabiola.seriesdatabase.util.Converters
 import com.mshdabiola.seriesmodel.Content
 import kotlinx.datetime.LocalDateTime
 

@@ -8,8 +8,6 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
-import androidx.room.TypeConverters
-import com.mshdabiola.seriesdatabase.util.Converters
 import kotlinx.datetime.LocalDateTime
 
 @Entity(
