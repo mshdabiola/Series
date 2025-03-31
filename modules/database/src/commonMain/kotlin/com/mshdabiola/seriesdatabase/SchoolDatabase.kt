@@ -49,7 +49,6 @@ import com.mshdabiola.seriesdatabase.model.StudentAnswerEntity
 import com.mshdabiola.seriesdatabase.model.StudentAnswerSheetEntity
 import com.mshdabiola.seriesdatabase.model.StudentEntity
 import com.mshdabiola.seriesdatabase.model.TeacherCourseQualificationEntity
-import com.mshdabiola.seriesdatabase.util.Converters
 
 @Suppress("EXPECT_ACTUAL_CLASSIFIERS_ARE_IN_BETA_WARNING")
 expect object SchoolDatabaseCtor : RoomDatabaseConstructor<SchoolDatabase>
@@ -88,7 +87,17 @@ expect object SchoolDatabaseCtor : RoomDatabaseConstructor<SchoolDatabase>
 //    ],
 )
 @ConstructedBy(SchoolDatabaseCtor::class) // NEW
-@TypeConverters(Converters::class) // Register your Converters class
+@TypeConverters(
+    ContentConverter::class,
+    DateTimeConverter::class,
+    TimeConverter::class,
+    DateConverter::class,
+    AttendanceStatusConverter::class,
+    QuestionTypeConverter::class,
+    StaffTypeConverter::class,
+    MaterialTypeConverter::class,
+)
+// Register your Converters class
 abstract class SchoolDatabase : RoomDatabase() {
 
     // Declare DAOs as abstract properties (Room will provide implementation)
