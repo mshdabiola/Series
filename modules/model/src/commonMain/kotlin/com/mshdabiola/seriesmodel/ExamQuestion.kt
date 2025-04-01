@@ -18,5 +18,5 @@ data class ExamQuestion(
 
     val instructionId: Long?,
 
-    val answer: List<Content>,
+    val answer: List<Content>?,
 )
