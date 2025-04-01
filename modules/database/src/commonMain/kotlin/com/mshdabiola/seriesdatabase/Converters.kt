@@ -13,13 +13,6 @@ import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.LocalTime
 
 
-internal object ContentConverter{
-    @TypeConverter
-    fun fromContent(contents: List<Content>): String = contents.asString()
-    @TypeConverter
-    fun toContent(contentString: String): List<Content> = contentString.toContent()
-}
-
 internal object DateTimeConverter{
     @TypeConverter
     fun fromLocalDateTime(dateTime: LocalDateTime): String? = dateTime.toString()
@@ -44,44 +37,5 @@ internal object DateConverter{
 
     @TypeConverter
     fun toLocalDate(dateString: String): LocalDate = dateString.let { LocalDate.parse(it) }
-
-}
-
-internal object AttendanceStatusConverter{
-
-    @TypeConverter
-    fun fromAttendanceStatus(value: AttendanceStatus): String = value.name
-
-    @TypeConverter
-    fun toAttendanceStatus(value: String): AttendanceStatus = AttendanceStatus.valueOf(value)
-
-}
-
-internal object QuestionTypeConverter{
-
-    @TypeConverter
-    fun fromQuestionType(value: QuestionType): String = value.name
-
-    @TypeConverter
-    fun toQuestionType(value: String): QuestionType = QuestionType.valueOf(value)
-
-}
-
-internal object StaffTypeConverter{
-    @TypeConverter
-    fun fromStaffType(value: StaffType): String = value.name
-
-    @TypeConverter
-    fun toStaffType(value: String): StaffType = StaffType.valueOf(value)
-
-}
-
-internal object MaterialTypeConverter{
-
-    @TypeConverter
-    fun fromMaterialType(value: MaterialType): String = value.name
-
-    @TypeConverter
-    fun toMaterialType(value: String): MaterialType = MaterialType.valueOf(value)
 
 }
