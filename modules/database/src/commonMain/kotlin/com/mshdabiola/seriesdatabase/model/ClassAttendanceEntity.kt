@@ -8,7 +8,6 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
-import com.mshdabiola.seriesmodel.AttendanceStatus
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.LocalTime
@@ -35,7 +34,7 @@ import kotlinx.datetime.LocalTime
     ],
     primaryKeys = ["student_id_fk", "class_id_fk", "attendance_date"], // Composite PK for unique attendance record per student, class, date
 )
-//@TypeConverters(Converters::class)
+// @TypeConverters(Converters::class)
 data class ClassAttendanceEntity(
     @ColumnInfo(name = "class_attendance_id")
     val classAttendanceId: Long?, // PK, Auto-generate, not part of composite key

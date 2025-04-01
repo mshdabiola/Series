@@ -9,7 +9,6 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
-import com.mshdabiola.seriesmodel.Content
 import kotlinx.datetime.LocalDateTime
 
 @Entity(
@@ -40,7 +39,7 @@ import kotlinx.datetime.LocalDateTime
         Index(value = ["choice_option_id_fk"]),
     ],
 )
-//@TypeConverters(Converters::class)
+// @TypeConverters(Converters::class)
 data class StudentAnswerEntity(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "student_answer_id")

@@ -9,8 +9,6 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
-import com.mshdabiola.seriesmodel.Content
-import com.mshdabiola.seriesmodel.QuestionType
 import kotlinx.datetime.LocalDateTime
 
 @Entity(
@@ -34,7 +32,7 @@ import kotlinx.datetime.LocalDateTime
         Index(value = ["lesson_topic_id_fk"]),
     ],
 )
-//@TypeConverters(Converters::class)
+// @TypeConverters(Converters::class)
 
 data class ExamQuestionEntity(
     @PrimaryKey(autoGenerate = true)

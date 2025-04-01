@@ -8,7 +8,6 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
-import com.mshdabiola.seriesmodel.Content
 import kotlinx.datetime.LocalDateTime
 
 @Entity(
@@ -21,10 +20,8 @@ import kotlinx.datetime.LocalDateTime
         ),
     ],
     indices = [Index(value = ["examId"])],
-
     tableName = "instruction_table",
 )
-
 data class ExamInstructionEntity(
     @androidx.room.PrimaryKey(true)
     val id: Long?,

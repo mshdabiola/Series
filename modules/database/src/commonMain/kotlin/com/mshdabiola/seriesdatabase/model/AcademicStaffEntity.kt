@@ -8,7 +8,6 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
-import com.mshdabiola.seriesmodel.StaffType
 import kotlinx.datetime.LocalDateTime
 
 @Entity(
@@ -26,7 +25,7 @@ import kotlinx.datetime.LocalDateTime
 
     ],
 )
-//@TypeConverters(Converters::class) // Updated closing parenthesis here
+// @TypeConverters(Converters::class) // Updated closing parenthesis here
 data class AcademicStaffEntity(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "staff_id")

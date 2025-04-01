@@ -21,16 +21,12 @@ import com.mshdabiola.seriesdatabase.dao.StudentAnswerDao
 import com.mshdabiola.seriesdatabase.dao.StudentAnswerSheetDao
 import com.mshdabiola.seriesdatabase.dao.StudentDao
 import com.mshdabiola.seriesdatabase.dao.TeacherCourseQualificationDao
-import com.mshdabiola.seriesdatabase.toDomain
 import com.mshdabiola.seriesdatabase.toEntity
 import com.mshdabiola.seriestesting.getExportable
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.koin.core.component.inject
-import java.io.File
 import kotlin.test.Test
-import kotlin.test.assertEquals
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class ExInPutTest : AbstractTest() {

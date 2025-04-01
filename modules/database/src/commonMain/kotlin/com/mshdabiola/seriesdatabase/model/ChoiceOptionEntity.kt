@@ -9,7 +9,6 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
-import com.mshdabiola.seriesmodel.Content
 import kotlinx.datetime.LocalDateTime
 
 @Entity(
@@ -26,7 +25,7 @@ import kotlinx.datetime.LocalDateTime
         Index(value = ["exam_question_id_fk"]),
     ],
 )
-//@TypeConverters(Converters::class)
+// @TypeConverters(Converters::class)
 
 data class ChoiceOptionEntity(
     @PrimaryKey(autoGenerate = true)

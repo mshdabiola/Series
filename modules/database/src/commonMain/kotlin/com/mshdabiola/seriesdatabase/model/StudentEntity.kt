@@ -26,7 +26,7 @@ import kotlinx.datetime.LocalDateTime
         Index(value = ["class_id_fk"]),
     ],
 )
-//@TypeConverters(Converters::class)
+// @TypeConverters(Converters::class)
 data class StudentEntity(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "student_id")
