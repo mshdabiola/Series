@@ -88,14 +88,10 @@ expect object SchoolDatabaseCtor : RoomDatabaseConstructor<SchoolDatabase>
 )
 @ConstructedBy(SchoolDatabaseCtor::class) // NEW
 @TypeConverters(
-    ContentConverter::class,
     DateTimeConverter::class,
     TimeConverter::class,
     DateConverter::class,
-    AttendanceStatusConverter::class,
-    QuestionTypeConverter::class,
-    StaffTypeConverter::class,
-    MaterialTypeConverter::class,
+
 )
 // Register your Converters class
 abstract class SchoolDatabase : RoomDatabase() {
