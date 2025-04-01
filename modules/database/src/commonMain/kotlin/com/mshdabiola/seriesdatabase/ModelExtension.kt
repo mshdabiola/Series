@@ -25,6 +25,7 @@ import com.mshdabiola.seriesdatabase.model.StudentAnswerSheetEntity
 import com.mshdabiola.seriesdatabase.model.StudentEntity
 import com.mshdabiola.seriesdatabase.model.TeacherCourseQualificationEntity
 import com.mshdabiola.seriesmodel.AcademicStaff
+import com.mshdabiola.seriesmodel.AttendanceStatus
 import com.mshdabiola.seriesmodel.ChoiceOption
 import com.mshdabiola.seriesmodel.ClassAttendance
 import com.mshdabiola.seriesmodel.ClassS
@@ -39,11 +40,16 @@ import com.mshdabiola.seriesmodel.GradeLevel
 import com.mshdabiola.seriesmodel.LearningMaterial
 import com.mshdabiola.seriesmodel.LearningObjective
 import com.mshdabiola.seriesmodel.LessonTopic
+import com.mshdabiola.seriesmodel.MaterialType
+import com.mshdabiola.seriesmodel.QuestionType
 import com.mshdabiola.seriesmodel.School
+import com.mshdabiola.seriesmodel.StaffType
 import com.mshdabiola.seriesmodel.Student
 import com.mshdabiola.seriesmodel.StudentAnswer
 import com.mshdabiola.seriesmodel.StudentAnswerSheet
 import com.mshdabiola.seriesmodel.TeacherCourseQualification
+import com.mshdabiola.seriesmodel.serial.asString
+import com.mshdabiola.seriesmodel.serial.toContent
 import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
@@ -72,7 +78,7 @@ fun School.toEntity(): SchoolEntity =
 fun AcademicStaffEntity.toDomain(): AcademicStaff =
     AcademicStaff(
         staffId = this.staffId!!,
-        staffType = this.staffType,
+        staffType = StaffType.entries[staffType],
         name = this.name,
         contactDetails = this.contactDetails,
         password = this.password,
@@ -83,7 +89,7 @@ fun AcademicStaffEntity.toDomain(): AcademicStaff =
 fun AcademicStaff.toEntity(): AcademicStaffEntity =
     AcademicStaffEntity(
         staffId = this.staffId.checkId(),
-        staffType = this.staffType,
+        staffType = this.staffType.ordinal,
         name = this.name,
         contactDetails = this.contactDetails,
         password = this.password,
@@ -188,7 +194,7 @@ fun LearningMaterialEntity.toDomain(): LearningMaterial =
         learningMaterialId = this.learningMaterialId!!,
         title = this.title,
         description = this.description,
-        materialType = this.materialType,
+        materialType = MaterialType.entries[materialType],
         filePath = this.filePath,
         url = this.url,
         lessonTopicId = this.lessonTopicId,
@@ -199,7 +205,7 @@ fun LearningMaterial.toEntity(): LearningMaterialEntity =
         learningMaterialId = this.learningMaterialId.checkId(),
         title = this.title,
         description = this.description,
-        materialType = this.materialType,
+        materialType = this.materialType.ordinal,
         filePath = this.filePath,
         url = this.url,
         lessonTopicId = this.lessonTopicId,
@@ -210,14 +216,14 @@ fun LearningMaterial.toEntity(): LearningMaterialEntity =
 fun LearningObjectiveEntity.toDomain(): LearningObjective =
     LearningObjective(
         learningObjectiveId = this.learningObjectiveId!!,
-        objectiveText = this.objectiveText,
+        objectiveText = this.objectiveText.toContent(),
         lessonTopicId = this.lessonTopicId,
     )
 
 fun LearningObjective.toEntity(): LearningObjectiveEntity =
     LearningObjectiveEntity(
         learningObjectiveId = this.learningObjectiveId.checkId(),
-        objectiveText = this.objectiveText,
+        objectiveText = this.objectiveText.asString(),
         lessonTopicId = this.lessonTopicId,
         updatedAt = Clock.System.now().toLocalDateTime(TimeZone.UTC),
     )
@@ -275,11 +281,11 @@ fun ExamQuestionEntity.toDomain(): ExamQuestion =
     ExamQuestion(
         questionId = this.questionId!!,
         examPaperId = this.examPaperId,
-        questionText = this.questionText,
-        questionType = this.questionType,
+        questionText = this.questionText.toContent(),
+        questionType = QuestionType.entries[questionType],
         marks = this.marks,
         lessonTopicId = this.lessonTopicId,
-        answer = this.answer,
+        answer = this.answer?.toContent(),
         number = this.number,
         instructionId = this.instructionId,
     )
@@ -288,11 +294,11 @@ fun ExamQuestion.toEntity(): ExamQuestionEntity =
     ExamQuestionEntity(
         questionId = this.questionId.checkId(),
         examPaperId = this.examPaperId,
-        questionText = this.questionText,
-        questionType = this.questionType,
+        questionText = this.questionText.asString(),
+        questionType = this.questionType.ordinal,
         marks = this.marks,
         lessonTopicId = this.lessonTopicId,
-        answer = this.answer,
+        answer = this.answer?.asString(),
         number = this.number,
         instructionId = this.instructionId,
         updatedAt = Clock.System.now().toLocalDateTime(TimeZone.UTC),
@@ -303,7 +309,7 @@ fun ChoiceOptionEntity.toDomain(): ChoiceOption =
     ChoiceOption(
         optionId = this.optionId!!,
         examQuestionId = this.examQuestionId,
-        optionText = this.optionText,
+        optionText = this.optionText.toContent(),
         isCorrect = this.isCorrect,
     )
 
@@ -311,7 +317,7 @@ fun ChoiceOption.toEntity(): ChoiceOptionEntity =
     ChoiceOptionEntity(
         optionId = this.optionId.checkId(),
         examQuestionId = this.examQuestionId,
-        optionText = this.optionText,
+        optionText = this.optionText.asString(),
         isCorrect = this.isCorrect,
         updatedAt = Clock.System.now().toLocalDateTime(TimeZone.UTC),
     )
@@ -340,7 +346,7 @@ fun StudentAnswerEntity.toDomain(): StudentAnswer =
         studentAnswerId = this.studentAnswerId!!,
         answerSheetId = this.answerSheetId,
         examQuestionId = this.examQuestionId,
-        answerText = this.answerText,
+        answerText = this.answerText?.toContent(),
         choiceOptionId = this.choiceOptionId,
         isCorrect = this.isCorrect,
         marksObtained = this.marksObtained,
@@ -351,7 +357,7 @@ fun StudentAnswer.toEntity(): StudentAnswerEntity =
         studentAnswerId = this.studentAnswerId.checkId(),
         answerSheetId = this.answerSheetId,
         examQuestionId = this.examQuestionId,
-        answerText = this.answerText,
+        answerText = this.answerText?.asString(),
         choiceOptionId = this.choiceOptionId,
         isCorrect = this.isCorrect,
         marksObtained = this.marksObtained,
@@ -387,7 +393,7 @@ fun ClassAttendanceEntity.toDomain(): ClassAttendance =
         classId = this.classId,
         attendanceDate = this.attendanceDate,
         attendanceTime = this.attendanceTime,
-        attendanceStatus = this.attendanceStatus,
+        attendanceStatus = AttendanceStatus.entries[this.attendanceStatus],
         reason = this.reason,
     )
 
@@ -398,7 +404,7 @@ fun ClassAttendance.toEntity(): ClassAttendanceEntity =
         classId = this.classId,
         attendanceDate = this.attendanceDate,
         attendanceTime = this.attendanceTime,
-        attendanceStatus = this.attendanceStatus,
+        attendanceStatus = this.attendanceStatus.ordinal,
         reason = this.reason,
         updatedAt = Clock.System.now().toLocalDateTime(TimeZone.UTC),
     )
@@ -409,7 +415,7 @@ fun ExamAttendanceEntity.toDomain(): ExamAttendance =
         examAttendanceId = this.examAttendanceId!!,
         studentId = this.studentId,
         examScheduleId = this.examScheduleId,
-        attendanceStatus = this.attendanceStatus,
+        attendanceStatus = AttendanceStatus.entries[this.attendanceStatus],
         reason = this.reason,
     )
 
@@ -418,7 +424,7 @@ fun ExamAttendance.toEntity(): ExamAttendanceEntity =
         examAttendanceId = this.examAttendanceId.checkId(),
         studentId = this.studentId,
         examScheduleId = this.examScheduleId,
-        attendanceStatus = this.attendanceStatus,
+        attendanceStatus = this.attendanceStatus.ordinal,
         reason = this.reason,
         updatedAt = Clock.System.now().toLocalDateTime(TimeZone.UTC),
     )
@@ -446,7 +452,7 @@ fun ExamInstructionEntity.toDomain(): ExamInstruction =
         id = id!!,
         examId = examId,
         title = title,
-        content = content,
+        content = content.toContent(),
     )
 
 fun ExamInstruction.toEntity(): ExamInstructionEntity =
@@ -454,6 +460,6 @@ fun ExamInstruction.toEntity(): ExamInstructionEntity =
         id = id.checkId(),
         examId = examId,
         title = title,
-        content = content,
+        content = content.asString(),
         updatedAt = Clock.System.now().toLocalDateTime(TimeZone.UTC),
     )
