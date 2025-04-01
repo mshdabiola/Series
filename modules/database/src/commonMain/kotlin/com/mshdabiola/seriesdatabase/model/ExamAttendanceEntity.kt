@@ -45,7 +45,7 @@ data class ExamAttendanceEntity(
     val examScheduleId: Long, // FK to ExamSchedule.examScheduleId
 
     @ColumnInfo(name = "attendance_status")
-    val attendanceStatus: AttendanceStatus,
+    val attendanceStatus: Int,
 
     @ColumnInfo(name = "reason")
     val reason: String? = null, // Optional reason for absence/late

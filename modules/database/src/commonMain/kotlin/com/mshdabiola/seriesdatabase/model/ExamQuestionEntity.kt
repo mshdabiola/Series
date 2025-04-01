@@ -45,7 +45,7 @@ data class ExamQuestionEntity(
     val examPaperId: Long, // FK to ExamPaper.examPaperId
 
     @ColumnInfo(name = "question_type")
-    val questionType: QuestionType, // e.g., "MCQ", "Short Answer", "Essay"
+    val questionType: Int, // e.g., "MCQ", "Short Answer", "Essay"
 
     @ColumnInfo(name = "marks")
     val marks: Long,
@@ -56,10 +56,10 @@ data class ExamQuestionEntity(
     val number: Long,
 
     @ColumnInfo(name = "question_text")
-    val questionText: List<Content>,
+    val questionText: String,
 
     val instructionId: Long?,
 
-    val answer: List<Content>,
+    val answer: String?,
     @ColumnInfo(name = "updated_at") val updatedAt: LocalDateTime,
 )

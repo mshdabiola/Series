@@ -33,7 +33,7 @@ data class LearningObjectiveEntity(
     val learningObjectiveId: Long?, // PK, Auto-generate
 
     @ColumnInfo(name = "objective_text")
-    val objectiveText: List<Content>,
+    val objectiveText: String,
 
     @ColumnInfo(name = "lesson_topic_id_fk") // Foreign Key column name
     val lessonTopicId: Long, // FK to LessonTopic.topicId

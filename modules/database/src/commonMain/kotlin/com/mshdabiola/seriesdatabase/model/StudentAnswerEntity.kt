@@ -53,7 +53,7 @@ data class StudentAnswerEntity(
     val examQuestionId: Long, // FK to ExamQuestion.questionId
 
     @ColumnInfo(name = "answer_text")
-    val answerText: List<Content>? = null, // For written answers, nullable
+    val answerText: String? = null, // For written answers, nullable
 
     @ColumnInfo(name = "choice_option_id_fk", defaultValue = "NULL") // Foreign Key column name, optional
     val choiceOptionId: Long? = null, // FK to ChoiceOption.optionId for MCQ, nullable

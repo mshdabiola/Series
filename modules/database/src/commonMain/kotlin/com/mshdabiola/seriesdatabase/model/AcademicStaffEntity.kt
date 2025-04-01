@@ -33,7 +33,7 @@ data class AcademicStaffEntity(
     val staffId: Long?, // PK, Auto-generate
 
     @ColumnInfo(name = "staff_type")
-    val staffType: StaffType,
+    val staffType: Int,
 
     @ColumnInfo(name = "name")
     val name: String,

@@ -40,7 +40,7 @@ data class LearningMaterialEntity(
     val description: String? = null, // Optional description
 
     @ColumnInfo(name = "material_type")
-    val materialType: MaterialType,
+    val materialType: Int,
 
     @ColumnInfo(name = "file_path")
     val filePath: String? = null, // Optional file path

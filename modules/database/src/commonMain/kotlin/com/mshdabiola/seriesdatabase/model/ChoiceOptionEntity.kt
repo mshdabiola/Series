@@ -37,7 +37,7 @@ data class ChoiceOptionEntity(
     val examQuestionId: Long, // FK to ExamQuestion.questionId
 
     @ColumnInfo(name = "option_text")
-    val optionText: List<Content>,
+    val optionText: String,
 
     @ColumnInfo(name = "is_correct")
     val isCorrect: Boolean,

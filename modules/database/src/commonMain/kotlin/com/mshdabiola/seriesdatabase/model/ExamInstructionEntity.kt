@@ -33,6 +33,6 @@ data class ExamInstructionEntity(
     @ColumnInfo(name = "title")
     val title: String,
     @ColumnInfo(name = "content")
-    val content: List<Content>,
+    val content: String,
     @ColumnInfo(name = "updated_at") val updatedAt: LocalDateTime,
 )
