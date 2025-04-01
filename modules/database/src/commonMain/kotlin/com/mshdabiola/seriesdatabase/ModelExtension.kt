@@ -4,224 +4,462 @@
 
 package com.mshdabiola.seriesdatabase
 
-import com.mshdabiola.seriesdatabase.model.ExaminationEntity
-import com.mshdabiola.seriesdatabase.model.InstructionEntity
-import com.mshdabiola.seriesdatabase.model.OptionEntity
-import com.mshdabiola.seriesdatabase.model.QuestionEntity
-import com.mshdabiola.seriesdatabase.model.SeriesEntity
-import com.mshdabiola.seriesdatabase.model.SubjectEntity
-import com.mshdabiola.seriesdatabase.model.TopicCategoryEntity
-import com.mshdabiola.seriesdatabase.model.TopicEntity
-import com.mshdabiola.seriesdatabase.model.UserEntity
-import com.mshdabiola.seriesdatabase.model.relation.CategoryWithTopicsRelation
-import com.mshdabiola.seriesdatabase.model.relation.ExaminationWithSubjectRelation
-import com.mshdabiola.seriesdatabase.model.relation.QuestionWithOptsInstTopRelation
-import com.mshdabiola.seriesdatabase.model.relation.SubjectWithSeriesRelation
-import com.mshdabiola.seriesdatabase.model.relation.TopicWithCategoryRelation
-import com.mshdabiola.seriesmodel.Examination
-import com.mshdabiola.seriesmodel.Instruction
-import com.mshdabiola.seriesmodel.Option
-import com.mshdabiola.seriesmodel.QUESTION_TYPE
-import com.mshdabiola.seriesmodel.Question
-import com.mshdabiola.seriesmodel.QuestionPlain
-import com.mshdabiola.seriesmodel.Series
-import com.mshdabiola.seriesmodel.Subject
-import com.mshdabiola.seriesmodel.Topic
-import com.mshdabiola.seriesmodel.TopicCategory
-import com.mshdabiola.seriesmodel.TopicWithCategory
-import com.mshdabiola.seriesmodel.User
-import com.mshdabiola.seriesmodel.UserType
-import com.mshdabiola.seriesmodel.serial.asModel
+import com.mshdabiola.seriesdatabase.model.AcademicStaffEntity
+import com.mshdabiola.seriesdatabase.model.ChoiceOptionEntity
+import com.mshdabiola.seriesdatabase.model.ClassAttendanceEntity
+import com.mshdabiola.seriesdatabase.model.ClassEntity
+import com.mshdabiola.seriesdatabase.model.CourseEntity
+import com.mshdabiola.seriesdatabase.model.CourseGradeEntity
+import com.mshdabiola.seriesdatabase.model.ExamAttendanceEntity
+import com.mshdabiola.seriesdatabase.model.ExamInstructionEntity
+import com.mshdabiola.seriesdatabase.model.ExamPaperEntity
+import com.mshdabiola.seriesdatabase.model.ExamQuestionEntity
+import com.mshdabiola.seriesdatabase.model.ExamScheduleEntity
+import com.mshdabiola.seriesdatabase.model.GradeLevelEntity
+import com.mshdabiola.seriesdatabase.model.LearningMaterialEntity
+import com.mshdabiola.seriesdatabase.model.LearningObjectiveEntity
+import com.mshdabiola.seriesdatabase.model.LessonTopicEntity
+import com.mshdabiola.seriesdatabase.model.SchoolEntity
+import com.mshdabiola.seriesdatabase.model.StudentAnswerEntity
+import com.mshdabiola.seriesdatabase.model.StudentAnswerSheetEntity
+import com.mshdabiola.seriesdatabase.model.StudentEntity
+import com.mshdabiola.seriesdatabase.model.TeacherCourseQualificationEntity
+import com.mshdabiola.seriesmodel.AcademicStaff
+import com.mshdabiola.seriesmodel.AttendanceStatus
+import com.mshdabiola.seriesmodel.ChoiceOption
+import com.mshdabiola.seriesmodel.ClassAttendance
+import com.mshdabiola.seriesmodel.ClassS
+import com.mshdabiola.seriesmodel.Course
+import com.mshdabiola.seriesmodel.CourseGrade
+import com.mshdabiola.seriesmodel.ExamAttendance
+import com.mshdabiola.seriesmodel.ExamInstruction
+import com.mshdabiola.seriesmodel.ExamPaper
+import com.mshdabiola.seriesmodel.ExamQuestion
+import com.mshdabiola.seriesmodel.ExamSchedule
+import com.mshdabiola.seriesmodel.GradeLevel
+import com.mshdabiola.seriesmodel.LearningMaterial
+import com.mshdabiola.seriesmodel.LearningObjective
+import com.mshdabiola.seriesmodel.LessonTopic
+import com.mshdabiola.seriesmodel.MaterialType
+import com.mshdabiola.seriesmodel.QuestionType
+import com.mshdabiola.seriesmodel.School
+import com.mshdabiola.seriesmodel.StaffType
+import com.mshdabiola.seriesmodel.Student
+import com.mshdabiola.seriesmodel.StudentAnswer
+import com.mshdabiola.seriesmodel.StudentAnswerSheet
+import com.mshdabiola.seriesmodel.TeacherCourseQualification
 import com.mshdabiola.seriesmodel.serial.asString
 import com.mshdabiola.seriesmodel.serial.toContent
-import com.mshdabiola.seriesmodel.serial.toSer
+import kotlinx.datetime.Clock
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toLocalDateTime
 
-fun UserEntity.asModel() = User(
-    id = id!!,
-    name = name,
-    type = UserType.entries[type],
-    password = password,
-    imagePath = imagePath,
-    points = points,
-)
+fun Long.checkId() = if (this < 0) null else this
 
-fun User.asEntity() = UserEntity(
-    id = id.checkId(),
-    name = name,
-    type = type.ordinal,
-    password = password,
-    imagePath = imagePath,
-    points = points,
-)
-
-fun SeriesEntity.asModel() = Series(
-    id = id!!,
-    userId = userId,
-    name = name,
-)
-
-fun Series.asEntity() = SeriesEntity(
-    id = id.checkId(),
-    userId = userId,
-    name = name,
-)
-
-fun SubjectEntity.asModel() = Subject(
-    id = id!!,
-    seriesId = seriesId,
-    title = title,
-)
-
-fun Subject.asEntity() = SubjectEntity(
-    id = id.checkId(),
-    seriesId = seriesId,
-    title = title,
-)
-
-fun SubjectWithSeriesRelation.asModel() = com.mshdabiola.seriesmodel.SubjectWithSeries(
-    subject = subjectEntity.asModel(),
-    series = seriesEntity.asModel(),
-)
-
-fun TopicCategory.asEntity() = TopicCategoryEntity(
-    id = id.checkId(),
-    subjectId = subjectId,
-    name = name,
-)
-
-fun TopicCategoryEntity.asModel() = TopicCategory(
-    id = id!!,
-    subjectId = subjectId,
-    name = name,
-)
-
-fun CategoryWithTopicsRelation.asModel() = topics.map {
-    TopicWithCategory(
-        id = it.id!!,
-        topicCategory = category.asModel(),
-        title = it.title,
-    )
-}
-
-fun TopicWithCategoryRelation.asModel() = TopicWithCategory(
-    id = topic.id!!,
-    topicCategory = topicCategory.asModel(),
-    title = topic.title,
-)
-
-fun Topic.asEntity() = TopicEntity(
-    id = id.checkId(),
-    categoryId = categoryId,
-    title = title,
-)
-
-fun TopicEntity.asModel() = Topic(
-    id = id!!,
-    categoryId = categoryId,
-    title = title,
-)
-
-fun Examination.asEntity() = ExaminationEntity(
-    id = id.checkId(),
-    subjectId = subjectId,
-    year = year,
-    duration = duration,
-)
-
-fun ExaminationEntity.asModel() = Examination(
-    id = id!!,
-    subjectId = subjectId,
-    year = year,
-    duration = duration,
-)
-
-fun ExaminationWithSubjectRelation.asExam() = com.mshdabiola.seriesmodel.ExaminationWithSubject(
-    examination = examinationEntity.asModel(),
-    series = subjectWithSeries.seriesEntity.asModel(),
-    subject = subjectWithSeries.subjectEntity.asModel(),
-)
-
-fun Instruction.asEntity() =
-    InstructionEntity(
-        id = id.checkId(),
-        examId = examId,
-        title = title,
-        content = content.map { it.toSer() }.asString(),
+// School Converters
+fun SchoolEntity.toDomain(): School =
+    School(
+        schoolId = this.schoolId!!,
+        schoolName = this.schoolName,
+        schoolAddress = this.schoolAddress,
+        academicYear = this.academicYear,
     )
 
-fun InstructionEntity.asModel() =
-    Instruction(
+fun School.toEntity(): SchoolEntity =
+    SchoolEntity(
+        schoolId = this.schoolId.checkId(),
+        schoolName = this.schoolName,
+        schoolAddress = this.schoolAddress,
+        academicYear = this.academicYear,
+        updatedAt = Clock.System.now().toLocalDateTime(TimeZone.UTC),
+    )
+
+// AcademicStaff Converters
+fun AcademicStaffEntity.toDomain(): AcademicStaff =
+    AcademicStaff(
+        staffId = this.staffId!!,
+        staffType = StaffType.entries[staffType],
+        name = this.name,
+        contactDetails = this.contactDetails,
+        password = this.password,
+        imagePath = this.imagePath,
+        schoolId = schoolId,
+    )
+
+fun AcademicStaff.toEntity(): AcademicStaffEntity =
+    AcademicStaffEntity(
+        staffId = this.staffId.checkId(),
+        staffType = this.staffType.ordinal,
+        name = this.name,
+        contactDetails = this.contactDetails,
+        password = this.password,
+        imagePath = this.imagePath,
+        schoolId = schoolId,
+        updatedAt = Clock.System.now().toLocalDateTime(TimeZone.UTC),
+    )
+
+// GradeLevel Converters
+fun GradeLevelEntity.toDomain(): GradeLevel =
+    GradeLevel(
+        gradeLevelId = this.gradeLevelId!!,
+        gradeName = this.gradeName,
+        levelNumber = this.levelNumber,
+        schoolId = schoolId,
+    )
+
+fun GradeLevel.toEntity(): GradeLevelEntity =
+    GradeLevelEntity(
+        gradeLevelId = this.gradeLevelId.checkId(),
+        gradeName = this.gradeName,
+        levelNumber = this.levelNumber,
+        schoolId = schoolId,
+        updatedAt = Clock.System.now().toLocalDateTime(TimeZone.UTC),
+    )
+
+// Class Converters
+fun ClassEntity.toDomain(): ClassS =
+    ClassS(
+        classId = this.classId!!,
+        className = this.className,
+        gradeLevelId = this.gradeLevelId,
+        teacherStaffId = this.teacherStaffId,
+    )
+
+fun ClassS.toEntity(): ClassEntity =
+    ClassEntity(
+        classId = this.classId.checkId(),
+        className = this.className,
+        gradeLevelId = this.gradeLevelId,
+        teacherStaffId = this.teacherStaffId,
+        updatedAt = Clock.System.now().toLocalDateTime(TimeZone.UTC),
+    )
+
+// Student Converters
+fun StudentEntity.toDomain(): Student =
+    Student(
+        studentId = this.studentId!!,
+        name = this.name,
+        dateOfBirth = this.dateOfBirth,
+        admissionNumber = this.admissionNumber,
+        classId = this.classId,
+    )
+
+fun Student.toEntity(): StudentEntity =
+    StudentEntity(
+        studentId = this.studentId.checkId(),
+        name = this.name,
+        dateOfBirth = this.dateOfBirth,
+        admissionNumber = this.admissionNumber,
+        classId = this.classId,
+        updatedAt = Clock.System.now().toLocalDateTime(TimeZone.UTC),
+    )
+
+// Course Converters
+fun CourseEntity.toDomain(): Course =
+    Course(
+        courseId = this.courseId!!,
+        courseName = this.courseName,
+        courseCode = this.courseCode,
+        gradeLevelId = this.gradeLevelId,
+    )
+
+fun Course.toEntity(): CourseEntity =
+    CourseEntity(
+        courseId = this.courseId.checkId(),
+        courseName = this.courseName,
+        courseCode = this.courseCode,
+        gradeLevelId = this.gradeLevelId,
+        updatedAt = Clock.System.now().toLocalDateTime(TimeZone.UTC),
+    )
+
+// LessonTopic Converters
+fun LessonTopicEntity.toDomain(): LessonTopic =
+    LessonTopic(
+        topicId = this.topicId!!,
+        topicName = this.topicName,
+        courseId = this.courseId,
+    )
+
+fun LessonTopic.toEntity(): LessonTopicEntity =
+    LessonTopicEntity(
+        topicId = this.topicId.checkId(),
+        topicName = this.topicName,
+        courseId = this.courseId,
+        updatedAt = Clock.System.now().toLocalDateTime(TimeZone.UTC),
+    )
+
+// LearningMaterial Converters
+fun LearningMaterialEntity.toDomain(): LearningMaterial =
+    LearningMaterial(
+        learningMaterialId = this.learningMaterialId!!,
+        title = this.title,
+        description = this.description,
+        materialType = MaterialType.entries[materialType],
+        filePath = this.filePath,
+        url = this.url,
+        lessonTopicId = this.lessonTopicId,
+    )
+
+fun LearningMaterial.toEntity(): LearningMaterialEntity =
+    LearningMaterialEntity(
+        learningMaterialId = this.learningMaterialId.checkId(),
+        title = this.title,
+        description = this.description,
+        materialType = this.materialType.ordinal,
+        filePath = this.filePath,
+        url = this.url,
+        lessonTopicId = this.lessonTopicId,
+        updatedAt = Clock.System.now().toLocalDateTime(TimeZone.UTC),
+    )
+
+// LearningObjective Converters
+fun LearningObjectiveEntity.toDomain(): LearningObjective =
+    LearningObjective(
+        learningObjectiveId = this.learningObjectiveId!!,
+        objectiveText = this.objectiveText.toContent(),
+        lessonTopicId = this.lessonTopicId,
+    )
+
+fun LearningObjective.toEntity(): LearningObjectiveEntity =
+    LearningObjectiveEntity(
+        learningObjectiveId = this.learningObjectiveId.checkId(),
+        objectiveText = this.objectiveText.asString(),
+        lessonTopicId = this.lessonTopicId,
+        updatedAt = Clock.System.now().toLocalDateTime(TimeZone.UTC),
+    )
+
+// ExamPaper Converters
+fun ExamPaperEntity.toDomain(): ExamPaper =
+    ExamPaper(
+        examPaperId = this.examPaperId!!,
+        paperTitle = this.paperTitle,
+        courseId = this.courseId,
+        creatorStaffId = this.creatorStaffId,
+        creationDate = this.creationDate,
+        examScheduleId = this.examScheduleId,
+        year = this.year,
+    )
+
+fun ExamPaper.toEntity(): ExamPaperEntity =
+    ExamPaperEntity(
+        examPaperId = this.examPaperId.checkId(),
+        paperTitle = this.paperTitle,
+        courseId = this.courseId,
+        creatorStaffId = this.creatorStaffId,
+        creationDate = this.creationDate,
+        examScheduleId = this.examScheduleId,
+        year = this.year,
+        updatedAt = Clock.System.now().toLocalDateTime(TimeZone.UTC),
+    )
+
+// ExamSchedule Converters
+fun ExamScheduleEntity.toDomain(): ExamSchedule =
+    ExamSchedule(
+        examScheduleId = this.examScheduleId!!,
+        examName = this.examName,
+        examDate = this.examDate,
+        startTime = this.startTime,
+        endTime = this.endTime,
+        classId = this.classId,
+        examPaperId = this.examPaperId,
+    )
+
+fun ExamSchedule.toEntity(): ExamScheduleEntity =
+    ExamScheduleEntity(
+        examScheduleId = this.examScheduleId.checkId(),
+        examName = this.examName,
+        examDate = this.examDate,
+        startTime = this.startTime,
+        endTime = this.endTime,
+        classId = this.classId,
+        examPaperId = this.examPaperId,
+        updatedAt = Clock.System.now().toLocalDateTime(TimeZone.UTC),
+    )
+
+// ExamQuestion Converters
+fun ExamQuestionEntity.toDomain(): ExamQuestion =
+    ExamQuestion(
+        questionId = this.questionId!!,
+        examPaperId = this.examPaperId,
+        questionText = this.questionText.toContent(),
+        questionType = QuestionType.entries[questionType],
+        marks = this.marks,
+        lessonTopicId = this.lessonTopicId,
+        answer = this.answer?.toContent(),
+        number = this.number,
+        instructionId = this.instructionId,
+    )
+
+fun ExamQuestion.toEntity(): ExamQuestionEntity =
+    ExamQuestionEntity(
+        questionId = this.questionId.checkId(),
+        examPaperId = this.examPaperId,
+        questionText = this.questionText.asString(),
+        questionType = this.questionType.ordinal,
+        marks = this.marks,
+        lessonTopicId = this.lessonTopicId,
+        answer = this.answer?.asString(),
+        number = this.number,
+        instructionId = this.instructionId,
+        updatedAt = Clock.System.now().toLocalDateTime(TimeZone.UTC),
+    )
+
+// ChoiceOption Converters
+fun ChoiceOptionEntity.toDomain(): ChoiceOption =
+    ChoiceOption(
+        optionId = this.optionId!!,
+        examQuestionId = this.examQuestionId,
+        optionText = this.optionText.toContent(),
+        isCorrect = this.isCorrect,
+    )
+
+fun ChoiceOption.toEntity(): ChoiceOptionEntity =
+    ChoiceOptionEntity(
+        optionId = this.optionId.checkId(),
+        examQuestionId = this.examQuestionId,
+        optionText = this.optionText.asString(),
+        isCorrect = this.isCorrect,
+        updatedAt = Clock.System.now().toLocalDateTime(TimeZone.UTC),
+    )
+
+// StudentAnswerSheet Converters
+fun StudentAnswerSheetEntity.toDomain(): StudentAnswerSheet =
+    StudentAnswerSheet(
+        answerSheetId = this.answerSheetId!!,
+        studentId = this.studentId,
+        examScheduleId = this.examScheduleId,
+        submissionDate = this.submissionDate,
+    )
+
+fun StudentAnswerSheet.toEntity(): StudentAnswerSheetEntity =
+    StudentAnswerSheetEntity(
+        answerSheetId = this.answerSheetId.checkId(),
+        studentId = this.studentId,
+        examScheduleId = this.examScheduleId,
+        submissionDate = this.submissionDate,
+        updatedAt = Clock.System.now().toLocalDateTime(TimeZone.UTC),
+    )
+
+// StudentAnswer Converters
+fun StudentAnswerEntity.toDomain(): StudentAnswer =
+    StudentAnswer(
+        studentAnswerId = this.studentAnswerId!!,
+        answerSheetId = this.answerSheetId,
+        examQuestionId = this.examQuestionId,
+        answerText = this.answerText?.toContent(),
+        choiceOptionId = this.choiceOptionId,
+        isCorrect = this.isCorrect,
+        marksObtained = this.marksObtained,
+    )
+
+fun StudentAnswer.toEntity(): StudentAnswerEntity =
+    StudentAnswerEntity(
+        studentAnswerId = this.studentAnswerId.checkId(),
+        answerSheetId = this.answerSheetId,
+        examQuestionId = this.examQuestionId,
+        answerText = this.answerText?.asString(),
+        choiceOptionId = this.choiceOptionId,
+        isCorrect = this.isCorrect,
+        marksObtained = this.marksObtained,
+        updatedAt = Clock.System.now().toLocalDateTime(TimeZone.UTC),
+    )
+
+// CourseGrade Converters
+fun CourseGradeEntity.toDomain(): CourseGrade =
+    CourseGrade(
+        //  courseGradeId = 0, // Domain model doesn't have PK, or handle as needed if you do need it in domain
+        studentId = this.studentId,
+        courseId = this.courseId,
+        academicYear = this.academicYear,
+        gradeValue = this.gradeValue,
+        gradingSystem = this.gradingSystem,
+    )
+
+fun CourseGrade.toEntity(): CourseGradeEntity =
+    CourseGradeEntity(
+        studentId = this.studentId,
+        courseId = this.courseId,
+        academicYear = this.academicYear,
+        gradeValue = this.gradeValue,
+        gradingSystem = this.gradingSystem,
+        updatedAt = Clock.System.now().toLocalDateTime(TimeZone.UTC),
+    )
+
+// ClassAttendance Converters
+fun ClassAttendanceEntity.toDomain(): ClassAttendance =
+    ClassAttendance(
+        classAttendanceId = this.classAttendanceId!!,
+        studentId = this.studentId,
+        classId = this.classId,
+        attendanceDate = this.attendanceDate,
+        attendanceTime = this.attendanceTime,
+        attendanceStatus = AttendanceStatus.entries[this.attendanceStatus],
+        reason = this.reason,
+    )
+
+fun ClassAttendance.toEntity(): ClassAttendanceEntity =
+    ClassAttendanceEntity(
+        classAttendanceId = this.classAttendanceId.checkId(),
+        studentId = this.studentId,
+        classId = this.classId,
+        attendanceDate = this.attendanceDate,
+        attendanceTime = this.attendanceTime,
+        attendanceStatus = this.attendanceStatus.ordinal,
+        reason = this.reason,
+        updatedAt = Clock.System.now().toLocalDateTime(TimeZone.UTC),
+    )
+
+// ExamAttendance Converters
+fun ExamAttendanceEntity.toDomain(): ExamAttendance =
+    ExamAttendance(
+        examAttendanceId = this.examAttendanceId!!,
+        studentId = this.studentId,
+        examScheduleId = this.examScheduleId,
+        attendanceStatus = AttendanceStatus.entries[this.attendanceStatus],
+        reason = this.reason,
+    )
+
+fun ExamAttendance.toEntity(): ExamAttendanceEntity =
+    ExamAttendanceEntity(
+        examAttendanceId = this.examAttendanceId.checkId(),
+        studentId = this.studentId,
+        examScheduleId = this.examScheduleId,
+        attendanceStatus = this.attendanceStatus.ordinal,
+        reason = this.reason,
+        updatedAt = Clock.System.now().toLocalDateTime(TimeZone.UTC),
+    )
+
+fun TeacherCourseQualification.toEntity(): TeacherCourseQualificationEntity =
+    TeacherCourseQualificationEntity(
+        teacherStaffId = this.teacherStaffId,
+        courseId = this.courseId,
+        qualificationDate = this.qualificationDate,
+        notes = this.notes,
+        updatedAt = Clock.System.now().toLocalDateTime(TimeZone.UTC),
+    )
+
+fun TeacherCourseQualificationEntity.toDomain(): TeacherCourseQualification =
+    TeacherCourseQualification(
+        teacherStaffId = this.teacherStaffId,
+        courseId = this.courseId,
+        qualificationDate = this.qualificationDate,
+        notes = this.notes,
+    )
+
+// ExamInstruction Converters
+fun ExamInstructionEntity.toDomain(): ExamInstruction =
+    ExamInstruction(
         id = id!!,
         examId = examId,
         title = title,
-        content = content.toContent().map { it.asModel() },
+        content = content.toContent(),
     )
 
-fun Question.asModel() = QuestionEntity(
-    id = id.checkId(),
-    number = number,
-    examId = examId,
-    title = title,
-    contents = contents.map { it.toSer() }.asString(),
-    answers = answers.map { it.toSer() }.asString(),
-    type = type.ordinal,
-    instructionId = instruction?.id,
-    topicId = topic?.id,
-)
-
-fun QuestionPlain.asEntity() = QuestionEntity(
-    id = id.checkId(),
-    number = number,
-    examId = examId,
-    title = title,
-    contents = contents,
-    answers = answers,
-    type = type,
-    instructionId = instructionId,
-    topicId = topicId,
-)
-
-fun QuestionEntity.asModel() = QuestionPlain(
-    id = id!!,
-    number = number,
-    examId = examId,
-    title = title,
-    contents = contents,
-    answers = answers,
-    type = type,
-    instructionId = instructionId,
-    topicId = topicId,
-)
-
-fun QuestionWithOptsInstTopRelation.asModel() = Question(
-    id = questionEntity.id!!,
-    number = questionEntity.number,
-    examId = questionEntity.examId,
-    title = questionEntity.title,
-    contents = questionEntity.contents.toContent().map { it.asModel() },
-    answers = questionEntity.answers.toContent().map { it.asModel() },
-    options = options.map { it.asModel() },
-    type = QUESTION_TYPE.entries[questionEntity.type],
-    instruction = instructionEntity?.asModel(),
-    topic = topicWithCategoryRelation?.asModel(),
-)
-
-fun Option.asEntity() = OptionEntity(
-    id = id.checkId(),
-    number = number,
-    questionId = questionId,
-    title = title,
-    contents = contents.map { it.toSer() }.asString(),
-    isAnswer = isAnswer,
-)
-
-fun OptionEntity.asModel() = Option(
-    id = id!!,
-    number = number,
-    questionId = questionId,
-    title = title,
-    contents = contents.toContent().map { it.asModel() },
-    isAnswer = isAnswer,
-)
-
-fun Long.checkId() = if (this < 0) null else this
+fun ExamInstruction.toEntity(): ExamInstructionEntity =
+    ExamInstructionEntity(
+        id = id.checkId(),
+        examId = examId,
+        title = title,
+        content = content.asString(),
+        updatedAt = Clock.System.now().toLocalDateTime(TimeZone.UTC),
+    )

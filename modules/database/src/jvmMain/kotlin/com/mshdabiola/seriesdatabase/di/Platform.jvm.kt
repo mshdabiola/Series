@@ -3,9 +3,9 @@ package com.mshdabiola.seriesdatabase.di
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.driver.bundled.BundledSQLiteDriver
-import com.mshabiola.database.util.Constant
-import com.mshdabiola.seriesdatabase.SeriesDatabase
+import com.mshdabiola.seriesdatabase.SchoolDatabase
 import com.mshdabiola.seriesdatabase.generalPath
+import com.mshdabiola.seriesdatabase.util.Constant
 import org.koin.core.module.Module
 import org.koin.core.qualifier.qualifier
 import org.koin.dsl.module
@@ -28,8 +28,8 @@ actual val databaseModule: Module
         includes(daoModules)
     }
 
-fun getDatabaseBuilder(path: File): RoomDatabase.Builder<SeriesDatabase> {
-    return Room.databaseBuilder<SeriesDatabase>(
+fun getDatabaseBuilder(path: File): RoomDatabase.Builder<SchoolDatabase> {
+    return Room.databaseBuilder<SchoolDatabase>(
         name = path.absolutePath,
     )
         .setDriver(BundledSQLiteDriver())

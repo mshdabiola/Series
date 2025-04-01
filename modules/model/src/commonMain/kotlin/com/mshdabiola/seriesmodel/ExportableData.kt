@@ -4,13 +4,24 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class ExportableData(
-    val users: List<User> = emptyList(),
-    val series: List<Series> = emptyList(),
-    val subjects: List<Subject> = emptyList(),
-    val topicCategory: List<TopicCategory> = emptyList(),
-    val topics: List<Topic> = emptyList(),
-    val examinations: List<Examination> = emptyList(),
-    val instructions: List<Instruction> = emptyList(),
-    val questions: List<QuestionPlain> = emptyList(),
-    val options: List<Option> = emptyList(),
+    val schools: List<School> = emptyList(),
+    val academicStaff: List<AcademicStaff> = emptyList(),
+    val gradeLevels: List<GradeLevel> = emptyList(),
+    val classes: List<ClassS> = emptyList(),
+    val students: List<Student> = emptyList(),
+    val courses: List<Course> = emptyList(),
+    val lessonTopics: List<LessonTopic> = emptyList(),
+    val learningMaterials: List<LearningMaterial> = emptyList(),
+    val learningObjectives: List<LearningObjective> = emptyList(),
+    val examPapers: List<ExamPaper> = emptyList(),
+    val examSchedules: List<ExamSchedule> = emptyList(),
+    val examInstruction: List<ExamInstruction> = emptyList(),
+    val examQuestions: List<ExamQuestion> = emptyList(),
+    val choiceOptions: List<ChoiceOption> = emptyList(),
+    val studentAnswerSheets: List<StudentAnswerSheet> = emptyList(),
+    val studentAnswers: List<StudentAnswer> = emptyList(),
+    val courseGrades: List<CourseGrade> = emptyList(),
+    val classAttendances: List<ClassAttendance> = emptyList(),
+    val examAttendances: List<ExamAttendance> = emptyList(),
+    val teacherCourseQualifications: List<TeacherCourseQualification>, // = emptyList()
 )

@@ -3,8 +3,8 @@ package com.mshdabiola.seriesdatabase.di
 import android.content.Context
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.mshabiola.database.util.Constant
-import com.mshdabiola.seriesdatabase.SeriesDatabase
+import com.mshdabiola.seriesdatabase.SchoolDatabase
+import com.mshdabiola.seriesdatabase.util.Constant
 import org.koin.core.module.Module
 import org.koin.core.qualifier.qualifier
 import org.koin.dsl.module
@@ -32,8 +32,8 @@ actual val databaseModule: Module
         includes(daoModules)
     }
 
-fun getDatabaseBuilder(appContext: Context, path: File): RoomDatabase.Builder<SeriesDatabase> {
-    return Room.databaseBuilder<SeriesDatabase>(
+fun getDatabaseBuilder(appContext: Context, path: File): RoomDatabase.Builder<SchoolDatabase> {
+    return Room.databaseBuilder<SchoolDatabase>(
         context = appContext,
         name = path.absolutePath,
     )

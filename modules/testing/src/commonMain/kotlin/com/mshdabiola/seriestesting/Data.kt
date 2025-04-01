@@ -1,93 +1,42 @@
 package com.mshdabiola.seriestesting
 
+import com.mshdabiola.seriesmodel.AcademicStaff
+import com.mshdabiola.seriesmodel.AttendanceStatus
+import com.mshdabiola.seriesmodel.ChoiceOption
+import com.mshdabiola.seriesmodel.ClassAttendance
+import com.mshdabiola.seriesmodel.ClassS
 import com.mshdabiola.seriesmodel.Content
-import com.mshdabiola.seriesmodel.Examination
+import com.mshdabiola.seriesmodel.Course
+import com.mshdabiola.seriesmodel.CourseGrade
+import com.mshdabiola.seriesmodel.ExamAttendance
+import com.mshdabiola.seriesmodel.ExamInstruction
+import com.mshdabiola.seriesmodel.ExamPaper
+import com.mshdabiola.seriesmodel.ExamQuestion
+import com.mshdabiola.seriesmodel.ExamSchedule
 import com.mshdabiola.seriesmodel.ExportableData
-import com.mshdabiola.seriesmodel.Instruction
-import com.mshdabiola.seriesmodel.Option
-import com.mshdabiola.seriesmodel.QuestionPlain
-import com.mshdabiola.seriesmodel.Series
-import com.mshdabiola.seriesmodel.Subject
-import com.mshdabiola.seriesmodel.Topic
-import com.mshdabiola.seriesmodel.TopicCategory
-import com.mshdabiola.seriesmodel.User
-import com.mshdabiola.seriesmodel.UserType
-import com.mshdabiola.seriesmodel.serial.asString
+import com.mshdabiola.seriesmodel.GradeLevel
+import com.mshdabiola.seriesmodel.LearningMaterial
+import com.mshdabiola.seriesmodel.LearningObjective
+import com.mshdabiola.seriesmodel.LessonTopic
+import com.mshdabiola.seriesmodel.MaterialType
+import com.mshdabiola.seriesmodel.QuestionType
+import com.mshdabiola.seriesmodel.School
+import com.mshdabiola.seriesmodel.StaffType
+import com.mshdabiola.seriesmodel.Student
+import com.mshdabiola.seriesmodel.StudentAnswer
+import com.mshdabiola.seriesmodel.StudentAnswerSheet
+import com.mshdabiola.seriesmodel.TeacherCourseQualification
+import kotlinx.datetime.Clock.System
+import kotlinx.datetime.DateTimeUnit
+import kotlinx.datetime.Instant
+import kotlinx.datetime.LocalDateTime
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.plus
+import kotlinx.datetime.toLocalDateTime
+import kotlin.random.Random
 
-val users = listOf(
-    User(1, "Alice", UserType.STUDENT, "password1", "path/to/image1.jpg", 85),
-    User(2, "Bob", UserType.STUDENT, "password2", "path/to/image2.jpg", 72),
-    User(3, "Charlie", UserType.TEACHER, "password3", "path/to/image3.jpg", 0),
-    User(4, "David", UserType.STUDENT, "password4", "path/to/image4.jpg", 91),
-    User(5, "Emily", UserType.STUDENT, "password5", "path/to/image5.jpg", 68),
-    User(6, "Frank", UserType.TEACHER, "password6", "path/to/image6.jpg", 0),
-    User(7, "Grace", UserType.STUDENT, "password7", "path/to/image7.jpg", 79),
-    User(8, "Henry", UserType.STUDENT, "password8", "path/to/image8.jpg", 83),
-    User(9, "Isabella", UserType.STUDENT, "password9", "path/to/image9.jpg", 55),
-    User(10, "Jack", UserType.TEACHER, "password10", "path/to/image10.jpg", 0),
-)
-val series = listOf(
-    Series(1, 1, "Mathematics for Beginners"),
-    Series(2, 2, "Introduction to Programming"),
-    Series(3, 3, "World History 101"),
-    Series(4, 1, "Advanced Calculus"),
-    Series(5, 4, "Web Development Fundamentals"),
-    Series(6, 5, "Art Appreciation"),
-    Series(7, 2, "Data Structures and Algorithms"),
-    Series(8, 6, "Music Theory for Beginners"),
-    Series(9, 7, "Spanish for Travelers"),
-    Series(10, 8, "Fitness and Nutrition"),
-)
-val subjects = listOf(
-    Subject(1, 1, "Basic Arithmetic"),
-    Subject(2, 1, "Algebra I"),
-    Subject(3, 2, "Python Programming"),
-    Subject(4, 3, "Ancient Civilizations"),
-    Subject(5, 4, "Calculus II"),
-    Subject(6, 5, "HTML & CSS"),
-    Subject(7, 6, "Painting Techniques"),
-    Subject(8, 7, "Data Structures in Java"),
-    Subject(9, 8, "Basic Music Theory"),
-    Subject(10, 9, "Beginner Spanish Vocabulary"),
-)
-val topicCategories = listOf(
-    TopicCategory(1, "Number Systems", 1),
-    TopicCategory(2, "Linear Equations", 2),
-    TopicCategory(3, "Variables and Data Types", 3),
-    TopicCategory(4, "Mesopotamia", 4),
-    TopicCategory(5, "Integration", 5),
-    TopicCategory(6, "Web Page Structure", 6),
-    TopicCategory(7, "Color Theory", 7),
-    TopicCategory(8, "Linked Lists", 8),
-    TopicCategory(9, "Scales and Chords", 9),
-    TopicCategory(10, "Basic Greetings", 10),
-)
-val topics = listOf(
-    Topic(1, 1, "Integers and Fractions"),
-    Topic(2, 2, "Solving Equations with One Variable"),
-    Topic(3, 3, "Introduction to Strings"),
-    Topic(4, 4, "The Sumerian Civilization"),
-    Topic(5, 5, "Definite Integrals"),
-    Topic(6, 6, "HTML Tags and Attributes"),
-    Topic(7, 7, "Primary and Secondary Colors"),
-    Topic(8, 8, "Implementing Linked Lists"),
-    Topic(9, 9, "Major and Minor Scales"),
-    Topic(10, 10, "Common Phrases in Spanish"),
-)
-val examinations = listOf(
-    Examination(1, 1, 2023, 60),
-    Examination(2, 2, 2022, 90),
-    Examination(3, 3, 2023, 45),
-    Examination(4, 4, 2021, 120),
-    Examination(5, 5, 2023, 75),
-    Examination(6, 6, 2022, 60),
-    Examination(7, 7, 2023, 90),
-    Examination(8, 8, 2021, 45),
-    Examination(9, 9, 2023, 30),
-    Examination(10, 10, 2022, 75),
-)
-val instructions = listOf(
-    Instruction(
+val examInstructions = listOf(
+    ExamInstruction(
         1,
         1,
         "General Instructions",
@@ -96,7 +45,7 @@ val instructions = listOf(
             Content(content = "Time limit: 60 minutes."),
         ),
     ),
-    Instruction(
+    ExamInstruction(
         2,
         2,
         "Multiple Choice Section",
@@ -105,7 +54,7 @@ val instructions = listOf(
             Content(content = "Mark your answers on the answer sheet."),
         ),
     ),
-    Instruction(
+    ExamInstruction(
         3,
         3,
         "Coding Instructions",
@@ -114,7 +63,7 @@ val instructions = listOf(
             Content(content = "Use proper syntax and indentation."),
         ),
     ),
-    Instruction(
+    ExamInstruction(
         4,
         4,
         "Essay Instructions",
@@ -123,7 +72,7 @@ val instructions = listOf(
             Content(content = "Provide clear and concise explanations."),
         ),
     ),
-    Instruction(
+    ExamInstruction(
         5,
         5,
         "Math Exam Instructions",
@@ -132,7 +81,7 @@ val instructions = listOf(
             Content(content = "Use a calculator if needed."),
         ),
     ),
-    Instruction(
+    ExamInstruction(
         6,
         6,
         "Web Design Instructions",
@@ -141,7 +90,7 @@ val instructions = listOf(
             Content(content = "Use HTML, CSS, and JavaScript."),
         ),
     ),
-    Instruction(
+    ExamInstruction(
         7,
         7,
         "Art Project Instructions",
@@ -150,7 +99,7 @@ val instructions = listOf(
             Content(content = "Be creative and express yourself."),
         ),
     ),
-    Instruction(
+    ExamInstruction(
         8,
         8,
         "Music Performance Instructions",
@@ -159,7 +108,7 @@ val instructions = listOf(
             Content(content = "Be ready to answer questions about your piece."),
         ),
     ),
-    Instruction(
+    ExamInstruction(
         9,
         9,
         "Language Exam Instructions",
@@ -168,7 +117,7 @@ val instructions = listOf(
             Content(content = "Use proper grammar and vocabulary."),
         ),
     ),
-    Instruction(
+    ExamInstruction(
         10,
         10,
         "Physical Fitness Instructions",
@@ -178,385 +127,746 @@ val instructions = listOf(
         ),
     ),
 )
-val questionsPlain = listOf(
-    QuestionPlain(
-        1,
-        1,
-        1,
-        "What is the capital of France?",
-        contents = listOf(Content("Multiple choice question about capital cities.")).asString(),
 
-        answers = listOf(Content("Paris")).asString(),
+fun getExportable(): ExportableData {
+    return ExportableData(
+        schools = generateSchoolModels(),
+        academicStaff = generateAcademicStaffModels(),
+        gradeLevels = generateGradeLevelModels(),
+        classes = generateClassModels(),
+        students = generateStudentModels(),
+        courses = generateCourseModels(),
+        lessonTopics = generateLessonTopicModels(),
+        learningMaterials = generateLearningMaterialModels(),
+        learningObjectives = generateLearningObjectiveModels(),
+        examPapers = generateExamPaperModels(),
+        examSchedules = generateExamScheduleModels(),
+        examInstruction = examInstructions,
+        examQuestions = generateExamQuestionModels(),
+        choiceOptions = generateChoiceOptionModels(),
+        studentAnswerSheets = generateStudentAnswerSheetModels(),
+        studentAnswers = generateStudentAnswerModels(),
+        courseGrades = generateCourseGradeModels(),
+        classAttendances = generateClassAttendanceModels(),
+        examAttendances = generateExamAttendanceModels(),
+        teacherCourseQualifications = generateTeacherCourseQualificationModels(),
+    )
+}
 
-        0,
-        1,
-        1,
-    ),
-    QuestionPlain(
-        2,
-        2,
-        1,
-        "Solve for x: 2x + 5 = 11",
-        contents = listOf(Content("Math problem involving linear equations.")).asString(),
+// --- Example Data Generation Functions for ALL Entities (15 Examples Each) using Lists - Backslash Removed ---
 
-        answers = listOf(Content("x = 3")).asString(),
+fun generateSchoolModels(): List<School> {
+    val schoolNames = listOf(
+        "Greenwood Academy",
+        "Northwood High",
+        "Southview College",
+        "Eastside School",
+        "Westmount Grammar",
+        "Central Institute",
+        "Lakeside Prep",
+        "Mountain View School",
+        "Ocean Breeze Academy",
+        "Forest Hill College",
+        "Riverside High",
+        "Sunnyside School",
+        "Valley Crest Academy",
+        "Hilltop Institute",
+        "Parkview College",
+    )
+    val schoolAddresses = listOf(
+        "10 Pine Street, Townsville",
+        "22 Oak Avenue, Cityburg",
+        "35 Maple Lane, Villageville",
+        "48 Willow Road, Hamletville",
+        "51 Birch Blvd, Countryside",
+        "64 Cedar Crescent, Metropolis",
+        "77 Elm Estates, Ruraltown",
+        "89 Spruce Square, Suburbia",
+        "92 Pinecrest Place, Outskirts",
+        "15 Redwood Ridge, Farmland",
+        "28 Oakwood Drive, Hillside",
+        "33 Maple Court, Riverside",
+        "47 Willow Way, Lakeside",
+        "52 Birch Place, Mountainview",
+        "68 Cedar Grove, Valleyview",
+    )
+    return schoolNames.mapIndexed { index, name ->
+        School(
+            schoolId = index + 1L,
+            schoolName = name,
+            schoolAddress = schoolAddresses[index],
+            academicYear = "2024-2025",
+            // updatedAt = LocalDateTime.now().minusDays(Random.nextInt(30))
+        )
+    }
+}
 
-        1,
-        1,
-        2,
-    ),
-    QuestionPlain(
-        3,
-        3,
-        2,
-        "Write a Python function to calculate the factorial of a number.",
-        contents = listOf(Content("Coding question requiring a Python function.")).asString(),
-        answers = listOf(Content("def factorial(n): ...")).asString(),
-        2,
-        2,
-        3,
-    ),
-    QuestionPlain(
-        4,
-        2,
-        2,
-        "Explain the difference between a list and a tuple in Python.",
-        contents = listOf(Content("Conceptual question about Python data structures.")).asString(),
-        answers = listOf(Content("Answer explaining differences...")).asString(),
-        0,
-        2,
-        3,
-    ),
-    QuestionPlain(
-        5,
-        1,
-        3,
-        "Describe the major events of the French Revolution.",
-        contents = listOf(Content("History question requiring an essay response.")).asString(),
+fun generateAcademicStaffModels(): List<AcademicStaff> {
+    val staffTypes = StaffType.values()
+    val firstNames = listOf(
+        "Ava",
+        "Liam",
+        "Olivia",
+        "Noah",
+        "Emma",
+        "Jackson",
+        "Sophia",
+        "Aiden",
+        "Isabella",
+        "Lucas",
+        "Mia",
+        "Ethan",
+        "Charlotte",
+        "Oliver",
+        "Amelia",
+    )
+    val lastNames = listOf(
+        "Smith",
+        "Johnson",
+        "Williams",
+        "Brown",
+        "Jones",
+        "Garcia",
+        "Miller",
+        "Davis",
+        "Rodriguez",
+        "Martinez",
+        "Hernandez",
+        "Lopez",
+        "Gonzalez",
+        "Perez",
+        "Wilson",
+    )
+    val contactDomains = listOf(
+        "@greenwood.edu",
+        "@northwood.org",
+        "@southview.school",
+        "@eastside.net",
+        "@westmount.college",
+    )
 
-        answers = listOf(Content("Essay response about French Revolution...")).asString(),
+    return firstNames.mapIndexed { index, firstName ->
+        AcademicStaff(
+            staffId = index + 1L,
+            staffType = staffTypes[Random.nextInt(staffTypes.size)],
+            name = "$firstName ${lastNames[index]}",
+            contactDetails = "${firstName.lowercase()}.${lastNames[index].lowercase()}${contactDomains.random()}",
+            imagePath = "",
+            password = "password123",
+            schoolId = 1,
+            // updatedAt = LocalDateTime.now().minusHours(Random.nextInt(72))
+        )
+    }
+}
 
-        3,
-        3,
-        4,
-    ),
-    QuestionPlain(
-        6,
-        1,
-        4,
-        "Calculate the derivative of f(x) = x^2 + 3x - 2.",
-        contents = listOf(Content("Calculus question involving differentiation.")).asString(),
+fun generateGradeLevelModels(): List<GradeLevel> {
+    val gradeNames = listOf(
+        "Grade 9",
+        "Grade 10",
+        "Grade 11",
+        "Grade 12",
+        "Freshman",
+        "Sophomore",
+        "Junior",
+        "Senior",
+        "Level A",
+        "Level B",
+        "Level C",
+        "Level D",
+        "Year 1",
+        "Year 2",
+        "Year 3",
+    )
+    val levelNumbers = (9..23).toList() // Example level numbers extending beyond grades
 
-        answers = listOf(Content("f'(x) = 2x + 3")).asString(),
+    return gradeNames.mapIndexed { index, name ->
+        GradeLevel(
+            gradeLevelId = index + 1L,
+            gradeName = name,
+            levelNumber = levelNumbers.getOrNull(index)?.toLong()
+                ?: (index + 1L), // Fallback level number if list is shorter
+            // updatedAt = LocalDateTime.now().minusDays(Random.nextInt(15)),
+            schoolId = 1,
+        )
+    }
+}
 
-        1,
-        4,
-        5,
-    ),
-    QuestionPlain(
-        7,
-        1,
-        5,
-        "Create a simple HTML page with a heading and a paragraph.",
-        contents = listOf(Content("Web development question requiring HTML code.")).asString(),
-        answers = listOf(Content("<html>...</html>")).asString(),
+fun generateClassModels(): List<ClassS> {
+    val classNames =
+        listOf("A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O")
 
-        2,
-        5,
-        6,
-    ),
-    QuestionPlain(
-        8,
-        1,
-        6,
-        "What are the primary colors?",
-        contents = listOf(Content("Art question about color theory.")).asString(),
+    return classNames.mapIndexed { index, name ->
+        ClassS(
+            classId = index + 1L,
+            className = "${(9 + (index) / 5)}$name", // Example: 9A, 9B, 9C, 9D, 9E, 9F, 9G, 9H, 9I, 9J, 9K, 9L, 9M, 9N, 9O, ... (repeats grade level after every 5 classes in this example - you can adjust logic)
+            gradeLevelId = (index / 5) + 1L, // Grade level from 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3,... (repeats every 5 classes)
+            teacherStaffId = if (Random.nextInt(10) < 8) (index % 10) + 1L else null, // 80% chance of having a teacher from staff 1-10, 20% chance null
+            // updatedAt = LocalDateTime.now().minusHours(Random.nextInt(48))
+        )
+    }
+}
 
-        answers = listOf(Content("Red, Yellow, Blue")).asString(),
+fun generateStudentModels(): List<Student> {
+    val studentFirstNames = listOf(
+        "Oliver",
+        "Elijah",
+        "William",
+        "James",
+        "Benjamin",
+        "Lucas",
+        "Henry",
+        "Alexander",
+        "Theodore",
+        "Samuel",
+        "Scarlett",
+        "Grace",
+        "Chloe",
+        "Victoria",
+        "Hazel",
+    )
+    val studentLastNames = listOf(
+        "Clark",
+        "Young",
+        "Walker",
+        "Hall",
+        "Wright",
+        "King",
+        "Green",
+        "Adams",
+        "Baker",
+        "Nelson",
+        "Carter",
+        "Mitchell",
+        "Roberts",
+        "Turner",
+        "Phillips",
+    )
 
-        0,
-        6,
-        7,
-    ),
-    QuestionPlain(
-        9,
-        1,
-        7,
-        "Explain the concept of a linked list data structure.",
-        contents = listOf(Content("Computer science question about data structures.")).asString(),
+    return studentFirstNames.mapIndexed { index, firstName ->
+        Student(
+            studentId = index + 1L,
+            name = "$firstName ${studentLastNames[index]}",
+            dateOfBirth = System.now().toLocalDateTime(TimeZone.UTC).date, // Age 14-16 approx
+            admissionNumber = "STU${String.format("%03d", index + 1)}",
+            classId = (index / 3) + 1L, // Class from 1, 1, 1, 2, 2, 2, 3, 3, 3,... (repeats every 3 students)
+//            updatedAt = LocalDateTime.now().minusDays(Random.nextInt(20))
+        )
+    }
+}
 
-        answers = listOf(Content("Explanation of linked lists...")).asString(),
+fun generateCourseModels(): List<Course> {
+    val courseNamesAndCodes = listOf(
+        "Mathematics" to "MATH",
+        "Science" to "SCI",
+        "History" to "HIST",
+        "English" to "ENG",
+        "Art" to "ART",
+        "Music" to "MUS",
+        "Computer Science" to "CS",
+        "Physics" to "PHYS",
+        "Chemistry" to "CHEM",
+        "Biology" to "BIO",
+        "Geography" to "GEOG",
+        "Economics" to "ECON",
+        "Civics" to "CIV",
+        "Psychology" to "PSYCH",
+        "Sociology" to "SOC",
+    )
 
-        0,
-        7,
-        8,
-    ),
-    QuestionPlain(
-        10,
-        1,
-        8,
-        "What is the key signature of C major?",
-        contents = listOf(Content("Music theory question about scales.")).asString(),
+    return courseNamesAndCodes.mapIndexed { index, pair ->
+        val (courseName, courseCodePrefix) = pair
+        Course(
+            courseId = index + 101L, // Course IDs starting from 101
+            courseName = courseName,
+            courseCode = "${courseCodePrefix}${
+                Random.nextInt(
+                    9,
+                    12,
+                )
+            }", // e.g., MATH9, MATH10, etc. grade level implied in code
+            gradeLevelId = (index / 5) + 1L, // Grade level from 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3,... (repeats every 5 courses)
+            // updatedAt = LocalDateTime.now().minusWeeks(Random.nextInt(4))
+        )
+    }
+}
 
-        answers = listOf(Content("No sharps or flats")).asString(),
+fun generateLessonTopicModels(): List<LessonTopic> {
+    val topicPrefixes = listOf(
+        "Intro to",
+        "Fundamentals of",
+        "Advanced",
+        "Basics of",
+        "Principles of",
+        "Exploring",
+        "Understanding",
+        "Mastering",
+        "Delving into",
+        "Survey of",
+        "A Study of",
+        "The World of",
+        "Beginner's Guide to",
+        "Intermediate",
+        "Expert Level",
+    )
+    val topicSubjects = listOf(
+        "Algebra",
+        "Physics",
+        "Literature",
+        "History",
+        "Web Dev",
+        "Calculus",
+        "Thermodynamics",
+        "Poetry",
+        "Ancient Rome",
+        "CSS",
+        "Geometry",
+        "Optics",
+        "Drama",
+        "Modern History",
+        "JavaScript",
+        "Kotlin",
+        "React",
+        "Databases",
+        "Machine Learning",
+        "Networking",
+    )
 
-        0,
-        8,
-        9,
-    ),
-)
-val options = listOf(
-    // Question 1 Options
-    Option(1, 1, 1, "Paris", listOf(Content(content = "The capital of France.")), true),
-    Option(2, 2, 1, "Berlin", listOf(Content(content = "The capital of Germany.")), false),
-    Option(3, 3, 1, "London", listOf(Content(content = "The capital of England.")), false),
-    Option(4, 4, 1, "Rome", listOf(Content(content = "The capital of Italy.")), false),
+    return topicPrefixes.mapIndexed { index, prefix ->
+        LessonTopic(
+            topicId = index + 1L,
+            topicName = "$prefix ${topicSubjects[index % topicSubjects.size]}", // Cycle through subjects as prefixes repeat
+            courseId = (index / 2) + 101L, // Course IDs from 101, 101, 102, 102, 103, 103,... (repeats every 2 topics)
+            // updatedAt = LocalDateTime.now().minusDays(Random.nextInt(90))
+        )
+    }
+}
 
-    // Question 2 Options
-    Option(5, 1, 2, "x = 2", listOf(Content(content = "Incorrect solution.")), false),
-    Option(6, 2, 2, "x = 3", listOf(Content(content = "Correct solution.")), true),
-    Option(7, 3, 2, "x = 4", listOf(Content(content = "Incorrect solution.")), false),
-    Option(8, 4, 2, "x = 5", listOf(Content(content = "Incorrect solution.")), false),
+fun generateLearningMaterialModels(): List<LearningMaterial> {
+    val materialTypes = MaterialType.entries.toTypedArray()
+    val materialTitles = listOf(
+        "Chapter",
+        "Notes",
+        "Video",
+        "Slides",
+        "Worksheet",
+        "Examples",
+        "Map",
+        "Lecture",
+        "Cheat Sheet",
+        "Tutorial",
+        "Guide",
+        "Document",
+        "Article",
+        "Presentation",
+        "Exercise",
+    )
+    val materialSubjects = listOf(
+        "Algebra",
+        "Physics",
+        "Literature",
+        "History",
+        "Web Dev",
+        "Calculus",
+        "Thermodynamics",
+        "Poetry",
+        "Ancient Rome",
+        "CSS",
+        "Geometry",
+        "Optics",
+        "Drama",
+        "Modern History",
+        "JavaScript",
+    )
 
-    // Question 3 Options (No options for coding questions)
+    return materialTitles.mapIndexed { index, title ->
+        LearningMaterial(
+            learningMaterialId = index + 1L,
+            title = "${materialSubjects[index % materialSubjects.size]} $title", // Cycle through subjects as titles repeat
+            description = "Description for Material ${index + 1}",
+            materialType = materialTypes[index % materialTypes.size], // Cycle through material types
+            filePath = if (Random.nextBoolean()) "files/material${index + 1}.pdf" else null, // Randomly assign file path or null - Backslash removed
+            url = if (Random.nextBoolean()) "https://example.com/material${index + 1}" else null, // Randomly assign URL or null
+            lessonTopicId = (index / 2) + 1L, // Lesson Topic from 1, 1, 2, 2, 3, 3,... (repeats every 2 materials)
+            // updatedAt = LocalDateTime.now().minusHours(Random.nextInt(200))
+        )
+    }
+}
 
-    // Question 4 Options
-    Option(
-        9,
-        1,
-        3,
-        "Lists are mutable, tuples are immutable.",
-        listOf(Content(content = "Part of the difference.")),
-        true,
-    ),
-    Option(
-        10,
-        2,
-        3,
-        "Lists use square brackets, tuples use parentheses.",
-        listOf(Content(content = "Part of the difference.")),
-        true,
-    ),
-    Option(
-        11,
-        3,
-        3,
-        "Lists can contain different data types, tuples cannot.",
-        listOf(Content(content = "Incorrect.")),
-        false,
-    ),
-    Option(
-        12,
-        4,
-        3,
-        "Lists are ordered, tuples are unordered.",
-        listOf(Content(content = "Incorrect.")),
-        false,
-    ),
+fun generateLearningObjectiveModels(): List<LearningObjective> {
+    val objectivePrefixes = listOf(
+        "Understand",
+        "Explain",
+        "Analyze",
+        "Describe",
+        "Identify",
+        "Apply",
+        "Evaluate",
+        "Compare",
+        "Contrast",
+        "Define",
+        "Demonstrate",
+        "Interpret",
+        "Formulate",
+        "Construct",
+        "Summarize",
+    )
+    val objectiveTopics = listOf(
+        "algebraic concepts",
+        "Newton's laws",
+        "Shakespearean sonnets",
+        "ancient civilizations",
+        "HTML basics",
+        "calculus derivatives",
+        "thermodynamic principles",
+        "modern poetry themes",
+        "Roman history",
+        "CSS styling",
+        "geometric theorems",
+        "optical phenomena",
+        "dramatic structure",
+        "20th-century history",
+        "JavaScript functions",
+    ).map { listOf(Content(content = it)) }
 
-    // Question 5 Options (No options for essay questions)
+    return objectivePrefixes.mapIndexed { index, prefix ->
+        LearningObjective(
+            learningObjectiveId = index + 1L,
+            objectiveText = objectiveTopics[index], // Index directly to match prefixes and topics 1-to-1 for 15 examples
+            lessonTopicId = (index / 1) + 1L, // Lesson Topic from 1, 2, 3, 4, 5,... (each objective different topic)
+            // updatedAt = LocalDateTime.now().minusMinutes(Random.nextInt(1440)) // Up to 24 hours ago
+        )
+    }
+}
 
-    // Question 6 Options
-    Option(13, 1, 4, "f'(x) = 2x + 3", listOf(Content(content = "Correct derivative.")), true),
-    Option(
-        14,
-        2,
-        4,
-        "f'(x) = x^2 + 3",
-        listOf(Content(content = "Incorrect derivative.")),
-        false,
-    ),
-    Option(15, 3, 4, "f'(x) = 2x - 2", listOf(Content(content = "Incorrect derivative.")), false),
-    Option(16, 4, 4, "f'(x) = x + 3", listOf(Content(content = "Incorrect derivative.")), false),
+fun generateExamPaperModels(): List<ExamPaper> {
+    val paperTitles = listOf(
+        "Midterm Exam",
+        "Final Exam",
+        "Quiz 1",
+        "Quiz 2",
+        "Test",
+        "Unit Exam",
+        "Chapter Test",
+        "Practice Exam",
+        "Assessment 1",
+        "Assessment 2",
+        "Exam Paper A",
+        "Exam Paper B",
+        "Monthly Test",
+        "Weekly Quiz",
+        "Diagnostic Test",
+    )
+    val courseIds = generateCourseModels().map { it.courseId } // Reuse generated course IDs
+    val staffIds = generateAcademicStaffModels().map { it.staffId } // Reuse generated staff IDs
 
-    // Question 7 Options (No options for coding questions)
+    return paperTitles.mapIndexed { index, title ->
+        ExamPaper(
+            examPaperId = index + 1L,
+            paperTitle = "${generateCourseModels()[(index) % generateCourseModels().size].courseName} $title", // Cycle through course names as titles repeat
+            courseId = courseIds[index % courseIds.size], // Cycle through course IDs
+            creatorStaffId = staffIds[index % staffIds.size], // Cycle through staff IDs
+            creationDate = System.now().toLocalDateTime(TimeZone.currentSystemDefault()),
+            examScheduleId = null,
+            year = 2019, // Exam Schedule can be added later
+//            updatedAt = LocalDateTime.now().minusDays(Random.nextInt(60))
+        )
+    }
+}
 
-    // Question 8 Options
-    Option(
-        17,
-        1,
-        5,
-        "Red, Yellow, Blue",
-        listOf(Content(content = "Correct primary colors.")),
-        true,
-    ),
-    Option(
-        18,
-        2,
-        5,
-        "Green, Orange, Purple",
-        listOf(Content(content = "Secondary colors.")),
-        false,
-    ),
-    Option(19, 3, 5, "Black, White, Gray", listOf(Content(content = "Neutral colors.")), false),
-    Option(20, 4, 5, "Pink, Brown, Teal", listOf(Content(content = "Tertiary colors.")), false),
+fun generateExamScheduleModels(): List<ExamSchedule> {
+    val examNames = listOf(
+        "Midterm",
+        "Final",
+        "Quiz",
+        "Test",
+        "Unit Exam",
+        "Chapter Exam",
+        "Practice Test",
+        "Assessment",
+        "Exam Session 1",
+        "Exam Session 2",
+        "Regular Exam",
+        "Makeup Exam",
+        "Class Test",
+        "Section Quiz",
+        "Annual Exam",
+    )
+    val classIds = generateClassModels().map { it.classId } // Reuse generated class IDs
+    val examPaperIds =
+        generateExamPaperModels().map { it.examPaperId } // Reuse generated exam paper IDs
 
-    // Question 9 Options (No options for open-ended questions)
+    return examNames.mapIndexed { index, name ->
+        ExamSchedule(
+            examScheduleId = index + 1L,
+            examName = "${generateCourseModels()[(index) % generateCourseModels().size].courseName} $name", // Cycle through course names as exam names repeat
+            examDate = System.now().toLocalDateTime(TimeZone.UTC).date, // Exam in next 90 days
+            startTime = System.now().toLocalDateTime(TimeZone.UTC).time, // 8 AM to 5 PM start times
+            endTime = System.now()
+                .toLocalDateTime(TimeZone.UTC).time, // End time is always after start time
+            classId = classIds[index % classIds.size], // Cycle through class IDs
+            examPaperId = examPaperIds[index % examPaperIds.size], // Cycle through exam paper IDs
+            // updatedAt = LocalDateTime.now().minusHours(Random.nextInt(168)) // Up to 7 days ago
+        )
+    }
+}
 
-    // Question 10 Options
-    Option(
-        21,
-        1,
-        6,
-        "No sharps or flats",
-        listOf(Content(content = "Correct key signature.")),
-        true,
-    ),
-    Option(22, 2, 6, "One sharp (F#)", listOf(Content(content = "Key of G major.")), false),
-    Option(23, 3, 6, "Two sharps (F#, C#)", listOf(Content(content = "Key of D major.")), false),
-    Option(24, 4, 6, "One flat (Bb)", listOf(Content(content = "Key of F major.")), false),
+fun generateExamQuestionModels(): List<ExamQuestion> {
+    val questionTypes =
+        QuestionType.entries // listOf("Multiple Choice", "Short Answer", "Essay", "Coding", "True/False")
+    val questionPrefixes = listOf(
+        "Solve:",
+        "Explain:",
+        "Analyze:",
+        "Describe:",
+        "Identify:",
+        "Write:",
+        "Compare:",
+        "Contrast:",
+        "Define:",
+        "Evaluate:",
+    )
+    val questionTopics = listOf(
+        "linear equation",
+        "Newton's laws",
+        "metaphor in poetry",
+        "Roman Empire features",
+        "HTML structure",
+        "calculus derivatives",
+        "thermodynamics",
+        "modern poetry",
+        "Renaissance art",
+        "CSS",
+        "geometric shapes",
+        "optical principles",
+        "dramatic elements",
+        "20th-century events",
+        "JavaScript functions",
+    ).toContents()
 
-    // Additional options for more questions (adjust questionId and content accordingly)
-    // ... (Add 16 more options to reach a total of 40)
-    // ... (Previous 24 options)
+    return questionPrefixes.mapIndexed { index, prefix ->
+        ExamQuestion(
+            questionId = index + 1L,
+            examPaperId = (index / 2) + 1L, // Exam Paper from 1, 1, 2, 2, 3, 3,... (repeats every 2 questions)
+            questionText = questionTopics[index],
+            questionType = questionTypes[index % questionTypes.size], // Cycle through question types
+            marks = (index % 5) + 5L, // Marks from 5, 6, 7, 8, 9, 5, 6...
+            lessonTopicId = (index / 1) + 1L,
+            number = (index / 1) + 1L,
+            instructionId = 2,
+            answer = listOf(Content(content = "Answer ${index + 1}")), // Lesson Topic from 1, 2, 3, 4, 5,... (each question different topic)
+            //  updatedAt = LocalDateTime.now().minusMinutes(Random.nextInt(1440 * 7)) // Up to 7 days ago
+        )
+    }
+}
 
-// Question 11 Options (Assuming a new question with ID 11)
-    Option(
-        25,
-        1,
-        7,
-        "Option A for Question 11",
-        listOf(Content(content = "Content for Option A")),
-        false,
-    ),
-    Option(
-        26,
-        2,
-        7,
-        "Option B for Question 11",
-        listOf(Content(content = "Content for Option B")),
-        true,
-    ),
-    Option(
-        27,
-        3,
-        7,
-        "Option C for Question 11",
-        listOf(Content(content = "Content for Option C")),
-        false,
-    ),
-    Option(
-        28,
-        4,
-        7,
-        "Option D for Question 11",
-        listOf(Content(content = "Content for Option D")),
-        false,
-    ),
+fun generateChoiceOptionModels(): List<ChoiceOption> {
+    val optionLetters = listOf("A", "B", "C", "D", "E")
+    val optionTexts = listOf(
+        "Option Text 1",
+        "Option Text 2",
+        "Option Text 3",
+        "Option Text 4",
+        "Option Text 5",
+        "Option Text 6",
+        "Option Text 7",
+        "Option Text 8",
+        "Option Text 9",
+        "Option Text 10",
+        "Option Text 11",
+        "Option Text 12",
+        "Option Text 13",
+        "Option Text 14",
+        "Option Text 15",
+    ).toContents()
 
-// Question 12 Options (Assuming a new question with ID 12)
-    Option(
-        29,
-        1,
-        8,
-        "Option A for Question 12",
-        listOf(Content(content = "Content for Option A")),
-        true,
-    ),
-    Option(
-        30,
-        2,
-        8,
-        "Option B for Question 12",
-        listOf(Content(content = "Content for Option B")),
-        false,
-    ),
-    Option(
-        31,
-        3,
-        8,
-        "Option C for Question 12",
-        listOf(Content(content = "Content for Option C")),
-        false,
-    ),
-    Option(
-        32,
-        4,
-        8,
-        "Option D for Question 12",
-        listOf(Content(content = "Content for Option D")),
-        false,
-    ),
+    return optionLetters.mapIndexed { index, letter ->
+        ChoiceOption(
+            optionId = index + 1L,
+            examQuestionId = (index / 4) + 1L, // Exam Question from 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3,... (repeats every 4 options - assuming 4 options per question on average)
+            optionText = optionTexts[index],
+            isCorrect = Random.nextBoolean(),
+//            updatedAt = LocalDateTime.now().minusHours(Random.nextInt(24 * 30)) // Up to 30 days ago
+        )
+    }
+}
 
-// Question 13 Options (Assuming a new question with ID 13)
-    Option(
-        33,
-        1,
-        9,
-        "Option A for Question 13",
-        listOf(Content(content = "Content for Option A")),
-        false,
-    ),
-    Option(
-        34,
-        2,
-        9,
-        "Option B for Question 13",
-        listOf(Content(content = "Content for Option B")),
-        false,
-    ),
-    Option(
-        35,
-        3,
-        9,
-        "Option C for Question 13",
-        listOf(Content(content = "Content for Option C")),
-        true,
-    ),
-    Option(
-        36,
-        4,
-        9,
-        "Option D for Question 13",
-        listOf(Content(content = "Content for Option D")),
-        false,
-    ),
+fun generateStudentAnswerSheetModels(): List<StudentAnswerSheet> {
+    val studentIds = generateStudentModels().map { it.studentId }
+    val examScheduleIds = generateExamScheduleModels().map { it.examScheduleId }
 
-// Question 14 Options (Assuming a new question with ID 14)
-    Option(
-        37,
-        1,
-        10,
-        "Option A for Question 14",
-        listOf(Content(content = "Content for Option A")),
-        false,
-    ),
-    Option(
-        38,
-        2,
-        10,
-        "Option B for Question 14",
-        listOf(Content(content = "Content for Option B")),
-        true,
-    ),
-    Option(
-        39,
-        3,
-        10,
-        "Option C for Question 14",
-        listOf(Content(content = "Content for Option C")),
-        false,
-    ),
-    Option(
-        40,
-        4,
-        10,
-        "Option D for Question 14",
-        listOf(Content(content = "Content for Option D")),
-        false,
-    ),
-)
+    return (1..15).map { index ->
+        StudentAnswerSheet(
+            answerSheetId = index + 1L,
+            studentId = studentIds[index % studentIds.size], // Cycle through student IDs
+            examScheduleId = examScheduleIds[index % examScheduleIds.size], // Cycle through exam schedule IDs
+            submissionDate = System.now().toLocalDateTime(TimeZone.UTC),
+            // updatedAt = LocalDateTime.now().minusDays(Random.nextInt(15))
+        )
+    }
+}
 
-val exportableData = ExportableData(
-    users = users,
-    series = series,
-    subjects = subjects,
+fun generateStudentAnswerModels(): List<StudentAnswer> {
+    val answerSheetIds = generateStudentAnswerSheetModels().map { it.answerSheetId }
+    val examQuestionIds = generateExamQuestionModels().map { it.questionId }
+    val choiceOptionIds = generateChoiceOptionModels().map { it.optionId }
 
-    topicCategory = topicCategories,
-    topics = topics,
+    return (1..15).map { index ->
+        StudentAnswer(
+            studentAnswerId = index + 1L,
+            answerSheetId = answerSheetIds[index % answerSheetIds.size], // Cycle through answer sheet IDs
+            examQuestionId = examQuestionIds[index % examQuestionIds.size], // Cycle through exam question IDs
+            answerText = listOf(Content(content = "Text Answer ${index + 1}")), // 50% text answers
+            choiceOptionId = if (Random.nextBoolean()) choiceOptionIds[index % choiceOptionIds.size] else null, // 50% choice options
+            isCorrect = Random.nextBoolean(),
+            marksObtained = if (Random.nextBoolean()) {
+                Random.nextInt(10)
+                    .toLong()
+            } else {
+                null
+            }, // Marks sometimes null if not graded yet
+            //  updatedAt = LocalDateTime.now().minusHours(Random.nextInt(24 * 7)) // Up to 7 days ago
+        )
+    }
+}
 
-    examinations = examinations,
-    instructions = instructions,
-    questions = questionsPlain,
-    options = options,
-)
+fun generateCourseGradeModels(): List<CourseGrade> {
+    val studentIds = generateStudentModels().map { it.studentId }
+    val courseIds = generateCourseModels().map { it.courseId }
+    val gradeValues = listOf("A", "B+", "B", "C+", "C", "D", "F", "A-", "B-", "C-")
+    val gradingSystems = listOf("Letter Grade", "Percentage", "GPA", "Pass/Fail")
+
+    return (1..15).map { index ->
+        CourseGrade(
+            studentId = studentIds[index % studentIds.size], // Cycle through student IDs
+            courseId = courseIds[index % courseIds.size], // Cycle through course IDs
+            academicYear = "2024-2025",
+            gradeValue = gradeValues[index % gradeValues.size], // Cycle through grade values
+            gradingSystem = gradingSystems[index % gradingSystems.size], // Cycle through grading systems
+//            updatedAt = LocalDateTime.now().minusMonths(Random.nextInt(3))
+        )
+    }
+}
+
+fun generateClassAttendanceModels(): List<ClassAttendance> {
+    val studentIds = generateStudentModels().map { it.studentId }
+    val classIds = generateClassModels().map { it.classId }
+    val attendanceStatuses = AttendanceStatus.entries.toTypedArray()
+    val reasons = listOf(
+        null,
+        "Sick",
+        "Doctor Appointment",
+        "Family Emergency",
+        "Late - Traffic",
+        "Excused Absence",
+        "Field Trip",
+    ) // Include null for present/no reason
+
+    return (1..15).map { index ->
+        ClassAttendance(
+            classAttendanceId = index + 1L,
+            studentId = studentIds[index % studentIds.size], // Cycle through student IDs
+            classId = classIds[index % classIds.size], // Cycle through class IDs
+            attendanceDate = System.now()
+                .toLocalDateTime(TimeZone.UTC).date, // Attendance within last 30 days
+            attendanceTime = System.now().toLocalDateTime(TimeZone.UTC).time, // 8 AM to 6 PM times
+            attendanceStatus = attendanceStatuses[index % attendanceStatuses.size], // Cycle through statuses
+            reason = reasons.random(), // Random reason, can be null
+            // updatedAt = LocalDateTime.now().minusDays(Random.nextInt(7))
+        )
+    }
+}
+
+fun generateExamAttendanceModels(): List<ExamAttendance> {
+    val studentIds = generateStudentModels().map { it.studentId }
+    val examScheduleIds = generateExamScheduleModels().map { it.examScheduleId }
+    val attendanceStatuses = AttendanceStatus.values()
+    val reasons = listOf(
+        null,
+        "Sick",
+        "Medical leave",
+        "Exam conflict",
+        "Personal reasons",
+        "Late arrival",
+        "Missed exam - rescheduled",
+    ) // Include null for present/no reason
+
+    return (1..15).map { index ->
+        ExamAttendance(
+            examAttendanceId = index + 1L,
+            studentId = studentIds[index % studentIds.size], // Cycle through student IDs
+            examScheduleId = examScheduleIds[index % examScheduleIds.size], // Cycle through exam schedule IDs
+            attendanceStatus = attendanceStatuses[index % attendanceStatuses.size], // Cycle through attendance statuses
+            reason = reasons.random(), // Random reason, can be null
+//            updatedAt = LocalDateTime.now().minusDays(Random.nextInt(14))
+        )
+    }
+}
+
+fun generateTeacherCourseQualificationModels(): List<TeacherCourseQualification> {
+    val staffIds = generateAcademicStaffModels().map { it.staffId }
+    val courseIds = generateCourseModels().map { it.courseId }
+    val notesList = listOf(
+        "Certified and experienced",
+        "Highly qualified",
+        "Specialist in this subject",
+        "Proficient teacher",
+        "Expert knowledge",
+        "Dedicated educator",
+        "Passionate about teaching",
+        "Excellent communicator",
+        "Years of experience",
+        "Advanced degree",
+        "Continuously learning",
+        "Innovative teaching methods",
+        "Student-focused",
+        "Engaging and effective",
+        "Master teacher",
+    )
+
+    return (1..15).map { index ->
+        TeacherCourseQualification(
+            teacherStaffId = staffIds[index % staffIds.size], // Cycle through staff IDs
+            courseId = courseIds[index % courseIds.size], // Cycle through course IDs
+            qualificationDate = generateFutureDateTimeWithRandomness().date, // Qualification in last 5 years
+            notes = notesList[index % notesList.size], // Cycle through notes
+//            updatedAt = LocalDateTime.now()
+//                .minusMonths(Random.nextInt(24)) // Updated within last 2 years
+        )
+    }
+}
+
+fun generateFutureDateTimeWithRandomness(
+    minDaysToAdd: Int = 0,
+    maxDaysToAdd: Int = 365,
+    minHoursToAdd: Int = 0,
+    maxHoursToAdd: Int = 23,
+    minMinutesToAdd: Int = 0,
+    maxMinutesToAdd: Int = 59,
+    minSecondsToAdd: Int = 0,
+    maxSecondsToAdd: Int = 59,
+    timeZone: TimeZone = TimeZone.currentSystemDefault(),
+): LocalDateTime {
+    // Get the current instant
+    val now: Instant = System.now()
+
+    // Generate random components
+    val randomDaysToAdd: Int =
+        Random.nextInt(from = minDaysToAdd, until = maxDaysToAdd + 1) // +1 to make it inclusive
+    val randomHoursToAdd: Int = Random.nextInt(from = minHoursToAdd, until = maxHoursToAdd + 1)
+    val randomMinutesToAdd: Int =
+        Random.nextInt(from = minMinutesToAdd, until = maxMinutesToAdd + 1)
+    val randomSecondsToAdd: Int =
+        Random.nextInt(from = minSecondsToAdd, until = maxSecondsToAdd + 1)
+
+    // Calculate the future instant
+    val futureInstant: Instant = now
+        .plus(randomDaysToAdd, DateTimeUnit.DAY, timeZone)
+        .plus(randomHoursToAdd, DateTimeUnit.HOUR, timeZone)
+        .plus(randomMinutesToAdd, DateTimeUnit.MINUTE, timeZone)
+        .plus(randomSecondsToAdd, DateTimeUnit.SECOND, timeZone)
+
+    // Convert to LocalDateTime
+    return futureInstant.toLocalDateTime(timeZone)
+}
+
+fun List<String>.toContents() = this.map { listOf(Content(content = it)) }
