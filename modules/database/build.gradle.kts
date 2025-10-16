@@ -47,7 +47,7 @@ alias(libs.plugins.baselineprofile)
 mavenPublishing {
 // Define coordinates for the published artifact
 coordinates(
-artifactId = "seriesdatabase",
+artifactId = "database",
 )
 // Configure POM metadata for the published artifact
 pom {

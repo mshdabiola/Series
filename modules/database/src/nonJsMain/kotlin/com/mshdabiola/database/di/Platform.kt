@@ -17,6 +17,7 @@ package com.mshdabiola.database.di
 
 import com.mshdabiola.database.SeriesDatabase
 import org.koin.core.module.Module
+import org.koin.core.qualifier.qualifier
 import org.koin.dsl.module
 
 expect val databaseModule: Module
@@ -24,6 +25,41 @@ expect val databaseModule: Module
 val daoModules =
     module {
         single {
-            get<SeriesDatabase>().getNoteDao()
+            get<SeriesDatabase>().getExaminationDao()
+        }
+
+        single {
+            get<SeriesDatabase>().getInstructionDao()
+        }
+        single {
+            get<SeriesDatabase>().getOptionDao()
+        }
+        single {
+            get<SeriesDatabase>().getQuestionDao()
+        }
+        single {
+            get<SeriesDatabase>().getSubjectDao()
+        }
+        single {
+            get<SeriesDatabase>().getTopicDao()
+        }
+//    single {
+//        DatabaseExportImport(get())
+//    }
+
+//        single {
+//            ExportImport(get())
+//        }
+
+        single {
+            get<SeriesDatabase>().getSeriesDao()
+        }
+
+        single {
+            get<SeriesDatabase>().getUserDao()
+        }
+
+        single {
+            get<SeriesDatabase>().getTopicCategoryDao()
         }
     }
