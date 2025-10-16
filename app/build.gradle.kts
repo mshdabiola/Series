@@ -38,7 +38,11 @@ kotlin {
     sourceSets {
 
         commonMain.dependencies {
-//            implementation(projects.library)
+            implementation(projects.modules.database)
+            implementation(projects.modules.jretex)
+            implementation(projects.modules.model)
+            implementation(projects.modules.retex)
+
 
             implementation(compose.components.resources)
 

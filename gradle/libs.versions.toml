@@ -16,6 +16,7 @@ dokka = "2.0.0"
 kotlin = "2.2.20"
 ksp = "2.2.20-2.0.4"
 kstore = "1.0.0"
+koin = "4.1.1"
 kotlinxSerializationJson = "1.9.0"
 kotlinxCollectionImmutable = "0.4.0"
 kotlinxCoroutines = "1.10.2"
@@ -51,6 +52,8 @@ kotlinx-collection-immutable = { module = "org.jetbrains.kotlinx:kotlinx-collect
 kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinxCoroutines" }
 kotlinx-coroutines-swing = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-swing", version.ref = "kotlinxCoroutines" }
 kstore = { module = "io.github.xxfast:kstore", version.ref = "kstore" }
+koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
+kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinxCoroutines" }
 kstore-storage = { module = "io.github.xxfast:kstore-storage", version.ref = "kstore" }
 kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
 room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
