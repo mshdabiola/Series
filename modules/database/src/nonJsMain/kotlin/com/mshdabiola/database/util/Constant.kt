@@ -16,5 +16,5 @@
 package com.mshdabiola.database.util
 
 object Constant {
-    const val DATABASE_NAME = "kmt_database.db"
+    const val DATABASE_NAME = "series_database.db"
 }

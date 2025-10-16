@@ -50,14 +50,14 @@ import kotlin.test.assertTrue
 
 class NoteDaoTest {
 
-    private lateinit var database: KmtDatabase
+    private lateinit var database: SeriesDatabase
     private lateinit var noteDao: NoteDao
 
     @Before
     fun createDb() {
         database =
             Room
-                .inMemoryDatabaseBuilder<KmtDatabase>()
+                .inMemoryDatabaseBuilder<SeriesDatabase>()
                 .setDriver(BundledSQLiteDriver())
                 .setQueryCoroutineContext(Dispatchers.IO)
                 .build()

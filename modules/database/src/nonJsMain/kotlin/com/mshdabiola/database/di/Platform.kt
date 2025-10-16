@@ -15,7 +15,7 @@
  */
 package com.mshdabiola.database.di
 
-import com.mshdabiola.database.KmtDatabase
+import com.mshdabiola.database.SeriesDatabase
 import org.koin.core.module.Module
 import org.koin.dsl.module
 
@@ -24,6 +24,6 @@ expect val databaseModule: Module
 val daoModules =
     module {
         single {
-            get<KmtDatabase>().getNoteDao()
+            get<SeriesDatabase>().getNoteDao()
         }
     }
