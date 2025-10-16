@@ -62,9 +62,9 @@ android {
     sourceSets["main"].res.srcDirs("src/androidMain/res")
     sourceSets["main"].resources.srcDirs("src/commonMain/composeResources")
 
-    namespace = "com.hobit.sample"
+    namespace = "com.hobit.series"
     defaultConfig {
-        applicationId = "com.hobit.sample"
+        applicationId = "com.hobit.series"
         versionCode = libs.versions.versionCode.get().toIntOrNull()
         versionName = System.getenv("VERSION_NAME") ?: libs.versions.versionName.get()
 
@@ -90,7 +90,7 @@ android {
 
 compose.desktop {
     application {
-        mainClass = "com.hobit.sample.MainAppKt"
+        mainClass = "com.hobit.series.MainAppKt"
 
 
         buildTypes.release.proguard {

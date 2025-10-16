@@ -13,24 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.hobit.sample
+package com.hobit.series
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.mshdabiola.library.Note
-import com.mshdabiola.library.NoteCard
 
 @Composable
 fun SamApp() {
     Box(modifier = Modifier.fillMaxSize()) {
-        NoteCard(
-            noteUiState = Note(
-                title = "Title",
-                content = "Content",
-            ),
-            onClick = {},
-        )
+//      Text("Hello World")
     }
 }
