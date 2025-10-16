@@ -34,7 +34,6 @@ include(":modules:jretex")
 
 
 
-include(":library")
 include(":app")
 include(":benchmarks")
 include(":app")
