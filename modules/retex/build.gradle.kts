@@ -39,18 +39,18 @@ kotlin {
 //                implementation("org.scilab.forge:jlatexmath:1.0.7")
             }
         }
-        jvmMain.dependencies {
-            api(compose.preview)
-
-        }
+//        jvmMain.dependencies {
+//            api(compose.preview)
+//
+//        }
 
         val jvmTest by getting {
             dependencies {
-                kotlin("test")
-                implementation(libs.kotlinx.coroutines.test)
-                implementation(libs.turbine)
-                implementation(libs.koin.test)
-                implementation(libs.koin.test.junit)
+//                kotlin("test")
+//                implementation(libs.kotlinx.coroutines.test)
+//                implementation(libs.turbine)
+//                implementation(libs.koin.test)
+//                implementation(libs.koin.test.junit)
             }
         }
 
