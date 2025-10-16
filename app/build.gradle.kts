@@ -38,7 +38,7 @@ kotlin {
     sourceSets {
 
         commonMain.dependencies {
-            implementation(projects.library)
+//            implementation(projects.library)
 
             implementation(compose.components.resources)
 
