@@ -20,7 +20,6 @@ import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 @Suppress("DSL_SCOPE_VIOLATION")
 plugins {
     id("mshdabiola.android.library")
-    id("mshdabiola.android.library.compose")
     id("mshdabiola.android.library.publish")
     alias(libs.plugins.baselineprofile)
 
@@ -41,11 +40,7 @@ mavenPublishing {
 
 
 android {
-    defaultConfig {
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-    }
     namespace = "com.mshdabiola.transfer"
-
 }
 dependencies {
     baselineProfile(projects.benchmarks)
