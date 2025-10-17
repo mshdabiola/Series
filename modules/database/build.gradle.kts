@@ -111,11 +111,11 @@ kotlin {
         }
         val nonJsMain by getting {
             dependencies {
-                implementation(libs.room.runtime)
+                api(libs.room.runtime)
             }
         }
         jvmMain.dependencies {
-           implementation(libs.sqlite.bundled)
+           api(libs.sqlite.bundled)
         }
     }
 }
