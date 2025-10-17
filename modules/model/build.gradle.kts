@@ -19,8 +19,7 @@ plugins {
     id("mshdabiola.android.library")
     alias(libs.plugins.kotlin.serialization)
     id("mshdabiola.android.library.publish")
-
-
+    alias(libs.plugins.baselineprofile)
 }
 
 
@@ -34,6 +33,18 @@ mavenPublishing {
         name.set("Series Model")
         description.set("Model for Series")
         inceptionYear.set("2024")
+    }
+}
+
+dependencies {
+    baselineProfile(projects.benchmarks)
+
+}
+
+baselineProfile {
+    baselineProfileOutputDir = "../../src/androidMain"
+    filter {
+        include("com.mshdabiola.seriesmodel.**")
     }
 }
 kotlin {

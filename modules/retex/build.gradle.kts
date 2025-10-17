@@ -17,6 +17,7 @@ plugins {
     id("mshdabiola.android.library")
     id("mshdabiola.android.library.compose")
     id("mshdabiola.android.library.publish")
+    alias(libs.plugins.baselineprofile)
 }
 
 mavenPublishing {
@@ -33,6 +34,18 @@ mavenPublishing {
 android {
     namespace = "com.mshdabiola.serieslatex"
 
+}
+
+dependencies {
+    baselineProfile(projects.benchmarks)
+
+}
+
+baselineProfile {
+    baselineProfileOutputDir = "../../src/androidMain"
+    filter {
+        include("com.mshdabiola.serieslatex.**")
+    }
 }
 
 kotlin {

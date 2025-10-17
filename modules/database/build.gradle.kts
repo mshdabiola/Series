@@ -72,7 +72,14 @@ dependencies {
      add("kspAndroid", libs.room.compiler)
     add("kspJvm", libs.room.compiler)
 
+    baselineProfile(projects.benchmarks)
+}
 
+baselineProfile {
+    baselineProfileOutputDir = "../../src/androidMain"
+    filter {
+        include("com.mshdabiola.database.**")
+    }
 }
 kotlin {
     applyDefaultHierarchyTemplate {

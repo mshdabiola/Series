@@ -42,6 +42,8 @@ kotlin {
             implementation(projects.modules.jretex)
             implementation(projects.modules.model)
             implementation(projects.modules.retex)
+            implementation(projects.modules.transfer)
+
 
 
             implementation(compose.components.resources)
