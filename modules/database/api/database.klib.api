@@ -1,0 +1,53 @@
+// Klib ABI Dump
+// Targets: [wasmJs]
+// Rendering settings:
+// - Signature version: 2
+// - Show manifest properties: true
+// - Show declarations: true
+
+// Library unique name: <series.modules:database>
+abstract interface com.mshdabiola.database.dao/NoteDao { // com.mshdabiola.database.dao/NoteDao|null[0]
+    abstract fun getAll(): kotlinx.coroutines.flow/Flow<kotlin.collections/List<com.mshdabiola.database.model/NoteEntity>> // com.mshdabiola.database.dao/NoteDao.getAll|getAll(){}[0]
+    abstract fun getOne(kotlin/Long): kotlinx.coroutines.flow/Flow<com.mshdabiola.database.model/NoteEntity?> // com.mshdabiola.database.dao/NoteDao.getOne|getOne(kotlin.Long){}[0]
+    abstract suspend fun clearAll() // com.mshdabiola.database.dao/NoteDao.clearAll|clearAll(){}[0]
+    abstract suspend fun delete(kotlin/Long) // com.mshdabiola.database.dao/NoteDao.delete|delete(kotlin.Long){}[0]
+    abstract suspend fun insert(com.mshdabiola.database.model/NoteEntity): kotlin/Long // com.mshdabiola.database.dao/NoteDao.insert|insert(com.mshdabiola.database.model.NoteEntity){}[0]
+    abstract suspend fun insertAll(kotlin.collections/List<com.mshdabiola.database.model/NoteEntity>) // com.mshdabiola.database.dao/NoteDao.insertAll|insertAll(kotlin.collections.List<com.mshdabiola.database.model.NoteEntity>){}[0]
+    abstract suspend fun update(com.mshdabiola.database.model/NoteEntity) // com.mshdabiola.database.dao/NoteDao.update|update(com.mshdabiola.database.model.NoteEntity){}[0]
+    abstract suspend fun upsert(com.mshdabiola.database.model/NoteEntity): kotlin/Long // com.mshdabiola.database.dao/NoteDao.upsert|upsert(com.mshdabiola.database.model.NoteEntity){}[0]
+}
+
+final class com.mshdabiola.database.model/NoteEntity { // com.mshdabiola.database.model/NoteEntity|null[0]
+    constructor <init>(kotlin/Long?, kotlin/String, kotlin/String) // com.mshdabiola.database.model/NoteEntity.<init>|<init>(kotlin.Long?;kotlin.String;kotlin.String){}[0]
+
+    final val content // com.mshdabiola.database.model/NoteEntity.content|{}content[0]
+        final fun <get-content>(): kotlin/String // com.mshdabiola.database.model/NoteEntity.content.<get-content>|<get-content>(){}[0]
+    final val id // com.mshdabiola.database.model/NoteEntity.id|{}id[0]
+        final fun <get-id>(): kotlin/Long? // com.mshdabiola.database.model/NoteEntity.id.<get-id>|<get-id>(){}[0]
+    final val title // com.mshdabiola.database.model/NoteEntity.title|{}title[0]
+        final fun <get-title>(): kotlin/String // com.mshdabiola.database.model/NoteEntity.title.<get-title>|<get-title>(){}[0]
+
+    final fun component1(): kotlin/Long? // com.mshdabiola.database.model/NoteEntity.component1|component1(){}[0]
+    final fun component2(): kotlin/String // com.mshdabiola.database.model/NoteEntity.component2|component2(){}[0]
+    final fun component3(): kotlin/String // com.mshdabiola.database.model/NoteEntity.component3|component3(){}[0]
+    final fun copy(kotlin/Long? = ..., kotlin/String = ..., kotlin/String = ...): com.mshdabiola.database.model/NoteEntity // com.mshdabiola.database.model/NoteEntity.copy|copy(kotlin.Long?;kotlin.String;kotlin.String){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // com.mshdabiola.database.model/NoteEntity.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // com.mshdabiola.database.model/NoteEntity.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // com.mshdabiola.database.model/NoteEntity.toString|toString(){}[0]
+
+    final object $serializer : kotlinx.serialization.internal/GeneratedSerializer<com.mshdabiola.database.model/NoteEntity> { // com.mshdabiola.database.model/NoteEntity.$serializer|null[0]
+        final val descriptor // com.mshdabiola.database.model/NoteEntity.$serializer.descriptor|{}descriptor[0]
+            final fun <get-descriptor>(): kotlinx.serialization.descriptors/SerialDescriptor // com.mshdabiola.database.model/NoteEntity.$serializer.descriptor.<get-descriptor>|<get-descriptor>(){}[0]
+
+        final fun childSerializers(): kotlin/Array<kotlinx.serialization/KSerializer<*>> // com.mshdabiola.database.model/NoteEntity.$serializer.childSerializers|childSerializers(){}[0]
+        final fun deserialize(kotlinx.serialization.encoding/Decoder): com.mshdabiola.database.model/NoteEntity // com.mshdabiola.database.model/NoteEntity.$serializer.deserialize|deserialize(kotlinx.serialization.encoding.Decoder){}[0]
+        final fun serialize(kotlinx.serialization.encoding/Encoder, com.mshdabiola.database.model/NoteEntity) // com.mshdabiola.database.model/NoteEntity.$serializer.serialize|serialize(kotlinx.serialization.encoding.Encoder;com.mshdabiola.database.model.NoteEntity){}[0]
+    }
+
+    final object Companion { // com.mshdabiola.database.model/NoteEntity.Companion|null[0]
+        final fun serializer(): kotlinx.serialization/KSerializer<com.mshdabiola.database.model/NoteEntity> // com.mshdabiola.database.model/NoteEntity.Companion.serializer|serializer(){}[0]
+    }
+}
+
+final val com.mshdabiola.database.di/daoModules // com.mshdabiola.database.di/daoModules|{}daoModules[0]
+    final fun <get-daoModules>(): org.koin.core.module/Module // com.mshdabiola.database.di/daoModules.<get-daoModules>|<get-daoModules>(){}[0]

@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -17,7 +17,6 @@ package com.mshdabiola.database.di
 
 import com.mshdabiola.database.SeriesDatabase
 import org.koin.core.module.Module
-import org.koin.core.qualifier.qualifier
 import org.koin.dsl.module
 
 expect val databaseModule: Module
