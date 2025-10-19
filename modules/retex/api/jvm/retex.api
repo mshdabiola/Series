@@ -1,0 +1,369 @@
+public final class com/himamis/retex/renderer/desktop/FactoryProviderDesktop : com/himamis/retex/renderer/share/platform/FactoryProvider {
+	public static final field $stable I
+	public fun <init> ()V
+}
+
+public final class com/himamis/retex/renderer/desktop/IconHelper {
+	public static final field $stable I
+	public static final field INSTANCE Lcom/himamis/retex/renderer/desktop/IconHelper;
+	public final fun createIcon (Lcom/himamis/retex/renderer/share/TeXIcon;)Ljavax/swing/Icon;
+}
+
+public final class com/himamis/retex/renderer/desktop/TestJlmDesktop : javax/swing/JFrame {
+	public static final field $stable I
+	public static final field Companion Lcom/himamis/retex/renderer/desktop/TestJlmDesktop$Companion;
+	public fun <init> ()V
+	public static final fun main ([Ljava/lang/String;)V
+	public fun paint (Ljava/awt/Graphics;)V
+}
+
+public final class com/himamis/retex/renderer/desktop/TestJlmDesktop$Companion {
+	public final fun main ([Ljava/lang/String;)V
+}
+
+public final class com/himamis/retex/renderer/desktop/box/ShapeBoxDecorator : com/himamis/retex/renderer/share/platform/box/BoxDecorator {
+	public static final field $stable I
+	public fun <init> ()V
+	public fun decorate (Lcom/himamis/retex/renderer/share/Box;)Lcom/himamis/retex/renderer/share/Box;
+}
+
+public final class com/himamis/retex/renderer/desktop/font/FontD : com/himamis/retex/renderer/share/platform/font/Font {
+	public static final field $stable I
+	public static final field Companion Lcom/himamis/retex/renderer/desktop/font/FontD$Companion;
+	public fun <init> (Ljava/awt/Font;)V
+	public fun <init> (Ljava/lang/String;II)V
+	public fun canDisplay (C)Z
+	public fun canDisplay (I)Z
+	public final fun createGlyphVector (Lcom/himamis/retex/renderer/share/platform/font/FontRenderContext;Ljava/lang/String;)Lcom/himamis/retex/renderer/share/platform/font/GlyphVector;
+	public fun deriveFont (I)Lcom/himamis/retex/renderer/share/platform/font/Font;
+	public fun deriveFont (Ljava/util/Map;)Lcom/himamis/retex/renderer/share/platform/font/Font;
+	public final fun getFont ()Ljava/awt/Font;
+	public fun getGlyphOutline (Lcom/himamis/retex/renderer/share/platform/font/FontRenderContext;Lcom/himamis/retex/renderer/share/CharFont;)Lcom/himamis/retex/renderer/share/platform/geom/Shape;
+	public final fun getName ()Ljava/lang/String;
+	public fun getScale ()I
+	public final fun getSize ()I
+	public fun isEqual (Lcom/himamis/retex/renderer/share/platform/font/Font;)Z
+	public final fun setFont (Ljava/awt/Font;)V
+}
+
+public final class com/himamis/retex/renderer/desktop/font/FontD$Companion {
+}
+
+public final class com/himamis/retex/renderer/desktop/font/FontFactoryDesktop : com/himamis/retex/renderer/share/platform/font/FontFactory {
+	public static final field $stable I
+	public fun <init> ()V
+	public fun createFont (Ljava/lang/String;II)Lcom/himamis/retex/renderer/share/platform/font/Font;
+	public fun createFontLoader ()Lcom/himamis/retex/renderer/share/platform/font/FontLoader;
+	public fun createTextAttributeProvider ()Lcom/himamis/retex/renderer/share/platform/font/TextAttributeProvider;
+	public fun createTextLayout (Ljava/lang/String;Lcom/himamis/retex/renderer/share/platform/font/Font;Lcom/himamis/retex/renderer/share/platform/font/FontRenderContext;)Lcom/himamis/retex/renderer/share/platform/font/TextLayout;
+	public fun getFontScaleFactor ()I
+}
+
+public final class com/himamis/retex/renderer/desktop/font/FontLoaderD : com/himamis/retex/renderer/share/platform/font/FontLoader {
+	public static final field $stable I
+	public static final field Companion Lcom/himamis/retex/renderer/desktop/font/FontLoaderD$Companion;
+	public fun <init> ()V
+	public fun loadFont (Ljava/lang/String;)Lcom/himamis/retex/renderer/share/platform/font/Font;
+}
+
+public final class com/himamis/retex/renderer/desktop/font/FontLoaderD$Companion {
+}
+
+public final class com/himamis/retex/renderer/desktop/font/FontRenderContextD : java/awt/font/FontRenderContext, com/himamis/retex/renderer/share/platform/font/FontRenderContext {
+	public static final field $stable I
+	public fun <init> (Ljava/awt/font/FontRenderContext;)V
+	public fun getFont ()Lcom/himamis/retex/renderer/share/platform/font/Font;
+	public final fun getImpl ()Ljava/awt/font/FontRenderContext;
+	public final fun setImpl (Ljava/awt/font/FontRenderContext;)V
+}
+
+public final class com/himamis/retex/renderer/desktop/font/GlyphVectorD : com/himamis/retex/renderer/share/platform/font/GlyphVector {
+	public static final field $stable I
+	public fun <init> (Ljava/awt/font/GlyphVector;)V
+	public fun getGlyphOutline (I)Lcom/himamis/retex/renderer/share/platform/geom/Shape;
+}
+
+public final class com/himamis/retex/renderer/desktop/font/TextAttributeD : com/himamis/retex/renderer/share/platform/font/TextAttribute {
+	public static final field $stable I
+	public fun <init> (Ljava/awt/font/TextAttribute;)V
+	public final fun getTextAttribute ()Ljava/awt/font/TextAttribute;
+}
+
+public final class com/himamis/retex/renderer/desktop/font/TextAttributeProviderD : com/himamis/retex/renderer/share/platform/font/TextAttributeProvider {
+	public static final field $stable I
+	public fun <init> ()V
+	public fun getTextAttribute (Ljava/lang/String;)Lcom/himamis/retex/renderer/share/platform/font/TextAttribute;
+	public fun getTextAttributeValue (Ljava/lang/String;)Ljava/lang/Integer;
+}
+
+public final class com/himamis/retex/renderer/desktop/font/TextLayoutD : com/himamis/retex/renderer/share/platform/font/TextLayout {
+	public static final field $stable I
+	public fun <init> (Ljava/lang/String;Ljava/awt/Font;Ljava/awt/font/FontRenderContext;)V
+	public fun draw (Lcom/himamis/retex/renderer/share/platform/graphics/Graphics2DInterface;II)V
+	public fun getBounds ()Lcom/himamis/retex/renderer/share/platform/geom/Rectangle2D;
+}
+
+public final class com/himamis/retex/renderer/desktop/geom/AreaD : java/awt/geom/Area, com/himamis/retex/renderer/share/platform/geom/Area {
+	public static final field $stable I
+	public static final field Companion Lcom/himamis/retex/renderer/desktop/geom/AreaD$Companion;
+	public fun <init> ()V
+	public fun <init> (Ljava/awt/Shape;)V
+	public fun add (Lcom/himamis/retex/renderer/share/platform/geom/Area;)V
+	public fun add (Ljava/awt/geom/Area;)V
+	public fun duplicate ()Lcom/himamis/retex/renderer/share/platform/geom/Area;
+	public fun getBounds2DX ()Lcom/himamis/retex/renderer/share/platform/geom/Rectangle2D;
+	public fun scale (D)V
+	public fun translate (DD)V
+}
+
+public final class com/himamis/retex/renderer/desktop/geom/AreaD$Companion {
+}
+
+public final class com/himamis/retex/renderer/desktop/geom/GeneralPathD : com/himamis/retex/renderer/desktop/geom/ShapeD {
+	public static final field $stable I
+	public static final field Companion Lcom/himamis/retex/renderer/desktop/geom/GeneralPathD$Companion;
+	public fun <init> ()V
+	public fun <init> (I)V
+	public fun <init> (Ljava/awt/geom/GeneralPath;)V
+	public fun getBounds2DX ()Lcom/himamis/retex/renderer/share/platform/geom/Rectangle2D;
+}
+
+public final class com/himamis/retex/renderer/desktop/geom/GeneralPathD$Companion {
+	public final fun getAwtGeneralPath (Lcom/himamis/retex/renderer/share/platform/geom/Shape;)Ljava/awt/geom/GeneralPath;
+}
+
+public final class com/himamis/retex/renderer/desktop/geom/GeomFactoryDesktop : com/himamis/retex/renderer/share/platform/geom/GeomFactory {
+	public static final field $stable I
+	public fun <init> ()V
+	public fun createArea (Lcom/himamis/retex/renderer/share/platform/geom/Shape;)Lcom/himamis/retex/renderer/share/platform/geom/Area;
+	public fun createLine2D (DDDD)Lcom/himamis/retex/renderer/share/platform/geom/Line2D;
+	public fun createPoint2D (DD)Lcom/himamis/retex/renderer/share/platform/geom/Point2D;
+	public fun createRectangle2D (DDDD)Lcom/himamis/retex/renderer/share/platform/geom/Rectangle2D;
+	public fun createRoundRectangle2D (DDDDDD)Lcom/himamis/retex/renderer/share/platform/geom/RoundRectangle2D;
+	public fun newArea ()Lcom/himamis/retex/renderer/share/platform/geom/Area;
+}
+
+public final class com/himamis/retex/renderer/desktop/geom/Line2DD : java/awt/geom/Line2D$Double, com/himamis/retex/renderer/share/platform/geom/Line2D {
+	public static final field $stable I
+	public static final field Companion Lcom/himamis/retex/renderer/desktop/geom/Line2DD$Companion;
+	public fun <init> (DDDD)V
+}
+
+public final class com/himamis/retex/renderer/desktop/geom/Line2DD$Companion {
+}
+
+public final class com/himamis/retex/renderer/desktop/geom/Point2DD : java/awt/geom/Point2D$Double, com/himamis/retex/renderer/share/platform/geom/Point2D {
+	public static final field $stable I
+	public static final field Companion Lcom/himamis/retex/renderer/desktop/geom/Point2DD$Companion;
+	public fun <init> (DD)V
+	public fun setX (D)V
+	public fun setY (D)V
+}
+
+public final class com/himamis/retex/renderer/desktop/geom/Point2DD$Companion {
+}
+
+public final class com/himamis/retex/renderer/desktop/geom/Rectangle2DD : java/awt/geom/Rectangle2D$Double, com/himamis/retex/renderer/share/platform/geom/Rectangle2D {
+	public static final field $stable I
+	public static final field Companion Lcom/himamis/retex/renderer/desktop/geom/Rectangle2DD$Companion;
+	public fun <init> (DDDD)V
+	public fun <init> (Ljava/awt/geom/Rectangle2D;)V
+	public fun getBounds2DX ()Lcom/himamis/retex/renderer/share/platform/geom/Rectangle2D;
+	public final fun getNativeObject ()Ljava/lang/Object;
+	public fun setRectangle (DDDD)V
+}
+
+public final class com/himamis/retex/renderer/desktop/geom/Rectangle2DD$Companion {
+}
+
+public final class com/himamis/retex/renderer/desktop/geom/RoundRectangle2DD : java/awt/geom/RoundRectangle2D$Double, com/himamis/retex/renderer/share/platform/geom/RoundRectangle2D {
+	public static final field $stable I
+	public static final field Companion Lcom/himamis/retex/renderer/desktop/geom/RoundRectangle2DD$Companion;
+	public fun <init> (DDDDDD)V
+	public fun getArcH ()D
+	public fun getArcW ()D
+	public final fun getNativeObject ()Ljava/lang/Object;
+	public fun setRoundRectangle (DDDDDD)V
+}
+
+public final class com/himamis/retex/renderer/desktop/geom/RoundRectangle2DD$Companion {
+}
+
+public abstract interface class com/himamis/retex/renderer/desktop/geom/ShapeD : com/himamis/retex/renderer/share/platform/geom/Shape {
+}
+
+public final class com/himamis/retex/renderer/desktop/graphics/Base64 {
+	public static final field $stable I
+	public static final field INSTANCE Lcom/himamis/retex/renderer/desktop/graphics/Base64;
+	public final fun decode (Ljava/lang/String;)[B
+	public final fun decode ([B)[B
+	public final fun decode ([C)[B
+	public final fun decodeFast (Ljava/lang/String;)[B
+	public final fun decodeFast ([B)[B
+	public final fun decodeFast ([C)[B
+	public final fun encodeToByte ([BZ)[B
+	public final fun encodeToChar ([BZ)[C
+	public final fun encodeToString ([BZ)Ljava/lang/String;
+}
+
+public final class com/himamis/retex/renderer/desktop/graphics/BasicStrokeD : java/awt/BasicStroke, com/himamis/retex/renderer/share/platform/graphics/BasicStroke {
+	public static final field $stable I
+	public static final field Companion Lcom/himamis/retex/renderer/desktop/graphics/BasicStrokeD$Companion;
+	public fun <init> (DIID)V
+	public fun <init> (D[D)V
+	public fun <init> (Ljava/awt/BasicStroke;)V
+}
+
+public final class com/himamis/retex/renderer/desktop/graphics/BasicStrokeD$Companion {
+}
+
+public final class com/himamis/retex/renderer/desktop/graphics/ColorD : java/awt/Color, com/himamis/retex/renderer/share/platform/graphics/Color {
+	public static final field $stable I
+	public static final field Companion Lcom/himamis/retex/renderer/desktop/graphics/ColorD$Companion;
+	public fun <init> (IIII)V
+	public fun <init> (Ljava/awt/Color;)V
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getColor ()I
+	public final fun getNativeObject ()Ljava/lang/Object;
+}
+
+public final class com/himamis/retex/renderer/desktop/graphics/ColorD$Companion {
+	public final fun get (Ljava/awt/Color;)Lcom/himamis/retex/renderer/share/platform/graphics/Color;
+}
+
+public final class com/himamis/retex/renderer/desktop/graphics/Graphics2DD : com/himamis/retex/renderer/share/platform/graphics/Graphics2DInterface {
+	public static final field $stable I
+	public static final field Companion Lcom/himamis/retex/renderer/desktop/graphics/Graphics2DD$Companion;
+	public fun <init> (Ljava/awt/Graphics2D;)V
+	public fun bezierCurveTo (DDDDDD)V
+	public fun dispose ()V
+	public fun draw (Lcom/himamis/retex/renderer/share/platform/geom/Line2D;)V
+	public fun draw (Lcom/himamis/retex/renderer/share/platform/geom/Rectangle2D;)V
+	public fun draw (Lcom/himamis/retex/renderer/share/platform/geom/RoundRectangle2D;)V
+	public fun drawArc (IIIIII)V
+	public fun drawChars ([CIIII)V
+	public fun drawImage (Lcom/himamis/retex/renderer/share/platform/graphics/Image;II)V
+	public fun drawImage (Lcom/himamis/retex/renderer/share/platform/graphics/Image;Lcom/himamis/retex/renderer/share/platform/graphics/Transform;)V
+	public fun fill (Lcom/himamis/retex/renderer/share/platform/geom/Shape;)V
+	public fun fillArc (IIIIII)V
+	public fun fillRect (DDDD)V
+	public fun finishDrawing ()V
+	public fun getColor ()Lcom/himamis/retex/renderer/share/platform/graphics/Color;
+	public fun getFont ()Lcom/himamis/retex/renderer/share/platform/font/Font;
+	public fun getFontRenderContext ()Lcom/himamis/retex/renderer/share/platform/font/FontRenderContext;
+	public final fun getImpl ()Ljava/awt/Graphics2D;
+	public fun getRenderingHint (I)I
+	public fun getStroke ()Lcom/himamis/retex/renderer/share/platform/graphics/Stroke;
+	public fun getTransform ()Lcom/himamis/retex/renderer/share/platform/graphics/Transform;
+	public fun lineTo (DD)V
+	public fun moveTo (DD)V
+	public fun quadraticCurveTo (DDDD)V
+	public fun restoreTransformation ()V
+	public fun rotate (D)V
+	public fun rotate (DDD)V
+	public fun saveTransformation ()V
+	public fun scale (DD)V
+	public fun setColor (Lcom/himamis/retex/renderer/share/platform/graphics/Color;)V
+	public fun setFont (Lcom/himamis/retex/renderer/share/platform/font/Font;)V
+	public fun setRenderingHint (II)V
+	public fun setStroke (Lcom/himamis/retex/renderer/share/platform/graphics/Stroke;)V
+	public fun startDrawing ()V
+	public fun translate (DD)V
+}
+
+public final class com/himamis/retex/renderer/desktop/graphics/Graphics2DD$Companion {
+}
+
+public final class com/himamis/retex/renderer/desktop/graphics/GraphicsFactoryDesktop : com/himamis/retex/renderer/share/platform/graphics/GraphicsFactory {
+	public static final field $stable I
+	public fun <init> ()V
+	public fun createBasicStroke (DIID)Lcom/himamis/retex/renderer/share/platform/graphics/BasicStroke;
+	public fun createBasicStroke (D[D)Lcom/himamis/retex/renderer/share/platform/graphics/Stroke;
+	public fun createColor (IIII)Lcom/himamis/retex/renderer/share/platform/graphics/Color;
+	public fun createImage (III)Lcom/himamis/retex/renderer/share/platform/graphics/Image;
+	public fun createImage (Ljava/lang/String;)Lcom/himamis/retex/renderer/share/platform/graphics/Image;
+	public fun createImage (Ljava/lang/String;II)Lcom/himamis/retex/renderer/share/platform/graphics/Image;
+	public fun createTransform ()Lcom/himamis/retex/renderer/share/platform/graphics/Transform;
+}
+
+public final class com/himamis/retex/renderer/desktop/graphics/ImageD : java/awt/image/BufferedImage, com/himamis/retex/renderer/share/platform/graphics/Image {
+	public static final field $stable I
+	public fun <init> (III)V
+	public fun <init> (Ljava/awt/image/BufferedImage;)V
+	public final fun compose ()Landroidx/compose/ui/graphics/ImageBitmap;
+	public fun createGraphics2D ()Lcom/himamis/retex/renderer/share/platform/graphics/Graphics2DInterface;
+}
+
+public final class com/himamis/retex/renderer/desktop/graphics/StrokeD : com/himamis/retex/renderer/share/platform/graphics/Stroke, java/awt/Stroke {
+	public static final field $stable I
+	public fun <init> (Ljava/awt/Stroke;)V
+	public fun createStrokedShape (Ljava/awt/Shape;)Ljava/awt/Shape;
+	public final fun getStroke ()Ljava/awt/Stroke;
+}
+
+public final class com/himamis/retex/renderer/desktop/graphics/TransformD : java/awt/geom/AffineTransform, com/himamis/retex/renderer/share/platform/graphics/Transform {
+	public static final field $stable I
+	public static final field Companion Lcom/himamis/retex/renderer/desktop/graphics/TransformD$Companion;
+	public fun <init> ()V
+	public fun <init> (Ljava/awt/geom/AffineTransform;)V
+	public final fun concatenate (Lcom/himamis/retex/renderer/share/platform/graphics/Transform;)V
+	public fun createClone ()Lcom/himamis/retex/renderer/share/platform/graphics/Transform;
+	public final fun createInverseX ()Lcom/himamis/retex/renderer/share/platform/graphics/Transform;
+	public final fun getNativeObject ()Ljava/lang/Object;
+}
+
+public final class com/himamis/retex/renderer/desktop/graphics/TransformD$Companion {
+}
+
+public final class com/mshdabiola/serieslatex/LatexStyle : java/lang/Enum {
+	public static final field DISPLAY Lcom/mshdabiola/serieslatex/LatexStyle;
+	public static final field SCRIPT Lcom/mshdabiola/serieslatex/LatexStyle;
+	public static final field SCRIPT_SCRIPT Lcom/mshdabiola/serieslatex/LatexStyle;
+	public static final field TEXT Lcom/mshdabiola/serieslatex/LatexStyle;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public final fun getValue ()I
+	public static fun valueOf (Ljava/lang/String;)Lcom/mshdabiola/serieslatex/LatexStyle;
+	public static fun values ()[Lcom/mshdabiola/serieslatex/LatexStyle;
+}
+
+public final class com/mshdabiola/serieslatex/LatexType : java/lang/Enum {
+	public static final field BOLD Lcom/mshdabiola/serieslatex/LatexType;
+	public static final field ITALIC Lcom/mshdabiola/serieslatex/LatexType;
+	public static final field ROMAN Lcom/mshdabiola/serieslatex/LatexType;
+	public static final field SANSERIF Lcom/mshdabiola/serieslatex/LatexType;
+	public static final field SERIF Lcom/mshdabiola/serieslatex/LatexType;
+	public static final field TYPEWRITER Lcom/mshdabiola/serieslatex/LatexType;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public final fun getValue ()I
+	public static fun valueOf (Ljava/lang/String;)Lcom/mshdabiola/serieslatex/LatexType;
+	public static fun values ()[Lcom/mshdabiola/serieslatex/LatexType;
+}
+
+public final class com/mshdabiola/serieslatex/Latex_jvmKt {
+	public static final fun LoadTex (DLandroidx/compose/runtime/Composer;II)V
+	public static final fun getImageBitmap (Lcom/himamis/retex/renderer/share/platform/graphics/Image;)Landroidx/compose/ui/graphics/ImageBitmap;
+	public static final fun toByteArray (Landroidx/compose/ui/graphics/ImageBitmap;)[B
+	public static final fun toPaintColor-8_81llA (J)Lcom/himamis/retex/renderer/share/platform/graphics/Color;
+}
+
+public final class com/mshdabiola/serieslatex/Latex_nonJsKt {
+	public static final fun Latex-vRFhKjU (Landroidx/compose/ui/Modifier;Ljava/lang/String;DJJLcom/mshdabiola/serieslatex/LatexStyle;Lcom/mshdabiola/serieslatex/LatexType;Landroidx/compose/runtime/Composer;II)V
+	public static final fun getFontScale ()D
+	public static final fun getLatexImage-1wkBAMs (Ljava/lang/String;JJLcom/mshdabiola/serieslatex/LatexStyle;Lcom/mshdabiola/serieslatex/LatexType;)Landroidx/compose/ui/graphics/ImageBitmap;
+	public static synthetic fun getLatexImage-1wkBAMs$default (Ljava/lang/String;JJLcom/mshdabiola/serieslatex/LatexStyle;Lcom/mshdabiola/serieslatex/LatexType;ILjava/lang/Object;)Landroidx/compose/ui/graphics/ImageBitmap;
+	public static final fun setFontScale (D)V
+}
+
+public final class com/mshdabiola/serieslatex/MarkUpEngine {
+	public static final field $stable I
+	public static final field INSTANCE Lcom/mshdabiola/serieslatex/MarkUpEngine;
+	public final fun containStyle (Ljava/lang/String;)Z
+	public final fun getList ()Ljava/util/Map;
+	public final fun getSpanStyle (Ljava/lang/String;)Landroidx/compose/ui/text/SpanStyle;
+	public final fun isStyleString (Ljava/lang/String;)Z
+}
+
+public final class com/mshdabiola/serieslatex/MarkUpKt {
+	public static final fun MarkUpText-fLXpl1I (Ljava/lang/String;Landroidx/compose/ui/Modifier;JJLandroidx/compose/ui/text/font/FontStyle;Landroidx/compose/ui/text/font/FontWeight;Landroidx/compose/ui/text/font/FontFamily;JLandroidx/compose/ui/text/style/TextDecoration;Landroidx/compose/ui/text/style/TextAlign;JIZILandroidx/compose/ui/text/TextStyle;Lkotlin/jvm/functions/Function1;Landroidx/compose/runtime/Composer;III)V
+}
+

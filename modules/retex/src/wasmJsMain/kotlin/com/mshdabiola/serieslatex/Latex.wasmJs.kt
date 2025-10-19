@@ -15,17 +15,14 @@
  */
 package com.mshdabiola.serieslatex
 
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-
-@Composable
-expect fun Latex(
-    modifier: Modifier = Modifier,
+@androidx.compose.runtime.Composable
+actual fun Latex(
+    modifier: androidx.compose.ui.Modifier,
     text: String,
-    size: Double = 20.0,
-    foregroundColor: Color = Color.Unspecified,
-    backgroundColor: Color = Color.Transparent,
-    style: LatexStyle = LatexStyle.DISPLAY,
-    type: LatexType = LatexType.SERIF,
-)
+    size: Double,
+    foregroundColor: androidx.compose.ui.graphics.Color,
+    backgroundColor: androidx.compose.ui.graphics.Color,
+    style: com.mshdabiola.serieslatex.LatexStyle,
+    type: com.mshdabiola.serieslatex.LatexType,
+) {
+}

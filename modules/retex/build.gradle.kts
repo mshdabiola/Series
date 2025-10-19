@@ -49,40 +49,51 @@ baselineProfile {
 }
 
 kotlin {
-//    androidTarget()
-//    jvm("desktop")
+    applyDefaultHierarchyTemplate {
+        common {
+            group("nonJs") {
+                withAndroidTarget()
+                // withIos()
+                withJvm()
+            }
+        }
+    }
+    @OptIn(org.jetbrains.kotlin.gradle.dsl.abi.ExperimentalAbiValidation::class)
+    abiValidation {
+        // Use the set() function to ensure compatibility with older Gradle versions
+        enabled.set(true)
+    }
     sourceSets {
-        androidMain.dependencies {
-            api(compose.preview)
+        commonMain.dependencies {
+            api(compose.runtime)
+            api(compose.foundation)
+            api(compose.ui)
+            api(compose.materialIconsExtended)
+            api(compose.components.resources)
+            api(compose.material3AdaptiveNavigationSuite)
+            api(compose.components.uiToolingPreview)
+//                api(compose.material3)
 
+
+            api(libs.kotlinx.collection.immutable)
+            api(libs.androidx.lifecycle.viewmodelCompose)
+            api(libs.androidx.lifecycle.runtimeCompose)
+            api(libs.material3)
+
+            api(compose.components.resources)
         }
-        val commonMain by getting {
+
+        jvmMain.dependencies {
+            implementation(compose.desktop.currentOs)
+
+            implementation(compose.desktop.uiTestJUnit4)
+        }
+        val nonJsMain by getting {
             dependencies {
-                implementation(project(":modules:jretex"))
-                implementation(compose.runtime)
-                implementation(compose.foundation)
-                implementation(compose.material3)
-                implementation(compose.materialIconsExtended)
-                implementation(compose.components.resources)
-//                implementation("org.scilab.forge:jlatexmath:1.0.7")
+                implementation(projects.modules.jretex)
+
             }
         }
-//        jvmMain.dependencies {
-//            api(compose.preview)
-//
-//        }
-
-        val jvmTest by getting {
-            dependencies {
-//                kotlin("test")
-//                implementation(libs.kotlinx.coroutines.test)
-//                implementation(libs.turbine)
-//                implementation(libs.koin.test)
-//                implementation(libs.koin.test.junit)
-            }
-        }
-
-
     }
 }
 
