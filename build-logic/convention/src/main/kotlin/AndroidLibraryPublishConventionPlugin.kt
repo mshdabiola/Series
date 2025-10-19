@@ -1,45 +1,40 @@
-
-import com.android.build.api.variant.LibraryAndroidComponentsExtension
-import com.android.build.gradle.LibraryExtension
-import com.mshdabiola.app.configureFlavors
-import com.mshdabiola.app.configureGradleManagedDevices
-import com.mshdabiola.app.configureKotlinAndroid
-import com.mshdabiola.app.configurePrintApksTask
-import com.mshdabiola.app.disableUnnecessaryAndroidTests
+/*
+ * Designed and developed by 2024 mshdabiola (lawal abiola)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 import com.mshdabiola.app.libs
 import com.vanniktech.maven.publish.MavenPublishBaseExtension
-import com.vanniktech.maven.publish.SonatypeHost
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.api.artifacts.VersionCatalogsExtension
 import org.gradle.api.credentials.PasswordCredentials
 import org.gradle.api.publish.PublishingExtension
-import org.gradle.api.publish.maven.plugins.MavenPublishPlugin
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.credentials
-import org.gradle.kotlin.dsl.dependencies
-import org.gradle.kotlin.dsl.getByType
-import org.gradle.kotlin.dsl.kotlin
-import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
-import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
-import org.jetbrains.kotlin.powerassert.gradle.PowerAssertGradleExtension
-import java.io.File
-import java.util.Properties
 
 class AndroidLibraryPublishConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
             with(pluginManager) {
-
                 apply("com.vanniktech.maven.publish")
+                apply("org.jetbrains.dokka")
             }
             extensions.configure<PublishingExtension> {
                 repositories {
                     maven {
                         name = "githubPackages"
-                        url = uri("https://maven.pkg.github.com/mshdabiola/series")
+                        url = uri("https://maven.pkg.github.com/mshdabiola/kltemplate")
                         credentials(PasswordCredentials::class)
-
                     }
                 }
             }
@@ -52,9 +47,8 @@ class AndroidLibraryPublishConventionPlugin : Plugin<Project> {
 
                 // Configure POM metadata for the published artifact
                 pom {
-
-                    inceptionYear.set("2024")
-                    url.set("https://github.com/mshdabiola/series")
+                    inceptionYear.set("2025")
+                    url.set("https://github.com/mshdabiola/kltemplate")
 
                     licenses {
                         license {
@@ -74,20 +68,16 @@ class AndroidLibraryPublishConventionPlugin : Plugin<Project> {
 
                     // Specify SCM information
                     scm {
-                        url.set("https://github.com/mshdabiola/series")
+                        url.set("https://github.com/mshdabiola/kltemplate")
                     }
                 }
 
                 // Configure publishing to Maven Central
-                publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL)
+                publishToMavenCentral(automaticRelease = true)
 
                 // Enable GPG signing for all publications
                 signAllPublications()
             }
-
-
-
         }
-
     }
 }

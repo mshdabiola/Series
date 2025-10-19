@@ -1,0 +1,657 @@
+public final class com/mshdabiola/database/DatabaseMigrations {
+	public static final field INSTANCE Lcom/mshdabiola/database/DatabaseMigrations;
+}
+
+public final class com/mshdabiola/database/DatabaseMigrations$Schema10to11 : androidx/room/migration/AutoMigrationSpec {
+	public fun <init> ()V
+	public fun onPostMigrate (Landroidx/sqlite/SQLiteConnection;)V
+}
+
+public final class com/mshdabiola/database/DatabaseMigrations$Schema11to12 : androidx/room/migration/AutoMigrationSpec {
+	public fun <init> ()V
+	public fun onPostMigrate (Landroidx/sqlite/SQLiteConnection;)V
+}
+
+public final class com/mshdabiola/database/DatabaseMigrations$Schema2to3 : androidx/room/migration/AutoMigrationSpec {
+	public fun <init> ()V
+	public fun onPostMigrate (Landroidx/sqlite/SQLiteConnection;)V
+}
+
+public final class com/mshdabiola/database/DatabaseModule {
+	public static final field INSTANCE Lcom/mshdabiola/database/DatabaseModule;
+}
+
+public abstract class com/mshdabiola/database/SeriesDatabase : androidx/room/RoomDatabase {
+	public fun <init> ()V
+	public abstract fun getExaminationDao ()Lcom/mshdabiola/database/dao/ExaminationDao;
+	public abstract fun getInstructionDao ()Lcom/mshdabiola/database/dao/InstructionDao;
+	public abstract fun getOptionDao ()Lcom/mshdabiola/database/dao/OptionDao;
+	public abstract fun getQuestionDao ()Lcom/mshdabiola/database/dao/QuestionDao;
+	public abstract fun getSeriesDao ()Lcom/mshdabiola/database/dao/SeriesDao;
+	public abstract fun getSubjectDao ()Lcom/mshdabiola/database/dao/SubjectDao;
+	public abstract fun getTopicCategoryDao ()Lcom/mshdabiola/database/dao/TopicCategoryDao;
+	public abstract fun getTopicDao ()Lcom/mshdabiola/database/dao/TopicDao;
+	public abstract fun getUserDao ()Lcom/mshdabiola/database/dao/UserDao;
+}
+
+public final class com/mshdabiola/database/SeriesDatabaseCtor : androidx/room/RoomDatabaseConstructor {
+	public static final field INSTANCE Lcom/mshdabiola/database/SeriesDatabaseCtor;
+	public synthetic fun initialize ()Landroidx/room/RoomDatabase;
+	public fun initialize ()Lcom/mshdabiola/database/SeriesDatabase;
+}
+
+public final class com/mshdabiola/database/SeriesDatabase_Impl : com/mshdabiola/database/SeriesDatabase {
+	public fun <init> ()V
+	public fun createAutoMigrations (Ljava/util/Map;)Ljava/util/List;
+	public synthetic fun createOpenDelegate ()Landroidx/room/RoomOpenDelegateMarker;
+	public fun getExaminationDao ()Lcom/mshdabiola/database/dao/ExaminationDao;
+	public fun getInstructionDao ()Lcom/mshdabiola/database/dao/InstructionDao;
+	public fun getOptionDao ()Lcom/mshdabiola/database/dao/OptionDao;
+	public fun getQuestionDao ()Lcom/mshdabiola/database/dao/QuestionDao;
+	public fun getRequiredAutoMigrationSpecClasses ()Ljava/util/Set;
+	public fun getSeriesDao ()Lcom/mshdabiola/database/dao/SeriesDao;
+	public fun getSubjectDao ()Lcom/mshdabiola/database/dao/SubjectDao;
+	public fun getTopicCategoryDao ()Lcom/mshdabiola/database/dao/TopicCategoryDao;
+	public fun getTopicDao ()Lcom/mshdabiola/database/dao/TopicDao;
+	public fun getUserDao ()Lcom/mshdabiola/database/dao/UserDao;
+}
+
+public abstract interface class com/mshdabiola/database/dao/ExaminationDao {
+	public abstract fun clearAll (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public abstract fun delete (JLkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public abstract fun getAll ()Lkotlinx/coroutines/flow/Flow;
+	public abstract fun getAllBySubjectIdWithSubject (J)Lkotlinx/coroutines/flow/Flow;
+	public abstract fun getAllWithSubject ()Lkotlinx/coroutines/flow/Flow;
+	public abstract fun getByIds (Ljava/util/Set;)Lkotlinx/coroutines/flow/Flow;
+	public abstract fun getOneWithSubject (J)Lkotlinx/coroutines/flow/Flow;
+	public abstract fun insertAll (Ljava/util/List;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public abstract fun upsert (Lcom/mshdabiola/database/model/ExaminationEntity;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
+public final class com/mshdabiola/database/dao/ExaminationDao_Impl : com/mshdabiola/database/dao/ExaminationDao {
+	public static final field Companion Lcom/mshdabiola/database/dao/ExaminationDao_Impl$Companion;
+	public fun <init> (Landroidx/room/RoomDatabase;)V
+	public fun clearAll (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public fun delete (JLkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public fun getAll ()Lkotlinx/coroutines/flow/Flow;
+	public fun getAllBySubjectIdWithSubject (J)Lkotlinx/coroutines/flow/Flow;
+	public fun getAllWithSubject ()Lkotlinx/coroutines/flow/Flow;
+	public fun getByIds (Ljava/util/Set;)Lkotlinx/coroutines/flow/Flow;
+	public fun getOneWithSubject (J)Lkotlinx/coroutines/flow/Flow;
+	public fun insertAll (Ljava/util/List;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public fun upsert (Lcom/mshdabiola/database/model/ExaminationEntity;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
+public final class com/mshdabiola/database/dao/ExaminationDao_Impl$Companion {
+	public final fun getRequiredConverters ()Ljava/util/List;
+}
+
+public abstract interface class com/mshdabiola/database/dao/InstructionDao {
+	public abstract fun clearAll (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public abstract fun delete (JLkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public abstract fun getAll ()Lkotlinx/coroutines/flow/Flow;
+	public abstract fun getAllByExamId (J)Lkotlinx/coroutines/flow/Flow;
+	public abstract fun getByIds (Ljava/util/Set;)Lkotlinx/coroutines/flow/Flow;
+	public abstract fun getOne (J)Lkotlinx/coroutines/flow/Flow;
+	public abstract fun insertAll (Ljava/util/List;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public abstract fun upsert (Lcom/mshdabiola/database/model/InstructionEntity;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
+public final class com/mshdabiola/database/dao/InstructionDao_Impl : com/mshdabiola/database/dao/InstructionDao {
+	public static final field Companion Lcom/mshdabiola/database/dao/InstructionDao_Impl$Companion;
+	public fun <init> (Landroidx/room/RoomDatabase;)V
+	public fun clearAll (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public fun delete (JLkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public fun getAll ()Lkotlinx/coroutines/flow/Flow;
+	public fun getAllByExamId (J)Lkotlinx/coroutines/flow/Flow;
+	public fun getByIds (Ljava/util/Set;)Lkotlinx/coroutines/flow/Flow;
+	public fun getOne (J)Lkotlinx/coroutines/flow/Flow;
+	public fun insertAll (Ljava/util/List;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public fun upsert (Lcom/mshdabiola/database/model/InstructionEntity;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
+public final class com/mshdabiola/database/dao/InstructionDao_Impl$Companion {
+	public final fun getRequiredConverters ()Ljava/util/List;
+}
+
+public abstract interface class com/mshdabiola/database/dao/OptionDao {
+	public abstract fun clearAll (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public abstract fun delete (JLkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public abstract fun getAll ()Lkotlinx/coroutines/flow/Flow;
+	public abstract fun getByQuestionIds (Ljava/util/Set;)Lkotlinx/coroutines/flow/Flow;
+	public abstract fun getOne (J)Lkotlinx/coroutines/flow/Flow;
+	public abstract fun insertAll (Ljava/util/List;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public abstract fun upsert (Lcom/mshdabiola/database/model/OptionEntity;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
+public final class com/mshdabiola/database/dao/OptionDao_Impl : com/mshdabiola/database/dao/OptionDao {
+	public static final field Companion Lcom/mshdabiola/database/dao/OptionDao_Impl$Companion;
+	public fun <init> (Landroidx/room/RoomDatabase;)V
+	public fun clearAll (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public fun delete (JLkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public fun getAll ()Lkotlinx/coroutines/flow/Flow;
+	public fun getByQuestionIds (Ljava/util/Set;)Lkotlinx/coroutines/flow/Flow;
+	public fun getOne (J)Lkotlinx/coroutines/flow/Flow;
+	public fun insertAll (Ljava/util/List;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public fun upsert (Lcom/mshdabiola/database/model/OptionEntity;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
+public final class com/mshdabiola/database/dao/OptionDao_Impl$Companion {
+	public final fun getRequiredConverters ()Ljava/util/List;
+}
+
+public abstract interface class com/mshdabiola/database/dao/QuestionDao {
+	public abstract fun clearAll (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public abstract fun delete (JLkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public abstract fun getAll ()Lkotlinx/coroutines/flow/Flow;
+	public abstract fun getAllWithOptsInstTop ()Lkotlinx/coroutines/flow/Flow;
+	public abstract fun getByExamId (J)Lkotlinx/coroutines/flow/Flow;
+	public abstract fun getByExamIds (Ljava/util/Set;)Lkotlinx/coroutines/flow/Flow;
+	public abstract fun getOneWithOptsInstTop (J)Lkotlinx/coroutines/flow/Flow;
+	public abstract fun insertAll (Ljava/util/List;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public abstract fun upsert (Lcom/mshdabiola/database/model/QuestionEntity;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
+public final class com/mshdabiola/database/dao/QuestionDao_Impl : com/mshdabiola/database/dao/QuestionDao {
+	public static final field Companion Lcom/mshdabiola/database/dao/QuestionDao_Impl$Companion;
+	public fun <init> (Landroidx/room/RoomDatabase;)V
+	public fun clearAll (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public fun delete (JLkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public fun getAll ()Lkotlinx/coroutines/flow/Flow;
+	public fun getAllWithOptsInstTop ()Lkotlinx/coroutines/flow/Flow;
+	public fun getByExamId (J)Lkotlinx/coroutines/flow/Flow;
+	public fun getByExamIds (Ljava/util/Set;)Lkotlinx/coroutines/flow/Flow;
+	public fun getOneWithOptsInstTop (J)Lkotlinx/coroutines/flow/Flow;
+	public fun insertAll (Ljava/util/List;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public fun upsert (Lcom/mshdabiola/database/model/QuestionEntity;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
+public final class com/mshdabiola/database/dao/QuestionDao_Impl$Companion {
+	public final fun getRequiredConverters ()Ljava/util/List;
+}
+
+public abstract interface class com/mshdabiola/database/dao/SeriesDao {
+	public abstract fun clearAll (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public abstract fun delete (JLkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public abstract fun getAll ()Lkotlinx/coroutines/flow/Flow;
+	public abstract fun getByIds (Ljava/util/Set;)Lkotlinx/coroutines/flow/Flow;
+	public abstract fun getOne (J)Lkotlinx/coroutines/flow/Flow;
+	public abstract fun insertAll (Ljava/util/List;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public abstract fun upsert (Lcom/mshdabiola/database/model/SeriesEntity;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
+public final class com/mshdabiola/database/dao/SeriesDao_Impl : com/mshdabiola/database/dao/SeriesDao {
+	public static final field Companion Lcom/mshdabiola/database/dao/SeriesDao_Impl$Companion;
+	public fun <init> (Landroidx/room/RoomDatabase;)V
+	public fun clearAll (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public fun delete (JLkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public fun getAll ()Lkotlinx/coroutines/flow/Flow;
+	public fun getByIds (Ljava/util/Set;)Lkotlinx/coroutines/flow/Flow;
+	public fun getOne (J)Lkotlinx/coroutines/flow/Flow;
+	public fun insertAll (Ljava/util/List;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public fun upsert (Lcom/mshdabiola/database/model/SeriesEntity;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
+public final class com/mshdabiola/database/dao/SeriesDao_Impl$Companion {
+	public final fun getRequiredConverters ()Ljava/util/List;
+}
+
+public abstract interface class com/mshdabiola/database/dao/SubjectDao {
+	public abstract fun clearAll (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public abstract fun delete (JLkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public abstract fun getAll ()Lkotlinx/coroutines/flow/Flow;
+	public abstract fun getAllWithSeries ()Lkotlinx/coroutines/flow/Flow;
+	public abstract fun getByIds (Ljava/util/Set;)Lkotlinx/coroutines/flow/Flow;
+	public abstract fun getOne (J)Lkotlinx/coroutines/flow/Flow;
+	public abstract fun getOneWithSeries (J)Lkotlinx/coroutines/flow/Flow;
+	public abstract fun insertAll (Ljava/util/List;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public abstract fun upsert (Lcom/mshdabiola/database/model/SubjectEntity;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
+public final class com/mshdabiola/database/dao/SubjectDao_Impl : com/mshdabiola/database/dao/SubjectDao {
+	public static final field Companion Lcom/mshdabiola/database/dao/SubjectDao_Impl$Companion;
+	public fun <init> (Landroidx/room/RoomDatabase;)V
+	public fun clearAll (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public fun delete (JLkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public fun getAll ()Lkotlinx/coroutines/flow/Flow;
+	public fun getAllWithSeries ()Lkotlinx/coroutines/flow/Flow;
+	public fun getByIds (Ljava/util/Set;)Lkotlinx/coroutines/flow/Flow;
+	public fun getOne (J)Lkotlinx/coroutines/flow/Flow;
+	public fun getOneWithSeries (J)Lkotlinx/coroutines/flow/Flow;
+	public fun insertAll (Ljava/util/List;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public fun upsert (Lcom/mshdabiola/database/model/SubjectEntity;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
+public final class com/mshdabiola/database/dao/SubjectDao_Impl$Companion {
+	public final fun getRequiredConverters ()Ljava/util/List;
+}
+
+public abstract interface class com/mshdabiola/database/dao/TopicCategoryDao {
+	public abstract fun clearAll (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public abstract fun delete (JLkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public abstract fun getAll ()Lkotlinx/coroutines/flow/Flow;
+	public abstract fun getAllBySubjectId (J)Lkotlinx/coroutines/flow/Flow;
+	public abstract fun getAllWithTopics ()Lkotlinx/coroutines/flow/Flow;
+	public abstract fun getAllWithTopicsBySubjectId (J)Lkotlinx/coroutines/flow/Flow;
+	public abstract fun getByIds (Ljava/util/Set;)Lkotlinx/coroutines/flow/Flow;
+	public abstract fun getOneWithTopics (J)Lkotlinx/coroutines/flow/Flow;
+	public abstract fun insertAll (Ljava/util/List;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public abstract fun upsert (Lcom/mshdabiola/database/model/TopicCategoryEntity;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
+public final class com/mshdabiola/database/dao/TopicCategoryDao_Impl : com/mshdabiola/database/dao/TopicCategoryDao {
+	public static final field Companion Lcom/mshdabiola/database/dao/TopicCategoryDao_Impl$Companion;
+	public fun <init> (Landroidx/room/RoomDatabase;)V
+	public fun clearAll (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public fun delete (JLkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public fun getAll ()Lkotlinx/coroutines/flow/Flow;
+	public fun getAllBySubjectId (J)Lkotlinx/coroutines/flow/Flow;
+	public fun getAllWithTopics ()Lkotlinx/coroutines/flow/Flow;
+	public fun getAllWithTopicsBySubjectId (J)Lkotlinx/coroutines/flow/Flow;
+	public fun getByIds (Ljava/util/Set;)Lkotlinx/coroutines/flow/Flow;
+	public fun getOneWithTopics (J)Lkotlinx/coroutines/flow/Flow;
+	public fun insertAll (Ljava/util/List;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public fun upsert (Lcom/mshdabiola/database/model/TopicCategoryEntity;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
+public final class com/mshdabiola/database/dao/TopicCategoryDao_Impl$Companion {
+	public final fun getRequiredConverters ()Ljava/util/List;
+}
+
+public abstract interface class com/mshdabiola/database/dao/TopicDao {
+	public abstract fun clearAll (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public abstract fun delete (JLkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public abstract fun getAll ()Lkotlinx/coroutines/flow/Flow;
+	public abstract fun getAllByCategory (J)Lkotlinx/coroutines/flow/Flow;
+	public abstract fun getByIds (Ljava/util/Set;)Lkotlinx/coroutines/flow/Flow;
+	public abstract fun getOne (J)Lkotlinx/coroutines/flow/Flow;
+	public abstract fun getOneWithCategory (J)Lkotlinx/coroutines/flow/Flow;
+	public abstract fun insertAll (Ljava/util/List;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public abstract fun upsert (Lcom/mshdabiola/database/model/TopicEntity;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
+public final class com/mshdabiola/database/dao/TopicDao_Impl : com/mshdabiola/database/dao/TopicDao {
+	public static final field Companion Lcom/mshdabiola/database/dao/TopicDao_Impl$Companion;
+	public fun <init> (Landroidx/room/RoomDatabase;)V
+	public fun clearAll (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public fun delete (JLkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public fun getAll ()Lkotlinx/coroutines/flow/Flow;
+	public fun getAllByCategory (J)Lkotlinx/coroutines/flow/Flow;
+	public fun getByIds (Ljava/util/Set;)Lkotlinx/coroutines/flow/Flow;
+	public fun getOne (J)Lkotlinx/coroutines/flow/Flow;
+	public fun getOneWithCategory (J)Lkotlinx/coroutines/flow/Flow;
+	public fun insertAll (Ljava/util/List;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public fun upsert (Lcom/mshdabiola/database/model/TopicEntity;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
+public final class com/mshdabiola/database/dao/TopicDao_Impl$Companion {
+	public final fun getRequiredConverters ()Ljava/util/List;
+}
+
+public abstract interface class com/mshdabiola/database/dao/UserDao {
+	public abstract fun deleteAllUsers (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public abstract fun deleteUser (JLkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public abstract fun getAllUsers ()Lkotlinx/coroutines/flow/Flow;
+	public abstract fun getByIds (Ljava/util/Set;)Lkotlinx/coroutines/flow/Flow;
+	public abstract fun getUserById (J)Lkotlinx/coroutines/flow/Flow;
+	public abstract fun getUserByName (Ljava/lang/String;)Lkotlinx/coroutines/flow/Flow;
+	public abstract fun getUserByNameAndPassword (Ljava/lang/String;Ljava/lang/String;)Lkotlinx/coroutines/flow/Flow;
+	public abstract fun insertAll (Ljava/util/List;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public abstract fun insertUser (Lcom/mshdabiola/database/model/UserEntity;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
+public final class com/mshdabiola/database/dao/UserDao_Impl : com/mshdabiola/database/dao/UserDao {
+	public static final field Companion Lcom/mshdabiola/database/dao/UserDao_Impl$Companion;
+	public fun <init> (Landroidx/room/RoomDatabase;)V
+	public fun deleteAllUsers (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public fun deleteUser (JLkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public fun getAllUsers ()Lkotlinx/coroutines/flow/Flow;
+	public fun getByIds (Ljava/util/Set;)Lkotlinx/coroutines/flow/Flow;
+	public fun getUserById (J)Lkotlinx/coroutines/flow/Flow;
+	public fun getUserByName (Ljava/lang/String;)Lkotlinx/coroutines/flow/Flow;
+	public fun getUserByNameAndPassword (Ljava/lang/String;Ljava/lang/String;)Lkotlinx/coroutines/flow/Flow;
+	public fun insertAll (Ljava/util/List;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public fun insertUser (Lcom/mshdabiola/database/model/UserEntity;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
+public final class com/mshdabiola/database/dao/UserDao_Impl$Companion {
+	public final fun getRequiredConverters ()Ljava/util/List;
+}
+
+public final class com/mshdabiola/database/di/PlatformKt {
+	public static final fun getDaoModules ()Lorg/koin/core/module/Module;
+}
+
+public final class com/mshdabiola/database/di/Platform_jvmKt {
+	public static final fun getDatabaseBuilder ()Lcom/mshdabiola/database/SeriesDatabase;
+	public static final fun getDatabaseModule ()Lorg/koin/core/module/Module;
+	public static final fun getDatabasePath ()Ljava/lang/String;
+}
+
+public final class com/mshdabiola/database/model/ExaminationEntity {
+	public fun <init> (Ljava/lang/Long;JJJ)V
+	public final fun component1 ()Ljava/lang/Long;
+	public final fun component2 ()J
+	public final fun component3 ()J
+	public final fun component4 ()J
+	public final fun copy (Ljava/lang/Long;JJJ)Lcom/mshdabiola/database/model/ExaminationEntity;
+	public static synthetic fun copy$default (Lcom/mshdabiola/database/model/ExaminationEntity;Ljava/lang/Long;JJJILjava/lang/Object;)Lcom/mshdabiola/database/model/ExaminationEntity;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getDuration ()J
+	public final fun getId ()Ljava/lang/Long;
+	public final fun getSubjectId ()J
+	public final fun getYear ()J
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/mshdabiola/database/model/InstructionEntity {
+	public fun <init> (Ljava/lang/Long;JLjava/lang/String;Ljava/lang/String;)V
+	public final fun component1 ()Ljava/lang/Long;
+	public final fun component2 ()J
+	public final fun component3 ()Ljava/lang/String;
+	public final fun component4 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/Long;JLjava/lang/String;Ljava/lang/String;)Lcom/mshdabiola/database/model/InstructionEntity;
+	public static synthetic fun copy$default (Lcom/mshdabiola/database/model/InstructionEntity;Ljava/lang/Long;JLjava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Lcom/mshdabiola/database/model/InstructionEntity;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getContent ()Ljava/lang/String;
+	public final fun getExamId ()J
+	public final fun getId ()Ljava/lang/Long;
+	public final fun getTitle ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/mshdabiola/database/model/OptionEntity {
+	public fun <init> (Ljava/lang/Long;JJLjava/lang/String;Ljava/lang/String;Z)V
+	public final fun component1 ()Ljava/lang/Long;
+	public final fun component2 ()J
+	public final fun component3 ()J
+	public final fun component4 ()Ljava/lang/String;
+	public final fun component5 ()Ljava/lang/String;
+	public final fun component6 ()Z
+	public final fun copy (Ljava/lang/Long;JJLjava/lang/String;Ljava/lang/String;Z)Lcom/mshdabiola/database/model/OptionEntity;
+	public static synthetic fun copy$default (Lcom/mshdabiola/database/model/OptionEntity;Ljava/lang/Long;JJLjava/lang/String;Ljava/lang/String;ZILjava/lang/Object;)Lcom/mshdabiola/database/model/OptionEntity;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getContents ()Ljava/lang/String;
+	public final fun getId ()Ljava/lang/Long;
+	public final fun getNumber ()J
+	public final fun getQuestionId ()J
+	public final fun getTitle ()Ljava/lang/String;
+	public fun hashCode ()I
+	public final fun isAnswer ()Z
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/mshdabiola/database/model/PaperEntity {
+	public fun <init> (Ljava/lang/Long;ZJJIZ)V
+	public final fun component1 ()Ljava/lang/Long;
+	public final fun component2 ()Z
+	public final fun component3 ()J
+	public final fun component4 ()J
+	public final fun component5 ()I
+	public final fun component6 ()Z
+	public final fun copy (Ljava/lang/Long;ZJJIZ)Lcom/mshdabiola/database/model/PaperEntity;
+	public static synthetic fun copy$default (Lcom/mshdabiola/database/model/PaperEntity;Ljava/lang/Long;ZJJIZILjava/lang/Object;)Lcom/mshdabiola/database/model/PaperEntity;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getId ()Ljava/lang/Long;
+	public final fun getNumberQuestions ()J
+	public final fun getSessionId ()J
+	public final fun getType ()I
+	public fun hashCode ()I
+	public final fun isGenerated ()Z
+	public final fun isRandom ()Z
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/mshdabiola/database/model/QuestionEntity {
+	public fun <init> (Ljava/lang/Long;JJLjava/lang/String;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Long;Ljava/lang/Long;)V
+	public final fun component1 ()Ljava/lang/Long;
+	public final fun component2 ()J
+	public final fun component3 ()J
+	public final fun component4 ()Ljava/lang/String;
+	public final fun component5 ()Ljava/lang/String;
+	public final fun component6 ()Ljava/lang/String;
+	public final fun component7 ()I
+	public final fun component8 ()Ljava/lang/Long;
+	public final fun component9 ()Ljava/lang/Long;
+	public final fun copy (Ljava/lang/Long;JJLjava/lang/String;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Long;Ljava/lang/Long;)Lcom/mshdabiola/database/model/QuestionEntity;
+	public static synthetic fun copy$default (Lcom/mshdabiola/database/model/QuestionEntity;Ljava/lang/Long;JJLjava/lang/String;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Long;Ljava/lang/Long;ILjava/lang/Object;)Lcom/mshdabiola/database/model/QuestionEntity;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getAnswers ()Ljava/lang/String;
+	public final fun getContents ()Ljava/lang/String;
+	public final fun getExamId ()J
+	public final fun getId ()Ljava/lang/Long;
+	public final fun getInstructionId ()Ljava/lang/Long;
+	public final fun getNumber ()J
+	public final fun getTitle ()Ljava/lang/String;
+	public final fun getTopicId ()Ljava/lang/Long;
+	public final fun getType ()I
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/mshdabiola/database/model/SeriesEntity {
+	public fun <init> (Ljava/lang/Long;JLjava/lang/String;)V
+	public final fun component1 ()Ljava/lang/Long;
+	public final fun component2 ()J
+	public final fun component3 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/Long;JLjava/lang/String;)Lcom/mshdabiola/database/model/SeriesEntity;
+	public static synthetic fun copy$default (Lcom/mshdabiola/database/model/SeriesEntity;Ljava/lang/Long;JLjava/lang/String;ILjava/lang/Object;)Lcom/mshdabiola/database/model/SeriesEntity;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getId ()Ljava/lang/Long;
+	public final fun getName ()Ljava/lang/String;
+	public final fun getUserId ()J
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/mshdabiola/database/model/SessionExamination {
+	public fun <init> (Ljava/lang/Long;JLjava/lang/Long;Ljava/lang/Long;JJJZJZZ)V
+	public final fun component1 ()Ljava/lang/Long;
+	public final fun component10 ()Z
+	public final fun component11 ()Z
+	public final fun component2 ()J
+	public final fun component3 ()Ljava/lang/Long;
+	public final fun component4 ()Ljava/lang/Long;
+	public final fun component5 ()J
+	public final fun component6 ()J
+	public final fun component7 ()J
+	public final fun component8 ()Z
+	public final fun component9 ()J
+	public final fun copy (Ljava/lang/Long;JLjava/lang/Long;Ljava/lang/Long;JJJZJZZ)Lcom/mshdabiola/database/model/SessionExamination;
+	public static synthetic fun copy$default (Lcom/mshdabiola/database/model/SessionExamination;Ljava/lang/Long;JLjava/lang/Long;Ljava/lang/Long;JJJZJZZILjava/lang/Object;)Lcom/mshdabiola/database/model/SessionExamination;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getDuration ()J
+	public final fun getExaminerId ()J
+	public final fun getGeneratedFromId ()Ljava/lang/Long;
+	public final fun getId ()Ljava/lang/Long;
+	public final fun getProgress ()J
+	public final fun getRemainingTime ()J
+	public final fun getShowResultImmediately ()Z
+	public final fun getTotalMarks ()J
+	public final fun getUserId ()Ljava/lang/Long;
+	public fun hashCode ()I
+	public final fun isCompleted ()Z
+	public final fun isUploaded ()Z
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/mshdabiola/database/model/SessionQuestion {
+	public fun <init> (Ljava/lang/Long;JJJLjava/lang/String;Z)V
+	public final fun component1 ()Ljava/lang/Long;
+	public final fun component2 ()J
+	public final fun component3 ()J
+	public final fun component4 ()J
+	public final fun component5 ()Ljava/lang/String;
+	public final fun component6 ()Z
+	public final fun copy (Ljava/lang/Long;JJJLjava/lang/String;Z)Lcom/mshdabiola/database/model/SessionQuestion;
+	public static synthetic fun copy$default (Lcom/mshdabiola/database/model/SessionQuestion;Ljava/lang/Long;JJJLjava/lang/String;ZILjava/lang/Object;)Lcom/mshdabiola/database/model/SessionQuestion;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getAnswer ()Ljava/lang/String;
+	public final fun getChosenOptionId ()J
+	public final fun getId ()Ljava/lang/Long;
+	public final fun getPaperId ()J
+	public final fun getQuestionId ()J
+	public fun hashCode ()I
+	public final fun isCorrect ()Z
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/mshdabiola/database/model/SubjectEntity {
+	public fun <init> (Ljava/lang/Long;JLjava/lang/String;)V
+	public final fun component1 ()Ljava/lang/Long;
+	public final fun component2 ()J
+	public final fun component3 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/Long;JLjava/lang/String;)Lcom/mshdabiola/database/model/SubjectEntity;
+	public static synthetic fun copy$default (Lcom/mshdabiola/database/model/SubjectEntity;Ljava/lang/Long;JLjava/lang/String;ILjava/lang/Object;)Lcom/mshdabiola/database/model/SubjectEntity;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getId ()Ljava/lang/Long;
+	public final fun getSeriesId ()J
+	public final fun getTitle ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/mshdabiola/database/model/TopicCategoryEntity {
+	public fun <init> (Ljava/lang/Long;Ljava/lang/String;J)V
+	public final fun component1 ()Ljava/lang/Long;
+	public final fun component2 ()Ljava/lang/String;
+	public final fun component3 ()J
+	public final fun copy (Ljava/lang/Long;Ljava/lang/String;J)Lcom/mshdabiola/database/model/TopicCategoryEntity;
+	public static synthetic fun copy$default (Lcom/mshdabiola/database/model/TopicCategoryEntity;Ljava/lang/Long;Ljava/lang/String;JILjava/lang/Object;)Lcom/mshdabiola/database/model/TopicCategoryEntity;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getId ()Ljava/lang/Long;
+	public final fun getName ()Ljava/lang/String;
+	public final fun getSubjectId ()J
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/mshdabiola/database/model/TopicEntity {
+	public fun <init> (Ljava/lang/Long;JLjava/lang/String;)V
+	public final fun component1 ()Ljava/lang/Long;
+	public final fun component2 ()J
+	public final fun component3 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/Long;JLjava/lang/String;)Lcom/mshdabiola/database/model/TopicEntity;
+	public static synthetic fun copy$default (Lcom/mshdabiola/database/model/TopicEntity;Ljava/lang/Long;JLjava/lang/String;ILjava/lang/Object;)Lcom/mshdabiola/database/model/TopicEntity;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getCategoryId ()J
+	public final fun getId ()Ljava/lang/Long;
+	public final fun getTitle ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/mshdabiola/database/model/UserEntity {
+	public fun <init> (Ljava/lang/Long;Ljava/lang/String;ILjava/lang/String;Ljava/lang/String;J)V
+	public final fun component1 ()Ljava/lang/Long;
+	public final fun component2 ()Ljava/lang/String;
+	public final fun component3 ()I
+	public final fun component4 ()Ljava/lang/String;
+	public final fun component5 ()Ljava/lang/String;
+	public final fun component6 ()J
+	public final fun copy (Ljava/lang/Long;Ljava/lang/String;ILjava/lang/String;Ljava/lang/String;J)Lcom/mshdabiola/database/model/UserEntity;
+	public static synthetic fun copy$default (Lcom/mshdabiola/database/model/UserEntity;Ljava/lang/Long;Ljava/lang/String;ILjava/lang/String;Ljava/lang/String;JILjava/lang/Object;)Lcom/mshdabiola/database/model/UserEntity;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getId ()Ljava/lang/Long;
+	public final fun getImagePath ()Ljava/lang/String;
+	public final fun getName ()Ljava/lang/String;
+	public final fun getPassword ()Ljava/lang/String;
+	public final fun getPoints ()J
+	public final fun getType ()I
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/mshdabiola/database/model/relation/CategoryWithTopicsRelation {
+	public fun <init> (Lcom/mshdabiola/database/model/TopicCategoryEntity;Ljava/util/List;)V
+	public final fun component1 ()Lcom/mshdabiola/database/model/TopicCategoryEntity;
+	public final fun component2 ()Ljava/util/List;
+	public final fun copy (Lcom/mshdabiola/database/model/TopicCategoryEntity;Ljava/util/List;)Lcom/mshdabiola/database/model/relation/CategoryWithTopicsRelation;
+	public static synthetic fun copy$default (Lcom/mshdabiola/database/model/relation/CategoryWithTopicsRelation;Lcom/mshdabiola/database/model/TopicCategoryEntity;Ljava/util/List;ILjava/lang/Object;)Lcom/mshdabiola/database/model/relation/CategoryWithTopicsRelation;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getCategory ()Lcom/mshdabiola/database/model/TopicCategoryEntity;
+	public final fun getTopics ()Ljava/util/List;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/mshdabiola/database/model/relation/ExaminationWithSubjectRelation {
+	public fun <init> (Lcom/mshdabiola/database/model/ExaminationEntity;Lcom/mshdabiola/database/model/relation/SubjectWithSeriesRelation;)V
+	public final fun component1 ()Lcom/mshdabiola/database/model/ExaminationEntity;
+	public final fun component2 ()Lcom/mshdabiola/database/model/relation/SubjectWithSeriesRelation;
+	public final fun copy (Lcom/mshdabiola/database/model/ExaminationEntity;Lcom/mshdabiola/database/model/relation/SubjectWithSeriesRelation;)Lcom/mshdabiola/database/model/relation/ExaminationWithSubjectRelation;
+	public static synthetic fun copy$default (Lcom/mshdabiola/database/model/relation/ExaminationWithSubjectRelation;Lcom/mshdabiola/database/model/ExaminationEntity;Lcom/mshdabiola/database/model/relation/SubjectWithSeriesRelation;ILjava/lang/Object;)Lcom/mshdabiola/database/model/relation/ExaminationWithSubjectRelation;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getExaminationEntity ()Lcom/mshdabiola/database/model/ExaminationEntity;
+	public final fun getSubjectWithSeries ()Lcom/mshdabiola/database/model/relation/SubjectWithSeriesRelation;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/mshdabiola/database/model/relation/QuestionWithOptsInstTopRelation {
+	public fun <init> (Lcom/mshdabiola/database/model/QuestionEntity;Ljava/util/List;Lcom/mshdabiola/database/model/InstructionEntity;Lcom/mshdabiola/database/model/relation/TopicWithCategoryRelation;)V
+	public final fun component1 ()Lcom/mshdabiola/database/model/QuestionEntity;
+	public final fun component2 ()Ljava/util/List;
+	public final fun component3 ()Lcom/mshdabiola/database/model/InstructionEntity;
+	public final fun component4 ()Lcom/mshdabiola/database/model/relation/TopicWithCategoryRelation;
+	public final fun copy (Lcom/mshdabiola/database/model/QuestionEntity;Ljava/util/List;Lcom/mshdabiola/database/model/InstructionEntity;Lcom/mshdabiola/database/model/relation/TopicWithCategoryRelation;)Lcom/mshdabiola/database/model/relation/QuestionWithOptsInstTopRelation;
+	public static synthetic fun copy$default (Lcom/mshdabiola/database/model/relation/QuestionWithOptsInstTopRelation;Lcom/mshdabiola/database/model/QuestionEntity;Ljava/util/List;Lcom/mshdabiola/database/model/InstructionEntity;Lcom/mshdabiola/database/model/relation/TopicWithCategoryRelation;ILjava/lang/Object;)Lcom/mshdabiola/database/model/relation/QuestionWithOptsInstTopRelation;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getInstructionEntity ()Lcom/mshdabiola/database/model/InstructionEntity;
+	public final fun getOptions ()Ljava/util/List;
+	public final fun getQuestionEntity ()Lcom/mshdabiola/database/model/QuestionEntity;
+	public final fun getTopicWithCategoryRelation ()Lcom/mshdabiola/database/model/relation/TopicWithCategoryRelation;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/mshdabiola/database/model/relation/SubjectWithSeriesRelation {
+	public fun <init> (Lcom/mshdabiola/database/model/SubjectEntity;Lcom/mshdabiola/database/model/SeriesEntity;)V
+	public final fun component1 ()Lcom/mshdabiola/database/model/SubjectEntity;
+	public final fun component2 ()Lcom/mshdabiola/database/model/SeriesEntity;
+	public final fun copy (Lcom/mshdabiola/database/model/SubjectEntity;Lcom/mshdabiola/database/model/SeriesEntity;)Lcom/mshdabiola/database/model/relation/SubjectWithSeriesRelation;
+	public static synthetic fun copy$default (Lcom/mshdabiola/database/model/relation/SubjectWithSeriesRelation;Lcom/mshdabiola/database/model/SubjectEntity;Lcom/mshdabiola/database/model/SeriesEntity;ILjava/lang/Object;)Lcom/mshdabiola/database/model/relation/SubjectWithSeriesRelation;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getSeriesEntity ()Lcom/mshdabiola/database/model/SeriesEntity;
+	public final fun getSubjectEntity ()Lcom/mshdabiola/database/model/SubjectEntity;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/mshdabiola/database/model/relation/TopicWithCategoryRelation {
+	public fun <init> (Lcom/mshdabiola/database/model/TopicEntity;Lcom/mshdabiola/database/model/TopicCategoryEntity;)V
+	public final fun component1 ()Lcom/mshdabiola/database/model/TopicEntity;
+	public final fun component2 ()Lcom/mshdabiola/database/model/TopicCategoryEntity;
+	public final fun copy (Lcom/mshdabiola/database/model/TopicEntity;Lcom/mshdabiola/database/model/TopicCategoryEntity;)Lcom/mshdabiola/database/model/relation/TopicWithCategoryRelation;
+	public static synthetic fun copy$default (Lcom/mshdabiola/database/model/relation/TopicWithCategoryRelation;Lcom/mshdabiola/database/model/TopicEntity;Lcom/mshdabiola/database/model/TopicCategoryEntity;ILjava/lang/Object;)Lcom/mshdabiola/database/model/relation/TopicWithCategoryRelation;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getTopic ()Lcom/mshdabiola/database/model/TopicEntity;
+	public final fun getTopicCategory ()Lcom/mshdabiola/database/model/TopicCategoryEntity;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/mshdabiola/database/model/topic/SyllabusEntity {
+	public fun <init> (Ljava/lang/Long;JLjava/lang/String;Ljava/lang/String;)V
+	public final fun component1 ()Ljava/lang/Long;
+	public final fun component2 ()J
+	public final fun component3 ()Ljava/lang/String;
+	public final fun component4 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/Long;JLjava/lang/String;Ljava/lang/String;)Lcom/mshdabiola/database/model/topic/SyllabusEntity;
+	public static synthetic fun copy$default (Lcom/mshdabiola/database/model/topic/SyllabusEntity;Ljava/lang/Long;JLjava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Lcom/mshdabiola/database/model/topic/SyllabusEntity;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getDescription ()Ljava/lang/String;
+	public final fun getId ()Ljava/lang/Long;
+	public final fun getSubjectId ()J
+	public final fun getTitle ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/mshdabiola/database/util/Constant {
+	public static final field DATABASE_NAME Ljava/lang/String;
+	public static final field INSTANCE Lcom/mshdabiola/database/util/Constant;
+}
+

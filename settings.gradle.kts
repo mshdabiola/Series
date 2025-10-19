@@ -30,10 +30,12 @@ include(":modules:database")
 include(":modules:model")
 include(":modules:retex")
 include(":modules:jretex")
-include(":modules:testing")
+include(":modules:transfer")
 
 
 
-include(":editorApp")
+include(":app")
+include(":benchmarks")
+include(":app")
 
 

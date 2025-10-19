@@ -1,0 +1,595 @@
+public final class com/mshdabiola/seriesmodel/Content {
+	public static final field Companion Lcom/mshdabiola/seriesmodel/Content$Companion;
+	public fun <init> (Ljava/lang/String;Lcom/mshdabiola/seriesmodel/Type;)V
+	public synthetic fun <init> (Ljava/lang/String;Lcom/mshdabiola/seriesmodel/Type;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Lcom/mshdabiola/seriesmodel/Type;
+	public final fun copy (Ljava/lang/String;Lcom/mshdabiola/seriesmodel/Type;)Lcom/mshdabiola/seriesmodel/Content;
+	public static synthetic fun copy$default (Lcom/mshdabiola/seriesmodel/Content;Ljava/lang/String;Lcom/mshdabiola/seriesmodel/Type;ILjava/lang/Object;)Lcom/mshdabiola/seriesmodel/Content;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getContent ()Ljava/lang/String;
+	public final fun getType ()Lcom/mshdabiola/seriesmodel/Type;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class com/mshdabiola/seriesmodel/Content$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Lcom/mshdabiola/seriesmodel/Content$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Lcom/mshdabiola/seriesmodel/Content;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lcom/mshdabiola/seriesmodel/Content;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class com/mshdabiola/seriesmodel/Content$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class com/mshdabiola/seriesmodel/Examination {
+	public static final field Companion Lcom/mshdabiola/seriesmodel/Examination$Companion;
+	public fun <init> (JJJJ)V
+	public synthetic fun <init> (JJJJILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()J
+	public final fun component2 ()J
+	public final fun component3 ()J
+	public final fun component4 ()J
+	public final fun copy (JJJJ)Lcom/mshdabiola/seriesmodel/Examination;
+	public static synthetic fun copy$default (Lcom/mshdabiola/seriesmodel/Examination;JJJJILjava/lang/Object;)Lcom/mshdabiola/seriesmodel/Examination;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getDuration ()J
+	public final fun getId ()J
+	public final fun getSubjectId ()J
+	public final fun getYear ()J
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class com/mshdabiola/seriesmodel/Examination$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Lcom/mshdabiola/seriesmodel/Examination$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Lcom/mshdabiola/seriesmodel/Examination;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lcom/mshdabiola/seriesmodel/Examination;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class com/mshdabiola/seriesmodel/Examination$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class com/mshdabiola/seriesmodel/ExaminationWithSubject {
+	public static final field Companion Lcom/mshdabiola/seriesmodel/ExaminationWithSubject$Companion;
+	public fun <init> (Lcom/mshdabiola/seriesmodel/Examination;Lcom/mshdabiola/seriesmodel/Subject;Lcom/mshdabiola/seriesmodel/Series;)V
+	public final fun component1 ()Lcom/mshdabiola/seriesmodel/Examination;
+	public final fun component2 ()Lcom/mshdabiola/seriesmodel/Subject;
+	public final fun component3 ()Lcom/mshdabiola/seriesmodel/Series;
+	public final fun copy (Lcom/mshdabiola/seriesmodel/Examination;Lcom/mshdabiola/seriesmodel/Subject;Lcom/mshdabiola/seriesmodel/Series;)Lcom/mshdabiola/seriesmodel/ExaminationWithSubject;
+	public static synthetic fun copy$default (Lcom/mshdabiola/seriesmodel/ExaminationWithSubject;Lcom/mshdabiola/seriesmodel/Examination;Lcom/mshdabiola/seriesmodel/Subject;Lcom/mshdabiola/seriesmodel/Series;ILjava/lang/Object;)Lcom/mshdabiola/seriesmodel/ExaminationWithSubject;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getExamination ()Lcom/mshdabiola/seriesmodel/Examination;
+	public final fun getSeries ()Lcom/mshdabiola/seriesmodel/Series;
+	public final fun getSubject ()Lcom/mshdabiola/seriesmodel/Subject;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class com/mshdabiola/seriesmodel/ExaminationWithSubject$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Lcom/mshdabiola/seriesmodel/ExaminationWithSubject$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Lcom/mshdabiola/seriesmodel/ExaminationWithSubject;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lcom/mshdabiola/seriesmodel/ExaminationWithSubject;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class com/mshdabiola/seriesmodel/ExaminationWithSubject$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class com/mshdabiola/seriesmodel/ExportableData {
+	public static final field Companion Lcom/mshdabiola/seriesmodel/ExportableData$Companion;
+	public fun <init> ()V
+	public fun <init> (Ljava/util/List;Ljava/util/List;Ljava/util/List;Ljava/util/List;Ljava/util/List;Ljava/util/List;Ljava/util/List;Ljava/util/List;Ljava/util/List;)V
+	public synthetic fun <init> (Ljava/util/List;Ljava/util/List;Ljava/util/List;Ljava/util/List;Ljava/util/List;Ljava/util/List;Ljava/util/List;Ljava/util/List;Ljava/util/List;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ljava/util/List;
+	public final fun component2 ()Ljava/util/List;
+	public final fun component3 ()Ljava/util/List;
+	public final fun component4 ()Ljava/util/List;
+	public final fun component5 ()Ljava/util/List;
+	public final fun component6 ()Ljava/util/List;
+	public final fun component7 ()Ljava/util/List;
+	public final fun component8 ()Ljava/util/List;
+	public final fun component9 ()Ljava/util/List;
+	public final fun copy (Ljava/util/List;Ljava/util/List;Ljava/util/List;Ljava/util/List;Ljava/util/List;Ljava/util/List;Ljava/util/List;Ljava/util/List;Ljava/util/List;)Lcom/mshdabiola/seriesmodel/ExportableData;
+	public static synthetic fun copy$default (Lcom/mshdabiola/seriesmodel/ExportableData;Ljava/util/List;Ljava/util/List;Ljava/util/List;Ljava/util/List;Ljava/util/List;Ljava/util/List;Ljava/util/List;Ljava/util/List;Ljava/util/List;ILjava/lang/Object;)Lcom/mshdabiola/seriesmodel/ExportableData;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getExaminations ()Ljava/util/List;
+	public final fun getInstructions ()Ljava/util/List;
+	public final fun getOptions ()Ljava/util/List;
+	public final fun getQuestions ()Ljava/util/List;
+	public final fun getSeries ()Ljava/util/List;
+	public final fun getSubjects ()Ljava/util/List;
+	public final fun getTopicCategory ()Ljava/util/List;
+	public final fun getTopics ()Ljava/util/List;
+	public final fun getUsers ()Ljava/util/List;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class com/mshdabiola/seriesmodel/ExportableData$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Lcom/mshdabiola/seriesmodel/ExportableData$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Lcom/mshdabiola/seriesmodel/ExportableData;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lcom/mshdabiola/seriesmodel/ExportableData;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class com/mshdabiola/seriesmodel/ExportableData$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class com/mshdabiola/seriesmodel/Instruction {
+	public static final field Companion Lcom/mshdabiola/seriesmodel/Instruction$Companion;
+	public fun <init> (JJLjava/lang/String;Ljava/util/List;)V
+	public synthetic fun <init> (JJLjava/lang/String;Ljava/util/List;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()J
+	public final fun component2 ()J
+	public final fun component3 ()Ljava/lang/String;
+	public final fun component4 ()Ljava/util/List;
+	public final fun copy (JJLjava/lang/String;Ljava/util/List;)Lcom/mshdabiola/seriesmodel/Instruction;
+	public static synthetic fun copy$default (Lcom/mshdabiola/seriesmodel/Instruction;JJLjava/lang/String;Ljava/util/List;ILjava/lang/Object;)Lcom/mshdabiola/seriesmodel/Instruction;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getContent ()Ljava/util/List;
+	public final fun getExamId ()J
+	public final fun getId ()J
+	public final fun getTitle ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class com/mshdabiola/seriesmodel/Instruction$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Lcom/mshdabiola/seriesmodel/Instruction$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Lcom/mshdabiola/seriesmodel/Instruction;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lcom/mshdabiola/seriesmodel/Instruction;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class com/mshdabiola/seriesmodel/Instruction$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class com/mshdabiola/seriesmodel/Option {
+	public static final field Companion Lcom/mshdabiola/seriesmodel/Option$Companion;
+	public fun <init> (JJJLjava/lang/String;Ljava/util/List;Z)V
+	public synthetic fun <init> (JJJLjava/lang/String;Ljava/util/List;ZILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()J
+	public final fun component2 ()J
+	public final fun component3 ()J
+	public final fun component4 ()Ljava/lang/String;
+	public final fun component5 ()Ljava/util/List;
+	public final fun component6 ()Z
+	public final fun copy (JJJLjava/lang/String;Ljava/util/List;Z)Lcom/mshdabiola/seriesmodel/Option;
+	public static synthetic fun copy$default (Lcom/mshdabiola/seriesmodel/Option;JJJLjava/lang/String;Ljava/util/List;ZILjava/lang/Object;)Lcom/mshdabiola/seriesmodel/Option;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getContents ()Ljava/util/List;
+	public final fun getId ()J
+	public final fun getNumber ()J
+	public final fun getQuestionId ()J
+	public final fun getTitle ()Ljava/lang/String;
+	public fun hashCode ()I
+	public final fun isAnswer ()Z
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class com/mshdabiola/seriesmodel/Option$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Lcom/mshdabiola/seriesmodel/Option$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Lcom/mshdabiola/seriesmodel/Option;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lcom/mshdabiola/seriesmodel/Option;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class com/mshdabiola/seriesmodel/Option$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class com/mshdabiola/seriesmodel/Question {
+	public static final field Companion Lcom/mshdabiola/seriesmodel/Question$Companion;
+	public fun <init> (JJJLjava/lang/String;Ljava/util/List;Ljava/util/List;Ljava/util/List;Lcom/mshdabiola/seriesmodel/QuestionKind;Lcom/mshdabiola/seriesmodel/Instruction;Lcom/mshdabiola/seriesmodel/TopicWithCategory;)V
+	public synthetic fun <init> (JJJLjava/lang/String;Ljava/util/List;Ljava/util/List;Ljava/util/List;Lcom/mshdabiola/seriesmodel/QuestionKind;Lcom/mshdabiola/seriesmodel/Instruction;Lcom/mshdabiola/seriesmodel/TopicWithCategory;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()J
+	public final fun component10 ()Lcom/mshdabiola/seriesmodel/TopicWithCategory;
+	public final fun component2 ()J
+	public final fun component3 ()J
+	public final fun component4 ()Ljava/lang/String;
+	public final fun component5 ()Ljava/util/List;
+	public final fun component6 ()Ljava/util/List;
+	public final fun component7 ()Ljava/util/List;
+	public final fun component8 ()Lcom/mshdabiola/seriesmodel/QuestionKind;
+	public final fun component9 ()Lcom/mshdabiola/seriesmodel/Instruction;
+	public final fun copy (JJJLjava/lang/String;Ljava/util/List;Ljava/util/List;Ljava/util/List;Lcom/mshdabiola/seriesmodel/QuestionKind;Lcom/mshdabiola/seriesmodel/Instruction;Lcom/mshdabiola/seriesmodel/TopicWithCategory;)Lcom/mshdabiola/seriesmodel/Question;
+	public static synthetic fun copy$default (Lcom/mshdabiola/seriesmodel/Question;JJJLjava/lang/String;Ljava/util/List;Ljava/util/List;Ljava/util/List;Lcom/mshdabiola/seriesmodel/QuestionKind;Lcom/mshdabiola/seriesmodel/Instruction;Lcom/mshdabiola/seriesmodel/TopicWithCategory;ILjava/lang/Object;)Lcom/mshdabiola/seriesmodel/Question;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getAnswers ()Ljava/util/List;
+	public final fun getContents ()Ljava/util/List;
+	public final fun getExamId ()J
+	public final fun getId ()J
+	public final fun getInstruction ()Lcom/mshdabiola/seriesmodel/Instruction;
+	public final fun getNumber ()J
+	public final fun getOptions ()Ljava/util/List;
+	public final fun getTitle ()Ljava/lang/String;
+	public final fun getTopic ()Lcom/mshdabiola/seriesmodel/TopicWithCategory;
+	public final fun getType ()Lcom/mshdabiola/seriesmodel/QuestionKind;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class com/mshdabiola/seriesmodel/Question$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Lcom/mshdabiola/seriesmodel/Question$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Lcom/mshdabiola/seriesmodel/Question;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lcom/mshdabiola/seriesmodel/Question;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class com/mshdabiola/seriesmodel/Question$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class com/mshdabiola/seriesmodel/QuestionKind : java/lang/Enum {
+	public static final field ESSAY Lcom/mshdabiola/seriesmodel/QuestionKind;
+	public static final field MULTIPLE_CHOICE Lcom/mshdabiola/seriesmodel/QuestionKind;
+	public static final field PRACTICAL Lcom/mshdabiola/seriesmodel/QuestionKind;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public static fun valueOf (Ljava/lang/String;)Lcom/mshdabiola/seriesmodel/QuestionKind;
+	public static fun values ()[Lcom/mshdabiola/seriesmodel/QuestionKind;
+}
+
+public final class com/mshdabiola/seriesmodel/QuestionPlain {
+	public static final field Companion Lcom/mshdabiola/seriesmodel/QuestionPlain$Companion;
+	public fun <init> (JJJLjava/lang/String;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Long;Ljava/lang/Long;)V
+	public synthetic fun <init> (JJJLjava/lang/String;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Long;Ljava/lang/Long;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()J
+	public final fun component2 ()J
+	public final fun component3 ()J
+	public final fun component4 ()Ljava/lang/String;
+	public final fun component5 ()Ljava/lang/String;
+	public final fun component6 ()Ljava/lang/String;
+	public final fun component7 ()I
+	public final fun component8 ()Ljava/lang/Long;
+	public final fun component9 ()Ljava/lang/Long;
+	public final fun copy (JJJLjava/lang/String;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Long;Ljava/lang/Long;)Lcom/mshdabiola/seriesmodel/QuestionPlain;
+	public static synthetic fun copy$default (Lcom/mshdabiola/seriesmodel/QuestionPlain;JJJLjava/lang/String;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Long;Ljava/lang/Long;ILjava/lang/Object;)Lcom/mshdabiola/seriesmodel/QuestionPlain;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getAnswers ()Ljava/lang/String;
+	public final fun getContents ()Ljava/lang/String;
+	public final fun getExamId ()J
+	public final fun getId ()J
+	public final fun getInstructionId ()Ljava/lang/Long;
+	public final fun getNumber ()J
+	public final fun getTitle ()Ljava/lang/String;
+	public final fun getTopicId ()Ljava/lang/Long;
+	public final fun getType ()I
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class com/mshdabiola/seriesmodel/QuestionPlain$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Lcom/mshdabiola/seriesmodel/QuestionPlain$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Lcom/mshdabiola/seriesmodel/QuestionPlain;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lcom/mshdabiola/seriesmodel/QuestionPlain;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class com/mshdabiola/seriesmodel/QuestionPlain$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class com/mshdabiola/seriesmodel/QuestionWithOptsInstTop {
+	public static final field Companion Lcom/mshdabiola/seriesmodel/QuestionWithOptsInstTop$Companion;
+	public fun <init> (Lcom/mshdabiola/seriesmodel/Question;Ljava/util/List;Lcom/mshdabiola/seriesmodel/Instruction;Lcom/mshdabiola/seriesmodel/Topic;)V
+	public final fun component1 ()Lcom/mshdabiola/seriesmodel/Question;
+	public final fun component2 ()Ljava/util/List;
+	public final fun component3 ()Lcom/mshdabiola/seriesmodel/Instruction;
+	public final fun component4 ()Lcom/mshdabiola/seriesmodel/Topic;
+	public final fun copy (Lcom/mshdabiola/seriesmodel/Question;Ljava/util/List;Lcom/mshdabiola/seriesmodel/Instruction;Lcom/mshdabiola/seriesmodel/Topic;)Lcom/mshdabiola/seriesmodel/QuestionWithOptsInstTop;
+	public static synthetic fun copy$default (Lcom/mshdabiola/seriesmodel/QuestionWithOptsInstTop;Lcom/mshdabiola/seriesmodel/Question;Ljava/util/List;Lcom/mshdabiola/seriesmodel/Instruction;Lcom/mshdabiola/seriesmodel/Topic;ILjava/lang/Object;)Lcom/mshdabiola/seriesmodel/QuestionWithOptsInstTop;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getInstruction ()Lcom/mshdabiola/seriesmodel/Instruction;
+	public final fun getOptions ()Ljava/util/List;
+	public final fun getQuestion ()Lcom/mshdabiola/seriesmodel/Question;
+	public final fun getTopic ()Lcom/mshdabiola/seriesmodel/Topic;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class com/mshdabiola/seriesmodel/QuestionWithOptsInstTop$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Lcom/mshdabiola/seriesmodel/QuestionWithOptsInstTop$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Lcom/mshdabiola/seriesmodel/QuestionWithOptsInstTop;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lcom/mshdabiola/seriesmodel/QuestionWithOptsInstTop;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class com/mshdabiola/seriesmodel/QuestionWithOptsInstTop$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class com/mshdabiola/seriesmodel/Series {
+	public static final field Companion Lcom/mshdabiola/seriesmodel/Series$Companion;
+	public fun <init> (JJLjava/lang/String;)V
+	public synthetic fun <init> (JJLjava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()J
+	public final fun component2 ()J
+	public final fun component3 ()Ljava/lang/String;
+	public final fun copy (JJLjava/lang/String;)Lcom/mshdabiola/seriesmodel/Series;
+	public static synthetic fun copy$default (Lcom/mshdabiola/seriesmodel/Series;JJLjava/lang/String;ILjava/lang/Object;)Lcom/mshdabiola/seriesmodel/Series;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getId ()J
+	public final fun getName ()Ljava/lang/String;
+	public final fun getUserId ()J
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class com/mshdabiola/seriesmodel/Series$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Lcom/mshdabiola/seriesmodel/Series$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Lcom/mshdabiola/seriesmodel/Series;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lcom/mshdabiola/seriesmodel/Series;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class com/mshdabiola/seriesmodel/Series$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class com/mshdabiola/seriesmodel/Subject {
+	public static final field Companion Lcom/mshdabiola/seriesmodel/Subject$Companion;
+	public fun <init> (JJLjava/lang/String;)V
+	public synthetic fun <init> (JJLjava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()J
+	public final fun component2 ()J
+	public final fun component3 ()Ljava/lang/String;
+	public final fun copy (JJLjava/lang/String;)Lcom/mshdabiola/seriesmodel/Subject;
+	public static synthetic fun copy$default (Lcom/mshdabiola/seriesmodel/Subject;JJLjava/lang/String;ILjava/lang/Object;)Lcom/mshdabiola/seriesmodel/Subject;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getId ()J
+	public final fun getSeriesId ()J
+	public final fun getTitle ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class com/mshdabiola/seriesmodel/Subject$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Lcom/mshdabiola/seriesmodel/Subject$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Lcom/mshdabiola/seriesmodel/Subject;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lcom/mshdabiola/seriesmodel/Subject;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class com/mshdabiola/seriesmodel/Subject$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class com/mshdabiola/seriesmodel/SubjectWithSeries {
+	public static final field Companion Lcom/mshdabiola/seriesmodel/SubjectWithSeries$Companion;
+	public fun <init> (Lcom/mshdabiola/seriesmodel/Subject;Lcom/mshdabiola/seriesmodel/Series;)V
+	public final fun component1 ()Lcom/mshdabiola/seriesmodel/Subject;
+	public final fun component2 ()Lcom/mshdabiola/seriesmodel/Series;
+	public final fun copy (Lcom/mshdabiola/seriesmodel/Subject;Lcom/mshdabiola/seriesmodel/Series;)Lcom/mshdabiola/seriesmodel/SubjectWithSeries;
+	public static synthetic fun copy$default (Lcom/mshdabiola/seriesmodel/SubjectWithSeries;Lcom/mshdabiola/seriesmodel/Subject;Lcom/mshdabiola/seriesmodel/Series;ILjava/lang/Object;)Lcom/mshdabiola/seriesmodel/SubjectWithSeries;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getSeries ()Lcom/mshdabiola/seriesmodel/Series;
+	public final fun getSubject ()Lcom/mshdabiola/seriesmodel/Subject;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class com/mshdabiola/seriesmodel/SubjectWithSeries$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Lcom/mshdabiola/seriesmodel/SubjectWithSeries$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Lcom/mshdabiola/seriesmodel/SubjectWithSeries;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lcom/mshdabiola/seriesmodel/SubjectWithSeries;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class com/mshdabiola/seriesmodel/SubjectWithSeries$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class com/mshdabiola/seriesmodel/Topic {
+	public static final field Companion Lcom/mshdabiola/seriesmodel/Topic$Companion;
+	public fun <init> (JJLjava/lang/String;)V
+	public synthetic fun <init> (JJLjava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()J
+	public final fun component2 ()J
+	public final fun component3 ()Ljava/lang/String;
+	public final fun copy (JJLjava/lang/String;)Lcom/mshdabiola/seriesmodel/Topic;
+	public static synthetic fun copy$default (Lcom/mshdabiola/seriesmodel/Topic;JJLjava/lang/String;ILjava/lang/Object;)Lcom/mshdabiola/seriesmodel/Topic;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getCategoryId ()J
+	public final fun getId ()J
+	public final fun getTitle ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class com/mshdabiola/seriesmodel/Topic$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Lcom/mshdabiola/seriesmodel/Topic$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Lcom/mshdabiola/seriesmodel/Topic;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lcom/mshdabiola/seriesmodel/Topic;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class com/mshdabiola/seriesmodel/Topic$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class com/mshdabiola/seriesmodel/TopicCategory {
+	public static final field Companion Lcom/mshdabiola/seriesmodel/TopicCategory$Companion;
+	public fun <init> (JLjava/lang/String;J)V
+	public synthetic fun <init> (JLjava/lang/String;JILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()J
+	public final fun component2 ()Ljava/lang/String;
+	public final fun component3 ()J
+	public final fun copy (JLjava/lang/String;J)Lcom/mshdabiola/seriesmodel/TopicCategory;
+	public static synthetic fun copy$default (Lcom/mshdabiola/seriesmodel/TopicCategory;JLjava/lang/String;JILjava/lang/Object;)Lcom/mshdabiola/seriesmodel/TopicCategory;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getId ()J
+	public final fun getName ()Ljava/lang/String;
+	public final fun getSubjectId ()J
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class com/mshdabiola/seriesmodel/TopicCategory$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Lcom/mshdabiola/seriesmodel/TopicCategory$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Lcom/mshdabiola/seriesmodel/TopicCategory;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lcom/mshdabiola/seriesmodel/TopicCategory;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class com/mshdabiola/seriesmodel/TopicCategory$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class com/mshdabiola/seriesmodel/TopicWithCategory {
+	public static final field Companion Lcom/mshdabiola/seriesmodel/TopicWithCategory$Companion;
+	public fun <init> (JLcom/mshdabiola/seriesmodel/TopicCategory;Ljava/lang/String;)V
+	public synthetic fun <init> (JLcom/mshdabiola/seriesmodel/TopicCategory;Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()J
+	public final fun component2 ()Lcom/mshdabiola/seriesmodel/TopicCategory;
+	public final fun component3 ()Ljava/lang/String;
+	public final fun copy (JLcom/mshdabiola/seriesmodel/TopicCategory;Ljava/lang/String;)Lcom/mshdabiola/seriesmodel/TopicWithCategory;
+	public static synthetic fun copy$default (Lcom/mshdabiola/seriesmodel/TopicWithCategory;JLcom/mshdabiola/seriesmodel/TopicCategory;Ljava/lang/String;ILjava/lang/Object;)Lcom/mshdabiola/seriesmodel/TopicWithCategory;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getId ()J
+	public final fun getTitle ()Ljava/lang/String;
+	public final fun getTopicCategory ()Lcom/mshdabiola/seriesmodel/TopicCategory;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class com/mshdabiola/seriesmodel/TopicWithCategory$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Lcom/mshdabiola/seriesmodel/TopicWithCategory$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Lcom/mshdabiola/seriesmodel/TopicWithCategory;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lcom/mshdabiola/seriesmodel/TopicWithCategory;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class com/mshdabiola/seriesmodel/TopicWithCategory$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class com/mshdabiola/seriesmodel/Type : java/lang/Enum {
+	public static final field EQUATION Lcom/mshdabiola/seriesmodel/Type;
+	public static final field IMAGE Lcom/mshdabiola/seriesmodel/Type;
+	public static final field TEXT Lcom/mshdabiola/seriesmodel/Type;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public static fun valueOf (Ljava/lang/String;)Lcom/mshdabiola/seriesmodel/Type;
+	public static fun values ()[Lcom/mshdabiola/seriesmodel/Type;
+}
+
+public final class com/mshdabiola/seriesmodel/User {
+	public static final field Companion Lcom/mshdabiola/seriesmodel/User$Companion;
+	public fun <init> (JLjava/lang/String;Lcom/mshdabiola/seriesmodel/UserType;Ljava/lang/String;Ljava/lang/String;J)V
+	public synthetic fun <init> (JLjava/lang/String;Lcom/mshdabiola/seriesmodel/UserType;Ljava/lang/String;Ljava/lang/String;JILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()J
+	public final fun component2 ()Ljava/lang/String;
+	public final fun component3 ()Lcom/mshdabiola/seriesmodel/UserType;
+	public final fun component4 ()Ljava/lang/String;
+	public final fun component5 ()Ljava/lang/String;
+	public final fun component6 ()J
+	public final fun copy (JLjava/lang/String;Lcom/mshdabiola/seriesmodel/UserType;Ljava/lang/String;Ljava/lang/String;J)Lcom/mshdabiola/seriesmodel/User;
+	public static synthetic fun copy$default (Lcom/mshdabiola/seriesmodel/User;JLjava/lang/String;Lcom/mshdabiola/seriesmodel/UserType;Ljava/lang/String;Ljava/lang/String;JILjava/lang/Object;)Lcom/mshdabiola/seriesmodel/User;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getId ()J
+	public final fun getImagePath ()Ljava/lang/String;
+	public final fun getName ()Ljava/lang/String;
+	public final fun getPassword ()Ljava/lang/String;
+	public final fun getPoints ()J
+	public final fun getType ()Lcom/mshdabiola/seriesmodel/UserType;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class com/mshdabiola/seriesmodel/User$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Lcom/mshdabiola/seriesmodel/User$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Lcom/mshdabiola/seriesmodel/User;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lcom/mshdabiola/seriesmodel/User;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class com/mshdabiola/seriesmodel/User$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
+public final class com/mshdabiola/seriesmodel/UserType : java/lang/Enum {
+	public static final field STUDENT Lcom/mshdabiola/seriesmodel/UserType;
+	public static final field TEACHER Lcom/mshdabiola/seriesmodel/UserType;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public static fun valueOf (Ljava/lang/String;)Lcom/mshdabiola/seriesmodel/UserType;
+	public static fun values ()[Lcom/mshdabiola/seriesmodel/UserType;
+}
+
+public final class com/mshdabiola/seriesmodel/serial/ContentSerKt {
+	public static final fun asModel (Lcom/mshdabiola/seriesmodel/Content;)Lcom/mshdabiola/seriesmodel/Content;
+	public static final fun asString (Ljava/util/List;)Ljava/lang/String;
+	public static final fun toContent (Ljava/lang/String;)Ljava/util/List;
+	public static final fun toSer (Lcom/mshdabiola/seriesmodel/Content;)Lcom/mshdabiola/seriesmodel/Content;
+}
+

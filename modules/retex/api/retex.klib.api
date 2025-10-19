@@ -1,0 +1,65 @@
+// Klib ABI Dump
+// Targets: [wasmJs]
+// Rendering settings:
+// - Signature version: 2
+// - Show manifest properties: true
+// - Show declarations: true
+
+// Library unique name: <series.modules:retex>
+final enum class com.mshdabiola.serieslatex/LatexStyle : kotlin/Enum<com.mshdabiola.serieslatex/LatexStyle> { // com.mshdabiola.serieslatex/LatexStyle|null[0]
+    enum entry DISPLAY // com.mshdabiola.serieslatex/LatexStyle.DISPLAY|null[0]
+    enum entry SCRIPT // com.mshdabiola.serieslatex/LatexStyle.SCRIPT|null[0]
+    enum entry SCRIPT_SCRIPT // com.mshdabiola.serieslatex/LatexStyle.SCRIPT_SCRIPT|null[0]
+    enum entry TEXT // com.mshdabiola.serieslatex/LatexStyle.TEXT|null[0]
+
+    final val entries // com.mshdabiola.serieslatex/LatexStyle.entries|#static{}entries[0]
+        final fun <get-entries>(): kotlin.enums/EnumEntries<com.mshdabiola.serieslatex/LatexStyle> // com.mshdabiola.serieslatex/LatexStyle.entries.<get-entries>|<get-entries>#static(){}[0]
+    final val value // com.mshdabiola.serieslatex/LatexStyle.value|{}value[0]
+        final fun <get-value>(): kotlin/Int // com.mshdabiola.serieslatex/LatexStyle.value.<get-value>|<get-value>(){}[0]
+
+    final fun valueOf(kotlin/String): com.mshdabiola.serieslatex/LatexStyle // com.mshdabiola.serieslatex/LatexStyle.valueOf|valueOf#static(kotlin.String){}[0]
+    final fun values(): kotlin/Array<com.mshdabiola.serieslatex/LatexStyle> // com.mshdabiola.serieslatex/LatexStyle.values|values#static(){}[0]
+}
+
+final enum class com.mshdabiola.serieslatex/LatexType : kotlin/Enum<com.mshdabiola.serieslatex/LatexType> { // com.mshdabiola.serieslatex/LatexType|null[0]
+    enum entry BOLD // com.mshdabiola.serieslatex/LatexType.BOLD|null[0]
+    enum entry ITALIC // com.mshdabiola.serieslatex/LatexType.ITALIC|null[0]
+    enum entry ROMAN // com.mshdabiola.serieslatex/LatexType.ROMAN|null[0]
+    enum entry SANSERIF // com.mshdabiola.serieslatex/LatexType.SANSERIF|null[0]
+    enum entry SERIF // com.mshdabiola.serieslatex/LatexType.SERIF|null[0]
+    enum entry TYPEWRITER // com.mshdabiola.serieslatex/LatexType.TYPEWRITER|null[0]
+
+    final val entries // com.mshdabiola.serieslatex/LatexType.entries|#static{}entries[0]
+        final fun <get-entries>(): kotlin.enums/EnumEntries<com.mshdabiola.serieslatex/LatexType> // com.mshdabiola.serieslatex/LatexType.entries.<get-entries>|<get-entries>#static(){}[0]
+    final val value // com.mshdabiola.serieslatex/LatexType.value|{}value[0]
+        final fun <get-value>(): kotlin/Int // com.mshdabiola.serieslatex/LatexType.value.<get-value>|<get-value>(){}[0]
+
+    final fun valueOf(kotlin/String): com.mshdabiola.serieslatex/LatexType // com.mshdabiola.serieslatex/LatexType.valueOf|valueOf#static(kotlin.String){}[0]
+    final fun values(): kotlin/Array<com.mshdabiola.serieslatex/LatexType> // com.mshdabiola.serieslatex/LatexType.values|values#static(){}[0]
+}
+
+final object com.mshdabiola.serieslatex/MarkUpEngine { // com.mshdabiola.serieslatex/MarkUpEngine|null[0]
+    final val list // com.mshdabiola.serieslatex/MarkUpEngine.list|{}list[0]
+        final fun <get-list>(): kotlin.collections/Map<kotlin/String, kotlin/Function0<kotlin/Unit>> // com.mshdabiola.serieslatex/MarkUpEngine.list.<get-list>|<get-list>(){}[0]
+
+    final fun containStyle(kotlin/String): kotlin/Boolean // com.mshdabiola.serieslatex/MarkUpEngine.containStyle|containStyle(kotlin.String){}[0]
+    final fun getSpanStyle(kotlin/String): androidx.compose.ui.text/SpanStyle // com.mshdabiola.serieslatex/MarkUpEngine.getSpanStyle|getSpanStyle(kotlin.String){}[0]
+    final fun isStyleString(kotlin/String): kotlin/Boolean // com.mshdabiola.serieslatex/MarkUpEngine.isStyleString|isStyleString(kotlin.String){}[0]
+}
+
+final val com.mshdabiola.serieslatex/com_mshdabiola_serieslatex_MarkUpEngine$stableprop // com.mshdabiola.serieslatex/com_mshdabiola_serieslatex_MarkUpEngine$stableprop|#static{}com_mshdabiola_serieslatex_MarkUpEngine$stableprop[0]
+final val series.modules.retex.generated.resources/series_modules_retex_generated_resources_Res_array$stableprop // series.modules.retex.generated.resources/series_modules_retex_generated_resources_Res_array$stableprop|#static{}series_modules_retex_generated_resources_Res_array$stableprop[0]
+final val series.modules.retex.generated.resources/series_modules_retex_generated_resources_Res_drawable$stableprop // series.modules.retex.generated.resources/series_modules_retex_generated_resources_Res_drawable$stableprop|#static{}series_modules_retex_generated_resources_Res_drawable$stableprop[0]
+final val series.modules.retex.generated.resources/series_modules_retex_generated_resources_Res_font$stableprop // series.modules.retex.generated.resources/series_modules_retex_generated_resources_Res_font$stableprop|#static{}series_modules_retex_generated_resources_Res_font$stableprop[0]
+final val series.modules.retex.generated.resources/series_modules_retex_generated_resources_Res_plurals$stableprop // series.modules.retex.generated.resources/series_modules_retex_generated_resources_Res_plurals$stableprop|#static{}series_modules_retex_generated_resources_Res_plurals$stableprop[0]
+final val series.modules.retex.generated.resources/series_modules_retex_generated_resources_Res_string$stableprop // series.modules.retex.generated.resources/series_modules_retex_generated_resources_Res_string$stableprop|#static{}series_modules_retex_generated_resources_Res_string$stableprop[0]
+
+final fun com.mshdabiola.serieslatex/Latex(androidx.compose.ui/Modifier?, kotlin/String, kotlin/Double, androidx.compose.ui.graphics/Color, androidx.compose.ui.graphics/Color, com.mshdabiola.serieslatex/LatexStyle?, com.mshdabiola.serieslatex/LatexType?, androidx.compose.runtime/Composer?, kotlin/Int, kotlin/Int) // com.mshdabiola.serieslatex/Latex|Latex(androidx.compose.ui.Modifier?;kotlin.String;kotlin.Double;androidx.compose.ui.graphics.Color;androidx.compose.ui.graphics.Color;com.mshdabiola.serieslatex.LatexStyle?;com.mshdabiola.serieslatex.LatexType?;androidx.compose.runtime.Composer?;kotlin.Int;kotlin.Int){}[0]
+final fun com.mshdabiola.serieslatex/MarkUpText(kotlin/String, androidx.compose.ui/Modifier?, androidx.compose.ui.graphics/Color, androidx.compose.ui.unit/TextUnit, androidx.compose.ui.text.font/FontStyle?, androidx.compose.ui.text.font/FontWeight?, androidx.compose.ui.text.font/FontFamily?, androidx.compose.ui.unit/TextUnit, androidx.compose.ui.text.style/TextDecoration?, androidx.compose.ui.text.style/TextAlign?, androidx.compose.ui.unit/TextUnit, androidx.compose.ui.text.style/TextOverflow, kotlin/Boolean, kotlin/Int, androidx.compose.ui.text/TextStyle?, kotlin/Function1<androidx.compose.ui.text/TextLayoutResult, kotlin/Unit>?, androidx.compose.runtime/Composer?, kotlin/Int, kotlin/Int, kotlin/Int) // com.mshdabiola.serieslatex/MarkUpText|MarkUpText(kotlin.String;androidx.compose.ui.Modifier?;androidx.compose.ui.graphics.Color;androidx.compose.ui.unit.TextUnit;androidx.compose.ui.text.font.FontStyle?;androidx.compose.ui.text.font.FontWeight?;androidx.compose.ui.text.font.FontFamily?;androidx.compose.ui.unit.TextUnit;androidx.compose.ui.text.style.TextDecoration?;androidx.compose.ui.text.style.TextAlign?;androidx.compose.ui.unit.TextUnit;androidx.compose.ui.text.style.TextOverflow;kotlin.Boolean;kotlin.Int;androidx.compose.ui.text.TextStyle?;kotlin.Function1<androidx.compose.ui.text.TextLayoutResult,kotlin.Unit>?;androidx.compose.runtime.Composer?;kotlin.Int;kotlin.Int;kotlin.Int){}[0]
+final fun com.mshdabiola.serieslatex/MarkUpText(kotlin/String, androidx.compose.ui/Modifier?, androidx.compose.ui.graphics/Color, androidx.compose.ui.unit/TextUnit?, androidx.compose.ui.text.font/FontStyle?, androidx.compose.ui.text.font/FontWeight?, androidx.compose.ui.text.font/FontFamily?, androidx.compose.ui.unit/TextUnit?, androidx.compose.ui.text.style/TextDecoration?, androidx.compose.ui.text.style/TextAlign?, androidx.compose.ui.unit/TextUnit?, androidx.compose.ui.text.style/TextOverflow?, kotlin/Boolean, kotlin/Int, androidx.compose.ui.text/TextStyle?, kotlin/Function1<androidx.compose.ui.text/TextLayoutResult, kotlin/Unit>?, androidx.compose.runtime/Composer?, kotlin/Int, kotlin/Int, kotlin/Int) // com.mshdabiola.serieslatex/MarkUpText|MarkUpText(kotlin.String;androidx.compose.ui.Modifier?;androidx.compose.ui.graphics.Color;androidx.compose.ui.unit.TextUnit?;androidx.compose.ui.text.font.FontStyle?;androidx.compose.ui.text.font.FontWeight?;androidx.compose.ui.text.font.FontFamily?;androidx.compose.ui.unit.TextUnit?;androidx.compose.ui.text.style.TextDecoration?;androidx.compose.ui.text.style.TextAlign?;androidx.compose.ui.unit.TextUnit?;androidx.compose.ui.text.style.TextOverflow?;kotlin.Boolean;kotlin.Int;androidx.compose.ui.text.TextStyle?;kotlin.Function1<androidx.compose.ui.text.TextLayoutResult,kotlin.Unit>?;androidx.compose.runtime.Composer?;kotlin.Int;kotlin.Int;kotlin.Int){}[0]
+final fun com.mshdabiola.serieslatex/com_mshdabiola_serieslatex_MarkUpEngine$stableprop_getter(): kotlin/Int // com.mshdabiola.serieslatex/com_mshdabiola_serieslatex_MarkUpEngine$stableprop_getter|com_mshdabiola_serieslatex_MarkUpEngine$stableprop_getter(){}[0]
+final fun series.modules.retex.generated.resources/series_modules_retex_generated_resources_Res_array$stableprop_getter(): kotlin/Int // series.modules.retex.generated.resources/series_modules_retex_generated_resources_Res_array$stableprop_getter|series_modules_retex_generated_resources_Res_array$stableprop_getter(){}[0]
+final fun series.modules.retex.generated.resources/series_modules_retex_generated_resources_Res_drawable$stableprop_getter(): kotlin/Int // series.modules.retex.generated.resources/series_modules_retex_generated_resources_Res_drawable$stableprop_getter|series_modules_retex_generated_resources_Res_drawable$stableprop_getter(){}[0]
+final fun series.modules.retex.generated.resources/series_modules_retex_generated_resources_Res_font$stableprop_getter(): kotlin/Int // series.modules.retex.generated.resources/series_modules_retex_generated_resources_Res_font$stableprop_getter|series_modules_retex_generated_resources_Res_font$stableprop_getter(){}[0]
+final fun series.modules.retex.generated.resources/series_modules_retex_generated_resources_Res_plurals$stableprop_getter(): kotlin/Int // series.modules.retex.generated.resources/series_modules_retex_generated_resources_Res_plurals$stableprop_getter|series_modules_retex_generated_resources_Res_plurals$stableprop_getter(){}[0]
+final fun series.modules.retex.generated.resources/series_modules_retex_generated_resources_Res_string$stableprop_getter(): kotlin/Int // series.modules.retex.generated.resources/series_modules_retex_generated_resources_Res_string$stableprop_getter|series_modules_retex_generated_resources_Res_string$stableprop_getter(){}[0]

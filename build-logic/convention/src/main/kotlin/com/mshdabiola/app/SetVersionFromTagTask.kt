@@ -1,0 +1,129 @@
+/*
+ * Designed and developed by 2024 mshdabiola (lawal abiola)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package com.mshdabiola.app
+
+import org.gradle.api.DefaultTask
+import org.gradle.api.file.RegularFileProperty
+import org.gradle.api.provider.Property
+import org.gradle.api.tasks.Input
+import org.gradle.api.tasks.InputFile
+import org.gradle.api.tasks.OutputFile
+import org.gradle.api.tasks.TaskAction
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
+
+/**
+ * A Gradle task to set versionName and versionCode in gradle/libs.versions.toml and update CHANGELOG.md.
+ */
+abstract class SetVersionFromTagTask : DefaultTask() {
+
+    @get:Input
+    abstract val newVersionName: Property<String>
+
+    @get:InputFile
+    abstract val libsVersionsTomlFile: RegularFileProperty
+
+    @get:InputFile // Added for the changelog
+    abstract val changelogFile: RegularFileProperty
+
+    @get:OutputFile
+    abstract val outputLibsVersionsTomlFile: RegularFileProperty // Typically the same file for in-place updates
+
+    @TaskAction
+    fun setVersion() {
+        val tomlFile = libsVersionsTomlFile.asFile.get()
+        val versionGet = newVersionName.get()
+        val versionNameToSet = if (versionGet.isNotEmpty() && versionGet[0].isLetter()) {
+            versionGet.substring(1) // Remove the first character if it's an alphabet
+        } else {
+            versionGet // Otherwise, keep it as is
+        }
+        val versionCodeToSet = versionStringToNumber(versionNameToSet)
+
+        println("Setting versionName to: $versionNameToSet")
+        println("Setting versionCode to: $versionCodeToSet")
+
+        // Read all lines from the TOML file
+        val lines = tomlFile.readLines()
+        val updatedLines = mutableListOf<String>()
+
+        // Process lines to update versionName and versionCode
+        for (line in lines) {
+            var modifiedLine = line
+
+            // 1. Update versionName
+            val versionNameRegex = """(versionName\s*=\s*")[^"]+(")""".toRegex()
+            if (line.contains("versionName = ") && versionNameRegex.containsMatchIn(line)) {
+                modifiedLine = versionNameRegex.replace(line) { matchResult ->
+                    val (prefix, suffix) = matchResult.destructured
+                    "$prefix$versionNameToSet$suffix"
+                }
+                println("Updated versionName line: '$line' -> '$modifiedLine'")
+            }
+
+            // 2. Update versionCode
+            // This regex needs to handle both `versionCode = "123"` and `versionCode = 123`
+            val versionCodeRegex = """(versionCode\s*=\s*)(["']?)\d+\2""".toRegex()
+            if (versionCodeRegex.containsMatchIn(modifiedLine)) {
+                modifiedLine = versionCodeRegex.replace(modifiedLine) { matchResult ->
+                    val (prefix, quote) = matchResult.destructured
+                    "$prefix$quote$versionCodeToSet$quote"
+                }
+                println("Updated versionCode line: '$line' -> '$modifiedLine'")
+            }
+            updatedLines.add(modifiedLine)
+        }
+
+        // Write the updated lines back to the file
+        tomlFile.writeText(updatedLines.joinToString("\n"))
+        println("Successfully updated ${tomlFile.name}.")
+
+        // Update changelog
+        updateChangelog(versionNameToSet)
+    }
+
+    private fun updateChangelog(newVersion: String) {
+        val changelog = changelogFile.asFile.get()
+        val lines = changelog.readLines().toMutableList()
+        val currentDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date())
+
+        val unreleasedHeaderIndex = lines.indexOfFirst { it.trim() == "## [Unreleased]" }
+        if (unreleasedHeaderIndex != -1) {
+            lines[unreleasedHeaderIndex] = "## [$newVersion] - $currentDate"
+        }
+
+        val newVersionLink = "[$newVersion]: https://github.com/mshdabiola/kltemplate/$newVersion"
+        val versionLinkIndex = lines.indexOfFirst { it.contains("[Unreleased]") }
+        if (versionLinkIndex != -1) {
+            lines[versionLinkIndex] = newVersionLink
+        }
+
+        changelog.writeText(lines.joinToString("\n"))
+        println("Successfully updated ${changelog.name} with version $newVersion.")
+    }
+
+    private fun versionStringToNumber(versionString: String): Long {
+        // Remove all non-digit characters (like dots)
+        var numericString = versionString.replace(".", "")
+
+        if (numericString.contains("-")) {
+            numericString = numericString.split("-")[0]
+        }
+        // Convert the resulting string to an integer
+        return numericString.toLongOrNull() ?: 1
+    }
+}
