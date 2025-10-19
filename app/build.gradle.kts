@@ -39,7 +39,6 @@ kotlin {
 
         commonMain.dependencies {
             implementation(projects.modules.database)
-            implementation(projects.modules.jretex)
             implementation(projects.modules.model)
             implementation(projects.modules.retex)
             implementation(projects.modules.transfer)
