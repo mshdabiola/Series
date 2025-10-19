@@ -1,0 +1,51 @@
+public final class com/mshdabiola/transfer/ExportImport {
+	public fun <init> (Lcom/mshdabiola/database/SeriesDatabase;)V
+	public final fun export (Ljava/util/Set;Ljava/io/OutputStream;Ljava/lang/String;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public final fun import (Ljava/io/InputStream;Ljava/lang/String;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
+public final class com/mshdabiola/transfer/ModelExtensionKt {
+	public static final fun asEntity (Lcom/mshdabiola/seriesmodel/Examination;)Lcom/mshdabiola/database/model/ExaminationEntity;
+	public static final fun asEntity (Lcom/mshdabiola/seriesmodel/Instruction;)Lcom/mshdabiola/database/model/InstructionEntity;
+	public static final fun asEntity (Lcom/mshdabiola/seriesmodel/Option;)Lcom/mshdabiola/database/model/OptionEntity;
+	public static final fun asEntity (Lcom/mshdabiola/seriesmodel/QuestionPlain;)Lcom/mshdabiola/database/model/QuestionEntity;
+	public static final fun asEntity (Lcom/mshdabiola/seriesmodel/Series;)Lcom/mshdabiola/database/model/SeriesEntity;
+	public static final fun asEntity (Lcom/mshdabiola/seriesmodel/Subject;)Lcom/mshdabiola/database/model/SubjectEntity;
+	public static final fun asEntity (Lcom/mshdabiola/seriesmodel/Topic;)Lcom/mshdabiola/database/model/TopicEntity;
+	public static final fun asEntity (Lcom/mshdabiola/seriesmodel/TopicCategory;)Lcom/mshdabiola/database/model/TopicCategoryEntity;
+	public static final fun asEntity (Lcom/mshdabiola/seriesmodel/User;)Lcom/mshdabiola/database/model/UserEntity;
+	public static final fun asExam (Lcom/mshdabiola/database/model/relation/ExaminationWithSubjectRelation;)Lcom/mshdabiola/seriesmodel/ExaminationWithSubject;
+	public static final fun asModel (Lcom/mshdabiola/database/model/ExaminationEntity;)Lcom/mshdabiola/seriesmodel/Examination;
+	public static final fun asModel (Lcom/mshdabiola/database/model/InstructionEntity;)Lcom/mshdabiola/seriesmodel/Instruction;
+	public static final fun asModel (Lcom/mshdabiola/database/model/OptionEntity;)Lcom/mshdabiola/seriesmodel/Option;
+	public static final fun asModel (Lcom/mshdabiola/database/model/QuestionEntity;)Lcom/mshdabiola/seriesmodel/QuestionPlain;
+	public static final fun asModel (Lcom/mshdabiola/database/model/SeriesEntity;)Lcom/mshdabiola/seriesmodel/Series;
+	public static final fun asModel (Lcom/mshdabiola/database/model/SubjectEntity;)Lcom/mshdabiola/seriesmodel/Subject;
+	public static final fun asModel (Lcom/mshdabiola/database/model/TopicCategoryEntity;)Lcom/mshdabiola/seriesmodel/TopicCategory;
+	public static final fun asModel (Lcom/mshdabiola/database/model/TopicEntity;)Lcom/mshdabiola/seriesmodel/Topic;
+	public static final fun asModel (Lcom/mshdabiola/database/model/UserEntity;)Lcom/mshdabiola/seriesmodel/User;
+	public static final fun asModel (Lcom/mshdabiola/database/model/relation/CategoryWithTopicsRelation;)Ljava/util/List;
+	public static final fun asModel (Lcom/mshdabiola/database/model/relation/QuestionWithOptsInstTopRelation;)Lcom/mshdabiola/seriesmodel/Question;
+	public static final fun asModel (Lcom/mshdabiola/database/model/relation/SubjectWithSeriesRelation;)Lcom/mshdabiola/seriesmodel/SubjectWithSeries;
+	public static final fun asModel (Lcom/mshdabiola/database/model/relation/TopicWithCategoryRelation;)Lcom/mshdabiola/seriesmodel/TopicWithCategory;
+	public static final fun asModel (Lcom/mshdabiola/seriesmodel/Question;)Lcom/mshdabiola/database/model/QuestionEntity;
+	public static final fun checkId (J)Ljava/lang/Long;
+	public static final fun getGeneralPath ()Ljava/lang/String;
+}
+
+public final class com/mshdabiola/transfer/Security {
+	public static final field INSTANCE Lcom/mshdabiola/transfer/Security;
+	public final fun copy (Ljava/io/File;Ljava/io/InputStream;Ljava/io/InputStream;Ljava/lang/String;)V
+	public final fun decode (Ljava/io/InputStream;Ljava/io/OutputStream;Ljava/lang/String;)V
+	public final fun decodeData (Ljava/nio/file/Path;)Lcom/mshdabiola/seriesmodel/ExportableData;
+	public final fun encode ([BLjava/io/OutputStream;Ljava/lang/String;)V
+	public final fun encodeData (Lcom/mshdabiola/seriesmodel/ExportableData;)Ljava/lang/String;
+}
+
+public final class com/mshdabiola/transfer/ZippKt {
+	public static final fun unzipFile (Ljava/io/InputStream;Ljava/lang/String;Ljava/lang/String;)V
+	public static final fun unzipFile (Ljava/lang/String;Ljava/lang/String;)V
+	public static final fun zipDirectory (Ljava/io/File;Ljava/io/OutputStream;)V
+	public static final fun zipDirectory (Ljava/io/File;Ljava/io/OutputStream;Ljava/lang/String;)V
+}
+
