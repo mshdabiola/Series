@@ -48,6 +48,11 @@ baselineProfile {
     }
 }
 kotlin {
+    @OptIn(org.jetbrains.kotlin.gradle.dsl.abi.ExperimentalAbiValidation::class)
+    abiValidation {
+        // Use the set() function to ensure compatibility with older Gradle versions
+        enabled.set(true)
+    }
     sourceSets {
         val commonMain by getting {
             dependencies {

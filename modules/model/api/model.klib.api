@@ -1,0 +1,651 @@
+// Klib ABI Dump
+// Targets: [wasmJs]
+// Rendering settings:
+// - Signature version: 2
+// - Show manifest properties: true
+// - Show declarations: true
+
+// Library unique name: <series.modules:model>
+final enum class com.mshdabiola.seriesmodel/QuestionKind : kotlin/Enum<com.mshdabiola.seriesmodel/QuestionKind> { // com.mshdabiola.seriesmodel/QuestionKind|null[0]
+    enum entry ESSAY // com.mshdabiola.seriesmodel/QuestionKind.ESSAY|null[0]
+    enum entry MULTIPLE_CHOICE // com.mshdabiola.seriesmodel/QuestionKind.MULTIPLE_CHOICE|null[0]
+    enum entry PRACTICAL // com.mshdabiola.seriesmodel/QuestionKind.PRACTICAL|null[0]
+
+    final val entries // com.mshdabiola.seriesmodel/QuestionKind.entries|#static{}entries[0]
+        final fun <get-entries>(): kotlin.enums/EnumEntries<com.mshdabiola.seriesmodel/QuestionKind> // com.mshdabiola.seriesmodel/QuestionKind.entries.<get-entries>|<get-entries>#static(){}[0]
+
+    final fun valueOf(kotlin/String): com.mshdabiola.seriesmodel/QuestionKind // com.mshdabiola.seriesmodel/QuestionKind.valueOf|valueOf#static(kotlin.String){}[0]
+    final fun values(): kotlin/Array<com.mshdabiola.seriesmodel/QuestionKind> // com.mshdabiola.seriesmodel/QuestionKind.values|values#static(){}[0]
+}
+
+final enum class com.mshdabiola.seriesmodel/Type : kotlin/Enum<com.mshdabiola.seriesmodel/Type> { // com.mshdabiola.seriesmodel/Type|null[0]
+    enum entry EQUATION // com.mshdabiola.seriesmodel/Type.EQUATION|null[0]
+    enum entry IMAGE // com.mshdabiola.seriesmodel/Type.IMAGE|null[0]
+    enum entry TEXT // com.mshdabiola.seriesmodel/Type.TEXT|null[0]
+
+    final val entries // com.mshdabiola.seriesmodel/Type.entries|#static{}entries[0]
+        final fun <get-entries>(): kotlin.enums/EnumEntries<com.mshdabiola.seriesmodel/Type> // com.mshdabiola.seriesmodel/Type.entries.<get-entries>|<get-entries>#static(){}[0]
+
+    final fun valueOf(kotlin/String): com.mshdabiola.seriesmodel/Type // com.mshdabiola.seriesmodel/Type.valueOf|valueOf#static(kotlin.String){}[0]
+    final fun values(): kotlin/Array<com.mshdabiola.seriesmodel/Type> // com.mshdabiola.seriesmodel/Type.values|values#static(){}[0]
+}
+
+final enum class com.mshdabiola.seriesmodel/UserType : kotlin/Enum<com.mshdabiola.seriesmodel/UserType> { // com.mshdabiola.seriesmodel/UserType|null[0]
+    enum entry STUDENT // com.mshdabiola.seriesmodel/UserType.STUDENT|null[0]
+    enum entry TEACHER // com.mshdabiola.seriesmodel/UserType.TEACHER|null[0]
+
+    final val entries // com.mshdabiola.seriesmodel/UserType.entries|#static{}entries[0]
+        final fun <get-entries>(): kotlin.enums/EnumEntries<com.mshdabiola.seriesmodel/UserType> // com.mshdabiola.seriesmodel/UserType.entries.<get-entries>|<get-entries>#static(){}[0]
+
+    final fun valueOf(kotlin/String): com.mshdabiola.seriesmodel/UserType // com.mshdabiola.seriesmodel/UserType.valueOf|valueOf#static(kotlin.String){}[0]
+    final fun values(): kotlin/Array<com.mshdabiola.seriesmodel/UserType> // com.mshdabiola.seriesmodel/UserType.values|values#static(){}[0]
+}
+
+final class com.mshdabiola.seriesmodel/Content { // com.mshdabiola.seriesmodel/Content|null[0]
+    constructor <init>(kotlin/String, com.mshdabiola.seriesmodel/Type = ...) // com.mshdabiola.seriesmodel/Content.<init>|<init>(kotlin.String;com.mshdabiola.seriesmodel.Type){}[0]
+
+    final val content // com.mshdabiola.seriesmodel/Content.content|{}content[0]
+        final fun <get-content>(): kotlin/String // com.mshdabiola.seriesmodel/Content.content.<get-content>|<get-content>(){}[0]
+    final val type // com.mshdabiola.seriesmodel/Content.type|{}type[0]
+        final fun <get-type>(): com.mshdabiola.seriesmodel/Type // com.mshdabiola.seriesmodel/Content.type.<get-type>|<get-type>(){}[0]
+
+    final fun component1(): kotlin/String // com.mshdabiola.seriesmodel/Content.component1|component1(){}[0]
+    final fun component2(): com.mshdabiola.seriesmodel/Type // com.mshdabiola.seriesmodel/Content.component2|component2(){}[0]
+    final fun copy(kotlin/String = ..., com.mshdabiola.seriesmodel/Type = ...): com.mshdabiola.seriesmodel/Content // com.mshdabiola.seriesmodel/Content.copy|copy(kotlin.String;com.mshdabiola.seriesmodel.Type){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // com.mshdabiola.seriesmodel/Content.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // com.mshdabiola.seriesmodel/Content.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // com.mshdabiola.seriesmodel/Content.toString|toString(){}[0]
+
+    final object $serializer : kotlinx.serialization.internal/GeneratedSerializer<com.mshdabiola.seriesmodel/Content> { // com.mshdabiola.seriesmodel/Content.$serializer|null[0]
+        final val descriptor // com.mshdabiola.seriesmodel/Content.$serializer.descriptor|{}descriptor[0]
+            final fun <get-descriptor>(): kotlinx.serialization.descriptors/SerialDescriptor // com.mshdabiola.seriesmodel/Content.$serializer.descriptor.<get-descriptor>|<get-descriptor>(){}[0]
+
+        final fun childSerializers(): kotlin/Array<kotlinx.serialization/KSerializer<*>> // com.mshdabiola.seriesmodel/Content.$serializer.childSerializers|childSerializers(){}[0]
+        final fun deserialize(kotlinx.serialization.encoding/Decoder): com.mshdabiola.seriesmodel/Content // com.mshdabiola.seriesmodel/Content.$serializer.deserialize|deserialize(kotlinx.serialization.encoding.Decoder){}[0]
+        final fun serialize(kotlinx.serialization.encoding/Encoder, com.mshdabiola.seriesmodel/Content) // com.mshdabiola.seriesmodel/Content.$serializer.serialize|serialize(kotlinx.serialization.encoding.Encoder;com.mshdabiola.seriesmodel.Content){}[0]
+    }
+
+    final object Companion { // com.mshdabiola.seriesmodel/Content.Companion|null[0]
+        final val $childSerializers // com.mshdabiola.seriesmodel/Content.Companion.$childSerializers|{}$childSerializers[0]
+
+        final fun serializer(): kotlinx.serialization/KSerializer<com.mshdabiola.seriesmodel/Content> // com.mshdabiola.seriesmodel/Content.Companion.serializer|serializer(){}[0]
+    }
+}
+
+final class com.mshdabiola.seriesmodel/Examination { // com.mshdabiola.seriesmodel/Examination|null[0]
+    constructor <init>(kotlin/Long = ..., kotlin/Long, kotlin/Long, kotlin/Long) // com.mshdabiola.seriesmodel/Examination.<init>|<init>(kotlin.Long;kotlin.Long;kotlin.Long;kotlin.Long){}[0]
+
+    final val duration // com.mshdabiola.seriesmodel/Examination.duration|{}duration[0]
+        final fun <get-duration>(): kotlin/Long // com.mshdabiola.seriesmodel/Examination.duration.<get-duration>|<get-duration>(){}[0]
+    final val id // com.mshdabiola.seriesmodel/Examination.id|{}id[0]
+        final fun <get-id>(): kotlin/Long // com.mshdabiola.seriesmodel/Examination.id.<get-id>|<get-id>(){}[0]
+    final val subjectId // com.mshdabiola.seriesmodel/Examination.subjectId|{}subjectId[0]
+        final fun <get-subjectId>(): kotlin/Long // com.mshdabiola.seriesmodel/Examination.subjectId.<get-subjectId>|<get-subjectId>(){}[0]
+    final val year // com.mshdabiola.seriesmodel/Examination.year|{}year[0]
+        final fun <get-year>(): kotlin/Long // com.mshdabiola.seriesmodel/Examination.year.<get-year>|<get-year>(){}[0]
+
+    final fun component1(): kotlin/Long // com.mshdabiola.seriesmodel/Examination.component1|component1(){}[0]
+    final fun component2(): kotlin/Long // com.mshdabiola.seriesmodel/Examination.component2|component2(){}[0]
+    final fun component3(): kotlin/Long // com.mshdabiola.seriesmodel/Examination.component3|component3(){}[0]
+    final fun component4(): kotlin/Long // com.mshdabiola.seriesmodel/Examination.component4|component4(){}[0]
+    final fun copy(kotlin/Long = ..., kotlin/Long = ..., kotlin/Long = ..., kotlin/Long = ...): com.mshdabiola.seriesmodel/Examination // com.mshdabiola.seriesmodel/Examination.copy|copy(kotlin.Long;kotlin.Long;kotlin.Long;kotlin.Long){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // com.mshdabiola.seriesmodel/Examination.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // com.mshdabiola.seriesmodel/Examination.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // com.mshdabiola.seriesmodel/Examination.toString|toString(){}[0]
+
+    final object $serializer : kotlinx.serialization.internal/GeneratedSerializer<com.mshdabiola.seriesmodel/Examination> { // com.mshdabiola.seriesmodel/Examination.$serializer|null[0]
+        final val descriptor // com.mshdabiola.seriesmodel/Examination.$serializer.descriptor|{}descriptor[0]
+            final fun <get-descriptor>(): kotlinx.serialization.descriptors/SerialDescriptor // com.mshdabiola.seriesmodel/Examination.$serializer.descriptor.<get-descriptor>|<get-descriptor>(){}[0]
+
+        final fun childSerializers(): kotlin/Array<kotlinx.serialization/KSerializer<*>> // com.mshdabiola.seriesmodel/Examination.$serializer.childSerializers|childSerializers(){}[0]
+        final fun deserialize(kotlinx.serialization.encoding/Decoder): com.mshdabiola.seriesmodel/Examination // com.mshdabiola.seriesmodel/Examination.$serializer.deserialize|deserialize(kotlinx.serialization.encoding.Decoder){}[0]
+        final fun serialize(kotlinx.serialization.encoding/Encoder, com.mshdabiola.seriesmodel/Examination) // com.mshdabiola.seriesmodel/Examination.$serializer.serialize|serialize(kotlinx.serialization.encoding.Encoder;com.mshdabiola.seriesmodel.Examination){}[0]
+    }
+
+    final object Companion { // com.mshdabiola.seriesmodel/Examination.Companion|null[0]
+        final fun serializer(): kotlinx.serialization/KSerializer<com.mshdabiola.seriesmodel/Examination> // com.mshdabiola.seriesmodel/Examination.Companion.serializer|serializer(){}[0]
+    }
+}
+
+final class com.mshdabiola.seriesmodel/ExaminationWithSubject { // com.mshdabiola.seriesmodel/ExaminationWithSubject|null[0]
+    constructor <init>(com.mshdabiola.seriesmodel/Examination, com.mshdabiola.seriesmodel/Subject, com.mshdabiola.seriesmodel/Series) // com.mshdabiola.seriesmodel/ExaminationWithSubject.<init>|<init>(com.mshdabiola.seriesmodel.Examination;com.mshdabiola.seriesmodel.Subject;com.mshdabiola.seriesmodel.Series){}[0]
+
+    final val examination // com.mshdabiola.seriesmodel/ExaminationWithSubject.examination|{}examination[0]
+        final fun <get-examination>(): com.mshdabiola.seriesmodel/Examination // com.mshdabiola.seriesmodel/ExaminationWithSubject.examination.<get-examination>|<get-examination>(){}[0]
+    final val series // com.mshdabiola.seriesmodel/ExaminationWithSubject.series|{}series[0]
+        final fun <get-series>(): com.mshdabiola.seriesmodel/Series // com.mshdabiola.seriesmodel/ExaminationWithSubject.series.<get-series>|<get-series>(){}[0]
+    final val subject // com.mshdabiola.seriesmodel/ExaminationWithSubject.subject|{}subject[0]
+        final fun <get-subject>(): com.mshdabiola.seriesmodel/Subject // com.mshdabiola.seriesmodel/ExaminationWithSubject.subject.<get-subject>|<get-subject>(){}[0]
+
+    final fun component1(): com.mshdabiola.seriesmodel/Examination // com.mshdabiola.seriesmodel/ExaminationWithSubject.component1|component1(){}[0]
+    final fun component2(): com.mshdabiola.seriesmodel/Subject // com.mshdabiola.seriesmodel/ExaminationWithSubject.component2|component2(){}[0]
+    final fun component3(): com.mshdabiola.seriesmodel/Series // com.mshdabiola.seriesmodel/ExaminationWithSubject.component3|component3(){}[0]
+    final fun copy(com.mshdabiola.seriesmodel/Examination = ..., com.mshdabiola.seriesmodel/Subject = ..., com.mshdabiola.seriesmodel/Series = ...): com.mshdabiola.seriesmodel/ExaminationWithSubject // com.mshdabiola.seriesmodel/ExaminationWithSubject.copy|copy(com.mshdabiola.seriesmodel.Examination;com.mshdabiola.seriesmodel.Subject;com.mshdabiola.seriesmodel.Series){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // com.mshdabiola.seriesmodel/ExaminationWithSubject.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // com.mshdabiola.seriesmodel/ExaminationWithSubject.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // com.mshdabiola.seriesmodel/ExaminationWithSubject.toString|toString(){}[0]
+
+    final object $serializer : kotlinx.serialization.internal/GeneratedSerializer<com.mshdabiola.seriesmodel/ExaminationWithSubject> { // com.mshdabiola.seriesmodel/ExaminationWithSubject.$serializer|null[0]
+        final val descriptor // com.mshdabiola.seriesmodel/ExaminationWithSubject.$serializer.descriptor|{}descriptor[0]
+            final fun <get-descriptor>(): kotlinx.serialization.descriptors/SerialDescriptor // com.mshdabiola.seriesmodel/ExaminationWithSubject.$serializer.descriptor.<get-descriptor>|<get-descriptor>(){}[0]
+
+        final fun childSerializers(): kotlin/Array<kotlinx.serialization/KSerializer<*>> // com.mshdabiola.seriesmodel/ExaminationWithSubject.$serializer.childSerializers|childSerializers(){}[0]
+        final fun deserialize(kotlinx.serialization.encoding/Decoder): com.mshdabiola.seriesmodel/ExaminationWithSubject // com.mshdabiola.seriesmodel/ExaminationWithSubject.$serializer.deserialize|deserialize(kotlinx.serialization.encoding.Decoder){}[0]
+        final fun serialize(kotlinx.serialization.encoding/Encoder, com.mshdabiola.seriesmodel/ExaminationWithSubject) // com.mshdabiola.seriesmodel/ExaminationWithSubject.$serializer.serialize|serialize(kotlinx.serialization.encoding.Encoder;com.mshdabiola.seriesmodel.ExaminationWithSubject){}[0]
+    }
+
+    final object Companion { // com.mshdabiola.seriesmodel/ExaminationWithSubject.Companion|null[0]
+        final fun serializer(): kotlinx.serialization/KSerializer<com.mshdabiola.seriesmodel/ExaminationWithSubject> // com.mshdabiola.seriesmodel/ExaminationWithSubject.Companion.serializer|serializer(){}[0]
+    }
+}
+
+final class com.mshdabiola.seriesmodel/ExportableData { // com.mshdabiola.seriesmodel/ExportableData|null[0]
+    constructor <init>(kotlin.collections/List<com.mshdabiola.seriesmodel/User> = ..., kotlin.collections/List<com.mshdabiola.seriesmodel/Series> = ..., kotlin.collections/List<com.mshdabiola.seriesmodel/Subject> = ..., kotlin.collections/List<com.mshdabiola.seriesmodel/TopicCategory> = ..., kotlin.collections/List<com.mshdabiola.seriesmodel/Topic> = ..., kotlin.collections/List<com.mshdabiola.seriesmodel/Examination> = ..., kotlin.collections/List<com.mshdabiola.seriesmodel/Instruction> = ..., kotlin.collections/List<com.mshdabiola.seriesmodel/QuestionPlain> = ..., kotlin.collections/List<com.mshdabiola.seriesmodel/Option> = ...) // com.mshdabiola.seriesmodel/ExportableData.<init>|<init>(kotlin.collections.List<com.mshdabiola.seriesmodel.User>;kotlin.collections.List<com.mshdabiola.seriesmodel.Series>;kotlin.collections.List<com.mshdabiola.seriesmodel.Subject>;kotlin.collections.List<com.mshdabiola.seriesmodel.TopicCategory>;kotlin.collections.List<com.mshdabiola.seriesmodel.Topic>;kotlin.collections.List<com.mshdabiola.seriesmodel.Examination>;kotlin.collections.List<com.mshdabiola.seriesmodel.Instruction>;kotlin.collections.List<com.mshdabiola.seriesmodel.QuestionPlain>;kotlin.collections.List<com.mshdabiola.seriesmodel.Option>){}[0]
+
+    final val examinations // com.mshdabiola.seriesmodel/ExportableData.examinations|{}examinations[0]
+        final fun <get-examinations>(): kotlin.collections/List<com.mshdabiola.seriesmodel/Examination> // com.mshdabiola.seriesmodel/ExportableData.examinations.<get-examinations>|<get-examinations>(){}[0]
+    final val instructions // com.mshdabiola.seriesmodel/ExportableData.instructions|{}instructions[0]
+        final fun <get-instructions>(): kotlin.collections/List<com.mshdabiola.seriesmodel/Instruction> // com.mshdabiola.seriesmodel/ExportableData.instructions.<get-instructions>|<get-instructions>(){}[0]
+    final val options // com.mshdabiola.seriesmodel/ExportableData.options|{}options[0]
+        final fun <get-options>(): kotlin.collections/List<com.mshdabiola.seriesmodel/Option> // com.mshdabiola.seriesmodel/ExportableData.options.<get-options>|<get-options>(){}[0]
+    final val questions // com.mshdabiola.seriesmodel/ExportableData.questions|{}questions[0]
+        final fun <get-questions>(): kotlin.collections/List<com.mshdabiola.seriesmodel/QuestionPlain> // com.mshdabiola.seriesmodel/ExportableData.questions.<get-questions>|<get-questions>(){}[0]
+    final val series // com.mshdabiola.seriesmodel/ExportableData.series|{}series[0]
+        final fun <get-series>(): kotlin.collections/List<com.mshdabiola.seriesmodel/Series> // com.mshdabiola.seriesmodel/ExportableData.series.<get-series>|<get-series>(){}[0]
+    final val subjects // com.mshdabiola.seriesmodel/ExportableData.subjects|{}subjects[0]
+        final fun <get-subjects>(): kotlin.collections/List<com.mshdabiola.seriesmodel/Subject> // com.mshdabiola.seriesmodel/ExportableData.subjects.<get-subjects>|<get-subjects>(){}[0]
+    final val topicCategory // com.mshdabiola.seriesmodel/ExportableData.topicCategory|{}topicCategory[0]
+        final fun <get-topicCategory>(): kotlin.collections/List<com.mshdabiola.seriesmodel/TopicCategory> // com.mshdabiola.seriesmodel/ExportableData.topicCategory.<get-topicCategory>|<get-topicCategory>(){}[0]
+    final val topics // com.mshdabiola.seriesmodel/ExportableData.topics|{}topics[0]
+        final fun <get-topics>(): kotlin.collections/List<com.mshdabiola.seriesmodel/Topic> // com.mshdabiola.seriesmodel/ExportableData.topics.<get-topics>|<get-topics>(){}[0]
+    final val users // com.mshdabiola.seriesmodel/ExportableData.users|{}users[0]
+        final fun <get-users>(): kotlin.collections/List<com.mshdabiola.seriesmodel/User> // com.mshdabiola.seriesmodel/ExportableData.users.<get-users>|<get-users>(){}[0]
+
+    final fun component1(): kotlin.collections/List<com.mshdabiola.seriesmodel/User> // com.mshdabiola.seriesmodel/ExportableData.component1|component1(){}[0]
+    final fun component2(): kotlin.collections/List<com.mshdabiola.seriesmodel/Series> // com.mshdabiola.seriesmodel/ExportableData.component2|component2(){}[0]
+    final fun component3(): kotlin.collections/List<com.mshdabiola.seriesmodel/Subject> // com.mshdabiola.seriesmodel/ExportableData.component3|component3(){}[0]
+    final fun component4(): kotlin.collections/List<com.mshdabiola.seriesmodel/TopicCategory> // com.mshdabiola.seriesmodel/ExportableData.component4|component4(){}[0]
+    final fun component5(): kotlin.collections/List<com.mshdabiola.seriesmodel/Topic> // com.mshdabiola.seriesmodel/ExportableData.component5|component5(){}[0]
+    final fun component6(): kotlin.collections/List<com.mshdabiola.seriesmodel/Examination> // com.mshdabiola.seriesmodel/ExportableData.component6|component6(){}[0]
+    final fun component7(): kotlin.collections/List<com.mshdabiola.seriesmodel/Instruction> // com.mshdabiola.seriesmodel/ExportableData.component7|component7(){}[0]
+    final fun component8(): kotlin.collections/List<com.mshdabiola.seriesmodel/QuestionPlain> // com.mshdabiola.seriesmodel/ExportableData.component8|component8(){}[0]
+    final fun component9(): kotlin.collections/List<com.mshdabiola.seriesmodel/Option> // com.mshdabiola.seriesmodel/ExportableData.component9|component9(){}[0]
+    final fun copy(kotlin.collections/List<com.mshdabiola.seriesmodel/User> = ..., kotlin.collections/List<com.mshdabiola.seriesmodel/Series> = ..., kotlin.collections/List<com.mshdabiola.seriesmodel/Subject> = ..., kotlin.collections/List<com.mshdabiola.seriesmodel/TopicCategory> = ..., kotlin.collections/List<com.mshdabiola.seriesmodel/Topic> = ..., kotlin.collections/List<com.mshdabiola.seriesmodel/Examination> = ..., kotlin.collections/List<com.mshdabiola.seriesmodel/Instruction> = ..., kotlin.collections/List<com.mshdabiola.seriesmodel/QuestionPlain> = ..., kotlin.collections/List<com.mshdabiola.seriesmodel/Option> = ...): com.mshdabiola.seriesmodel/ExportableData // com.mshdabiola.seriesmodel/ExportableData.copy|copy(kotlin.collections.List<com.mshdabiola.seriesmodel.User>;kotlin.collections.List<com.mshdabiola.seriesmodel.Series>;kotlin.collections.List<com.mshdabiola.seriesmodel.Subject>;kotlin.collections.List<com.mshdabiola.seriesmodel.TopicCategory>;kotlin.collections.List<com.mshdabiola.seriesmodel.Topic>;kotlin.collections.List<com.mshdabiola.seriesmodel.Examination>;kotlin.collections.List<com.mshdabiola.seriesmodel.Instruction>;kotlin.collections.List<com.mshdabiola.seriesmodel.QuestionPlain>;kotlin.collections.List<com.mshdabiola.seriesmodel.Option>){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // com.mshdabiola.seriesmodel/ExportableData.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // com.mshdabiola.seriesmodel/ExportableData.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // com.mshdabiola.seriesmodel/ExportableData.toString|toString(){}[0]
+
+    final object $serializer : kotlinx.serialization.internal/GeneratedSerializer<com.mshdabiola.seriesmodel/ExportableData> { // com.mshdabiola.seriesmodel/ExportableData.$serializer|null[0]
+        final val descriptor // com.mshdabiola.seriesmodel/ExportableData.$serializer.descriptor|{}descriptor[0]
+            final fun <get-descriptor>(): kotlinx.serialization.descriptors/SerialDescriptor // com.mshdabiola.seriesmodel/ExportableData.$serializer.descriptor.<get-descriptor>|<get-descriptor>(){}[0]
+
+        final fun childSerializers(): kotlin/Array<kotlinx.serialization/KSerializer<*>> // com.mshdabiola.seriesmodel/ExportableData.$serializer.childSerializers|childSerializers(){}[0]
+        final fun deserialize(kotlinx.serialization.encoding/Decoder): com.mshdabiola.seriesmodel/ExportableData // com.mshdabiola.seriesmodel/ExportableData.$serializer.deserialize|deserialize(kotlinx.serialization.encoding.Decoder){}[0]
+        final fun serialize(kotlinx.serialization.encoding/Encoder, com.mshdabiola.seriesmodel/ExportableData) // com.mshdabiola.seriesmodel/ExportableData.$serializer.serialize|serialize(kotlinx.serialization.encoding.Encoder;com.mshdabiola.seriesmodel.ExportableData){}[0]
+    }
+
+    final object Companion { // com.mshdabiola.seriesmodel/ExportableData.Companion|null[0]
+        final val $childSerializers // com.mshdabiola.seriesmodel/ExportableData.Companion.$childSerializers|{}$childSerializers[0]
+
+        final fun serializer(): kotlinx.serialization/KSerializer<com.mshdabiola.seriesmodel/ExportableData> // com.mshdabiola.seriesmodel/ExportableData.Companion.serializer|serializer(){}[0]
+    }
+}
+
+final class com.mshdabiola.seriesmodel/Instruction { // com.mshdabiola.seriesmodel/Instruction|null[0]
+    constructor <init>(kotlin/Long = ..., kotlin/Long, kotlin/String, kotlin.collections/List<com.mshdabiola.seriesmodel/Content>) // com.mshdabiola.seriesmodel/Instruction.<init>|<init>(kotlin.Long;kotlin.Long;kotlin.String;kotlin.collections.List<com.mshdabiola.seriesmodel.Content>){}[0]
+
+    final val content // com.mshdabiola.seriesmodel/Instruction.content|{}content[0]
+        final fun <get-content>(): kotlin.collections/List<com.mshdabiola.seriesmodel/Content> // com.mshdabiola.seriesmodel/Instruction.content.<get-content>|<get-content>(){}[0]
+    final val examId // com.mshdabiola.seriesmodel/Instruction.examId|{}examId[0]
+        final fun <get-examId>(): kotlin/Long // com.mshdabiola.seriesmodel/Instruction.examId.<get-examId>|<get-examId>(){}[0]
+    final val id // com.mshdabiola.seriesmodel/Instruction.id|{}id[0]
+        final fun <get-id>(): kotlin/Long // com.mshdabiola.seriesmodel/Instruction.id.<get-id>|<get-id>(){}[0]
+    final val title // com.mshdabiola.seriesmodel/Instruction.title|{}title[0]
+        final fun <get-title>(): kotlin/String // com.mshdabiola.seriesmodel/Instruction.title.<get-title>|<get-title>(){}[0]
+
+    final fun component1(): kotlin/Long // com.mshdabiola.seriesmodel/Instruction.component1|component1(){}[0]
+    final fun component2(): kotlin/Long // com.mshdabiola.seriesmodel/Instruction.component2|component2(){}[0]
+    final fun component3(): kotlin/String // com.mshdabiola.seriesmodel/Instruction.component3|component3(){}[0]
+    final fun component4(): kotlin.collections/List<com.mshdabiola.seriesmodel/Content> // com.mshdabiola.seriesmodel/Instruction.component4|component4(){}[0]
+    final fun copy(kotlin/Long = ..., kotlin/Long = ..., kotlin/String = ..., kotlin.collections/List<com.mshdabiola.seriesmodel/Content> = ...): com.mshdabiola.seriesmodel/Instruction // com.mshdabiola.seriesmodel/Instruction.copy|copy(kotlin.Long;kotlin.Long;kotlin.String;kotlin.collections.List<com.mshdabiola.seriesmodel.Content>){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // com.mshdabiola.seriesmodel/Instruction.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // com.mshdabiola.seriesmodel/Instruction.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // com.mshdabiola.seriesmodel/Instruction.toString|toString(){}[0]
+
+    final object $serializer : kotlinx.serialization.internal/GeneratedSerializer<com.mshdabiola.seriesmodel/Instruction> { // com.mshdabiola.seriesmodel/Instruction.$serializer|null[0]
+        final val descriptor // com.mshdabiola.seriesmodel/Instruction.$serializer.descriptor|{}descriptor[0]
+            final fun <get-descriptor>(): kotlinx.serialization.descriptors/SerialDescriptor // com.mshdabiola.seriesmodel/Instruction.$serializer.descriptor.<get-descriptor>|<get-descriptor>(){}[0]
+
+        final fun childSerializers(): kotlin/Array<kotlinx.serialization/KSerializer<*>> // com.mshdabiola.seriesmodel/Instruction.$serializer.childSerializers|childSerializers(){}[0]
+        final fun deserialize(kotlinx.serialization.encoding/Decoder): com.mshdabiola.seriesmodel/Instruction // com.mshdabiola.seriesmodel/Instruction.$serializer.deserialize|deserialize(kotlinx.serialization.encoding.Decoder){}[0]
+        final fun serialize(kotlinx.serialization.encoding/Encoder, com.mshdabiola.seriesmodel/Instruction) // com.mshdabiola.seriesmodel/Instruction.$serializer.serialize|serialize(kotlinx.serialization.encoding.Encoder;com.mshdabiola.seriesmodel.Instruction){}[0]
+    }
+
+    final object Companion { // com.mshdabiola.seriesmodel/Instruction.Companion|null[0]
+        final val $childSerializers // com.mshdabiola.seriesmodel/Instruction.Companion.$childSerializers|{}$childSerializers[0]
+
+        final fun serializer(): kotlinx.serialization/KSerializer<com.mshdabiola.seriesmodel/Instruction> // com.mshdabiola.seriesmodel/Instruction.Companion.serializer|serializer(){}[0]
+    }
+}
+
+final class com.mshdabiola.seriesmodel/Option { // com.mshdabiola.seriesmodel/Option|null[0]
+    constructor <init>(kotlin/Long = ..., kotlin/Long, kotlin/Long, kotlin/String, kotlin.collections/List<com.mshdabiola.seriesmodel/Content>, kotlin/Boolean) // com.mshdabiola.seriesmodel/Option.<init>|<init>(kotlin.Long;kotlin.Long;kotlin.Long;kotlin.String;kotlin.collections.List<com.mshdabiola.seriesmodel.Content>;kotlin.Boolean){}[0]
+
+    final val contents // com.mshdabiola.seriesmodel/Option.contents|{}contents[0]
+        final fun <get-contents>(): kotlin.collections/List<com.mshdabiola.seriesmodel/Content> // com.mshdabiola.seriesmodel/Option.contents.<get-contents>|<get-contents>(){}[0]
+    final val id // com.mshdabiola.seriesmodel/Option.id|{}id[0]
+        final fun <get-id>(): kotlin/Long // com.mshdabiola.seriesmodel/Option.id.<get-id>|<get-id>(){}[0]
+    final val isAnswer // com.mshdabiola.seriesmodel/Option.isAnswer|{}isAnswer[0]
+        final fun <get-isAnswer>(): kotlin/Boolean // com.mshdabiola.seriesmodel/Option.isAnswer.<get-isAnswer>|<get-isAnswer>(){}[0]
+    final val number // com.mshdabiola.seriesmodel/Option.number|{}number[0]
+        final fun <get-number>(): kotlin/Long // com.mshdabiola.seriesmodel/Option.number.<get-number>|<get-number>(){}[0]
+    final val questionId // com.mshdabiola.seriesmodel/Option.questionId|{}questionId[0]
+        final fun <get-questionId>(): kotlin/Long // com.mshdabiola.seriesmodel/Option.questionId.<get-questionId>|<get-questionId>(){}[0]
+    final val title // com.mshdabiola.seriesmodel/Option.title|{}title[0]
+        final fun <get-title>(): kotlin/String // com.mshdabiola.seriesmodel/Option.title.<get-title>|<get-title>(){}[0]
+
+    final fun component1(): kotlin/Long // com.mshdabiola.seriesmodel/Option.component1|component1(){}[0]
+    final fun component2(): kotlin/Long // com.mshdabiola.seriesmodel/Option.component2|component2(){}[0]
+    final fun component3(): kotlin/Long // com.mshdabiola.seriesmodel/Option.component3|component3(){}[0]
+    final fun component4(): kotlin/String // com.mshdabiola.seriesmodel/Option.component4|component4(){}[0]
+    final fun component5(): kotlin.collections/List<com.mshdabiola.seriesmodel/Content> // com.mshdabiola.seriesmodel/Option.component5|component5(){}[0]
+    final fun component6(): kotlin/Boolean // com.mshdabiola.seriesmodel/Option.component6|component6(){}[0]
+    final fun copy(kotlin/Long = ..., kotlin/Long = ..., kotlin/Long = ..., kotlin/String = ..., kotlin.collections/List<com.mshdabiola.seriesmodel/Content> = ..., kotlin/Boolean = ...): com.mshdabiola.seriesmodel/Option // com.mshdabiola.seriesmodel/Option.copy|copy(kotlin.Long;kotlin.Long;kotlin.Long;kotlin.String;kotlin.collections.List<com.mshdabiola.seriesmodel.Content>;kotlin.Boolean){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // com.mshdabiola.seriesmodel/Option.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // com.mshdabiola.seriesmodel/Option.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // com.mshdabiola.seriesmodel/Option.toString|toString(){}[0]
+
+    final object $serializer : kotlinx.serialization.internal/GeneratedSerializer<com.mshdabiola.seriesmodel/Option> { // com.mshdabiola.seriesmodel/Option.$serializer|null[0]
+        final val descriptor // com.mshdabiola.seriesmodel/Option.$serializer.descriptor|{}descriptor[0]
+            final fun <get-descriptor>(): kotlinx.serialization.descriptors/SerialDescriptor // com.mshdabiola.seriesmodel/Option.$serializer.descriptor.<get-descriptor>|<get-descriptor>(){}[0]
+
+        final fun childSerializers(): kotlin/Array<kotlinx.serialization/KSerializer<*>> // com.mshdabiola.seriesmodel/Option.$serializer.childSerializers|childSerializers(){}[0]
+        final fun deserialize(kotlinx.serialization.encoding/Decoder): com.mshdabiola.seriesmodel/Option // com.mshdabiola.seriesmodel/Option.$serializer.deserialize|deserialize(kotlinx.serialization.encoding.Decoder){}[0]
+        final fun serialize(kotlinx.serialization.encoding/Encoder, com.mshdabiola.seriesmodel/Option) // com.mshdabiola.seriesmodel/Option.$serializer.serialize|serialize(kotlinx.serialization.encoding.Encoder;com.mshdabiola.seriesmodel.Option){}[0]
+    }
+
+    final object Companion { // com.mshdabiola.seriesmodel/Option.Companion|null[0]
+        final val $childSerializers // com.mshdabiola.seriesmodel/Option.Companion.$childSerializers|{}$childSerializers[0]
+
+        final fun serializer(): kotlinx.serialization/KSerializer<com.mshdabiola.seriesmodel/Option> // com.mshdabiola.seriesmodel/Option.Companion.serializer|serializer(){}[0]
+    }
+}
+
+final class com.mshdabiola.seriesmodel/Question { // com.mshdabiola.seriesmodel/Question|null[0]
+    constructor <init>(kotlin/Long = ..., kotlin/Long, kotlin/Long, kotlin/String = ..., kotlin.collections/List<com.mshdabiola.seriesmodel/Content>, kotlin.collections/List<com.mshdabiola.seriesmodel/Content>, kotlin.collections/List<com.mshdabiola.seriesmodel/Option>?, com.mshdabiola.seriesmodel/QuestionKind, com.mshdabiola.seriesmodel/Instruction? = ..., com.mshdabiola.seriesmodel/TopicWithCategory?) // com.mshdabiola.seriesmodel/Question.<init>|<init>(kotlin.Long;kotlin.Long;kotlin.Long;kotlin.String;kotlin.collections.List<com.mshdabiola.seriesmodel.Content>;kotlin.collections.List<com.mshdabiola.seriesmodel.Content>;kotlin.collections.List<com.mshdabiola.seriesmodel.Option>?;com.mshdabiola.seriesmodel.QuestionKind;com.mshdabiola.seriesmodel.Instruction?;com.mshdabiola.seriesmodel.TopicWithCategory?){}[0]
+
+    final val answers // com.mshdabiola.seriesmodel/Question.answers|{}answers[0]
+        final fun <get-answers>(): kotlin.collections/List<com.mshdabiola.seriesmodel/Content> // com.mshdabiola.seriesmodel/Question.answers.<get-answers>|<get-answers>(){}[0]
+    final val contents // com.mshdabiola.seriesmodel/Question.contents|{}contents[0]
+        final fun <get-contents>(): kotlin.collections/List<com.mshdabiola.seriesmodel/Content> // com.mshdabiola.seriesmodel/Question.contents.<get-contents>|<get-contents>(){}[0]
+    final val examId // com.mshdabiola.seriesmodel/Question.examId|{}examId[0]
+        final fun <get-examId>(): kotlin/Long // com.mshdabiola.seriesmodel/Question.examId.<get-examId>|<get-examId>(){}[0]
+    final val id // com.mshdabiola.seriesmodel/Question.id|{}id[0]
+        final fun <get-id>(): kotlin/Long // com.mshdabiola.seriesmodel/Question.id.<get-id>|<get-id>(){}[0]
+    final val instruction // com.mshdabiola.seriesmodel/Question.instruction|{}instruction[0]
+        final fun <get-instruction>(): com.mshdabiola.seriesmodel/Instruction? // com.mshdabiola.seriesmodel/Question.instruction.<get-instruction>|<get-instruction>(){}[0]
+    final val number // com.mshdabiola.seriesmodel/Question.number|{}number[0]
+        final fun <get-number>(): kotlin/Long // com.mshdabiola.seriesmodel/Question.number.<get-number>|<get-number>(){}[0]
+    final val options // com.mshdabiola.seriesmodel/Question.options|{}options[0]
+        final fun <get-options>(): kotlin.collections/List<com.mshdabiola.seriesmodel/Option>? // com.mshdabiola.seriesmodel/Question.options.<get-options>|<get-options>(){}[0]
+    final val title // com.mshdabiola.seriesmodel/Question.title|{}title[0]
+        final fun <get-title>(): kotlin/String // com.mshdabiola.seriesmodel/Question.title.<get-title>|<get-title>(){}[0]
+    final val topic // com.mshdabiola.seriesmodel/Question.topic|{}topic[0]
+        final fun <get-topic>(): com.mshdabiola.seriesmodel/TopicWithCategory? // com.mshdabiola.seriesmodel/Question.topic.<get-topic>|<get-topic>(){}[0]
+    final val type // com.mshdabiola.seriesmodel/Question.type|{}type[0]
+        final fun <get-type>(): com.mshdabiola.seriesmodel/QuestionKind // com.mshdabiola.seriesmodel/Question.type.<get-type>|<get-type>(){}[0]
+
+    final fun component1(): kotlin/Long // com.mshdabiola.seriesmodel/Question.component1|component1(){}[0]
+    final fun component10(): com.mshdabiola.seriesmodel/TopicWithCategory? // com.mshdabiola.seriesmodel/Question.component10|component10(){}[0]
+    final fun component2(): kotlin/Long // com.mshdabiola.seriesmodel/Question.component2|component2(){}[0]
+    final fun component3(): kotlin/Long // com.mshdabiola.seriesmodel/Question.component3|component3(){}[0]
+    final fun component4(): kotlin/String // com.mshdabiola.seriesmodel/Question.component4|component4(){}[0]
+    final fun component5(): kotlin.collections/List<com.mshdabiola.seriesmodel/Content> // com.mshdabiola.seriesmodel/Question.component5|component5(){}[0]
+    final fun component6(): kotlin.collections/List<com.mshdabiola.seriesmodel/Content> // com.mshdabiola.seriesmodel/Question.component6|component6(){}[0]
+    final fun component7(): kotlin.collections/List<com.mshdabiola.seriesmodel/Option>? // com.mshdabiola.seriesmodel/Question.component7|component7(){}[0]
+    final fun component8(): com.mshdabiola.seriesmodel/QuestionKind // com.mshdabiola.seriesmodel/Question.component8|component8(){}[0]
+    final fun component9(): com.mshdabiola.seriesmodel/Instruction? // com.mshdabiola.seriesmodel/Question.component9|component9(){}[0]
+    final fun copy(kotlin/Long = ..., kotlin/Long = ..., kotlin/Long = ..., kotlin/String = ..., kotlin.collections/List<com.mshdabiola.seriesmodel/Content> = ..., kotlin.collections/List<com.mshdabiola.seriesmodel/Content> = ..., kotlin.collections/List<com.mshdabiola.seriesmodel/Option>? = ..., com.mshdabiola.seriesmodel/QuestionKind = ..., com.mshdabiola.seriesmodel/Instruction? = ..., com.mshdabiola.seriesmodel/TopicWithCategory? = ...): com.mshdabiola.seriesmodel/Question // com.mshdabiola.seriesmodel/Question.copy|copy(kotlin.Long;kotlin.Long;kotlin.Long;kotlin.String;kotlin.collections.List<com.mshdabiola.seriesmodel.Content>;kotlin.collections.List<com.mshdabiola.seriesmodel.Content>;kotlin.collections.List<com.mshdabiola.seriesmodel.Option>?;com.mshdabiola.seriesmodel.QuestionKind;com.mshdabiola.seriesmodel.Instruction?;com.mshdabiola.seriesmodel.TopicWithCategory?){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // com.mshdabiola.seriesmodel/Question.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // com.mshdabiola.seriesmodel/Question.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // com.mshdabiola.seriesmodel/Question.toString|toString(){}[0]
+
+    final object $serializer : kotlinx.serialization.internal/GeneratedSerializer<com.mshdabiola.seriesmodel/Question> { // com.mshdabiola.seriesmodel/Question.$serializer|null[0]
+        final val descriptor // com.mshdabiola.seriesmodel/Question.$serializer.descriptor|{}descriptor[0]
+            final fun <get-descriptor>(): kotlinx.serialization.descriptors/SerialDescriptor // com.mshdabiola.seriesmodel/Question.$serializer.descriptor.<get-descriptor>|<get-descriptor>(){}[0]
+
+        final fun childSerializers(): kotlin/Array<kotlinx.serialization/KSerializer<*>> // com.mshdabiola.seriesmodel/Question.$serializer.childSerializers|childSerializers(){}[0]
+        final fun deserialize(kotlinx.serialization.encoding/Decoder): com.mshdabiola.seriesmodel/Question // com.mshdabiola.seriesmodel/Question.$serializer.deserialize|deserialize(kotlinx.serialization.encoding.Decoder){}[0]
+        final fun serialize(kotlinx.serialization.encoding/Encoder, com.mshdabiola.seriesmodel/Question) // com.mshdabiola.seriesmodel/Question.$serializer.serialize|serialize(kotlinx.serialization.encoding.Encoder;com.mshdabiola.seriesmodel.Question){}[0]
+    }
+
+    final object Companion { // com.mshdabiola.seriesmodel/Question.Companion|null[0]
+        final val $childSerializers // com.mshdabiola.seriesmodel/Question.Companion.$childSerializers|{}$childSerializers[0]
+
+        final fun serializer(): kotlinx.serialization/KSerializer<com.mshdabiola.seriesmodel/Question> // com.mshdabiola.seriesmodel/Question.Companion.serializer|serializer(){}[0]
+    }
+}
+
+final class com.mshdabiola.seriesmodel/QuestionPlain { // com.mshdabiola.seriesmodel/QuestionPlain|null[0]
+    constructor <init>(kotlin/Long = ..., kotlin/Long, kotlin/Long, kotlin/String, kotlin/String, kotlin/String, kotlin/Int, kotlin/Long?, kotlin/Long?) // com.mshdabiola.seriesmodel/QuestionPlain.<init>|<init>(kotlin.Long;kotlin.Long;kotlin.Long;kotlin.String;kotlin.String;kotlin.String;kotlin.Int;kotlin.Long?;kotlin.Long?){}[0]
+
+    final val answers // com.mshdabiola.seriesmodel/QuestionPlain.answers|{}answers[0]
+        final fun <get-answers>(): kotlin/String // com.mshdabiola.seriesmodel/QuestionPlain.answers.<get-answers>|<get-answers>(){}[0]
+    final val contents // com.mshdabiola.seriesmodel/QuestionPlain.contents|{}contents[0]
+        final fun <get-contents>(): kotlin/String // com.mshdabiola.seriesmodel/QuestionPlain.contents.<get-contents>|<get-contents>(){}[0]
+    final val examId // com.mshdabiola.seriesmodel/QuestionPlain.examId|{}examId[0]
+        final fun <get-examId>(): kotlin/Long // com.mshdabiola.seriesmodel/QuestionPlain.examId.<get-examId>|<get-examId>(){}[0]
+    final val id // com.mshdabiola.seriesmodel/QuestionPlain.id|{}id[0]
+        final fun <get-id>(): kotlin/Long // com.mshdabiola.seriesmodel/QuestionPlain.id.<get-id>|<get-id>(){}[0]
+    final val instructionId // com.mshdabiola.seriesmodel/QuestionPlain.instructionId|{}instructionId[0]
+        final fun <get-instructionId>(): kotlin/Long? // com.mshdabiola.seriesmodel/QuestionPlain.instructionId.<get-instructionId>|<get-instructionId>(){}[0]
+    final val number // com.mshdabiola.seriesmodel/QuestionPlain.number|{}number[0]
+        final fun <get-number>(): kotlin/Long // com.mshdabiola.seriesmodel/QuestionPlain.number.<get-number>|<get-number>(){}[0]
+    final val title // com.mshdabiola.seriesmodel/QuestionPlain.title|{}title[0]
+        final fun <get-title>(): kotlin/String // com.mshdabiola.seriesmodel/QuestionPlain.title.<get-title>|<get-title>(){}[0]
+    final val topicId // com.mshdabiola.seriesmodel/QuestionPlain.topicId|{}topicId[0]
+        final fun <get-topicId>(): kotlin/Long? // com.mshdabiola.seriesmodel/QuestionPlain.topicId.<get-topicId>|<get-topicId>(){}[0]
+    final val type // com.mshdabiola.seriesmodel/QuestionPlain.type|{}type[0]
+        final fun <get-type>(): kotlin/Int // com.mshdabiola.seriesmodel/QuestionPlain.type.<get-type>|<get-type>(){}[0]
+
+    final fun component1(): kotlin/Long // com.mshdabiola.seriesmodel/QuestionPlain.component1|component1(){}[0]
+    final fun component2(): kotlin/Long // com.mshdabiola.seriesmodel/QuestionPlain.component2|component2(){}[0]
+    final fun component3(): kotlin/Long // com.mshdabiola.seriesmodel/QuestionPlain.component3|component3(){}[0]
+    final fun component4(): kotlin/String // com.mshdabiola.seriesmodel/QuestionPlain.component4|component4(){}[0]
+    final fun component5(): kotlin/String // com.mshdabiola.seriesmodel/QuestionPlain.component5|component5(){}[0]
+    final fun component6(): kotlin/String // com.mshdabiola.seriesmodel/QuestionPlain.component6|component6(){}[0]
+    final fun component7(): kotlin/Int // com.mshdabiola.seriesmodel/QuestionPlain.component7|component7(){}[0]
+    final fun component8(): kotlin/Long? // com.mshdabiola.seriesmodel/QuestionPlain.component8|component8(){}[0]
+    final fun component9(): kotlin/Long? // com.mshdabiola.seriesmodel/QuestionPlain.component9|component9(){}[0]
+    final fun copy(kotlin/Long = ..., kotlin/Long = ..., kotlin/Long = ..., kotlin/String = ..., kotlin/String = ..., kotlin/String = ..., kotlin/Int = ..., kotlin/Long? = ..., kotlin/Long? = ...): com.mshdabiola.seriesmodel/QuestionPlain // com.mshdabiola.seriesmodel/QuestionPlain.copy|copy(kotlin.Long;kotlin.Long;kotlin.Long;kotlin.String;kotlin.String;kotlin.String;kotlin.Int;kotlin.Long?;kotlin.Long?){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // com.mshdabiola.seriesmodel/QuestionPlain.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // com.mshdabiola.seriesmodel/QuestionPlain.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // com.mshdabiola.seriesmodel/QuestionPlain.toString|toString(){}[0]
+
+    final object $serializer : kotlinx.serialization.internal/GeneratedSerializer<com.mshdabiola.seriesmodel/QuestionPlain> { // com.mshdabiola.seriesmodel/QuestionPlain.$serializer|null[0]
+        final val descriptor // com.mshdabiola.seriesmodel/QuestionPlain.$serializer.descriptor|{}descriptor[0]
+            final fun <get-descriptor>(): kotlinx.serialization.descriptors/SerialDescriptor // com.mshdabiola.seriesmodel/QuestionPlain.$serializer.descriptor.<get-descriptor>|<get-descriptor>(){}[0]
+
+        final fun childSerializers(): kotlin/Array<kotlinx.serialization/KSerializer<*>> // com.mshdabiola.seriesmodel/QuestionPlain.$serializer.childSerializers|childSerializers(){}[0]
+        final fun deserialize(kotlinx.serialization.encoding/Decoder): com.mshdabiola.seriesmodel/QuestionPlain // com.mshdabiola.seriesmodel/QuestionPlain.$serializer.deserialize|deserialize(kotlinx.serialization.encoding.Decoder){}[0]
+        final fun serialize(kotlinx.serialization.encoding/Encoder, com.mshdabiola.seriesmodel/QuestionPlain) // com.mshdabiola.seriesmodel/QuestionPlain.$serializer.serialize|serialize(kotlinx.serialization.encoding.Encoder;com.mshdabiola.seriesmodel.QuestionPlain){}[0]
+    }
+
+    final object Companion { // com.mshdabiola.seriesmodel/QuestionPlain.Companion|null[0]
+        final fun serializer(): kotlinx.serialization/KSerializer<com.mshdabiola.seriesmodel/QuestionPlain> // com.mshdabiola.seriesmodel/QuestionPlain.Companion.serializer|serializer(){}[0]
+    }
+}
+
+final class com.mshdabiola.seriesmodel/QuestionWithOptsInstTop { // com.mshdabiola.seriesmodel/QuestionWithOptsInstTop|null[0]
+    constructor <init>(com.mshdabiola.seriesmodel/Question, kotlin.collections/List<com.mshdabiola.seriesmodel/Option>, com.mshdabiola.seriesmodel/Instruction?, com.mshdabiola.seriesmodel/Topic?) // com.mshdabiola.seriesmodel/QuestionWithOptsInstTop.<init>|<init>(com.mshdabiola.seriesmodel.Question;kotlin.collections.List<com.mshdabiola.seriesmodel.Option>;com.mshdabiola.seriesmodel.Instruction?;com.mshdabiola.seriesmodel.Topic?){}[0]
+
+    final val instruction // com.mshdabiola.seriesmodel/QuestionWithOptsInstTop.instruction|{}instruction[0]
+        final fun <get-instruction>(): com.mshdabiola.seriesmodel/Instruction? // com.mshdabiola.seriesmodel/QuestionWithOptsInstTop.instruction.<get-instruction>|<get-instruction>(){}[0]
+    final val options // com.mshdabiola.seriesmodel/QuestionWithOptsInstTop.options|{}options[0]
+        final fun <get-options>(): kotlin.collections/List<com.mshdabiola.seriesmodel/Option> // com.mshdabiola.seriesmodel/QuestionWithOptsInstTop.options.<get-options>|<get-options>(){}[0]
+    final val question // com.mshdabiola.seriesmodel/QuestionWithOptsInstTop.question|{}question[0]
+        final fun <get-question>(): com.mshdabiola.seriesmodel/Question // com.mshdabiola.seriesmodel/QuestionWithOptsInstTop.question.<get-question>|<get-question>(){}[0]
+    final val topic // com.mshdabiola.seriesmodel/QuestionWithOptsInstTop.topic|{}topic[0]
+        final fun <get-topic>(): com.mshdabiola.seriesmodel/Topic? // com.mshdabiola.seriesmodel/QuestionWithOptsInstTop.topic.<get-topic>|<get-topic>(){}[0]
+
+    final fun component1(): com.mshdabiola.seriesmodel/Question // com.mshdabiola.seriesmodel/QuestionWithOptsInstTop.component1|component1(){}[0]
+    final fun component2(): kotlin.collections/List<com.mshdabiola.seriesmodel/Option> // com.mshdabiola.seriesmodel/QuestionWithOptsInstTop.component2|component2(){}[0]
+    final fun component3(): com.mshdabiola.seriesmodel/Instruction? // com.mshdabiola.seriesmodel/QuestionWithOptsInstTop.component3|component3(){}[0]
+    final fun component4(): com.mshdabiola.seriesmodel/Topic? // com.mshdabiola.seriesmodel/QuestionWithOptsInstTop.component4|component4(){}[0]
+    final fun copy(com.mshdabiola.seriesmodel/Question = ..., kotlin.collections/List<com.mshdabiola.seriesmodel/Option> = ..., com.mshdabiola.seriesmodel/Instruction? = ..., com.mshdabiola.seriesmodel/Topic? = ...): com.mshdabiola.seriesmodel/QuestionWithOptsInstTop // com.mshdabiola.seriesmodel/QuestionWithOptsInstTop.copy|copy(com.mshdabiola.seriesmodel.Question;kotlin.collections.List<com.mshdabiola.seriesmodel.Option>;com.mshdabiola.seriesmodel.Instruction?;com.mshdabiola.seriesmodel.Topic?){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // com.mshdabiola.seriesmodel/QuestionWithOptsInstTop.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // com.mshdabiola.seriesmodel/QuestionWithOptsInstTop.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // com.mshdabiola.seriesmodel/QuestionWithOptsInstTop.toString|toString(){}[0]
+
+    final object $serializer : kotlinx.serialization.internal/GeneratedSerializer<com.mshdabiola.seriesmodel/QuestionWithOptsInstTop> { // com.mshdabiola.seriesmodel/QuestionWithOptsInstTop.$serializer|null[0]
+        final val descriptor // com.mshdabiola.seriesmodel/QuestionWithOptsInstTop.$serializer.descriptor|{}descriptor[0]
+            final fun <get-descriptor>(): kotlinx.serialization.descriptors/SerialDescriptor // com.mshdabiola.seriesmodel/QuestionWithOptsInstTop.$serializer.descriptor.<get-descriptor>|<get-descriptor>(){}[0]
+
+        final fun childSerializers(): kotlin/Array<kotlinx.serialization/KSerializer<*>> // com.mshdabiola.seriesmodel/QuestionWithOptsInstTop.$serializer.childSerializers|childSerializers(){}[0]
+        final fun deserialize(kotlinx.serialization.encoding/Decoder): com.mshdabiola.seriesmodel/QuestionWithOptsInstTop // com.mshdabiola.seriesmodel/QuestionWithOptsInstTop.$serializer.deserialize|deserialize(kotlinx.serialization.encoding.Decoder){}[0]
+        final fun serialize(kotlinx.serialization.encoding/Encoder, com.mshdabiola.seriesmodel/QuestionWithOptsInstTop) // com.mshdabiola.seriesmodel/QuestionWithOptsInstTop.$serializer.serialize|serialize(kotlinx.serialization.encoding.Encoder;com.mshdabiola.seriesmodel.QuestionWithOptsInstTop){}[0]
+    }
+
+    final object Companion { // com.mshdabiola.seriesmodel/QuestionWithOptsInstTop.Companion|null[0]
+        final val $childSerializers // com.mshdabiola.seriesmodel/QuestionWithOptsInstTop.Companion.$childSerializers|{}$childSerializers[0]
+
+        final fun serializer(): kotlinx.serialization/KSerializer<com.mshdabiola.seriesmodel/QuestionWithOptsInstTop> // com.mshdabiola.seriesmodel/QuestionWithOptsInstTop.Companion.serializer|serializer(){}[0]
+    }
+}
+
+final class com.mshdabiola.seriesmodel/Series { // com.mshdabiola.seriesmodel/Series|null[0]
+    constructor <init>(kotlin/Long = ..., kotlin/Long, kotlin/String) // com.mshdabiola.seriesmodel/Series.<init>|<init>(kotlin.Long;kotlin.Long;kotlin.String){}[0]
+
+    final val id // com.mshdabiola.seriesmodel/Series.id|{}id[0]
+        final fun <get-id>(): kotlin/Long // com.mshdabiola.seriesmodel/Series.id.<get-id>|<get-id>(){}[0]
+    final val name // com.mshdabiola.seriesmodel/Series.name|{}name[0]
+        final fun <get-name>(): kotlin/String // com.mshdabiola.seriesmodel/Series.name.<get-name>|<get-name>(){}[0]
+    final val userId // com.mshdabiola.seriesmodel/Series.userId|{}userId[0]
+        final fun <get-userId>(): kotlin/Long // com.mshdabiola.seriesmodel/Series.userId.<get-userId>|<get-userId>(){}[0]
+
+    final fun component1(): kotlin/Long // com.mshdabiola.seriesmodel/Series.component1|component1(){}[0]
+    final fun component2(): kotlin/Long // com.mshdabiola.seriesmodel/Series.component2|component2(){}[0]
+    final fun component3(): kotlin/String // com.mshdabiola.seriesmodel/Series.component3|component3(){}[0]
+    final fun copy(kotlin/Long = ..., kotlin/Long = ..., kotlin/String = ...): com.mshdabiola.seriesmodel/Series // com.mshdabiola.seriesmodel/Series.copy|copy(kotlin.Long;kotlin.Long;kotlin.String){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // com.mshdabiola.seriesmodel/Series.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // com.mshdabiola.seriesmodel/Series.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // com.mshdabiola.seriesmodel/Series.toString|toString(){}[0]
+
+    final object $serializer : kotlinx.serialization.internal/GeneratedSerializer<com.mshdabiola.seriesmodel/Series> { // com.mshdabiola.seriesmodel/Series.$serializer|null[0]
+        final val descriptor // com.mshdabiola.seriesmodel/Series.$serializer.descriptor|{}descriptor[0]
+            final fun <get-descriptor>(): kotlinx.serialization.descriptors/SerialDescriptor // com.mshdabiola.seriesmodel/Series.$serializer.descriptor.<get-descriptor>|<get-descriptor>(){}[0]
+
+        final fun childSerializers(): kotlin/Array<kotlinx.serialization/KSerializer<*>> // com.mshdabiola.seriesmodel/Series.$serializer.childSerializers|childSerializers(){}[0]
+        final fun deserialize(kotlinx.serialization.encoding/Decoder): com.mshdabiola.seriesmodel/Series // com.mshdabiola.seriesmodel/Series.$serializer.deserialize|deserialize(kotlinx.serialization.encoding.Decoder){}[0]
+        final fun serialize(kotlinx.serialization.encoding/Encoder, com.mshdabiola.seriesmodel/Series) // com.mshdabiola.seriesmodel/Series.$serializer.serialize|serialize(kotlinx.serialization.encoding.Encoder;com.mshdabiola.seriesmodel.Series){}[0]
+    }
+
+    final object Companion { // com.mshdabiola.seriesmodel/Series.Companion|null[0]
+        final fun serializer(): kotlinx.serialization/KSerializer<com.mshdabiola.seriesmodel/Series> // com.mshdabiola.seriesmodel/Series.Companion.serializer|serializer(){}[0]
+    }
+}
+
+final class com.mshdabiola.seriesmodel/Subject { // com.mshdabiola.seriesmodel/Subject|null[0]
+    constructor <init>(kotlin/Long = ..., kotlin/Long, kotlin/String) // com.mshdabiola.seriesmodel/Subject.<init>|<init>(kotlin.Long;kotlin.Long;kotlin.String){}[0]
+
+    final val id // com.mshdabiola.seriesmodel/Subject.id|{}id[0]
+        final fun <get-id>(): kotlin/Long // com.mshdabiola.seriesmodel/Subject.id.<get-id>|<get-id>(){}[0]
+    final val seriesId // com.mshdabiola.seriesmodel/Subject.seriesId|{}seriesId[0]
+        final fun <get-seriesId>(): kotlin/Long // com.mshdabiola.seriesmodel/Subject.seriesId.<get-seriesId>|<get-seriesId>(){}[0]
+    final val title // com.mshdabiola.seriesmodel/Subject.title|{}title[0]
+        final fun <get-title>(): kotlin/String // com.mshdabiola.seriesmodel/Subject.title.<get-title>|<get-title>(){}[0]
+
+    final fun component1(): kotlin/Long // com.mshdabiola.seriesmodel/Subject.component1|component1(){}[0]
+    final fun component2(): kotlin/Long // com.mshdabiola.seriesmodel/Subject.component2|component2(){}[0]
+    final fun component3(): kotlin/String // com.mshdabiola.seriesmodel/Subject.component3|component3(){}[0]
+    final fun copy(kotlin/Long = ..., kotlin/Long = ..., kotlin/String = ...): com.mshdabiola.seriesmodel/Subject // com.mshdabiola.seriesmodel/Subject.copy|copy(kotlin.Long;kotlin.Long;kotlin.String){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // com.mshdabiola.seriesmodel/Subject.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // com.mshdabiola.seriesmodel/Subject.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // com.mshdabiola.seriesmodel/Subject.toString|toString(){}[0]
+
+    final object $serializer : kotlinx.serialization.internal/GeneratedSerializer<com.mshdabiola.seriesmodel/Subject> { // com.mshdabiola.seriesmodel/Subject.$serializer|null[0]
+        final val descriptor // com.mshdabiola.seriesmodel/Subject.$serializer.descriptor|{}descriptor[0]
+            final fun <get-descriptor>(): kotlinx.serialization.descriptors/SerialDescriptor // com.mshdabiola.seriesmodel/Subject.$serializer.descriptor.<get-descriptor>|<get-descriptor>(){}[0]
+
+        final fun childSerializers(): kotlin/Array<kotlinx.serialization/KSerializer<*>> // com.mshdabiola.seriesmodel/Subject.$serializer.childSerializers|childSerializers(){}[0]
+        final fun deserialize(kotlinx.serialization.encoding/Decoder): com.mshdabiola.seriesmodel/Subject // com.mshdabiola.seriesmodel/Subject.$serializer.deserialize|deserialize(kotlinx.serialization.encoding.Decoder){}[0]
+        final fun serialize(kotlinx.serialization.encoding/Encoder, com.mshdabiola.seriesmodel/Subject) // com.mshdabiola.seriesmodel/Subject.$serializer.serialize|serialize(kotlinx.serialization.encoding.Encoder;com.mshdabiola.seriesmodel.Subject){}[0]
+    }
+
+    final object Companion { // com.mshdabiola.seriesmodel/Subject.Companion|null[0]
+        final fun serializer(): kotlinx.serialization/KSerializer<com.mshdabiola.seriesmodel/Subject> // com.mshdabiola.seriesmodel/Subject.Companion.serializer|serializer(){}[0]
+    }
+}
+
+final class com.mshdabiola.seriesmodel/SubjectWithSeries { // com.mshdabiola.seriesmodel/SubjectWithSeries|null[0]
+    constructor <init>(com.mshdabiola.seriesmodel/Subject, com.mshdabiola.seriesmodel/Series) // com.mshdabiola.seriesmodel/SubjectWithSeries.<init>|<init>(com.mshdabiola.seriesmodel.Subject;com.mshdabiola.seriesmodel.Series){}[0]
+
+    final val series // com.mshdabiola.seriesmodel/SubjectWithSeries.series|{}series[0]
+        final fun <get-series>(): com.mshdabiola.seriesmodel/Series // com.mshdabiola.seriesmodel/SubjectWithSeries.series.<get-series>|<get-series>(){}[0]
+    final val subject // com.mshdabiola.seriesmodel/SubjectWithSeries.subject|{}subject[0]
+        final fun <get-subject>(): com.mshdabiola.seriesmodel/Subject // com.mshdabiola.seriesmodel/SubjectWithSeries.subject.<get-subject>|<get-subject>(){}[0]
+
+    final fun component1(): com.mshdabiola.seriesmodel/Subject // com.mshdabiola.seriesmodel/SubjectWithSeries.component1|component1(){}[0]
+    final fun component2(): com.mshdabiola.seriesmodel/Series // com.mshdabiola.seriesmodel/SubjectWithSeries.component2|component2(){}[0]
+    final fun copy(com.mshdabiola.seriesmodel/Subject = ..., com.mshdabiola.seriesmodel/Series = ...): com.mshdabiola.seriesmodel/SubjectWithSeries // com.mshdabiola.seriesmodel/SubjectWithSeries.copy|copy(com.mshdabiola.seriesmodel.Subject;com.mshdabiola.seriesmodel.Series){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // com.mshdabiola.seriesmodel/SubjectWithSeries.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // com.mshdabiola.seriesmodel/SubjectWithSeries.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // com.mshdabiola.seriesmodel/SubjectWithSeries.toString|toString(){}[0]
+
+    final object $serializer : kotlinx.serialization.internal/GeneratedSerializer<com.mshdabiola.seriesmodel/SubjectWithSeries> { // com.mshdabiola.seriesmodel/SubjectWithSeries.$serializer|null[0]
+        final val descriptor // com.mshdabiola.seriesmodel/SubjectWithSeries.$serializer.descriptor|{}descriptor[0]
+            final fun <get-descriptor>(): kotlinx.serialization.descriptors/SerialDescriptor // com.mshdabiola.seriesmodel/SubjectWithSeries.$serializer.descriptor.<get-descriptor>|<get-descriptor>(){}[0]
+
+        final fun childSerializers(): kotlin/Array<kotlinx.serialization/KSerializer<*>> // com.mshdabiola.seriesmodel/SubjectWithSeries.$serializer.childSerializers|childSerializers(){}[0]
+        final fun deserialize(kotlinx.serialization.encoding/Decoder): com.mshdabiola.seriesmodel/SubjectWithSeries // com.mshdabiola.seriesmodel/SubjectWithSeries.$serializer.deserialize|deserialize(kotlinx.serialization.encoding.Decoder){}[0]
+        final fun serialize(kotlinx.serialization.encoding/Encoder, com.mshdabiola.seriesmodel/SubjectWithSeries) // com.mshdabiola.seriesmodel/SubjectWithSeries.$serializer.serialize|serialize(kotlinx.serialization.encoding.Encoder;com.mshdabiola.seriesmodel.SubjectWithSeries){}[0]
+    }
+
+    final object Companion { // com.mshdabiola.seriesmodel/SubjectWithSeries.Companion|null[0]
+        final fun serializer(): kotlinx.serialization/KSerializer<com.mshdabiola.seriesmodel/SubjectWithSeries> // com.mshdabiola.seriesmodel/SubjectWithSeries.Companion.serializer|serializer(){}[0]
+    }
+}
+
+final class com.mshdabiola.seriesmodel/Topic { // com.mshdabiola.seriesmodel/Topic|null[0]
+    constructor <init>(kotlin/Long = ..., kotlin/Long, kotlin/String) // com.mshdabiola.seriesmodel/Topic.<init>|<init>(kotlin.Long;kotlin.Long;kotlin.String){}[0]
+
+    final val categoryId // com.mshdabiola.seriesmodel/Topic.categoryId|{}categoryId[0]
+        final fun <get-categoryId>(): kotlin/Long // com.mshdabiola.seriesmodel/Topic.categoryId.<get-categoryId>|<get-categoryId>(){}[0]
+    final val id // com.mshdabiola.seriesmodel/Topic.id|{}id[0]
+        final fun <get-id>(): kotlin/Long // com.mshdabiola.seriesmodel/Topic.id.<get-id>|<get-id>(){}[0]
+    final val title // com.mshdabiola.seriesmodel/Topic.title|{}title[0]
+        final fun <get-title>(): kotlin/String // com.mshdabiola.seriesmodel/Topic.title.<get-title>|<get-title>(){}[0]
+
+    final fun component1(): kotlin/Long // com.mshdabiola.seriesmodel/Topic.component1|component1(){}[0]
+    final fun component2(): kotlin/Long // com.mshdabiola.seriesmodel/Topic.component2|component2(){}[0]
+    final fun component3(): kotlin/String // com.mshdabiola.seriesmodel/Topic.component3|component3(){}[0]
+    final fun copy(kotlin/Long = ..., kotlin/Long = ..., kotlin/String = ...): com.mshdabiola.seriesmodel/Topic // com.mshdabiola.seriesmodel/Topic.copy|copy(kotlin.Long;kotlin.Long;kotlin.String){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // com.mshdabiola.seriesmodel/Topic.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // com.mshdabiola.seriesmodel/Topic.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // com.mshdabiola.seriesmodel/Topic.toString|toString(){}[0]
+
+    final object $serializer : kotlinx.serialization.internal/GeneratedSerializer<com.mshdabiola.seriesmodel/Topic> { // com.mshdabiola.seriesmodel/Topic.$serializer|null[0]
+        final val descriptor // com.mshdabiola.seriesmodel/Topic.$serializer.descriptor|{}descriptor[0]
+            final fun <get-descriptor>(): kotlinx.serialization.descriptors/SerialDescriptor // com.mshdabiola.seriesmodel/Topic.$serializer.descriptor.<get-descriptor>|<get-descriptor>(){}[0]
+
+        final fun childSerializers(): kotlin/Array<kotlinx.serialization/KSerializer<*>> // com.mshdabiola.seriesmodel/Topic.$serializer.childSerializers|childSerializers(){}[0]
+        final fun deserialize(kotlinx.serialization.encoding/Decoder): com.mshdabiola.seriesmodel/Topic // com.mshdabiola.seriesmodel/Topic.$serializer.deserialize|deserialize(kotlinx.serialization.encoding.Decoder){}[0]
+        final fun serialize(kotlinx.serialization.encoding/Encoder, com.mshdabiola.seriesmodel/Topic) // com.mshdabiola.seriesmodel/Topic.$serializer.serialize|serialize(kotlinx.serialization.encoding.Encoder;com.mshdabiola.seriesmodel.Topic){}[0]
+    }
+
+    final object Companion { // com.mshdabiola.seriesmodel/Topic.Companion|null[0]
+        final fun serializer(): kotlinx.serialization/KSerializer<com.mshdabiola.seriesmodel/Topic> // com.mshdabiola.seriesmodel/Topic.Companion.serializer|serializer(){}[0]
+    }
+}
+
+final class com.mshdabiola.seriesmodel/TopicCategory { // com.mshdabiola.seriesmodel/TopicCategory|null[0]
+    constructor <init>(kotlin/Long = ..., kotlin/String, kotlin/Long) // com.mshdabiola.seriesmodel/TopicCategory.<init>|<init>(kotlin.Long;kotlin.String;kotlin.Long){}[0]
+
+    final val id // com.mshdabiola.seriesmodel/TopicCategory.id|{}id[0]
+        final fun <get-id>(): kotlin/Long // com.mshdabiola.seriesmodel/TopicCategory.id.<get-id>|<get-id>(){}[0]
+    final val name // com.mshdabiola.seriesmodel/TopicCategory.name|{}name[0]
+        final fun <get-name>(): kotlin/String // com.mshdabiola.seriesmodel/TopicCategory.name.<get-name>|<get-name>(){}[0]
+    final val subjectId // com.mshdabiola.seriesmodel/TopicCategory.subjectId|{}subjectId[0]
+        final fun <get-subjectId>(): kotlin/Long // com.mshdabiola.seriesmodel/TopicCategory.subjectId.<get-subjectId>|<get-subjectId>(){}[0]
+
+    final fun component1(): kotlin/Long // com.mshdabiola.seriesmodel/TopicCategory.component1|component1(){}[0]
+    final fun component2(): kotlin/String // com.mshdabiola.seriesmodel/TopicCategory.component2|component2(){}[0]
+    final fun component3(): kotlin/Long // com.mshdabiola.seriesmodel/TopicCategory.component3|component3(){}[0]
+    final fun copy(kotlin/Long = ..., kotlin/String = ..., kotlin/Long = ...): com.mshdabiola.seriesmodel/TopicCategory // com.mshdabiola.seriesmodel/TopicCategory.copy|copy(kotlin.Long;kotlin.String;kotlin.Long){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // com.mshdabiola.seriesmodel/TopicCategory.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // com.mshdabiola.seriesmodel/TopicCategory.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // com.mshdabiola.seriesmodel/TopicCategory.toString|toString(){}[0]
+
+    final object $serializer : kotlinx.serialization.internal/GeneratedSerializer<com.mshdabiola.seriesmodel/TopicCategory> { // com.mshdabiola.seriesmodel/TopicCategory.$serializer|null[0]
+        final val descriptor // com.mshdabiola.seriesmodel/TopicCategory.$serializer.descriptor|{}descriptor[0]
+            final fun <get-descriptor>(): kotlinx.serialization.descriptors/SerialDescriptor // com.mshdabiola.seriesmodel/TopicCategory.$serializer.descriptor.<get-descriptor>|<get-descriptor>(){}[0]
+
+        final fun childSerializers(): kotlin/Array<kotlinx.serialization/KSerializer<*>> // com.mshdabiola.seriesmodel/TopicCategory.$serializer.childSerializers|childSerializers(){}[0]
+        final fun deserialize(kotlinx.serialization.encoding/Decoder): com.mshdabiola.seriesmodel/TopicCategory // com.mshdabiola.seriesmodel/TopicCategory.$serializer.deserialize|deserialize(kotlinx.serialization.encoding.Decoder){}[0]
+        final fun serialize(kotlinx.serialization.encoding/Encoder, com.mshdabiola.seriesmodel/TopicCategory) // com.mshdabiola.seriesmodel/TopicCategory.$serializer.serialize|serialize(kotlinx.serialization.encoding.Encoder;com.mshdabiola.seriesmodel.TopicCategory){}[0]
+    }
+
+    final object Companion { // com.mshdabiola.seriesmodel/TopicCategory.Companion|null[0]
+        final fun serializer(): kotlinx.serialization/KSerializer<com.mshdabiola.seriesmodel/TopicCategory> // com.mshdabiola.seriesmodel/TopicCategory.Companion.serializer|serializer(){}[0]
+    }
+}
+
+final class com.mshdabiola.seriesmodel/TopicWithCategory { // com.mshdabiola.seriesmodel/TopicWithCategory|null[0]
+    constructor <init>(kotlin/Long = ..., com.mshdabiola.seriesmodel/TopicCategory, kotlin/String) // com.mshdabiola.seriesmodel/TopicWithCategory.<init>|<init>(kotlin.Long;com.mshdabiola.seriesmodel.TopicCategory;kotlin.String){}[0]
+
+    final val id // com.mshdabiola.seriesmodel/TopicWithCategory.id|{}id[0]
+        final fun <get-id>(): kotlin/Long // com.mshdabiola.seriesmodel/TopicWithCategory.id.<get-id>|<get-id>(){}[0]
+    final val title // com.mshdabiola.seriesmodel/TopicWithCategory.title|{}title[0]
+        final fun <get-title>(): kotlin/String // com.mshdabiola.seriesmodel/TopicWithCategory.title.<get-title>|<get-title>(){}[0]
+    final val topicCategory // com.mshdabiola.seriesmodel/TopicWithCategory.topicCategory|{}topicCategory[0]
+        final fun <get-topicCategory>(): com.mshdabiola.seriesmodel/TopicCategory // com.mshdabiola.seriesmodel/TopicWithCategory.topicCategory.<get-topicCategory>|<get-topicCategory>(){}[0]
+
+    final fun component1(): kotlin/Long // com.mshdabiola.seriesmodel/TopicWithCategory.component1|component1(){}[0]
+    final fun component2(): com.mshdabiola.seriesmodel/TopicCategory // com.mshdabiola.seriesmodel/TopicWithCategory.component2|component2(){}[0]
+    final fun component3(): kotlin/String // com.mshdabiola.seriesmodel/TopicWithCategory.component3|component3(){}[0]
+    final fun copy(kotlin/Long = ..., com.mshdabiola.seriesmodel/TopicCategory = ..., kotlin/String = ...): com.mshdabiola.seriesmodel/TopicWithCategory // com.mshdabiola.seriesmodel/TopicWithCategory.copy|copy(kotlin.Long;com.mshdabiola.seriesmodel.TopicCategory;kotlin.String){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // com.mshdabiola.seriesmodel/TopicWithCategory.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // com.mshdabiola.seriesmodel/TopicWithCategory.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // com.mshdabiola.seriesmodel/TopicWithCategory.toString|toString(){}[0]
+
+    final object $serializer : kotlinx.serialization.internal/GeneratedSerializer<com.mshdabiola.seriesmodel/TopicWithCategory> { // com.mshdabiola.seriesmodel/TopicWithCategory.$serializer|null[0]
+        final val descriptor // com.mshdabiola.seriesmodel/TopicWithCategory.$serializer.descriptor|{}descriptor[0]
+            final fun <get-descriptor>(): kotlinx.serialization.descriptors/SerialDescriptor // com.mshdabiola.seriesmodel/TopicWithCategory.$serializer.descriptor.<get-descriptor>|<get-descriptor>(){}[0]
+
+        final fun childSerializers(): kotlin/Array<kotlinx.serialization/KSerializer<*>> // com.mshdabiola.seriesmodel/TopicWithCategory.$serializer.childSerializers|childSerializers(){}[0]
+        final fun deserialize(kotlinx.serialization.encoding/Decoder): com.mshdabiola.seriesmodel/TopicWithCategory // com.mshdabiola.seriesmodel/TopicWithCategory.$serializer.deserialize|deserialize(kotlinx.serialization.encoding.Decoder){}[0]
+        final fun serialize(kotlinx.serialization.encoding/Encoder, com.mshdabiola.seriesmodel/TopicWithCategory) // com.mshdabiola.seriesmodel/TopicWithCategory.$serializer.serialize|serialize(kotlinx.serialization.encoding.Encoder;com.mshdabiola.seriesmodel.TopicWithCategory){}[0]
+    }
+
+    final object Companion { // com.mshdabiola.seriesmodel/TopicWithCategory.Companion|null[0]
+        final fun serializer(): kotlinx.serialization/KSerializer<com.mshdabiola.seriesmodel/TopicWithCategory> // com.mshdabiola.seriesmodel/TopicWithCategory.Companion.serializer|serializer(){}[0]
+    }
+}
+
+final class com.mshdabiola.seriesmodel/User { // com.mshdabiola.seriesmodel/User|null[0]
+    constructor <init>(kotlin/Long = ..., kotlin/String, com.mshdabiola.seriesmodel/UserType, kotlin/String, kotlin/String, kotlin/Long) // com.mshdabiola.seriesmodel/User.<init>|<init>(kotlin.Long;kotlin.String;com.mshdabiola.seriesmodel.UserType;kotlin.String;kotlin.String;kotlin.Long){}[0]
+
+    final val id // com.mshdabiola.seriesmodel/User.id|{}id[0]
+        final fun <get-id>(): kotlin/Long // com.mshdabiola.seriesmodel/User.id.<get-id>|<get-id>(){}[0]
+    final val imagePath // com.mshdabiola.seriesmodel/User.imagePath|{}imagePath[0]
+        final fun <get-imagePath>(): kotlin/String // com.mshdabiola.seriesmodel/User.imagePath.<get-imagePath>|<get-imagePath>(){}[0]
+    final val name // com.mshdabiola.seriesmodel/User.name|{}name[0]
+        final fun <get-name>(): kotlin/String // com.mshdabiola.seriesmodel/User.name.<get-name>|<get-name>(){}[0]
+    final val password // com.mshdabiola.seriesmodel/User.password|{}password[0]
+        final fun <get-password>(): kotlin/String // com.mshdabiola.seriesmodel/User.password.<get-password>|<get-password>(){}[0]
+    final val points // com.mshdabiola.seriesmodel/User.points|{}points[0]
+        final fun <get-points>(): kotlin/Long // com.mshdabiola.seriesmodel/User.points.<get-points>|<get-points>(){}[0]
+    final val type // com.mshdabiola.seriesmodel/User.type|{}type[0]
+        final fun <get-type>(): com.mshdabiola.seriesmodel/UserType // com.mshdabiola.seriesmodel/User.type.<get-type>|<get-type>(){}[0]
+
+    final fun component1(): kotlin/Long // com.mshdabiola.seriesmodel/User.component1|component1(){}[0]
+    final fun component2(): kotlin/String // com.mshdabiola.seriesmodel/User.component2|component2(){}[0]
+    final fun component3(): com.mshdabiola.seriesmodel/UserType // com.mshdabiola.seriesmodel/User.component3|component3(){}[0]
+    final fun component4(): kotlin/String // com.mshdabiola.seriesmodel/User.component4|component4(){}[0]
+    final fun component5(): kotlin/String // com.mshdabiola.seriesmodel/User.component5|component5(){}[0]
+    final fun component6(): kotlin/Long // com.mshdabiola.seriesmodel/User.component6|component6(){}[0]
+    final fun copy(kotlin/Long = ..., kotlin/String = ..., com.mshdabiola.seriesmodel/UserType = ..., kotlin/String = ..., kotlin/String = ..., kotlin/Long = ...): com.mshdabiola.seriesmodel/User // com.mshdabiola.seriesmodel/User.copy|copy(kotlin.Long;kotlin.String;com.mshdabiola.seriesmodel.UserType;kotlin.String;kotlin.String;kotlin.Long){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // com.mshdabiola.seriesmodel/User.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // com.mshdabiola.seriesmodel/User.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // com.mshdabiola.seriesmodel/User.toString|toString(){}[0]
+
+    final object $serializer : kotlinx.serialization.internal/GeneratedSerializer<com.mshdabiola.seriesmodel/User> { // com.mshdabiola.seriesmodel/User.$serializer|null[0]
+        final val descriptor // com.mshdabiola.seriesmodel/User.$serializer.descriptor|{}descriptor[0]
+            final fun <get-descriptor>(): kotlinx.serialization.descriptors/SerialDescriptor // com.mshdabiola.seriesmodel/User.$serializer.descriptor.<get-descriptor>|<get-descriptor>(){}[0]
+
+        final fun childSerializers(): kotlin/Array<kotlinx.serialization/KSerializer<*>> // com.mshdabiola.seriesmodel/User.$serializer.childSerializers|childSerializers(){}[0]
+        final fun deserialize(kotlinx.serialization.encoding/Decoder): com.mshdabiola.seriesmodel/User // com.mshdabiola.seriesmodel/User.$serializer.deserialize|deserialize(kotlinx.serialization.encoding.Decoder){}[0]
+        final fun serialize(kotlinx.serialization.encoding/Encoder, com.mshdabiola.seriesmodel/User) // com.mshdabiola.seriesmodel/User.$serializer.serialize|serialize(kotlinx.serialization.encoding.Encoder;com.mshdabiola.seriesmodel.User){}[0]
+    }
+
+    final object Companion { // com.mshdabiola.seriesmodel/User.Companion|null[0]
+        final val $childSerializers // com.mshdabiola.seriesmodel/User.Companion.$childSerializers|{}$childSerializers[0]
+
+        final fun serializer(): kotlinx.serialization/KSerializer<com.mshdabiola.seriesmodel/User> // com.mshdabiola.seriesmodel/User.Companion.serializer|serializer(){}[0]
+    }
+}
+
+final fun (com.mshdabiola.seriesmodel/Content).com.mshdabiola.seriesmodel.serial/asModel(): com.mshdabiola.seriesmodel/Content // com.mshdabiola.seriesmodel.serial/asModel|asModel@com.mshdabiola.seriesmodel.Content(){}[0]
+final fun (com.mshdabiola.seriesmodel/Content).com.mshdabiola.seriesmodel.serial/toSer(): com.mshdabiola.seriesmodel/Content // com.mshdabiola.seriesmodel.serial/toSer|toSer@com.mshdabiola.seriesmodel.Content(){}[0]
+final fun (kotlin.collections/List<com.mshdabiola.seriesmodel/Content>).com.mshdabiola.seriesmodel.serial/asString(): kotlin/String // com.mshdabiola.seriesmodel.serial/asString|asString@kotlin.collections.List<com.mshdabiola.seriesmodel.Content>(){}[0]
+final fun (kotlin/String).com.mshdabiola.seriesmodel.serial/toContent(): kotlin.collections/List<com.mshdabiola.seriesmodel/Content> // com.mshdabiola.seriesmodel.serial/toContent|toContent@kotlin.String(){}[0]
