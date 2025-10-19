@@ -1,8 +1,8 @@
-output
+/output/
 .kotlin
 *.iml
 .gradle
-features/build
+/modules/build/
 /local.properties
 /.idea/caches
 /.idea/libraries
