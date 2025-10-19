@@ -26,7 +26,7 @@ class KoverConventionPlugin : Plugin<Project> {
             val exclude = listOf(
                 "benchmarks",
                 "app",
-                "modules"
+                "modules",
             )
 
             rootProject.subprojects {
