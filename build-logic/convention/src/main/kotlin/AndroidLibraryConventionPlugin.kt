@@ -18,6 +18,7 @@ import com.android.build.gradle.LibraryExtension
 import com.mshdabiola.app.configureKotlinAndroid
 import com.mshdabiola.app.configureKotlinMultiplatform
 import com.mshdabiola.app.configurePrintApksTask
+import com.mshdabiola.app.libs
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
@@ -66,6 +67,10 @@ class AndroidLibraryConventionPlugin : Plugin<Project> {
 
                 with(sourceSets) {
                     commonMain.dependencies {
+                    }
+                    jvmTest.dependencies {
+                        implementation(kotlin("test"))
+                        implementation(libs.findLibrary("kotlinx.coroutines.test").get())
                     }
                 }
             }
