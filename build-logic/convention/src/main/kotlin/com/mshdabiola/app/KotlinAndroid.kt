@@ -106,7 +106,7 @@ private fun Project.configureKotlin() {
     tasks.withType<KotlinCompile>().configureEach {
         compilerOptions {
             // Set JVM target to 11
-//            jvmTarget.set(JvmTarget.JVM_21)
+           // jvmTarget.set(JvmTarget.JVM_21)
 
             // Treat all Kotlin warnings as errors (disabled by default)
             // Override by setting warningsAsErrors=true in your ~/.gradle/gradle.properties
